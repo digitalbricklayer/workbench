@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace DynaApp
 {
@@ -10,6 +11,14 @@ namespace DynaApp
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Exit the application.
+        /// </summary>
+        void FileCloseCommand(object sender, ExecutedRoutedEventArgs args)
+        {
+            this.Close();
         }
     }
 }
