@@ -9,4 +9,4 @@ Design goals:
 * **Technical level** - the user of the software should require no programming experience;
 * **User Interface** - the problem should be described in a graphical way.
 
-Please do not use this project for anything other than experimentation.
+Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else.
