@@ -7,6 +7,7 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 
 Design goals:
 * **Technical level** - the user of the software should require no programming experience;
-* **User Interface** - the problem should be described in a graphical way.
+* **User Interface** - the problem should be described in a graphical way;
+* **Build a playground** in which various types of constraint type problems can be built and solved in an interactive manner.
 
 Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else.
