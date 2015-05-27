@@ -13,6 +13,12 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
+                <MenuItem Header="Resolve..." Name="menuFileResolve">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
                 <MenuItem Header="Exit" Command="ApplicationCommands.Close">
                     <MenuItem.Icon>
                         <Image Source="Images/Transparent.png" />
@@ -21,8 +27,7 @@
             </MenuItem>
         </Menu>
 
-        <Grid>
-        </Grid>
+        <local:ModelCanvas x:Name="workspaceCanvas" Background="White"/>
 
     </DockPanel>
 </Window>

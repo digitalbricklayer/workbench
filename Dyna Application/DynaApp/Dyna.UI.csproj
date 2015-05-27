@@ -38,6 +38,10 @@
       <HintPath>..\packages\Google.OrTools.1.0.3854\lib\net40\Google.OrTools.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,6 +61,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Entities\Constraint.cs" />
+    <Compile Include="Entities\BinaryExpression.cs" />
+    <Compile Include="Entities\Domain.cs" />
+    <Compile Include="Entities\Expression.cs" />
+    <Compile Include="Entities\ConstraintGrammar.cs" />
+    <Compile Include="Entities\Literal.cs" />
+    <Compile Include="Entities\OperatorType.cs" />
+    <Compile Include="Entities\Variable.cs" />
+    <Compile Include="Entities\Model.cs" />
+    <Compile Include="Entities\VariableValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelCanvas.cs" />
+    <Compile Include="Solver\ConstraintSolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Solver\SolveResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Solver\SolveStatus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tools\ConstraintTool.cs" />
+    <Compile Include="Tools\DomainTool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tools\Tool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tools\VariableTool.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +137,7 @@
   <ItemGroup>
     <Resource Include="Images\Transparent.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
