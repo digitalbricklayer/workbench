@@ -24,7 +24,7 @@ namespace DynaApp.UI.Tests.Unit.Domain
             // Arrange
 
             // Act
-            var sut = new Constraint("a1 > 999");
+            var sut = new Constraint("     a1    >    999      ");
 
             // Assert
             Assert.That(sut.Expression.OperatorType, Is.EqualTo(OperatorType.Greater));

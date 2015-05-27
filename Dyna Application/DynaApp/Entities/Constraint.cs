@@ -23,6 +23,8 @@ namespace DynaApp.Entities
 
         public Constraint(string rawExpression)
         {
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException("rawExpression");
             this.ParseExpression(rawExpression);
         }
 
