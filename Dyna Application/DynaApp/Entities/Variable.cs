@@ -4,6 +4,13 @@ namespace DynaApp.Entities
 {
     class Variable
     {
+        public Variable(string theName)
+        {
+            if (string.IsNullOrWhiteSpace(theName))
+                throw new ArgumentException("theName");
+            this.Name = theName;
+        }
+
         /// <summary>
         /// Gets or sets the variable name.
         /// </summary>
@@ -18,12 +25,5 @@ namespace DynaApp.Entities
         /// Gets or sets the model the variable is a part of.
         /// </summary>
         public Model Model { get; set; }
-
-        public Variable(string theName)
-        {
-            if (string.IsNullOrWhiteSpace(theName))
-                throw new ArgumentException("theName");
-            this.Name = theName;
-        }
     }
 }

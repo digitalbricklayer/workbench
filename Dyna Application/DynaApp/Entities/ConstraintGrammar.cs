@@ -7,11 +7,17 @@ namespace DynaApp.Entities
     /// </summary>
     class ConstraintGrammar
     {
+        /// <summary>
+        /// Parse an identifier.
+        /// </summary>
         private static readonly Parser<string> identifier =
             from first in Sprache.Parse.Letter.Once().Text()
             from rest in Sprache.Parse.LetterOrDigit.Many().Text()
             select string.Concat(first, rest);
 
+        /// <summary>
+        /// Parse a literal.
+        /// </summary>
         private static readonly Parser<string> literal =
             from first in Sprache.Parse.Number
             select first;
@@ -25,6 +31,9 @@ namespace DynaApp.Entities
             from trailing in Sprache.Parse.WhiteSpace.Many()
             select new Variable(id);
 
+        /// <summary>
+        /// Parse an expression, either a variable or a literal.
+        /// </summary>
         private static readonly Parser<Expression> expression =
             identifier.Select(Expression.CreateIdentifier)
                 .Or(literal.Select(Expression.CreateLiteral));
@@ -68,9 +77,9 @@ namespace DynaApp.Entities
         {
             var constraintGrammar =
                 from lhs in leftHandSide
-                from @operator in op
+                from operatorType in op
                 from rhs in rightHandSide
-                select new BinaryExpression(lhs, rhs, @operator);
+                select new BinaryExpression(lhs, rhs, operatorType);
 
             return constraintGrammar.End().Parse(rawExpression);
         }

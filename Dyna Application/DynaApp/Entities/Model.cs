@@ -13,6 +13,18 @@ namespace DynaApp.Entities
         private readonly List<Domain> domains = new List<Domain>();
         private readonly List<Constraint> constraints = new List<Constraint>();
 
+        public Model(string theName)
+        {
+            if (string.IsNullOrWhiteSpace(theName))
+                throw new ArgumentException("theName");
+            this.Name = theName;
+        }
+
+        /// <summary>
+        /// Gets or sets the model name.
+        /// </summary>
+        public string Name { get; set; }
+
         public IEnumerable<Variable> Variables
         {
             get { return variables; }

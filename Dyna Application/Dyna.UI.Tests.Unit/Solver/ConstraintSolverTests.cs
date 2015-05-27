@@ -23,7 +23,7 @@ namespace DynaApp.UI.Tests.Unit.Solver
 
         private static Model MakeTheModel()
         {
-            var theModel =  new Model();
+            var theModel =  new Model("A test");
             theModel.AddDomain(Entities.Domain.CreateFrom(1, 2, 3, 4, 5, 6, 7, 8, 9));
             var x = new Variable("x");
             theModel.AddVariable(x);
