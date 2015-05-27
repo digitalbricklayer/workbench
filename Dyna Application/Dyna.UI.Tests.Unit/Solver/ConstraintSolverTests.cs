@@ -12,25 +12,22 @@ namespace DynaApp.UI.Tests.Unit.Solver
         {
             // Arrange
             var sut = new ConstraintSolver();
-            var theModel = MakeTheModel();
 
             // Act
-            var actualResult = sut.Solve(theModel);
+            var actualResult = sut.Solve(MakeSimpleModel());
 
             // Assert
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
-        private static Model MakeTheModel()
+        private static Model MakeSimpleModel()
         {
-            var theModel = new Model("A test");
-            theModel.AddDomain(Entities.Domain.CreateFrom(1, 2, 3, 4, 5, 6, 7, 8, 9));
-            var x = new Variable("x");
-            theModel.AddVariable(x);
-            var y = new Variable("y");
-            theModel.AddVariable(y);
-            theModel.AddConstraint(new Constraint("x > y"));
-            return theModel;
+            return Model.Create("A test")
+                        .AddVariable("x")
+                        .AddVariable("y")
+                        .WithDomain(Entities.Domain.CreateFrom(1, 2, 3, 4, 5, 6, 7, 8, 9))
+                        .WithConstraint("x > y")
+                        .Build();
         }
     }
 }

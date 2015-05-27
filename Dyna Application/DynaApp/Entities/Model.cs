@@ -102,27 +102,14 @@ namespace DynaApp.Entities
             return this.ValidateConstraintExpressions();
         }
 
-        public static Model Create(string theModelName)
+        /// <summary>
+        /// Create a new model with the given name.
+        /// </summary>
+        /// <param name="theModelName">Model name.</param>
+        /// <returns>Fluent interface context.</returns>
+        public static ModelFluentInterfaceContext Create(string theModelName)
         {
-            return new Model(theModelName);
-        }
-
-        public Model WithVariable(string theVariableName)
-        {
-            this.AddVariable(new Variable(theVariableName));
-            return this;
-        }
-
-        public Model WithDomain(string theDomainExpression)
-        {
-            this.AddDomain(new Domain(theDomainExpression));
-            return this;
-        }
-
-        public Model WithConstraint(string theConstraintExpression)
-        {
-            this.AddConstraint(new Constraint(theConstraintExpression));
-            return this;
+            return new ModelFluentInterfaceContext(new Model(theModelName));
         }
 
         private bool ValidateConstraintExpressions()

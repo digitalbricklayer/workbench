@@ -41,19 +41,21 @@ namespace Dyna.UI.Tests.Unit.Entities
         private static Model MakeValidModel()
         {
             return Model.Create("A valid model")
-                        .WithVariable("x")
-                        .WithVariable("y")
+                        .AddVariable("x")
+                        .AddVariable("y")
                         .WithDomain("1..9")
-                        .WithConstraint("x > y");
+                        .WithConstraint("x > y")
+                        .Build();
         }
 
         private static Model MakeInvalidModel()
         {
             return Model.Create("An invalid model")
-                        .WithVariable("x")
-                        .WithVariable("y")
+                        .AddVariable("x")
+                        .AddVariable("y")
                         .WithDomain("1..9")
-                        .WithConstraint("x > z");
+                        .WithConstraint("x > z")
+                        .Build();
         }
     }
 }
