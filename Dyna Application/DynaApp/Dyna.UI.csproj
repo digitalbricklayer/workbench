@@ -68,6 +68,8 @@
     <Compile Include="Entities\ConstraintGrammar.cs" />
     <Compile Include="Entities\Literal.cs" />
     <Compile Include="Entities\OperatorType.cs" />
+    <Compile Include="Entities\Solution.cs" />
+    <Compile Include="Entities\BoundVariable.cs" />
     <Compile Include="Entities\Variable.cs" />
     <Compile Include="Entities\Model.cs" />
     <Compile Include="Entities\VariableValue.cs">

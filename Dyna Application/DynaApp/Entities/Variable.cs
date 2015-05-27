@@ -25,5 +25,16 @@ namespace DynaApp.Entities
         /// Gets or sets the model the variable is a part of.
         /// </summary>
         public Model Model { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

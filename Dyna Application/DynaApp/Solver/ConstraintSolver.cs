@@ -14,7 +14,8 @@ namespace DynaApp.Solver
         /// <param name="theModel">The problem workspace.</param>
         public SolveResult Solve(Model theModel)
         {
-            var solver = new Google.OrTools.ConstraintSolver.Solver("a name");
+            if (!theModel.Validate()) return SolveResult.InvalidModel;
+            var solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
             var variables = new IntervalVarVector();
             foreach (var variable in theModel.Variables)
             {
@@ -26,7 +27,7 @@ namespace DynaApp.Solver
 #endif
             }
 
-            return new SolveResult(SolveStatus.Fail);
+            return SolveResult.Failed;
         }
     }
 }

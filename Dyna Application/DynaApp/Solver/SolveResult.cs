@@ -1,9 +1,30 @@
-﻿namespace DynaApp.Solver
+﻿using System;
+using DynaApp.Entities;
+
+namespace DynaApp.Solver
 {
     class SolveResult
     {
         public SolveStatus Status { get; private set; }
+        public Solution Solution { get; private set; }
 
+        public SolveResult(SolveStatus theStatus, Solution theSolution)
+        {
+            if (theSolution == null)
+                throw new ArgumentNullException("theSolution");
+
+            this.Status = theStatus;
+            this.Solution = theSolution;
+        }
+
+        private SolveResult(SolveStatus theStatus)
+        {
+            Status = theStatus;
+        }
+
+        /// <summary>
+        /// Gets a solve result with a failed status.
+        /// </summary>
         public static SolveResult Failed
         {
             get
@@ -12,9 +33,15 @@
             }
         }
 
-        public SolveResult(SolveStatus theStatus)
+        /// <summary>
+        /// Gets a solve result with an invalid model status.
+        /// </summary>
+        public static SolveResult InvalidModel
         {
-            Status = theStatus;
+            get
+            {
+                return new SolveResult(SolveStatus.InvalidModel);
+            }
         }
     }
 }

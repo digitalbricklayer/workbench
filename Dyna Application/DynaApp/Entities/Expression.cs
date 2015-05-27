@@ -25,6 +25,28 @@ namespace DynaApp.Entities
         public Literal Literal { get; set; }
 
         /// <summary>
+        /// Is the expression a variable?
+        /// </summary>
+        public bool IsVarable
+        {
+            get
+            {
+                return this.Variable != null;
+            }
+        }
+
+        /// <summary>
+        /// Is the expression a literal?
+        /// </summary>
+        public bool IsLiteral
+        {
+            get
+            {
+                return this.Literal != null;
+            }
+        }
+
+        /// <summary>
         /// Create an indentifier expression.
         /// </summary>
         /// <param name="newIdentifier">New identifier.</param>

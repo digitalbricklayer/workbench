@@ -7,10 +7,6 @@ namespace DynaApp.Entities
     /// </summary>
     class BinaryExpression
     {
-        public Variable Left { get; set; }
-        public Expression Right { get; set; }
-        public OperatorType OperatorType { get; set; }
-
         public BinaryExpression(Variable lhs, Expression rhs, OperatorType operatorType)
         {
             if (lhs == null)
@@ -22,5 +18,20 @@ namespace DynaApp.Entities
             this.Right = rhs;
             this.OperatorType = operatorType;
         }
+
+        /// <summary>
+        /// Gets the left hand side of the expression.
+        /// </summary>
+        public Variable Left { get; private set; }
+
+        /// <summary>
+        /// Gets the right hand side expression.
+        /// </summary>
+        public Expression Right { get; private set; }
+
+        /// <summary>
+        /// Gets the operator type of the expression.
+        /// </summary>
+        public OperatorType OperatorType { get; private set; }
     }
 }
