@@ -77,15 +77,17 @@ namespace DynaApp.Entities
             this.variables.Add(oldVariable);
         }
 
-        public void AddDomain(Domain newDomain)
+        public void AddSharedDomain(Domain newDomain)
         {
             if (newDomain == null)
                 throw new ArgumentNullException("newDomain");
+            if (string.IsNullOrWhiteSpace(newDomain.Name))
+                throw new ArgumentException("Shared domains must have a name.", "newDomain");
             newDomain.Model = this;
             this.domains.Add(newDomain);
         }
 
-        public void RemoveDomain(Domain oldDomain)
+        public void RemoveSharedDomain(Domain oldDomain)
         {
             if (oldDomain == null)
                 throw new ArgumentNullException("oldDomain");

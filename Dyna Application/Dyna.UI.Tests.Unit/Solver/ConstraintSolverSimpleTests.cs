@@ -56,7 +56,7 @@ namespace DynaApp.UI.Tests.Unit.Solver
         private static Model MakeModel()
         {
             return Model.Create("A test")
-                        .WithDomainNamed("a", "1..9")
+                        .WithSharedDomain("a", "1..9")
                         .AddVariable("x", "a")
                         .AddVariable("y", "a")
                         .AddVariable("z", "a")

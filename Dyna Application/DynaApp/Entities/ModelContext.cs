@@ -35,32 +35,17 @@ namespace DynaApp.Entities
             return this;
         }
 
-        public ModelContext WithDomain(string theDomainExpression)
-        {
-            var newDomain = new Domain(theDomainExpression);
-            this.model.AddDomain(newDomain);
-            foreach (var variable in this.model.Variables)
-            {
-                variable.Domain = newDomain;
-            }
-            return this;
-        }
-
-        public ModelContext WithDomainNamed(string newDomainName, string newDomainExpression)
+        public ModelContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
             var newDomain = new Domain(newDomainName, newDomainExpression);
-            this.model.AddDomain(newDomain);
+            this.model.AddSharedDomain(newDomain);
 
             return this;
         }
 
-        public ModelContext WithDomain(Domain theDomainExpression)
+        public ModelContext WithSharedDomain(Domain theDomainExpression)
         {
-            this.model.AddDomain(theDomainExpression);
-            foreach (var variable in this.model.Variables)
-            {
-                variable.Domain = theDomainExpression;
-            }
+            this.model.AddSharedDomain(theDomainExpression);
             return this;
         }
 
