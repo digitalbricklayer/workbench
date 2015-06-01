@@ -103,6 +103,18 @@ namespace DynaApp.Entities
         }
 
         /// <summary>
+        /// Get the shared domain matching the given name.
+        /// </summary>
+        /// <param name="theSharedDomainName">Shared domain name.</param>
+        /// <returns>Shared domain matching the name.</returns>
+        public Domain GetSharedDomainByName(string theSharedDomainName)
+        {
+            if (string.IsNullOrWhiteSpace(theSharedDomainName))
+                throw new ArgumentException("theSharedDomainName");
+            return this.domains.FirstOrDefault(x => x.Name == theSharedDomainName);
+        }
+
+        /// <summary>
         /// Create a new model with the given name.
         /// </summary>
         /// <param name="theModelName">Model name.</param>

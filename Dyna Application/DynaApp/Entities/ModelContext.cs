@@ -16,9 +16,22 @@ namespace DynaApp.Entities
             this.model = theModel;
         }
 
-        public ModelContext AddVariable(string theVariableName)
+        public ModelContext AddVariable(string theVariableName, Domain domain)
         {
-            this.model.AddVariable(new Variable(theVariableName));
+            var newVariable = new Variable(theVariableName);
+            newVariable.Domain = domain;
+            this.model.AddVariable(newVariable);
+
+            return this;
+        }
+
+        public ModelContext AddVariable(string theVariableName, string theSharedDomainName)
+        {
+            var newVariable = new Variable(theVariableName);
+            var sharedDomain = this.model.GetSharedDomainByName(theSharedDomainName);
+            newVariable.Domain = sharedDomain;
+            this.model.AddVariable(newVariable);
+
             return this;
         }
 
@@ -30,6 +43,14 @@ namespace DynaApp.Entities
             {
                 variable.Domain = newDomain;
             }
+            return this;
+        }
+
+        public ModelContext WithDomainNamed(string newDomainName, string newDomainExpression)
+        {
+            var newDomain = new Domain(newDomainName, newDomainExpression);
+            this.model.AddDomain(newDomain);
+
             return this;
         }
 

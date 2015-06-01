@@ -25,7 +25,7 @@ namespace Dyna.UI.Tests.Unit.Entities
         [Test]
         public void Validate_With_An_Invalid_Model_Returns_False()
         {
-            var sut = MakeInvalidModel();
+            var sut = MakeModelWithMissingVariable();
             var actualValidationResult = sut.Validate();
             Assert.That(actualValidationResult, Is.False);
         }
@@ -33,7 +33,7 @@ namespace Dyna.UI.Tests.Unit.Entities
         [Test]
         public void Validate_With_An_Invalid_Model_Populates_Errors()
         {
-            var sut = MakeInvalidModel();
+            var sut = MakeModelWithMissingVariable();
             sut.Validate();
             Assert.That(sut.Errors, Is.Not.Empty);
         }
@@ -41,19 +41,17 @@ namespace Dyna.UI.Tests.Unit.Entities
         private static Model MakeValidModel()
         {
             return Model.Create("A valid model")
-                        .AddVariable("x")
-                        .AddVariable("y")
-                        .WithDomain("1..9")
+                        .AddVariable("x", new Domain("1..9"))
+                        .AddVariable("y", new Domain("1..9"))
                         .WithConstraint("x > y")
                         .Build();
         }
 
-        private static Model MakeInvalidModel()
+        private static Model MakeModelWithMissingVariable()
         {
             return Model.Create("An invalid model")
-                        .AddVariable("x")
-                        .AddVariable("y")
-                        .WithDomain("1..9")
+                        .AddVariable("x", new Domain("1..9"))
+                        .AddVariable("y", new Domain("1..9"))
                         .WithConstraint("x > z")
                         .Build();
         }

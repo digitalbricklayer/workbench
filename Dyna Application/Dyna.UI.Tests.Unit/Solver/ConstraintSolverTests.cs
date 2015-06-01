@@ -56,10 +56,9 @@ namespace DynaApp.UI.Tests.Unit.Solver
         private static Model MakeModel()
         {
             return Model.Create("A test")
-                        .AddVariable("x")
-                        .AddVariable("y")
-                        .AddVariable("z")
-                        .WithDomain("1..9")
+                        .AddVariable("x", new Entities.Domain("1..9"))
+                        .AddVariable("y", new Entities.Domain("1..9"))
+                        .AddVariable("z", new Entities.Domain("1..9"))
                         .WithConstraint("x < y")
                         .WithConstraint("y > z")
                         .Build();

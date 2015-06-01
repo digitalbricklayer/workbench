@@ -8,6 +8,16 @@ namespace DynaApp.Entities
     {
         private readonly List<int> values = new List<int>();
 
+        public Domain(string domainName, string rawExpression)
+        {
+            if (string.IsNullOrWhiteSpace(domainName))
+                throw new ArgumentException("domainName");
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException("rawExpression");
+            this.Name = domainName;
+            this.ParseExpression(rawExpression);
+        }
+
         public Domain(params int[] theRange)
         {
             if (theRange == null)
@@ -38,7 +48,15 @@ namespace DynaApp.Entities
         /// </summary>
         public Model Model { get; set; }
 
+        /// <summary>
+        /// Gets or sets the range expression.
+        /// </summary>
         public RangeExpression Expression { get; private set; }
+
+        /// <summary>
+        /// Gets the domain name.
+        /// </summary>
+        public string Name { get; private set; }
 
         /// <summary>
         /// Create a new Domain from a range of individual values.
