@@ -107,9 +107,9 @@ namespace DynaApp.Entities
         /// </summary>
         /// <param name="theModelName">Model name.</param>
         /// <returns>Fluent interface context.</returns>
-        public static ModelFluentInterfaceContext Create(string theModelName)
+        public static ModelContext Create(string theModelName)
         {
-            return new ModelFluentInterfaceContext(new Model(theModelName));
+            return new ModelContext(new Model(theModelName));
         }
 
         private bool ValidateConstraintExpressions()

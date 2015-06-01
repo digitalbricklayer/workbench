@@ -5,35 +5,35 @@ namespace DynaApp.Entities
     /// <summary>
     /// Fluent interface for building models.
     /// </summary>
-    class ModelFluentInterfaceContext
+    class ModelContext
     {
         private readonly Model model;
 
-        public ModelFluentInterfaceContext(Model theModel)
+        public ModelContext(Model theModel)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
             this.model = theModel;
         }
 
-        public ModelFluentInterfaceContext AddVariable(string theVariableName)
+        public ModelContext AddVariable(string theVariableName)
         {
             this.model.AddVariable(new Variable(theVariableName));
             return this;
         }
 
-        public ModelFluentInterfaceContext WithDomain(string theDomainExpression)
+        public ModelContext WithDomain(string theDomainExpression)
         {
-            var x = new Domain(theDomainExpression);
-            this.model.AddDomain(x);
+            var newDomain = new Domain(theDomainExpression);
+            this.model.AddDomain(newDomain);
             foreach (var variable in this.model.Variables)
             {
-                variable.Domain = x;
+                variable.Domain = newDomain;
             }
             return this;
         }
 
-        public ModelFluentInterfaceContext WithDomain(Domain theDomainExpression)
+        public ModelContext WithDomain(Domain theDomainExpression)
         {
             this.model.AddDomain(theDomainExpression);
             foreach (var variable in this.model.Variables)
@@ -43,7 +43,7 @@ namespace DynaApp.Entities
             return this;
         }
 
-        public ModelFluentInterfaceContext WithConstraint(string theConstraintExpression)
+        public ModelContext WithConstraint(string theConstraintExpression)
         {
             this.model.AddConstraint(new Constraint(theConstraintExpression));
             return this;
