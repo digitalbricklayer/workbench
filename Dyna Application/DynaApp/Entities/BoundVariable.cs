@@ -14,6 +14,9 @@ namespace DynaApp.Entities
             this.ModelVariable = theModelVariable;
         }
 
+        /// <summary>
+        /// Gets the model variable.
+        /// </summary>
         public Variable ModelVariable { get; private set; }
 
         /// <summary>
