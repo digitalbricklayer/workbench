@@ -33,10 +33,30 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.OrTools, Version=1.0.3854.2335, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Google.OrTools.1.0.3854\lib\net40\Google.OrTools.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Google.OrTools, Version=1.0.3853.11235, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\or-tools.VisualStudio2013-32b\Google.OrTools.dll</HintPath>
     </Reference>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
@@ -71,7 +91,6 @@
     <Compile Include="Entities\ModelFluentInterfaceContext.cs" />
     <Compile Include="Entities\OperatorType.cs" />
     <Compile Include="Entities\RangeExpression.cs" />
-    <Compile Include="Entities\Solution.cs" />
     <Compile Include="Entities\BoundVariable.cs" />
     <Compile Include="Entities\Variable.cs" />
     <Compile Include="Entities\Model.cs" />
@@ -82,6 +101,7 @@
     <Compile Include="Solver\ConstraintSolver.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Solver\Solution.cs" />
     <Compile Include="Solver\SolveResult.cs">
       <SubType>Code</SubType>
     </Compile>
