@@ -5,10 +5,10 @@ using NUnit.Framework;
 namespace DynaApp.UI.Tests.Unit.Solver
 {
     [TestFixture]
-    public class ConstraintSolverTests
+    public class ConstraintSolverSimpleTests
     {
         [Test]
-        public void Solve_With_Model_Returns_Status_Success()
+        public void Solve_With_Simple_Model_Returns_Status_Success()
         {
             // Arrange
             var sut = new ConstraintSolver();
@@ -21,7 +21,7 @@ namespace DynaApp.UI.Tests.Unit.Solver
         }
 
         [Test]
-        public void Solve_With_Model_Satisfies_Constraint()
+        public void Solve_With_Simple_Model_Satisfies_Constraint()
         {
             // Arrange
             var sut = new ConstraintSolver();
@@ -37,7 +37,7 @@ namespace DynaApp.UI.Tests.Unit.Solver
         }
 
         [Test]
-        public void Solve_With_Model_Solution_Within_Domain()
+        public void Solve_With_Simple_Model_Solution_Within_Domain()
         {
             // Arrange
             var sut = new ConstraintSolver();
@@ -60,8 +60,9 @@ namespace DynaApp.UI.Tests.Unit.Solver
                         .AddVariable("y")
                         .AddVariable("z")
                         .WithDomain("1..9")
-                        .WithConstraint("x < y")
-                        .WithConstraint("y > z")
+                        .WithConstraint("x != y")
+                        .WithConstraint("x <= y")
+                        .WithConstraint("y = z")
                         .Build();
         }
     }

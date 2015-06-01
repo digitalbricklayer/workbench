@@ -62,9 +62,39 @@ namespace DynaApp.Solver
                         break;
                     
                     case OperatorType.GreaterThanOrEqual:
+                        {
+                            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+                            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+                            if (constraint.Expression.Right.IsVarable)
+                            {
+                                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                                orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
+                            }
+                            else
+                            {
+                                orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable,
+                                                                              constraint.Expression.Right.Literal.Value);
+                            }
+                            this.solver.Add(orConstraint);
+                        }
                         break;
                     
                     case OperatorType.LessThanOrEqual:
+                        {
+                            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+                            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+                            if (constraint.Expression.Right.IsVarable)
+                            {
+                                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                                orConstraint = this.solver.MakeLessOrEqual(lhsVariable, rhsVariable);
+                            }
+                            else
+                            {
+                                orConstraint = this.solver.MakeLessOrEqual(lhsVariable,
+                                                                           constraint.Expression.Right.Literal.Value);
+                            }
+                            this.solver.Add(orConstraint);
+                        }
                         break;
                     
                     case OperatorType.NotEqual:
@@ -85,6 +115,42 @@ namespace DynaApp.Solver
                         }
                         break;
 
+                    case OperatorType.Greater:
+                        {
+                            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+                            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+                            if (constraint.Expression.Right.IsVarable)
+                            {
+                                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                                orConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
+                            }
+                            else
+                            {
+                                orConstraint = this.solver.MakeGreater(lhsVariable,
+                                                                       constraint.Expression.Right.Literal.Value);
+                            }
+                            this.solver.Add(orConstraint);
+                        }
+                        break;
+
+                    case OperatorType.Less:
+                        {
+                            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+                            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+                            if (constraint.Expression.Right.IsVarable)
+                            {
+                                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                                orConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
+                            }
+                            else
+                            {
+                                orConstraint = this.solver.MakeLess(lhsVariable,
+                                                                    constraint.Expression.Right.Literal.Value);
+                            }
+                            this.solver.Add(orConstraint);
+                        }
+                        break;
+
                     default:
                         throw new NotImplementedException("Not sure how to represent this operator type.");
                 }
@@ -94,15 +160,22 @@ namespace DynaApp.Solver
             var db = solver.MakePhase(variables,
                                       Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
                                       Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
-            var collector = solver.MakeFirstSolutionCollector();
-            foreach (var variableTuple in this.variableMap)
-                collector.Add(variableTuple.Value.Item2);
-            var solveResult = solver.Solve(db, collector);
+            var collector = this.CreateCollector();
+            var solveResult = this.solver.Solve(db, collector);
             if (!solveResult) return SolveResult.Failed;
 
             var boundVariables = this.CreateBoundVariablesFrom(collector);
             var theSolution = new Solution(theModel, boundVariables);
             return new SolveResult(SolveStatus.Success, theSolution);
+        }
+
+        private SolutionCollector CreateCollector()
+        {
+            var collector = this.solver.MakeFirstSolutionCollector();
+            foreach (var variableTuple in this.variableMap)
+                collector.Add(variableTuple.Value.Item2);
+
+            return collector;
         }
 
         private BoundVariable[] CreateBoundVariablesFrom(SolutionCollector solutionCollector)
@@ -111,8 +184,8 @@ namespace DynaApp.Solver
             foreach (var variableTuple in this.variableMap)
             {
                 var boundVariable = new BoundVariable(variableTuple.Value.Item1);
-                var x = solutionCollector.Value(0, variableTuple.Value.Item2);
-                boundVariable.Value = Convert.ToInt32(x);
+                var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
+                boundVariable.Value = Convert.ToInt32(boundValue);
                 boundVariables.Add(boundVariable);
             }
 
