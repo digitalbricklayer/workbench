@@ -13,7 +13,7 @@ namespace Dyna.UI.Tests.Unit.Entities
             // Arrange
 
             // Act
-            var sut = new Domain("    1..9     ");
+            var sut = new Domain("A domain", "    1..9     ");
 
             // Assert
             Assert.That(sut.Expression.UpperBand, Is.EqualTo(9));
