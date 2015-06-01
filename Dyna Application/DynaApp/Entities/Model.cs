@@ -101,7 +101,10 @@ namespace DynaApp.Entities
         /// <returns>True if the model is valid, False if it is not valid.</returns>
         public bool Validate()
         {
-            return this.ValidateConstraintExpressions();
+            this.errors.Clear();
+            var expressionsValid = this.ValidateConstraintExpressions();
+            if (!expressionsValid) return false;
+            return this.ValidateSharedDomains();
         }
 
         /// <summary>
@@ -143,6 +146,30 @@ namespace DynaApp.Entities
                         this.errors.Add(string.Format("Missing variable {0}", aConstraint.Expression.Right.Variable));
                         return false;
                     }
+                }
+            }
+
+            return true;
+        }
+
+        private bool ValidateSharedDomains()
+        {
+            foreach (var variable in this.Variables)
+            {
+                if (variable.Domain == null)
+                {
+                    this.errors.Add(string.Format("Missing domain"));
+                    return false;
+                }
+                // Make sure the domain is a shared domain...
+                if (string.IsNullOrWhiteSpace(variable.Domain.Name))
+                    continue;
+
+                var sharedDomain = this.GetSharedDomainByName(variable.Domain.Name);
+                if (sharedDomain == null)
+                {
+                    this.errors.Add(string.Format("Missing shared domain {0}", variable.Domain.Name));
+                    return false;
                 }
             }
 

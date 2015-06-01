@@ -9,7 +9,7 @@ namespace DynaApp.Entities
     {
         private readonly Model model;
 
-        public ModelContext(Model theModel)
+        internal ModelContext(Model theModel)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
