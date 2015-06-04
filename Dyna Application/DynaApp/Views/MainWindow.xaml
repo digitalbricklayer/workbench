@@ -1,0 +1,251 @@
+﻿<Window x:Class="DynaApp.Views.MainWindow"
+        x:Name="mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dyna Project"
+        Height="800" Width="500"
+        xmlns:views="clr-namespace:DynaApp.Views"
+        FocusManager.FocusedElement="{Binding ElementName=modelControl}"
+        xmlns:viewModels="clr-namespace:DynaApp.ViewModels">
+
+    <Window.Resources>
+        <RoutedUICommand x:Key="Commands.DeleteSelectedVariables" />
+        <RoutedUICommand x:Key="Commands.CreateVariable" />
+
+        <!-- 
+        Data-template for ConectionViewModel.
+        
+        Note that the 'Start' and 'End' of the arrow are bound to 'SourceConnectorHotspot' and 'DestConnectorHotspot' in 
+        the view-model.
+
+        In this sample a straight arrow represents connections between variables.
+        -->
+        <DataTemplate
+            DataType="{x:Type viewModels:ConnectionViewModel}"
+            >
+
+            <!-- The connection is represented by a simple arrow. -->
+            <views:Arrow
+                Stroke="Black"
+                StrokeThickness="2"
+                Fill="Black"
+                Start="{Binding SourceConnectorHotspot}"
+                End="{Binding DestConnectorHotspot}"
+                IsHitTestVisible="False"
+                />
+
+        </DataTemplate>
+
+        <!--
+        Define the visual style for a 'VariableItem'.
+        
+        Binds 'X' and 'Y' in the view-model (the 'VariableViewModel' class)
+        to 'X' and 'Y' in the VariableItem class.
+        
+        This sets the position of the variable within the Canvas.
+        -->
+        <Style TargetType="{x:Type views:VariableItem}">
+            <Setter
+                Property="X"
+                Value="{Binding X}"
+                />
+            <Setter
+                Property="Y"
+                Value="{Binding Y}"
+                />
+            <Setter
+                Property="IsSelected"
+                Value="{Binding IsSelected}"
+                />
+        </Style>
+
+        <!-- 
+        Define the visual style for a 'ConnectorItem'.
+        -->
+        <Style 
+            TargetType="{x:Type views:ConnectorItem}">
+            <!-- 
+            Data-binding for the connector hotspot.
+            ConnectorItem automatically computes its center 
+            points and assigns this value to the 'Hotspot' property.  
+            This data-binding in this style then 'pushes' the value into the 
+            application view-model.
+            -->
+            <Setter 
+                Property="Hotspot"
+                Value="{Binding Hotspot, Mode=OneWayToSource}"
+                />
+
+            <!-- The visual template. -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate 
+                        TargetType="{x:Type views:ConnectorItem}"
+                        >
+                        <Rectangle
+                            Stroke="Black"
+                            Fill="White"                            
+                            Cursor="Hand"
+                            Width="12"
+                            Height="12"
+                            RadiusX="1"
+                            RadiusY="1"
+                            />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 
+        Define a data-template for the 'VariableViewModel' class.
+        This generates the UI for each variable.
+        -->
+        <DataTemplate
+            DataType="{x:Type viewModels:VariableViewModel}"
+            >
+            <Grid
+                Width="120"
+                Height="60"
+                >
+
+                <!-- This rectangle is the main visual for the variable. -->
+                <Rectangle
+                    Stroke="Black"
+                    Fill="White"
+                    RadiusX="4"
+                    RadiusY="4"
+                    />
+
+                <!-- 
+                This grid contains the variable's name and connectors.
+                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
+                -->
+                <Grid Margin="-8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="10" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- The name of the variable. -->
+                    <TextBlock
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Text="{Binding Name}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
+
+                    <!-- 
+                    Define the variable's four connectors, one on each edge of the variable.
+                    -->
+
+                    <views:ConnectorItem 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        DataContext="{Binding Connectors[0]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        DataContext="{Binding Connectors[1]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        DataContext="{Binding Connectors[2]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        DataContext="{Binding Connectors[3]}"
+                        />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Window.InputBindings>
+
+        <!-- Bind input to commands. -->
+        <KeyBinding
+			Key="Delete"
+			Command="{StaticResource Commands.DeleteSelectedVariables}" />
+
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+
+        <!-- Bind commands to event handlers. -->
+        <CommandBinding 
+            Command="{StaticResource Commands.DeleteSelectedVariables}" 
+            Executed="DeleteSelectedVariables_Executed" 
+            />
+        <CommandBinding 
+            Command="{StaticResource Commands.CreateVariable}" 
+            Executed="CreateVariable_Executed" />
+
+        <CommandBinding Command="ApplicationCommands.Close" Executed="FileCloseCommand" />
+
+    </Window.CommandBindings>
+
+    <Window.ContextMenu>
+
+        <ContextMenu>
+
+            <MenuItem
+                Header="Create Variable"
+                Command="{StaticResource Commands.CreateVariable}"
+                ToolTip="Create a new variable" />
+
+        </ContextMenu>
+
+    </Window.ContextMenu>
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <DockPanel LastChildFill="True">
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <Separator/>
+                <MenuItem Header="Exit" Command="ApplicationCommands.Close">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!--
+        The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+        Focusable is set to False because it is only that ModelView that I want to be focusable.
+        -->
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Auto"
+            Focusable="False">
+
+            <!-- The ModelView is the content of the ScrollViewer. -->
+            <views:ModelView 
+                x:Name="modelControl"
+                Width="2000" Height="2000"
+                VariablesSource="{Binding Model.Variables }"
+                ConnectionsSource="{Binding Model.Connections}"
+                ConnectionDragStarted="modelControl_ConnectionDragStarted"
+                ConnectionDragging="modelControl_ConnectionDragging"
+                ConnectionDragCompleted="modelControl_ConnectionDragCompleted"/>
+
+        </ScrollViewer>
+
+    </DockPanel>
+</Window>

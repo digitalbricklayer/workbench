@@ -15,11 +15,23 @@ namespace DynaApp.Entities
         private readonly List<Constraint> constraints = new List<Constraint>();
         private readonly List<string> errors = new List<string>();
 
+        /// <summary>
+        /// Initialize a model with a model name.
+        /// </summary>
+        /// <param name="theName">Model name.</param>
         public Model(string theName)
         {
             if (string.IsNullOrWhiteSpace(theName))
                 throw new ArgumentException("theName");
             this.Name = theName;
+        }
+
+        /// <summary>
+        /// Initialize a default model.
+        /// </summary>
+        public Model()
+        {
+            this.Name = string.Empty;
         }
 
         /// <summary>

@@ -4,11 +4,22 @@ namespace DynaApp.Entities
 {
     class Variable
     {
+        /// <summary>
+        /// Initialize a variable with a variable name.
+        /// </summary>
         public Variable(string theName)
         {
             if (string.IsNullOrWhiteSpace(theName))
                 throw new ArgumentException("theName");
             this.Name = theName;
+        }
+
+        /// <summary>
+        /// Initialize a default variable.
+        /// </summary>
+        public Variable()
+        {
+            this.Name = string.Empty;
         }
 
         /// <summary>
