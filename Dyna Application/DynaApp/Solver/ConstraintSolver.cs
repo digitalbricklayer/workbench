@@ -27,7 +27,7 @@ namespace DynaApp.Solver
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
 
-            // Variables
+            // domains
             var variables = new IntVarVector();
             foreach (var variable in theModel.Variables)
             {

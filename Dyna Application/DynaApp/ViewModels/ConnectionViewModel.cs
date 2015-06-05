@@ -5,7 +5,7 @@ using System.Windows;
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// Defines a connection between two connectors (aka connection points) of two variables.
+    /// Defines a connection between two connectors (aka connection points) of two domains.
     /// </summary>
     public sealed class ConnectionViewModel : AbstractModelBase
     {

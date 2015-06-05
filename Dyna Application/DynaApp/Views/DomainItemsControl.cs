@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace DynaApp.Views
 {
     /// <summary>
-    /// Implements a ListBox for displaying variables in the ModelView UI.
+    /// Implements a ListBox for displaying domains in the ModelView UI.
     /// </summary>
-    internal class VariableItemsControl : ListBox
+    internal class DomainItemsControl : ListBox
     {
-        public VariableItemsControl()
+        public DomainItemsControl()
         {
             //
             // By default, we don't want this UI element to be focusable.
@@ -20,9 +20,9 @@ namespace DynaApp.Views
         /// Find the VariableItem UI element that has the specified data context.
         /// Return null if no such VariableItem exists.
         /// </summary>
-        internal VariableItem FindAssociatedVariableItem(object variableDataContext)
+        internal DomainItem FindAssociatedVariableItem(object domainDataContext)
         {
-            return (VariableItem)this.ItemContainerGenerator.ContainerFromItem(variableDataContext);
+            return (DomainItem)this.ItemContainerGenerator.ContainerFromItem(domainDataContext);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace DynaApp.Views
         /// </summary>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new VariableItem();
+            return new DomainItem();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace DynaApp.Views
         /// </summary>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            return item is VariableItem;
+            return item is DomainItem;
         }
     }
 }

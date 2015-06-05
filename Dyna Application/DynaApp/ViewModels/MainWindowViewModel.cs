@@ -8,11 +8,15 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractModelBase
     {
+        /// <summary>
+        /// Initialize a main windows view model with default values.
+        /// </summary>
         public MainWindowViewModel()
         {
             this.Model = new ModelViewModel();
             this.CreateVariable("Jack", new Point(10, 10));
             this.CreateVariable("Bob", new Point(200, 10));
+            this.CreateDomain("X", new Point(10, 80));
         }
 
         /// <summary>
@@ -20,6 +24,12 @@ namespace DynaApp.ViewModels
         /// </summary>
         public ModelViewModel Model { get; private set; }
 
+        /// <summary>
+        /// Create a new domain.
+        /// </summary>
+        /// <param name="newVariableName">New variable name.</param>
+        /// <param name="newVariableLocation">New variable location.</param>
+        /// <returns>New variable view model.</returns>
         public VariableViewModel CreateVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName);
@@ -27,6 +37,23 @@ namespace DynaApp.ViewModels
             newVariable.Y = newVariableLocation.Y;
 
             this.Model.AddVariable(newVariable);
+
+            return newVariable;
+        }
+
+        /// <summary>
+        /// Create a new domain.
+        /// </summary>
+        /// <param name="newDomainName">New domain name.</param>
+        /// <param name="newDomainLocation">New docmain location.</param>
+        /// <returns>New domain view model.</returns>
+        public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
+        {
+            var newVariable = new DomainViewModel(newDomainName);
+            newVariable.X = newDomainLocation.X;
+            newVariable.Y = newDomainLocation.Y;
+
+            this.Model.AddDomain(newVariable);
 
             return newVariable;
         }
@@ -116,11 +143,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Delete the currently selected variables from the view-model.
+        /// Delete the currently selected domains from the view-model.
         /// </summary>
         public void DeleteSelectedVariables()
         {
-            // Take a copy of the variables list so we can delete variables while iterating.
+            // Take a copy of the domains list so we can delete domains while iterating.
             var variablesCopy = this.Model.Variables.ToArray();
 
             foreach (var variable in variablesCopy)

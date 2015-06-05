@@ -24,6 +24,11 @@ namespace DynaApp.Views
                 new FrameworkPropertyMetadata());
         public static readonly DependencyProperty VariablesProperty = VariablesPropertyKey.DependencyProperty;
 
+        private static readonly DependencyPropertyKey DomainsPropertyKey =
+            DependencyProperty.RegisterReadOnly("Domains", typeof(ObservableCollection<object>), typeof(ModelView),
+                new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty DomainsProperty = DomainsPropertyKey.DependencyProperty;
+
         private static readonly DependencyPropertyKey ConnectionsPropertyKey =
             DependencyProperty.RegisterReadOnly("Connections", typeof(ObservableCollection<object>), typeof(ModelView),
                 new FrameworkPropertyMetadata());
@@ -32,6 +37,10 @@ namespace DynaApp.Views
         public static readonly DependencyProperty VariablesSourceProperty =
             DependencyProperty.Register("VariablesSource", typeof(IEnumerable), typeof(ModelView),
                 new FrameworkPropertyMetadata(VariablesSource_PropertyChanged));
+
+        public static readonly DependencyProperty DomainsSourceProperty =
+            DependencyProperty.Register("DomainsSource", typeof(IEnumerable), typeof(ModelView),
+                new FrameworkPropertyMetadata(DomainsSource_PropertyChanged));
 
         public static readonly DependencyProperty ConnectionsSourceProperty =
             DependencyProperty.Register("ConnectionsSource", typeof(IEnumerable), typeof(ModelView),
@@ -87,6 +96,15 @@ namespace DynaApp.Views
 
         public static readonly DependencyProperty VariableItemContainerStyleProperty =
             DependencyProperty.Register("VariableItemContainerStyle", typeof(Style), typeof(ModelView));
+
+        public static readonly DependencyProperty DomainItemTemplateProperty =
+            DependencyProperty.Register("DomainItemTemplate", typeof(DataTemplate), typeof(ModelView));
+
+        public static readonly DependencyProperty DomainItemTemplateSelectorProperty =
+            DependencyProperty.Register("DomainItemTemplateSelector", typeof(DataTemplateSelector), typeof(ModelView));
+
+        public static readonly DependencyProperty DomainItemContainerStyleProperty =
+            DependencyProperty.Register("DomainItemContainerStyle", typeof(Style), typeof(ModelView));
 
         public static readonly DependencyProperty ConnectionItemTemplateProperty =
             DependencyProperty.Register("ConnectionItemTemplate", typeof(DataTemplate), typeof(ModelView));
@@ -436,7 +454,7 @@ namespace DynaApp.Views
         private ItemsControl connectionItemsControl;
 
         /// <summary>
-        /// Cached list of currently selected variables.
+        /// Cached list of currently selected domains.
         /// </summary>
         private List<object> initialSelectedVariables;
 
@@ -466,7 +484,7 @@ namespace DynaApp.Views
         private FrameworkElement dragSelectionBorder = null;
 
         /// <summary>
-        /// Cached list of selected VariableItems, used while dragging variables.
+        /// Cached list of selected VariableItems, used while dragging domains.
         /// </summary>
         private List<VariableItem> cachedSelectedVariableItems = null;
 
@@ -478,7 +496,7 @@ namespace DynaApp.Views
         public ModelView()
         {
             //
-            // Create a collection to contain variables.
+            // Create a collection to contain domains.
             //
             this.Variables = new ObservableCollection<object>();
 
@@ -569,7 +587,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Collection of variables in the network.
+        /// Collection of domains in the model.
         /// </summary>
         public ObservableCollection<object> Variables
         {
@@ -580,6 +598,21 @@ namespace DynaApp.Views
             private set
             {
                 SetValue(VariablesPropertyKey, value);
+            }
+        }
+
+        /// <summary>
+        /// Collection of domains in the model.
+        /// </summary>
+        public ObservableCollection<object> Domains
+        {
+            get
+            {
+                return (ObservableCollection<object>)GetValue(DomainsProperty);
+            }
+            private set
+            {
+                SetValue(DomainsPropertyKey, value);
             }
         }
 
@@ -599,7 +632,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// A reference to the collection that is the source used to populate 'Variables'.
+        /// A reference to the collection that is the source used to populate 'domains'.
         /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
         /// </summary>
         public IEnumerable VariablesSource
@@ -611,6 +644,22 @@ namespace DynaApp.Views
             set
             {
                 SetValue(VariablesSourceProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// A reference to the collection that is the source used to populate 'domains'.
+        /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
+        /// </summary>
+        public IEnumerable DomainsSource
+        {
+            get
+            {
+                return (IEnumerable)GetValue(DomainsSourceProperty);
+            }
+            set
+            {
+                SetValue(DomainsSourceProperty, value);
             }
         }
 
@@ -694,7 +743,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Set to 'true' to enable dragging of variables.
+        /// Set to 'true' to enable dragging of domains.
         /// </summary>
         public bool EnableVariableDragging
         {
@@ -867,6 +916,53 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Gets or sets the DataTemplate used to display each variable item.
+        /// This is the equivalent to 'ItemTemplate' for ItemsControl.
+        /// </summary>
+        public DataTemplate DomainItemTemplate
+        {
+            get
+            {
+                return (DataTemplate)GetValue(DomainItemTemplateProperty);
+            }
+            set
+            {
+                SetValue(DomainItemTemplateProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets custom style-selection logic for a style that can be applied to each generated container element. 
+        /// This is the equivalent to 'ItemTemplateSelector' for ItemsControl.
+        /// </summary>
+        public DataTemplateSelector DomainItemTemplateSelector
+        {
+            get
+            {
+                return (DataTemplateSelector)GetValue(DomainItemTemplateSelectorProperty);
+            }
+            set
+            {
+                SetValue(DomainItemTemplateSelectorProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Style that is applied to the item container for each variable item.
+        /// This is the equivalent to 'ItemContainerStyle' for ItemsControl.
+        /// </summary>
+        public Style DomainItemContainerStyle
+        {
+            get
+            {
+                return (Style)GetValue(DomainItemContainerStyleProperty);
+            }
+            set
+            {
+                SetValue(DomainItemContainerStyleProperty, value);
+            }
+        }
+        /// <summary>
         /// A reference to currently selected variable.
         /// </summary>
         public object SelectedVariable
@@ -912,7 +1008,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// A list of selected variables.
+        /// A list of selected domains.
         /// </summary>
         public IList SelectedVariables
         {
@@ -935,12 +1031,12 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// An event raised when the variables selected in the NetworkView has changed.
+        /// An event raised when the domains selected in the NetworkView has changed.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
-        /// Bring the currently selected variables into view.
+        /// Bring the currently selected domains into view.
         /// This affects ContentViewportOffsetX/ContentViewportOffsetY, but doesn't affect 'ContentScale'.
         /// </summary>
         public void BringSelectedVariablesIntoView()
@@ -949,7 +1045,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Bring the collection of variables into view.
+        /// Bring the collection of domains into view.
         /// This affects ContentViewportOffsetX/ContentViewportOffsetY, but doesn't affect 'ContentScale'.
         /// </summary>
         public void BringVariablesIntoView(ICollection variables)
@@ -993,7 +1089,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Selects all of the variables.
+        /// Selects all of the domains.
         /// </summary>
         public void SelectAll()
         {
@@ -1137,7 +1233,7 @@ namespace DynaApp.Views
             ModelView c = (ModelView)d;
 
             //
-            // Clear 'Variables'.
+            // Clear 'domains'.
             //
             c.Variables.Clear();
 
@@ -1159,7 +1255,7 @@ namespace DynaApp.Views
                 if (enumerable != null)
                 {
                     //
-                    // Populate 'Variables' from 'VariablesSource'.
+                    // Populate 'domains' from 'VariablesSource'.
                     //
                     foreach (object obj in enumerable)
                     {
@@ -1186,7 +1282,7 @@ namespace DynaApp.Views
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
                 //
-                // 'VariablesSource' has been cleared, also clear 'Variables'.
+                // 'VariablesSource' has been cleared, also clear 'domains'.
                 //
                 this.Variables.Clear();
             }
@@ -1195,7 +1291,7 @@ namespace DynaApp.Views
                 if (e.OldItems != null)
                 {
                     //
-                    // For each item that has been removed from 'VariablesSource' also remove it from 'Variables'.
+                    // For each item that has been removed from 'VariablesSource' also remove it from 'domains'.
                     //
                     foreach (object obj in e.OldItems)
                     {
@@ -1206,7 +1302,94 @@ namespace DynaApp.Views
                 if (e.NewItems != null)
                 {
                     //
-                    // For each item that has been added to 'VariablesSource' also add it to 'Variables'.
+                    // For each item that has been added to 'VariablesSource' also add it to 'domains'.
+                    //
+                    foreach (object obj in e.NewItems)
+                    {
+                        this.Variables.Add(obj);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event raised when a new collection has been assigned to the 'VariablesSource' property.
+        /// </summary>
+        private static void DomainsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ModelView c = (ModelView)d;
+
+            //
+            // Clear 'domains'.
+            //
+            c.Variables.Clear();
+
+            if (e.OldValue != null)
+            {
+                var notifyCollectionChanged = e.OldValue as INotifyCollectionChanged;
+                if (notifyCollectionChanged != null)
+                {
+                    //
+                    // Unhook events from previous collection.
+                    //
+                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                }
+            }
+
+            if (e.NewValue != null)
+            {
+                var enumerable = e.NewValue as IEnumerable;
+                if (enumerable != null)
+                {
+                    //
+                    // Populate 'domains' from 'VariablesSource'.
+                    //
+                    foreach (object obj in enumerable)
+                    {
+                        c.Variables.Add(obj);
+                    }
+                }
+
+                var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
+                if (notifyCollectionChanged != null)
+                {
+                    //
+                    // Hook events in new collection.
+                    //
+                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event raised when a variable has been added to or removed from the collection assigned to 'VariablesSource'.
+        /// </summary>
+        private void DomainsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                //
+                // 'VariablesSource' has been cleared, also clear 'domains'.
+                //
+                this.Variables.Clear();
+            }
+            else
+            {
+                if (e.OldItems != null)
+                {
+                    //
+                    // For each item that has been removed from 'VariablesSource' also remove it from 'domains'.
+                    //
+                    foreach (object obj in e.OldItems)
+                    {
+                        this.Variables.Remove(obj);
+                    }
+                }
+
+                if (e.NewItems != null)
+                {
+                    //
+                    // For each item that has been added to 'VariablesSource' also add it to 'domains'.
                     //
                     foreach (object obj in e.NewItems)
                     {
@@ -1322,7 +1505,7 @@ namespace DynaApp.Views
             }
 
             //
-            // Synchronize initial selected variables to the VariableItemsControl.
+            // Synchronize initial selected domains to the VariableItemsControl.
             //
             if (this.initialSelectedVariables != null && this.initialSelectedVariables.Count > 0)
             {
@@ -1367,7 +1550,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Find the max ZIndex of all the variables.
+        /// Find the max ZIndex of all the domains.
         /// </summary>
         internal int FindMaxZIndex()
         {

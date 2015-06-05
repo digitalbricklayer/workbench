@@ -110,6 +110,8 @@
     <Compile Include="ViewModels\AbstractModelBase.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
+    <Compile Include="ViewModels\DomainViewModel.cs" />
+    <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
@@ -118,6 +120,12 @@
     <Compile Include="Views\ConnectionDragEvents.cs" />
     <Compile Include="Views\ConnectorItem.cs" />
     <Compile Include="Views\ConnectorItemDrageEvents.cs" />
+    <Compile Include="Views\DomainItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\DomainItemsControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Views\FrameworkElementAdorner.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -127,6 +135,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\ModelView.cs" />
+    <Compile Include="Views\DomainDragEvents.cs" />
     <Compile Include="Views\VariableDragEvents.cs" />
     <Compile Include="Views\VariableItem.cs" />
     <Compile Include="Views\VariableItemsControl.cs" />

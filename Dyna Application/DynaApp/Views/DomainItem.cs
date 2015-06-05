@@ -5,37 +5,37 @@ using System.Windows.Input;
 
 namespace DynaApp.Views
 {
-    public class VariableItem : ListBoxItem
+    public class DomainItem : ListBoxItem
     {
         #region Dependency Property/Event Definitions
 
         public static readonly DependencyProperty XProperty =
-            DependencyProperty.Register("X", typeof(double), typeof(VariableItem),
+            DependencyProperty.Register("X", typeof(double), typeof(DomainItem),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register("Y", typeof(double), typeof(VariableItem),
+            DependencyProperty.Register("Y", typeof(double), typeof(DomainItem),
                 new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty ZIndexProperty =
-            DependencyProperty.Register("ZIndex", typeof(int), typeof(VariableItem),
+            DependencyProperty.Register("ZIndex", typeof(int), typeof(DomainItem),
                 new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         internal static readonly DependencyProperty ParentModelViewProperty =
-            DependencyProperty.Register("ParentModelView", typeof(ModelView), typeof(VariableItem), 
+            DependencyProperty.Register("ParentModelView", typeof(ModelView), typeof(DomainItem), 
                 new FrameworkPropertyMetadata(ParentModelView_PropertyChanged));
 
-        internal static readonly RoutedEvent VariableDragStartedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragStarted", RoutingStrategy.Bubble, typeof(VariableDragStartedEventHandler), typeof(VariableItem));
+        internal static readonly RoutedEvent DomainDragStartedEvent =
+            EventManager.RegisterRoutedEvent("DomainDragStarted", RoutingStrategy.Bubble, typeof(DomainDragStartedEventHandler), typeof(DomainItem));
 
-        internal static readonly RoutedEvent VariableDraggingEvent =
-            EventManager.RegisterRoutedEvent("VariableDragging", RoutingStrategy.Bubble, typeof(VariableDraggingEventHandler), typeof(VariableItem));
+        internal static readonly RoutedEvent DomainDraggingEvent =
+            EventManager.RegisterRoutedEvent("DomainDragging", RoutingStrategy.Bubble, typeof(DomainDraggingEventHandler), typeof(DomainItem));
 
-        internal static readonly RoutedEvent VariableDragCompletedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragCompleted", RoutingStrategy.Bubble, typeof(VariableDragCompletedEventHandler), typeof(VariableItem));
+        internal static readonly RoutedEvent DomainDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("DomainDragCompleted", RoutingStrategy.Bubble, typeof(DomainDragCompletedEventHandler), typeof(DomainItem));
 
         #endregion Dependency Property/Event Definitions
 
-        public VariableItem()
+        public DomainItem()
         {
             //
             // By default, we don't want this UI element to be focusable.
@@ -131,9 +131,9 @@ namespace DynaApp.Views
         /// <summary>
         /// Static constructor.
         /// </summary>
-        static VariableItem()
+        static DomainItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(VariableItem), new FrameworkPropertyMetadata(typeof(VariableItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DomainItem), new FrameworkPropertyMetadata(typeof(VariableItem)));
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace DynaApp.Views
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new VariableDraggingEventArgs(VariableDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new VariableDraggingEventArgs(DomainDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
                 }
             }
             else if (isLeftMouseDown && this.ParentModelView.EnableVariableDragging)
@@ -307,7 +307,7 @@ namespace DynaApp.Views
                     //
                     // Raise an event to notify that that dragging has commenced.
                     //
-                    VariableDragStartedEventArgs eventArgs = new VariableDragStartedEventArgs(VariableDragStartedEvent, this, new VariableItem[] { this });
+                    VariableDragStartedEventArgs eventArgs = new VariableDragStartedEventArgs(DomainDragStartedEvent, this, new DomainItem[] { this });
                     RaiseEvent(eventArgs);
 
                     if (eventArgs.Cancel)
@@ -342,7 +342,7 @@ namespace DynaApp.Views
                     // Raise an event to notify that variable dragging has finished.
                     //
 
-                    RaiseEvent(new VariableDragCompletedEventArgs(VariableDragCompletedEvent, this, new VariableItem[] { this }));
+                    RaiseEvent(new VariableDragCompletedEventArgs(DomainDragCompletedEvent, this, new[] { this }));
 
 					this.ReleaseMouseCapture();
 
@@ -414,8 +414,8 @@ namespace DynaApp.Views
             //
             // Bring new domains to the front of the z-order.
             //
-            var variableItem = (VariableItem) o;
-            variableItem.BringToFront();
+            var domainItem = (DomainItem) o;
+            domainItem.BringToFront();
         }
     }
 }

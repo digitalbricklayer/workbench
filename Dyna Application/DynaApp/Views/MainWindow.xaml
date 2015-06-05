@@ -59,6 +59,29 @@
                 />
         </Style>
 
+        <!--
+        Define the visual style for a 'DomainItem'.
+        
+        Binds 'X' and 'Y' in the view-model (the 'DomainViewModel' class)
+        to 'X' and 'Y' in the VariableItem class.
+        
+        This sets the position of the variable within the Canvas.
+        -->
+        <Style TargetType="{x:Type views:DomainItem}">
+            <Setter
+                Property="X"
+                Value="{Binding X}"
+                />
+            <Setter
+                Property="Y"
+                Value="{Binding Y}"
+                />
+            <Setter
+                Property="IsSelected"
+                Value="{Binding IsSelected}"
+                />
+        </Style>
+
         <!-- 
         Define the visual style for a 'ConnectorItem'.
         -->
@@ -171,6 +194,82 @@
                 </Grid>
             </Grid>
         </DataTemplate>
+
+        <!-- 
+        Define a data-template for the 'DomainViewModel' class.
+        This generates the UI for each variable.
+        -->
+        <DataTemplate
+            DataType="{x:Type viewModels:DomainViewModel}"
+            >
+            <Grid
+                Width="120"
+                Height="60"
+                >
+
+                <!-- This rectangle is the main visual for the variable. -->
+                <Rectangle
+                    Stroke="Black"
+                    Fill="White"
+                    RadiusX="4"
+                    RadiusY="4"
+                    />
+
+                <!-- 
+                This grid contains the domain's name and connectors.
+                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
+                -->
+                <Grid Margin="-8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="10" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- The name of the domain. -->
+                    <TextBlock
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Text="{Binding Name}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
+
+                    <!-- 
+                    Define the domain's four connectors, one on each edge of the variable.
+                    -->
+
+                    <views:ConnectorItem 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        DataContext="{Binding Connectors[0]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        DataContext="{Binding Connectors[1]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        DataContext="{Binding Connectors[2]}"
+                        />
+
+                    <views:ConnectorItem 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        DataContext="{Binding Connectors[3]}"
+                        />
+                </Grid>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
     
     <Window.InputBindings>
@@ -218,7 +317,6 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <Separator/>
                 <MenuItem Header="Exit" Command="ApplicationCommands.Close">
                     <MenuItem.Icon>
                         <Image Source="Images/Transparent.png" />
@@ -239,7 +337,8 @@
             <views:ModelView 
                 x:Name="modelControl"
                 Width="2000" Height="2000"
-                VariablesSource="{Binding Model.Variables }"
+                VariablesSource="{Binding Model.Variables}"
+                DomainsSource="{Binding Model.Domains}"
                 ConnectionsSource="{Binding Model.Connections}"
                 ConnectionDragStarted="modelControl_ConnectionDragStarted"
                 ConnectionDragging="modelControl_ConnectionDragging"
