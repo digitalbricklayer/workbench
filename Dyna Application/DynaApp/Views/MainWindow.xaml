@@ -207,12 +207,10 @@
                 Height="60"
                 >
 
-                <!-- This rectangle is the main visual for the variable. -->
-                <Rectangle
+                <!-- This ellipse is the main visual for the domain. -->
+                <Ellipse
                     Stroke="Black"
                     Fill="White"
-                    RadiusX="4"
-                    RadiusY="4"
                     />
 
                 <!-- 
