@@ -44,7 +44,7 @@ namespace DynaApp.Views
         /// <summary>
         /// Set to 'false' to disallow dragging.
         /// </summary>
-        private bool cancel = false;
+        private bool cancel;
 
         internal DomainDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection domains) :
             base(routedEvent, source, domains)
@@ -80,12 +80,12 @@ namespace DynaApp.Views
         /// <summary>
         /// The amount the variable has been dragged horizontally.
         /// </summary>
-        public double horizontalChange = 0;
+        public double horizontalChange;
 
         /// <summary>
         /// The amount the variable has been dragged vertically.
         /// </summary>
-        public double verticalChange = 0;
+        public double verticalChange;
 
         internal DomainDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection domains, double horizontalChange, double verticalChange) :
             base(routedEvent, source, domains)

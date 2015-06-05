@@ -20,7 +20,7 @@ namespace DynaApp.Views
         /// Find the VariableItem UI element that has the specified data context.
         /// Return null if no such VariableItem exists.
         /// </summary>
-        internal DomainItem FindAssociatedVariableItem(object domainDataContext)
+        internal DomainItem FindAssociatedDomainItem(object domainDataContext)
         {
             return (DomainItem)this.ItemContainerGenerator.ContainerFromItem(domainDataContext);
         }

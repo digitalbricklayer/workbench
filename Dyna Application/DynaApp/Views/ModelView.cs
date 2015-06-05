@@ -146,28 +146,28 @@ namespace DynaApp.Views
         /// <summary>
         /// When dragging a connection, this is set to the ConnectorItem that was initially dragged out.
         /// </summary>
-        private ConnectorItem draggedOutConnectorItem = null;
+        private ConnectorItem draggedOutConnectorItem;
 
         /// <summary>
         /// The view-model object for the connector that has been dragged out.
         /// </summary>
-        private object draggedOutConnectorDataContext = null;
+        private object draggedOutConnectorDataContext;
 
         /// <summary>
         /// The view-model object for the variable whose connector was dragged out.
         /// </summary>
-        private object draggedOutVariableDataContext = null;
+        private object draggedOutVariableDataContext;
 
         /// <summary>
         /// The view-model object for the connection that is currently being dragged, or null if none being dragged.
         /// </summary>
-        private object draggingConnectionDataContext = null;
+        private object draggingConnectionDataContext;
 
         /// <summary>
         /// A reference to the feedback adorner that is currently in the adorner layer, or null otherwise.
         /// It is used for feedback when dragging a connection over a prospective connector.
         /// </summary>
-        private FrameworkElementAdorner feedbackAdorner = null;
+        private FrameworkElementAdorner feedbackAdorner;
 
         /// <summary>
         /// Event raised when the user starts to drag a connector.
@@ -476,17 +476,17 @@ namespace DynaApp.Views
         /// <summary>
         /// A reference to the canvas that contains the drag selection rectangle.
         /// </summary>
-        private FrameworkElement dragSelectionCanvas = null;
+        private FrameworkElement dragSelectionCanvas;
 
         /// <summary>
         /// The border that represents the drag selection rectangle.
         /// </summary>
-        private FrameworkElement dragSelectionBorder = null;
+        private FrameworkElement dragSelectionBorder;
 
         /// <summary>
         /// Cached list of selected VariableItems, used while dragging domains.
         /// </summary>
-        private List<VariableItem> cachedSelectedVariableItems = null;
+        private List<VariableItem> cachedSelectedVariableItems;
 
         /// <summary>
         /// The threshold distance the mouse-cursor must move before drag-selection begins.
@@ -499,6 +499,7 @@ namespace DynaApp.Views
             // Create a collection to contain domains.
             //
             this.Variables = new ObservableCollection<object>();
+            this.Domains = new ObservableCollection<object>();
 
             //
             // Create a collection to contain connections.
@@ -1322,7 +1323,7 @@ namespace DynaApp.Views
             //
             // Clear 'domains'.
             //
-            c.Variables.Clear();
+            c.Domains.Clear();
 
             if (e.OldValue != null)
             {
@@ -1332,7 +1333,7 @@ namespace DynaApp.Views
                     //
                     // Unhook events from previous collection.
                     //
-                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.DomainsSource_CollectionChanged);
                 }
             }
 
@@ -1346,7 +1347,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in enumerable)
                     {
-                        c.Variables.Add(obj);
+                        c.Domains.Add(obj);
                     }
                 }
 
@@ -1356,7 +1357,7 @@ namespace DynaApp.Views
                     //
                     // Hook events in new collection.
                     //
-                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.DomainsSource_CollectionChanged);
                 }
             }
         }
@@ -1371,7 +1372,7 @@ namespace DynaApp.Views
                 //
                 // 'VariablesSource' has been cleared, also clear 'domains'.
                 //
-                this.Variables.Clear();
+                this.Domains.Clear();
             }
             else
             {
@@ -1393,7 +1394,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in e.NewItems)
                     {
-                        this.Variables.Add(obj);
+                        this.Domains.Add(obj);
                     }
                 }
             }

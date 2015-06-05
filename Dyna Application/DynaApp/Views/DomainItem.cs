@@ -133,7 +133,7 @@ namespace DynaApp.Views
         /// </summary>
         static DomainItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DomainItem), new FrameworkPropertyMetadata(typeof(VariableItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DomainItem), new FrameworkPropertyMetadata(typeof(DomainItem)));
         }
 
         /// <summary>
