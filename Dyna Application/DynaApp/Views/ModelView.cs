@@ -1461,7 +1461,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in e.OldItems)
                     {
-                        this.Variables.Remove(obj);
+                        this.Domains.Remove(obj);
                     }
                 }
 

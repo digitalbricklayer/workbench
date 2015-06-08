@@ -142,10 +142,34 @@ namespace DynaApp.ViewModels
             newConnection.DestConnector = connectorDraggedOver;
         }
 
+        public void DeleteSelectedGraphics()
+        {
+            this.DeleteSelectedVariables();
+            this.DeleteSelectedDomains();
+        }
+
+        /// <summary>
+        /// Delete the variable from the view-model.
+        /// Also deletes any connections to or from the variable.
+        /// </summary>
+        public void DeleteVariable(VariableViewModel variable)
+        {
+            //
+            // Remove all connections attached to the variable.
+            //
+            foreach (var connectionViewModel in variable.AttachedConnections)
+                this.Model.Connections.Remove(connectionViewModel);
+
+            //
+            // Remove the variable from the network.
+            //
+            this.Model.Variables.Remove(variable);
+        }
+
         /// <summary>
         /// Delete the currently selected domains from the view-model.
         /// </summary>
-        public void DeleteSelectedVariables()
+        private void DeleteSelectedVariables()
         {
             // Take a copy of the domains list so we can delete domains while iterating.
             var variablesCopy = this.Model.Variables.ToArray();
@@ -159,21 +183,26 @@ namespace DynaApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Delete the variable from the view-model.
-        /// Also deletes any connections to or from the variable.
-        /// </summary>
-        public void DeleteVariable(VariableViewModel variable)
+        private void DeleteSelectedDomains()
         {
-            //
-            // Remove all connections attached to the variable.
-            //
-//            this.Model.Connections.RemoveRange(variable.AttachedConnections);
+            // Take a copy of the domains list so we can delete domains while iterating.
+            var domainCopy = this.Model.Domains.ToArray();
 
+            foreach (var domain in domainCopy)
+            {
+                if (domain.IsSelected)
+                {
+                    DeleteDomain(domain);
+                }
+            }
+        }
+
+        private void DeleteDomain(DomainViewModel domain)
+        {
             //
             // Remove the variable from the network.
             //
-            this.Model.Variables.Remove(variable);
+            this.Model.Domains.Remove(domain);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace DynaApp.Views
         /// </summary>
         private void DeleteSelectedVariables_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            this.ViewModel.DeleteSelectedVariables();
+            this.ViewModel.DeleteSelectedGraphics();
         }
 
         /// <summary>
