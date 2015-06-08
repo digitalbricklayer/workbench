@@ -124,6 +124,15 @@ namespace DynaApp.Views
         public static readonly RoutedEvent VariableDragCompletedEvent =
             EventManager.RegisterRoutedEvent("VariableDragCompleted", RoutingStrategy.Bubble, typeof(VariableDragCompletedEventHandler), typeof(ModelView));
 
+        public static readonly RoutedEvent DomainDragStartedEvent =
+            EventManager.RegisterRoutedEvent("DomainDragStarted", RoutingStrategy.Bubble, typeof(DomainDragStartedEventHandler), typeof(ModelView));
+
+        public static readonly RoutedEvent DomainDraggingEvent =
+            EventManager.RegisterRoutedEvent("DomainDragging", RoutingStrategy.Bubble, typeof(DomainDraggingEventHandler), typeof(ModelView));
+
+        public static readonly RoutedEvent DomainDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("DomainDragCompleted", RoutingStrategy.Bubble, typeof(DomainDragCompletedEventHandler), typeof(ModelView));
+
         public static readonly RoutedEvent ConnectionDragStartedEvent =
             EventManager.RegisterRoutedEvent("ConnectionDragStarted", RoutingStrategy.Bubble, typeof(ConnectionDragStartedEventHandler), typeof(ModelView));
 
@@ -142,6 +151,71 @@ namespace DynaApp.Views
         public static readonly RoutedCommand CancelConnectionDraggingCommand = null;
 
         #endregion Dependency Property/Event Definitions
+
+        /// <summary>
+        /// Cached reference to the VariableItemsControl in the visual-tree.
+        /// </summary>
+        private VariableItemsControl variableItemsControl;
+
+        /// <summary>
+        /// Cached reference to the DomainItemsControl in the visual-tree.
+        /// </summary>
+        private DomainItemsControl domainItemsControl;
+
+        /// <summary>
+        /// Cached reference to the ItemsControl for connections in the visual-tree.
+        /// </summary>
+        private ItemsControl connectionItemsControl;
+
+        /// <summary>
+        /// Cached list of currently selected variables.
+        /// </summary>
+        private List<object> initialSelectedVariables;
+
+        /// <summary>
+        /// Cached list of currently selected domains.
+        /// </summary>
+        private List<object> initialSelectedDomains;
+
+        /// <summary>
+        /// Set to 'true' when the control key and the left mouse button is currently held down.
+        /// </summary>
+        private bool isControlAndLeftMouseButtonDown = false;
+
+        /// <summary>
+        /// Set to 'true' when the user is dragging out the selection rectangle.
+        /// </summary>
+        private bool isDraggingSelectionRect = false;
+
+        /// <summary>
+        /// Records the original mouse down point when the user is dragging out a selection rectangle.
+        /// </summary>
+        private Point origMouseDownPoint;
+
+        /// <summary>
+        /// A reference to the canvas that contains the drag selection rectangle.
+        /// </summary>
+        private FrameworkElement dragSelectionCanvas;
+
+        /// <summary>
+        /// The border that represents the drag selection rectangle.
+        /// </summary>
+        private FrameworkElement dragSelectionBorder;
+
+        /// <summary>
+        /// Cached list of selected VariableItems, used while dragging domains.
+        /// </summary>
+        private List<VariableItem> cachedSelectedVariableItems;
+
+        /// <summary>
+        /// Cached list of selected DomainItems, used while dragging domains.
+        /// </summary>
+        private List<DomainItem> cachedSelectedDomainItems;
+
+        /// <summary>
+        /// The threshold distance the mouse-cursor must move before drag-selection begins.
+        /// </summary>
+        private static readonly double DragThreshold = 5;
 
         /// <summary>
         /// When dragging a connection, this is set to the ConnectorItem that was initially dragged out.
@@ -443,56 +517,6 @@ namespace DynaApp.Views
             feedbackAdorner = null;
         }
 
-        /// <summary>
-        /// Cached reference to the VariableItemsControl in the visual-tree.
-        /// </summary>
-        private VariableItemsControl variableItemsControl;
-
-        /// <summary>
-        /// Cached reference to the ItemsControl for connections in the visual-tree.
-        /// </summary>
-        private ItemsControl connectionItemsControl;
-
-        /// <summary>
-        /// Cached list of currently selected domains.
-        /// </summary>
-        private List<object> initialSelectedVariables;
-
-        /// <summary>
-        /// Set to 'true' when the control key and the left mouse button is currently held down.
-        /// </summary>
-        private bool isControlAndLeftMouseButtonDown = false;
-
-        /// <summary>
-        /// Set to 'true' when the user is dragging out the selection rectangle.
-        /// </summary>
-        private bool isDraggingSelectionRect = false;
-
-        /// <summary>
-        /// Records the original mouse down point when the user is dragging out a selection rectangle.
-        /// </summary>
-        private Point origMouseDownPoint;
-
-        /// <summary>
-        /// A reference to the canvas that contains the drag selection rectangle.
-        /// </summary>
-        private FrameworkElement dragSelectionCanvas;
-
-        /// <summary>
-        /// The border that represents the drag selection rectangle.
-        /// </summary>
-        private FrameworkElement dragSelectionBorder;
-
-        /// <summary>
-        /// Cached list of selected VariableItems, used while dragging domains.
-        /// </summary>
-        private List<VariableItem> cachedSelectedVariableItems;
-
-        /// <summary>
-        /// The threshold distance the mouse-cursor must move before drag-selection begins.
-        /// </summary>
-        private static readonly double DragThreshold = 5;
-
         public ModelView()
         {
             //
@@ -517,6 +541,9 @@ namespace DynaApp.Views
             AddHandler(VariableItem.VariableDragStartedEvent, new VariableDragStartedEventHandler(VariableItem_DragStarted));
             AddHandler(VariableItem.VariableDraggingEvent, new VariableDraggingEventHandler(VariableItem_Dragging));
             AddHandler(VariableItem.VariableDragCompletedEvent, new VariableDragCompletedEventHandler(VariableItem_DragCompleted));
+            AddHandler(DomainItem.DomainDragStartedEvent, new DomainDragStartedEventHandler(DomainItem_DragStarted));
+            AddHandler(DomainItem.DomainDraggingEvent, new DomainDraggingEventHandler(DomainItem_Dragging));
+            AddHandler(DomainItem.DomainDragCompletedEvent, new DomainDragCompletedEventHandler(DomainItem_DragCompleted));
             AddHandler(ConnectorItem.ConnectorDragStartedEvent, new ConnectorItemDragStartedEventHandler(ConnectorItem_DragStarted));
             AddHandler(ConnectorItem.ConnectorDraggingEvent, new ConnectorItemDraggingEventHandler(ConnectorItem_Dragging));
             AddHandler(ConnectorItem.ConnectorDragCompletedEvent, new ConnectorItemDragCompletedEventHandler(ConnectorItem_DragCompleted));
@@ -556,6 +583,33 @@ namespace DynaApp.Views
         {
             add { AddHandler(ConnectionDragStartedEvent, value); }
             remove { RemoveHandler(ConnectionDragStartedEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised when the user starts dragging a domain.
+        /// </summary>
+        public event DomainDragStartedEventHandler DomainDragStarted
+        {
+            add { AddHandler(DomainDragStartedEvent, value); }
+            remove { RemoveHandler(DomainDragStartedEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised while user is dragging a domain.
+        /// </summary>
+        public event DomainDraggingEventHandler DomainDragging
+        {
+            add { AddHandler(DomainDraggingEvent, value); }
+            remove { RemoveHandler(DomainDraggingEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised when the user has completed dragging a domain.
+        /// </summary>
+        public event DomainDragCompletedEventHandler DomainDragCompleted
+        {
+            add { AddHandler(DomainDragCompletedEvent, value); }
+            remove { RemoveHandler(DomainDragCompletedEvent, value); }
         }
 
         /// <summary>
@@ -963,6 +1017,7 @@ namespace DynaApp.Views
                 SetValue(DomainItemContainerStyleProperty, value);
             }
         }
+
         /// <summary>
         /// A reference to currently selected variable.
         /// </summary>
@@ -1027,6 +1082,29 @@ namespace DynaApp.Views
                     }
 
                     return initialSelectedVariables;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the currently selected domains.
+        /// </summary>
+        public IList SelectedDomains
+        {
+            get
+            {
+                if (variableItemsControl != null)
+                {
+                    return this.domainItemsControl.SelectedItems;
+                }
+                else
+                {
+                    if (initialSelectedDomains == null)
+                    {
+                        initialSelectedDomains = new List<object>();
+                    }
+
+                    return initialSelectedDomains;
                 }
             }
         }
@@ -1520,6 +1598,14 @@ namespace DynaApp.Views
 
             this.variableItemsControl.SelectionChanged += new SelectionChangedEventHandler(variableItemsControl_SelectionChanged);
 
+            this.domainItemsControl = (DomainItemsControl)this.Template.FindName("PART_DomainItemsControl", this);
+            if (this.domainItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_DomainItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            this.domainItemsControl.SelectionChanged += new SelectionChangedEventHandler(domainItemsControl_SelectionChanged);
+
             this.connectionItemsControl = (ItemsControl)this.Template.FindName("PART_ConnectionItemsControl", this);
             if (this.connectionItemsControl == null)
             {
@@ -1543,6 +1629,17 @@ namespace DynaApp.Views
         /// Event raised when the selection in 'variableItemsControl' changes.
         /// </summary>
         private void variableItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
+            }
+        }
+
+        /// <summary>
+        /// Event raised when the selection in 'domainItemsControl' changes.
+        /// </summary>
+        private void domainItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.SelectionChanged != null)
             {
@@ -1594,6 +1691,23 @@ namespace DynaApp.Views
                 variableItem = variableItemsControl.FindAssociatedVariableItem(variable);
             }
             return variableItem;
+        }
+
+        /// <summary>
+        /// Find the DomainItem UI element that is associated with domain.
+        /// 'variable' can be a view-model object, in which case the visual-tree
+        /// is searched for the associated VariableItem.
+        /// Otherwise 'variable' can actually be a 'VariableItem' in which case it is 
+        /// simply returned.
+        /// </summary>
+        internal DomainItem FindAssociatedDomainItem(object variable)
+        {
+            DomainItem domainItem = variable as DomainItem;
+            if (domainItem == null)
+            {
+                domainItem = domainItemsControl.FindAssociatedDomainItem(variable);
+            }
+            return domainItem;
         }
 
         /// <summary>
@@ -1661,6 +1775,85 @@ namespace DynaApp.Views
             e.Handled = true;
 
             var eventArgs = new VariableDragCompletedEventArgs(VariableDragCompletedEvent, this, this.SelectedVariables);
+            RaiseEvent(eventArgs);
+
+            if (cachedSelectedVariableItems != null)
+            {
+                cachedSelectedVariableItems = null;
+            }
+
+            this.IsDragging = false;
+            this.IsNotDragging = true;
+            this.IsDraggingVariable = false;
+            this.IsNotDraggingVariable = true;
+        }
+
+
+        /// <summary>
+        /// Event raised when the user starts to drag a variable.
+        /// </summary>
+        private void DomainItem_DragStarted(object source, DomainDragStartedEventArgs e)
+        {
+            e.Handled = true;
+
+            this.IsDragging = true;
+            this.IsNotDragging = false;
+            this.IsDraggingVariable = true;
+            this.IsNotDraggingVariable = false;
+
+            var eventArgs = new DomainDragStartedEventArgs(DomainDragStartedEvent, this, this.SelectedDomains);
+            RaiseEvent(eventArgs);
+
+            e.Cancel = eventArgs.Cancel;
+        }
+
+        /// <summary>
+        /// Event raised while the user is dragging a variable.
+        /// </summary>
+        private void DomainItem_Dragging(object source, DomainDraggingEventArgs e)
+        {
+            e.Handled = true;
+
+            //
+            // Cache the VariableItem for each selected variable whilst dragging is in progress.
+            //
+            if (this.cachedSelectedDomainItems == null)
+            {
+                this.cachedSelectedDomainItems = new List<DomainItem>();
+
+                foreach (var selectedDomain in this.SelectedDomains)
+                {
+                    var domainItem = FindAssociatedDomainItem(selectedDomain);
+                    if (domainItem == null)
+                    {
+                        throw new ApplicationException("Unexpected code path!");
+                    }
+
+                    this.cachedSelectedDomainItems.Add(domainItem);
+                }
+            }
+
+            // 
+            // Update the position of the variable within the Canvas.
+            //
+            foreach (var domainItem in this.cachedSelectedDomainItems)
+            {
+                domainItem.X += e.HorizontalChange;
+                domainItem.Y += e.VerticalChange;
+            }
+
+            var eventArgs = new DomainDraggingEventArgs(DomainDraggingEvent, this, this.SelectedDomains, e.HorizontalChange, e.VerticalChange);
+            RaiseEvent(eventArgs);
+        }
+
+        /// <summary>
+        /// Event raised when the user has finished dragging a variable.
+        /// </summary>
+        private void DomainItem_DragCompleted(object source, DomainDragCompletedEventArgs e)
+        {
+            e.Handled = true;
+
+            var eventArgs = new DomainDragCompletedEventArgs(DomainDragCompletedEvent, this, this.SelectedDomains);
             RaiseEvent(eventArgs);
 
             if (cachedSelectedVariableItems != null)

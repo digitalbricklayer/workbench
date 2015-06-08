@@ -4,7 +4,7 @@ using System.Windows;
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// Defines a connector (aka connection point) that can be attached to a 
+    /// A connector (or connection point) can be attached to a 
     /// variable and is used to connect the variable to a domain.
     /// </summary>
     public class ConnectorViewModel : AbstractModelBase

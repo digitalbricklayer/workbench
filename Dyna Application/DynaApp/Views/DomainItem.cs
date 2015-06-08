@@ -199,15 +199,15 @@ namespace DynaApp.Views
                 //
                 isLeftMouseAndControlDown = false;
 
-                if (this.ParentModelView.SelectedVariables.Count == 0)
+                if (this.ParentModelView.SelectedDomains.Count == 0)
                 {
                     //
                     // Nothing already selected, select the item.
                     //
                     this.IsSelected = true;
                 }
-                else if (this.ParentModelView.SelectedVariables.Contains(this) ||
-                         this.ParentModelView.SelectedVariables.Contains(this.DataContext))
+                else if (this.ParentModelView.SelectedDomains.Contains(this) ||
+                         this.ParentModelView.SelectedDomains.Contains(this.DataContext))
                 {
                     // 
                     // Item is already selected, do nothing.
@@ -220,7 +220,7 @@ namespace DynaApp.Views
                     // Item is not selected.
                     // Deselect all, and select the item.
                     //
-                    this.ParentModelView.SelectedVariables.Clear();
+                    this.ParentModelView.SelectedDomains.Clear();
                     this.IsSelected = true;
                 }
             }
@@ -233,7 +233,7 @@ namespace DynaApp.Views
         /// </summary>
         internal void RightMouseDownSelectionLogic()
         {
-            if (this.ParentModelView.SelectedVariables.Count == 0)
+            if (this.ParentModelView.SelectedDomains.Count == 0)
             {
                 //
                 // Nothing already selected, select the item.
@@ -285,7 +285,7 @@ namespace DynaApp.Views
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new VariableDraggingEventArgs(DomainDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new DomainDraggingEventArgs(DomainDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
                 }
             }
             else if (isLeftMouseDown && this.ParentModelView.EnableVariableDragging)
@@ -307,7 +307,7 @@ namespace DynaApp.Views
                     //
                     // Raise an event to notify that that dragging has commenced.
                     //
-                    VariableDragStartedEventArgs eventArgs = new VariableDragStartedEventArgs(DomainDragStartedEvent, this, new DomainItem[] { this });
+                    DomainDragStartedEventArgs eventArgs = new DomainDragStartedEventArgs(DomainDragStartedEvent, this, new DomainItem[] { this });
                     RaiseEvent(eventArgs);
 
                     if (eventArgs.Cancel)
@@ -342,7 +342,7 @@ namespace DynaApp.Views
                     // Raise an event to notify that variable dragging has finished.
                     //
 
-                    RaiseEvent(new VariableDragCompletedEventArgs(DomainDragCompletedEvent, this, new[] { this }));
+                    RaiseEvent(new DomainDragCompletedEventArgs(DomainDragCompletedEvent, this, new[] { this }));
 
 					this.ReleaseMouseCapture();
 
@@ -384,9 +384,9 @@ namespace DynaApp.Views
                 //
                 // Control key was not held down.
                 //
-                if (this.ParentModelView.SelectedVariables.Count == 1 &&
-                    (this.ParentModelView.SelectedVariable == this ||
-                     this.ParentModelView.SelectedVariable == this.DataContext))
+                if (this.ParentModelView.SelectedDomains.Count == 1 &&
+                    (this.ParentModelView.SelectedDomains == this ||
+                     this.ParentModelView.SelectedDomains == this.DataContext))
                 {
                     //
                     // The item that was clicked is already the only selected item.
@@ -398,7 +398,7 @@ namespace DynaApp.Views
                     //
                     // Clear the selection and select the clicked item as the only selected item.
                     //
-                    this.ParentModelView.SelectedVariables.Clear();
+                    this.ParentModelView.SelectedDomains.Clear();
                     this.IsSelected = true;
                 }
             }
