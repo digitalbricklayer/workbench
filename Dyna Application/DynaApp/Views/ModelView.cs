@@ -1847,7 +1847,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Event raised when the user has finished dragging a variable.
+        /// Event raised when the user has finished dragging a domain.
         /// </summary>
         private void DomainItem_DragCompleted(object source, DomainDragCompletedEventArgs e)
         {
@@ -1856,9 +1856,9 @@ namespace DynaApp.Views
             var eventArgs = new DomainDragCompletedEventArgs(DomainDragCompletedEvent, this, this.SelectedDomains);
             RaiseEvent(eventArgs);
 
-            if (cachedSelectedVariableItems != null)
+            if (cachedSelectedDomainItems != null)
             {
-                cachedSelectedVariableItems = null;
+                cachedSelectedDomainItems = null;
             }
 
             this.IsDragging = false;
