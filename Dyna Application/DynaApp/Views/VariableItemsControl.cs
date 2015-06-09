@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace DynaApp.Views
 {
     /// <summary>
-    /// Implements a ListBox for displaying variables in the ModelView UI.
+    /// Implements a ListBox for displaying constraints in the ModelView UI.
     /// </summary>
     internal class VariableItemsControl : ListBox
     {

@@ -151,6 +151,15 @@ namespace DynaApp.Views
         public static readonly RoutedEvent DomainDragCompletedEvent =
             EventManager.RegisterRoutedEvent("DomainDragCompleted", RoutingStrategy.Bubble, typeof(DomainDragCompletedEventHandler), typeof(ModelView));
 
+        public static readonly RoutedEvent ConstraintDragStartedEvent =
+            EventManager.RegisterRoutedEvent("ConstraintDragStarted", RoutingStrategy.Bubble, typeof(ConstraintDragStartedEventHandler), typeof(ModelView));
+
+        public static readonly RoutedEvent ConstraintDraggingEvent =
+            EventManager.RegisterRoutedEvent("ConstraintDragging", RoutingStrategy.Bubble, typeof(ConstraintDraggingEventHandler), typeof(ModelView));
+
+        public static readonly RoutedEvent ConstraintDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("ConstraintDragCompleted", RoutingStrategy.Bubble, typeof(ConstraintDragCompletedEventHandler), typeof(ModelView));
+
         public static readonly RoutedEvent ConnectionDragStartedEvent =
             EventManager.RegisterRoutedEvent("ConnectionDragStarted", RoutingStrategy.Bubble, typeof(ConnectionDragStartedEventHandler), typeof(ModelView));
 
@@ -191,7 +200,7 @@ namespace DynaApp.Views
         private ItemsControl connectionItemsControl;
 
         /// <summary>
-        /// Cached list of currently selected variables.
+        /// Cached list of currently selected constraints.
         /// </summary>
         private List<object> initialSelectedVariables;
 
@@ -239,6 +248,11 @@ namespace DynaApp.Views
         /// Cached list of selected DomainItems, used while dragging domains.
         /// </summary>
         private List<DomainItem> cachedSelectedDomainItems;
+
+        /// <summary>
+        /// Cached list of selected ConstraintItems, used while dragging constraints.
+        /// </summary>
+        private List<ConstraintItem> cachedSelectedConstraintItems;
 
         /// <summary>
         /// The threshold distance the mouse-cursor must move before drag-selection begins.
@@ -302,6 +316,9 @@ namespace DynaApp.Views
             AddHandler(ConnectorItem.ConnectorDragStartedEvent, new ConnectorItemDragStartedEventHandler(ConnectorItem_DragStarted));
             AddHandler(ConnectorItem.ConnectorDraggingEvent, new ConnectorItemDraggingEventHandler(ConnectorItem_Dragging));
             AddHandler(ConnectorItem.ConnectorDragCompletedEvent, new ConnectorItemDragCompletedEventHandler(ConnectorItem_DragCompleted));
+            AddHandler(ConstraintItem.ConstraintDragStartedEvent, new ConstraintDragStartedEventHandler(ConstraintItem_DragStarted));
+            AddHandler(ConstraintItem.ConstraintDraggingEvent, new ConstraintDraggingEventHandler(ConstraintItem_Dragging));
+            AddHandler(ConstraintItem.ConstraintDragCompletedEvent, new ConstraintDragCompletedEventHandler(ConstraintItem_DragCompleted));
         }
 
         /// <summary>
@@ -639,6 +656,33 @@ namespace DynaApp.Views
         {
             add { AddHandler(DomainDragCompletedEvent, value); }
             remove { RemoveHandler(DomainDragCompletedEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised when the user starts dragging a constraint.
+        /// </summary>
+        public event ConstraintDragStartedEventHandler ConstraintDragStarted
+        {
+            add { AddHandler(ConstraintDragStartedEvent, value); }
+            remove { RemoveHandler(ConstraintDragStartedEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised while user is dragging a constraint.
+        /// </summary>
+        public event ConstraintDraggingEventHandler ConstraintDragging
+        {
+            add { AddHandler(ConstraintDraggingEvent, value); }
+            remove { RemoveHandler(ConstraintDraggingEvent, value); }
+        }
+
+        /// <summary>
+        /// Event raised when the user has completed dragging a constraint.
+        /// </summary>
+        public event ConstraintDragCompletedEventHandler ConstraintDragCompleted
+        {
+            add { AddHandler(ConstraintDragCompletedEvent, value); }
+            remove { RemoveHandler(ConstraintDragCompletedEvent, value); }
         }
 
         /// <summary>
@@ -1821,6 +1865,14 @@ namespace DynaApp.Views
 
             this.domainItemsControl.SelectionChanged += new SelectionChangedEventHandler(domainItemsControl_SelectionChanged);
 
+            this.constraintItemsControl = (ConstraintItemsControl)this.Template.FindName("PART_ConstraintItemsControl", this);
+            if (this.constraintItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_ConstraintItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            this.constraintItemsControl.SelectionChanged += new SelectionChangedEventHandler(constraintItemsControl_SelectionChanged);
+
             this.connectionItemsControl = (ItemsControl)this.Template.FindName("PART_ConnectionItemsControl", this);
             if (this.connectionItemsControl == null)
             {
@@ -1855,6 +1907,17 @@ namespace DynaApp.Views
         /// Event raised when the selection in 'domainItemsControl' changes.
         /// </summary>
         private void domainItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
+            }
+        }
+
+        /// <summary>
+        /// Event raised when the selection in 'domainItemsControl' changes.
+        /// </summary>
+        private void constraintItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.SelectionChanged != null)
             {
@@ -1923,6 +1986,20 @@ namespace DynaApp.Views
                 domainItem = domainItemsControl.FindAssociatedDomainItem(variable);
             }
             return domainItem;
+        }
+
+        /// <summary>
+        /// Find the ConstraintItem UI element that is associated with constraint.
+        /// </summary>
+        internal ConstraintItem FindAssociatedConstraintItem(object variable)
+        {
+            var constraintItem = variable as ConstraintItem;
+            if (constraintItem == null)
+            {
+                constraintItem = constraintItemsControl.FindAssociatedConstraintItem(variable);
+            }
+
+            return constraintItem;
         }
 
         /// <summary>
@@ -2003,7 +2080,6 @@ namespace DynaApp.Views
             this.IsNotDraggingVariable = true;
         }
 
-
         /// <summary>
         /// Event raised when the user starts to drag a variable.
         /// </summary>
@@ -2074,6 +2150,84 @@ namespace DynaApp.Views
             if (cachedSelectedDomainItems != null)
             {
                 cachedSelectedDomainItems = null;
+            }
+
+            this.IsDragging = false;
+            this.IsNotDragging = true;
+            this.IsDraggingVariable = false;
+            this.IsNotDraggingVariable = true;
+        }
+
+        /// <summary>
+        /// Event raised when the user starts to drag a constraint.
+        /// </summary>
+        private void ConstraintItem_DragStarted(object source, ConstraintDragStartedEventArgs e)
+        {
+            e.Handled = true;
+
+            this.IsDragging = true;
+            this.IsNotDragging = false;
+            this.IsDraggingVariable = true;
+            this.IsNotDraggingVariable = false;
+
+            var eventArgs = new ConstraintDragStartedEventArgs(ConstraintDragStartedEvent, this, this.SelectedConstraints);
+            RaiseEvent(eventArgs);
+
+            e.Cancel = eventArgs.Cancel;
+        }
+
+        /// <summary>
+        /// Event raised while the user is dragging a constraint.
+        /// </summary>
+        private void ConstraintItem_Dragging(object source, ConstraintDraggingEventArgs e)
+        {
+            e.Handled = true;
+
+            //
+            // Cache the VariableItem for each selected variable whilst dragging is in progress.
+            //
+            if (this.cachedSelectedConstraintItems == null)
+            {
+                this.cachedSelectedConstraintItems = new List<ConstraintItem>();
+
+                foreach (var selectedConstraint in this.SelectedConstraints)
+                {
+                    var constraintItem = FindAssociatedConstraintItem(selectedConstraint);
+                    if (constraintItem == null)
+                    {
+                        throw new ApplicationException("Unexpected code path!");
+                    }
+
+                    this.cachedSelectedConstraintItems.Add(constraintItem);
+                }
+            }
+
+            // 
+            // Update the position of the variable within the Canvas.
+            //
+            foreach (var constraintItem in this.cachedSelectedConstraintItems)
+            {
+                constraintItem.X += e.HorizontalChange;
+                constraintItem.Y += e.VerticalChange;
+            }
+
+            var eventArgs = new ConstraintDraggingEventArgs(ConstraintDraggingEvent, this, this.SelectedConstraints, e.HorizontalChange, e.VerticalChange);
+            RaiseEvent(eventArgs);
+        }
+
+        /// <summary>
+        /// Event raised when the user has finished dragging a constraint.
+        /// </summary>
+        private void ConstraintItem_DragCompleted(object source, ConstraintDragCompletedEventArgs e)
+        {
+            e.Handled = true;
+
+            var eventArgs = new ConstraintDragCompletedEventArgs(ConstraintDragCompletedEvent, this, this.SelectedConstraints);
+            RaiseEvent(eventArgs);
+
+            if (cachedSelectedConstraintItems != null)
+            {
+                cachedSelectedConstraintItems = null;
             }
 
             this.IsDragging = false;

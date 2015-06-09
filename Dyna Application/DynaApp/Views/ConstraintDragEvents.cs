@@ -4,50 +4,50 @@ using System.Windows;
 namespace DynaApp.Views
 {
     /// <summary>
-    /// Base class for variable dragging event args.
+    /// Base class for constraint dragging event args.
     /// </summary>
     public class ConstraintDragEventArgs : RoutedEventArgs
     {
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection variables = null;
+        public ICollection constraints;
 
-        protected ConstraintDragEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
+        protected ConstraintDragEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
             base(routedEvent, source)
         {
-            this.variables = variables;
+            this.constraints = constraints;
         }
 
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection Variables
+        public ICollection Constraints
         {
             get
             {
-                return variables;
+                return constraints;
             }
         }
     }
 
     /// <summary>
-    /// Defines the event handler for VariableDragStarted events.
+    /// Defines the event handler for ConstraintDragStarted events.
     /// </summary>
     public delegate void ConstraintDragEventHandler(object sender, ConstraintDragEventArgs e);
 
     /// <summary>
     /// Arguments for event raised when the user starts to drag a variable in the network.
     /// </summary>
-    public class ConstraintDragStartedEventArgs : VariableDragEventArgs
+    public class ConstraintDragStartedEventArgs : ConstraintDragEventArgs
     {
         /// <summary>
         /// Set to 'false' to disallow dragging.
         /// </summary>
-        private bool cancel = false;
+        private bool cancel;
 
-        internal ConstraintDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
-            base(routedEvent, source, variables)
+        internal ConstraintDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+            base(routedEvent, source, constraints)
         {
         }
 
@@ -75,20 +75,20 @@ namespace DynaApp.Views
     /// <summary>
     /// Arguments for event raised while user is dragging a variable in the network.
     /// </summary>
-    public class ConstraintDraggingEventArgs : VariableDragEventArgs
+    public class ConstraintDraggingEventArgs : ConstraintDragEventArgs
     {
         /// <summary>
         /// The amount the variable has been dragged horizontally.
         /// </summary>
-        public double horizontalChange = 0;
+        public double horizontalChange;
 
         /// <summary>
         /// The amount the variable has been dragged vertically.
         /// </summary>
-        public double verticalChange = 0;
+        public double verticalChange;
 
-        internal ConstraintDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection variables, double horizontalChange, double verticalChange) :
-            base(routedEvent, source, variables)
+        internal ConstraintDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection constraints, double horizontalChange, double verticalChange) :
+            base(routedEvent, source, constraints)
         {
             this.horizontalChange = horizontalChange;
             this.verticalChange = verticalChange;
@@ -118,17 +118,17 @@ namespace DynaApp.Views
     }
 
     /// <summary>
-    /// Defines the event handler for VariableDragStarted events.
+    /// Defines the event handler for ConstraintDragStarted events.
     /// </summary>
     public delegate void ConstraintDraggingEventHandler(object sender, ConstraintDraggingEventArgs e);
 
     /// <summary>
     /// Arguments for event raised when the user has completed dragging a variable in the network.
     /// </summary>
-    public class ConstraintDragCompletedEventArgs : VariableDragEventArgs
+    public class ConstraintDragCompletedEventArgs : ConstraintDragEventArgs
     {
-        public ConstraintDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
-            base(routedEvent, source, variables)
+        public ConstraintDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints)
+            : base(routedEvent, source, constraints)
         {
         }
     }

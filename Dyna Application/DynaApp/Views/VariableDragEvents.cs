@@ -11,22 +11,22 @@ namespace DynaApp.Views
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection variables = null;
+        public ICollection constraints = null;
 
-        protected VariableDragEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
+        protected VariableDragEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
             base(routedEvent, source)
         {
-            this.variables = variables;
+            this.constraints = constraints;
         }
 
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection Variables
+        public ICollection Constraints
         {
             get
             {
-                return variables;
+                return constraints;
             }
         }
     }
@@ -46,8 +46,8 @@ namespace DynaApp.Views
         /// </summary>
         private bool cancel = false;
 
-        internal VariableDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
-            base(routedEvent, source, variables)
+        internal VariableDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+            base(routedEvent, source, constraints)
         {
         }
 
@@ -87,8 +87,8 @@ namespace DynaApp.Views
         /// </summary>
         public double verticalChange = 0;
 
-        internal VariableDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection variables, double horizontalChange, double verticalChange) :
-            base(routedEvent, source, variables)
+        internal VariableDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection constraints, double horizontalChange, double verticalChange) :
+            base(routedEvent, source, constraints)
         {
             this.horizontalChange = horizontalChange;
             this.verticalChange = verticalChange;
@@ -127,8 +127,8 @@ namespace DynaApp.Views
     /// </summary>
     public class VariableDragCompletedEventArgs : VariableDragEventArgs
     {
-        public VariableDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
-            base(routedEvent, source, variables)
+        public VariableDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+            base(routedEvent, source, constraints)
         {
         }
     }

@@ -285,7 +285,7 @@ namespace DynaApp.Views
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new VariableDraggingEventArgs(ConstraintDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new ConstraintDraggingEventArgs(ConstraintDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
                 }
             }
             else if (isLeftMouseDown && this.ParentModelView.EnableVariableDragging)
