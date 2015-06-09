@@ -228,6 +228,111 @@
         </Setter>
     </Style>
 
+    <!-- Default style and control-template for 'DomainItem'. -->
+    <Style 
+        TargetType="{x:Type local:ConstraintItem}">
+
+        <!-- Data-bind the parent ModelView. -->
+        <Setter
+            Property="ParentModelView"
+            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
+            />
+
+        <!-- Set the position of the variable within the canvas. -->
+        <Setter
+            Property="Canvas.Left"
+            Value="{Binding X, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+            />
+        <Setter
+            Property="Canvas.Top"
+            Value="{Binding Y, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+            />
+
+        <!-- Set the z-order of the variable within the canvas. -->
+        <Setter
+            Property="Canvas.ZIndex"
+            Value="{Binding ZIndex, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
+            />
+
+        <!-- Set defaults for background and border. -->
+        <Setter 
+            Property="Background" 
+            Value="Transparent" 
+            />
+        <Setter 
+            Property="BorderBrush" 
+            Value="Transparent" 
+            />
+        <Setter 
+            Property="BorderThickness" 
+            Value="1" 
+            />
+
+        <!-- The control-template for the variable. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate 
+                    TargetType="{x:Type local:ConstraintItem}"
+                    >
+                    <Grid>
+
+                        <!-- 
+                        This border indicates that variable is selected.
+                        Normally it is transparent, but when 'IsSelected' is set
+                        to 'true' the border brush becomes blue and its background
+                        becomds light blue.
+                        -->
+                        <Border
+                            x:Name="selectionBorder"
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="2"
+                            >
+
+                            <!-- 
+                            User-defined variable content is presented here. 
+                            -->
+                            <ContentPresenter />
+
+                        </Border>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger 
+                            Property="IsSelected"
+                            Value="True"
+                            >
+
+                            <!-- When the variable is selected, set the color of 'selectionBorder' to blue. -->
+                            <Setter
+                                TargetName="selectionBorder"
+                                Property="BorderBrush"
+                                Value="{StaticResource selectionBorderColor}"
+                                />
+                        </Trigger>
+
+                        <Trigger 
+                            Property="IsSelected"
+                            Value="True"
+                            >
+
+                            <!-- When the variable is selected, set the background of 'selectionBorder' to light blue. -->
+                            <Setter
+                                TargetName="selectionBorder"
+                                Property="Background"
+                                Value="{StaticResource selectionBorderBackgroundColor}"
+                                />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Default style and control-template for 'ConnectorItem'. -->
     <Style TargetType="{x:Type local:ConnectorItem}">
         
@@ -319,6 +424,17 @@
                                 ItemTemplate="{TemplateBinding DomainItemTemplate}"
                                 ItemTemplateSelector="{TemplateBinding DomainItemTemplateSelector}"
                                 ItemContainerStyle="{TemplateBinding DomainItemContainerStyle}"
+                                />
+
+                            <!-- Control that presents the constraints. -->
+                            <local:ConstraintItemsControl
+                                x:Name="PART_ConstraintItemsControl"
+                                ItemsSource="{TemplateBinding Constraints}"
+                                SelectionMode="Extended"
+                                Style="{StaticResource noScrollViewerListBoxStyle}"
+                                ItemTemplate="{TemplateBinding ConstraintItemTemplate}"
+                                ItemTemplateSelector="{TemplateBinding ConstraintItemTemplateSelector}"
+                                ItemContainerStyle="{TemplateBinding ConstraintItemContainerStyle}"
                                 />
 
                             <!-- Control that presents the connections between variables. -->

@@ -67,9 +67,9 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Event raised to delete the selected variable.
+        /// Event raised to delete the selected graphics.
         /// </summary>
-        private void DeleteSelectedVariables_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void DeleteSelectedGraphics_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.ViewModel.DeleteSelectedGraphics();
         }
@@ -77,7 +77,7 @@ namespace DynaApp.Views
         /// <summary>
         /// Event raised to close the application.
         /// </summary>
-        void FileCloseCommand(object sender, ExecutedRoutedEventArgs args)
+        private void FileCloseCommand(object sender, ExecutedRoutedEventArgs args)
         {
             this.Close();
         }

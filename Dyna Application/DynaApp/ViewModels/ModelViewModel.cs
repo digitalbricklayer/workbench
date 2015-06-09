@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// View model for a model.
+    /// A view model for a model.
     /// </summary>
     public sealed class ModelViewModel : AbstractModelBase
     {
@@ -16,6 +16,7 @@ namespace DynaApp.ViewModels
             this.Graphics = new ObservableCollection<GraphicViewModel>();
             this.Variables = new ObservableCollection<VariableViewModel>();
             this.Domains = new ObservableCollection<DomainViewModel>();
+            this.Constraints = new ObservableCollection<ConstraintViewModel>();
             this.Connections = new ObservableCollection<ConnectionViewModel>();
         }
 
@@ -28,6 +29,11 @@ namespace DynaApp.ViewModels
         /// Gets the collection of domains in the model.
         /// </summary>
         public ObservableCollection<DomainViewModel> Domains { get; private set; }
+
+        /// <summary>
+        /// Gets the collection of constraints in the model.
+        /// </summary>
+        public ObservableCollection<ConstraintViewModel> Constraints { get; private set; }
 
         /// <summary>
         /// Gets the collection of all graphic items in the model.
@@ -61,6 +67,18 @@ namespace DynaApp.ViewModels
                 throw new ArgumentNullException("newDomainViewModel");
             this.Graphics.Add(newDomainViewModel);
             this.Domains.Add(newDomainViewModel);
+        }
+
+        /// <summary>
+        /// Add a new constraint to the model.
+        /// </summary>
+        /// <param name="newConstraintViewModel">New constraint.</param>
+        public void AddConstraint(ConstraintViewModel newConstraintViewModel)
+        {
+            if (newConstraintViewModel == null)
+                throw new ArgumentNullException("newConstraintViewModel");
+            this.Graphics.Add(newConstraintViewModel);
+            this.Constraints.Add(newConstraintViewModel);
         }
     }
 }

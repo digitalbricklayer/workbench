@@ -17,6 +17,7 @@ namespace DynaApp.ViewModels
             this.CreateVariable("Jack", new Point(10, 10));
             this.CreateVariable("Bob", new Point(200, 10));
             this.CreateDomain("X", new Point(10, 80));
+            this.CreateConstraint("Y", new Point(10, 100));
         }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace DynaApp.ViewModels
         public ModelViewModel Model { get; private set; }
 
         /// <summary>
-        /// Create a new domain.
+        /// Create a new constraint.
         /// </summary>
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
@@ -42,20 +43,37 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Create a new domain.
+        /// Create a new constraint.
         /// </summary>
-        /// <param name="newDomainName">New domain name.</param>
-        /// <param name="newDomainLocation">New docmain location.</param>
-        /// <returns>New domain view model.</returns>
+        /// <param name="newDomainName">New constraint name.</param>
+        /// <param name="newDomainLocation">New constraint location.</param>
+        /// <returns>New constraint view model.</returns>
         public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
         {
-            var newVariable = new DomainViewModel(newDomainName);
-            newVariable.X = newDomainLocation.X;
-            newVariable.Y = newDomainLocation.Y;
+            var newDomain = new DomainViewModel(newDomainName);
+            newDomain.X = newDomainLocation.X;
+            newDomain.Y = newDomainLocation.Y;
 
-            this.Model.AddDomain(newVariable);
+            this.Model.AddDomain(newDomain);
 
-            return newVariable;
+            return newDomain;
+        }
+
+        /// <summary>
+        /// Create a new constraint.
+        /// </summary>
+        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="point">New constraint location.</param>
+        /// <returns>New constraint view model.</returns>
+        private ConstraintViewModel CreateConstraint(string newConstraintName, Point point)
+        {
+            var newConstraint = new ConstraintViewModel(newConstraintName);
+            newConstraint.X = point.X;
+            newConstraint.Y = point.Y;
+
+            this.Model.AddConstraint(newConstraint);
+
+            return newConstraint;
         }
 
         /// <summary>
@@ -142,10 +160,14 @@ namespace DynaApp.ViewModels
             newConnection.DestConnector = connectorDraggedOver;
         }
 
+        /// <summary>
+        /// Delete all selected graphic items.
+        /// </summary>
         public void DeleteSelectedGraphics()
         {
             this.DeleteSelectedVariables();
             this.DeleteSelectedDomains();
+            this.DeleteConstraints();
         }
 
         /// <summary>
@@ -197,12 +219,34 @@ namespace DynaApp.ViewModels
             }
         }
 
+        private void DeleteConstraints()
+        {
+            // Take a copy of the domains list so we can delete domains while iterating.
+            var constraintsCopy = this.Model.Constraints.ToArray();
+
+            foreach (var constraint in constraintsCopy)
+            {
+                if (constraint.IsSelected)
+                {
+                    DeleteConstraint(constraint);
+                }
+            }
+        }
+
         private void DeleteDomain(DomainViewModel domain)
         {
             //
             // Remove the variable from the network.
             //
             this.Model.Domains.Remove(domain);
+        }
+
+        private void DeleteConstraint(ConstraintViewModel constraint)
+        {
+            //
+            // Remove the variable from the network.
+            //
+            this.Model.Constraints.Remove(constraint);
         }
     }
 }

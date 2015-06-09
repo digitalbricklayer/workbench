@@ -29,6 +29,11 @@ namespace DynaApp.Views
                 new FrameworkPropertyMetadata());
         public static readonly DependencyProperty DomainsProperty = DomainsPropertyKey.DependencyProperty;
 
+        private static readonly DependencyPropertyKey ConstraintsPropertyKey =
+            DependencyProperty.RegisterReadOnly("Constraints", typeof(ObservableCollection<object>), typeof(ModelView),
+                new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty ConstraintsProperty = ConstraintsPropertyKey.DependencyProperty;
+
         private static readonly DependencyPropertyKey ConnectionsPropertyKey =
             DependencyProperty.RegisterReadOnly("Connections", typeof(ObservableCollection<object>), typeof(ModelView),
                 new FrameworkPropertyMetadata());
@@ -41,6 +46,10 @@ namespace DynaApp.Views
         public static readonly DependencyProperty DomainsSourceProperty =
             DependencyProperty.Register("DomainsSource", typeof(IEnumerable), typeof(ModelView),
                 new FrameworkPropertyMetadata(DomainsSource_PropertyChanged));
+
+        public static readonly DependencyProperty ConstraintsSourceProperty =
+            DependencyProperty.Register("ConstraintsSource", typeof(IEnumerable), typeof(ModelView),
+                new FrameworkPropertyMetadata(ConstraintsSource_PropertyChanged));
 
         public static readonly DependencyProperty ConnectionsSourceProperty =
             DependencyProperty.Register("ConnectionsSource", typeof(IEnumerable), typeof(ModelView),
@@ -106,6 +115,15 @@ namespace DynaApp.Views
         public static readonly DependencyProperty DomainItemContainerStyleProperty =
             DependencyProperty.Register("DomainItemContainerStyle", typeof(Style), typeof(ModelView));
 
+        public static readonly DependencyProperty ConstraintItemTemplateProperty =
+            DependencyProperty.Register("ConstraintItemTemplate", typeof(DataTemplate), typeof(ModelView));
+
+        public static readonly DependencyProperty ConstraintItemTemplateSelectorProperty =
+            DependencyProperty.Register("ConstraintItemTemplateSelector", typeof(DataTemplateSelector), typeof(ModelView));
+
+        public static readonly DependencyProperty ConstraintItemContainerStyleProperty =
+            DependencyProperty.Register("ConstraintItemContainerStyle", typeof(Style), typeof(ModelView));
+
         public static readonly DependencyProperty ConnectionItemTemplateProperty =
             DependencyProperty.Register("ConnectionItemTemplate", typeof(DataTemplate), typeof(ModelView));
 
@@ -145,10 +163,10 @@ namespace DynaApp.Views
         public static readonly RoutedEvent ConnectionDragCompletedEvent =
             EventManager.RegisterRoutedEvent("ConnectionDragCompleted", RoutingStrategy.Bubble, typeof(ConnectionDragCompletedEventHandler), typeof(ModelView));
 
-        public static readonly RoutedCommand SelectAllCommand = null;
-        public static readonly RoutedCommand SelectNoneCommand = null;
-        public static readonly RoutedCommand InvertSelectionCommand = null;
-        public static readonly RoutedCommand CancelConnectionDraggingCommand = null;
+        public static readonly RoutedCommand SelectAllCommand;
+        public static readonly RoutedCommand SelectNoneCommand;
+        public static readonly RoutedCommand InvertSelectionCommand;
+        public static readonly RoutedCommand CancelConnectionDraggingCommand;
 
         #endregion Dependency Property/Event Definitions
 
@@ -161,6 +179,11 @@ namespace DynaApp.Views
         /// Cached reference to the DomainItemsControl in the visual-tree.
         /// </summary>
         private DomainItemsControl domainItemsControl;
+
+        /// <summary>
+        /// Cached reference to the ConstraintItemsControl in the visual-tree.
+        /// </summary>
+        private ConstraintItemsControl constraintItemsControl;
 
         /// <summary>
         /// Cached reference to the ItemsControl for connections in the visual-tree.
@@ -176,6 +199,11 @@ namespace DynaApp.Views
         /// Cached list of currently selected domains.
         /// </summary>
         private List<object> initialSelectedDomains;
+
+        /// <summary>
+        /// Cached list of currently selected constraints.
+        /// </summary>
+        private List<object> initialSelectedConstraints;
 
         /// <summary>
         /// Set to 'true' when the control key and the left mouse button is currently held down.
@@ -242,6 +270,39 @@ namespace DynaApp.Views
         /// It is used for feedback when dragging a connection over a prospective connector.
         /// </summary>
         private FrameworkElementAdorner feedbackAdorner;
+
+        public ModelView()
+        {
+            //
+            // Create a collection to contain domains.
+            //
+            this.Variables = new ObservableCollection<object>();
+            this.Domains = new ObservableCollection<object>();
+            this.Constraints = new ObservableCollection<object>();
+
+            //
+            // Create a collection to contain connections.
+            //
+            this.Connections = new ObservableCollection<object>();
+
+            //
+            // Default background is white.
+            //
+            this.Background = Brushes.White;
+
+            //
+            // Add handlers for variable and connector drag events.
+            //
+            AddHandler(VariableItem.VariableDragStartedEvent, new VariableDragStartedEventHandler(VariableItem_DragStarted));
+            AddHandler(VariableItem.VariableDraggingEvent, new VariableDraggingEventHandler(VariableItem_Dragging));
+            AddHandler(VariableItem.VariableDragCompletedEvent, new VariableDragCompletedEventHandler(VariableItem_DragCompleted));
+            AddHandler(DomainItem.DomainDragStartedEvent, new DomainDragStartedEventHandler(DomainItem_DragStarted));
+            AddHandler(DomainItem.DomainDraggingEvent, new DomainDraggingEventHandler(DomainItem_Dragging));
+            AddHandler(DomainItem.DomainDragCompletedEvent, new DomainDragCompletedEventHandler(DomainItem_DragCompleted));
+            AddHandler(ConnectorItem.ConnectorDragStartedEvent, new ConnectorItemDragStartedEventHandler(ConnectorItem_DragStarted));
+            AddHandler(ConnectorItem.ConnectorDraggingEvent, new ConnectorItemDraggingEventHandler(ConnectorItem_Dragging));
+            AddHandler(ConnectorItem.ConnectorDragCompletedEvent, new ConnectorItemDragCompletedEventHandler(ConnectorItem_DragCompleted));
+        }
 
         /// <summary>
         /// Event raised when the user starts to drag a connector.
@@ -517,38 +578,6 @@ namespace DynaApp.Views
             feedbackAdorner = null;
         }
 
-        public ModelView()
-        {
-            //
-            // Create a collection to contain domains.
-            //
-            this.Variables = new ObservableCollection<object>();
-            this.Domains = new ObservableCollection<object>();
-
-            //
-            // Create a collection to contain connections.
-            //
-            this.Connections = new ObservableCollection<object>();
-
-            //
-            // Default background is white.
-            //
-            this.Background = Brushes.White;
-
-            //
-            // Add handlers for variable and connector drag events.
-            //
-            AddHandler(VariableItem.VariableDragStartedEvent, new VariableDragStartedEventHandler(VariableItem_DragStarted));
-            AddHandler(VariableItem.VariableDraggingEvent, new VariableDraggingEventHandler(VariableItem_Dragging));
-            AddHandler(VariableItem.VariableDragCompletedEvent, new VariableDragCompletedEventHandler(VariableItem_DragCompleted));
-            AddHandler(DomainItem.DomainDragStartedEvent, new DomainDragStartedEventHandler(DomainItem_DragStarted));
-            AddHandler(DomainItem.DomainDraggingEvent, new DomainDraggingEventHandler(DomainItem_Dragging));
-            AddHandler(DomainItem.DomainDragCompletedEvent, new DomainDragCompletedEventHandler(DomainItem_DragCompleted));
-            AddHandler(ConnectorItem.ConnectorDragStartedEvent, new ConnectorItemDragStartedEventHandler(ConnectorItem_DragStarted));
-            AddHandler(ConnectorItem.ConnectorDraggingEvent, new ConnectorItemDraggingEventHandler(ConnectorItem_Dragging));
-            AddHandler(ConnectorItem.ConnectorDragCompletedEvent, new ConnectorItemDragCompletedEventHandler(ConnectorItem_DragCompleted));
-        }
-
         /// <summary>
         /// Event raised when the user starts dragging a variable in the network.
         /// </summary>
@@ -672,6 +701,21 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Collection of constraints in the model.
+        /// </summary>
+        public ObservableCollection<object> Constraints
+        {
+            get
+            {
+                return (ObservableCollection<object>)GetValue(ConstraintsProperty);
+            }
+            private set
+            {
+                SetValue(ConstraintsPropertyKey, value);
+            }
+        }
+
+        /// <summary>
         /// Collection of connections in the network.
         /// </summary>
         public ObservableCollection<object> Connections
@@ -715,6 +759,22 @@ namespace DynaApp.Views
             set
             {
                 SetValue(DomainsSourceProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// A reference to the collection that is the source used to populate 'constraints'.
+        /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
+        /// </summary>
+        public IEnumerable ConstraintsSource
+        {
+            get
+            {
+                return (IEnumerable)GetValue(ConstraintsSourceProperty);
+            }
+            set
+            {
+                SetValue(ConstraintsSourceProperty, value);
             }
         }
 
@@ -1093,7 +1153,7 @@ namespace DynaApp.Views
         {
             get
             {
-                if (variableItemsControl != null)
+                if (this.domainItemsControl != null)
                 {
                     return this.domainItemsControl.SelectedItems;
                 }
@@ -1105,6 +1165,74 @@ namespace DynaApp.Views
                     }
 
                     return initialSelectedDomains;
+                }
+            }
+        }
+
+        /// <summary>
+        /// A reference to currently selected variable.
+        /// </summary>
+        public object SelectedConstraint
+        {
+            get
+            {
+                if (this.constraintItemsControl != null)
+                {
+                    return this.constraintItemsControl.SelectedItem;
+                }
+                else
+                {
+                    if (this.initialSelectedConstraints == null)
+                    {
+                        return null;
+                    }
+
+                    if (initialSelectedConstraints.Count != 1)
+                    {
+                        return null;
+                    }
+
+                    return initialSelectedConstraints[0];
+                }
+            }
+            set
+            {
+                if (constraintItemsControl != null)
+                {
+                    constraintItemsControl.SelectedItem = value;
+                }
+                else
+                {
+                    if (initialSelectedConstraints == null)
+                    {
+                        initialSelectedConstraints = new List<object>();
+                    }
+
+                    initialSelectedConstraints.Clear();
+                    initialSelectedConstraints.Add(value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the currently selected constraints.
+        /// </summary>
+        public IList SelectedConstraints
+        {
+            get
+            {
+                if (this.constraintItemsControl != null)
+                {
+                    return this.constraintItemsControl.SelectedItems;
+                }
+                else
+                {
+                    if (initialSelectedConstraints == null)
+                    {
+                        initialSelectedConstraints = new List<object>();
+                    }
+
+                    return initialSelectedConstraints;
                 }
             }
         }
@@ -1441,6 +1569,55 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Event raised when a new collection has been assigned to the 'VariablesSource' property.
+        /// </summary>
+        private static void ConstraintsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ModelView c = (ModelView)d;
+
+            //
+            // Clear 'domains'.
+            //
+            c.Constraints.Clear();
+
+            if (e.OldValue != null)
+            {
+                var notifyCollectionChanged = e.OldValue as INotifyCollectionChanged;
+                if (notifyCollectionChanged != null)
+                {
+                    //
+                    // Unhook events from previous collection.
+                    //
+                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.ConstraintsSource_CollectionChanged);
+                }
+            }
+
+            if (e.NewValue != null)
+            {
+                var enumerable = e.NewValue as IEnumerable;
+                if (enumerable != null)
+                {
+                    //
+                    // Populate 'domains' from 'VariablesSource'.
+                    //
+                    foreach (object obj in enumerable)
+                    {
+                        c.Constraints.Add(obj);
+                    }
+                }
+
+                var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
+                if (notifyCollectionChanged != null)
+                {
+                    //
+                    // Hook events in new collection.
+                    //
+                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.ConstraintsSource_CollectionChanged);
+                }
+            }
+        }
+
+        /// <summary>
         /// Event raised when a variable has been added to or removed from the collection assigned to 'VariablesSource'.
         /// </summary>
         private void DomainsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -1473,6 +1650,44 @@ namespace DynaApp.Views
                     foreach (object obj in e.NewItems)
                     {
                         this.Domains.Add(obj);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event raised when a variable has been added to or removed from the collection assigned to 'VariablesSource'.
+        /// </summary>
+        private void ConstraintsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                //
+                // 'VariablesSource' has been cleared, also clear 'domains'.
+                //
+                this.Constraints.Clear();
+            }
+            else
+            {
+                if (e.OldItems != null)
+                {
+                    //
+                    // For each item that has been removed from 'VariablesSource' also remove it from 'domains'.
+                    //
+                    foreach (object obj in e.OldItems)
+                    {
+                        this.Constraints.Remove(obj);
+                    }
+                }
+
+                if (e.NewItems != null)
+                {
+                    //
+                    // For each item that has been added to 'VariablesSource' also add it to 'domains'.
+                    //
+                    foreach (object obj in e.NewItems)
+                    {
+                        this.Constraints.Add(obj);
                     }
                 }
             }
