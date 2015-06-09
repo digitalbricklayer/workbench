@@ -36,7 +36,7 @@ namespace DynaApp.Views
             //
             // Delegate the real work to the view model.
             //
-            var connection = this.ViewModel.ConnectionDragStarted(draggedOutConnector, curDragPoint);
+            var connection = this.ViewModel.Model.ConnectionDragStarted(draggedOutConnector, curDragPoint);
 
             //
             // Must return the view-model object that represents the connection via the event args.
@@ -52,7 +52,7 @@ namespace DynaApp.Views
         {
             var curDragPoint = Mouse.GetPosition(modelControl);
             var connection = (ConnectionViewModel)e.Connection;
-            this.ViewModel.ConnectionDragging(connection, curDragPoint);
+            this.ViewModel.Model.ConnectionDragging(connection, curDragPoint);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace DynaApp.Views
             var connectorDraggedOut = (ConnectorViewModel)e.ConnectorDraggedOut;
             var connectorDraggedOver = (ConnectorViewModel)e.ConnectorDraggedOver;
             var newConnection = (ConnectionViewModel)e.Connection;
-            this.ViewModel.ConnectionDragCompleted(newConnection, connectorDraggedOut, connectorDraggedOver);
+            this.ViewModel.Model.ConnectionDragCompleted(newConnection, connectorDraggedOut, connectorDraggedOver);
         }
 
         /// <summary>

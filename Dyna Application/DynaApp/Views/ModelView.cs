@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using DynaApp.ViewModels;
 
 namespace DynaApp.Views
 {
@@ -319,6 +320,17 @@ namespace DynaApp.Views
             AddHandler(ConstraintItem.ConstraintDragStartedEvent, new ConstraintDragStartedEventHandler(ConstraintItem_DragStarted));
             AddHandler(ConstraintItem.ConstraintDraggingEvent, new ConstraintDraggingEventHandler(ConstraintItem_Dragging));
             AddHandler(ConstraintItem.ConstraintDragCompletedEvent, new ConstraintDragCompletedEventHandler(ConstraintItem_DragCompleted));
+        }
+
+        /// <summary>
+        /// Gets the model view model.
+        /// </summary>
+        public ModelViewModel ViewModel
+        {
+            get
+            {
+                return (ModelViewModel)this.DataContext;
+            }
         }
 
         /// <summary>

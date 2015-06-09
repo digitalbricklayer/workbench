@@ -30,7 +30,7 @@
                 StrokeThickness="2"
                 Fill="Black"
                 Start="{Binding SourceConnectorHotspot}"
-                End="{Binding DestConnectorHotspot}"
+                End="{Binding DestinationConnectorHotspot}"
                 IsHitTestVisible="False"
                 />
 

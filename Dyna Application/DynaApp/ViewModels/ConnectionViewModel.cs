@@ -17,13 +17,13 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// The destination connector the connection is attached to.
         /// </summary>
-        private ConnectorViewModel destConnector;
+        private ConnectorViewModel destinationConnector;
 
         /// <summary>
         /// The source and dest hotspots used for generating connection points.
         /// </summary>
         private Point sourceConnectorHotspot;
-        private Point destConnectorHotspot;
+        private Point destinationConnectorHotspot;
 
         /// <summary>
         /// The source connector the connection is attached to.
@@ -67,39 +67,39 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// The destination connector the connection is attached to.
         /// </summary>
-        public ConnectorViewModel DestConnector
+        public ConnectorViewModel DestinationConnector
         {
             get
             {
-                return destConnector;
+                return destinationConnector;
             }
             set
             {
-                if (destConnector == value)
+                if (destinationConnector == value)
                 {
                     return;
                 }
 
-                if (destConnector != null)
+                if (destinationConnector != null)
                 {
-                    Trace.Assert(destConnector.AttachedConnection == this);
+                    Trace.Assert(destinationConnector.AttachedConnection == this);
 
-                    destConnector.AttachedConnection = null;
-                    destConnector.HotspotUpdated += new EventHandler<EventArgs>(destConnector_HotspotUpdated);
+                    destinationConnector.AttachedConnection = null;
+                    destinationConnector.HotspotUpdated += new EventHandler<EventArgs>(destinationConnector_HotspotUpdated);
                 }
 
-                destConnector = value;
+                destinationConnector = value;
 
-                if (destConnector != null)
+                if (destinationConnector != null)
                 {
-                    Trace.Assert(destConnector.AttachedConnection == null);
+                    Trace.Assert(destinationConnector.AttachedConnection == null);
 
-                    destConnector.AttachedConnection = this;
-                    destConnector.HotspotUpdated += new EventHandler<EventArgs>(destConnector_HotspotUpdated);
-                    this.DestConnectorHotspot = destConnector.Hotspot;
+                    destinationConnector.AttachedConnection = this;
+                    destinationConnector.HotspotUpdated += new EventHandler<EventArgs>(destinationConnector_HotspotUpdated);
+                    this.DestinationConnectorHotspot = destinationConnector.Hotspot;
                 }
 
-                OnPropertyChanged("DestConnector");
+                OnPropertyChanged("DestinationConnector");
             }
         }
 
@@ -120,21 +120,19 @@ namespace DynaApp.ViewModels
             }
         }
 
-        public Point DestConnectorHotspot
+        public Point DestinationConnectorHotspot
         {
             get
             {
-                return destConnectorHotspot;
+                return destinationConnectorHotspot;
             }
             set
             {
-                destConnectorHotspot = value;
+                destinationConnectorHotspot = value;
 
-                OnPropertyChanged("DestConnectorHotspot");
+                OnPropertyChanged("destinationConnectorHotspot");
             }
         }
-
-        #region Private Methods
 
         /// <summary>
         /// Event raised when the hotspot of the source connector has been updated.
@@ -147,11 +145,9 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Event raised when the hotspot of the dest connector has been updated.
         /// </summary>
-        private void destConnector_HotspotUpdated(object sender, EventArgs e)
+        private void destinationConnector_HotspotUpdated(object sender, EventArgs e)
         {
-            this.DestConnectorHotspot = this.DestConnector.Hotspot;
+            this.DestinationConnectorHotspot = this.DestinationConnector.Hotspot;
         }
-
-        #endregion Private Methods
     }
 }
