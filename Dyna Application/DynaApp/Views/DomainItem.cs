@@ -240,8 +240,8 @@ namespace DynaApp.Views
                 //
                 this.IsSelected = true;
             }
-            else if (this.ParentModelView.SelectedVariables.Contains(this) ||
-                     this.ParentModelView.SelectedVariables.Contains(this.DataContext))
+            else if (this.ParentModelView.SelectedDomains.Contains(this) ||
+                     this.ParentModelView.SelectedDomains.Contains(this.DataContext))
             {
                 // 
                 // Item is already selected, do nothing.
@@ -253,7 +253,7 @@ namespace DynaApp.Views
                 // Item is not selected.
                 // Deselect all, and select the item.
                 //
-                this.ParentModelView.SelectedVariables.Clear();
+                this.ParentModelView.SelectedDomains.Clear();
                 this.IsSelected = true;
             }
         }

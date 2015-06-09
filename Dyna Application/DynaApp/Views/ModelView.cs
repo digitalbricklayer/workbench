@@ -1337,6 +1337,8 @@ namespace DynaApp.Views
         public void SelectNone()
         {
             this.SelectedVariables.Clear();
+            this.SelectedDomains.Clear();
+            this.SelectedConstraints.Clear();
         }
 
         /// <summary>
