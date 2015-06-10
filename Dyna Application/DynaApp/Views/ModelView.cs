@@ -1358,13 +1358,38 @@ namespace DynaApp.Views
         /// </summary>
         public void SelectAll()
         {
-            if (this.SelectedVariables.Count != this.Variables.Count)
+            this.SelectAllVariables();
+            this.SelectAllDomains();
+            this.SelectAllConstraints();
+        }
+
+        private void SelectAllVariables()
+        {
+            if (this.SelectedVariables.Count == this.Variables.Count) return;
+            this.SelectedVariables.Clear();
+            foreach (var variable in this.Variables)
             {
-                this.SelectedVariables.Clear();
-                foreach (var variable in this.Variables)
-                {
-                    this.SelectedVariables.Add(variable);
-                }
+                this.SelectedVariables.Add(variable);
+            }
+        }
+
+        private void SelectAllConstraints()
+        {
+            if (this.SelectedConstraints.Count == this.Constraints.Count) return;
+            this.SelectedConstraints.Clear();
+            foreach (var constraint in this.Constraints)
+            {
+                this.SelectedConstraints.Add(constraint);
+            }
+        }
+
+        private void SelectAllDomains()
+        {
+            if (this.SelectedDomains.Count == this.Domains.Count) return;
+            this.SelectedDomains.Clear();
+            foreach (var domain in this.Domains)
+            {
+                this.SelectedDomains.Add(domain);
             }
         }
 
