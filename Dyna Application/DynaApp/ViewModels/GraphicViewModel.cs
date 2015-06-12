@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace DynaApp.ViewModels
 {
@@ -32,6 +34,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         /// <param name="newName"></param>
         protected GraphicViewModel(string newName)
+            : this()
         {
             if (string.IsNullOrWhiteSpace(newName))
                 throw new ArgumentException("newName");
@@ -39,11 +42,13 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize a graphc with default values.
+        /// Initialize a graphic with default values.
         /// </summary>
         protected GraphicViewModel()
         {
             this.Name = string.Empty;
+            this.Connectors = new ObservableCollection<ConnectorViewModel>();
+            this.Connectors.CollectionChanged += connectors_CollectionChanged;
         }
 
         /// <summary>
@@ -61,6 +66,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Gets the connectors (connection anchor points) attached to the domain.
+        /// </summary>
+        public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
+
+        /// <summary>
         /// The X coordinate for the position of the domain.
         /// </summary>
         public double X
@@ -71,7 +81,7 @@ namespace DynaApp.ViewModels
             }
             set
             {
-                if (x == value) return;
+                if (x.Equals(value)) return;
                 x = value;
                 OnPropertyChanged("X");
             }
@@ -88,7 +98,7 @@ namespace DynaApp.ViewModels
             }
             set
             {
-                if (y == value) return;
+                if (y.Equals(value)) return;
                 y = value;
                 OnPropertyChanged("Y");
             }
@@ -109,6 +119,19 @@ namespace DynaApp.ViewModels
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
             }
+        }
+
+        /// <summary>
+        /// Is the destination graphic connectable to this graphic?
+        /// </summary>
+        /// <param name="destinationGraphic">Destination being connected to.</param>
+        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
+        public abstract bool IsConnectableTo(GraphicViewModel destinationGraphic);
+
+        private void connectors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            foreach (ConnectorViewModel connector in e.NewItems)
+                connector.Parent = this;
         }
     }
 }

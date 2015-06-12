@@ -81,6 +81,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\AdornedControl.cs" />
+    <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Entities\Constraint.cs" />
     <Compile Include="Entities\BinaryExpression.cs" />
     <Compile Include="Entities\Domain.cs" />
@@ -118,7 +120,9 @@
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="Views\AdornerPlacement.cs" />
     <Compile Include="Views\Arrow.cs" />
+    <Compile Include="Views\ConnectionBadIndicator.cs" />
     <Compile Include="Views\ConnectionDragEvents.cs" />
+    <Compile Include="Views\ConnectionOkIndicator.cs" />
     <Compile Include="Views\ConnectorItem.cs" />
     <Compile Include="Views\ConnectorItemDrageEvents.cs" />
     <Compile Include="Views\DomainItem.cs">
@@ -190,7 +194,11 @@
   <ItemGroup>
     <Resource Include="Images\Variable.cur" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\block_16.png" />
+    <Resource Include="Images\scissors.png" />
+    <Resource Include="Images\tick_16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

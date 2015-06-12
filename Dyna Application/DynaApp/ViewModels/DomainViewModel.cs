@@ -14,14 +14,8 @@ namespace DynaApp.ViewModels
         public DomainViewModel(string newDomainName)
             : base(newDomainName)
         {
-            this.Connectors = new ObservableCollection<ConnectorViewModel>();
             this.PopulateConnectors();
         }
-
-        /// <summary>
-        /// Gets the connectors (connection anchor points) attached to the domain.
-        /// </summary>
-        public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
 
         /// <summary>
         /// Gets the list of all connections attached to the domain. 
@@ -42,6 +36,16 @@ namespace DynaApp.ViewModels
 
                 return attachedConnections;
             }
+        }
+
+        /// <summary>
+        /// Is the destination graphic connectable to the graphic?
+        /// </summary>
+        /// <param name="destinationGraphic">Destination being connected to.</param>
+        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
+        public override bool IsConnectableTo(GraphicViewModel destinationGraphic)
+        {
+            return false;
         }
 
         private void PopulateConnectors()

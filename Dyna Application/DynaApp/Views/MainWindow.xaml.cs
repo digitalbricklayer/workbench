@@ -56,6 +56,31 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Event raised, to query for feedback, while the user is dragging a connection.
+        /// </summary>
+        private void modelControl_QueryConnectionFeedback(object sender, QueryConnectionFeedbackEventArgs e)
+        {
+            var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
+            var draggedOverConnector = (ConnectorViewModel)e.DraggedOverConnector;
+            object feedbackIndicator = null;
+            bool connectionOk = true;
+
+            this.ViewModel.Model.QueryConnnectionFeedback(draggedOutConnector, draggedOverConnector, out feedbackIndicator, out connectionOk);
+
+            //
+            // Return the feedback object to NetworkView.
+            // The object combined with the data-template for it will be used to create a 'feedback icon' to
+            // display (in an adorner) to the user.
+            //
+            e.FeedbackIndicator = feedbackIndicator;
+
+            //
+            // Let NetworkView know if the connection is ok or not ok.
+            //
+            e.ConnectionOk = connectionOk;
+        }
+
+        /// <summary>
         /// Event raised when the user has finished dragging out a connection.
         /// </summary>
         private void modelControl_ConnectionDragCompleted(object sender, ConnectionDragCompletedEventArgs e)
@@ -89,6 +114,12 @@ namespace DynaApp.Views
         {
             var newVariableLocation = Mouse.GetPosition(modelControl);
             this.ViewModel.CreateVariable("New Variable!", newVariableLocation);
+        }
+
+        private void DeleteConnection_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var connection = (ConnectionViewModel)e.Parameter;
+            this.ViewModel.Model.DeleteConnection(connection);
         }
     }
 }

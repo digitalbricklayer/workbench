@@ -561,7 +561,7 @@ namespace DynaApp.Views
         /// </summary>
         private void AddFeedbackAdorner(FrameworkElement adornedElement, object indicator)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this);
 
             if (feedbackAdorner != null)
             {
@@ -1420,9 +1420,6 @@ namespace DynaApp.Views
                 return;
             }
 
-            //
-            // Now that connection dragging has completed, don't any feedback adorner.
-            //
             ClearFeedbackAdorner();
 
             draggedOutConnectorItem.CancelConnectionDragging();

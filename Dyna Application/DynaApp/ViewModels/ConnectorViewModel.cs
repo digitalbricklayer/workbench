@@ -25,16 +25,17 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// The parent variable that the connector is attached to, or null if the connector is not attached to any variable.
+        /// Gets the graphic the connector is attached to, or null if the 
+        /// connector is not attached to anything.
         /// </summary>
-        public VariableViewModel ParentVariable
+        public GraphicViewModel Parent
         {
             get;
             internal set;
         }
 
         /// <summary>
-        /// The hotspot (or center) of the connector.
+        /// Gets and sets the hotspot (or center) of the connector.
         /// This is pushed through from ConnectorItem in the UI.
         /// </summary>
         public Point Hotspot

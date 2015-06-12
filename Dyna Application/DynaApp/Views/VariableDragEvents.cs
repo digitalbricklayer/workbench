@@ -11,7 +11,7 @@ namespace DynaApp.Views
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection constraints = null;
+        public ICollection constraints;
 
         protected VariableDragEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
             base(routedEvent, source)
@@ -44,7 +44,7 @@ namespace DynaApp.Views
         /// <summary>
         /// Set to 'false' to disallow dragging.
         /// </summary>
-        private bool cancel = false;
+        private bool cancel;
 
         internal VariableDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
             base(routedEvent, source, constraints)
@@ -80,12 +80,12 @@ namespace DynaApp.Views
         /// <summary>
         /// The amount the variable has been dragged horizontally.
         /// </summary>
-        public double horizontalChange = 0;
+        public double horizontalChange;
 
         /// <summary>
         /// The amount the variable has been dragged vertically.
         /// </summary>
-        public double verticalChange = 0;
+        public double verticalChange;
 
         internal VariableDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection constraints, double horizontalChange, double verticalChange) :
             base(routedEvent, source, constraints)

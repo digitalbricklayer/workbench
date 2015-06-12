@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
+using DynaApp.Views;
 
 namespace DynaApp.ViewModels
 {
@@ -83,6 +86,20 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Connect the variable to the graphic.
+        /// </summary>
+        /// <param name="fromVariable">Variable to connect.</param>
+        /// <param name="toGraphic">Graphic to connect to.</param>
+        public void Connect(VariableViewModel fromVariable, GraphicViewModel toGraphic)
+        {
+            Trace.Assert(fromVariable.IsConnectableTo(toGraphic));
+            var connection = new ConnectionViewModel();
+            connection.SourceConnector = this.AssignConnector(fromVariable);
+            connection.DestinationConnector = this.AssignConnector(toGraphic);
+            this.Connections.Add(connection);
+        }
+
+        /// <summary>
         /// Called when the user has started to drag out a connector, thus creating a new connection.
         /// </summary>
         public ConnectionViewModel ConnectionDragStarted(ConnectorViewModel draggedOutConnector, Point curDragPoint)
@@ -131,6 +148,53 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Called to query the application for feedback while the user is dragging the connection.
+        /// </summary>
+        public void QueryConnnectionFeedback(ConnectorViewModel draggedOutConnector, ConnectorViewModel draggedOverConnector, out object feedbackIndicator, out bool connectionOk)
+        {
+            if (draggedOutConnector == draggedOverConnector)
+            {
+                //
+                // Can't connect to self!
+                // Provide feedback to indicate that this connection is not valid!
+                //
+                feedbackIndicator = new ConnectionBadIndicator();
+                connectionOk = false;
+            }
+            else
+            {
+                var sourceConnector = draggedOutConnector;
+                var destinationConnector = draggedOverConnector;
+
+                //
+                // Only allow connections from output connector to input connector (ie each
+                // connector must have a different type).
+                // Also only allocation from one node to another, never one node back to the same node.
+                //
+                connectionOk = sourceConnector.Parent.IsConnectableTo(destinationConnector.Parent);
+
+                if (connectionOk)
+                {
+                    // 
+                    // Yay, this is a valid connection!
+                    // Provide feedback to indicate that this connection is ok!
+                    //
+                    feedbackIndicator = new ConnectionOkIndicator();
+                }
+                else
+                {
+                    //
+                    // Connectors with the same connector type (eg input & input, or output & output)
+                    // can't be connected.
+                    // Only connectors with separate connector type (eg input & output).
+                    // Provide feedback to indicate that this connection is not valid!
+                    //
+                    feedbackIndicator = new ConnectionBadIndicator();
+                }
+            }
+        }
+
+        /// <summary>
         /// Called when the user has finished dragging out the new connection.
         /// </summary>
         public void ConnectionDragCompleted(ConnectionViewModel newConnection, ConnectorViewModel connectorDraggedOut, ConnectorViewModel connectorDraggedOver)
@@ -165,5 +229,25 @@ namespace DynaApp.ViewModels
             //
             newConnection.DestinationConnector = connectorDraggedOver;
         }
+
+        /// <summary>
+        /// Delete the connection.
+        /// </summary>
+        /// <param name="connectionToDelete">Connection to delete.</param>
+        public void DeleteConnection(ConnectionViewModel connectionToDelete)
+        {
+            this.Connections.Remove(connectionToDelete);
+        }
+
+        /// <summary>
+        /// Assign an available connector.
+        /// </summary>
+        /// <param name="theGraphic">Graphic containing the connectors.</param>
+        /// <returns>Available connector.</returns>
+        private ConnectorViewModel AssignConnector(GraphicViewModel theGraphic)
+        {
+            return theGraphic.Connectors.FirstOrDefault(x => x.AttachedConnection == null);
+        }
+
     }
 }

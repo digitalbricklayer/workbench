@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace DynaApp.ViewModels
 {
@@ -14,14 +13,8 @@ namespace DynaApp.ViewModels
         public VariableViewModel(string newName)
             : base(newName)
         {
-            this.Connectors = new ObservableCollection<ConnectorViewModel>();
             this.PopulateConnectors();
         }
-
-        /// <summary>
-        /// Gets the connectors (connection anchor points) attached to the variable.
-        /// </summary>
-        public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
 
         /// <summary>
         /// Gets the list of all connections attached to the variable. 
@@ -50,6 +43,18 @@ namespace DynaApp.ViewModels
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
+        }
+
+        /// <summary>
+        /// Is the destination graphic connectable to the variable?
+        /// </summary>
+        /// <param name="destinationGraphic">Destination being connected to.</param>
+        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
+        public override bool IsConnectableTo(GraphicViewModel destinationGraphic)
+        {
+            var destinationAsVariable = destinationGraphic as VariableViewModel;
+            if (destinationAsVariable != null) return false;
+            return true;
         }
     }
 }

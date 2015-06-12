@@ -18,14 +18,8 @@ namespace DynaApp.ViewModels
             this.CreateVariable("Bob", new Point(200, 10));
             var domainX = this.CreateDomain("X", new Point(10, 80));
             var constraintY = this.CreateConstraint("Y", new Point(10, 170));
-            var connection = new ConnectionViewModel();
-            connection.SourceConnector = variable1.Connectors[0];
-            connection.DestinationConnector = domainX.Connectors[0];
-            this.Model.Connections.Add(connection);
-            var domainConnection = new ConnectionViewModel();
-            domainConnection.SourceConnector = variable1.Connectors[1];
-            domainConnection.DestinationConnector = constraintY.Connectors[0];
-            this.Model.Connections.Add(domainConnection);
+            this.Model.Connect(variable1, domainX);
+            this.Model.Connect(variable1, constraintY);
         }
 
         /// <summary>
