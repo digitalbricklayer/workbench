@@ -101,7 +101,7 @@ namespace DynaApp.Views
         {
             get
             {
-                return (VariableItem)GetValue(ParentListBoxItemProperty);
+                return (GraphicItem)GetValue(ParentListBoxItemProperty);
             }
             set
             {

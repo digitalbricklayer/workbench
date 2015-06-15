@@ -342,10 +342,10 @@
             Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
             />
         
-        <!-- Data-bind the parent VariableItem. -->
+        <!-- Data-bind the parent GraphicItem. -->
         <Setter
             Property="ParentListBoxItem"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:VariableItem}}, Path=.}"
+            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicItem}}, Path=.}"
             />
 
         <!-- The control-template for the connector. -->
