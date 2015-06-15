@@ -344,7 +344,7 @@
         
         <!-- Data-bind the parent VariableItem. -->
         <Setter
-            Property="ParentVariableItem"
+            Property="ParentListBoxItem"
             Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:VariableItem}}, Path=.}"
             />
 

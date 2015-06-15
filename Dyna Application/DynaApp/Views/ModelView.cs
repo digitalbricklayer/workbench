@@ -271,9 +271,9 @@ namespace DynaApp.Views
         private object draggedOutConnectorDataContext;
 
         /// <summary>
-        /// The view-model object for the variable whose connector was dragged out.
+        /// The view-model object for the graphic whose connector was dragged out.
         /// </summary>
-        private object draggedOutVariableDataContext;
+        private object draggedOutGraphicDataContext;
 
         /// <summary>
         /// The view-model object for the connection that is currently being dragged, or null if none being dragged.
@@ -323,6 +323,48 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Static constructor.
+        /// </summary>
+        static ModelView()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ModelView), new FrameworkPropertyMetadata(typeof(ModelView)));
+
+            InputGestureCollection inputs = new InputGestureCollection();
+            inputs.Add(new KeyGesture(Key.A, ModifierKeys.Control));
+            SelectAllCommand = new RoutedCommand("SelectAll", typeof(ModelView), inputs);
+
+            inputs = new InputGestureCollection();
+            inputs.Add(new KeyGesture(Key.Escape));
+            SelectNoneCommand = new RoutedCommand("SelectNone", typeof(ModelView), inputs);
+
+            inputs = new InputGestureCollection();
+            inputs.Add(new KeyGesture(Key.I, ModifierKeys.Control));
+            InvertSelectionCommand = new RoutedCommand("InvertSelection", typeof(ModelView), inputs);
+
+            CancelConnectionDraggingCommand = new RoutedCommand("CancelConnectionDragging", typeof(ModelView));
+
+            CommandBinding binding = new CommandBinding();
+            binding.Command = SelectAllCommand;
+            binding.Executed += new ExecutedRoutedEventHandler(SelectAll_Executed);
+            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+
+            binding = new CommandBinding();
+            binding.Command = SelectNoneCommand;
+            binding.Executed += new ExecutedRoutedEventHandler(SelectNone_Executed);
+            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+
+            binding = new CommandBinding();
+            binding.Command = InvertSelectionCommand;
+            binding.Executed += new ExecutedRoutedEventHandler(InvertSelection_Executed);
+            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+
+            binding = new CommandBinding();
+            binding.Command = CancelConnectionDraggingCommand;
+            binding.Executed += new ExecutedRoutedEventHandler(CancelConnectionDragging_Executed);
+            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+        }
+
+        /// <summary>
         /// Gets the model view model.
         /// </summary>
         public ModelViewModel ViewModel
@@ -331,280 +373,6 @@ namespace DynaApp.Views
             {
                 return (ModelViewModel)this.DataContext;
             }
-        }
-
-        /// <summary>
-        /// Event raised when the user starts to drag a connector.
-        /// </summary>
-        private void ConnectorItem_DragStarted(object source, ConnectorItemDragStartedEventArgs e)
-        {
-            this.Focus();
-
-            e.Handled = true;
-
-            this.IsDragging = true;
-            this.IsNotDragging = false;
-            this.IsDraggingConnection = true;
-            this.IsNotDraggingConnection = false;
-
-            this.draggedOutConnectorItem = (ConnectorItem)e.OriginalSource;
-            var variableItem = this.draggedOutConnectorItem.ParentVariableItem;
-            this.draggedOutVariableDataContext = variableItem.DataContext != null ? variableItem.DataContext : variableItem;
-            this.draggedOutConnectorDataContext = this.draggedOutConnectorItem.DataContext != null ? this.draggedOutConnectorItem.DataContext : this.draggedOutConnectorItem;
-
-            //
-            // Raise an event so that application code can create a connection and
-            // add it to the view-model.
-            //
-            ConnectionDragStartedEventArgs eventArgs = new ConnectionDragStartedEventArgs(ConnectionDragStartedEvent, this, this.draggedOutVariableDataContext, this.draggedOutConnectorDataContext);
-            RaiseEvent(eventArgs);
-
-            //
-            // Retrieve the the view-model object for the connection was created by application code.
-            //
-            this.draggingConnectionDataContext = eventArgs.Connection;
-
-            if (draggingConnectionDataContext == null)
-            {
-                //
-                // Application code didn't create any connection.
-                //
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Event raised while the user is dragging a connector.
-        /// </summary>
-        private void ConnectorItem_Dragging(object source, ConnectorItemDraggingEventArgs e)
-        {
-            e.Handled = true;
-
-            Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
-
-            Point mousePoint = Mouse.GetPosition(this);
-            //
-            // Raise an event so that application code can compute intermediate connection points.
-            //
-            var connectionDraggingEventArgs =
-                new ConnectionDraggingEventArgs(ConnectionDraggingEvent, this,
-                        this.draggedOutVariableDataContext, this.draggingConnectionDataContext,
-                        this.draggedOutConnectorDataContext);
-
-            RaiseEvent(connectionDraggingEventArgs);
-
-            //
-            // Figure out if the connection has been dragged over a connector.
-            //
-
-            ConnectorItem connectorDraggedOver = null;
-            object connectorDataContextDraggedOver = null;
-            bool dragOverSuccess = DetermineConnectorItemDraggedOver(mousePoint, out connectorDraggedOver, out connectorDataContextDraggedOver);
-            if (connectorDraggedOver != null)
-            {
-                //
-                // Raise an event so that application code can specify if the connector
-                // that was dragged over is valid or not.
-                //
-                var queryFeedbackEventArgs =
-                    new QueryConnectionFeedbackEventArgs(QueryConnectionFeedbackEvent, this, this.draggedOutVariableDataContext, this.draggingConnectionDataContext,
-                            this.draggedOutConnectorDataContext, connectorDataContextDraggedOver);
-
-                RaiseEvent(queryFeedbackEventArgs);
-
-                if (queryFeedbackEventArgs.FeedbackIndicator != null)
-                {
-                    //
-                    // A feedback indicator was specified by the event handler.
-                    // This is used to indicate whether the connection is good or bad!
-                    //
-                    AddFeedbackAdorner(connectorDraggedOver, queryFeedbackEventArgs.FeedbackIndicator);
-                }
-                else
-                {
-                    //
-                    // No feedback indicator specified by the event handler.
-                    // Clear any existing feedback indicator.
-                    //
-                    ClearFeedbackAdorner();
-                }
-            }
-            else
-            {
-                //
-                // Didn't drag over any valid connector.
-                // Clear any existing feedback indicator.
-                //
-                ClearFeedbackAdorner();
-            }
-        }
-
-        /// <summary>
-        /// Event raised when the user has finished dragging a connector.
-        /// </summary>
-        private void ConnectorItem_DragCompleted(object source, ConnectorItemDragCompletedEventArgs e)
-        {
-            e.Handled = true;
-
-            Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
-
-            Point mousePoint = Mouse.GetPosition(this);
-
-            //
-            // Figure out if the end of the connection was dropped on a connector.
-            //
-            ConnectorItem connectorDraggedOver = null;
-            object connectorDataContextDraggedOver = null;
-            DetermineConnectorItemDraggedOver(mousePoint, out connectorDraggedOver, out connectorDataContextDraggedOver);
-
-            //
-            // Now that connection dragging has completed, don't any feedback adorner.
-            //
-            ClearFeedbackAdorner();
-
-            //
-            // Raise an event to inform application code that connection dragging is complete.
-            // The application code can determine if the connection between the two connectors
-            // is valid and if so it is free to make the appropriate connection in the view-model.
-            //
-            RaiseEvent(new ConnectionDragCompletedEventArgs(ConnectionDragCompletedEvent, this, this.draggedOutVariableDataContext, this.draggingConnectionDataContext, this.draggedOutConnectorDataContext, connectorDataContextDraggedOver));
-
-            this.IsDragging = false;
-            this.IsNotDragging = true;
-            this.IsDraggingConnection = false;
-            this.IsNotDraggingConnection = true;
-            this.draggedOutConnectorDataContext = null;
-            this.draggedOutVariableDataContext = null;
-            this.draggedOutConnectorItem = null;
-            this.draggingConnectionDataContext = null;
-        }
-
-        /// <summary>
-        /// This function does a hit test to determine which connector, if any, is under 'hitPoint'.
-        /// </summary>
-        private bool DetermineConnectorItemDraggedOver(Point hitPoint, out ConnectorItem connectorItemDraggedOver, out object connectorDataContextDraggedOver)
-        {
-            connectorItemDraggedOver = null;
-            connectorDataContextDraggedOver = null;
-
-            //
-            // Run a hit test 
-            //
-            HitTestResult result = null;
-            VisualTreeHelper.HitTest(variableItemsControl, null,
-                //
-                // Result callback delegate.
-                // This method is called when we have a result.
-                //
-                delegate(HitTestResult hitTestResult)
-                {
-                    result = hitTestResult;
-
-                    return HitTestResultBehavior.Stop;
-                },
-                new PointHitTestParameters(hitPoint));
-
-            if (result == null || result.VisualHit == null)
-            {
-                // Hit test failed.
-                return false;
-            }
-
-            //
-            // Actually want a reference to a 'ConnectorItem'.  
-            // The hit test may have hit a UI element that is below 'ConnectorItem' so
-            // search up the tree.
-            //
-            var hitItem = result.VisualHit as FrameworkElement;
-            if (hitItem == null)
-            {
-                return false;
-            }
-            var connectorItem = WpfUtils.FindVisualParentWithType<ConnectorItem>(hitItem);
-            if (connectorItem == null)
-            {
-                return false;
-            }
-
-            var networkView = connectorItem.ParentModelView;
-            if (networkView != this)
-            {
-                //
-                // Ensure that dragging over a connector in another NetworkView doesn't
-                // return a positive result.
-                //
-                return false;
-            }
-
-            object connectorDataContext = connectorItem;
-            if (connectorItem.DataContext != null)
-            {
-                //
-                // If there is a data-context then grab it.
-                // When we are using a view-model then it is the view-model
-                // object we are interested in.
-                //
-                connectorDataContext = connectorItem.DataContext;
-            }
-
-            connectorItemDraggedOver = connectorItem;
-            connectorDataContextDraggedOver = connectorDataContext;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Add a feedback adorner to a UI element.
-        /// This is used to show when a connection can or can't be attached to a particular connector.
-        /// 'indicator' will be a view-model object that is transformed into a UI element using a data-template.
-        /// </summary>
-        private void AddFeedbackAdorner(FrameworkElement adornedElement, object indicator)
-        {
-            var adornerLayer = AdornerLayer.GetAdornerLayer(this);
-
-            if (feedbackAdorner != null)
-            {
-                if (feedbackAdorner.AdornedElement == adornedElement)
-                {
-                    // No change.
-                    return;
-                }
-
-                adornerLayer.Remove(feedbackAdorner);
-                feedbackAdorner = null;
-            }
-
-            //
-            // Create a content control to contain 'indicator'.
-            // The view-model object 'indicator' is transformed into a UI element using
-            // normal WPF data-template rules.
-            //
-            ContentControl adornerElement = new ContentControl();
-            adornerElement.HorizontalAlignment = HorizontalAlignment.Center;
-            adornerElement.VerticalAlignment = VerticalAlignment.Center;
-            adornerElement.Content = indicator;
-
-            //
-            // Create the adorner and add it to the adorner layer.
-            //
-            feedbackAdorner = new FrameworkElementAdorner(adornerElement, adornedElement);
-            adornerLayer.Add(feedbackAdorner);
-        }
-
-        /// <summary>
-        /// If there is an existing feedback adorner, remove it.
-        /// </summary>
-        private void ClearFeedbackAdorner()
-        {
-            if (feedbackAdorner == null)
-            {
-                return;
-            }
-
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
-            adornerLayer.Remove(feedbackAdorner);
-            feedbackAdorner = null;
         }
 
         /// <summary>
@@ -1429,51 +1197,320 @@ namespace DynaApp.Views
             this.IsDraggingConnection = false;
             this.IsNotDraggingConnection = true;
             this.draggedOutConnectorItem = null;
-            this.draggedOutVariableDataContext = null;
+            this.draggedOutGraphicDataContext = null;
             this.draggedOutConnectorDataContext = null;
             this.draggingConnectionDataContext = null;
         }
 
         /// <summary>
-        /// Static constructor.
+        /// Event raised when the user starts to drag a connector.
         /// </summary>
-        static ModelView()
+        private void ConnectorItem_DragStarted(object source, ConnectorItemDragStartedEventArgs e)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ModelView), new FrameworkPropertyMetadata(typeof(ModelView)));
+            this.Focus();
 
-            InputGestureCollection inputs = new InputGestureCollection();
-            inputs.Add(new KeyGesture(Key.A, ModifierKeys.Control));
-            SelectAllCommand = new RoutedCommand("SelectAll", typeof(ModelView), inputs);
+            e.Handled = true;
 
-            inputs = new InputGestureCollection();
-            inputs.Add(new KeyGesture(Key.Escape));
-            SelectNoneCommand = new RoutedCommand("SelectNone", typeof(ModelView), inputs);
+            this.IsDragging = true;
+            this.IsNotDragging = false;
+            this.IsDraggingConnection = true;
+            this.IsNotDraggingConnection = false;
 
-            inputs = new InputGestureCollection();
-            inputs.Add(new KeyGesture(Key.I, ModifierKeys.Control));
-            InvertSelectionCommand = new RoutedCommand("InvertSelection", typeof(ModelView), inputs);
+            this.draggedOutConnectorItem = (ConnectorItem)e.OriginalSource;
+            var graphicItem = this.draggedOutConnectorItem.ParentListBoxItem;
+            this.draggedOutGraphicDataContext = graphicItem.DataContext != null ? graphicItem.DataContext : graphicItem;
+            this.draggedOutConnectorDataContext = this.draggedOutConnectorItem.DataContext != null ? this.draggedOutConnectorItem.DataContext : this.draggedOutConnectorItem;
 
-            CancelConnectionDraggingCommand = new RoutedCommand("CancelConnectionDragging", typeof(ModelView));
+            //
+            // Raise an event so that application code can create a connection and
+            // add it to the view-model.
+            //
+            ConnectionDragStartedEventArgs eventArgs = new ConnectionDragStartedEventArgs(ConnectionDragStartedEvent, this, this.draggedOutGraphicDataContext, this.draggedOutConnectorDataContext);
+            RaiseEvent(eventArgs);
 
-            CommandBinding binding = new CommandBinding();
-            binding.Command = SelectAllCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(SelectAll_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            //
+            // Retrieve the the view-model object for the connection was created by application code.
+            //
+            this.draggingConnectionDataContext = eventArgs.Connection;
 
-            binding = new CommandBinding();
-            binding.Command = SelectNoneCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(SelectNone_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            if (draggingConnectionDataContext == null)
+            {
+                //
+                // Application code didn't create any connection.
+                //
+                e.Cancel = true;
+                return;
+            }
+        }
 
-            binding = new CommandBinding();
-            binding.Command = InvertSelectionCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(InvertSelection_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+        /// <summary>
+        /// Event raised while the user is dragging a connector.
+        /// </summary>
+        private void ConnectorItem_Dragging(object source, ConnectorItemDraggingEventArgs e)
+        {
+            e.Handled = true;
 
-            binding = new CommandBinding();
-            binding.Command = CancelConnectionDraggingCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(CancelConnectionDragging_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
+
+            Point mousePoint = Mouse.GetPosition(this);
+            //
+            // Raise an event so that application code can compute intermediate connection points.
+            //
+            var connectionDraggingEventArgs =
+                new ConnectionDraggingEventArgs(ConnectionDraggingEvent, this,
+                        this.draggedOutGraphicDataContext, this.draggingConnectionDataContext,
+                        this.draggedOutConnectorDataContext);
+
+            RaiseEvent(connectionDraggingEventArgs);
+
+            //
+            // Figure out if the connection has been dragged over a connector.
+            //
+
+            ConnectorItem connectorDraggedOver = null;
+            object connectorDataContextDraggedOver = null;
+            bool dragOverSuccess = DetermineConnectorItemDraggedOver(mousePoint, out connectorDraggedOver, out connectorDataContextDraggedOver);
+            if (connectorDraggedOver != null)
+            {
+                //
+                // Raise an event so that application code can specify if the connector
+                // that was dragged over is valid or not.
+                //
+                var queryFeedbackEventArgs =
+                    new QueryConnectionFeedbackEventArgs(QueryConnectionFeedbackEvent, this, this.draggedOutGraphicDataContext, this.draggingConnectionDataContext,
+                            this.draggedOutConnectorDataContext, connectorDataContextDraggedOver);
+
+                RaiseEvent(queryFeedbackEventArgs);
+
+                if (queryFeedbackEventArgs.FeedbackIndicator != null)
+                {
+                    //
+                    // A feedback indicator was specified by the event handler.
+                    // This is used to indicate whether the connection is good or bad!
+                    //
+                    AddFeedbackAdorner(connectorDraggedOver, queryFeedbackEventArgs.FeedbackIndicator);
+                }
+                else
+                {
+                    //
+                    // No feedback indicator specified by the event handler.
+                    // Clear any existing feedback indicator.
+                    //
+                    ClearFeedbackAdorner();
+                }
+            }
+            else
+            {
+                //
+                // Didn't drag over any valid connector.
+                // Clear any existing feedback indicator.
+                //
+                ClearFeedbackAdorner();
+            }
+        }
+
+        /// <summary>
+        /// Event raised when the user has finished dragging a connector.
+        /// </summary>
+        private void ConnectorItem_DragCompleted(object source, ConnectorItemDragCompletedEventArgs e)
+        {
+            e.Handled = true;
+
+            Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
+
+            Point mousePoint = Mouse.GetPosition(this);
+
+            //
+            // Figure out if the end of the connection was dropped on a connector.
+            //
+            ConnectorItem connectorDraggedOver = null;
+            object connectorDataContextDraggedOver = null;
+            DetermineConnectorItemDraggedOver(mousePoint, out connectorDraggedOver, out connectorDataContextDraggedOver);
+
+            //
+            // Now that connection dragging has completed, don't any feedback adorner.
+            //
+            ClearFeedbackAdorner();
+
+            //
+            // Raise an event to inform application code that connection dragging is complete.
+            // The application code can determine if the connection between the two connectors
+            // is valid and if so it is free to make the appropriate connection in the view-model.
+            //
+            RaiseEvent(new ConnectionDragCompletedEventArgs(ConnectionDragCompletedEvent, this, this.draggedOutGraphicDataContext, this.draggingConnectionDataContext, this.draggedOutConnectorDataContext, connectorDataContextDraggedOver));
+
+            this.IsDragging = false;
+            this.IsNotDragging = true;
+            this.IsDraggingConnection = false;
+            this.IsNotDraggingConnection = true;
+            this.draggedOutConnectorDataContext = null;
+            this.draggedOutGraphicDataContext = null;
+            this.draggedOutConnectorItem = null;
+            this.draggingConnectionDataContext = null;
+        }
+
+        /// <summary>
+        /// This function does a hit test to determine which connector, if any, is under 'hitPoint'.
+        /// </summary>
+        private bool DetermineConnectorItemDraggedOver(Point hitPoint, out ConnectorItem connectorItemDraggedOver, out object connectorDataContextDraggedOver)
+        {
+            connectorItemDraggedOver = null;
+            connectorDataContextDraggedOver = null;
+
+            //
+            // Run a hit test on the all item containers
+            //
+            HitTestResult result = this.HitTestContainers(hitPoint);
+
+            if (result == null || result.VisualHit == null)
+            {
+                // Hit test failed.
+                return false;
+            }
+
+            //
+            // Actually want a reference to a 'ConnectorItem'.  
+            // The hit test may have hit a UI element that is below 'ConnectorItem' so
+            // search up the tree.
+            //
+            var hitItem = result.VisualHit as FrameworkElement;
+            if (hitItem == null)
+            {
+                return false;
+            }
+            var connectorItem = WpfUtils.FindVisualParentWithType<ConnectorItem>(hitItem);
+            if (connectorItem == null)
+            {
+                return false;
+            }
+
+            var modelView = connectorItem.ParentModelView;
+            if (modelView != this)
+            {
+                //
+                // Ensure that dragging over a connector in another ModelView doesn't
+                // return a positive result.
+                //
+                return false;
+            }
+
+            object connectorDataContext = connectorItem;
+            if (connectorItem.DataContext != null)
+            {
+                //
+                // If there is a data-context then grab it.
+                // When we are using a view-model then it is the view-model
+                // object we are interested in.
+                //
+                connectorDataContext = connectorItem.DataContext;
+            }
+
+            connectorItemDraggedOver = connectorItem;
+            connectorDataContextDraggedOver = connectorDataContext;
+
+            return true;
+        }
+
+        private HitTestResult HitTestContainers(Point hitPoint)
+        {
+            HitTestResult result = null;
+            VisualTreeHelper.HitTest(variableItemsControl, null,
+                //
+                // Result callback delegate.
+                // This method is called when we have a result.
+                //
+                delegate(HitTestResult hitTestResult)
+                {
+                    result = hitTestResult;
+
+                    return HitTestResultBehavior.Stop;
+                },
+                new PointHitTestParameters(hitPoint));
+
+            if (result != null) return result;
+
+            VisualTreeHelper.HitTest(this.constraintItemsControl, null,
+                //
+                // Result callback delegate.
+                // This method is called when we have a result.
+                //
+                delegate(HitTestResult hitTestResult)
+                {
+                    result = hitTestResult;
+
+                    return HitTestResultBehavior.Stop;
+                },
+                new PointHitTestParameters(hitPoint));
+
+            if (result != null) return result;
+
+            VisualTreeHelper.HitTest(this.domainItemsControl, null,
+                //
+                // Result callback delegate.
+                // This method is called when we have a result.
+                //
+                delegate(HitTestResult hitTestResult)
+                {
+                    result = hitTestResult;
+
+                    return HitTestResultBehavior.Stop;
+                },
+                new PointHitTestParameters(hitPoint));
+
+            return result;
+        }
+
+        /// <summary>
+        /// Add a feedback adorner to a UI element.
+        /// This is used to show when a connection can or can't be attached to a particular connector.
+        /// 'indicator' will be a view-model object that is transformed into a UI element using a data-template.
+        /// </summary>
+        private void AddFeedbackAdorner(FrameworkElement adornedElement, object indicator)
+        {
+            var adornerLayer = AdornerLayer.GetAdornerLayer(this);
+
+            if (feedbackAdorner != null)
+            {
+                if (feedbackAdorner.AdornedElement == adornedElement)
+                {
+                    // No change.
+                    return;
+                }
+
+                adornerLayer.Remove(feedbackAdorner);
+                feedbackAdorner = null;
+            }
+
+            //
+            // Create a content control to contain 'indicator'.
+            // The view-model object 'indicator' is transformed into a UI element using
+            // normal WPF data-template rules.
+            //
+            ContentControl adornerElement = new ContentControl();
+            adornerElement.HorizontalAlignment = HorizontalAlignment.Center;
+            adornerElement.VerticalAlignment = VerticalAlignment.Center;
+            adornerElement.Content = indicator;
+
+            //
+            // Create the adorner and add it to the adorner layer.
+            //
+            feedbackAdorner = new FrameworkElementAdorner(adornerElement, adornedElement);
+            adornerLayer.Add(feedbackAdorner);
+        }
+
+        /// <summary>
+        /// If there is an existing feedback adorner, remove it.
+        /// </summary>
+        private void ClearFeedbackAdorner()
+        {
+            if (feedbackAdorner == null)
+            {
+                return;
+            }
+
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            adornerLayer.Remove(feedbackAdorner);
+            feedbackAdorner = null;
         }
 
         /// <summary>
@@ -1927,40 +1964,6 @@ namespace DynaApp.Views
                 throw new ApplicationException("Failed to find 'PART_dragSelectionBorder' in the visual tree for 'ModelView'.");
             }
         }
-
-        /// <summary>
-        /// Event raised when the selection in 'variableItemsControl' changes.
-        /// </summary>
-        private void variableItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.SelectionChanged != null)
-            {
-                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
-            }
-        }
-
-        /// <summary>
-        /// Event raised when the selection in 'domainItemsControl' changes.
-        /// </summary>
-        private void domainItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.SelectionChanged != null)
-            {
-                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
-            }
-        }
-
-        /// <summary>
-        /// Event raised when the selection in 'domainItemsControl' changes.
-        /// </summary>
-        private void constraintItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.SelectionChanged != null)
-            {
-                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
-            }
-        }
-
         /// <summary>
         /// Find the max ZIndex of all the domains.
         /// </summary>
@@ -2025,6 +2028,16 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// De-select all graphics.
+        /// </summary>
+        internal void DeselectAll()
+        {
+            this.SelectedVariables.Clear();
+            this.SelectedDomains.Clear();
+            this.SelectedConstraints.Clear();
+        }
+
+        /// <summary>
         /// Find the ConstraintItem UI element that is associated with constraint.
         /// </summary>
         internal ConstraintItem FindAssociatedConstraintItem(object variable)
@@ -2036,6 +2049,39 @@ namespace DynaApp.Views
             }
 
             return constraintItem;
+        }
+
+        /// <summary>
+        /// Event raised when the selection in 'variableItemsControl' changes.
+        /// </summary>
+        private void variableItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
+            }
+        }
+
+        /// <summary>
+        /// Event raised when the selection in 'domainItemsControl' changes.
+        /// </summary>
+        private void domainItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
+            }
+        }
+
+        /// <summary>
+        /// Event raised when the selection in 'domainItemsControl' changes.
+        /// </summary>
+        private void constraintItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.SelectionChanged != null)
+            {
+                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
+            }
         }
 
         /// <summary>

@@ -137,17 +137,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Called as the user continues to drag the connection.
-        /// </summary>
-        public void ConnectionDragging(ConnectionViewModel connection, Point curDragPoint)
-        {
-            //
-            // Update the destination connection hotspot while the user is dragging the connection.
-            //
-            connection.DestinationConnectorHotspot = curDragPoint;
-        }
-
-        /// <summary>
         /// Called to query the application for feedback while the user is dragging the connection.
         /// </summary>
         public void QueryConnnectionFeedback(ConnectorViewModel draggedOutConnector, ConnectorViewModel draggedOverConnector, out object feedbackIndicator, out bool connectionOk)
@@ -195,6 +184,21 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Called as the user continues to drag the connection.
+        /// </summary>
+        public void ConnectionDragging(ConnectionViewModel connection, Point curDragPoint)
+        {
+            if (connection.DestinationConnector == null)
+            {
+                connection.DestinationConnectorHotspot = curDragPoint;
+            }
+            else
+            {
+                connection.SourceConnectorHotspot = curDragPoint;
+            }
+        }
+
+        /// <summary>
         /// Called when the user has finished dragging out the new connection.
         /// </summary>
         public void ConnectionDragCompleted(ConnectionViewModel newConnection, ConnectorViewModel connectorDraggedOut, ConnectorViewModel connectorDraggedOver)
@@ -210,24 +214,48 @@ namespace DynaApp.ViewModels
             }
 
             //
+            // Only allow connections from output connector to input connector (ie each
+            // connector must have a different type).
+            // Also only allocation from one node to another, never one node back to the same node.
+            //
+            var connectionOk = connectorDraggedOut.Parent.IsConnectableTo(connectorDraggedOver.Parent);
+
+            if (!connectionOk)
+            {
+                //
+                // Connections between connectors that have the same type,
+                // eg input -> input or output -> output, are not allowed,
+                // Remove the connection.
+                //
+                this.Connections.Remove(newConnection);
+                return;
+            }
+
+            //
             // The user has dragged the connection on top of another valid connector.
             //
 
-            var existingConnection = connectorDraggedOver.AttachedConnection;
+            //
+            // Remove any existing connection between the same two connectors.
+            //
+            var existingConnection = FindConnection(connectorDraggedOut, connectorDraggedOver);
             if (existingConnection != null)
             {
-                //
-                // There is already a connection attached to the connector that was dragged over.
-                // Remove the existing connection from the view-model.
-                //
                 this.Connections.Remove(existingConnection);
             }
 
             //
             // Finalize the connection by attaching it to the connector
-            // that the user dropped the connection on.
+            // that the user dragged the mouse over.
             //
-            newConnection.DestinationConnector = connectorDraggedOver;
+            if (newConnection.DestinationConnector == null)
+            {
+                newConnection.DestinationConnector = connectorDraggedOver;
+            }
+            else
+            {
+                newConnection.SourceConnector = connectorDraggedOver;
+            }
         }
 
         /// <summary>
@@ -249,5 +277,23 @@ namespace DynaApp.ViewModels
             return theGraphic.Connectors.FirstOrDefault(x => x.AttachedConnection == null);
         }
 
+        /// <summary>
+        /// Retrieve a connection between the two connectors.
+        /// Returns null if there is no connection between the connectors.
+        /// </summary>
+        private ConnectionViewModel FindConnection(ConnectorViewModel sourceConnector, ConnectorViewModel destinationConnector)
+        {
+            var connection = sourceConnector.AttachedConnection;
+            if (connection.DestinationConnector == destinationConnector)
+            {
+                //
+                // Found a connection that is outgoing from the source connector
+                // and incoming to the destination connector.
+                //
+                return connection;
+            }
+
+            return null;
+        }
     }
 }

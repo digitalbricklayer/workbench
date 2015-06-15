@@ -1,28 +1,12 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DynaApp.Views
 {
-    public class DomainItem : ListBoxItem
+    public class DomainItem : GraphicItem
     {
         #region Dependency Property/Event Definitions
-
-        public static readonly DependencyProperty XProperty =
-            DependencyProperty.Register("X", typeof(double), typeof(DomainItem),
-                new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register("Y", typeof(double), typeof(DomainItem),
-                new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public static readonly DependencyProperty ZIndexProperty =
-            DependencyProperty.Register("ZIndex", typeof(int), typeof(DomainItem),
-                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        internal static readonly DependencyProperty ParentModelViewProperty =
-            DependencyProperty.Register("ParentModelView", typeof(ModelView), typeof(DomainItem), 
-                new FrameworkPropertyMetadata(ParentModelView_PropertyChanged));
 
         internal static readonly RoutedEvent DomainDragStartedEvent =
             EventManager.RegisterRoutedEvent("DomainDragStarted", RoutingStrategy.Bubble, typeof(DomainDragStartedEventHandler), typeof(DomainItem));
@@ -37,96 +21,7 @@ namespace DynaApp.Views
 
         public DomainItem()
         {
-            //
-            // By default, we don't want this UI element to be focusable.
-            //
-            Focusable = false;
         }
-
-        /// <summary>
-        /// The X coordinate of the Variable.
-        /// </summary>
-        public double X
-        {
-            get
-            {
-                return (double)GetValue(XProperty);
-            }
-            set
-            {
-                SetValue(XProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The Y coordinate of the variable.
-        /// </summary>
-        public double Y
-        {
-            get
-            {
-                return (double)GetValue(YProperty);
-            }
-            set
-            {
-                SetValue(YProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The Z index of the variable.
-        /// </summary>
-        public int ZIndex
-        {
-            get
-            {
-                return (int)GetValue(ZIndexProperty);
-            }
-            set
-            {
-                SetValue(ZIndexProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// Reference to the data-bound parent ModelView.
-        /// </summary>
-        internal ModelView ParentModelView
-        {
-            get
-            {
-                return (ModelView)GetValue(ParentModelViewProperty);
-            }
-            set
-            {
-                SetValue(ParentModelViewProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The point the mouse was last at when dragging.
-        /// </summary>
-        private Point lastMousePoint;
-
-        /// <summary>
-        /// Set to 'true' when left mouse button is held down.
-        /// </summary>
-        private bool isLeftMouseDown;
-
-        /// <summary>
-        /// Set to 'true' when left mouse button and the control key are held down.
-        /// </summary>
-        private bool isLeftMouseAndControlDown;
-
-        /// <summary>
-        /// Set to 'true' when dragging has started.
-        /// </summary>
-        private bool isDragging;
-
-        /// <summary>
-        /// The threshold distance the mouse-cursor must move before dragging begins.
-        /// </summary>
-        private const double DragThreshold = 5;
 
         /// <summary>
         /// Static constructor.
@@ -134,17 +29,6 @@ namespace DynaApp.Views
         static DomainItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DomainItem), new FrameworkPropertyMetadata(typeof(DomainItem)));
-        }
-
-        /// <summary>
-        /// Bring the variable to the front of other elements.
-        /// </summary>
-        internal void BringToFront()
-        {
-            if (this.ParentModelView == null) return;
-
-            int maxZ = this.ParentModelView.FindMaxZIndex();
-            this.ZIndex = maxZ + 1;
         }
 
         /// <summary>
@@ -181,7 +65,7 @@ namespace DynaApp.Views
         /// The reason this exists in its own method rather than being included in OnMouseDown is 
         /// so that ConnectorItem can reuse this logic from its OnMouseDown.
         /// </summary>
-        internal void LeftMouseDownSelectionLogic()
+        internal override void LeftMouseDownSelectionLogic()
         {
             if ((Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
@@ -231,7 +115,7 @@ namespace DynaApp.Views
         /// The reason this exists in its own method rather than being included in OnMouseDown is 
         /// so that ConnectorItem can reuse this logic from its OnMouseDown.
         /// </summary>
-        internal void RightMouseDownSelectionLogic()
+        internal override void RightMouseDownSelectionLogic()
         {
             if (this.ParentModelView.SelectedDomains.Count == 0)
             {
@@ -369,7 +253,7 @@ namespace DynaApp.Views
         /// The reason this exists in its own method rather than being included in OnMouseUp is 
         /// so that ConnectorItem can reuse this logic from its OnMouseUp.
         /// </summary>
-        internal void LeftMouseUpSelectionLogic()
+        internal override void LeftMouseUpSelectionLogic()
         {
             if (isLeftMouseAndControlDown)
             {
@@ -404,18 +288,6 @@ namespace DynaApp.Views
             }
 
             isLeftMouseAndControlDown = false;
-        }
-
-        /// <summary>
-        /// Event raised when the ParentModelView property has changed.
-        /// </summary>
-        private static void ParentModelView_PropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            //
-            // Bring new domains to the front of the z-order.
-            //
-            var domainItem = (DomainItem) o;
-            domainItem.BringToFront();
         }
     }
 }

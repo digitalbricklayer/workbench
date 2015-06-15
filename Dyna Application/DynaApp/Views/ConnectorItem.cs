@@ -16,8 +16,8 @@ namespace DynaApp.Views
             DependencyProperty.Register("ParentModelView", typeof(ModelView), typeof(ConnectorItem),
                 new FrameworkPropertyMetadata(ParentNetworkView_PropertyChanged));
 
-        internal static readonly DependencyProperty ParentVariableItemProperty =
-            DependencyProperty.Register("ParentVariableItem", typeof(VariableItem), typeof(ConnectorItem));
+        internal static readonly DependencyProperty ParentListBoxItemProperty =
+            DependencyProperty.Register("ParentListBoxItem", typeof(GraphicItem), typeof(ConnectorItem));
 
         internal static readonly RoutedEvent ConnectorDragStartedEvent =
             EventManager.RegisterRoutedEvent("ConnectorDragStarted", RoutingStrategy.Bubble, typeof(ConnectorItemDragStartedEventHandler), typeof(ConnectorItem));
@@ -94,19 +94,18 @@ namespace DynaApp.Views
             }
         }
 
-
         /// <summary>
-        /// Reference to the data-bound parent VariableItem.
+        /// Reference to the data-bound parent graphic item.
         /// </summary>
-        internal VariableItem ParentVariableItem
+        internal GraphicItem ParentListBoxItem
         {
             get
             {
-                return (VariableItem)GetValue(ParentVariableItemProperty);
+                return (VariableItem)GetValue(ParentListBoxItemProperty);
             }
             set
             {
-                SetValue(ParentVariableItemProperty, value);
+                SetValue(ParentListBoxItemProperty, value);
             }
         }
 
@@ -125,9 +124,9 @@ namespace DynaApp.Views
         {
             base.OnMouseDown(e);
 
-            if (this.ParentVariableItem != null)
+            if (this.ParentListBoxItem != null)
             {
-                this.ParentVariableItem.BringToFront();
+                this.ParentListBoxItem.BringToFront();
             }
 
             if (this.ParentModelView != null)
@@ -137,12 +136,12 @@ namespace DynaApp.Views
 
             if (e.ChangedButton == MouseButton.Left)
             {
-                if (this.ParentVariableItem != null)
+                if (this.ParentListBoxItem != null)
                 {
                     //
                     // Delegate to parent variable to execute selection logic.
                     //
-                    this.ParentVariableItem.LeftMouseDownSelectionLogic();
+                    this.ParentListBoxItem.LeftMouseDownSelectionLogic();
                 }
 
                 lastMousePoint = e.GetPosition(this.ParentModelView);
@@ -151,12 +150,12 @@ namespace DynaApp.Views
             }
             else if (e.ChangedButton == MouseButton.Right)
             {
-                if (this.ParentVariableItem != null)
+                if (this.ParentListBoxItem != null)
                 {
                     //
                     // Delegate to parent variable to execute selection logic.
                     //
-                    this.ParentVariableItem.RightMouseDownSelectionLogic();
+                    this.ParentListBoxItem.RightMouseDownSelectionLogic();
                 }
             }
         }
@@ -252,12 +251,12 @@ namespace DynaApp.Views
                         //
                         // Execute mouse up selection logic only if there was no drag operation.
                         //
-                        if (this.ParentVariableItem != null)
+                        if (this.ParentListBoxItem != null)
                         {
                             //
                             // Delegate to parent variable to execute selection logic.
                             //
-                            this.ParentVariableItem.LeftMouseUpSelectionLogic();
+                            this.ParentListBoxItem.LeftMouseUpSelectionLogic();
                         }
                     }
 
