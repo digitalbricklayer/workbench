@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -1550,6 +1551,74 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Called after the visual tree of the control has been built.
+        /// Search for and cache references to named parts defined in the XAML control template for ModelView.
+        /// </summary>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            //
+            // Cache the parts of the visual tree that we need access to later.
+            //
+
+            this.variableItemsControl = (VariableItemsControl)this.Template.FindName("PART_VariableItemsControl", this);
+            if (this.variableItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_VariableItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            //
+            // Synchronize initial selected variables to the VariableItemsControl.
+            //
+            if (this.initialSelectedVariables != null && this.initialSelectedVariables.Any())
+            {
+                foreach (var variable in this.initialSelectedVariables)
+                {
+                    this.variableItemsControl.SelectedItems.Add(variable);
+                }
+            }
+
+            this.initialSelectedVariables = null; // Don't need this any more.
+
+            this.variableItemsControl.SelectionChanged += new SelectionChangedEventHandler(variableItemsControl_SelectionChanged);
+
+            this.domainItemsControl = (DomainItemsControl)this.Template.FindName("PART_DomainItemsControl", this);
+            if (this.domainItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_DomainItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            this.domainItemsControl.SelectionChanged += new SelectionChangedEventHandler(domainItemsControl_SelectionChanged);
+
+            this.constraintItemsControl = (ConstraintItemsControl)this.Template.FindName("PART_ConstraintItemsControl", this);
+            if (this.constraintItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_ConstraintItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            this.constraintItemsControl.SelectionChanged += new SelectionChangedEventHandler(constraintItemsControl_SelectionChanged);
+
+            this.connectionItemsControl = (ItemsControl)this.Template.FindName("PART_ConnectionItemsControl", this);
+            if (this.connectionItemsControl == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_ConnectionItemsControl' in the visual tree for 'ModelView'.");
+            }
+
+            this.dragSelectionCanvas = (FrameworkElement)this.Template.FindName("PART_DragSelectionCanvas", this);
+            if (this.dragSelectionCanvas == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_DragSelectionCanvas' in the visual tree for 'ModelView'.");
+            }
+
+            this.dragSelectionBorder = (FrameworkElement)this.Template.FindName("PART_DragSelectionBorder", this);
+            if (this.dragSelectionBorder == null)
+            {
+                throw new ApplicationException("Failed to find 'PART_dragSelectionBorder' in the visual tree for 'ModelView'.");
+            }
+        }
+
+        /// <summary>
         /// Event raised when a new collection has been assigned to the 'VariablesSource' property.
         /// </summary>
         private static void VariablesSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1898,73 +1967,6 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Called after the visual tree of the control has been built.
-        /// Search for and cache references to named parts defined in the XAML control template for ModelView.
-        /// </summary>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            //
-            // Cache the parts of the visual tree that we need access to later.
-            //
-
-            this.variableItemsControl = (VariableItemsControl)this.Template.FindName("PART_VariableItemsControl", this);
-            if (this.variableItemsControl == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_VariableItemsControl' in the visual tree for 'ModelView'.");
-            }
-
-            //
-            // Synchronize initial selected domains to the VariableItemsControl.
-            //
-            if (this.initialSelectedVariables != null && this.initialSelectedVariables.Count > 0)
-            {
-                foreach (var variable in this.initialSelectedVariables)
-                {
-                    this.variableItemsControl.SelectedItems.Add(variable);
-                }
-            }
-
-            this.initialSelectedVariables = null; // Don't need this any more.
-
-            this.variableItemsControl.SelectionChanged += new SelectionChangedEventHandler(variableItemsControl_SelectionChanged);
-
-            this.domainItemsControl = (DomainItemsControl)this.Template.FindName("PART_DomainItemsControl", this);
-            if (this.domainItemsControl == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_DomainItemsControl' in the visual tree for 'ModelView'.");
-            }
-
-            this.domainItemsControl.SelectionChanged += new SelectionChangedEventHandler(domainItemsControl_SelectionChanged);
-
-            this.constraintItemsControl = (ConstraintItemsControl)this.Template.FindName("PART_ConstraintItemsControl", this);
-            if (this.constraintItemsControl == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_ConstraintItemsControl' in the visual tree for 'ModelView'.");
-            }
-
-            this.constraintItemsControl.SelectionChanged += new SelectionChangedEventHandler(constraintItemsControl_SelectionChanged);
-
-            this.connectionItemsControl = (ItemsControl)this.Template.FindName("PART_ConnectionItemsControl", this);
-            if (this.connectionItemsControl == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_ConnectionItemsControl' in the visual tree for 'ModelView'.");
-            }
-
-            this.dragSelectionCanvas = (FrameworkElement)this.Template.FindName("PART_DragSelectionCanvas", this);
-            if (this.dragSelectionCanvas == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_DragSelectionCanvas' in the visual tree for 'ModelView'.");
-            }
-
-            this.dragSelectionBorder = (FrameworkElement)this.Template.FindName("PART_DragSelectionBorder", this);
-            if (this.dragSelectionBorder == null)
-            {
-                throw new ApplicationException("Failed to find 'PART_dragSelectionBorder' in the visual tree for 'ModelView'.");
-            }
-        }
-        /// <summary>
         /// Find the max ZIndex of all the domains.
         /// </summary>
         internal int FindMaxZIndex()
@@ -2049,6 +2051,239 @@ namespace DynaApp.Views
             }
 
             return constraintItem;
+        }
+
+        /// <summary>
+        /// Called when the user holds down the mouse.
+        /// </summary>
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+
+            this.Focus();
+
+            if (e.ChangedButton == MouseButton.Left &&
+                (Keyboard.Modifiers & ModifierKeys.Control) != 0)
+            {
+                this.DeselectAll();
+
+                isControlAndLeftMouseButtonDown = true;
+                origMouseDownPoint = e.GetPosition(this);
+
+                this.CaptureMouse();
+
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Called when the user releases the mouse.
+        /// </summary>
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                bool wasDragSelectionApplied = false;
+
+                if (isDraggingSelectionRect)
+                {
+                    //
+                    // Drag selection has ended, apply the 'selection rectangle'.
+                    //
+
+                    isDraggingSelectionRect = false;
+                    ApplyDragSelectionRect();
+
+                    e.Handled = true;
+                    wasDragSelectionApplied = true;
+                }
+
+                if (isControlAndLeftMouseButtonDown)
+                {
+                    isControlAndLeftMouseButtonDown = false;
+                    this.ReleaseMouseCapture();
+
+
+                    e.Handled = true;
+                }
+
+                if (!wasDragSelectionApplied && IsClearSelectionOnEmptySpaceClickEnabled)
+                {
+                    //
+                    // A click and release in empty space clears the selection.
+                    //
+                    this.DeselectAll();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the user moves the mouse.
+        /// </summary>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (isDraggingSelectionRect)
+            {
+                //
+                // Drag selection is in progress.
+                //
+                Point curMouseDownPoint = e.GetPosition(this);
+                UpdateDragSelectionRect(origMouseDownPoint, curMouseDownPoint);
+
+                e.Handled = true;
+            }
+            else if (isControlAndLeftMouseButtonDown)
+            {
+                //
+                // The user is left-dragging the mouse,
+                // but don't initiate drag selection until
+                // they have dragged past the threshold value.
+                //
+                Point curMouseDownPoint = e.GetPosition(this);
+                var dragDelta = curMouseDownPoint - origMouseDownPoint;
+                double dragDistance = Math.Abs(dragDelta.Length);
+                if (dragDistance > DragThreshold)
+                {
+                    //
+                    // When the mouse has been dragged more than the threshold value commence drag selection.
+                    //
+                    isDraggingSelectionRect = true;
+                    InitDragSelectionRect(origMouseDownPoint, curMouseDownPoint);
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Initialize the rectangle used for drag selection.
+        /// </summary>
+        private void InitDragSelectionRect(Point pt1, Point pt2)
+        {
+            UpdateDragSelectionRect(pt1, pt2);
+
+            dragSelectionCanvas.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Update the position and size of the rectangle used for drag selection.
+        /// </summary>
+        private void UpdateDragSelectionRect(Point pt1, Point pt2)
+        {
+            double x, y, width, height;
+
+            //
+            // Determine x,y,width and height of the rect inverting the points if necessary.
+            // 
+
+            if (pt2.X < pt1.X)
+            {
+                x = pt2.X;
+                width = pt1.X - pt2.X;
+            }
+            else
+            {
+                x = pt1.X;
+                width = pt2.X - pt1.X;
+            }
+
+            if (pt2.Y < pt1.Y)
+            {
+                y = pt2.Y;
+                height = pt1.Y - pt2.Y;
+            }
+            else
+            {
+                y = pt1.Y;
+                height = pt2.Y - pt1.Y;
+            }
+
+            //
+            // Update the coordinates of the rectangle used for drag selection.
+            //
+            Canvas.SetLeft(dragSelectionBorder, x);
+            Canvas.SetTop(dragSelectionBorder, y);
+            dragSelectionBorder.Width = width;
+            dragSelectionBorder.Height = height;
+        }
+
+        /// <summary>
+        /// Select all graphics that are in the drag selection rectangle.
+        /// </summary>
+        private void ApplyDragSelectionRect()
+        {
+            dragSelectionCanvas.Visibility = Visibility.Collapsed;
+
+            double x = Canvas.GetLeft(dragSelectionBorder);
+            double y = Canvas.GetTop(dragSelectionBorder);
+            double width = dragSelectionBorder.Width;
+            double height = dragSelectionBorder.Height;
+            Rect dragRect = new Rect(x, y, width, height);
+
+            //
+            // Inflate the drag selection-rectangle by 1/10 of its size to 
+            // make sure the intended item is selected.
+            //
+            dragRect.Inflate(width / 10, height / 10);
+
+            //
+            // Clear the current selection.
+            //
+            this.variableItemsControl.SelectedItems.Clear();
+            this.constraintItemsControl.SelectedItems.Clear();
+            this.domainItemsControl.SelectedItems.Clear();
+
+            //
+            // Find and select all the variable list box items.
+            //
+            for (int variableIndex = 0; variableIndex < this.Variables.Count; ++variableIndex)
+            {
+                var variableItem = (VariableItem)this.variableItemsControl.ItemContainerGenerator.ContainerFromIndex(variableIndex);
+                var transformToAncestor = variableItem.TransformToAncestor(this);
+                Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
+                Point itemPt2 = transformToAncestor.Transform(new Point(variableItem.ActualWidth, variableItem.ActualHeight));
+                Rect itemRect = new Rect(itemPt1, itemPt2);
+                if (dragRect.Contains(itemRect))
+                {
+                    variableItem.IsSelected = true;
+                }
+            }
+
+            //
+            // Find and select all the constraint list box items.
+            //
+            for (int constraintIndex = 0; constraintIndex < this.Constraints.Count; ++constraintIndex)
+            {
+                var constraintItem = (ConstraintItem)this.constraintItemsControl.ItemContainerGenerator.ContainerFromIndex(constraintIndex);
+                var transformToAncestor = constraintItem.TransformToAncestor(this);
+                Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
+                Point itemPt2 = transformToAncestor.Transform(new Point(constraintItem.ActualWidth, constraintItem.ActualHeight));
+                Rect itemRect = new Rect(itemPt1, itemPt2);
+                if (dragRect.Contains(itemRect))
+                {
+                    constraintItem.IsSelected = true;
+                }
+            }
+
+            //
+            // Find and select all the domain list box items.
+            //
+            for (int domainIndex = 0; domainIndex < this.Domains.Count; ++domainIndex)
+            {
+                var domainItem = (DomainItem)this.domainItemsControl.ItemContainerGenerator.ContainerFromIndex(domainIndex);
+                var transformToAncestor = domainItem.TransformToAncestor(this);
+                Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
+                Point itemPt2 = transformToAncestor.Transform(new Point(domainItem.ActualWidth, domainItem.ActualHeight));
+                Rect itemRect = new Rect(itemPt1, itemPt2);
+                if (dragRect.Contains(itemRect))
+                {
+                    domainItem.IsSelected = true;
+                }
+            }
         }
 
         /// <summary>
