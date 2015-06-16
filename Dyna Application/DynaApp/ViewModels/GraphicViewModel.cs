@@ -66,7 +66,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets the connectors (connection anchor points) attached to the domain.
+        /// Gets the connectors (connection anchor points) attached to the graphic.
         /// </summary>
         public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
 

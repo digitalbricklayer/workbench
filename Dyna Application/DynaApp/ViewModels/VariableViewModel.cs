@@ -52,8 +52,10 @@ namespace DynaApp.ViewModels
         /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
         public override bool IsConnectableTo(GraphicViewModel destinationGraphic)
         {
+            // Variables cannot connect to other variables...
             var destinationAsVariable = destinationGraphic as VariableViewModel;
             if (destinationAsVariable != null) return false;
+
             return true;
         }
     }
