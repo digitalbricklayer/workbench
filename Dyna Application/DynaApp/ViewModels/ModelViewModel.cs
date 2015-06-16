@@ -94,8 +94,8 @@ namespace DynaApp.ViewModels
         {
             Trace.Assert(fromVariable.IsConnectableTo(toGraphic));
             var connection = new ConnectionViewModel();
-            connection.SourceConnector = this.AssignConnector(fromVariable);
-            connection.DestinationConnector = this.AssignConnector(toGraphic);
+            connection.InitiateConnection(this.AssignConnector(fromVariable));
+            connection.CompleteConnection(this.AssignConnector(toGraphic));
             this.Connections.Add(connection);
         }
 
@@ -121,7 +121,7 @@ namespace DynaApp.ViewModels
             //
             // Link the source connector to the connector that was dragged out.
             //
-            connection.SourceConnector = draggedOutConnector;
+            connection.InitiateConnection(draggedOutConnector);
 
             //
             // Set the position of destination connector to the current position of the mouse cursor.
@@ -248,14 +248,7 @@ namespace DynaApp.ViewModels
             // Finalize the connection by attaching it to the connector
             // that the user dragged the mouse over.
             //
-            if (newConnection.DestinationConnector == null)
-            {
-                newConnection.DestinationConnector = connectorDraggedOver;
-            }
-            else
-            {
-                newConnection.SourceConnector = connectorDraggedOver;
-            }
+            newConnection.CompleteConnection(connectorDraggedOver);
         }
 
         /// <summary>

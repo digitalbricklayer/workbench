@@ -5,7 +5,7 @@ using System.Windows;
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// Defines a connection between two connectors (aka connection points) of two domains.
+    /// A connection between two connectors.
     /// </summary>
     public sealed class ConnectionViewModel : AbstractModelBase
     {
@@ -26,7 +26,7 @@ namespace DynaApp.ViewModels
         private Point destinationConnectorHotspot;
 
         /// <summary>
-        /// The source connector the connection is attached to.
+        /// Gets and sets the source connector.
         /// </summary>
         public ConnectorViewModel SourceConnector
         {
@@ -65,7 +65,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// The destination connector the connection is attached to.
+        /// Gets and sets the destination connector.
         /// </summary>
         public ConnectorViewModel DestinationConnector
         {
@@ -131,6 +131,36 @@ namespace DynaApp.ViewModels
                 destinationConnectorHotspot = value;
 
                 OnPropertyChanged("destinationConnectorHotspot");
+            }
+        }
+
+        /// <summary>
+        /// Initiate a connection with a source connector.
+        /// </summary>
+        /// <param name="theDraggedOutConnector">The source connector.</param>
+        public void InitiateConnection(ConnectorViewModel theDraggedOutConnector)
+        {
+            if (theDraggedOutConnector == null) 
+                throw new ArgumentNullException("theDraggedOutConnector");
+            this.SourceConnector = theDraggedOutConnector;
+        }
+
+        /// <summary>
+        /// Complete a connection between two connectors.
+        /// </summary>
+        /// <param name="theConnectorDraggedOver">The end connector.</param>
+        public void CompleteConnection(ConnectorViewModel theConnectorDraggedOver)
+        {
+            if (theConnectorDraggedOver == null) 
+                throw new ArgumentNullException("theConnectorDraggedOver");
+
+            if (this.DestinationConnector == null)
+            {
+                this.DestinationConnector = theConnectorDraggedOver;
+            }
+            else
+            {
+                this.SourceConnector = theConnectorDraggedOver;
             }
         }
 

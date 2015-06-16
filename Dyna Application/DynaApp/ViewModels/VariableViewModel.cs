@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DynaApp.ViewModels
 {
@@ -37,14 +38,6 @@ namespace DynaApp.ViewModels
             }
         }
 
-        private void PopulateConnectors()
-        {
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-        }
-
         /// <summary>
         /// Is the destination graphic connectable to the variable?
         /// </summary>
@@ -56,7 +49,17 @@ namespace DynaApp.ViewModels
             var destinationAsVariable = destinationGraphic as VariableViewModel;
             if (destinationAsVariable != null) return false;
 
-            return true;
+            // Variables are not permitted to have two connections to the same graphic...
+            return this.AttachedConnections.Where(connection => connection.DestinationConnector != null)
+                                           .All(connection => connection.DestinationConnector.Parent != destinationGraphic);
+        }
+
+        private void PopulateConnectors()
+        {
+            this.Connectors.Add(new ConnectorViewModel());
+            this.Connectors.Add(new ConnectorViewModel());
+            this.Connectors.Add(new ConnectorViewModel());
+            this.Connectors.Add(new ConnectorViewModel());
         }
     }
 }
