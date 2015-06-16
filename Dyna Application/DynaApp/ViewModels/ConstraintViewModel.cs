@@ -15,27 +15,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets the list of all connections attached to the domain. 
-        /// </summary>
-        public ICollection<ConnectionViewModel> AttachedConnections
-        {
-            get
-            {
-                List<ConnectionViewModel> attachedConnections = new List<ConnectionViewModel>();
-
-                foreach (var connector in this.Connectors)
-                {
-                    if (connector.AttachedConnection != null)
-                    {
-                        attachedConnections.Add(connector.AttachedConnection);
-                    }
-                }
-
-                return attachedConnections;
-            }
-        }
-
-        /// <summary>
         /// Is the destination graphic connectable to the graphic?
         /// </summary>
         /// <param name="destinationGraphic">Destination being connected to.</param>

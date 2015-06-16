@@ -142,7 +142,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         public bool IsConnectionComplete
         {
-            get { return this.DestinationConnector != null; }
+            get
+            {
+                return this.DestinationConnector != null;
+            }
         }
 
         /// <summary>

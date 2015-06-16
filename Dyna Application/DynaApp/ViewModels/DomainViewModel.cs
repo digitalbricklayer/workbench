@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace DynaApp.ViewModels
 {
@@ -15,27 +14,6 @@ namespace DynaApp.ViewModels
             : base(newDomainName)
         {
             this.PopulateConnectors();
-        }
-
-        /// <summary>
-        /// Gets the list of all connections attached to the domain. 
-        /// </summary>
-        public ICollection<ConnectionViewModel> AttachedConnections
-        {
-            get
-            {
-                List<ConnectionViewModel> attachedConnections = new List<ConnectionViewModel>();
-
-                foreach (var connector in this.Connectors)
-                {
-                    if (connector.AttachedConnection != null)
-                    {
-                        attachedConnections.Add(connector.AttachedConnection);
-                    }
-                }
-
-                return attachedConnections;
-            }
         }
 
         /// <summary>

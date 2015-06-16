@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
@@ -118,6 +119,27 @@ namespace DynaApp.ViewModels
                 if (isSelected == value) return;
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
+            }
+        }
+
+        /// <summary>
+        /// Gets all connections attached to the graphic.
+        /// </summary>
+        public ICollection<ConnectionViewModel> AttachedConnections
+        {
+            get
+            {
+                var attachedConnections = new List<ConnectionViewModel>();
+
+                foreach (var connector in this.Connectors)
+                {
+                    if (connector.AttachedConnection != null)
+                    {
+                        attachedConnections.Add(connector.AttachedConnection);
+                    }
+                }
+
+                return attachedConnections;
             }
         }
 
