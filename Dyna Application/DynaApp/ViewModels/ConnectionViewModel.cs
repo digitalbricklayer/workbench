@@ -104,7 +104,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// The source and dest hotspots used for generating connection points.
+        /// Gets or sets the source connector hotspot used for generating connection points.
         /// </summary>
         public Point SourceConnectorHotspot
         {
@@ -120,6 +120,9 @@ namespace DynaApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the destination connector hotspot used for generating connection points.
+        /// </summary>
         public Point DestinationConnectorHotspot
         {
             get
@@ -132,6 +135,14 @@ namespace DynaApp.ViewModels
 
                 OnPropertyChanged("destinationConnectorHotspot");
             }
+        }
+
+        /// <summary>
+        /// Gets whether the connection has been completed?
+        /// </summary>
+        public bool IsConnectionComplete
+        {
+            get { return this.DestinationConnector != null; }
         }
 
         /// <summary>

@@ -49,8 +49,8 @@ namespace DynaApp.ViewModels
             var destinationAsVariable = destinationGraphic as VariableViewModel;
             if (destinationAsVariable != null) return false;
 
-            // Variables are not permitted to have two connections to the same graphic...
-            return this.AttachedConnections.Where(connection => connection.DestinationConnector != null)
+            // Variables are not permitted to have two connections to the same destination...
+            return this.AttachedConnections.Where(connection => connection.IsConnectionComplete)
                                            .All(connection => connection.DestinationConnector.Parent != destinationGraphic);
         }
 
