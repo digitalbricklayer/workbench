@@ -1,5 +1,4 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/vef4rqs4cp84kgjl?svg=true)](https://ci.appveyor.com/project/JackHughes/dyna)
-
 # dyna
 A project to explore how to model a constraint satisfaction problem with an engine for solving it and presenting a solution in a manner that makes sense to the user. Uses the [Google or-tools](https://developers.google.com/optimization/) for resolving the problem.
 
