@@ -67,6 +67,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\ConstraintSolverTests.cs" />
     <Compile Include="Solver\ConstraintSolverSimpleTests.cs" />
+    <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
+    <Compile Include="ViewModels\DomainViewModelTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
