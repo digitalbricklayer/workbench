@@ -13,12 +13,33 @@
     <Window.Resources>
         <ResourceDictionary>
 
-        <!-- UI commands. -->
+            <!-- The brush for connections. -->
+            <SolidColorBrush
+                x:Key="connectionBrush"
+                Color="Black"
+                />
+
+            <!-- The border brush for nodes. -->
+            <SolidColorBrush
+                x:Key="variableBorderBrush"
+                Color="Black"
+                />
+
+            <!-- The brush for connectors. -->
+            <SolidColorBrush
+                x:Key="connectorBackgroundBrush"
+                Color="White"
+                />
+
+            <!-- UI commands. -->
         <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
         <RoutedUICommand x:Key="Commands.CreateVariable" />
         <RoutedUICommand x:Key="Commands.DeleteConnection" />
+        <RoutedUICommand x:Key="Commands.DeleteVariable" />
+        <RoutedUICommand x:Key="Commands.DeleteDomain" />
+        <RoutedUICommand x:Key="Commands.DeleteConstraint" />
 
-        <!-- 
+            <!-- 
         Template for the button that is used to delete nodes and connections in the graph.
         This button is displayed in an adorner when the user hovers the mouse over a node or connection.
         -->
@@ -58,7 +79,7 @@
                         Fill="White"
                         />
                 <Image
-                        Source="Images/scissors.png" 
+                        Source="../Images/scissors.png" 
                         Margin="2"
                         />
             </Grid>
@@ -129,26 +150,25 @@
             >
 
             <!-- 
-                An adorned control is used, to represent the connection. 
-                When the user hovers the mouse cursor over the connection, the 
-                'delete connection' adorner pops up and allows them to delete the connection.
-                -->
+            An adorned control is used, to represent the connection. 
+            When the user hovers the mouse cursor over the connection, the 
+            'delete connection' adorner pops up and allows them to delete the connection.
+            -->
             <controls:AdornedControl
                     HorizontalAdornerPlacement="Mouse"
                     VerticalAdornerPlacement="Mouse"
-                    IsMouseOverShowEnabled="{Binding ElementName=networkControl, Path=IsNotDragging}"
+                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
                     >
 
-                <!-- The connection is represented by a simple arrow. -->
-                <views:Arrow
-                    Stroke="Black"
-                    StrokeThickness="2"
-                    Fill="Black"
-                    Start="{Binding SourceConnectorHotspot}"
-                    End="{Binding DestinationConnectorHotspot}"
-                    IsHitTestVisible="False"/>
+                    <!-- The connection is represented by a curved arrow. -->
+                    <views:CurvedArrow
+                        Stroke="{StaticResource connectionBrush}"
+                        StrokeThickness="2"
+                        Fill="{StaticResource connectionBrush}"
+                        Points="{Binding Points}"
+                        />
 
-                <controls:AdornedControl.AdornerContent>
+                    <controls:AdornedControl.AdornerContent>
 
                     <!-- 
                         This is the adorner that pops up when the user hovers the mouse over the connection.
@@ -263,7 +283,7 @@
                 <Image 
                         Width="32"
                         Height="32"
-                        Source="Images/block_16.png"
+                        Source="../Images/block_16.png"
                         HorizontalAlignment="Right"
                         />
             </Grid>
@@ -277,7 +297,7 @@
                 <Image 
                         Width="32"
                         Height="32"
-                        Source="Images/tick_16.png"
+                        Source="../Images/tick_16.png"
                         HorizontalAlignment="Right"
                         />
             </Grid>
@@ -328,18 +348,32 @@
         <DataTemplate
             DataType="{x:Type viewModels:VariableViewModel}"
             >
-            <Grid
-                Width="120"
-                Height="60"
+
+            <!-- 
+            An adorned control is used, to represent the node. 
+            When the user hovers the mouse cursor over the node, the 
+            'delete node' adorner pops up and allows them to delete the node.
+            -->
+            <controls:AdornedControl
+                HorizontalAdornerPlacement="Outside"
+                VerticalAdornerPlacement="Outside"
+                AdornerOffsetX="-12"
+                AdornerOffsetY="8"
+                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
                 >
 
-                <!-- This rectangle is the main visual for the variable. -->
-                <Rectangle
-                    Stroke="Black"
-                    Fill="White"
-                    RadiusX="4"
-                    RadiusY="4"
-                    />
+                <Grid
+                    Width="120"
+                    Height="60"
+                    >
+
+                    <!-- This rectangle is the main visual for the variable. -->
+                    <Rectangle
+                        Stroke="Black"
+                        Fill="White"
+                        RadiusX="4"
+                        RadiusY="4"
+                        />
 
                 <!-- 
                 This grid contains the variable's name and connectors.
@@ -395,6 +429,43 @@
                         />
                 </Grid>
             </Grid>
+
+            <controls:AdornedControl.AdornerContent>
+
+                <!-- 
+                This is the adorner that pops up when the user hovers the mouse over the variable.
+                It displays a button that the user can click to delete the variable.
+                -->
+                <Canvas
+                    x:Name="variableAdornerCanvas"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Width="30"
+                    Height="30"
+                    >
+                    <Line
+                        X1="0"
+                        Y1="30"
+                        X2="15"
+                        Y2="15"
+                        Stroke="Black"
+                        StrokeThickness="1"
+                        />
+                    <Button
+                        x:Name="deleteVariableButton"
+                        Canvas.Left="10"
+                        Canvas.Top="0"
+                        Width="20"
+                        Height="20"
+                        Cursor="Hand"
+                        Focusable="False"
+                        Command="{StaticResource Commands.DeleteVariable}"
+                        CommandParameter="{Binding}"
+                        Template="{StaticResource deleteButtonTemplate}"
+                        />
+                </Canvas>
+            </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
         </DataTemplate>
 
         <!-- 
@@ -404,16 +475,30 @@
         <DataTemplate
             DataType="{x:Type viewModels:DomainViewModel}"
             >
-            <Grid
-                Width="120"
-                Height="60"
+            
+            <!-- 
+            An adorned control is used, to represent the node. 
+            When the user hovers the mouse cursor over the node, the 
+            'delete node' adorner pops up and allows them to delete the node.
+            -->
+            <controls:AdornedControl
+                HorizontalAdornerPlacement="Outside"
+                VerticalAdornerPlacement="Outside"
+                AdornerOffsetX="-12"
+                AdornerOffsetY="8"
+                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
                 >
 
-                <!-- This ellipse is the main visual for the domain. -->
-                <Ellipse
-                    Stroke="Black"
-                    Fill="White"
-                    />
+                <Grid
+                    Width="120"
+                    Height="60"
+                    >
+
+                    <!-- This ellipse is the main visual for the domain. -->
+                    <Ellipse
+                        Stroke="Black"
+                        Fill="White"
+                        />
 
                 <!-- 
                 This grid contains the domain's name and connectors.
@@ -469,7 +554,44 @@
                         />
                 </Grid>
             </Grid>
-        </DataTemplate>
+            <controls:AdornedControl.AdornerContent>
+
+                <!-- 
+                This is the adorner that pops up when the user hovers the mouse over the variable.
+                It displays a button that the user can click to delete the variable.
+                -->
+                <Canvas
+                    x:Name="domainAdornerCanvas"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Width="30"
+                    Height="30"
+                    >
+
+                    <Line
+                        X1="0"
+                        Y1="30"
+                        X2="15"
+                        Y2="15"
+                        Stroke="Black"
+                        StrokeThickness="1"
+                        />
+                    <Button
+                        x:Name="deleteDomainButton"
+                        Canvas.Left="10"
+                        Canvas.Top="0"
+                        Width="20"
+                        Height="20"
+                        Cursor="Hand"
+                        Focusable="False"
+                        Command="{StaticResource Commands.DeleteDomain}"
+                        CommandParameter="{Binding}"
+                        Template="{StaticResource deleteButtonTemplate}"
+                        />
+                        </Canvas>
+                    </controls:AdornedControl.AdornerContent>
+                </controls:AdornedControl>
+            </DataTemplate>
 
         <!-- 
         Define a data-template for the 'ConstraintViewModel' class.
@@ -478,10 +600,24 @@
         <DataTemplate
             DataType="{x:Type viewModels:ConstraintViewModel}"
             >
-            <Grid
-                Width="120"
-                Height="60"
+
+            <!-- 
+            An adorned control is used, to represent the node. 
+            When the user hovers the mouse cursor over the node, the 
+            'delete node' adorner pops up and allows them to delete the node.
+            -->
+            <controls:AdornedControl
+                HorizontalAdornerPlacement="Outside"
+                VerticalAdornerPlacement="Outside"
+                AdornerOffsetX="-12"
+                AdornerOffsetY="8"
+                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
                 >
+
+                <Grid
+                    Width="120"
+                    Height="60"
+                    >
 
                 <!-- This polygon is the main visual for the constraint. -->
                 <Polygon
@@ -544,6 +680,43 @@
                         />
                 </Grid>
             </Grid>
+
+            <controls:AdornedControl.AdornerContent>
+
+                <!-- 
+                This is the adorner that pops up when the user hovers the mouse over the variable.
+                It displays a button that the user can click to delete the variable.
+                -->
+                <Canvas
+                    x:Name="variableAdornerCanvas"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Width="30"
+                    Height="30"
+                    >
+                    <Line
+                        X1="0"
+                        Y1="30"
+                        X2="15"
+                        Y2="15"
+                        Stroke="Black"
+                        StrokeThickness="1"
+                        />
+                    <Button
+                        x:Name="deleteConstraintButton"
+                        Canvas.Left="10"
+                        Canvas.Top="0"
+                        Width="20"
+                        Height="20"
+                        Cursor="Hand"
+                        Focusable="False"
+                        Command="{StaticResource Commands.DeleteConstraint}"
+                        CommandParameter="{Binding}"
+                        Template="{StaticResource deleteButtonTemplate}"
+                        />
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
         </DataTemplate>
             
         </ResourceDictionary>
@@ -571,6 +744,18 @@
         <CommandBinding 
             Command="{StaticResource Commands.DeleteConnection}" 
             Executed="DeleteConnection_Executed" 
+            />
+        <CommandBinding 
+            Command="{StaticResource Commands.DeleteVariable}" 
+            Executed="DeleteVariable_Executed" 
+            />
+        <CommandBinding 
+            Command="{StaticResource Commands.DeleteDomain}" 
+            Executed="DeleteDomain_Executed" 
+            />
+        <CommandBinding 
+            Command="{StaticResource Commands.DeleteConstraint}" 
+            Executed="DeleteConstraint_Executed" 
             />
 
         <CommandBinding Command="ApplicationCommands.Close" Executed="FileCloseCommand" />
@@ -600,7 +785,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="Exit" Command="ApplicationCommands.Close">
                     <MenuItem.Icon>
-                        <Image Source="Images/Transparent.png" />
+                        <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -614,18 +799,28 @@
             HorizontalScrollBarVisibility="Auto"
             Focusable="False">
 
-            <!-- The ModelView is the content of the ScrollViewer. -->
-            <views:ModelView 
-                x:Name="modelControl"
-                Width="2000" Height="2000"
-                VariablesSource="{Binding Model.Variables}"
-                DomainsSource="{Binding Model.Domains}"
-                ConstraintsSource="{Binding Model.Constraints}"
-                ConnectionsSource="{Binding Model.Connections}"
-                ConnectionDragStarted="modelControl_ConnectionDragStarted"
-                ConnectionDragging="modelControl_ConnectionDragging"
-                QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
-                ConnectionDragCompleted="modelControl_ConnectionDragCompleted"/>
+            <!--
+            We need to nest the ModelView in an AdornerDecorator so that adorners 
+            work correctly.
+            -->
+            <AdornerDecorator>
+                
+                <!-- The ModelView is the content of the ScrollViewer. -->
+                <views:ModelView 
+                    x:Name="modelControl"
+                    Width="2000" Height="2000"
+                    VariablesSource="{Binding Model.Variables}"
+                    DomainsSource="{Binding Model.Domains}"
+                    ConstraintsSource="{Binding Model.Constraints}"
+                    ConnectionsSource="{Binding Model.Connections}"
+                    
+                    ConnectionDragStarted="modelControl_ConnectionDragStarted"
+                    ConnectionDragging="modelControl_ConnectionDragging"
+                    QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
+                    ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
+                    />
+
+            </AdornerDecorator>
 
         </ScrollViewer>
 

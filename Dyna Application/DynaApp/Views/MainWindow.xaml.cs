@@ -121,5 +121,23 @@ namespace DynaApp.Views
             var connection = (ConnectionViewModel)e.Parameter;
             this.ViewModel.Model.DeleteConnection(connection);
         }
+
+        private void DeleteVariable_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var variable = (VariableViewModel)e.Parameter;
+            this.ViewModel.Model.DeleteVariable(variable);
+        }
+
+        private void DeleteDomain_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var domain = (DomainViewModel)e.Parameter;
+            this.ViewModel.Model.DeleteDomain(domain);
+        }
+
+        private void DeleteConstraint_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var constraint = (ConstraintViewModel)e.Parameter;
+            this.ViewModel.Model.DeleteConstraint(constraint);
+        }
     }
 }

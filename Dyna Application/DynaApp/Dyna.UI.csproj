@@ -121,12 +121,12 @@
     <Compile Include="ViewModels\ModelViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="Views\AdornerPlacement.cs" />
-    <Compile Include="Views\Arrow.cs" />
     <Compile Include="Views\ConnectionBadIndicator.cs" />
     <Compile Include="Views\ConnectionDragEvents.cs" />
     <Compile Include="Views\ConnectionOkIndicator.cs" />
     <Compile Include="Views\ConnectorItem.cs" />
     <Compile Include="Views\ConnectorItemDrageEvents.cs" />
+    <Compile Include="Views\CurvedArrow.cs" />
     <Compile Include="Views\DomainItem.cs">
       <SubType>Code</SubType>
     </Compile>

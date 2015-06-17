@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -257,7 +258,58 @@ namespace DynaApp.ViewModels
         /// <param name="connectionToDelete">Connection to delete.</param>
         public void DeleteConnection(ConnectionViewModel connectionToDelete)
         {
+            if (connectionToDelete == null) 
+                throw new ArgumentNullException("connectionToDelete");
             this.Connections.Remove(connectionToDelete);
+        }
+
+        /// <summary>
+        /// Delete the variable.
+        /// </summary>
+        /// <param name="variableToDelete">Variable to delete.</param>
+        public void DeleteVariable(VariableViewModel variableToDelete)
+        {
+            if (variableToDelete == null) 
+                throw new ArgumentNullException("variableToDelete");
+            this.Variables.Remove(variableToDelete);
+            this.Graphics.Remove(variableToDelete);
+            this.RemoveConnections(variableToDelete.AttachedConnections);
+        }
+
+        /// <summary>
+        /// Delete the domain.
+        /// </summary>
+        /// <param name="domainToDelete">Domain to delete.</param>
+        public void DeleteDomain(DomainViewModel domainToDelete)
+        {
+            if (domainToDelete == null) 
+                throw new ArgumentNullException("domainToDelete");
+            this.Domains.Remove(domainToDelete);
+            this.Graphics.Remove(domainToDelete);
+            this.RemoveConnections(domainToDelete.AttachedConnections);
+        }
+
+        /// <summary>
+        /// Delete the constraint.
+        /// </summary>
+        /// <param name="constraintToDelete">Constraint to delete.</param>
+        public void DeleteConstraint(ConstraintViewModel constraintToDelete)
+        {
+            if (constraintToDelete == null)
+                throw new ArgumentNullException("constraintToDelete");
+            this.Constraints.Remove(constraintToDelete);
+            this.Graphics.Remove(constraintToDelete);
+            this.RemoveConnections(constraintToDelete.AttachedConnections);
+        }
+
+        /// <summary>
+        /// Remove the connections from the model.
+        /// </summary>
+        /// <param name="connectionsToDelete">Enumeration of connections to delete.</param>
+        private void RemoveConnections(IEnumerable<ConnectionViewModel> connectionsToDelete)
+        {
+            foreach (var connection in connectionsToDelete)
+                this.Connections.Remove(connection);
         }
 
         /// <summary>

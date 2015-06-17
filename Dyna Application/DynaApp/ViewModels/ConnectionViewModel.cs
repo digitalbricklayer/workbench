@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DynaApp.ViewModels
 {
@@ -24,6 +25,11 @@ namespace DynaApp.ViewModels
         /// </summary>
         private Point sourceConnectorHotspot;
         private Point destinationConnectorHotspot;
+
+        /// <summary>
+        /// Points that make up the connection.
+        /// </summary>
+        private PointCollection points;
 
         /// <summary>
         /// Gets and sets the source connector.
@@ -61,6 +67,7 @@ namespace DynaApp.ViewModels
                 }
 
                 OnPropertyChanged("SourceConnector");
+                OnConnectionChanged();
             }
         }
 
@@ -100,6 +107,7 @@ namespace DynaApp.ViewModels
                 }
 
                 OnPropertyChanged("DestinationConnector");
+                OnConnectionChanged();
             }
         }
 
@@ -115,6 +123,8 @@ namespace DynaApp.ViewModels
             set
             {
                 sourceConnectorHotspot = value;
+
+                ComputeConnectionPoints();
 
                 OnPropertyChanged("SourceConnectorHotspot");
             }
@@ -133,7 +143,9 @@ namespace DynaApp.ViewModels
             {
                 destinationConnectorHotspot = value;
 
-                OnPropertyChanged("destinationConnectorHotspot");
+                ComputeConnectionPoints();
+
+                OnPropertyChanged("DestinationConnectorHotspot");
             }
         }
 
@@ -145,6 +157,23 @@ namespace DynaApp.ViewModels
             get
             {
                 return this.DestinationConnector != null;
+            }
+        }
+
+        /// <summary>
+        /// Gets and sets the points that make up the connection.
+        /// </summary>
+        public PointCollection Points
+        {
+            get
+            {
+                return points;
+            }
+            set
+            {
+                points = value;
+
+                OnPropertyChanged("Points");
             }
         }
 
@@ -179,6 +208,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Event fired when the connection has changed.
+        /// </summary>
+        public event EventHandler<EventArgs> ConnectionChanged;
+
+        /// <summary>
         /// Event raised when the hotspot of the source connector has been updated.
         /// </summary>
         private void sourceConnector_HotspotUpdated(object sender, EventArgs e)
@@ -192,6 +226,46 @@ namespace DynaApp.ViewModels
         private void destinationConnector_HotspotUpdated(object sender, EventArgs e)
         {
             this.DestinationConnectorHotspot = this.DestinationConnector.Hotspot;
+        }
+
+        /// <summary>
+        /// Rebuild connection points.
+        /// </summary>
+        private void ComputeConnectionPoints()
+        {
+            PointCollection computedPoints = new PointCollection();
+            computedPoints.Add(this.SourceConnectorHotspot);
+
+            double deltaX = Math.Abs(this.DestinationConnectorHotspot.X - this.SourceConnectorHotspot.X);
+            double deltaY = Math.Abs(this.DestinationConnectorHotspot.Y - this.SourceConnectorHotspot.Y);
+            if (deltaX > deltaY)
+            {
+                double midPointX = this.SourceConnectorHotspot.X + ((this.DestinationConnectorHotspot.X - this.SourceConnectorHotspot.X) / 2);
+                computedPoints.Add(new Point(midPointX, this.SourceConnectorHotspot.Y));
+                computedPoints.Add(new Point(midPointX, this.DestinationConnectorHotspot.Y));
+            }
+            else
+            {
+                double midPointY = this.SourceConnectorHotspot.Y + ((this.DestinationConnectorHotspot.Y - this.SourceConnectorHotspot.Y) / 2);
+                computedPoints.Add(new Point(this.SourceConnectorHotspot.X, midPointY));
+                computedPoints.Add(new Point(this.DestinationConnectorHotspot.X, midPointY));
+            }
+
+            computedPoints.Add(this.DestinationConnectorHotspot);
+            computedPoints.Freeze();
+
+            this.Points = computedPoints;
+        }
+
+        /// <summary>
+        /// Raises the 'ConnectionChanged' event.
+        /// </summary>
+        private void OnConnectionChanged()
+        {
+            if (ConnectionChanged != null)
+            {
+                ConnectionChanged(this, EventArgs.Empty);
+            }
         }
     }
 }
