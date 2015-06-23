@@ -85,6 +85,24 @@
     </ApplicationDefinition>
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
+    <Compile Include="Controls\AdornerPlacement.cs" />
+    <Compile Include="Controls\ConnectionBadIndicator.cs" />
+    <Compile Include="Controls\ConnectionDragEvents.cs" />
+    <Compile Include="Controls\ConnectionOkIndicator.cs" />
+    <Compile Include="Controls\ConnectorItem.cs" />
+    <Compile Include="Controls\ConnectorItemDragEvents.cs" />
+    <Compile Include="Controls\ConstraintDragEvents.cs" />
+    <Compile Include="Controls\ConstraintItem.cs" />
+    <Compile Include="Controls\ConstraintItemsControl.cs" />
+    <Compile Include="Controls\CurvedArrow.cs" />
+    <Compile Include="Controls\DomainDragEvents.cs" />
+    <Compile Include="Controls\DomainItem.cs" />
+    <Compile Include="Controls\DomainItemsControl.cs" />
+    <Compile Include="Controls\FrameworkElementAdorner.cs" />
+    <Compile Include="Controls\GraphicItem.cs" />
+    <Compile Include="Controls\VariableDragEvents.cs" />
+    <Compile Include="Controls\VariableItem.cs" />
+    <Compile Include="Controls\VariableItemsControl.cs" />
     <Compile Include="Entities\Constraint.cs" />
     <Compile Include="Entities\BinaryExpression.cs" />
     <Compile Include="Entities\Domain.cs" />
@@ -120,21 +138,6 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
-    <Compile Include="Views\AdornerPlacement.cs" />
-    <Compile Include="Views\ConnectionBadIndicator.cs" />
-    <Compile Include="Views\ConnectionDragEvents.cs" />
-    <Compile Include="Views\ConnectionOkIndicator.cs" />
-    <Compile Include="Views\ConnectorItem.cs" />
-    <Compile Include="Views\ConnectorItemDrageEvents.cs" />
-    <Compile Include="Views\CurvedArrow.cs" />
-    <Compile Include="Views\DomainItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\DomainItemsControl.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\FrameworkElementAdorner.cs" />
-    <Compile Include="Views\GraphicItem.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -143,13 +146,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\ModelView.cs" />
-    <Compile Include="Views\DomainDragEvents.cs" />
-    <Compile Include="Views\ConstraintDragEvents.cs" />
-    <Compile Include="Views\VariableDragEvents.cs" />
-    <Compile Include="Views\ConstraintItem.cs" />
-    <Compile Include="Views\VariableItem.cs" />
-    <Compile Include="Views\ConstraintItemsControl.cs" />
-    <Compile Include="Views\VariableItemsControl.cs" />
     <Compile Include="WpfUtils.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>

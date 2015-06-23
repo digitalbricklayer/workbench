@@ -161,7 +161,7 @@
                     >
 
                     <!-- The connection is represented by a curved arrow. -->
-                    <views:CurvedArrow
+                    <controls:CurvedArrow
                         Stroke="{StaticResource connectionBrush}"
                         StrokeThickness="2"
                         Fill="{StaticResource connectionBrush}"
@@ -214,7 +214,7 @@
         
         This sets the position of the variable within the Canvas.
         -->
-        <Style TargetType="{x:Type views:VariableItem}">
+        <Style TargetType="{x:Type controls:VariableItem}">
             <Setter
                 Property="X"
                 Value="{Binding X}"
@@ -237,7 +237,7 @@
         
         This sets the position of the variable within the Canvas.
         -->
-        <Style TargetType="{x:Type views:DomainItem}">
+        <Style TargetType="{x:Type controls:DomainItem}">
             <Setter
                 Property="X"
                 Value="{Binding X}"
@@ -260,7 +260,7 @@
         
         This sets the position of the variable within the Canvas.
         -->
-        <Style TargetType="{x:Type views:ConstraintItem}">
+        <Style TargetType="{x:Type controls:ConstraintItem}">
             <Setter
                 Property="X"
                 Value="{Binding X}"
@@ -278,7 +278,7 @@
         <!-- 
         This graphic is used to indicate that a connection cannot be made between two particular connectors.        
         -->
-        <DataTemplate DataType="{x:Type views:ConnectionBadIndicator}">
+        <DataTemplate DataType="{x:Type controls:ConnectionBadIndicator}">
             <Grid Width="80">
                 <Image 
                         Width="32"
@@ -292,7 +292,7 @@
         <!-- 
         This graphic is used to indicate that a connection can be made between two particular connectors.        
         -->
-        <DataTemplate DataType="{x:Type views:ConnectionOkIndicator}">
+        <DataTemplate DataType="{x:Type controls:ConnectionOkIndicator}">
             <Grid Width="80"> 
                 <Image 
                         Width="32"
@@ -307,7 +307,7 @@
         Define the visual style for a 'ConnectorItem'.
         -->
         <Style 
-            TargetType="{x:Type views:ConnectorItem}">
+            TargetType="{x:Type controls:ConnectorItem}">
             <!-- 
             Data-binding for the connector hotspot.
             ConnectorItem automatically computes its center 
@@ -324,7 +324,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate 
-                        TargetType="{x:Type views:ConnectorItem}"
+                        TargetType="{x:Type controls:ConnectorItem}"
                         >
                         <!-- The visual for the connector. -->
                         <Rectangle
@@ -404,25 +404,25 @@
                     Define the variable's four connectors, one on each edge of the variable.
                     -->
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="0"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[0]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="2"
                         DataContext="{Binding Connectors[1]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="2"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[2]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="0"
                         DataContext="{Binding Connectors[3]}"
@@ -529,25 +529,25 @@
                     Define the domain's four connectors, one on each edge of the variable.
                     -->
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="0"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[0]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="2"
                         DataContext="{Binding Connectors[1]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="2"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[2]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="0"
                         DataContext="{Binding Connectors[3]}"
@@ -594,8 +594,8 @@
             </DataTemplate>
 
         <!-- 
-        Define a data-template for the 'ConstraintViewModel' class.
-        This generates the UI for each variable.
+        Define a data-template for the ConstraintViewModel class.
+        This generates the UI for each constraint.
         -->
         <DataTemplate
             DataType="{x:Type viewModels:ConstraintViewModel}"
@@ -642,11 +642,21 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- The name of the domain. -->
-                    <TextBlock
+                    <!-- The name of the constraint. -->
+                    <TextBox
                         Grid.Column="1"
                         Grid.Row="1"
-                        Text="{Binding Name}"
+                        FontWeight="Bold"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
+
+                    <!-- The constraint expression. -->
+                    <TextBox
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Text="{Binding Expression, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         />
@@ -655,25 +665,25 @@
                     Define the domain's four connectors, one on each edge of the variable.
                     -->
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="0"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[0]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="2"
                         DataContext="{Binding Connectors[1]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="2"
                         Grid.Column="1"
                         DataContext="{Binding Connectors[2]}"
                         />
 
-                    <views:ConnectorItem 
+                    <controls:ConnectorItem 
                         Grid.Row="1"
                         Grid.Column="0"
                         DataContext="{Binding Connectors[3]}"

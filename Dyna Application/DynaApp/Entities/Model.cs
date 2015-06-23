@@ -107,7 +107,7 @@ namespace DynaApp.Entities
         }
 
         /// <summary>
-        /// Validate the model and ensure consistency between the domains and constraints.
+        /// Validate the model and ensure consistency between the domains and Variables.
         /// <remarks>Populates errors into the <see cref="Errors"/> collection.</remarks>
         /// </summary>
         /// <returns>True if the model is valid, False if it is not valid.</returns>

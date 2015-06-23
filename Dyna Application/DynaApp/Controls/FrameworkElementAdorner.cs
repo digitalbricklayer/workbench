@@ -5,7 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     //
     // This class is an adorner that allows a FrameworkElement derived class to adorn another FrameworkElement.
@@ -15,19 +15,19 @@ namespace DynaApp.Views
         //
         // The framework element that is the adorner. 
         //
-        private FrameworkElement child = null;
+        private readonly FrameworkElement child;
 
         //
         // Placement of the child.
         //
-        private AdornerPlacement horizontalAdornerPlacement = AdornerPlacement.Inside;
-        private AdornerPlacement verticalAdornerPlacement = AdornerPlacement.Inside;
+        private readonly AdornerPlacement horizontalAdornerPlacement = AdornerPlacement.Inside;
+        private readonly AdornerPlacement verticalAdornerPlacement = AdornerPlacement.Inside;
 
         //
         // Offset of the child.
         //
-        private double offsetX = 0.0;
-        private double offsetY = 0.0;
+        private readonly double offsetX;
+        private readonly double offsetY;
 
         //
         // Position of the child (when not set to NaN).

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using DynaApp.Controls;
 using DynaApp.Views;
 
 namespace DynaApp.ViewModels
@@ -36,7 +37,7 @@ namespace DynaApp.ViewModels
         public ObservableCollection<DomainViewModel> Domains { get; private set; }
 
         /// <summary>
-        /// Gets the collection of constraints in the model.
+        /// Gets the collection of Variables in the model.
         /// </summary>
         public ObservableCollection<ConstraintViewModel> Constraints { get; private set; }
 

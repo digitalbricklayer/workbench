@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using DynaApp.Controls;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Views

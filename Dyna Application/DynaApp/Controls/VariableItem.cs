@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using DynaApp.Views;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
-    public class DomainItem : GraphicItem
+    public class VariableItem : GraphicItem
     {
         #region Dependency Property/Event Definitions
 
-        internal static readonly RoutedEvent DomainDragStartedEvent =
-            EventManager.RegisterRoutedEvent("DomainDragStarted", RoutingStrategy.Bubble, typeof(DomainDragStartedEventHandler), typeof(DomainItem));
+        internal static readonly RoutedEvent VariableDragStartedEvent =
+            EventManager.RegisterRoutedEvent("VariableDragStarted", RoutingStrategy.Bubble, typeof(VariableDragStartedEventHandler), typeof(VariableItem));
 
-        internal static readonly RoutedEvent DomainDraggingEvent =
-            EventManager.RegisterRoutedEvent("DomainDragging", RoutingStrategy.Bubble, typeof(DomainDraggingEventHandler), typeof(DomainItem));
+        internal static readonly RoutedEvent VariableDraggingEvent =
+            EventManager.RegisterRoutedEvent("VariableDragging", RoutingStrategy.Bubble, typeof(VariableDraggingEventHandler), typeof(VariableItem));
 
-        internal static readonly RoutedEvent DomainDragCompletedEvent =
-            EventManager.RegisterRoutedEvent("DomainDragCompleted", RoutingStrategy.Bubble, typeof(DomainDragCompletedEventHandler), typeof(DomainItem));
+        internal static readonly RoutedEvent VariableDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("VariableDragCompleted", RoutingStrategy.Bubble, typeof(VariableDragCompletedEventHandler), typeof(VariableItem));
 
         #endregion Dependency Property/Event Definitions
 
-        public DomainItem()
+        public VariableItem()
         {
         }
 
         /// <summary>
         /// Static constructor.
         /// </summary>
-        static DomainItem()
+        static VariableItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DomainItem), new FrameworkPropertyMetadata(typeof(DomainItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(VariableItem), new FrameworkPropertyMetadata(typeof(VariableItem)));
         }
 
         /// <summary>
@@ -83,15 +84,15 @@ namespace DynaApp.Views
                 //
                 isLeftMouseAndControlDown = false;
 
-                if (this.ParentModelView.SelectedDomains.Count == 0)
+                if (this.ParentModelView.SelectedVariables.Count == 0)
                 {
                     //
                     // Nothing already selected, select the item.
                     //
                     this.IsSelected = true;
                 }
-                else if (this.ParentModelView.SelectedDomains.Contains(this) ||
-                         this.ParentModelView.SelectedDomains.Contains(this.DataContext))
+                else if (this.ParentModelView.SelectedVariables.Contains(this) ||
+                         this.ParentModelView.SelectedVariables.Contains(this.DataContext))
                 {
                     // 
                     // Item is already selected, do nothing.
@@ -104,7 +105,7 @@ namespace DynaApp.Views
                     // Item is not selected.
                     // Deselect all, and select the item.
                     //
-                    this.ParentModelView.SelectedDomains.Clear();
+                    this.ParentModelView.SelectedVariables.Clear();
                     this.IsSelected = true;
                 }
             }
@@ -117,15 +118,15 @@ namespace DynaApp.Views
         /// </summary>
         internal override void RightMouseDownSelectionLogic()
         {
-            if (this.ParentModelView.SelectedDomains.Count == 0)
+            if (this.ParentModelView.SelectedVariables.Count == 0)
             {
                 //
                 // Nothing already selected, select the item.
                 //
                 this.IsSelected = true;
             }
-            else if (this.ParentModelView.SelectedDomains.Contains(this) ||
-                     this.ParentModelView.SelectedDomains.Contains(this.DataContext))
+            else if (this.ParentModelView.SelectedVariables.Contains(this) ||
+                     this.ParentModelView.SelectedVariables.Contains(this.DataContext))
             {
                 // 
                 // Item is already selected, do nothing.
@@ -137,7 +138,7 @@ namespace DynaApp.Views
                 // Item is not selected.
                 // Deselect all, and select the item.
                 //
-                this.ParentModelView.SelectedDomains.Clear();
+                this.ParentModelView.DeselectAll();
                 this.IsSelected = true;
             }
         }
@@ -169,7 +170,7 @@ namespace DynaApp.Views
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new DomainDraggingEventArgs(DomainDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new VariableDraggingEventArgs(VariableDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
                 }
             }
             else if (isLeftMouseDown && this.ParentModelView.EnableVariableDragging)
@@ -191,7 +192,7 @@ namespace DynaApp.Views
                     //
                     // Raise an event to notify that that dragging has commenced.
                     //
-                    DomainDragStartedEventArgs eventArgs = new DomainDragStartedEventArgs(DomainDragStartedEvent, this, new DomainItem[] { this });
+                    VariableDragStartedEventArgs eventArgs = new VariableDragStartedEventArgs(VariableDragStartedEvent, this, new VariableItem[] { this });
                     RaiseEvent(eventArgs);
 
                     if (eventArgs.Cancel)
@@ -226,7 +227,7 @@ namespace DynaApp.Views
                     // Raise an event to notify that variable dragging has finished.
                     //
 
-                    RaiseEvent(new DomainDragCompletedEventArgs(DomainDragCompletedEvent, this, new[] { this }));
+                    RaiseEvent(new VariableDragCompletedEventArgs(VariableDragCompletedEvent, this, new VariableItem[] { this }));
 
 					this.ReleaseMouseCapture();
 
@@ -268,9 +269,9 @@ namespace DynaApp.Views
                 //
                 // Control key was not held down.
                 //
-                if (this.ParentModelView.SelectedDomains.Count == 1 &&
-                    (this.ParentModelView.SelectedDomains == this ||
-                     this.ParentModelView.SelectedDomains == this.DataContext))
+                if (this.ParentModelView.SelectedVariables.Count == 1 &&
+                    (this.ParentModelView.SelectedVariable == this ||
+                     this.ParentModelView.SelectedVariable == this.DataContext))
                 {
                     //
                     // The item that was clicked is already the only selected item.
@@ -282,7 +283,7 @@ namespace DynaApp.Views
                     //
                     // Clear the selection and select the clicked item as the only selected item.
                     //
-                    this.ParentModelView.SelectedDomains.Clear();
+                    this.ParentModelView.SelectedVariables.Clear();
                     this.IsSelected = true;
                 }
             }

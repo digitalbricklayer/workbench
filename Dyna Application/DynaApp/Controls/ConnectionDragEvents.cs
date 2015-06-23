@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     /// <summary>
     /// Base class for connection dragging event args.

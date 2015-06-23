@@ -39,7 +39,7 @@ namespace DynaApp.Solver
                                      new Tuple<Variable, IntVar>(variable, orVariable));
             }
 
-            // Constraints
+            // Variables
             foreach (var constraint in theModel.Constraints)
             {
                 switch (constraint.Expression.OperatorType)

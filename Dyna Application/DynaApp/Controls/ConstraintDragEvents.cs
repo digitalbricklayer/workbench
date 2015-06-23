@@ -1,53 +1,53 @@
 ﻿using System.Collections;
 using System.Windows;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     /// <summary>
-    /// Base class for variable dragging event args.
+    /// Base class for constraint dragging event args.
     /// </summary>
-    public class DomainDragEventArgs : RoutedEventArgs
+    public class ConstraintDragEventArgs : RoutedEventArgs
     {
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection domains;
+        public ICollection constraints;
 
-        protected DomainDragEventArgs(RoutedEvent routedEvent, object source, ICollection domains)
-            : base(routedEvent, source)
+        protected ConstraintDragEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+            base(routedEvent, source)
         {
-            this.domains = domains;
+            this.constraints = constraints;
         }
 
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection Domains
+        public ICollection Constraints
         {
             get
             {
-                return domains;
+                return constraints;
             }
         }
     }
 
     /// <summary>
-    /// Defines the event handler for VariableDragStarted events.
+    /// Defines the event handler for ConstraintDragStarted events.
     /// </summary>
-    public delegate void DomainDragEventHandler(object sender, DomainDragEventArgs e);
+    public delegate void ConstraintDragEventHandler(object sender, ConstraintDragEventArgs e);
 
     /// <summary>
     /// Arguments for event raised when the user starts to drag a variable in the network.
     /// </summary>
-    public class DomainDragStartedEventArgs : DomainDragEventArgs
+    public class ConstraintDragStartedEventArgs : ConstraintDragEventArgs
     {
         /// <summary>
         /// Set to 'false' to disallow dragging.
         /// </summary>
         private bool cancel;
 
-        internal DomainDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection domains) :
-            base(routedEvent, source, domains)
+        internal ConstraintDragStartedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+            base(routedEvent, source, constraints)
         {
         }
 
@@ -70,12 +70,12 @@ namespace DynaApp.Views
     /// <summary>
     /// Defines the event handler for VariableDragStarted events.
     /// </summary>
-    public delegate void DomainDragStartedEventHandler(object sender, DomainDragStartedEventArgs e);
+    public delegate void ConstraintDragStartedEventHandler(object sender, ConstraintDragStartedEventArgs e);
 
     /// <summary>
     /// Arguments for event raised while user is dragging a variable in the network.
     /// </summary>
-    public class DomainDraggingEventArgs : DomainDragEventArgs
+    public class ConstraintDraggingEventArgs : ConstraintDragEventArgs
     {
         /// <summary>
         /// The amount the variable has been dragged horizontally.
@@ -87,8 +87,8 @@ namespace DynaApp.Views
         /// </summary>
         public double verticalChange;
 
-        internal DomainDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection domains, double horizontalChange, double verticalChange) :
-            base(routedEvent, source, domains)
+        internal ConstraintDraggingEventArgs(RoutedEvent routedEvent, object source, ICollection constraints, double horizontalChange, double verticalChange) :
+            base(routedEvent, source, constraints)
         {
             this.horizontalChange = horizontalChange;
             this.verticalChange = verticalChange;
@@ -118,17 +118,17 @@ namespace DynaApp.Views
     }
 
     /// <summary>
-    /// Defines the event handler for VariableDragStarted events.
+    /// Defines the event handler for ConstraintDragStarted events.
     /// </summary>
-    public delegate void DomainDraggingEventHandler(object sender, DomainDraggingEventArgs e);
+    public delegate void ConstraintDraggingEventHandler(object sender, ConstraintDraggingEventArgs e);
 
     /// <summary>
     /// Arguments for event raised when the user has completed dragging a variable in the network.
     /// </summary>
-    public class DomainDragCompletedEventArgs : DomainDragEventArgs
+    public class ConstraintDragCompletedEventArgs : ConstraintDragEventArgs
     {
-        public DomainDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection domains) :
-            base(routedEvent, source, domains)
+        public ConstraintDragCompletedEventArgs(RoutedEvent routedEvent, object source, ICollection constraints)
+            : base(routedEvent, source, constraints)
         {
         }
     }
@@ -136,5 +136,5 @@ namespace DynaApp.Views
     /// <summary>
     /// Defines the event handler for VariableDragCompleted events.
     /// </summary>
-    public delegate void DomainDragCompletedEventHandler(object sender, DomainDragCompletedEventArgs e);
+    public delegate void ConstraintDragCompletedEventHandler(object sender, ConstraintDragCompletedEventArgs e);
 }

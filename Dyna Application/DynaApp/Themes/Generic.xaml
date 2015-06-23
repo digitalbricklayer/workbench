@@ -1,7 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:DynaApp.Views">
+    xmlns:local="clr-namespace:DynaApp.Views"
+    xmlns:controls="clr-namespace:DynaApp.Controls">
     <!-- 
     Include this in binding statements for diagnostics:
     diagnostics:PresentationTraceSources.TraceLevel=High
@@ -20,7 +21,7 @@
 
     <!-- Default style and control-template for 'VariableItem'. -->
     <Style 
-        TargetType="{x:Type local:VariableItem}">
+        TargetType="{x:Type controls:VariableItem}">
         
         <!-- Data-bind the parent ModelView. -->
         <Setter
@@ -62,7 +63,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate 
-                    TargetType="{x:Type local:VariableItem}"
+                    TargetType="{x:Type controls:VariableItem}"
                     >
                     <Grid>
                         
@@ -125,7 +126,7 @@
 
     <!-- Default style and control-template for 'DomainItem'. -->
     <Style 
-        TargetType="{x:Type local:DomainItem}">
+        TargetType="{x:Type controls:DomainItem}">
 
         <!-- Data-bind the parent ModelView. -->
         <Setter
@@ -167,7 +168,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate 
-                    TargetType="{x:Type local:DomainItem}"
+                    TargetType="{x:Type controls:DomainItem}"
                     >
                     <Grid>
 
@@ -230,7 +231,7 @@
 
     <!-- Default style and control-template for 'DomainItem'. -->
     <Style 
-        TargetType="{x:Type local:ConstraintItem}">
+        TargetType="{x:Type controls:ConstraintItem}">
 
         <!-- Data-bind the parent ModelView. -->
         <Setter
@@ -272,7 +273,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate 
-                    TargetType="{x:Type local:ConstraintItem}"
+                    TargetType="{x:Type controls:ConstraintItem}"
                     >
                     <Grid>
 
@@ -334,7 +335,7 @@
     </Style>
 
     <!-- Default style and control-template for 'ConnectorItem'. -->
-    <Style TargetType="{x:Type local:ConnectorItem}">
+    <Style TargetType="{x:Type controls:ConnectorItem}">
         
         <!-- Data-bind the parent NetworkView. -->
         <Setter
@@ -345,14 +346,14 @@
         <!-- Data-bind the parent GraphicItem. -->
         <Setter
             Property="ParentListBoxItem"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicItem}}, Path=.}"
+            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:GraphicItem}}, Path=.}"
             />
 
         <!-- The control-template for the connector. -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate 
-                    TargetType="{x:Type local:ConnectorItem}"
+                    TargetType="{x:Type controls:ConnectorItem}"
                     >
                     
                     <!-- Application-defined connector content is presented here. -->
@@ -405,7 +406,7 @@
                         <Grid>
 
                             <!-- Control that presents the variables. -->
-                            <local:VariableItemsControl
+                            <controls:VariableItemsControl
                                 x:Name="PART_VariableItemsControl"
                                 ItemsSource="{TemplateBinding Variables}"
                                 SelectionMode="Extended"
@@ -416,7 +417,7 @@
                                 />
                             
                             <!-- Control that presents the domains. -->
-                            <local:DomainItemsControl
+                            <controls:DomainItemsControl
                                 x:Name="PART_DomainItemsControl"
                                 ItemsSource="{TemplateBinding Domains}"
                                 SelectionMode="Extended"
@@ -427,7 +428,7 @@
                                 />
 
                             <!-- Control that presents the constraints. -->
-                            <local:ConstraintItemsControl
+                            <controls:ConstraintItemsControl
                                 x:Name="PART_ConstraintItemsControl"
                                 ItemsSource="{TemplateBinding Constraints}"
                                 SelectionMode="Extended"

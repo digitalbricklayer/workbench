@@ -1,4 +1,4 @@
-﻿namespace DynaApp.Views
+﻿namespace DynaApp.Controls
 {
     /// <summary>
     /// Specifies the placement of the adorner in related to the adorned control.

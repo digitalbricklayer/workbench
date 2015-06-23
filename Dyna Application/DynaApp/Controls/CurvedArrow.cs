@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     /// <summary>
     /// Defines an arrow that has multiple points.

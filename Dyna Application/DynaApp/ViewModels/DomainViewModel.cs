@@ -13,18 +13,14 @@ namespace DynaApp.ViewModels
         public DomainViewModel(string newDomainName)
             : base(newDomainName)
         {
+            this.Expression = string.Empty;
             this.PopulateConnectors();
         }
 
         /// <summary>
-        /// Is the destination graphic connectable to the graphic?
+        /// Gets or sets the domain expression.
         /// </summary>
-        /// <param name="destinationGraphic">Destination being connected to.</param>
-        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
-        public override bool IsConnectableTo(GraphicViewModel destinationGraphic)
-        {
-            return false;
-        }
+        public string Expression { get; set; }
 
         private void PopulateConnectors()
         {

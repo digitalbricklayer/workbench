@@ -1,4 +1,4 @@
-﻿namespace DynaApp.Views
+﻿namespace DynaApp.Controls
 {
     /// <summary>
     /// This class is just a place holder for showing a 'bad connection' indicator in the graph.

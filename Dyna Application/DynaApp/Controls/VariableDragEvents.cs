@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Windows;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     /// <summary>
     /// Base class for variable dragging event args.
@@ -11,22 +11,22 @@ namespace DynaApp.Views
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection constraints;
+        public ICollection variables;
 
-        protected VariableDragEventArgs(RoutedEvent routedEvent, object source, ICollection constraints) :
+        protected VariableDragEventArgs(RoutedEvent routedEvent, object source, ICollection variables) :
             base(routedEvent, source)
         {
-            this.constraints = constraints;
+            this.variables = variables;
         }
 
         /// <summary>
         /// The VariableItem's or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection Constraints
+        public ICollection Variables
         {
             get
             {
-                return constraints;
+                return variables;
             }
         }
     }

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using DynaApp.Controls;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Views
@@ -32,7 +33,7 @@ namespace DynaApp.Views
         public static readonly DependencyProperty DomainsProperty = DomainsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey ConstraintsPropertyKey =
-            DependencyProperty.RegisterReadOnly("Constraints", typeof(ObservableCollection<object>), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("Variables", typeof(ObservableCollection<object>), typeof(ModelView),
                 new FrameworkPropertyMetadata());
         public static readonly DependencyProperty ConstraintsProperty = ConstraintsPropertyKey.DependencyProperty;
 
@@ -202,7 +203,7 @@ namespace DynaApp.Views
         private ItemsControl connectionItemsControl;
 
         /// <summary>
-        /// Cached list of currently selected constraints.
+        /// Cached list of currently selected Variables.
         /// </summary>
         private List<object> initialSelectedVariables;
 
@@ -212,7 +213,7 @@ namespace DynaApp.Views
         private List<object> initialSelectedDomains;
 
         /// <summary>
-        /// Cached list of currently selected constraints.
+        /// Cached list of currently selected Variables.
         /// </summary>
         private List<object> initialSelectedConstraints;
 
@@ -252,14 +253,14 @@ namespace DynaApp.Views
         private List<DomainItem> cachedSelectedDomainItems;
 
         /// <summary>
-        /// Cached list of selected ConstraintItems, used while dragging constraints.
+        /// Cached list of selected ConstraintItems, used while dragging Variables.
         /// </summary>
         private List<ConstraintItem> cachedSelectedConstraintItems;
 
         /// <summary>
         /// The threshold distance the mouse-cursor must move before drag-selection begins.
         /// </summary>
-        private static readonly double DragThreshold = 5;
+        private const double DragThreshold = 5;
 
         /// <summary>
         /// When dragging a connection, this is set to the ConnectorItem that was initially dragged out.
@@ -526,7 +527,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Collection of constraints in the model.
+        /// Collection of Variables in the model.
         /// </summary>
         public ObservableCollection<object> Constraints
         {
@@ -588,7 +589,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// A reference to the collection that is the source used to populate 'constraints'.
+        /// A reference to the collection that is the source used to populate 'Variables'.
         /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
         /// </summary>
         public IEnumerable ConstraintsSource
@@ -1040,7 +1041,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Gets the currently selected constraints.
+        /// Gets the currently selected Variables.
         /// </summary>
         public IList SelectedConstraints
         {
@@ -2539,13 +2540,11 @@ namespace DynaApp.Views
         {
             e.Handled = true;
 
-            var eventArgs = new ConstraintDragCompletedEventArgs(ConstraintDragCompletedEvent, this, this.SelectedConstraints);
+            var eventArgs = new ConstraintDragCompletedEventArgs(ConstraintDragCompletedEvent,
+                                                                 this,
+                                                                 this.SelectedConstraints);
             RaiseEvent(eventArgs);
-
-            if (cachedSelectedConstraintItems != null)
-            {
-                cachedSelectedConstraintItems = null;
-            }
+            cachedSelectedConstraintItems = null;
 
             this.IsDragging = false;
             this.IsNotDragging = true;

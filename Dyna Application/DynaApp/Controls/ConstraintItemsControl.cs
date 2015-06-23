@@ -1,14 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using DynaApp.Views;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     /// <summary>
     /// Implements a ListBox for displaying constraints in the ModelView UI.
     /// </summary>
-    internal class VariableItemsControl : ListBox
+    internal class ConstraintItemsControl : ListBox
     {
-        public VariableItemsControl()
+        public ConstraintItemsControl()
         {
             //
             // By default, we don't want this UI element to be focusable.
@@ -20,9 +21,9 @@ namespace DynaApp.Views
         /// Find the VariableItem UI element that has the specified data context.
         /// Return null if no such VariableItem exists.
         /// </summary>
-        internal VariableItem FindAssociatedVariableItem(object variableDataContext)
+        internal ConstraintItem FindAssociatedConstraintItem(object constraintDataContext)
         {
-            return (VariableItem)this.ItemContainerGenerator.ContainerFromItem(variableDataContext);
+            return (ConstraintItem)this.ItemContainerGenerator.ContainerFromItem(constraintDataContext);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace DynaApp.Views
         /// </summary>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new VariableItem();
+            return new ConstraintItem();
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace DynaApp.Views
         /// </summary>
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
-            return item is VariableItem;
+            return item is ConstraintItem;
         }
     }
 }

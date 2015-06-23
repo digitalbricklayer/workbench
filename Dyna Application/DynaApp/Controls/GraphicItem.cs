@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using DynaApp.Views;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     public abstract class GraphicItem : ListBoxItem
     {

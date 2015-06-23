@@ -148,7 +148,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         /// <param name="destinationGraphic">Destination being connected to.</param>
         /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
-        public abstract bool IsConnectableTo(GraphicViewModel destinationGraphic);
+        public virtual bool IsConnectableTo(GraphicViewModel destinationGraphic)
+        {
+            return false;
+        }
 
         private void connectors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

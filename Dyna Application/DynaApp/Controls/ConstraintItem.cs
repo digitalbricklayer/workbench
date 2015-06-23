@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using DynaApp.Views;
 
-namespace DynaApp.Views
+namespace DynaApp.Controls
 {
     public class ConstraintItem : GraphicItem
     {
