@@ -33,7 +33,7 @@ namespace DynaApp.Views
         public static readonly DependencyProperty DomainsProperty = DomainsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey ConstraintsPropertyKey =
-            DependencyProperty.RegisterReadOnly("Variables", typeof(ObservableCollection<object>), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("Constraints", typeof(ObservableCollection<object>), typeof(ModelView),
                 new FrameworkPropertyMetadata());
         public static readonly DependencyProperty ConstraintsProperty = ConstraintsPropertyKey.DependencyProperty;
 
