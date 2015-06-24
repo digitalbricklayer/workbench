@@ -31,7 +31,7 @@
                 Color="White"
                 />
 
-            <!-- UI commands. -->
+        <!-- UI commands. -->
         <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
         <RoutedUICommand x:Key="Commands.CreateVariable" />
         <RoutedUICommand x:Key="Commands.DeleteConnection" />
@@ -39,7 +39,7 @@
         <RoutedUICommand x:Key="Commands.DeleteDomain" />
         <RoutedUICommand x:Key="Commands.DeleteConstraint" />
 
-            <!-- 
+        <!-- 
         Template for the button that is used to delete nodes and connections in the graph.
         This button is displayed in an adorner when the user hovers the mouse over a node or connection.
         -->
@@ -48,63 +48,63 @@
                 TargetType="{x:Type Button}"
                 >
             <Grid
-                    x:Name="grid"
-                    >
+                x:Name="grid"
+                >
                 <Grid.RenderTransform>
                     <ScaleTransform
-                            ScaleX="1"
-                            ScaleY="1"
-                            CenterX="10"
-                            CenterY="10"
-                            />
+                        ScaleX="1"
+                        ScaleY="1"
+                        CenterX="10"
+                        CenterY="10"
+                        />
                 </Grid.RenderTransform>
                 <Ellipse
-                        x:Name="shadow"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        Fill="Gray"
-                        >
+                    x:Name="shadow"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Fill="Gray"
+                    >
                     <Ellipse.RenderTransform>
                         <TranslateTransform
-                                X="1.5"
-                                Y="1.5"
-                                />
+                            X="1.5"
+                            Y="1.5"
+                            />
                     </Ellipse.RenderTransform>
                 </Ellipse>
                 <Ellipse
-                        x:Name="ellipse"
-                        Stroke="Black"
-                        VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch"
-                        Fill="White"
-                        />
+                    x:Name="ellipse"
+                    Stroke="Black"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Fill="White"
+                    />
                 <Image
-                        Source="../Images/scissors.png" 
-                        Margin="2"
-                        />
+                    Source="../Images/scissors.png" 
+                    Margin="2"
+                    />
             </Grid>
             <ControlTemplate.Triggers>
                 <EventTrigger
-                        RoutedEvent="Mouse.MouseEnter"
-                        >
+                    RoutedEvent="Mouse.MouseEnter"
+                    >
                     <!-- 
-                        Make the 'delete connection button' larger when the mouse 
-                        cursor is hovered over it.
-                        -->
+                    Make the 'delete connection button' larger when the mouse 
+                    cursor is hovered over it.
+                    -->
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation
-                                    Storyboard.TargetName="grid"
-                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                    To="1.3"
-                                    Duration="0:0:0.25"
-                                    />
+                                Storyboard.TargetName="grid"
+                                Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                To="1.3"
+                                Duration="0:0:0.25"
+                                />
                             <DoubleAnimation
-                                    Storyboard.TargetName="grid"
-                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                    To="1.3"
-                                    Duration="0:0:0.25"
-                                    />
+                                Storyboard.TargetName="grid"
+                                Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                To="1.3"
+                                Duration="0:0:0.25"
+                                />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -119,17 +119,17 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation
-                                    Storyboard.TargetName="grid"
-                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                    To="1"
-                                    Duration="0:0:0.05"
-                                    />
+                                Storyboard.TargetName="grid"
+                                Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                To="1"
+                                Duration="0:0:0.05"
+                                />
                             <DoubleAnimation
-                                    Storyboard.TargetName="grid"
-                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                    To="1"
-                                    Duration="0:0:0.05"
-                                    />
+                                Storyboard.TargetName="grid"
+                                Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                To="1"
+                                Duration="0:0:0.05"
+                                />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -155,52 +155,52 @@
             'delete connection' adorner pops up and allows them to delete the connection.
             -->
             <controls:AdornedControl
-                    HorizontalAdornerPlacement="Mouse"
-                    VerticalAdornerPlacement="Mouse"
-                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                    >
+                HorizontalAdornerPlacement="Mouse"
+                VerticalAdornerPlacement="Mouse"
+                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
+                >
 
-                    <!-- The connection is represented by a curved arrow. -->
-                    <controls:CurvedArrow
-                        Stroke="{StaticResource connectionBrush}"
-                        StrokeThickness="2"
-                        Fill="{StaticResource connectionBrush}"
-                        Points="{Binding Points}"
-                        />
+                <!-- The connection is represented by a curved arrow. -->
+                <controls:CurvedArrow
+                    Stroke="{StaticResource connectionBrush}"
+                    StrokeThickness="2"
+                    Fill="{StaticResource connectionBrush}"
+                    Points="{Binding Points}"
+                    />
 
                     <controls:AdornedControl.AdornerContent>
 
                     <!-- 
-                        This is the adorner that pops up when the user hovers the mouse over the connection.
-                        It displays a button that the user can click to delete the connection.
-                        -->
+                    This is the adorner that pops up when the user hovers the mouse over the connection.
+                    It displays a button that the user can click to delete the connection.
+                    -->
                     <Canvas
-                            x:Name="connectionAdornerCanvas"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Width="30"
-                            Height="30"
-                            >
+                        x:Name="connectionAdornerCanvas"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Height="30"
+                        >
                         <Line
-                                X1="0"
-                                Y1="30"
-                                X2="15"
-                                Y2="15"
-                                Stroke="Black"
-                                StrokeThickness="1"
-                                />
+                            X1="0"
+                            Y1="30"
+                            X2="15"
+                            Y2="15"
+                            Stroke="Black"
+                            StrokeThickness="1"
+                            />
                         <Button
-                                x:Name="deleteConnectionButton"
-                                Canvas.Left="10"
-                                Canvas.Top="0"
-                                Width="20"
-                                Height="20"
-                                Cursor="Hand"
-                                Focusable="False"
-                                Command="{StaticResource Commands.DeleteConnection}"
-                                CommandParameter="{Binding}"
-                                Template="{StaticResource deleteButtonTemplate}"
-                                />
+                            x:Name="deleteConnectionButton"
+                            Canvas.Left="10"
+                            Canvas.Top="0"
+                            Width="20"
+                            Height="20"
+                            Cursor="Hand"
+                            Focusable="False"
+                            Command="{StaticResource Commands.DeleteConnection}"
+                            CommandParameter="{Binding}"
+                            Template="{StaticResource deleteButtonTemplate}"
+                            />
                     </Canvas>
                 </controls:AdornedControl.AdornerContent>
             </controls:AdornedControl>
@@ -230,12 +230,7 @@
         </Style>
 
         <!--
-        Define the visual style for a 'DomainItem'.
-        
-        Binds 'X' and 'Y' in the view-model (the 'DomainViewModel' class)
-        to 'X' and 'Y' in the VariableItem class.
-        
-        This sets the position of the variable within the Canvas.
+        Define the visual style for a DomainItem.
         -->
         <Style TargetType="{x:Type controls:DomainItem}">
             <Setter
@@ -253,12 +248,7 @@
         </Style>
 
         <!--
-        Define the visual style for a 'ConstraintItem'.
-        
-        Binds 'X' and 'Y' in the view-model (the 'ConstraintViewModel' class)
-        to 'X' and 'Y' in the ConstraintItem class.
-        
-        This sets the position of the variable within the Canvas.
+        Define the visual style for a ConstraintItem.
         -->
         <Style TargetType="{x:Type controls:ConstraintItem}">
             <Setter
@@ -276,35 +266,37 @@
         </Style>
 
         <!-- 
-        This graphic is used to indicate that a connection cannot be made between two particular connectors.        
+        This graphic is used to indicate that a connection cannot be made 
+        between two particular connectors.        
         -->
         <DataTemplate DataType="{x:Type controls:ConnectionBadIndicator}">
             <Grid Width="80">
                 <Image 
-                        Width="32"
-                        Height="32"
-                        Source="../Images/block_16.png"
-                        HorizontalAlignment="Right"
-                        />
+                    Width="32"
+                    Height="32"
+                    Source="../Images/block_16.png"
+                    HorizontalAlignment="Right"
+                    />
             </Grid>
         </DataTemplate>
 
         <!-- 
-        This graphic is used to indicate that a connection can be made between two particular connectors.        
+        This graphic is used to indicate that a connection can be made between 
+        two particular connectors.        
         -->
         <DataTemplate DataType="{x:Type controls:ConnectionOkIndicator}">
             <Grid Width="80"> 
                 <Image 
-                        Width="32"
-                        Height="32"
-                        Source="../Images/tick_16.png"
-                        HorizontalAlignment="Right"
-                        />
+                    Width="32"
+                    Height="32"
+                    Source="../Images/tick_16.png"
+                    HorizontalAlignment="Right"
+                    />
             </Grid>
         </DataTemplate>
 
         <!-- 
-        Define the visual style for a 'ConnectorItem'.
+        Define the visual style for a ConnectorItem.
         -->
         <Style 
             TargetType="{x:Type controls:ConnectorItem}">
@@ -469,8 +461,7 @@
         </DataTemplate>
 
         <!-- 
-        Define a data-template for the 'DomainViewModel' class.
-        This generates the UI for each variable.
+        Define a data-template for the DomainViewModel class.
         -->
         <DataTemplate
             DataType="{x:Type viewModels:DomainViewModel}"
@@ -652,17 +643,17 @@
                         VerticalAlignment="Center"
                         />
 
-                    <!-- The constraint expression. -->
+                    <!-- The constraint expression text. -->
                     <TextBox
                         Grid.Column="1"
                         Grid.Row="2"
-                        Text="{Binding Expression, Mode=TwoWay}"
+                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         />
 
                     <!-- 
-                    Define the domain's four connectors, one on each edge of the variable.
+                    Define the constraint's four connectors, one on each edge of the constraint.
                     -->
 
                     <controls:ConnectorItem 
@@ -810,7 +801,7 @@
             Focusable="False">
 
             <!--
-            We need to nest the ModelView in an AdornerDecorator so that adorners 
+            We need to nest the ModelView inside an AdornerDecorator so that adorners 
             work correctly.
             -->
             <AdornerDecorator>

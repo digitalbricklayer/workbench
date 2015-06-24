@@ -8,14 +8,14 @@
         public ConstraintViewModel(string newConstraintName)
             : base(newConstraintName)
         {
-            this.Expression = string.Empty;
+            this.Expression = new ConstraintExpressionViewModel();
             this.PopulateConnectors();
         }
 
         /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
-        public string Expression { get; set; }
+        public ConstraintExpressionViewModel Expression { get; private set; }
 
         private void PopulateConnectors()
         {

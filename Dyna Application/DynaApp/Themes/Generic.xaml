@@ -229,7 +229,7 @@
         </Setter>
     </Style>
 
-    <!-- Default style and control-template for 'DomainItem'. -->
+    <!-- Default style and control-template for ConstraintItem. -->
     <Style 
         TargetType="{x:Type controls:ConstraintItem}">
 
@@ -334,10 +334,10 @@
         </Setter>
     </Style>
 
-    <!-- Default style and control-template for 'ConnectorItem'. -->
+    <!-- Default style and control-template for ConnectorItem. -->
     <Style TargetType="{x:Type controls:ConnectorItem}">
         
-        <!-- Data-bind the parent NetworkView. -->
+        <!-- Data-bind the parent ModelView. -->
         <Setter
             Property="ParentModelView"
             Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"

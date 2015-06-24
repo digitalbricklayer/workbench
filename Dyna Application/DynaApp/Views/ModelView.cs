@@ -220,12 +220,12 @@ namespace DynaApp.Views
         /// <summary>
         /// Set to 'true' when the control key and the left mouse button is currently held down.
         /// </summary>
-        private bool isControlAndLeftMouseButtonDown = false;
+        private bool isControlAndLeftMouseButtonDown;
 
         /// <summary>
         /// Set to 'true' when the user is dragging out the selection rectangle.
         /// </summary>
-        private bool isDraggingSelectionRect = false;
+        private bool isDraggingSelectionRect;
 
         /// <summary>
         /// Records the original mouse down point when the user is dragging out a selection rectangle.
