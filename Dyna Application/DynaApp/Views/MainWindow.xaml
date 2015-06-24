@@ -508,18 +508,27 @@
                     </Grid.RowDefinitions>
 
                     <!-- The name of the domain. -->
-                    <TextBlock
+                    <TextBox
                         Grid.Column="1"
                         Grid.Row="1"
-                        Text="{Binding Name}"
+                        FontWeight="Bold"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
+
+                    <!-- The domain expression text. -->
+                    <TextBox
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         />
 
                     <!-- 
-                    Define the domain's four connectors, one on each edge of the variable.
+                    Define the domain's four connectors, one on each edge of the domain.
                     -->
-
                     <controls:ConnectorItem 
                         Grid.Row="0"
                         Grid.Column="1"

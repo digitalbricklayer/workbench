@@ -13,14 +13,14 @@ namespace DynaApp.ViewModels
         public DomainViewModel(string newDomainName)
             : base(newDomainName)
         {
-            this.Expression = string.Empty;
+            this.Expression = new DomainExpressionViewModel();
             this.PopulateConnectors();
         }
 
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
-        public string Expression { get; set; }
+        public DomainExpressionViewModel Expression { get; set; }
 
         private void PopulateConnectors()
         {

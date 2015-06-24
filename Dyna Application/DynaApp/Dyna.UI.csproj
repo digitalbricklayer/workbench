@@ -134,6 +134,7 @@
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\ConstraintViewModel.cs" />
+    <Compile Include="ViewModels\DomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\DomainViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

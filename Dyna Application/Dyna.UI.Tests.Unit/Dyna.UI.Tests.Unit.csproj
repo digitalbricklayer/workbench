@@ -71,6 +71,7 @@
     <Compile Include="Solver\ConstraintSolverSimpleTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
+    <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainViewModelTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
   </ItemGroup>

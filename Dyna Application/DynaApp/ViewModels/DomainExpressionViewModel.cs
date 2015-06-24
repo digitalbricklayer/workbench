@@ -1,22 +1,22 @@
 ﻿namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// A constraint expression view model.
+    /// A domain expression view model.
     /// </summary>
-    public sealed class ConstraintExpressionViewModel : AbstractModelBase
+    public sealed class DomainExpressionViewModel : AbstractModelBase
     {
         private string text;
 
         /// <summary>
-        /// Initialize a constraint expression with default values.
+        /// Initialize a domain expression with default values.
         /// </summary>
-        public ConstraintExpressionViewModel()
+        public DomainExpressionViewModel()
         {
             this.Text = string.Empty;
         }
 
         /// <summary>
-        /// Gets or sets the constraint expression text.
+        /// Gets or sets the domain expression text.
         /// </summary>
         public string Text
         {
