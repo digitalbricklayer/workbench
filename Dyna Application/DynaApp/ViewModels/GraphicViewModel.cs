@@ -8,7 +8,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// Base for all graphic elements displayed on the model view.
     /// </summary>
-    public abstract class GraphicViewModel : AbstractModelBase
+    public abstract class GraphicViewModel : AbstractViewModel
     {
         /// <summary>
         /// The X coordinate for the position of the domain.

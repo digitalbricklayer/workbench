@@ -6,7 +6,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for the main window.
     /// </summary>
-    public sealed class MainWindowViewModel : AbstractModelBase
+    public sealed class MainWindowViewModel : AbstractViewModel
     {
         /// <summary>
         /// Initialize a main windows view model with default values.

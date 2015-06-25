@@ -7,7 +7,7 @@ namespace DynaApp.ViewModels
     /// A connector (or connection point) can be attached to a 
     /// variable and is used to connect the variable to a domain.
     /// </summary>
-    public class ConnectorViewModel : AbstractModelBase
+    public class ConnectorViewModel : AbstractViewModel
     {
         /// <summary>
         /// The hotspot (or center) of the connector.

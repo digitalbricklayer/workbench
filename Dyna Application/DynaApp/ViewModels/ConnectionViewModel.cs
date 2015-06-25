@@ -8,7 +8,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// A connection between two connectors.
     /// </summary>
-    public sealed class ConnectionViewModel : AbstractModelBase
+    public sealed class ConnectionViewModel : AbstractViewModel
     {
         /// <summary>
         /// The source connector the connection is attached to.

@@ -129,7 +129,7 @@
     <Compile Include="Solver\SolveStatus.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\AbstractModelBase.cs" />
+    <Compile Include="ViewModels\AbstractViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />

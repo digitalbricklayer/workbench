@@ -3,7 +3,7 @@
     /// <summary>
     /// A domain expression view model.
     /// </summary>
-    public sealed class DomainExpressionViewModel : AbstractModelBase
+    public sealed class DomainExpressionViewModel : AbstractViewModel
     {
         private string text;
 

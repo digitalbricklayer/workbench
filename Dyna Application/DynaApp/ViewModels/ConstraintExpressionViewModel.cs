@@ -3,7 +3,7 @@
     /// <summary>
     /// A constraint expression view model.
     /// </summary>
-    public sealed class ConstraintExpressionViewModel : AbstractModelBase
+    public sealed class ConstraintExpressionViewModel : AbstractViewModel
     {
         private string text;
 

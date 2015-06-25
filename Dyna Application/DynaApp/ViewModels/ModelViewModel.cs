@@ -12,7 +12,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// A view model for a model.
     /// </summary>
-    public sealed class ModelViewModel : AbstractModelBase
+    public sealed class ModelViewModel : AbstractViewModel
     {
         /// <summary>
         /// Initialize a model view model with default values.

@@ -5,11 +5,11 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// Abstract base for view-model classes that need to implement INotifyPropertyChanged.
     /// </summary>
-    public abstract class AbstractModelBase : INotifyPropertyChanged
+    public abstract class AbstractViewModel : INotifyPropertyChanged
     {
 #if DEBUG
-        private static int nextObjectId = 0;
-        private int objectDebugId = nextObjectId++;
+        private static int nextObjectId;
+        private readonly int objectDebugId = nextObjectId++;
 
         public int ObjectDebugId
         {
