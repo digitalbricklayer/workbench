@@ -38,6 +38,7 @@
         <RoutedUICommand x:Key="Commands.DeleteVariable" />
         <RoutedUICommand x:Key="Commands.DeleteDomain" />
         <RoutedUICommand x:Key="Commands.DeleteConstraint" />
+        <RoutedUICommand x:Key="Commands.Solve"/>
 
         <!-- 
         Template for the button that is used to delete nodes and connections in the graph.
@@ -768,6 +769,7 @@
             Executed="DeleteConstraint_Executed" 
             />
 
+        <CommandBinding Command="{StaticResource Commands.Solve}" Executed="MenuFileSolve_Click" />
         <CommandBinding Command="ApplicationCommands.Close" Executed="FileCloseCommand" />
 
     </Window.CommandBindings>
@@ -793,6 +795,12 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
+                <MenuItem Header="Solve..." Command="{StaticResource Commands.Solve}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
                 <MenuItem Header="Exit" Command="ApplicationCommands.Close">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />

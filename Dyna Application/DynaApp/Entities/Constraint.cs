@@ -26,7 +26,7 @@ namespace DynaApp.Entities
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
-            this.ParseExpression(rawExpression);
+            this.Expression = ConstraintGrammar.Parse(rawExpression);
         }
 
         /// <summary>
@@ -43,11 +43,11 @@ namespace DynaApp.Entities
         /// Parse the raw expression text.
         /// </summary>
         /// <param name="expressionText">Raw constraint expression.</param>
-        public void ParseExpression(string expressionText)
+        public static Constraint ParseExpression(string expressionText)
         {
             if (string.IsNullOrWhiteSpace(expressionText))
                 throw new ArgumentException("expressionText");
-            this.Expression = ConstraintGrammar.Parse(expressionText);
+            return new Constraint(ConstraintGrammar.Parse(expressionText));
         }
     }
 }

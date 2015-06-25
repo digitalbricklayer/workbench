@@ -39,16 +39,25 @@ namespace DynaApp.Entities
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets the variables.
+        /// </summary>
         public IEnumerable<Variable> Variables
         {
             get { return variables; }
         }
 
+        /// <summary>
+        /// Gets the domains.
+        /// </summary>
         public IEnumerable<Domain> Domains
         {
             get { return domains; }
         }
 
+        /// <summary>
+        /// Gets the constraints.
+        /// </summary>
         public IEnumerable<Constraint> Constraints
         {
             get { return constraints; }
@@ -57,8 +66,15 @@ namespace DynaApp.Entities
         /// <summary>
         /// Gets the validation errors.
         /// </summary>
-        public IEnumerable<String> Errors { get { return this.errors; } }
+        public IEnumerable<String> Errors
+        {
+            get { return this.errors; }
+        }
 
+        /// <summary>
+        /// Add a new constraint to the model.
+        /// </summary>
+        /// <param name="newConstraint">New constraint.</param>
         public void AddConstraint(Constraint newConstraint)
         {
             if (newConstraint == null)
@@ -67,6 +83,10 @@ namespace DynaApp.Entities
             this.constraints.Add(newConstraint);
         }
 
+        /// <summary>
+        /// Removes a constraint from the model.
+        /// </summary>
+        /// <param name="oldConstraint">Constraint to remove.</param>
         public void RemoveConstraint(Constraint oldConstraint)
         {
             if (oldConstraint == null)

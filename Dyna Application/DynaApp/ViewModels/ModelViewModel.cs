@@ -5,7 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using DynaApp.Controls;
-using DynaApp.Views;
+using DynaApp.Entities;
+using DynaApp.Solver;
 
 namespace DynaApp.ViewModels
 {
@@ -304,6 +305,16 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Solve the model.
+        /// </summary>
+        public void Solve()
+        {
+            var model = BuildModel();
+            var solver = new ConstraintSolver();
+            solver.Solve(model);
+        }
+
+        /// <summary>
         /// Remove the connections from the model.
         /// </summary>
         /// <param name="connectionsToDelete">Enumeration of connections to delete.</param>
@@ -340,6 +351,59 @@ namespace DynaApp.ViewModels
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Build the model from the view model.
+        /// </summary>
+        /// <returns>A model populated with the same contents as the view model.</returns>
+        private Model BuildModel()
+        {
+            var theModel = new Model();
+            this.BuildConstraints(theModel);
+            this.BuildDomains(theModel);
+            this.BuildVariables(theModel);
+
+            return theModel;
+        }
+
+        /// <summary>
+        /// Build the constraints in the model from the constraint view models.
+        /// </summary>
+        /// <param name="theModel">Model being built.</param>
+        private void BuildConstraints(Model theModel)
+        {
+            foreach (var constraintViewModel in this.Constraints)
+            {
+                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Text);
+                theModel.AddConstraint(constraint);
+            }
+        }
+
+        /// <summary>
+        /// Build the domains in the model from the domain view models.
+        /// </summary>
+        /// <param name="theModel">Model being built.</param>
+        private void BuildDomains(Model theModel)
+        {
+            foreach (var domainViewModel in this.Domains)
+            {
+                var domain = new Domain(domainViewModel.Name, domainViewModel.Expression.Text);
+                theModel.AddSharedDomain(domain);
+            }
+        }
+
+        /// <summary>
+        /// Build the variables in the model from the variable view models.
+        /// </summary>
+        /// <param name="theModel">Model being built.</param>
+        private void BuildVariables(Model theModel)
+        {
+            foreach (var variableViewModel in this.Variables)
+            {
+                var variable = new Variable(variableViewModel.Name);
+                theModel.AddVariable(variable);
+            }
         }
     }
 }

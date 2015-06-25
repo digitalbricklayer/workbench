@@ -109,6 +109,16 @@ namespace DynaApp.Views
         }
 
         /// <summary>
+        /// Handle selection of the "File|Solve" menu item.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Event arguments.</param>
+        private void MenuFileSolve_Click(object sender, RoutedEventArgs e)
+        {
+            this.ViewModel.Model.Solve();
+        }
+
+        /// <summary>
         /// Event raised to create a new variable.
         /// </summary>
         private void CreateVariable_Executed(object sender, ExecutedRoutedEventArgs e)
