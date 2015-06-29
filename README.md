@@ -9,7 +9,8 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 Design goals:
 * **Technical level** - the user of the software should require no programming experience;
 * **User Interface** - the problem should be described in a graphical way;
-* **Build a playground** - the user should have a constraint workbench in which they are able to model various types of constraint type problems and then able to solve them in an interactive manner and present the results.
+* **Build a playground** - the user should have a constraint workbench in which they are able to model various types of constraint type problems and then able to solve them in an interactive manner and present the results;
+* **Solution display** - should be configurable, taking a quite technical model and displaying the resulting solution in a manner that makes sense to the user;
 * **Optimisation** - The user should be able to optimise the solution interactively.
 
 Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else.
