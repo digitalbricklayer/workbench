@@ -5,7 +5,7 @@ namespace DynaApp.Entities
     /// <summary>
     /// Fluent interface for building models.
     /// </summary>
-    class ModelContext
+    public class ModelContext
     {
         private readonly Model model;
 

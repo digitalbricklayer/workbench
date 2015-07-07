@@ -5,7 +5,7 @@ namespace DynaApp.Entities
     /// <summary>
     /// A constraint restricting a variable's possible bound values.
     /// </summary>
-    class Constraint
+    public class Constraint
     {
         /// <summary>
         /// Initialize a constraint with an expression.

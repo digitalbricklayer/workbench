@@ -2,7 +2,7 @@
 
 namespace DynaApp.Entities
 {
-    class Literal
+    public class Literal
     {
         public Literal(string newLiteral)
         {

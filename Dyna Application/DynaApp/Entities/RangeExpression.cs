@@ -1,6 +1,6 @@
 namespace DynaApp.Entities
 {
-    class RangeExpression
+    public class RangeExpression
     {
         public RangeExpression(int upperBand, int lowerBand)
         {

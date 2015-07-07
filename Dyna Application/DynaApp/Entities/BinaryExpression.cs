@@ -5,7 +5,7 @@ namespace DynaApp.Entities
     /// <summary>
     /// Expression tree of the constraint.
     /// </summary>
-    class BinaryExpression
+    public class BinaryExpression
     {
         public BinaryExpression(Variable lhs, Expression rhs, OperatorType operatorType)
         {

@@ -1,6 +1,6 @@
 ﻿namespace DynaApp.Entities
 {
-    enum OperatorType
+    public enum OperatorType
     {
         Equals,
         NotEqual,

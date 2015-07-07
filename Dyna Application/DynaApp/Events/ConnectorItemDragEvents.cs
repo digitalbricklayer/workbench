@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DynaApp.Controls
+namespace DynaApp.Events
 {
     /// <summary>
     /// Arguments for event raised when the user starts to drag a connector out from a variable.

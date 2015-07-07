@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DynaApp.Events;
 using DynaApp.Views;
 
 namespace DynaApp.Controls

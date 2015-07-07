@@ -7,7 +7,7 @@ namespace DynaApp.Entities
     /// <summary>
     /// A domain contains the possible values that a variable can be bound to.
     /// </summary>
-    class Domain
+    public class Domain
     {
         private readonly List<int> values = new List<int>();
 

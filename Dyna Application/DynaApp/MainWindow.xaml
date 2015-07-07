@@ -1,4 +1,4 @@
-﻿<Window x:Class="DynaApp.Views.MainWindow"
+﻿<Window x:Class="DynaApp.MainWindow"
         x:Name="mainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -19,7 +19,7 @@
                 Color="Black"
                 />
 
-            <!-- The border brush for nodes. -->
+            <!-- The border brush for variables. -->
             <SolidColorBrush
                 x:Key="variableBorderBrush"
                 Color="Black"
@@ -80,7 +80,7 @@
                     Fill="White"
                     />
                 <Image
-                    Source="../Images/scissors.png" 
+                    Source="/Images/scissors.png" 
                     Margin="2"
                     />
             </Grid>
@@ -275,7 +275,7 @@
                 <Image 
                     Width="32"
                     Height="32"
-                    Source="../Images/block_16.png"
+                    Source="/Images/block_16.png"
                     HorizontalAlignment="Right"
                     />
             </Grid>
@@ -290,7 +290,7 @@
                 <Image 
                     Width="32"
                     Height="32"
-                    Source="../Images/tick_16.png"
+                    Source="/Images/tick_16.png"
                     HorizontalAlignment="Right"
                     />
             </Grid>
@@ -797,50 +797,62 @@
             <MenuItem Header="File">
                 <MenuItem Header="Solve..." Command="{StaticResource Commands.Solve}">
                     <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
+                        <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Exit" Command="ApplicationCommands.Close">
                     <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
+                        <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
         </Menu>
 
-        <!--
-        The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
-        Focusable is set to False because it is only that ModelView that I want to be focusable.
-        -->
-        <ScrollViewer
-            HorizontalScrollBarVisibility="Auto"
-            Focusable="False">
+        <StackPanel>
+
+            <!-- View mode selector -->
+            <ComboBox 
+                x:Name="viewSelectorBox"
+                ItemsSource="{Binding AvailableDisplayModes}"
+                SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
+                />
 
             <!--
-            We need to nest the ModelView inside an AdornerDecorator so that adorners 
-            work correctly.
+            The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+            Focusable is set to False because it is only that ModelView that I want to be focusable.
             -->
-            <AdornerDecorator>
-                
-                <!-- The ModelView is the content of the ScrollViewer. -->
-                <views:ModelView 
-                    x:Name="modelControl"
-                    Width="2000" Height="2000"
-                    VariablesSource="{Binding Model.Variables}"
-                    DomainsSource="{Binding Model.Domains}"
-                    ConstraintsSource="{Binding Model.Constraints}"
-                    ConnectionsSource="{Binding Model.Connections}"
+            <ScrollViewer
+                x:Name="contentViewer"
+                HorizontalScrollBarVisibility="Auto"
+                Focusable="False">
+
+                <!--
+                We need to nest the ModelView inside an AdornerDecorator so that adorners 
+                work correctly.
+                -->
+                <AdornerDecorator>
+
+                    <ContentControl Content="{Binding SelectedDisplayView}" />
+                    <!-- The ModelView is the content of the ScrollViewer. -->
+<!--                    <views:ModelView 
+                        x:Name="modelControl"
+                        Width="2000" Height="2000"
+                        VariablesSource="{Binding Model.Variables}"
+                        DomainsSource="{Binding Model.Domains}"
+                        ConstraintsSource="{Binding Model.Constraints}"
+                        ConnectionsSource="{Binding Model.Connections}"
                     
-                    ConnectionDragStarted="modelControl_ConnectionDragStarted"
-                    ConnectionDragging="modelControl_ConnectionDragging"
-                    QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
-                    ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
-                    />
+                        ConnectionDragStarted="modelControl_ConnectionDragStarted"
+                        ConnectionDragging="modelControl_ConnectionDragging"
+                        QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
+                        ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
+                        />
+                        -->
+                    
+                </AdornerDecorator>
 
-            </AdornerDecorator>
-
-        </ScrollViewer>
-
+            </ScrollViewer>
+        </StackPanel>
     </DockPanel>
 </Window>

@@ -5,7 +5,7 @@ namespace DynaApp.Entities
     /// <summary>
     /// An expression can either be a variable or literal.
     /// </summary>
-    class Expression
+    public class Expression
     {
         private Expression(Variable theVariable)
         {

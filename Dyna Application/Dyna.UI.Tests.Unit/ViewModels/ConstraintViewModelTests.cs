@@ -44,5 +44,19 @@ namespace Dyna.UI.Tests.Unit.ViewModels
             // Assert
             Assert.That(actualResult, Is.False);
         }
+
+        [Test]
+        public void IsValid_With_Empty_Expression_Returns_False()
+        {
+            var sut = new ConstraintViewModel("X");
+            Assert.That(sut.IsValid, Is.False);
+        }
+
+        [Test]
+        public void IsValid_With_Valid_Expression_Returns_True()
+        {
+            var sut = new ConstraintViewModel("X", "X < Y");
+            Assert.That(sut.IsValid, Is.True);
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows;
 using DynaApp.Controls;
 using DynaApp.Entities;
 using DynaApp.Solver;
+using DynaApp.Views;
 
 namespace DynaApp.ViewModels
 {
@@ -307,9 +308,25 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Solve the model.
         /// </summary>
-        public void Solve()
+        /// <param name="parentWindow">Parent window.</param>
+        public void Solve(Window parentWindow)
         {
             var model = BuildModel();
+            var isModelValid = model.Validate();
+            if (!isModelValid)
+            {
+                Trace.Assert(model.Errors.Any());
+
+                // Display error dialog...
+                var errorWindow = new ModelErrorsWindow
+                {
+                    Owner = parentWindow,
+                    DataContext = CreateModelErrorsFrom(model)
+                };
+                errorWindow.ShowDialog();
+                return;
+            }
+
             var solver = new ConstraintSolver();
             solver.Solve(model);
         }
@@ -373,7 +390,9 @@ namespace DynaApp.ViewModels
         /// <param name="theModel">Model being built.</param>
         private void BuildConstraints(Model theModel)
         {
-            foreach (var constraintViewModel in this.Constraints)
+            var validConstraints = this.Constraints.Where(constraint => constraint.IsValid)
+                                                   .ToList();
+            foreach (var constraintViewModel in validConstraints)
             {
                 var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Text);
                 theModel.AddConstraint(constraint);
@@ -386,7 +405,9 @@ namespace DynaApp.ViewModels
         /// <param name="theModel">Model being built.</param>
         private void BuildDomains(Model theModel)
         {
-            foreach (var domainViewModel in this.Domains)
+            var validDomains = this.Domains.Where(domain => domain.IsValid)
+                                           .ToList();
+            foreach (var domainViewModel in validDomains)
             {
                 var domain = new Domain(domainViewModel.Name, domainViewModel.Expression.Text);
                 theModel.AddSharedDomain(domain);
@@ -404,6 +425,28 @@ namespace DynaApp.ViewModels
                 var variable = new Variable(variableViewModel.Name);
                 theModel.AddVariable(variable);
             }
+        }
+
+        /// <summary>
+        /// Create a model errros view model from a model.
+        /// </summary>
+        /// <param name="aModel">Model with errors.</param>
+        /// <returns>View model with all errors in the model.</returns>
+        private static ModelErrorsViewModel CreateModelErrorsFrom(Model aModel)
+        {
+            Trace.Assert(aModel.Errors.Any());
+
+            var errorsViewModel = new ModelErrorsViewModel();
+            foreach (var error in aModel.Errors)
+            {
+                var errorViewModel = new ModelErrorViewModel
+                {
+                    ErrorMessage = error
+                };
+                errorsViewModel.Errors.Add(errorViewModel);
+            }
+
+            return errorsViewModel;
         }
     }
 }

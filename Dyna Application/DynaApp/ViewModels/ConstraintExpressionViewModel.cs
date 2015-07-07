@@ -1,4 +1,6 @@
-﻿namespace DynaApp.ViewModels
+﻿using System;
+
+namespace DynaApp.ViewModels
 {
     /// <summary>
     /// A constraint expression view model.
@@ -6,6 +8,16 @@
     public sealed class ConstraintExpressionViewModel : AbstractViewModel
     {
         private string text;
+
+        /// <summary>
+        /// Initialize a constraint expression with a raw expression.
+        /// </summary>
+        public ConstraintExpressionViewModel(string rawExpression)
+        {
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException("rawExpression");
+            this.Text = rawExpression;
+        }
 
         /// <summary>
         /// Initialize a constraint expression with default values.

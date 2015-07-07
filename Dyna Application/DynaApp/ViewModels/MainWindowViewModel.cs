@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using DynaApp.Views;
 
 namespace DynaApp.ViewModels
 {
@@ -8,24 +12,86 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractViewModel
     {
+        private readonly ObservableCollection<string> availableDisplayModes 
+            = new ObservableCollection<string>{"Model"};
+        private string selectedDisplayMode;
+        private Control selectedDisplayView;
+
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
         public MainWindowViewModel()
         {
+            this.Solution = new SolutionViewModel();
             this.Model = new ModelViewModel();
-            var variable1 = this.CreateVariable("Jack", new Point(10, 10));
-            this.CreateVariable("Bob", new Point(200, 10));
-            var domainX = this.CreateDomain("X", new Point(10, 80));
-            var constraintY = this.CreateConstraint("Y", new Point(10, 170));
-            this.Model.Connect(variable1, domainX);
-            this.Model.Connect(variable1, constraintY);
+            this.SelectedDisplayMode = "Model";
+            this.PopulateModel();
         }
 
         /// <summary>
         /// Gets the model displayed in the main window.
         /// </summary>
         public ModelViewModel Model { get; private set; }
+
+        /// <summary>
+        /// Gets the solution displayed in the main window.
+        /// </summary>
+        public SolutionViewModel Solution { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected display mode.
+        /// </summary>
+        public string SelectedDisplayMode
+        {
+            get
+            {
+                return selectedDisplayMode;
+            }
+            set
+            {
+                if (this.selectedDisplayMode == value) return;
+                this.selectedDisplayMode = value;
+                switch (this.selectedDisplayMode)
+                {
+                    case "Model":
+                        this.SelectedDisplayView = new NewModelView();
+                        break;
+
+                    case "Solution":
+                        this.SelectedDisplayView = new SolutionView();
+                        break;
+
+                    default:
+                        throw new NotImplementedException("Unknown display mode.");
+                }
+                OnPropertyChanged("SelectedDisplayMode");
+            }
+        }
+
+        /// <summary>
+        /// Gets the currently selected display view.
+        /// </summary>
+        public Control SelectedDisplayView
+        {
+            get { return selectedDisplayView; }
+            private set
+            {
+                selectedDisplayView = value;
+                OnPropertyChanged("SelectedDisplayView");
+            }
+        }
+
+        /// <summary>
+        /// Gets the available display modes. Changes depending upon 
+        /// whether the model has a solution or not.
+        /// </summary>
+        public ObservableCollection<string> AvailableDisplayModes
+        {
+            get
+            {
+                return this.availableDisplayModes;
+            }
+        }
 
         /// <summary>
         /// Create a new constraint.
@@ -107,6 +173,16 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Solve the model.
+        /// </summary>
+        public void SolveModel(Window parentWindow)
+        {
+            if (!this.AvailableDisplayModes.Contains("Solution"))
+                this.AvailableDisplayModes.Add("Solution");
+            this.Model.Solve(parentWindow);
+        }
+
+        /// <summary>
         /// Delete the currently selected domains from the view-model.
         /// </summary>
         private void DeleteSelectedVariables()
@@ -165,6 +241,16 @@ namespace DynaApp.ViewModels
             // Remove the variable from the network.
             //
             this.Model.Constraints.Remove(constraint);
+        }
+
+        private void PopulateModel()
+        {
+            var variable1 = this.CreateVariable("Jack", new Point(10, 10));
+            this.CreateVariable("Bob", new Point(200, 10));
+            var domainX = this.CreateDomain("X", new Point(10, 80));
+            var constraintY = this.CreateConstraint("Y", new Point(10, 170));
+            this.Model.Connect(variable1, domainX);
+            this.Model.Connect(variable1, constraintY);
         }
     }
 }

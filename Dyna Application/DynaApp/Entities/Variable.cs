@@ -2,7 +2,7 @@
 
 namespace DynaApp.Entities
 {
-    class Variable
+    public class Variable
     {
         /// <summary>
         /// Initialize a variable with a variable name.

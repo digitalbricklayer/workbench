@@ -8,7 +8,7 @@ namespace DynaApp.Entities
     /// A model for specifying the problem.
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
-    class Model
+    public class Model
     {
         private readonly List<Variable> variables = new List<Variable>();
         private readonly List<Domain> domains = new List<Domain>();

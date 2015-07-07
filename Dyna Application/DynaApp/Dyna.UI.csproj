@@ -87,20 +87,15 @@
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
     <Compile Include="Controls\ConnectionBadIndicator.cs" />
-    <Compile Include="Controls\ConnectionDragEvents.cs" />
     <Compile Include="Controls\ConnectionOkIndicator.cs" />
     <Compile Include="Controls\ConnectorItem.cs" />
-    <Compile Include="Controls\ConnectorItemDragEvents.cs" />
-    <Compile Include="Controls\ConstraintDragEvents.cs" />
     <Compile Include="Controls\ConstraintItem.cs" />
     <Compile Include="Controls\ConstraintItemsControl.cs" />
     <Compile Include="Controls\CurvedArrow.cs" />
-    <Compile Include="Controls\DomainDragEvents.cs" />
     <Compile Include="Controls\DomainItem.cs" />
     <Compile Include="Controls\DomainItemsControl.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
-    <Compile Include="Controls\VariableDragEvents.cs" />
     <Compile Include="Controls\VariableItem.cs" />
     <Compile Include="Controls\VariableItemsControl.cs" />
     <Compile Include="Entities\Constraint.cs" />
@@ -119,6 +114,14 @@
     <Compile Include="Entities\VariableValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Events\ConnectionDragEvents.cs" />
+    <Compile Include="Events\ConnectorItemDragEvents.cs" />
+    <Compile Include="Events\ConstraintDragEvents.cs" />
+    <Compile Include="Events\DomainDragEvents.cs" />
+    <Compile Include="Events\VariableDragEvents.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Solver\ConstraintSolver.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,6 +133,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AbstractViewModel.cs" />
+    <Compile Include="ViewModels\BoundVariableViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
@@ -138,24 +142,46 @@
     <Compile Include="ViewModels\DomainViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewType.cs" />
+    <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
+    <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
+    <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\ModelErrorsWindow.xaml.cs">
+      <DependentUpon>ModelErrorsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModelView.cs" />
+    <Compile Include="Views\NewModelView.xaml.cs">
+      <DependentUpon>NewModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SolutionView.xaml.cs">
+      <DependentUpon>SolutionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfUtils.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\ModelErrorsWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewModelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
