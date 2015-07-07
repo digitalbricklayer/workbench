@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
 
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// View model for all model errors.
+    /// Model errors view model for the errors dialog.
     /// </summary>
     public sealed class ModelErrorsViewModel
     {

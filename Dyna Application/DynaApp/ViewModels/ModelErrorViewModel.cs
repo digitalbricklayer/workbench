@@ -1,7 +1,7 @@
 ﻿namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// View model for a model error.
+    /// Model error view model.
     /// </summary>
     public sealed class ModelErrorViewModel
     {

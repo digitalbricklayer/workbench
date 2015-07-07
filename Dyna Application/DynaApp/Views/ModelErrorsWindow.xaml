@@ -4,6 +4,8 @@
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
         Title="Model Errors"
         Height="300" Width="300"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
         >
 
     <Window.DataContext>
@@ -16,7 +18,7 @@
     </Window.CommandBindings>
 
     <StackPanel>
-        <ListBox ItemsSource="{Binding Errors}">
+        <ListBox ItemsSource="{Binding Errors}" Height="240">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Message}" />
