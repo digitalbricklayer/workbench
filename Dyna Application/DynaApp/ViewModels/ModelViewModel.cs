@@ -327,6 +327,8 @@ namespace DynaApp.ViewModels
                 return false;
             }
 
+            Trace.Assert(!model.Errors.Any());
+
             var solver = new ConstraintSolver();
             solver.Solve(model);
 
