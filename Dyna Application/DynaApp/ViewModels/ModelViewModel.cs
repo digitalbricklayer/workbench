@@ -309,7 +309,7 @@ namespace DynaApp.ViewModels
         /// Solve the model.
         /// </summary>
         /// <param name="parentWindow">Parent window.</param>
-        public void Solve(Window parentWindow)
+        public bool Solve(Window parentWindow)
         {
             var model = BuildModel();
             var isModelValid = model.Validate();
@@ -324,11 +324,13 @@ namespace DynaApp.ViewModels
                     DataContext = CreateModelErrorsFrom(model)
                 };
                 errorWindow.ShowDialog();
-                return;
+                return false;
             }
 
             var solver = new ConstraintSolver();
             solver.Solve(model);
+
+            return true;
         }
 
         /// <summary>

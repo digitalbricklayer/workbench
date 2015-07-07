@@ -177,9 +177,14 @@ namespace DynaApp.ViewModels
         /// </summary>
         public void SolveModel(Window parentWindow)
         {
+            var solveResult = this.Model.Solve(parentWindow);
+
+            if (!solveResult) return;
+
+            // Display the solution...
             if (!this.AvailableDisplayModes.Contains("Solution"))
                 this.AvailableDisplayModes.Add("Solution");
-            this.Model.Solve(parentWindow);
+            this.SelectedDisplayMode = "Solution";
         }
 
         /// <summary>
