@@ -445,7 +445,7 @@ namespace DynaApp.ViewModels
             {
                 var errorViewModel = new ModelErrorViewModel
                 {
-                    ErrorMessage = error
+                    Message = error
                 };
                 errorsViewModel.Errors.Add(errorViewModel);
             }

@@ -19,7 +19,7 @@
         <ListBox ItemsSource="{Binding Errors}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding ErrorMessage}" />
+                    <TextBlock Text="{Binding Message}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
