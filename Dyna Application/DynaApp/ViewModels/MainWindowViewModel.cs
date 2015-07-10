@@ -2,8 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using DynaApp.Views;
 
 namespace DynaApp.ViewModels
 {
@@ -15,7 +13,7 @@ namespace DynaApp.ViewModels
         private readonly ObservableCollection<string> availableDisplayModes 
             = new ObservableCollection<string>{"Model"};
         private string selectedDisplayMode;
-        private Control selectedDisplayView;
+        private object selectedDisplayViewModel;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
@@ -54,30 +52,17 @@ namespace DynaApp.ViewModels
                 switch (this.selectedDisplayMode)
                 {
                     case "Model":
-                        this.SelectedDisplayView = new NewModelView();
+                        this.SelectedDisplayViewModel = this.Model;
                         break;
 
                     case "Solution":
-                        this.SelectedDisplayView = new SolutionView();
+                        this.SelectedDisplayViewModel = this.Solution;
                         break;
 
                     default:
                         throw new NotImplementedException("Unknown display mode.");
                 }
                 OnPropertyChanged("SelectedDisplayMode");
-            }
-        }
-
-        /// <summary>
-        /// Gets the currently selected display view.
-        /// </summary>
-        public Control SelectedDisplayView
-        {
-            get { return selectedDisplayView; }
-            private set
-            {
-                selectedDisplayView = value;
-                OnPropertyChanged("SelectedDisplayView");
             }
         }
 
@@ -90,6 +75,22 @@ namespace DynaApp.ViewModels
             get
             {
                 return this.availableDisplayModes;
+            }
+        }
+
+        /// <summary>
+        /// Gets the selected display view model.
+        /// </summary>
+        public object SelectedDisplayViewModel
+        {
+            get
+            {
+                return this.selectedDisplayViewModel;
+            }
+            private set
+            {
+                this.selectedDisplayViewModel = value;
+                OnPropertyChanged("SelectedDisplayViewModel");
             }
         }
 

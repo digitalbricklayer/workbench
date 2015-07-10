@@ -4,8 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Dyna Project"
         Height="800" Width="500"
-        xmlns:views="clr-namespace:DynaApp.Views"
         FocusManager.FocusedElement="{Binding ElementName=modelControl}"
+        xmlns:views="clr-namespace:DynaApp.Views"
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
         xmlns:controls="clr-namespace:DynaApp.Controls"
         >
@@ -137,6 +137,45 @@
             </ControlTemplate.Triggers>
 
         </ControlTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:ModelViewModel}">
+            <!--
+            The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+            Focusable is set to False because it is only that ModelView that I want to be focusable.
+            -->
+            <ScrollViewer
+                x:Name="contentViewer"
+                HorizontalScrollBarVisibility="Auto"
+                Focusable="False">
+
+                <!--
+                We need to nest the ModelView inside an AdornerDecorator so that adorners 
+                work correctly.
+                -->
+                <AdornerDecorator>
+                    
+                    <views:ModelView 
+                        x:Name="modelControl"
+                        Width="2000" Height="2000"
+                        VariablesSource="{Binding Variables}"
+                        DomainsSource="{Binding Domains}"
+                        ConstraintsSource="{Binding Constraints}"
+                        ConnectionsSource="{Binding Connections}"
+                    
+                        ConnectionDragStarted="modelControl_ConnectionDragStarted"
+                        ConnectionDragging="modelControl_ConnectionDragging"
+                        QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
+                        ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
+                        />
+
+                </AdornerDecorator>
+
+            </ScrollViewer>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:SolutionViewModel}">
+          <!-- View 1 Here -->
+        </DataTemplate>
 
         <!-- 
         Data-template for ConectionViewModel.
@@ -818,41 +857,8 @@
                 SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
                 />
 
-            <!--
-            The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
-            Focusable is set to False because it is only that ModelView that I want to be focusable.
-            -->
-            <ScrollViewer
-                x:Name="contentViewer"
-                HorizontalScrollBarVisibility="Auto"
-                Focusable="False">
+            <ContentPresenter Content="{Binding SelectedDisplayViewModel}"/>
 
-                <!--
-                We need to nest the ModelView inside an AdornerDecorator so that adorners 
-                work correctly.
-                -->
-                <AdornerDecorator>
-
-                    <ContentControl Content="{Binding SelectedDisplayView}" />
-                    <!-- The ModelView is the content of the ScrollViewer. -->
-<!--                    <views:ModelView 
-                        x:Name="modelControl"
-                        Width="2000" Height="2000"
-                        VariablesSource="{Binding Model.Variables}"
-                        DomainsSource="{Binding Model.Domains}"
-                        ConstraintsSource="{Binding Model.Constraints}"
-                        ConnectionsSource="{Binding Model.Connections}"
-                    
-                        ConnectionDragStarted="modelControl_ConnectionDragStarted"
-                        ConnectionDragging="modelControl_ConnectionDragging"
-                        QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
-                        ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
-                        />
-                        -->
-                    
-                </AdornerDecorator>
-
-            </ScrollViewer>
         </StackPanel>
     </DockPanel>
 </Window>
