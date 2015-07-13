@@ -7,6 +7,14 @@ namespace Dyna.UI.Tests.Unit.Entities
     public class ModelTests
     {
         [Test]
+        public void An_Empty_Model_Is_A_Valid_Model()
+        {
+            var sut = new Model("An Empty Model");
+            var actualValidationResult = sut.Validate();
+            Assert.That(actualValidationResult, Is.True);
+        }
+
+        [Test]
         public void Validate_With_A_Valid_Model_Returns_True()
         {
             var sut = MakeValidModel();

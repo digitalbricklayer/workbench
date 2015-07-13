@@ -193,6 +193,7 @@ namespace DynaApp.Entities
                     this.errors.Add(string.Format("Missing domain"));
                     return false;
                 }
+
                 // Make sure the domain is a shared domain...
                 if (string.IsNullOrWhiteSpace(variable.Domain.Name))
                     continue;
