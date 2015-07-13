@@ -23,7 +23,6 @@ namespace DynaApp.ViewModels
             this.Solution = new SolutionViewModel();
             this.Model = new ModelViewModel();
             this.SelectedDisplayMode = "Model";
-            this.PopulateModel();
         }
 
         /// <summary>
@@ -247,16 +246,6 @@ namespace DynaApp.ViewModels
             // Remove the variable from the network.
             //
             this.Model.Constraints.Remove(constraint);
-        }
-
-        private void PopulateModel()
-        {
-            var variable1 = this.CreateVariable("Jack", new Point(10, 10));
-            this.CreateVariable("Bob", new Point(200, 10));
-            var domainX = this.CreateDomain("X", new Point(10, 80));
-            var constraintY = this.CreateConstraint("Y", new Point(10, 170));
-            this.Model.Connect(variable1, domainX);
-            this.Model.Connect(variable1, constraintY);
         }
     }
 }
