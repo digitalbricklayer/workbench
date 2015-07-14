@@ -857,7 +857,7 @@
                 SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
                 />
 
-            <ContentPresenter Content="{Binding SelectedDisplayViewModel}"/>
+            <ContentPresenter x:Name="contentView" Content="{Binding SelectedDisplayViewModel}"/>
 
         </StackPanel>
     </DockPanel>

@@ -31,9 +31,8 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragStarted(object sender, ConnectionDragStartedEventArgs e)
         {
-#if false
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
-            var curDragPoint = Mouse.GetPosition(modelControl);
+            var curDragPoint = Mouse.GetPosition(contentView);
 
             //
             // Delegate the real work to the view model.
@@ -45,7 +44,6 @@ namespace DynaApp
             // This is so that NetworkView can keep track of the object while it is being dragged.
             //
             e.Connection = connection;
-#endif
         }
 
         /// <summary>
@@ -53,11 +51,9 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragging(object sender, ConnectionDraggingEventArgs e)
         {
-#if false
-            var curDragPoint = Mouse.GetPosition(modelControl);
+            var curDragPoint = Mouse.GetPosition(contentView);
             var connection = (ConnectionViewModel)e.Connection;
             this.ViewModel.Model.ConnectionDragging(connection, curDragPoint);
-#endif
         }
 
         /// <summary>
@@ -127,10 +123,8 @@ namespace DynaApp
         /// </summary>
         private void CreateVariable_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-#if false
-            var newVariableLocation = Mouse.GetPosition(modelControl);
+            var newVariableLocation = Mouse.GetPosition(contentView);
             this.ViewModel.CreateVariable("New Variable!", newVariableLocation);
-#endif
         }
 
         private void DeleteConnection_Executed(object sender, ExecutedRoutedEventArgs e)
