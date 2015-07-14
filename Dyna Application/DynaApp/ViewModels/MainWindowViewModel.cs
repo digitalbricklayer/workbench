@@ -133,7 +133,7 @@ namespace DynaApp.ViewModels
         /// <param name="newConstraintName">New constraint name.</param>
         /// <param name="point">New constraint location.</param>
         /// <returns>New constraint view model.</returns>
-        private ConstraintViewModel CreateConstraint(string newConstraintName, Point point)
+        public ConstraintViewModel CreateConstraint(string newConstraintName, Point point)
         {
             var newConstraint = new ConstraintViewModel(newConstraintName);
             newConstraint.X = point.X;

@@ -124,7 +124,25 @@ namespace DynaApp
         private void CreateVariable_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var newVariableLocation = Mouse.GetPosition(contentView);
-            this.ViewModel.CreateVariable("New Variable!", newVariableLocation);
+            this.ViewModel.CreateVariable("New Variable", newVariableLocation);
+        }
+
+        /// <summary>
+        /// Event raised to create a new constraint.
+        /// </summary>
+        private void CreateConstraint_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var newConstraintLocation = Mouse.GetPosition(contentView);
+            this.ViewModel.CreateConstraint("New Constraint", newConstraintLocation);
+        }
+
+        /// <summary>
+        /// Event raised to create a new domain.
+        /// </summary>
+        private void CreateDomain_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var newDomainLocation = Mouse.GetPosition(contentView);
+            this.ViewModel.CreateDomain("New Domain", newDomainLocation);
         }
 
         private void DeleteConnection_Executed(object sender, ExecutedRoutedEventArgs e)

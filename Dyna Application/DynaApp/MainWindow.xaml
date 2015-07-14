@@ -34,6 +34,8 @@
         <!-- UI commands. -->
         <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
         <RoutedUICommand x:Key="Commands.CreateVariable" />
+        <RoutedUICommand x:Key="Commands.CreateConstraint" />
+        <RoutedUICommand x:Key="Commands.CreateDomain" />
         <RoutedUICommand x:Key="Commands.DeleteConnection" />
         <RoutedUICommand x:Key="Commands.DeleteVariable" />
         <RoutedUICommand x:Key="Commands.DeleteDomain" />
@@ -792,6 +794,12 @@
             Command="{StaticResource Commands.CreateVariable}" 
             Executed="CreateVariable_Executed" />
         <CommandBinding 
+            Command="{StaticResource Commands.CreateConstraint}" 
+            Executed="CreateConstraint_Executed" />
+        <CommandBinding 
+            Command="{StaticResource Commands.CreateDomain}" 
+            Executed="CreateDomain_Executed" />
+        <CommandBinding 
             Command="{StaticResource Commands.DeleteConnection}" 
             Executed="DeleteConnection_Executed" 
             />
@@ -834,13 +842,33 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
+                <Separator/>
+                <MenuItem Header="Exit" Command="ApplicationCommands.Close">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Edit">
+            </MenuItem>
+            <MenuItem Header="Model">
                 <MenuItem Header="Solve..." Command="{StaticResource Commands.Solve}">
                     <MenuItem.Icon>
                         <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Exit" Command="ApplicationCommands.Close">
+                <MenuItem Header="Add Variable" Command="{StaticResource Commands.CreateVariable}">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add Constraint" Command="{StaticResource Commands.CreateConstraint}">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add Domain" Command="{StaticResource Commands.CreateDomain}">
                     <MenuItem.Icon>
                         <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>
