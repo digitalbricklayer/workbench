@@ -17,3 +17,6 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else.
 
 Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [NetworkView: A WPF custom control for visualizing and editing networks, graphs and flow-charts](http://www.codeproject.com/Articles/182683/NetworkView-A-WPF-custom-control-for-visualizing-a) upon which the prototype of the model display is based.
+
+##License
+dyna is licensed under a BSD license.
