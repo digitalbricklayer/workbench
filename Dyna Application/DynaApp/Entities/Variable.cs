@@ -38,6 +38,17 @@ namespace DynaApp.Entities
         public Model Model { get; set; }
 
         /// <summary>
+        /// Attach the variable to a shared domain.
+        /// </summary>
+        /// <param name="domain">Shared domain.</param>
+        public void AttachTo(Domain domain)
+        {
+            if (domain == null)
+                throw new ArgumentNullException("domain");
+            this.Domain = domain;
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>

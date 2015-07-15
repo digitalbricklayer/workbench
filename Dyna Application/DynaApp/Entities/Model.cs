@@ -161,6 +161,16 @@ namespace DynaApp.Entities
             return new ModelContext(new Model(theModelName));
         }
 
+        /// <summary>
+        /// Get the variable by the given name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable matching the name.</returns>
+        public Variable GetVariableByName(string variableName)
+        {
+            return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+        }
+
         private bool ValidateConstraintExpressions()
         {
             foreach (var aConstraint in this.Constraints)

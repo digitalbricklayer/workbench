@@ -381,9 +381,9 @@ namespace DynaApp.ViewModels
         private Model BuildModel()
         {
             var theModel = new Model();
+            this.BuildVariables(theModel);
             this.BuildConstraints(theModel);
             this.BuildDomains(theModel);
-            this.BuildVariables(theModel);
 
             return theModel;
         }
@@ -415,6 +415,14 @@ namespace DynaApp.ViewModels
             {
                 var domain = new Domain(domainViewModel.Name, domainViewModel.Expression.Text);
                 theModel.AddSharedDomain(domain);
+                foreach (var connection in this.Connections)
+                {
+                    if (!connection.IsConnectionComplete) continue;
+                    var variableViewModel = connection.SourceConnector.Parent as VariableViewModel;
+                    Trace.Assert(variableViewModel != null);
+                    var variable = theModel.GetVariableByName(variableViewModel.Name);
+                    variable.AttachTo(domain);
+                }
             }
         }
 
