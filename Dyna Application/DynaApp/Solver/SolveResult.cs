@@ -2,11 +2,26 @@
 
 namespace DynaApp.Solver
 {
-    class SolveResult
+    /// <summary>
+    /// The constraint model solution.
+    /// </summary>
+    public sealed class SolveResult
     {
+        /// <summary>
+        /// Gets the solution status.
+        /// </summary>
         public SolveStatus Status { get; private set; }
+
+        /// <summary>
+        /// Gets the model solution.
+        /// </summary>
         public Solution Solution { get; private set; }
 
+        /// <summary>
+        /// Initialize the soltion result with status and solution.
+        /// </summary>
+        /// <param name="theStatus">Solve status.</param>
+        /// <param name="theSolution">Solution.</param>
         public SolveResult(SolveStatus theStatus, Solution theSolution)
         {
             if (theSolution == null)
@@ -16,7 +31,11 @@ namespace DynaApp.Solver
             this.Solution = theSolution;
         }
 
-        private SolveResult(SolveStatus theStatus)
+        /// <summary>
+        /// Initialize the solution result with a failure status.
+        /// </summary>
+        /// <param name="theStatus">Solve status. Must be one of the failure statuses.</param>
+        internal SolveResult(SolveStatus theStatus)
         {
             Status = theStatus;
         }
@@ -40,6 +59,17 @@ namespace DynaApp.Solver
             get
             {
                 return new SolveResult(SolveStatus.InvalidModel);
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the solve succeeded.
+        /// </summary>
+        public bool IsSuccess
+        {
+            get
+            {
+                return this.Status == SolveStatus.Success;
             }
         }
     }

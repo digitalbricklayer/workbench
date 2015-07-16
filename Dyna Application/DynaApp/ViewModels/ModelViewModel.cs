@@ -309,7 +309,7 @@ namespace DynaApp.ViewModels
         /// Solve the model.
         /// </summary>
         /// <param name="parentWindow">Parent window.</param>
-        public bool Solve(Window parentWindow)
+        public SolveResult Solve(Window parentWindow)
         {
             var model = BuildModel();
             var isModelValid = model.Validate();
@@ -324,15 +324,26 @@ namespace DynaApp.ViewModels
                     DataContext = CreateModelErrorsFrom(model)
                 };
                 errorWindow.ShowDialog();
-                return false;
+                return SolveResult.InvalidModel;
             }
 
             Trace.Assert(!model.Errors.Any());
 
             var solver = new ConstraintSolver();
-            solver.Solve(model);
 
-            return true;
+            return solver.Solve(model);
+        }
+
+        /// <summary>
+        /// Get the variable matching the given name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable matching the name.</returns>
+        public VariableViewModel GetVariableByName(string variableName)
+        {
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentNullException("variableName");
+            return this.Variables.FirstOrDefault(_ => _.Name == variableName);
         }
 
         /// <summary>

@@ -3,15 +3,30 @@
 namespace DynaApp.Entities
 {
     /// <summary>
-    /// A variable with a value.
+    /// A variable bound with a value.
     /// </summary>
-    class BoundVariable
+    public class BoundVariable
     {
+        /// <summary>
+        /// Initialize the bound variable with a variable.
+        /// </summary>
+        /// <param name="theModelVariable"></param>
         public BoundVariable(Variable theModelVariable)
         {
             if (theModelVariable == null)
                 throw new ArgumentNullException("theModelVariable");
             this.ModelVariable = theModelVariable;
+        }
+
+        /// <summary>
+        /// Gets the variable name.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.ModelVariable.Name;
+            }
         }
 
         /// <summary>

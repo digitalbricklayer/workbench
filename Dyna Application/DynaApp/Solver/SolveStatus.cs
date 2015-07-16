@@ -1,6 +1,6 @@
 ﻿namespace DynaApp.Solver
 {
-    enum SolveStatus
+    public enum SolveStatus
     {
         /// <summary>
         /// Failed to solve the model.

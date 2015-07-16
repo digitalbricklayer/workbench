@@ -42,9 +42,17 @@ namespace DynaApp.ViewModels
         /// <param name="theValues">Bound values.</param>
         public void BindTo(IEnumerable<BoundVariableViewModel> theValues)
         {
-            this.Values.Clear();
+            this.Reset();
             foreach (var value in theValues)
                 this.Values.Add(value);
+        }
+
+        /// <summary>
+        /// Reset the contents of the solution.
+        /// </summary>
+        public void Reset()
+        {
+            this.Values.Clear();
         }
     }
 }

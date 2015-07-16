@@ -176,7 +176,18 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModels:SolutionViewModel}">
-          <!-- View 1 Here -->
+            <ListView x:Name="valuesListBox"
+                 ItemsSource="{Binding Values}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="    " />
+                            <TextBlock Text="{Binding Value}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </DataTemplate>
 
         <!-- 

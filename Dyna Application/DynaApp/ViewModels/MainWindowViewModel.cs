@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using DynaApp.Solver;
 
 namespace DynaApp.ViewModels
 {
@@ -94,6 +96,16 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Solve the model.
+        /// </summary>
+        public void SolveModel(Window parentWindow)
+        {
+            var solveResult = this.Model.Solve(parentWindow);
+            if (!solveResult.IsSuccess) return;
+            this.DisplaySolution(solveResult.Solution);
+        }
+
+        /// <summary>
         /// Create a new constraint.
         /// </summary>
         /// <param name="newVariableName">New variable name.</param>
@@ -173,15 +185,24 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Solve the model.
+        /// Display the solution.
         /// </summary>
-        public void SolveModel(Window parentWindow)
+        /// <param name="theSolution">A valid solution.</param>
+        private void DisplaySolution(Solution theSolution)
         {
-            var solveResult = this.Model.Solve(parentWindow);
+            this.Solution.Reset();
+            var newBoundVariables = new List<BoundVariableViewModel>();
+            foreach (var boundVariable in theSolution.BoundVariables)
+            {
+                var variable = this.Model.GetVariableByName(boundVariable.Name);
+                var boundVariableViewModel = new BoundVariableViewModel(variable)
+                {
+                    Value = boundVariable.Value
+                };
+                newBoundVariables.Add(boundVariableViewModel);
+            }
+            this.Solution.BindTo(newBoundVariables);
 
-            if (!solveResult) return;
-
-            // Display the solution...
             if (!this.AvailableDisplayModes.Contains("Solution"))
                 this.AvailableDisplayModes.Add("Solution");
             this.SelectedDisplayMode = "Solution";

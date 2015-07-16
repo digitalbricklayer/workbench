@@ -155,9 +155,6 @@
       <DependentUpon>ModelErrorsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModelView.cs" />
-    <Compile Include="Views\SolutionView.xaml.cs">
-      <DependentUpon>SolutionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WpfUtils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -168,10 +165,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ModelErrorsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SolutionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,7 +8,7 @@ namespace DynaApp.Solver
     /// <summary>
     /// A solution to a model.
     /// </summary>
-    class Solution
+    public class Solution
     {
         private readonly List<BoundVariable> boundVariables = new List<BoundVariable>();
 

@@ -20,10 +20,11 @@ namespace DynaApp.ViewModels
             if (theVariable == null)
                 throw new ArgumentNullException("theVariable");
             this.Variable = theVariable;
+            this.Name = this.Variable.Name;
         }
 
         /// <summary>
-        /// Gets or sets the variable name.
+        /// Gets the variable name.
         /// </summary>
         public string Name
         {
