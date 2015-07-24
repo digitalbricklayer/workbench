@@ -42,10 +42,5 @@ namespace DynaApp.ViewModels
                 OnPropertyChanged("Text");
             }
         }
-
-        public static ConstraintExpressionViewModel For(ConstraintExpressionModel expression)
-        {
-            return new ConstraintExpressionViewModel(expression.ToString());
-        }
     }
 }

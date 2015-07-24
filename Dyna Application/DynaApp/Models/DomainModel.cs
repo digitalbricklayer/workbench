@@ -3,8 +3,7 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class DomainModel
+    public class DomainModel : ConnectableModel
     {
-        public string Name { get; set; }
     }
 }

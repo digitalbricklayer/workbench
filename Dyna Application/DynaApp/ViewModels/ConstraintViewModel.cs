@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DynaApp.Entities;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels
@@ -10,6 +9,11 @@ namespace DynaApp.ViewModels
     /// </summary>
     public class ConstraintViewModel : GraphicViewModel
     {
+        /// <summary>
+        /// Initialize a constraint with a constraint name and raw constraint expression.
+        /// </summary>
+        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="rawExpression">Raw constraint expression.</param>
         public ConstraintViewModel(string newConstraintName, string rawExpression)
             : base(newConstraintName)
         {
@@ -17,6 +21,10 @@ namespace DynaApp.ViewModels
             this.PopulateConnectors();
         }
 
+        /// <summary>
+        /// Initialize a constraint with a constraint name.
+        /// </summary>
+        /// <param name="newConstraintName">New constraint name.</param>
         public ConstraintViewModel(string newConstraintName)
             : base(newConstraintName)
         {
@@ -46,19 +54,6 @@ namespace DynaApp.ViewModels
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
-        }
-
-        public static ConstraintViewModel For(ConstraintModel constraint)
-        {
-            return new ConstraintViewModel(constraint.Name)
-            {
-                Expression = ConstraintExpressionViewModel.For(constraint.Expression)
-            };
-        }
-
-        public static IEnumerable<ConstraintViewModel> For(IEnumerable<ConstraintModel> constraints)
-        {
-            return constraints.Select(For).ToList();
         }
     }
 }

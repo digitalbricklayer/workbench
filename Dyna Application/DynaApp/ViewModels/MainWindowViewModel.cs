@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using DynaApp.Models;
+using DynaApp.Services;
 using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
@@ -15,6 +16,7 @@ namespace DynaApp.ViewModels
         private string filename;
         private string title;
         private WorkspaceViewModel worksapce;
+        private readonly ModelService modelService = new ModelService();
 
         /// <summary>
         /// Initialize a main windows view model with default values.
@@ -189,7 +191,7 @@ namespace DynaApp.ViewModels
                 return;
             }
 
-            this.Reset();
+            this.Workspace.Reset();
 
             this.filename = string.Empty;
             this.UpdateTitle();
@@ -215,14 +217,14 @@ namespace DynaApp.ViewModels
                 return;
             }
 
-            this.Reset();
+            this.Workspace.Reset();
 
             try
             {
                 // Load file
                 var workspaceReader = new WorkspaceReader(openFileDialog.FileName);
-                var theWorkspace = workspaceReader.Read();
-                this.Workspace = WorkspaceViewModel.For(theWorkspace);
+                var theWorkspaceModel = workspaceReader.Read();
+                this.Workspace = this.modelService.MapFrom(theWorkspaceModel);
             }
             catch (Exception e)
             {
@@ -385,8 +387,8 @@ namespace DynaApp.ViewModels
             try
             {
                 // Save file
-                var workspaceWriter = new WorkspaceWriter(this.filename);
-                var workspaceModel = this.CreateWorkspace();
+                var workspaceWriter = new WorkspaceWriter(file);
+                var workspaceModel = this.modelService.MapFrom(this.Workspace);
                 workspaceWriter.Write(workspaceModel);
             }
             catch (Exception e)
@@ -402,14 +404,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Clear the existing content of the model and solution.
-        /// </summary>
-        private void Reset()
-        {
-            this.Workspace.Reset();
-        }
-
-        /// <summary>
         /// Show an error message.
         /// </summary>
         private void ShowError(string message)
@@ -419,19 +413,6 @@ namespace DynaApp.ViewModels
                             "Dyna Project",
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
-        }
-
-        /// <summary>
-        /// Create the workspace model from the view models.
-        /// </summary>
-        /// <returns>Workspace model.</returns>
-        private WorkspaceModel CreateWorkspace()
-        {
-            var workspace = new WorkspaceModel
-            {
-            };
-
-            return workspace;
         }
     }
 }

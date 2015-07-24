@@ -67,6 +67,8 @@
     <Compile Include="Entities\DomainTests.cs" />
     <Compile Include="Entities\ModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ModelServiceTests.cs" />
+    <Compile Include="Services\WorkspaceViewModelFactory.cs" />
     <Compile Include="Solver\ConstraintSolverTests.cs" />
     <Compile Include="Solver\ConstraintSolverSimpleTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />

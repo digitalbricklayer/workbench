@@ -3,9 +3,8 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class ConstraintModel
+    public class ConstraintModel : ConnectableModel
     {
-        public string Name { get; set; }
         public ConstraintExpressionModel Expression { get; set; }
     }
 }

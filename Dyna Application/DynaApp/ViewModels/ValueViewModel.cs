@@ -65,15 +65,5 @@ namespace DynaApp.ViewModels
                 OnPropertyChanged("Value");
             }
         }
-
-        public static ValueViewModel For(ValueModel value)
-        {
-            return new ValueViewModel(VariableViewModel.For(value.Variable));
-        }
-
-        public static IEnumerable<ValueViewModel> For(IEnumerable<ValueModel> values)
-        {
-            return values.Select(For).ToList();
-        }
     }
 }

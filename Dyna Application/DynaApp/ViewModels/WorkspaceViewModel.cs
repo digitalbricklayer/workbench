@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using DynaApp.Entities;
-using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -218,16 +217,6 @@ namespace DynaApp.ViewModels
             // Remove the variable from the network.
             //
             this.Model.Variables.Remove(variable);
-        }
-
-        /// <summary>
-        /// Return a workpace view model based upon the given workspace model.
-        /// </summary>
-        /// <param name="theWorkspace">Workspace model.</param>
-        /// <returns>Workspace view model.</returns>
-        public static WorkspaceViewModel For(WorkspaceModel theWorkspace)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

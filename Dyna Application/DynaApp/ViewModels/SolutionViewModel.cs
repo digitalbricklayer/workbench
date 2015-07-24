@@ -67,13 +67,5 @@ namespace DynaApp.ViewModels
                 throw new ArgumentNullException("newValueViewModel");
             this.Values.Add(newValueViewModel);
         }
-
-        public static SolutionViewModel For(SolutionModel solution)
-        {
-            return new SolutionViewModel
-            {
-                Values = new ObservableCollection<ValueViewModel>(ValueViewModel.For(solution.Values))
-            };
-        }
     }
 }
