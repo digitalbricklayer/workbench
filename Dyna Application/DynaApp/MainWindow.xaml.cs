@@ -31,6 +31,7 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragStarted(object sender, ConnectionDragStartedEventArgs e)
         {
+#if false
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
             var curDragPoint = Mouse.GetPosition(contentView);
 
@@ -44,6 +45,8 @@ namespace DynaApp
             // This is so that NetworkView can keep track of the object while it is being dragged.
             //
             e.Connection = connection;
+
+#endif
         }
 
         /// <summary>
@@ -51,9 +54,12 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragging(object sender, ConnectionDraggingEventArgs e)
         {
+#if false
             var curDragPoint = Mouse.GetPosition(contentView);
             var connection = (ConnectionViewModel)e.Connection;
             this.ViewModel.Model.ConnectionDragging(connection, curDragPoint);
+
+#endif
         }
 
         /// <summary>
@@ -61,10 +67,11 @@ namespace DynaApp
         /// </summary>
         private void modelControl_QueryConnectionFeedback(object sender, QueryConnectionFeedbackEventArgs e)
         {
+#if false
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
             var draggedOverConnector = (ConnectorViewModel)e.DraggedOverConnector;
-            object feedbackIndicator = null;
-            bool connectionOk = true;
+            object feedbackIndicator;
+            bool connectionOk;
 
             this.ViewModel.Model.QueryConnnectionFeedback(draggedOutConnector, draggedOverConnector, out feedbackIndicator, out connectionOk);
 
@@ -79,6 +86,8 @@ namespace DynaApp
             // Let NetworkView know if the connection is ok or not ok.
             //
             e.ConnectionOk = connectionOk;
+
+#endif
         }
 
         /// <summary>
@@ -86,10 +95,13 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragCompleted(object sender, ConnectionDragCompletedEventArgs e)
         {
+#if false
             var connectorDraggedOut = (ConnectorViewModel)e.ConnectorDraggedOut;
             var connectorDraggedOver = (ConnectorViewModel)e.ConnectorDraggedOver;
             var newConnection = (ConnectionViewModel)e.Connection;
             this.ViewModel.Model.ConnectionDragCompleted(newConnection, connectorDraggedOut, connectorDraggedOver);
+
+#endif
         }
 
         /// <summary>
@@ -97,76 +109,43 @@ namespace DynaApp
         /// </summary>
         private void DeleteSelectedGraphics_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            this.ViewModel.DeleteSelectedGraphics();
-        }
-
-        /// <summary>
-        /// Event raised to close the application.
-        /// </summary>
-        private void FileCloseCommand(object sender, ExecutedRoutedEventArgs args)
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// Handle selection of the "File|Solve" menu item.
-        /// </summary>
-        /// <param name="sender">Event sender.</param>
-        /// <param name="e">Event arguments.</param>
-        private void MenuFileSolve_Click(object sender, RoutedEventArgs e)
-        {
-            this.ViewModel.SolveModel(this);
-        }
-
-        /// <summary>
-        /// Event raised to create a new variable.
-        /// </summary>
-        private void CreateVariable_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            var newVariableLocation = Mouse.GetPosition(contentView);
-            this.ViewModel.CreateVariable("New Variable", newVariableLocation);
-        }
-
-        /// <summary>
-        /// Event raised to create a new constraint.
-        /// </summary>
-        private void CreateConstraint_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            var newConstraintLocation = Mouse.GetPosition(contentView);
-            this.ViewModel.CreateConstraint("New Constraint", newConstraintLocation);
-        }
-
-        /// <summary>
-        /// Event raised to create a new domain.
-        /// </summary>
-        private void CreateDomain_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            var newDomainLocation = Mouse.GetPosition(contentView);
-            this.ViewModel.CreateDomain("New Domain", newDomainLocation);
+//            this.ViewModel.DeleteSelectedGraphics();
         }
 
         private void DeleteConnection_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+#if false
             var connection = (ConnectionViewModel)e.Parameter;
             this.ViewModel.Model.DeleteConnection(connection);
+
+#endif
         }
 
         private void DeleteVariable_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+#if false
             var variable = (VariableViewModel)e.Parameter;
             this.ViewModel.Model.DeleteVariable(variable);
+
+#endif
         }
 
         private void DeleteDomain_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+#if false
             var domain = (DomainViewModel)e.Parameter;
             this.ViewModel.Model.DeleteDomain(domain);
+
+#endif
         }
 
         private void DeleteConstraint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+#if false
             var constraint = (ConstraintViewModel)e.Parameter;
             this.ViewModel.Model.DeleteConstraint(constraint);
+
+#endif
         }
     }
 }

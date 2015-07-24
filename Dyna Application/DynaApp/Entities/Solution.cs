@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DynaApp.Entities;
 
-namespace DynaApp.Solver
+namespace DynaApp.Entities
 {
     /// <summary>
     /// A solution to a model.
     /// </summary>
+    [Serializable]
     public class Solution
     {
         private readonly List<BoundVariable> boundVariables = new List<BoundVariable>();

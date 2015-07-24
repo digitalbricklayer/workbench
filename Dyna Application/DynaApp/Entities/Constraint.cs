@@ -30,6 +30,11 @@ namespace DynaApp.Entities
         }
 
         /// <summary>
+        /// Gets or sets the constraint name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
         public BinaryExpression Expression { get; set; }

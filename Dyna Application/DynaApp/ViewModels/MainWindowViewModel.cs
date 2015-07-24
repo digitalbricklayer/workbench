@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
 using System.Windows;
-using DynaApp.Solver;
+using System.Windows.Input;
+using DynaApp.Models;
+using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
 {
@@ -12,261 +12,426 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractViewModel
     {
-        private readonly ObservableCollection<string> availableDisplayModes 
-            = new ObservableCollection<string>{"Model"};
-        private string selectedDisplayMode;
-        private object selectedDisplayViewModel;
+        private string filename;
+        private string title;
+        private WorkspaceViewModel worksapce;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
         public MainWindowViewModel()
         {
-            this.Solution = new SolutionViewModel();
-            this.Model = new ModelViewModel();
-            this.SelectedDisplayMode = "Model";
+            this.filename = string.Empty;
+            this.Workspace = new WorkspaceViewModel();
+            this.UpdateTitle();
+            this.NewCommand = new CommandHandler(FileNewAction, CanFileNewExecute);
+            this.OpenCommand = new CommandHandler(FileOpenAction, CanFileOpenExecute);
+            this.SaveCommand = new CommandHandler(FileSaveAction, CanFileSaveExecute);
+            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
+            this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
+            this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
+            this.AddVariableCommand = new CommandHandler(ModelAddVariableAction, CanAddVariableExecute);
+            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
+            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
         }
 
         /// <summary>
-        /// Gets the model displayed in the main window.
+        /// Gets or sets the workspace.
         /// </summary>
-        public ModelViewModel Model { get; private set; }
-
-        /// <summary>
-        /// Gets the solution displayed in the main window.
-        /// </summary>
-        public SolutionViewModel Solution { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected display mode.
-        /// </summary>
-        public string SelectedDisplayMode
+        public WorkspaceViewModel Workspace
         {
-            get
-            {
-                return selectedDisplayMode;
-            }
+            get { return this.worksapce; }
             set
             {
-                if (this.selectedDisplayMode == value) return;
-                this.selectedDisplayMode = value;
-                switch (this.selectedDisplayMode)
-                {
-                    case "Model":
-                        this.SelectedDisplayViewModel = this.Model;
-                        break;
-
-                    case "Solution":
-                        this.SelectedDisplayViewModel = this.Solution;
-                        break;
-
-                    default:
-                        throw new NotImplementedException("Unknown display mode.");
-                }
-                OnPropertyChanged("SelectedDisplayMode");
+                this.worksapce = value;
+                OnPropertyChanged("Workspace");
             }
         }
 
         /// <summary>
-        /// Gets the available display modes. Changes depending upon 
-        /// whether the model has a solution or not.
+        /// Gets whether the "File|New" menu item can be executed.
         /// </summary>
-        public ObservableCollection<string> AvailableDisplayModes
+        public bool CanFileNewExecute
         {
             get
             {
-                return this.availableDisplayModes;
+                // Can always execute
+                return true;
             }
         }
 
         /// <summary>
-        /// Gets the selected display view model.
+        /// Gets whether the "File|Save As" menu item can be executed.
         /// </summary>
-        public object SelectedDisplayViewModel
+        public bool CanFileSaveAsExecute
         {
             get
             {
-                return this.selectedDisplayViewModel;
+                // Can always execute
+                return true;
             }
-            private set
+        }
+
+        /// <summary>
+        /// Gets whether the "File|Save" menu item can be executed.
+        /// </summary>
+        public bool CanFileSaveExecute
+        {
+            get
             {
-                this.selectedDisplayViewModel = value;
-                OnPropertyChanged("SelectedDisplayViewModel");
+                // Can always execute
+                return true;
             }
         }
 
         /// <summary>
-        /// Solve the model.
+        /// Gets whether the "File|Open" menu item can be executed.
         /// </summary>
-        public void SolveModel(Window parentWindow)
+        public bool CanFileOpenExecute
         {
-            var solveResult = this.Model.Solve(parentWindow);
-            if (!solveResult.IsSuccess) return;
-            this.DisplaySolution(solveResult.Solution);
-        }
-
-        /// <summary>
-        /// Create a new constraint.
-        /// </summary>
-        /// <param name="newVariableName">New variable name.</param>
-        /// <param name="newVariableLocation">New variable location.</param>
-        /// <returns>New variable view model.</returns>
-        public VariableViewModel CreateVariable(string newVariableName, Point newVariableLocation)
-        {
-            var newVariable = new VariableViewModel(newVariableName);
-            newVariable.X = newVariableLocation.X;
-            newVariable.Y = newVariableLocation.Y;
-
-            this.Model.AddVariable(newVariable);
-
-            return newVariable;
-        }
-
-        /// <summary>
-        /// Create a new constraint.
-        /// </summary>
-        /// <param name="newDomainName">New constraint name.</param>
-        /// <param name="newDomainLocation">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
-        public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
-        {
-            var newDomain = new DomainViewModel(newDomainName);
-            newDomain.X = newDomainLocation.X;
-            newDomain.Y = newDomainLocation.Y;
-
-            this.Model.AddDomain(newDomain);
-
-            return newDomain;
-        }
-
-        /// <summary>
-        /// Create a new constraint.
-        /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="point">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel CreateConstraint(string newConstraintName, Point point)
-        {
-            var newConstraint = new ConstraintViewModel(newConstraintName);
-            newConstraint.X = point.X;
-            newConstraint.Y = point.Y;
-
-            this.Model.AddConstraint(newConstraint);
-
-            return newConstraint;
-        }
-
-        /// <summary>
-        /// Delete all selected graphic items.
-        /// </summary>
-        public void DeleteSelectedGraphics()
-        {
-            this.DeleteSelectedVariables();
-            this.DeleteSelectedDomains();
-            this.DeleteConstraints();
-        }
-
-        /// <summary>
-        /// Delete the variable from the view-model.
-        /// Also deletes any connections to or from the variable.
-        /// </summary>
-        public void DeleteVariable(VariableViewModel variable)
-        {
-            //
-            // Remove all connections attached to the variable.
-            //
-            foreach (var connectionViewModel in variable.AttachedConnections)
-                this.Model.Connections.Remove(connectionViewModel);
-
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.Variables.Remove(variable);
-        }
-
-        /// <summary>
-        /// Display the solution.
-        /// </summary>
-        /// <param name="theSolution">A valid solution.</param>
-        private void DisplaySolution(Solution theSolution)
-        {
-            this.Solution.Reset();
-            var newBoundVariables = new List<BoundVariableViewModel>();
-            foreach (var boundVariable in theSolution.BoundVariables)
+            get
             {
-                var variable = this.Model.GetVariableByName(boundVariable.Name);
-                var boundVariableViewModel = new BoundVariableViewModel(variable)
-                {
-                    Value = boundVariable.Value
-                };
-                newBoundVariables.Add(boundVariableViewModel);
+                // Can always execute
+                return true;
             }
-            this.Solution.BindTo(newBoundVariables);
-
-            if (!this.AvailableDisplayModes.Contains("Solution"))
-                this.AvailableDisplayModes.Add("Solution");
-            this.SelectedDisplayMode = "Solution";
         }
 
         /// <summary>
-        /// Delete the currently selected domains from the view-model.
+        /// Gets whether the "File|Exit" menu item can be executed.
         /// </summary>
-        private void DeleteSelectedVariables()
+        public bool CanFileExitExecute
         {
-            // Take a copy of the domains list so we can delete domains while iterating.
-            var variablesCopy = this.Model.Variables.ToArray();
-
-            foreach (var variable in variablesCopy)
+            get
             {
-                if (variable.IsSelected)
-                {
-                    DeleteVariable(variable);
-                }
+                // Can always execute
+                return true;
             }
         }
 
-        private void DeleteSelectedDomains()
+        /// <summary>
+        /// Gets whether the "Model|Solve" menu item can be executed.
+        /// </summary>
+        public bool CanModelSolveExecute
         {
-            // Take a copy of the domains list so we can delete domains while iterating.
-            var domainCopy = this.Model.Domains.ToArray();
-
-            foreach (var domain in domainCopy)
+            get
             {
-                if (domain.IsSelected)
-                {
-                    DeleteDomain(domain);
-                }
+                // Can always execute
+                return true;
             }
         }
 
-        private void DeleteConstraints()
+        /// <summary>
+        /// Gets whether the "Model|Add Constraint" menu item can be executed.
+        /// </summary>
+        public bool CanAddConstraintExecute
         {
-            // Take a copy of the domains list so we can delete domains while iterating.
-            var constraintsCopy = this.Model.Constraints.ToArray();
-
-            foreach (var constraint in constraintsCopy)
+            get
             {
-                if (constraint.IsSelected)
-                {
-                    DeleteConstraint(constraint);
-                }
+                // Can always execute
+                return true;
             }
         }
 
-        private void DeleteDomain(DomainViewModel domain)
+        /// <summary>
+        /// Gets whether the "Model|Add Variable" menu item can be executed.
+        /// </summary>
+        public bool CanAddVariableExecute
         {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.Domains.Remove(domain);
+            get
+            {
+                // Can always execute
+                return true;
+            }
         }
 
-        private void DeleteConstraint(ConstraintViewModel constraint)
+        /// <summary>
+        /// Gets whether the "Model|Add Domain" menu item can be executed.
+        /// </summary>
+        public bool CanAddDomainExecute
         {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.Constraints.Remove(constraint);
+            get
+            {
+                // Can always execute
+                return true;
+            }
+        }
+
+        public ICommand NewCommand { get; private set; }
+        public ICommand OpenCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
+        public ICommand SaveAsCommand { get; private set; }
+        public ICommand ExitCommand { get; private set; }
+        public ICommand SolveCommand { get; private set; }
+        public ICommand AddVariableCommand { get; private set; }
+        public ICommand AddConstraintCommand { get; private set; }
+        public ICommand AddDomainCommand { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the main window title.
+        /// </summary>
+        public string Title
+        {
+            get { return this.title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+
+        /// <summary>
+        /// Handle the "File|New" menu item.
+        /// </summary>
+        private void FileNewAction()
+        {
+            if (!PromptToSave())
+            {
+                return;
+            }
+
+            this.Reset();
+
+            this.filename = string.Empty;
+            this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Handle the "File|Open" menu item.
+        /// </summary>
+        private void FileOpenAction()
+        {
+            if (!PromptToSave()) return;
+
+            // Show Open File dialog
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml|All Files|*.*",
+                DefaultExt = "xml",
+                RestoreDirectory = true
+            };
+
+            if (openFileDialog.ShowDialog().GetValueOrDefault() != true)
+            {
+                return;
+            }
+
+            this.Reset();
+
+            try
+            {
+                // Load file
+                var workspaceReader = new WorkspaceReader(openFileDialog.FileName);
+                var theWorkspace = workspaceReader.Read();
+                this.Workspace = WorkspaceViewModel.For(theWorkspace);
+            }
+            catch (Exception e)
+            {
+                this.ShowError(e.Message);
+                return;
+            }
+
+            this.filename = openFileDialog.FileName;
+            this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Handle the "File|Save" menu item.
+        /// </summary>
+        private void FileSaveAction()
+        {
+            if (string.IsNullOrEmpty(filename))
+            {
+                this.FileSaveAsAction();
+                return;
+            }
+
+            this.Save(filename);
+        }
+
+        /// <summary>
+        /// Handle the "File|Save As" menu item.
+        /// </summary>
+        private void FileSaveAsAction()
+        {
+            // Show Save File dialog
+            var dlg = new SaveFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml|All Files|*.*",
+                OverwritePrompt = true,
+                DefaultExt = "xml",
+                RestoreDirectory = true
+            };
+
+            if (dlg.ShowDialog().GetValueOrDefault() != true)
+            {
+                return;
+            }
+
+            // Save
+            this.Save(dlg.FileName);
+        }
+
+        /// <summary>
+        /// Handle the "File|Exit" menu item.
+        /// </summary>
+        private void FileExitAction()
+        {
+            Application.Current.MainWindow.Close();
+        }
+
+        /// <summary>
+        /// Handle the "Model|Solve" menu item.
+        /// </summary>
+        private void ModelSolveAction()
+        {
+            this.Workspace.SolveModel(Application.Current.MainWindow);
+        }
+
+        /// <summary>
+        /// Event raised to create a new variable.
+        /// </summary>
+        private void ModelAddVariableAction()
+        {
+            var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.CreateVariable("New Variable", newVariableLocation);
+        }
+
+        /// <summary>
+        /// Event raised to create a new constraint.
+        /// </summary>
+        private void ModelAddConstraintAction()
+        {
+            var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.CreateConstraint("New Constraint", newConstraintLocation);
+        }
+
+        /// <summary>
+        /// Event raised to create a new domain.
+        /// </summary>
+        private void ModelAddDomainAction()
+        {
+            var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.CreateDomain("New Domain", newDomainLocation);
+        }
+
+        /// <summary>
+        /// Prompt to save and make Save operation if necessary.
+        /// </summary>
+        /// <returns>
+        /// true - caller can continue (open new file, close program etc.
+        /// false - caller should cancel current operation.
+        /// </returns>
+        private bool PromptToSave()
+        {
+            if (!this.Workspace.IsDirty)
+            {
+                // Nothing to save... file is up-to-date
+                return true;
+            }
+
+            var result = MessageBox.Show(Application.Current.MainWindow,
+                                         "Do you want to save changes?",
+                                         "Dyna",
+                                         MessageBoxButton.YesNoCancel,
+                                         MessageBoxImage.Question,
+                                         MessageBoxResult.Yes);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    return this.Save(this.filename);
+
+                case MessageBoxResult.No:
+                    // User wishes to discard changes
+                    return true;
+
+                case MessageBoxResult.Cancel:
+                    return false;
+
+                default:
+                    return true;
+            }
+        }
+
+        /// <summary>
+        /// Update main window title.
+        /// </summary>
+        private void UpdateTitle()
+        {
+            var s = "Dyna Project" + " - ";
+
+            if (string.IsNullOrEmpty(this.filename))
+            {
+                s += "Untitled";
+            }
+            else
+            {
+                s += Path.GetFileName(this.filename);
+            }
+
+            if (this.Workspace.IsDirty)
+            {
+                s += " *";
+            }
+
+            this.Title = s;
+        }
+
+        /// <summary>
+        /// Save the content to file.
+        /// </summary>
+        private bool Save(string file)
+        {
+            try
+            {
+                // Save file
+                var workspaceWriter = new WorkspaceWriter(this.filename);
+                var workspaceModel = this.CreateWorkspace();
+                workspaceWriter.Write(workspaceModel);
+            }
+            catch (Exception e)
+            {
+                this.ShowError(e.Message);
+                return false;
+            }
+
+            this.filename = file;
+            UpdateTitle();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Clear the existing content of the model and solution.
+        /// </summary>
+        private void Reset()
+        {
+            this.Workspace.Reset();
+        }
+
+        /// <summary>
+        /// Show an error message.
+        /// </summary>
+        private void ShowError(string message)
+        {
+            MessageBox.Show(Application.Current.MainWindow,
+                            message,
+                            "Dyna Project",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Create the workspace model from the view models.
+        /// </summary>
+        /// <returns>Workspace model.</returns>
+        private WorkspaceModel CreateWorkspace()
+        {
+            var workspace = new WorkspaceModel
+            {
+            };
+
+            return workspace;
         }
     }
 }

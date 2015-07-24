@@ -33,5 +33,10 @@ namespace DynaApp.Entities
         /// Gets the operator type of the expression.
         /// </summary>
         public OperatorType OperatorType { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", Left, OperatorType, Right);
+        }
     }
 }

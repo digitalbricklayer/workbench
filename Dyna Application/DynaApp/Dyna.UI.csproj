@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
@@ -109,11 +110,9 @@
     <Compile Include="Entities\OperatorType.cs" />
     <Compile Include="Entities\RangeExpression.cs" />
     <Compile Include="Entities\BoundVariable.cs" />
+    <Compile Include="Entities\Solution.cs" />
     <Compile Include="Entities\Variable.cs" />
     <Compile Include="Entities\Model.cs" />
-    <Compile Include="Entities\VariableValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Events\ConnectionDragEvents.cs" />
     <Compile Include="Events\ConnectorItemDragEvents.cs" />
     <Compile Include="Events\ConstraintDragEvents.cs" />
@@ -122,10 +121,21 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConstraintExpressionModel.cs" />
+    <Compile Include="Models\ConnectionModel.cs" />
+    <Compile Include="Models\ConnectorModel.cs" />
+    <Compile Include="Models\ConstraintModel.cs" />
+    <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\ModelModel.cs" />
+    <Compile Include="Models\SolutionModel.cs" />
+    <Compile Include="Models\ValueModel.cs" />
+    <Compile Include="Models\VariableModel.cs" />
+    <Compile Include="Models\WorkspaceModel.cs" />
+    <Compile Include="Models\WorkspaceReader.cs" />
+    <Compile Include="Models\WorkspaceWriter.cs" />
     <Compile Include="Solver\ConstraintSolver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Solver\Solution.cs" />
     <Compile Include="Solver\SolveResult.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,7 +143,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AbstractViewModel.cs" />
-    <Compile Include="ViewModels\BoundVariableViewModel.cs" />
+    <Compile Include="ViewModels\ValueViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
@@ -151,6 +161,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="Views\ModelErrorsWindow.xaml.cs">
       <DependentUpon>ModelErrorsWindow.xaml</DependentUpon>
     </Compile>

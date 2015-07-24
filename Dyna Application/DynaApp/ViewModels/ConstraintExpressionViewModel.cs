@@ -1,4 +1,6 @@
 ﻿using System;
+using DynaApp.Entities;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -39,6 +41,11 @@ namespace DynaApp.ViewModels
                 this.text = value;
                 OnPropertyChanged("Text");
             }
+        }
+
+        public static ConstraintExpressionViewModel For(ConstraintExpressionModel expression)
+        {
+            return new ConstraintExpressionViewModel(expression.ToString());
         }
     }
 }

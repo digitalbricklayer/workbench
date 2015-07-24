@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DynaApp.Entities;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -14,6 +17,14 @@ namespace DynaApp.ViewModels
             : base(newName)
         {
             this.PopulateConnectors();
+        }
+
+        /// <summary>
+        /// Initialize a variable with default values.
+        /// </summary>
+        public VariableViewModel()
+            : this("New variable")
+        {
         }
 
         /// <summary>
@@ -38,6 +49,18 @@ namespace DynaApp.ViewModels
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
+        }
+
+        public static VariableViewModel For(VariableModel variable)
+        {
+            return new VariableViewModel
+            {
+            };
+        }
+
+        public static IEnumerable<VariableViewModel> For(IEnumerable<VariableModel> variables)
+        {
+            return variables.Select(For).ToList();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using DynaApp.Controls;
 using DynaApp.Entities;
+using DynaApp.Models;
 using DynaApp.Solver;
 using DynaApp.Views;
 
@@ -344,6 +345,40 @@ namespace DynaApp.ViewModels
             if (string.IsNullOrWhiteSpace(variableName))
                 throw new ArgumentNullException("variableName");
             return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+        }
+
+        /// <summary>
+        /// Reset the contents of the model.
+        /// </summary>
+        public void Reset()
+        {
+            this.Connections.Clear();
+            this.Variables.Clear();
+            this.Constraints.Clear();
+            this.Domains.Clear();
+        }
+
+        /// <summary>
+        /// Return a model view model from the model.
+        /// </summary>
+        /// <param name="theModel">Model.</param>
+        /// <returns>Model view model.</returns>
+        public static ModelViewModel For(ModelModel theModel)
+        {
+            var newModelViewModel = new ModelViewModel
+            {
+                Variables = new ObservableCollection<VariableViewModel>(VariableViewModel.For(theModel.Variables)),
+                Domains = new ObservableCollection<DomainViewModel>(DomainViewModel.For(theModel.Domains)),
+                Constraints = new ObservableCollection<ConstraintViewModel>(ConstraintViewModel.For(theModel.Constraints)),
+                Connections = new ObservableCollection<ConnectionViewModel>()
+            };
+            var graphicViewModels = new List<GraphicViewModel>();
+            graphicViewModels.AddRange(newModelViewModel.Variables);
+            graphicViewModels.AddRange(newModelViewModel.Domains);
+            graphicViewModels.AddRange(newModelViewModel.Constraints);
+            newModelViewModel.Graphics = new ObservableCollection<GraphicViewModel>(graphicViewModels);
+
+            return newModelViewModel;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using DynaApp.Entities;
 
 namespace DynaApp.Solver
 {

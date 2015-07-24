@@ -1,5 +1,8 @@
 ﻿namespace DynaApp.Entities
 {
+    /// <summary>
+    /// Operator type in a binary expression.
+    /// </summary>
     public enum OperatorType
     {
         Equals,

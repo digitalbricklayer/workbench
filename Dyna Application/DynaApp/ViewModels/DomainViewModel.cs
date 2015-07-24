@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DynaApp.Entities;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -53,6 +57,19 @@ namespace DynaApp.ViewModels
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
             this.Connectors.Add(new ConnectorViewModel());
+        }
+
+        public static DomainViewModel For(DomainModel domain)
+        {
+            return new DomainViewModel(domain.Name)
+            {
+                
+            };
+        }
+
+        public static IEnumerable<DomainViewModel> For(IEnumerable<DomainModel> domains)
+        {
+            return domains.Select(For).ToList();
         }
     }
 }

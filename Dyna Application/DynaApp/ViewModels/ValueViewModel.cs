@@ -1,26 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// View model for a bound variable.
+    /// View model for a value bound to a variable.
     /// </summary>
-    public sealed class BoundVariableViewModel : AbstractViewModel
+    public sealed class ValueViewModel : AbstractViewModel
     {
         private int value;
         private VariableViewModel variable;
-        private string name;
 
         /// <summary>
         /// Initialize the bound variable with a variable.
         /// </summary>
         /// <param name="theVariable">Variable to bind the value to.</param>
-        public BoundVariableViewModel(VariableViewModel theVariable)
+        public ValueViewModel(VariableViewModel theVariable)
         {
             if (theVariable == null)
                 throw new ArgumentNullException("theVariable");
             this.Variable = theVariable;
-            this.Name = this.Variable.Name;
         }
 
         /// <summary>
@@ -28,10 +29,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         public string Name
         {
-            get { return this.name; }
+            get { return this.Variable.Name; }
             set
             {
-                this.name = value;
+                this.Variable.Name = value;
                 OnPropertyChanged("Name");
             }
         }
@@ -63,6 +64,16 @@ namespace DynaApp.ViewModels
                 this.value = value;
                 OnPropertyChanged("Value");
             }
+        }
+
+        public static ValueViewModel For(ValueModel value)
+        {
+            return new ValueViewModel(VariableViewModel.For(value.Variable));
+        }
+
+        public static IEnumerable<ValueViewModel> For(IEnumerable<ValueModel> values)
+        {
+            return values.Select(For).ToList();
         }
     }
 }
