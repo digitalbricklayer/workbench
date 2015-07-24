@@ -125,6 +125,7 @@ namespace DynaApp.ViewModels
             get { return this.isDirty; }
             set
             {
+                if (this.isDirty == value) return;
                 this.isDirty = value;
                 OnPropertyChanged("IsDirty");
             }
