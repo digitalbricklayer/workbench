@@ -8,12 +8,12 @@ namespace Dyna.UI.Tests.Unit.Services
         {
             return new WorkspaceViewModel
             {
-                Model = MakeModelViewModel(),
-                Solution = MakeSolutionViewModel()
+                Model = CreateModel(),
+                Solution = CreateSolution()
             };
         }
 
-        private static ModelViewModel MakeModelViewModel()
+        private static ModelViewModel CreateModel()
         {
             var modelViewModel = new ModelViewModel();
             var x = new VariableViewModel("x");
@@ -28,7 +28,7 @@ namespace Dyna.UI.Tests.Unit.Services
             return modelViewModel;
         }
 
-        private static SolutionViewModel MakeSolutionViewModel()
+        private static SolutionViewModel CreateSolution()
         {
             var solutionViewModel = new SolutionViewModel();
             var x = new VariableViewModel("x");
