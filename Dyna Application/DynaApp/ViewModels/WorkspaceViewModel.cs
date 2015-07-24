@@ -18,23 +18,46 @@ namespace DynaApp.ViewModels
             = new ObservableCollection<string> { "Model" };
         private string selectedDisplayMode;
         private object selectedDisplayViewModel;
+        private bool isDirty;
+        private SolutionViewModel solution;
+        private ModelViewModel model;
 
         public WorkspaceViewModel()
         {
-            this.Solution = new SolutionViewModel();
-            this.Model = new ModelViewModel();
+            this.solution = new SolutionViewModel();
+            this.model = new ModelViewModel();
             this.SelectedDisplayMode = "Model";
         }
 
         /// <summary>
-        /// Gets the model displayed in the main window.
+        /// Gets or sets the model displayed in the workspace.
         /// </summary>
-        public ModelViewModel Model { get; private set; }
+        public ModelViewModel Model
+        {
+            get { return model; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                this.model = value;
+                OnPropertyChanged("Model");
+            }
+        }
 
         /// <summary>
-        /// Gets the solution displayed in the main window.
+        /// Gets or sets the solution displayed in the workspace.
         /// </summary>
-        public SolutionViewModel Solution { get; private set; }
+        public SolutionViewModel Solution
+        {
+            get { return this.solution; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                this.solution = value;
+                OnPropertyChanged("Solution");
+            }
+        }
 
         /// <summary>
         /// Gets or sets the currently selected display mode.
@@ -97,7 +120,15 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the workspace dirty flag.
         /// </summary>
-        public bool IsDirty { get; set; }
+        public bool IsDirty
+        {
+            get { return this.isDirty; }
+            set
+            {
+                this.isDirty = value;
+                OnPropertyChanged("IsDirty");
+            }
+        }
 
         /// <summary>
         /// Solve the model.
