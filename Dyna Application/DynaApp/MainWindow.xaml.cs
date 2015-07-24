@@ -31,22 +31,19 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragStarted(object sender, ConnectionDragStartedEventArgs e)
         {
-#if false
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
-            var curDragPoint = Mouse.GetPosition(contentView);
+            var curDragPoint = Mouse.GetPosition(this.workspaceView);
 
             //
             // Delegate the real work to the view model.
             //
-            var connection = this.ViewModel.Model.ConnectionDragStarted(draggedOutConnector, curDragPoint);
+            var connection = this.ViewModel.Workspace.Model.ConnectionDragStarted(draggedOutConnector, curDragPoint);
 
             //
             // Must return the view-model object that represents the connection via the event args.
             // This is so that NetworkView can keep track of the object while it is being dragged.
             //
             e.Connection = connection;
-
-#endif
         }
 
         /// <summary>
@@ -54,12 +51,9 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragging(object sender, ConnectionDraggingEventArgs e)
         {
-#if false
-            var curDragPoint = Mouse.GetPosition(contentView);
+            var curDragPoint = Mouse.GetPosition(this.workspaceView);
             var connection = (ConnectionViewModel)e.Connection;
-            this.ViewModel.Model.ConnectionDragging(connection, curDragPoint);
-
-#endif
+            this.ViewModel.Workspace.Model.ConnectionDragging(connection, curDragPoint);
         }
 
         /// <summary>
@@ -67,13 +61,12 @@ namespace DynaApp
         /// </summary>
         private void modelControl_QueryConnectionFeedback(object sender, QueryConnectionFeedbackEventArgs e)
         {
-#if false
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
             var draggedOverConnector = (ConnectorViewModel)e.DraggedOverConnector;
             object feedbackIndicator;
             bool connectionOk;
 
-            this.ViewModel.Model.QueryConnnectionFeedback(draggedOutConnector, draggedOverConnector, out feedbackIndicator, out connectionOk);
+            this.ViewModel.Workspace.Model.QueryConnnectionFeedback(draggedOutConnector, draggedOverConnector, out feedbackIndicator, out connectionOk);
 
             //
             // Return the feedback object to NetworkView.
@@ -86,8 +79,6 @@ namespace DynaApp
             // Let NetworkView know if the connection is ok or not ok.
             //
             e.ConnectionOk = connectionOk;
-
-#endif
         }
 
         /// <summary>
@@ -95,13 +86,10 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragCompleted(object sender, ConnectionDragCompletedEventArgs e)
         {
-#if false
             var connectorDraggedOut = (ConnectorViewModel)e.ConnectorDraggedOut;
             var connectorDraggedOver = (ConnectorViewModel)e.ConnectorDraggedOver;
             var newConnection = (ConnectionViewModel)e.Connection;
-            this.ViewModel.Model.ConnectionDragCompleted(newConnection, connectorDraggedOut, connectorDraggedOver);
-
-#endif
+            this.ViewModel.Workspace.Model.ConnectionDragCompleted(newConnection, connectorDraggedOut, connectorDraggedOver);
         }
 
         /// <summary>
@@ -109,43 +97,31 @@ namespace DynaApp
         /// </summary>
         private void DeleteSelectedGraphics_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-//            this.ViewModel.DeleteSelectedGraphics();
+            this.ViewModel.Workspace.DeleteSelectedGraphics();
         }
 
         private void DeleteConnection_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-#if false
             var connection = (ConnectionViewModel)e.Parameter;
-            this.ViewModel.Model.DeleteConnection(connection);
-
-#endif
+            this.ViewModel.Workspace.Model.DeleteConnection(connection);
         }
 
         private void DeleteVariable_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-#if false
             var variable = (VariableViewModel)e.Parameter;
-            this.ViewModel.Model.DeleteVariable(variable);
-
-#endif
+            this.ViewModel.Workspace.Model.DeleteVariable(variable);
         }
 
         private void DeleteDomain_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-#if false
             var domain = (DomainViewModel)e.Parameter;
-            this.ViewModel.Model.DeleteDomain(domain);
-
-#endif
+            this.ViewModel.Workspace.Model.DeleteDomain(domain);
         }
 
         private void DeleteConstraint_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-#if false
             var constraint = (ConstraintViewModel)e.Parameter;
-            this.ViewModel.Model.DeleteConstraint(constraint);
-
-#endif
+            this.ViewModel.Workspace.Model.DeleteConstraint(constraint);
         }
     }
 }
