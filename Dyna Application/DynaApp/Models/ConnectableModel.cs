@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace DynaApp.Models
 {
@@ -26,5 +27,7 @@ namespace DynaApp.Models
         public string Name { get; set; }
 
         public List<ConnectorModel> Connectors { get; private set; }
+
+        public Point Location { get; set; }
     }
 }

@@ -7,14 +7,14 @@ namespace DynaApp.Models
     {
         public DomainExpressionModel(string rawDomainExpression)
         {
-            this.Expression = rawDomainExpression;
+            this.Text = rawDomainExpression;
         }
 
         public DomainExpressionModel()
         {
-            this.Expression = string.Empty;
+            this.Text = string.Empty;
         }
 
-        public string Expression { get; set; }
+        public string Text { get; set; }
     }
 }

@@ -16,5 +16,10 @@ namespace DynaApp.Models
         }
 
         public VariableModel Variable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public int Value { get; set; }
     }
 }

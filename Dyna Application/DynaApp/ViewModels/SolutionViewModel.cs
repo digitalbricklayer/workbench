@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DynaApp.Entities;
-using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {

@@ -1,5 +1,4 @@
 ﻿using DynaApp.Models;
-using DynaApp.ViewModels;
 
 namespace Dyna.UI.Tests.Integration
 {
