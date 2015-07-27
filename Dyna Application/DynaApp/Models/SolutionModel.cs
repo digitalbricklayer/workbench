@@ -10,5 +10,15 @@ namespace DynaApp.Models
     public class SolutionModel
     {
         public List<ValueModel> Values { get; set; }
+
+        public SolutionModel()
+        {
+            this.Values = new List<ValueModel>();
+        }
+
+        public void AddValue(ValueModel theValue)
+        {
+            this.Values.Add(theValue);
+        }
     }
 }

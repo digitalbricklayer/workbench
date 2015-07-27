@@ -49,8 +49,8 @@ namespace DynaApp.UI.Tests.Unit.Solver
             var actualSolution = actualResult.Solution;
             var x = actualSolution.GetVariableByName("x");
             var y = actualSolution.GetVariableByName("y");
-            Assert.That(x.Value, Is.InRange(x.ModelVariable.Domain.Expression.LowerBand, x.ModelVariable.Domain.Expression.UpperBand));
-            Assert.That(y.Value, Is.InRange(y.ModelVariable.Domain.Expression.LowerBand, y.ModelVariable.Domain.Expression.UpperBand));
+            Assert.That(x.Value, Is.InRange(x.Variable.Domain.Expression.LowerBand, x.Variable.Domain.Expression.UpperBand));
+            Assert.That(y.Value, Is.InRange(y.Variable.Domain.Expression.LowerBand, y.Variable.Domain.Expression.UpperBand));
         }
 
         private static Model MakeModel()

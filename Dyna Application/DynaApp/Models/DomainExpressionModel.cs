@@ -3,14 +3,14 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class ConstraintExpressionModel
+    public class DomainExpressionModel
     {
-        public ConstraintExpressionModel(string rawExpression)
+        public DomainExpressionModel(string rawDomainExpression)
         {
-            this.Expression = rawExpression;
+            this.Expression = rawDomainExpression;
         }
 
-        public ConstraintExpressionModel()
+        public DomainExpressionModel()
         {
             this.Expression = string.Empty;
         }

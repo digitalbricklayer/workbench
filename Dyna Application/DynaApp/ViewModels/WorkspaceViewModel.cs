@@ -21,6 +21,9 @@ namespace DynaApp.ViewModels
         private SolutionViewModel solution;
         private ModelViewModel model;
 
+        /// <summary>
+        /// Initialize a workspace view model with default values.
+        /// </summary>
         public WorkspaceViewModel()
         {
             this.solution = new SolutionViewModel();
@@ -149,8 +152,8 @@ namespace DynaApp.ViewModels
         public VariableViewModel CreateVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
-
             this.Model.AddVariable(newVariable);
+            this.IsDirty = true;
 
             return newVariable;
         }
@@ -164,8 +167,8 @@ namespace DynaApp.ViewModels
         public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
         {
             var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
-
             this.Model.AddDomain(newDomain);
+            this.IsDirty = true;
 
             return newDomain;
         }
@@ -179,8 +182,8 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel CreateConstraint(string newConstraintName, Point newLocation)
         {
             var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
-
             this.Model.AddConstraint(newConstraint);
+            this.IsDirty = true;
 
             return newConstraint;
         }

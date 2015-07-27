@@ -23,6 +23,7 @@ namespace DynaApp.Services
             CreateMap<ConnectionViewModel, ConnectionModel>();
             CreateMap<ConnectorViewModel, ConnectorModel>();
             CreateMap<ConstraintExpressionViewModel, ConstraintExpressionModel>();
+            CreateMap<DomainExpressionViewModel, DomainExpressionModel>();
             CreateMap<ValueViewModel, ValueModel>();
         }
     }

@@ -70,7 +70,7 @@ namespace DynaApp.Entities
         /// <returns>Bound variable matching the name. Null if no domains matches the name.</returns>
         public BoundVariable GetVariableByName(string theVariableName)
         {
-            return this.boundVariables.FirstOrDefault(x => x.ModelVariable.Name == theVariableName);
+            return this.boundVariables.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
     }
 }

@@ -10,12 +10,12 @@ namespace DynaApp.Entities
         /// <summary>
         /// Initialize the bound variable with a variable.
         /// </summary>
-        /// <param name="theModelVariable"></param>
-        public BoundVariable(Variable theModelVariable)
+        /// <param name="theVariable"></param>
+        public BoundVariable(Variable theVariable)
         {
-            if (theModelVariable == null)
-                throw new ArgumentNullException("theModelVariable");
-            this.ModelVariable = theModelVariable;
+            if (theVariable == null)
+                throw new ArgumentNullException("theVariable");
+            this.Variable = theVariable;
         }
 
         /// <summary>
@@ -25,14 +25,14 @@ namespace DynaApp.Entities
         {
             get
             {
-                return this.ModelVariable.Name;
+                return this.Variable.Name;
             }
         }
 
         /// <summary>
         /// Gets the model variable.
         /// </summary>
-        public Variable ModelVariable { get; private set; }
+        public Variable Variable { get; private set; }
 
         /// <summary>
         /// Gets or sets the bound value.

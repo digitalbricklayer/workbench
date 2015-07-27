@@ -7,6 +7,15 @@ namespace DynaApp.Models
     public abstract class ConnectableModel
     {
         /// <summary>
+        /// Initialize a connectable model with a name.
+        /// </summary>
+        /// <param name="connectableName">Connectable name.</param>
+        protected ConnectableModel(string connectableName)
+        {
+            this.Name = connectableName;
+        }
+
+        /// <summary>
         /// Intialize a connectable model with default values.
         /// </summary>
         protected ConnectableModel()

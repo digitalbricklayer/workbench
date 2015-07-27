@@ -134,6 +134,7 @@
     <Compile Include="Models\ConnectionModel.cs" />
     <Compile Include="Models\ConnectorModel.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
+    <Compile Include="Models\DomainExpressionModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\ModelModel.cs" />
     <Compile Include="Models\SolutionModel.cs" />
