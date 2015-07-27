@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
 
 namespace DynaApp.ViewModels
 {
@@ -11,24 +12,34 @@ namespace DynaApp.ViewModels
     public abstract class GraphicViewModel : AbstractViewModel
     {
         /// <summary>
-        /// The X coordinate for the position of the domain.
+        /// The X coordinate for the position of the graphic.
         /// </summary>
         private double x;
 
         /// <summary>
-        /// The Y coordinate for the position of the domain.
+        /// The Y coordinate for the position of the graphic.
         /// </summary>
         private double y;
 
         /// <summary>
-        /// Set to 'true' when the domain is selected.
+        /// Set to 'true' when the graphic is selected.
         /// </summary>
         private bool isSelected;
 
         /// <summary>
-        /// The domain name.
+        /// The graphic name.
         /// </summary>
         private string name;
+
+        /// <summary>
+        /// Initialize a graphic with a name and location.
+        /// </summary>
+        protected GraphicViewModel(string newName, Point newLocation)
+            : this(newName)
+        {
+            this.X = newLocation.X;
+            this.Y = newLocation.Y;
+        }
 
         /// <summary>
         /// Initialize a graphic with a name.

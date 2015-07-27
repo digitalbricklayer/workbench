@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels
@@ -10,7 +11,7 @@ namespace DynaApp.ViewModels
     public class ConstraintViewModel : GraphicViewModel
     {
         /// <summary>
-        /// Initialize a constraint with a constraint name and raw constraint expression.
+        /// Initialize a constraint with a name and raw constraint expression.
         /// </summary>
         /// <param name="newConstraintName">New constraint name.</param>
         /// <param name="rawExpression">Raw constraint expression.</param>
@@ -19,6 +20,18 @@ namespace DynaApp.ViewModels
         {
             this.Expression = new ConstraintExpressionViewModel(rawExpression);
             this.PopulateConnectors();
+        }
+
+        /// <summary>
+        /// Initialize a constraint with a name and a location.
+        /// </summary>
+        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="newLocation">New constraint location.</param>
+        public ConstraintViewModel(string newConstraintName, Point newLocation)
+            : this(newConstraintName)
+        {
+            this.X = newLocation.X;
+            this.Y = newLocation.Y;
         }
 
         /// <summary>

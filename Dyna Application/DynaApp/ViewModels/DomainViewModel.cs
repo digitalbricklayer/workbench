@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DynaApp.Entities;
-using DynaApp.Models;
+using System.Windows;
 
 namespace DynaApp.ViewModels
 {
@@ -14,7 +11,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Initialize a new domain with a new name and raw domain expression.
         /// </summary>
-        /// <param name="newDomainName">New domain name.</param>
+        /// <param name="newDomainName">New name.</param>
         /// <param name="rawExpression">Raw domain expression.</param>
         public DomainViewModel(string newDomainName, string rawExpression)
             : this(newDomainName)
@@ -22,6 +19,13 @@ namespace DynaApp.ViewModels
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
             this.Expression = new DomainExpressionViewModel(rawExpression);
+        }
+
+        public DomainViewModel(string newDomainName, Point newDomainLocation)
+            : this(newDomainName)
+        {
+            this.X = newDomainLocation.X;
+            this.Y = newDomainLocation.Y;
         }
 
         /// <summary>

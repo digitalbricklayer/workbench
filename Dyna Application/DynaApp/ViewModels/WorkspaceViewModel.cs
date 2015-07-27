@@ -141,16 +141,14 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Create a new constraint.
+        /// Create a new variable.
         /// </summary>
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New variable view model.</returns>
         public VariableViewModel CreateVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new VariableViewModel(newVariableName);
-            newVariable.X = newVariableLocation.X;
-            newVariable.Y = newVariableLocation.Y;
+            var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
 
             this.Model.AddVariable(newVariable);
 
@@ -158,16 +156,14 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Create a new constraint.
+        /// Create a new domain.
         /// </summary>
-        /// <param name="newDomainName">New constraint name.</param>
-        /// <param name="newDomainLocation">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
+        /// <param name="newDomainName">New domain name.</param>
+        /// <param name="newDomainLocation">New domain location.</param>
+        /// <returns>New domain view model.</returns>
         public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
         {
-            var newDomain = new DomainViewModel(newDomainName);
-            newDomain.X = newDomainLocation.X;
-            newDomain.Y = newDomainLocation.Y;
+            var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
 
             this.Model.AddDomain(newDomain);
 
@@ -178,13 +174,11 @@ namespace DynaApp.ViewModels
         /// Create a new constraint.
         /// </summary>
         /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="point">New constraint location.</param>
+        /// <param name="newLocation">New constraint location.</param>
         /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel CreateConstraint(string newConstraintName, Point point)
+        public ConstraintViewModel CreateConstraint(string newConstraintName, Point newLocation)
         {
-            var newConstraint = new ConstraintViewModel(newConstraintName);
-            newConstraint.X = point.X;
-            newConstraint.Y = point.Y;
+            var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
 
             this.Model.AddConstraint(newConstraint);
 

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DynaApp.Entities;
-using DynaApp.Models;
+﻿using System.Linq;
+using System.Windows;
 
 namespace DynaApp.ViewModels
 {
@@ -10,6 +8,15 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class VariableViewModel : GraphicViewModel
     {
+        /// <summary>
+        /// Initialize a variable with the new name.
+        /// </summary>
+        public VariableViewModel(string newName, Point newLocation)
+            : base(newName, newLocation)
+        {
+            this.PopulateConnectors();
+        }
+
         /// <summary>
         /// Initialize a variable with the new name.
         /// </summary>

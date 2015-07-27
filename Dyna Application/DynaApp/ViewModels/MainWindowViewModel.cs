@@ -13,9 +13,9 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractViewModel
     {
-        private string filename;
-        private string title;
-        private WorkspaceViewModel worksapce;
+        private string filename = string.Empty;
+        private string title = string.Empty;
+        private WorkspaceViewModel workspace;
         private readonly ModelService modelService = new ModelService();
 
         /// <summary>
@@ -23,18 +23,9 @@ namespace DynaApp.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-            this.filename = string.Empty;
             this.Workspace = new WorkspaceViewModel();
             this.UpdateTitle();
-            this.NewCommand = new CommandHandler(FileNewAction, CanFileNewExecute);
-            this.OpenCommand = new CommandHandler(FileOpenAction, CanFileOpenExecute);
-            this.SaveCommand = new CommandHandler(FileSaveAction, CanFileSaveExecute);
-            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
-            this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
-            this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
-            this.AddVariableCommand = new CommandHandler(ModelAddVariableAction, CanAddVariableExecute);
-            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
-            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
+            this.CreateMenuCommands();
         }
 
         /// <summary>
@@ -42,10 +33,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         public WorkspaceViewModel Workspace
         {
-            get { return this.worksapce; }
+            get { return this.workspace; }
             set
             {
-                this.worksapce = value;
+                this.workspace = value;
                 OnPropertyChanged("Workspace");
             }
         }
@@ -159,13 +150,21 @@ namespace DynaApp.ViewModels
         }
 
         public ICommand NewCommand { get; private set; }
+
         public ICommand OpenCommand { get; private set; }
+
         public ICommand SaveCommand { get; private set; }
+
         public ICommand SaveAsCommand { get; private set; }
+
         public ICommand ExitCommand { get; private set; }
+
         public ICommand SolveCommand { get; private set; }
+
         public ICommand AddVariableCommand { get; private set; }
+
         public ICommand AddConstraintCommand { get; private set; }
+
         public ICommand AddDomainCommand { get; private set; }
 
         /// <summary>
@@ -207,13 +206,14 @@ namespace DynaApp.ViewModels
             // Show Open File dialog
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "XML files (*.xml)|*.xml|All Files|*.*",
-                DefaultExt = "xml",
+                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
+                DefaultExt = "dpf",
                 RestoreDirectory = true
             };
 
             if (openFileDialog.ShowDialog().GetValueOrDefault() != true)
             {
+                // Open has been cancelled
                 return;
             }
 
@@ -258,9 +258,9 @@ namespace DynaApp.ViewModels
             // Show Save File dialog
             var dlg = new SaveFileDialog
             {
-                Filter = "XML files (*.xml)|*.xml|All Files|*.*",
+                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
-                DefaultExt = "xml",
+                DefaultExt = "dpf",
                 RestoreDirectory = true
             };
 
@@ -356,31 +356,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Update main window title.
-        /// </summary>
-        private void UpdateTitle()
-        {
-            var s = "Dyna Project" + " - ";
-
-            if (string.IsNullOrEmpty(this.filename))
-            {
-                s += "Untitled";
-            }
-            else
-            {
-                s += Path.GetFileName(this.filename);
-            }
-
-            if (this.Workspace.IsDirty)
-            {
-                s += " *";
-            }
-
-            this.Title = s;
-        }
-
-        /// <summary>
-        /// Save the content to file.
+        /// Save the workspace to a file.
         /// </summary>
         private bool Save(string file)
         {
@@ -413,6 +389,46 @@ namespace DynaApp.ViewModels
                             "Dyna Project",
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Update main window title.
+        /// </summary>
+        private void UpdateTitle()
+        {
+            var s = "Dyna Project" + " - ";
+
+            if (string.IsNullOrEmpty(this.filename))
+            {
+                s += "Untitled";
+            }
+            else
+            {
+                s += Path.GetFileName(this.filename);
+            }
+
+            if (this.Workspace.IsDirty)
+            {
+                s += " *";
+            }
+
+            this.Title = s;
+        }
+
+        /// <summary>
+        /// Create main menu commands.
+        /// </summary>
+        private void CreateMenuCommands()
+        {
+            this.NewCommand = new CommandHandler(FileNewAction, CanFileNewExecute);
+            this.OpenCommand = new CommandHandler(FileOpenAction, CanFileOpenExecute);
+            this.SaveCommand = new CommandHandler(FileSaveAction, CanFileSaveExecute);
+            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
+            this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
+            this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
+            this.AddVariableCommand = new CommandHandler(ModelAddVariableAction, CanAddVariableExecute);
+            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
+            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
         }
     }
 }
