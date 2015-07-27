@@ -28,6 +28,7 @@ namespace DynaApp.Models
 
         public List<ConnectorModel> Connectors { get; private set; }
 
-        public Point Location { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
     }
 }
