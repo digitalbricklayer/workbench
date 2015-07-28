@@ -32,11 +32,8 @@
         <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
             <Component Id="DynaAppExecutable" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
                 <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
-				<Shortcut Id="DynaAppExecutable.Shortcut" Directory="ProgramMenuFolderLevel1" Advertise="yes" Name="$(var.APPTITLE)" WorkingDirectory="INSTALLDIR" Icon="DynaAppIcon" IconIndex="0">
-					<Icon Id="DynaAppIcon" SourceFile="$(var.APPPATH)\DynaApp.exe" />
-				</Shortcut>
             </Component>
-            <Component Id="DynaAppDependency" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
+            <Component Id="DynaAppDependencies" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
                 <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
                 <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\DynaApp.exe.config" KeyPath="yes" Checksum="yes"/>
                 <File Id="AutoMapper" Source="$(var.APPPATH)\AutoMapper.dll" KeyPath="yes" Checksum="yes"/>
@@ -46,9 +43,27 @@
             </Component>
         </DirectoryRef>
 
+        <DirectoryRef Id="ApplicationProgramsFolder">
+            <Component Id="DynaAppStartMenuShortcut" Guid="755D748E-AB82-47A2-9C86-3D553D2E0EB6">
+                <Shortcut Id="ApplicationStartMenuShortcut" 
+						  Name="$(var.APPTITLE)" 
+						  Description="$(var.APPDESCRIPTION)"
+						  Target="[#DynaApp]"
+						  WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+                <Shortcut Id="UninstallProduct"             
+                          Name="Uninstall Dyna Project"
+                          Description="Uninstalls all Dyna Project application files."
+                          Target="[System64Folder]msiexec.exe"
+                          Arguments="/x [ProductCode]" /> 
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+           </Component>
+        </DirectoryRef>
+
         <!-- Define application feature -->
         <Feature Id="MainApplication" Title="Main Application" Level="1">
-            <ComponentRef Id="DynaAppExecutables" />
+            <ComponentRef Id="DynaAppExecutable" />
+            <ComponentRef Id="DynaAppDependencies" />
+            <ComponentRef Id="DynaAppStartMenuShortcut" />
         </Feature>
     </Product>
 </Wix>
