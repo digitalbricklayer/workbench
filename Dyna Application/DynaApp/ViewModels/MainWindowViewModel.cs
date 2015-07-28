@@ -149,22 +149,49 @@ namespace DynaApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the File|New command.
+        /// </summary>
         public ICommand NewCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the File|Open command.
+        /// </summary>
         public ICommand OpenCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the File|Save command.
+        /// </summary>
         public ICommand SaveCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the File|Save As command.
+        /// </summary>
         public ICommand SaveAsCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the File|Exit command.
+        /// </summary>
         public ICommand ExitCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the Model|Solve command
+        /// </summary>
         public ICommand SolveCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the Model|Add Variable command.
+        /// </summary>
         public ICommand AddVariableCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the Model|Add Constraint command.
+        /// </summary>
         public ICommand AddConstraintCommand { get; private set; }
 
+        /// <summary>
+        /// Gets the Model|Add Domain command.
+        /// </summary>
         public ICommand AddDomainCommand { get; private set; }
 
         /// <summary>
@@ -175,7 +202,7 @@ namespace DynaApp.ViewModels
             get { return this.title; }
             set
             {
-                title = value;
+                this.title = value;
                 OnPropertyChanged();
             }
         }
@@ -191,8 +218,8 @@ namespace DynaApp.ViewModels
             }
 
             this.Workspace.Reset();
-
             this.filename = string.Empty;
+            this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
 
@@ -233,6 +260,7 @@ namespace DynaApp.ViewModels
             }
 
             this.filename = openFileDialog.FileName;
+            this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
 
@@ -287,6 +315,7 @@ namespace DynaApp.ViewModels
         private void ModelSolveAction()
         {
             this.Workspace.SolveModel(Application.Current.MainWindow);
+            this.UpdateTitle();
         }
 
         /// <summary>
@@ -295,7 +324,8 @@ namespace DynaApp.ViewModels
         private void ModelAddVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.CreateVariable("New Variable", newVariableLocation);
+            this.Workspace.AddVariable("New Variable", newVariableLocation);
+            this.UpdateTitle();
         }
 
         /// <summary>
@@ -304,7 +334,8 @@ namespace DynaApp.ViewModels
         private void ModelAddConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.CreateConstraint("New Constraint", newConstraintLocation);
+            this.Workspace.AddConstraint("New Constraint", newConstraintLocation);
+            this.UpdateTitle();
         }
 
         /// <summary>
@@ -313,7 +344,8 @@ namespace DynaApp.ViewModels
         private void ModelAddDomainAction()
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.CreateDomain("New Domain", newDomainLocation);
+            this.Workspace.AddDomain("New Domain", newDomainLocation);
+            this.UpdateTitle();
         }
 
         /// <summary>
@@ -374,6 +406,7 @@ namespace DynaApp.ViewModels
             }
 
             this.filename = file;
+            this.Workspace.IsDirty = false;
             UpdateTitle();
 
             return true;
@@ -396,23 +429,23 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var s = "Dyna Project" + " - ";
+            var newTitle = "Dyna Project" + " - ";
 
             if (string.IsNullOrEmpty(this.filename))
             {
-                s += "Untitled";
+                newTitle += "Untitled";
+                this.Title = newTitle;
+                return;
             }
-            else
-            {
-                s += Path.GetFileName(this.filename);
-            }
+
+            newTitle += Path.GetFileName(this.filename);
 
             if (this.Workspace.IsDirty)
             {
-                s += " *";
+                newTitle += " *";
             }
 
-            this.Title = s;
+            this.Title = newTitle;
         }
 
         /// <summary>

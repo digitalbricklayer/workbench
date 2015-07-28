@@ -134,7 +134,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Solve the model.
+        /// Solve the constraint model.
         /// </summary>
         public void SolveModel(Window parentWindow)
         {
@@ -149,7 +149,7 @@ namespace DynaApp.ViewModels
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New variable view model.</returns>
-        public VariableViewModel CreateVariable(string newVariableName, Point newVariableLocation)
+        public VariableViewModel AddVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
             this.Model.AddVariable(newVariable);
@@ -164,7 +164,7 @@ namespace DynaApp.ViewModels
         /// <param name="newDomainName">New domain name.</param>
         /// <param name="newDomainLocation">New domain location.</param>
         /// <returns>New domain view model.</returns>
-        public DomainViewModel CreateDomain(string newDomainName, Point newDomainLocation)
+        public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
         {
             var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
             this.Model.AddDomain(newDomain);
@@ -179,7 +179,7 @@ namespace DynaApp.ViewModels
         /// <param name="newConstraintName">New constraint name.</param>
         /// <param name="newLocation">New constraint location.</param>
         /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel CreateConstraint(string newConstraintName, Point newLocation)
+        public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
         {
             var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
             this.Model.AddConstraint(newConstraint);
@@ -208,12 +208,13 @@ namespace DynaApp.ViewModels
             // Remove all connections attached to the variable.
             //
             foreach (var connectionViewModel in variable.AttachedConnections)
-                this.Model.Connections.Remove(connectionViewModel);
+                this.Model.DeleteConnection(connectionViewModel);
 
             //
             // Remove the variable from the network.
             //
-            this.Model.Variables.Remove(variable);
+            this.Model.DeleteVariable(variable);
+            this.IsDirty = true;
         }
 
         /// <summary>
@@ -223,6 +224,7 @@ namespace DynaApp.ViewModels
         {
             this.Model.Reset();
             this.Solution.Reset();
+            this.IsDirty = true;
         }
 
         /// <summary>
@@ -261,7 +263,7 @@ namespace DynaApp.ViewModels
             {
                 if (variable.IsSelected)
                 {
-                    DeleteVariable(variable);
+                    this.DeleteVariable(variable);
                 }
             }
         }
@@ -275,7 +277,7 @@ namespace DynaApp.ViewModels
             {
                 if (domain.IsSelected)
                 {
-                    DeleteDomain(domain);
+                    this.DeleteDomain(domain);
                 }
             }
         }
@@ -289,7 +291,7 @@ namespace DynaApp.ViewModels
             {
                 if (constraint.IsSelected)
                 {
-                    DeleteConstraint(constraint);
+                    this.DeleteConstraint(constraint);
                 }
             }
         }
@@ -299,7 +301,7 @@ namespace DynaApp.ViewModels
             //
             // Remove the variable from the network.
             //
-            this.Model.Domains.Remove(domain);
+            this.Model.DeleteDomain(domain);
         }
 
         private void DeleteConstraint(ConstraintViewModel constraint)
@@ -307,7 +309,7 @@ namespace DynaApp.ViewModels
             //
             // Remove the variable from the network.
             //
-            this.Model.Constraints.Remove(constraint);
+            this.Model.DeleteConstraint(constraint);
         }
     }
 }
