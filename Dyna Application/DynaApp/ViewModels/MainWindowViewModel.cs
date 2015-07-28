@@ -306,6 +306,11 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileExitAction()
         {
+            if (!PromptToSave())
+            {
+                return;
+            }
+
             Application.Current.MainWindow.Close();
         }
 
