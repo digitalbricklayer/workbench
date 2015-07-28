@@ -13,13 +13,18 @@
 			 Name="$(var.APPTITLE)" 
 			 Manufacturer="$(var.APPMANU)">
 
+		<Condition Message="This application is only supported on Windows 7, Windows Server 2008 R2, or higher.">
+			<![CDATA[Installed OR (VersionNT >= 601)]]>
+		</Condition>			 
+
 		<Package InstallerVersion="301"
 				 Compressed="yes"
 				 InstallPrivileges="elevated"
 				 InstallScope="perMachine"
 				 Manufacturer="$(var.APPMANU)"
 				 Platform="x86" />
-        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+        
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
         <!-- Define the directory structure -->
         <Directory Id="TARGETDIR" Name="SourceDir">
