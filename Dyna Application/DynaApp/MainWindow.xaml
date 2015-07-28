@@ -8,6 +8,7 @@
         xmlns:views="clr-namespace:DynaApp.Views"
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
         xmlns:controls="clr-namespace:DynaApp.Controls"
+        Icon="Images/AppIcon.ico"
         >
 
     <Window.Resources>
