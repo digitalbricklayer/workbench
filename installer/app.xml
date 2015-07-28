@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?define APPPATH = "$(var.TargetDir)"?>
+
+	<!--
+	Because we perform a major upgrade with every install we need to generate a new Product Id.
+	However, DO NOT change the UpgradeCode.
+	-->
     <Product Id="*" 
 			 UpgradeCode="29182EA7-2D18-4335-9246-FAF17FECD173" 
-			 Version="0.1.0.0" 
+			 Version="!(bind.FileVersion.DynaAppExecutable)" 
 			 Language="1033" 
-			 Name="Dyna Project" 
-			 Manufacturer="OPENXTRA Limited">
-        <Package InstallerVersion="300" Compressed="yes"/>
-        <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
+			 Name="$(var.APPTITLE)" 
+			 Manufacturer="$(var.APPMANU)">
+
+		<Package InstallerVersion="301"
+				 Compressed="yes"
+				 InstallPrivileges="elevated"
+				 InstallScope="perMachine"
+				 Manufacturer="$(var.APPMANU)"
+				 Platform="x86" />
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
         <!-- Define the directory structure -->
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -18,13 +30,19 @@
 
         <!-- Add files to your installer package -->
         <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
-            <Component Id="DynaAppExecutables" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
-                <File Id="DynaApp" Source="Dyna Application\DynaApp\bin\Release\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
-                <File Id="DynaAppConfiguration" Source="Dyna Application\DynaApp\bin\Release\DynaApp.exe.config" KeyPath="yes" Checksum="yes"/>
-                <File Id="AutoMapper" Source="Dyna Application\DynaApp\bin\Release\AutoMapper.dll" KeyPath="yes" Checksum="yes"/>
-                <File Id="AutoMapper.Net4" Source="Dyna Application\DynaApp\bin\Release\AutoMapper.Net4.dll" KeyPath="yes" Checksum="yes"/>
-                <File Id="Google.OrTools" Source="Dyna Application\DynaApp\bin\Release\Google.OrTools.dll" KeyPath="yes" Checksum="yes"/>
-                <File Id="Sprache" Source="Dyna Application\DynaApp\bin\Release\Sprache.dll" KeyPath="yes" Checksum="yes"/>
+            <Component Id="DynaAppExecutable" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
+                <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
+				<Shortcut Id="DynaAppExecutable.Shortcut" Directory="ProgramMenuFolderLevel1" Advertise="yes" Name="$(var.APPTITLE)" WorkingDirectory="INSTALLDIR" Icon="DynaAppIcon" IconIndex="0">
+					<Icon Id="DynaAppIcon" SourceFile="$(var.APPPATH)\DynaApp.exe" />
+				</Shortcut>
+            </Component>
+            <Component Id="DynaAppDependency" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D">
+                <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
+                <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\DynaApp.exe.config" KeyPath="yes" Checksum="yes"/>
+                <File Id="AutoMapper" Source="$(var.APPPATH)\AutoMapper.dll" KeyPath="yes" Checksum="yes"/>
+                <File Id="AutoMapper.Net4" Source="$(var.APPPATH)\AutoMapper.Net4.dll" KeyPath="yes" Checksum="yes"/>
+                <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" KeyPath="yes" Checksum="yes"/>
+                <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" KeyPath="yes" Checksum="yes"/>
             </Component>
         </DirectoryRef>
 
