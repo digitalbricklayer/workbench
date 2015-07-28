@@ -30,7 +30,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.Variable.Name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
             }
         }
 
@@ -43,7 +43,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.variable = value;
-                OnPropertyChanged("Variable");
+                OnPropertyChanged();
             }
         }
 
@@ -59,7 +59,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.value = value;
-                OnPropertyChanged("Value");
+                OnPropertyChanged();
             }
         }
     }

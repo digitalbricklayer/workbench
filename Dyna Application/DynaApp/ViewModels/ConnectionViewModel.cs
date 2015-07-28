@@ -66,7 +66,7 @@ namespace DynaApp.ViewModels
                     this.SourceConnectorHotspot = sourceConnector.Hotspot;
                 }
 
-                OnPropertyChanged("SourceConnector");
+                OnPropertyChanged();
                 OnConnectionChanged();
             }
         }
@@ -106,7 +106,7 @@ namespace DynaApp.ViewModels
                     this.DestinationConnectorHotspot = destinationConnector.Hotspot;
                 }
 
-                OnPropertyChanged("DestinationConnector");
+                OnPropertyChanged();
                 OnConnectionChanged();
             }
         }
@@ -126,7 +126,7 @@ namespace DynaApp.ViewModels
 
                 ComputeConnectionPoints();
 
-                OnPropertyChanged("SourceConnectorHotspot");
+                OnPropertyChanged();
             }
         }
 
@@ -145,7 +145,7 @@ namespace DynaApp.ViewModels
 
                 ComputeConnectionPoints();
 
-                OnPropertyChanged("DestinationConnectorHotspot");
+                OnPropertyChanged();
             }
         }
 
@@ -173,7 +173,7 @@ namespace DynaApp.ViewModels
             {
                 points = value;
 
-                OnPropertyChanged("Points");
+                OnPropertyChanged();
             }
         }
 

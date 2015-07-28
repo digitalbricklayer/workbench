@@ -37,7 +37,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.workspace = value;
-                OnPropertyChanged("Workspace");
+                OnPropertyChanged();
             }
         }
 
@@ -176,7 +176,7 @@ namespace DynaApp.ViewModels
             set
             {
                 title = value;
-                OnPropertyChanged("Title");
+                OnPropertyChanged();
             }
         }
 

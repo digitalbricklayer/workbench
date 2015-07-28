@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DynaApp.ViewModels
 {
@@ -23,7 +24,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
             {

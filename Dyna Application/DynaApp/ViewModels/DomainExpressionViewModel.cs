@@ -38,7 +38,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.text == value) return;
                 this.text = value;
-                OnPropertyChanged("Text");
+                OnPropertyChanged();
             }
         }
     }

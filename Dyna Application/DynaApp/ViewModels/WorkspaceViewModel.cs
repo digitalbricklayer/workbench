@@ -42,7 +42,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.model = value;
-                OnPropertyChanged("Model");
+                OnPropertyChanged();
             }
         }
 
@@ -57,7 +57,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.solution = value;
-                OnPropertyChanged("Solution");
+                OnPropertyChanged();
             }
         }
 
@@ -87,7 +87,7 @@ namespace DynaApp.ViewModels
                     default:
                         throw new NotImplementedException("Unknown display mode.");
                 }
-                OnPropertyChanged("SelectedDisplayMode");
+                OnPropertyChanged();
             }
         }
 
@@ -115,7 +115,7 @@ namespace DynaApp.ViewModels
             private set
             {
                 this.selectedDisplayViewModel = value;
-                OnPropertyChanged("SelectedDisplayViewModel");
+                OnPropertyChanged();
             }
         }
 
@@ -129,7 +129,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.isDirty == value) return;
                 this.isDirty = value;
-                OnPropertyChanged("IsDirty");
+                OnPropertyChanged();
             }
         }
 

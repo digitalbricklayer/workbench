@@ -73,7 +73,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.name == value) return;
                 this.name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
             }
         }
 
@@ -95,7 +95,7 @@ namespace DynaApp.ViewModels
             {
                 if (x.Equals(value)) return;
                 x = value;
-                OnPropertyChanged("X");
+                OnPropertyChanged();
             }
         }
 
@@ -112,7 +112,7 @@ namespace DynaApp.ViewModels
             {
                 if (y.Equals(value)) return;
                 y = value;
-                OnPropertyChanged("Y");
+                OnPropertyChanged();
             }
         }
 
@@ -129,7 +129,7 @@ namespace DynaApp.ViewModels
             {
                 if (isSelected == value) return;
                 isSelected = value;
-                OnPropertyChanged("IsSelected");
+                OnPropertyChanged();
             }
         }
 
