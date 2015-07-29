@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?define APPPATH = "$(var.TargetDir)"?>
+	  <!--
+	  Because we perform a major upgrade with every install we need to generate a new Product Id.
+	  However, DO NOT change the UpgradeCode.
+	  -->
+    <Product Id="*" 
+			 UpgradeCode="29182EA7-2D18-4335-9246-FAF17FECD173" 
+			 Version="!(bind.FileVersion.DynaApp)" 
+			 Language="1033" 
+			 Name="$(var.APPTITLE)" 
+			 Manufacturer="$(var.APPMANU)">
+
+		<Package InstallerVersion="301"
+				 Compressed="yes"
+				 InstallPrivileges="elevated"
+				 InstallScope="perMachine"
+				 Manufacturer="$(var.APPMANU)"
+				 Platform="x86" />
+
+      <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+        <!-- Define the directory structure -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+          <Directory Id="ProgramFilesFolder">
+            <Directory Id="INSTALLDIR" Name="$(var.APPTITLE)" />
+          </Directory>
+          <Directory Id="ProgramMenuFolder">
+            <Directory Id="ProgramMenuFolderLevel1" Name="$(var.APPTITLE)" />
+          </Directory>
+        </Directory>
+
+        <!-- Add files to your installer package -->
+        <ComponentGroup Id="AppFiles">
+            <Component Id="DynaAppExecutable" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D" Directory="INSTALLDIR">
+                <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
+                <Shortcut Id="xsensiorlite.programshortcut" Directory="ProgramMenuFolderLevel1" Advertise="yes" Name="$(var.APPTITLE)" WorkingDirectory="INSTALLDIR" Icon="GuiIcon.exe" IconIndex="0">
+                  <Icon Id="GuiIcon.exe" SourceFile="$(var.APPPATH)\DynaApp.exe" />
+                </Shortcut>
+              <RemoveFolder Id='remove.ProgramMenuFolderLevel1' Directory='ProgramMenuFolderLevel1' On='uninstall' />
+            </Component>
+            <Component Id="DynaAppDependencies" Guid="EBB0BEDC-99EF-4F4F-9979-50383A91DD1D" Directory="INSTALLDIR">
+                <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\DynaApp.exe.config" Checksum="yes"/>
+                <File Id="AutoMapper" Source="$(var.APPPATH)\AutoMapper.dll" Checksum="yes"/>
+                <File Id="AutoMapper.Net4" Source="$(var.APPPATH)\AutoMapper.Net4.dll" Checksum="yes"/>
+                <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" Checksum="yes"/>
+                <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
+            </Component>
+        </ComponentGroup>
+
+        <!-- Define application features -->
+        <Feature Id="MainApplication" Title="Main Application" Level="1">
+            <ComponentGroupRef Id="AppFiles" />
+
+			      <!-- Note: The following ComponentGroupRef is required to pull in the default launch conditions. -->
+			      <ComponentGroupRef Id="CoreLaunchConditions"/>
+        </Feature>
+    </Product>
+</Wix>

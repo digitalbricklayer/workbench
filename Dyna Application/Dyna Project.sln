@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96D48A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.UI.Tests.Integration", "Dyna.UI.Tests.Integration\Dyna.UI.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dyna.UI.Wix", "..\Dyna.UI.Wix\Dyna.UI.Wix.wixproj", "{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,16 @@ Global
 		{E1E117C3-891F-4727-B3B4-621EB417E3BF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1E117C3-891F-4727-B3B4-621EB417E3BF}.Release|x86.ActiveCfg = Release|x86
 		{E1E117C3-891F-4727-B3B4-621EB417E3BF}.Release|x86.Build.0 = Release|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Debug|x86.ActiveCfg = Debug|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Debug|x86.Build.0 = Debug|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Release|Any CPU.ActiveCfg = Release|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Release|x86.ActiveCfg = Release|x86
+		{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
