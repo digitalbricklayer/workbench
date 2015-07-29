@@ -10,3 +10,14 @@ build:
   verbosity: minimal
 artifacts:
   - path: '**\*.msi'
+deploy:
+  release: dynaproject-v$(appveyor_build_version)
+  provider: GitHub
+  auth_token:
+    secure: <your encrypted token> # your encrypted token from GitHub
+  artifact: /.*\.msi/            # upload all installers to release assets
+  draft: false
+  prerelease: true
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
