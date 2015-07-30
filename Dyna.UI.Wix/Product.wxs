@@ -31,13 +31,19 @@
           </Directory>
         </Directory>
 
+        <Icon Id="DynaIcon.exe" SourceFile="$(var.APPPATH)\DynaApp.exe" />
+
         <!-- Add files to your installer package -->
         <ComponentGroup Id="AppFiles">
             <Component Id="DynaAppExecutable" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D" Directory="INSTALLDIR">
-                <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes"/>
-                <Shortcut Id="xsensiorlite.programshortcut" Directory="ProgramMenuFolderLevel1" Advertise="yes" Name="$(var.APPTITLE)" WorkingDirectory="INSTALLDIR" Icon="GuiIcon.exe" IconIndex="0">
-                  <Icon Id="GuiIcon.exe" SourceFile="$(var.APPPATH)\DynaApp.exe" />
-                </Shortcut>
+              <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes">
+                <Shortcut Id="StartMenuShortcut"
+                          Name="$(var.APPTITLE)"
+                          Directory="ProgramMenuFolderLevel1"
+                          Advertise="yes"
+                          WorkingDirectory="INSTALLDIR"
+                          Icon ="DynaIcon.exe" />
+              </File>
               <RemoveFolder Id='remove.ProgramMenuFolderLevel1' Directory='ProgramMenuFolderLevel1' On='uninstall' />
             </Component>
             <Component Id="DynaAppDependencies" Guid="EBB0BEDC-99EF-4F4F-9979-50383A91DD1D" Directory="INSTALLDIR">
