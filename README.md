@@ -1,2 +1,2 @@
 # dyna
-The Dyna Project started its life here but has since moved over to its very own [project](https://github.com/dyna-project).
+The Dyna Project website is over [here](https://github.com/dyna-project).
