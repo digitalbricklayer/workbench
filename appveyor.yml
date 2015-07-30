@@ -14,8 +14,7 @@ deploy:
   release: dynaproject-v$(appveyor_build_version)
   provider: GitHub
   auth_token:
-	 # encrypted access token from GitHub
-    secure: Gl0kqhnXpEHMQV4Q05Dyl1bbNmX72cfZe8YIq+Djm7Z/Bhvb7+vHD9BMsL82T9pQ
+    secure: Gl0kqhnXpEHMQV4Q05Dyl1bbNmX72cfZe8YIq+Djm7Z/Bhvb7+vHD9BMsL82T9pQ # encrypted access token from GitHub
   artifact: /.*\.msi/            # upload all installers to release assets
   draft: false
   prerelease: false
