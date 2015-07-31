@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using DynaApp.Events;
 using DynaApp.ViewModels;
+using DynaApp.Views;
 
 namespace DynaApp
 {
@@ -32,7 +33,7 @@ namespace DynaApp
         private void modelControl_ConnectionDragStarted(object sender, ConnectionDragStartedEventArgs e)
         {
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
-            var curDragPoint = Mouse.GetPosition(this.workspaceView);
+            var curDragPoint = Mouse.GetPosition((ModelView)sender);
 
             //
             // Delegate the real work to the view model.
@@ -51,7 +52,7 @@ namespace DynaApp
         /// </summary>
         private void modelControl_ConnectionDragging(object sender, ConnectionDraggingEventArgs e)
         {
-            var curDragPoint = Mouse.GetPosition(this.workspaceView);
+            var curDragPoint = Mouse.GetPosition((ModelView)sender);
             var connection = (ConnectionViewModel)e.Connection;
             this.ViewModel.Workspace.Model.ConnectionDragging(connection, curDragPoint);
         }

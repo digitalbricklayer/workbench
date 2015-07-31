@@ -1321,13 +1321,13 @@ namespace DynaApp.Views
 
             Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
 
-            Point mousePoint = Mouse.GetPosition(this);
+            var mousePoint = Mouse.GetPosition(this);
 
             //
             // Figure out if the end of the connection was dropped on a connector.
             //
-            ConnectorItem connectorDraggedOver = null;
-            object connectorDataContextDraggedOver = null;
+            ConnectorItem connectorDraggedOver;
+            object connectorDataContextDraggedOver;
             DetermineConnectorItemDraggedOver(mousePoint, out connectorDraggedOver, out connectorDataContextDraggedOver);
 
             //
