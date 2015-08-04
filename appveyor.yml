@@ -16,8 +16,8 @@ deploy:
   auth_token:
     secure: S4Tp4mWcK10d80w6YRHIrxrKS7x+vhJzkyyeWL5phUNKWSVKvyHcvBYdth9o8DK/ # encrypted access token from GitHub
   artifact: /.*\.msi/            # upload all installers to release assets
-  draft: false
-  prerelease: false
+  draft: true
+  prerelease: true
   on:
     branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
