@@ -88,59 +88,53 @@ namespace Dyna.Core.Solver
 
         private void HandleLessOperator(Constraint constraint)
         {
+            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Google.OrTools.ConstraintSolver.Constraint orConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    orConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    orConstraint = this.solver.MakeLess(lhsVariable,
-                                                        constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(orConstraint);
+                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                orConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
             }
+            else
+            {
+                orConstraint = this.solver.MakeLess(lhsVariable,
+                                                    constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(orConstraint);
         }
 
         private void HandleGreaterOperator(Constraint constraint)
         {
+            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Google.OrTools.ConstraintSolver.Constraint orConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    orConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    orConstraint = this.solver.MakeGreater(lhsVariable,
-                                                           constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(orConstraint);
+                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                orConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
             }
+            else
+            {
+                orConstraint = this.solver.MakeGreater(lhsVariable,
+                                                       constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(orConstraint);
         }
 
         private void HandleNotEqualOperator(Constraint constraint)
         {
+            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Google.OrTools.ConstraintSolver.Constraint orConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    orConstraint = this.solver.MakeNonEquality(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    orConstraint = this.solver.MakeNonEquality(lhsVariable,
-                                                               constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(orConstraint);
+                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                orConstraint = this.solver.MakeNonEquality(lhsVariable, rhsVariable);
             }
+            else
+            {
+                orConstraint = this.solver.MakeNonEquality(lhsVariable,
+                                                           constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(orConstraint);
         }
 
         private void HandleLessThanOrEqualOperator(Constraint constraint)
@@ -164,40 +158,36 @@ namespace Dyna.Core.Solver
 
         private void HandleGreaterThanOrEqualOperator(Constraint constraint)
         {
+            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Google.OrTools.ConstraintSolver.Constraint orConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable,
-                                                                  constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(orConstraint);
+                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
             }
+            else
+            {
+                orConstraint = this.solver.MakeGreaterOrEqual(lhsVariable,
+                                                              constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(orConstraint);
         }
 
         private void HandleEqualsOperator(Constraint constraint)
         {
+            Google.OrTools.ConstraintSolver.Constraint orConstraint;
+            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Google.OrTools.ConstraintSolver.Constraint orConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    orConstraint = this.solver.MakeEquality(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    orConstraint = this.solver.MakeEquality(lhsVariable,
-                                                            constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(orConstraint);
+                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                orConstraint = this.solver.MakeEquality(lhsVariable, rhsVariable);
             }
+            else
+            {
+                orConstraint = this.solver.MakeEquality(lhsVariable,
+                                                        constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(orConstraint);
         }
 
         private SolutionCollector CreateCollector()
