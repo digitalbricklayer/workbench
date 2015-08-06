@@ -90,7 +90,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DynaApp\Dyna.UI.csproj">
+    <ProjectReference Include="..\..\src\DynaApp\Dyna.UI.csproj">
       <Project>{523d6d0b-595f-4c35-9f6c-c8baac322e2e}</Project>
       <Name>Dyna.UI</Name>
     </ProjectReference>

@@ -12,20 +12,22 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\Dyna Application\DynaApp\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;APPTITLE=Dyna Project;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Dyna Project</DefineConstants>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Dyna Application\DynaApp\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreConditions.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dyna Application\DynaApp\Dyna.UI.csproj">
+    <ProjectReference Include="..\DynaApp\Dyna.UI.csproj">
       <Name>Dyna.UI</Name>
       <Project>{523d6d0b-595f-4c35-9f6c-c8baac322e2e}</Project>
       <Private>True</Private>
