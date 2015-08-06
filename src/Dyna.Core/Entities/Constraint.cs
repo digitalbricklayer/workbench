@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// A constraint restricting a variable's possible bound values.

@@ -1,8 +1,8 @@
 ﻿using System;
-using DynaApp.Entities;
+using Dyna.Core.Entities;
 using NUnit.Framework;
 
-namespace DynaApp.UI.Tests.Unit.Domain
+namespace Dyna.Core.Tests.Unit.Entities
 {
     [TestFixture]
     public class ConstraintTests

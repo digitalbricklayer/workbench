@@ -1,4 +1,4 @@
-﻿namespace DynaApp.Solver
+﻿namespace Dyna.Core.Solver
 {
     public enum SolveStatus
     {

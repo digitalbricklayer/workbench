@@ -1,7 +1,7 @@
-﻿using DynaApp.Entities;
+﻿using Dyna.Core.Entities;
 using NUnit.Framework;
 
-namespace Dyna.UI.Tests.Unit.Entities
+namespace Dyna.Core.Tests.Unit.Entities
 {
     [TestFixture]
     public class ModelTests

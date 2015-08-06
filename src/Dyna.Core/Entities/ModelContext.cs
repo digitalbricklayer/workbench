@@ -1,6 +1,6 @@
 using System;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// Fluent interface for building models.

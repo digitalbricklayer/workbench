@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using DynaApp.Entities;
+using Dyna.Core.Entities;
 
 namespace DynaApp.ViewModels
 {

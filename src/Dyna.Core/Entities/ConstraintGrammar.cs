@@ -1,11 +1,11 @@
 ﻿using Sprache;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// Grammar for parsing constraint expressions.
     /// </summary>
-    class ConstraintGrammar
+    internal class ConstraintGrammar
     {
         /// <summary>
         /// Parse an identifier.

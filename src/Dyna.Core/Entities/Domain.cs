@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// A domain contains the possible values that a variable can be bound to.

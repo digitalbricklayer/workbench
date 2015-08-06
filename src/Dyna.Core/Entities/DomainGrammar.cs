@@ -2,9 +2,9 @@
 using System.Linq;
 using Sprache;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
-    class DomainGrammar
+    internal class DomainGrammar
     {
         /// <summary>
         /// Parse a band.

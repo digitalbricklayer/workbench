@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// Expression tree of the constraint.

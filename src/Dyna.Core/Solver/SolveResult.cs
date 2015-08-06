@@ -1,7 +1,7 @@
 ﻿using System;
-using DynaApp.Entities;
+using Dyna.Core.Entities;
 
-namespace DynaApp.Solver
+namespace Dyna.Core.Solver
 {
     /// <summary>
     /// The constraint model solution.

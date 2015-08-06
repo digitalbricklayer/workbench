@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using Dyna.Core.Entities;
+using Dyna.Core.Solver;
 using DynaApp.Controls;
-using DynaApp.Entities;
-using DynaApp.Solver;
 using DynaApp.Views;
 
 namespace DynaApp.ViewModels

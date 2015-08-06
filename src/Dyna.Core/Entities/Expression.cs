@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Entities
+namespace Dyna.Core.Entities
 {
     /// <summary>
     /// An expression can either be a variable or literal.

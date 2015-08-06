@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using DynaApp.Entities;
+using Dyna.Core.Entities;
 using Google.OrTools.ConstraintSolver;
-using Constraint = DynaApp.Entities.Constraint;
+using Constraint = Dyna.Core.Entities.Constraint;
 
-namespace DynaApp.Solver
+namespace Dyna.Core.Solver
 {
     /// <summary>
     /// Constraint solver.
     /// </summary>
-    class ConstraintSolver
+    public class ConstraintSolver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private readonly Dictionary<string, Tuple<Variable, IntVar>> variableMap = new Dictionary<string, Tuple<Variable, IntVar>>();

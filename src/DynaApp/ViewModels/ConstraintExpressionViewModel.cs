@@ -1,5 +1,4 @@
 ﻿using System;
-using DynaApp.Entities;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels

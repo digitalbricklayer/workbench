@@ -1,8 +1,8 @@
-﻿using DynaApp.Entities;
-using DynaApp.Solver;
+﻿using Dyna.Core.Entities;
+using Dyna.Core.Solver;
 using NUnit.Framework;
 
-namespace DynaApp.UI.Tests.Unit.Solver
+namespace Dyna.Core.Tests.Unit.Solver
 {
     [TestFixture]
     public class ConstraintSolverTests
@@ -56,9 +56,9 @@ namespace DynaApp.UI.Tests.Unit.Solver
         private static Model MakeModel()
         {
             return Model.Create("A test")
-                        .AddVariable("x", new Entities.Domain("1..9"))
-                        .AddVariable("y", new Entities.Domain("1..9"))
-                        .AddVariable("z", new Entities.Domain("1..9"))
+                        .AddVariable("x", new Domain("1..9"))
+                        .AddVariable("y", new Domain("1..9"))
+                        .AddVariable("z", new Domain("1..9"))
                         .WithConstraint("x < y")
                         .WithConstraint("y > z")
                         .Build();

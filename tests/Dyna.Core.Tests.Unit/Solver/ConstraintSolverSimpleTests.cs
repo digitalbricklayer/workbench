@@ -1,8 +1,8 @@
-﻿using DynaApp.Entities;
-using DynaApp.Solver;
+﻿using Dyna.Core.Entities;
+using Dyna.Core.Solver;
 using NUnit.Framework;
 
-namespace DynaApp.UI.Tests.Unit.Solver
+namespace Dyna.Core.Tests.Unit.Solver
 {
     [TestFixture]
     public class ConstraintSolverSimpleTests
