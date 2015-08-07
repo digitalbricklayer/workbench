@@ -12,7 +12,7 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\DynaApp\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\src\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;APPTITLE=Dyna Project;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Dyna Project</DefineConstants>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
