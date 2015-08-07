@@ -18,9 +18,10 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\DynaApp\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\src\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <DefineConstants>APPTITLE=Dyna Project;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Dyna Project</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreConditions.wxs" />
