@@ -3,46 +3,41 @@
 namespace DynaApp.ViewModels
 {
     /// <summary>
-    /// View model for a value bound to a variable.
+    /// View model for a value.
     /// </summary>
     public sealed class ValueViewModel : AbstractViewModel
     {
         private int value;
-        private VariableViewModel variable;
+        private string variableName;
 
         /// <summary>
-        /// Initialize the bound variable with a variable.
+        /// Initialize the value with a variable.
         /// </summary>
-        /// <param name="theVariable">Variable to bind the value to.</param>
-        public ValueViewModel(VariableViewModel theVariable)
+        /// <param name="theVariableName">Name of the variable the value is bound to.</param>
+        public ValueViewModel(string theVariableName)
         {
-            if (theVariable == null)
-                throw new ArgumentNullException("theVariable");
-            this.Variable = theVariable;
+            if (string.IsNullOrWhiteSpace(theVariableName))
+                throw new ArgumentNullException("theVariableName");
+            this.VariableName = theVariableName;
+        }
+
+        /// <summary>
+        /// Initialize the value with default values.
+        /// </summary>
+        public ValueViewModel()
+        {
+            this.VariableName = string.Empty;
         }
 
         /// <summary>
         /// Gets the variable name.
         /// </summary>
-        public string Name
+        public string VariableName
         {
-            get { return this.Variable.Name; }
+            get { return this.variableName; }
             set
             {
-                this.Variable.Name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the variable.
-        /// </summary>
-        public VariableViewModel Variable
-        {
-            get { return this.variable; }
-            set
-            {
-                this.variable = value;
+                this.variableName = value;
                 OnPropertyChanged();
             }
         }

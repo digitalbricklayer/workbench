@@ -32,7 +32,7 @@ namespace Dyna.UI.Tests.Unit.Services
         {
             var solutionViewModel = new SolutionViewModel();
             var x = new VariableViewModel("x");
-            var valueOfX = new ValueViewModel(x);
+            var valueOfX = new ValueViewModel(x.Name);
             solutionViewModel.AddValue(valueOfX);
             return solutionViewModel;
         }

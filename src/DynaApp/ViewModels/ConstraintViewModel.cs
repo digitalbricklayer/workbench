@@ -54,7 +54,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(this.Expression.Text);
+                return !string.IsNullOrWhiteSpace(this.Expression.Expression);
             }
         }
 

@@ -14,6 +14,9 @@ namespace DynaApp.Services
         internal WorkspaceModel MapFrom(WorkspaceViewModel theWorkspaceViewModel)
         {
             Mapper.Initialize(configuration => configuration.AddProfile<ModelProfile>());
+#if DEBUG
+            Mapper.AssertConfigurationIsValid();
+#endif
             return Mapper.Map<WorkspaceModel>(theWorkspaceViewModel);
         }
 
@@ -25,6 +28,9 @@ namespace DynaApp.Services
         internal WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
             Mapper.Initialize(configuration => configuration.AddProfile<ViewModelProfile>());
+#if DEBUG
+            Mapper.AssertConfigurationIsValid();
+#endif
             return Mapper.Map<WorkspaceViewModel>(theWorkspaceModel);
         }
     }

@@ -10,7 +10,7 @@ namespace DynaApp.Services
     internal class ViewModelProfile : Profile
     {
         /// <summary>
-        /// Configure the profile.
+        /// Configure the view model profile.
         /// </summary>
         protected override void Configure()
         {
@@ -23,6 +23,7 @@ namespace DynaApp.Services
             CreateMap<ConnectionModel, ConnectionViewModel>();
             CreateMap<ConnectorModel, ConnectorViewModel>();
             CreateMap<ConstraintExpressionModel, ConstraintExpressionViewModel>();
+            CreateMap<DomainExpressionModel, DomainExpressionViewModel>();
             CreateMap<ValueModel, ValueViewModel>();
         }
     }

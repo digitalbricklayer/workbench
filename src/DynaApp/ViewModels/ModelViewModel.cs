@@ -420,7 +420,7 @@ namespace DynaApp.ViewModels
                                                    .ToList();
             foreach (var constraintViewModel in validConstraints)
             {
-                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Text);
+                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Expression);
                 theModel.AddConstraint(constraint);
             }
         }

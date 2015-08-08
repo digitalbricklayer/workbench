@@ -238,7 +238,7 @@ namespace DynaApp.ViewModels
             foreach (var boundVariable in theSolution.BoundVariables)
             {
                 var variable = this.Model.GetVariableByName(boundVariable.Name);
-                var boundVariableViewModel = new ValueViewModel(variable)
+                var boundVariableViewModel = new ValueViewModel(variable.Name)
                 {
                     Value = boundVariable.Value
                 };

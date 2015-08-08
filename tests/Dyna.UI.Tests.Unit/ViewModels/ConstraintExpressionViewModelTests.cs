@@ -10,7 +10,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         public void Initialize_With_Default_Values_Text_Is_Empty()
         {
             var sut = new ConstraintExpressionViewModel();
-            Assert.That(sut.Text, Is.Empty);
+            Assert.That(sut.Expression, Is.Empty);
         }
     }
 }

@@ -193,7 +193,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" 
-                                        DisplayMemberBinding="{Binding Name}"/>
+                                        DisplayMemberBinding="{Binding VariableName}"/>
                         <GridViewColumn Header="Value" 
                                         DisplayMemberBinding="{Binding Value}"/>
                     </GridView>
@@ -720,7 +720,7 @@
                     <TextBox
                         Grid.Column="1"
                         Grid.Row="2"
-                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
+                        Text="{Binding Path=Expression.Expression, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         />

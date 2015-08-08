@@ -10,7 +10,7 @@ namespace DynaApp.Services
     internal class ModelProfile : Profile
     {
         /// <summary>
-        /// Configure the profile.
+        /// Configure the model profile.
         /// </summary>
         protected override void Configure()
         {

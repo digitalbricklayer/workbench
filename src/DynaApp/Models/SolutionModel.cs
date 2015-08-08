@@ -9,12 +9,12 @@ namespace DynaApp.Models
     [Serializable]
     public class SolutionModel
     {
-        public List<ValueModel> Values { get; set; }
-
         public SolutionModel()
         {
             this.Values = new List<ValueModel>();
         }
+
+        public List<ValueModel> Values { get; set; }
 
         public void AddValue(ValueModel theValue)
         {

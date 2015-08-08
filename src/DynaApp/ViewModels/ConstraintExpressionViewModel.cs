@@ -1,5 +1,4 @@
 ﻿using System;
-using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -8,7 +7,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class ConstraintExpressionViewModel : AbstractViewModel
     {
-        private string text;
+        private string expression;
 
         /// <summary>
         /// Initialize a constraint expression with a raw expression.
@@ -17,7 +16,7 @@ namespace DynaApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
-            this.Text = rawExpression;
+            this.Expression = rawExpression;
         }
 
         /// <summary>
@@ -25,19 +24,19 @@ namespace DynaApp.ViewModels
         /// </summary>
         public ConstraintExpressionViewModel()
         {
-            this.Text = string.Empty;
+            this.Expression = string.Empty;
         }
 
         /// <summary>
-        /// Gets or sets the constraint expression text.
+        /// Gets or sets the constraint expression.
         /// </summary>
-        public string Text
+        public string Expression
         {
-            get { return this.text; }
+            get { return this.expression; }
             set
             {
-                if (this.text == value) return;
-                this.text = value;
+                if (this.expression == value) return;
+                this.expression = value;
                 OnPropertyChanged();
             }
         }
