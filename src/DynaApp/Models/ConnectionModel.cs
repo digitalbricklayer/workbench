@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 
 namespace DynaApp.Models
 {
@@ -11,6 +10,16 @@ namespace DynaApp.Models
         public ConnectorModel DestinationConnector { get; set; }
         public Point SourceConnectorHotspot { get; set; }
         public Point DestinationConnectorHotspot { get; set; }
-        public PointCollection Points { get; set; }
+
+        /// <summary>
+        /// Connect the two connectors.
+        /// </summary>
+        /// <param name="sourceConnector">Source connector.</param>
+        /// <param name="destinationConnector">Destination connector.</param>
+        public void Connect(ConnectorModel sourceConnector, ConnectorModel destinationConnector)
+        {
+            this.SourceConnector = sourceConnector;
+            this.DestinationConnector = destinationConnector;
+        }
     }
 }

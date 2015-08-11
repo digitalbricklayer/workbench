@@ -14,7 +14,7 @@ namespace DynaApp.Models
         public ConstraintModel()
             : base("New constraint")
         {
-            
+            this.Expression = new ConstraintExpressionModel();
         }
 
         public ConstraintExpressionModel Expression { get; set; }

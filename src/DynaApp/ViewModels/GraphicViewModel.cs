@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 
 namespace DynaApp.ViewModels
@@ -60,7 +59,6 @@ namespace DynaApp.ViewModels
         {
             this.Name = string.Empty;
             this.Connectors = new ObservableCollection<ConnectorViewModel>();
-            this.Connectors.CollectionChanged += connectors_CollectionChanged;
         }
 
         /// <summary>
@@ -164,10 +162,14 @@ namespace DynaApp.ViewModels
             return false;
         }
 
-        private void connectors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        /// <summary>
+        /// Add a connector
+        /// </summary>
+        /// <param name="newConnector">New connector.</param>
+        protected void AddConnector(ConnectorViewModel newConnector)
         {
-            foreach (ConnectorViewModel connector in e.NewItems)
-                connector.Parent = this;
+            newConnector.Parent = this;
+            this.Connectors.Add(newConnector);
         }
     }
 }

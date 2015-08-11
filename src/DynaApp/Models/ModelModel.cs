@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DynaApp.Models
 {
@@ -37,8 +38,32 @@ namespace DynaApp.Models
             this.Domains.Add(domain);
         }
 
+        /// <summary>
+        /// Connect the variable to the graphic.
+        /// </summary>
+        /// <param name="variableModel">Variable.</param>
+        /// <param name="endPoint">Graphic.</param>
         public void Connect(VariableModel variableModel, GraphicModel endPoint)
         {
+            var newConnection = new ConnectionModel();
+            var sourceConnector = this.AssignConnector(endPoint);
+            var destinationConnector = this.AssignConnector(variableModel);
+            newConnection.SourceConnector = sourceConnector;
+            newConnection.DestinationConnector = destinationConnector;
+            newConnection.DestinationConnector.AttachedConnection = newConnection;
+            newConnection.SourceConnector.AttachedConnection = newConnection;
+            newConnection.Connect(sourceConnector, destinationConnector);
+            this.Connections.Add(newConnection);
+        }
+
+        /// <summary>
+        /// Assign an available connector.
+        /// </summary>
+        /// <param name="theGraphic">Graphic containing the connectors.</param>
+        /// <returns>Available connector.</returns>
+        private ConnectorModel AssignConnector(GraphicModel theGraphic)
+        {
+            return theGraphic.Connectors.FirstOrDefault(x => x.AttachedConnection == null);
         }
     }
 }

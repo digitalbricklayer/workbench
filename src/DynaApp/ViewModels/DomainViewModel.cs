@@ -9,9 +9,9 @@ namespace DynaApp.ViewModels
     public sealed class DomainViewModel : GraphicViewModel
     {
         /// <summary>
-        /// Initialize a new domain with a new name and raw domain expression.
+        /// Initialize a new domain with a name and raw domain expression.
         /// </summary>
-        /// <param name="newDomainName">New name.</param>
+        /// <param name="newDomainName">Domain name.</param>
         /// <param name="rawExpression">Raw domain expression.</param>
         public DomainViewModel(string newDomainName, string rawExpression)
             : this(newDomainName)
@@ -21,6 +21,11 @@ namespace DynaApp.ViewModels
             this.Expression = new DomainExpressionViewModel(rawExpression);
         }
 
+        /// <summary>
+        /// Initialize a domain with a name and location.
+        /// </summary>
+        /// <param name="newDomainName">Domain name.</param>
+        /// <param name="newDomainLocation">Location.</param>
         public DomainViewModel(string newDomainName, Point newDomainLocation)
             : this(newDomainName)
         {
@@ -29,7 +34,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize a variable with a new name.
+        /// Initialize a domain with a name.
         /// </summary>
         /// <param name="newDomainName">New domain name.</param>
         public DomainViewModel(string newDomainName)
@@ -37,6 +42,14 @@ namespace DynaApp.ViewModels
         {
             this.Expression = new DomainExpressionViewModel();
             this.PopulateConnectors();
+        }
+
+        /// <summary>
+        /// Initialize a domain with default values.
+        /// </summary>
+        public DomainViewModel()
+        {
+            this.Expression = new DomainExpressionViewModel();
         }
 
         /// <summary>
@@ -57,10 +70,10 @@ namespace DynaApp.ViewModels
 
         private void PopulateConnectors()
         {
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
         }
     }
 }

@@ -14,7 +14,7 @@ namespace DynaApp.Models
         public DomainModel()
             : base("New domain")
         {
-            
+            this.Expression = new DomainExpressionModel();
         }
 
         public DomainExpressionModel Expression { get; set; }

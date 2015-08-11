@@ -43,6 +43,14 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Initialize a constraint with default values.
+        /// </summary>
+        public ConstraintViewModel()
+        {
+            this.Expression = new ConstraintExpressionViewModel();
+        }
+
+        /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
         public ConstraintExpressionViewModel Expression { get; private set; }
@@ -60,10 +68,10 @@ namespace DynaApp.ViewModels
 
         private void PopulateConnectors()
         {
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
         }
     }
 }

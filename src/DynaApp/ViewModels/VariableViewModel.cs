@@ -52,10 +52,10 @@ namespace DynaApp.ViewModels
 
         private void PopulateConnectors()
         {
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
-            this.Connectors.Add(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
+            this.AddConnector(new ConnectorViewModel());
         }
     }
 }
