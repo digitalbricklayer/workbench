@@ -59,8 +59,6 @@ namespace DynaApp.ViewModels
 
                 if (sourceConnector != null)
                 {
-                    Trace.Assert(sourceConnector.AttachedConnection == null);
-
                     sourceConnector.AttachedConnection = this;
                     sourceConnector.HotspotUpdated += new EventHandler<EventArgs>(sourceConnector_HotspotUpdated);
                     this.SourceConnectorHotspot = sourceConnector.Hotspot;
@@ -99,8 +97,6 @@ namespace DynaApp.ViewModels
 
                 if (destinationConnector != null)
                 {
-                    Trace.Assert(destinationConnector.AttachedConnection == null);
-
                     destinationConnector.AttachedConnection = this;
                     destinationConnector.HotspotUpdated += new EventHandler<EventArgs>(destinationConnector_HotspotUpdated);
                     this.DestinationConnectorHotspot = destinationConnector.Hotspot;
