@@ -252,6 +252,7 @@ namespace DynaApp.ViewModels
                 var workspaceReader = new WorkspaceReader(openFileDialog.FileName);
                 var theWorkspaceModel = workspaceReader.Read();
                 this.Workspace = this.modelService.MapFrom(theWorkspaceModel);
+                this.Workspace.WorkspaceModel = theWorkspaceModel;
             }
             catch (Exception e)
             {
@@ -401,8 +402,7 @@ namespace DynaApp.ViewModels
             {
                 // Save file
                 var workspaceWriter = new WorkspaceWriter(file);
-                var workspaceModel = this.modelService.MapFrom(this.Workspace);
-                workspaceWriter.Write(workspaceModel);
+                workspaceWriter.Write(this.Workspace.WorkspaceModel);
             }
             catch (Exception e)
             {

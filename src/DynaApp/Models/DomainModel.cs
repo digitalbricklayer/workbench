@@ -3,7 +3,7 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class DomainModel : ConnectableModel
+    public class DomainModel : GraphicModel
     {
         public DomainModel(string domainName, string rawDomainExpression)
             : base(domainName)

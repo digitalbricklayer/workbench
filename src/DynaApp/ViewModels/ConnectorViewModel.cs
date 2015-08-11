@@ -52,7 +52,6 @@ namespace DynaApp.ViewModels
                 }
 
                 hotspot = value;
-
                 OnHotspotUpdated();
             }
         }

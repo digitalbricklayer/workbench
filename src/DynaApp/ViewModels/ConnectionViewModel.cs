@@ -123,9 +123,7 @@ namespace DynaApp.ViewModels
             set
             {
                 sourceConnectorHotspot = value;
-
                 ComputeConnectionPoints();
-
                 OnPropertyChanged();
             }
         }
@@ -142,9 +140,7 @@ namespace DynaApp.ViewModels
             set
             {
                 destinationConnectorHotspot = value;
-
                 ComputeConnectionPoints();
-
                 OnPropertyChanged();
             }
         }
@@ -172,7 +168,6 @@ namespace DynaApp.ViewModels
             set
             {
                 points = value;
-
                 OnPropertyChanged();
             }
         }

@@ -3,7 +3,7 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class VariableModel : ConnectableModel
+    public class VariableModel : GraphicModel
     {
         public VariableModel(string variableName)
             : base(variableName)

@@ -7,17 +7,14 @@ namespace DynaApp.Services
     internal class ModelService
     {
         /// <summary>
-        /// Map a workspace view model to a workspace model.
+        /// Intialize the model service with default values.
         /// </summary>
-        /// <param name="theWorkspaceViewModel">Workspace view model.</param>
-        /// <returns>Workspace model.</returns>
-        internal WorkspaceModel MapFrom(WorkspaceViewModel theWorkspaceViewModel)
+        internal ModelService()
         {
-            Mapper.Initialize(configuration => configuration.AddProfile<ModelProfile>());
+            Mapper.Initialize(configuration => configuration.AddProfile<ViewModelProfile>());
 #if DEBUG
             Mapper.AssertConfigurationIsValid();
 #endif
-            return Mapper.Map<WorkspaceModel>(theWorkspaceViewModel);
         }
 
         /// <summary>
@@ -27,10 +24,6 @@ namespace DynaApp.Services
         /// <returns>Workspace view model.</returns>
         internal WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
-            Mapper.Initialize(configuration => configuration.AddProfile<ViewModelProfile>());
-#if DEBUG
-            Mapper.AssertConfigurationIsValid();
-#endif
             return Mapper.Map<WorkspaceViewModel>(theWorkspaceModel);
         }
     }

@@ -7,11 +7,10 @@ namespace Dyna.UI.Tests.Unit.Services
     public class ModelServiceTests
     {
         [Test]
-        [Ignore("The model should not be mappable from the view model. See #42 on GitHub.")]
-        public void MapFrom_With_Valid_View_Model_Returns_Expected_Model()
+        public void MapFrom_With_Valid_Model_Returns_Expected_View_Model()
         {
             var sut = new ModelService();
-            var actualWorkspaceModel = sut.MapFrom(WorkspaceViewModelFactory.Create());
+            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel, Is.Not.Null);
         }
     }

@@ -37,9 +37,8 @@ namespace DynaApp.Models
             this.Domains.Add(domain);
         }
 
-        public void Connect(VariableModel variableModel, ConnectableModel endPoint)
+        public void Connect(VariableModel variableModel, GraphicModel endPoint)
         {
-            
         }
     }
 }

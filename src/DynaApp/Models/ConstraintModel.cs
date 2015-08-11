@@ -3,7 +3,7 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class ConstraintModel : ConnectableModel
+    public class ConstraintModel : GraphicModel
     {
         public ConstraintModel(string constraintName, string rawExpression)
             : base(constraintName)

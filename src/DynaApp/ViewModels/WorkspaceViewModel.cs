@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Dyna.Core.Entities;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -28,8 +29,14 @@ namespace DynaApp.ViewModels
         {
             this.solution = new SolutionViewModel();
             this.model = new ModelViewModel();
+            this.WorkspaceModel = new WorkspaceModel();
             this.SelectedDisplayMode = "Model";
         }
+
+        /// <summary>
+        /// Gets or sets the workspace model.
+        /// </summary>
+        public WorkspaceModel WorkspaceModel { get; set; }
 
         /// <summary>
         /// Gets or sets the model displayed in the workspace.
