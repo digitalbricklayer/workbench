@@ -98,8 +98,8 @@ namespace DynaApp.ViewModels
         {
             Trace.Assert(fromVariable.IsConnectableTo(toGraphic));
             var connection = new ConnectionViewModel();
-            connection.InitiateConnection(this.AssignConnector(fromVariable));
-            connection.CompleteConnection(this.AssignConnector(toGraphic));
+            connection.InitiateConnection(this.FindAvailableConnector(fromVariable));
+            connection.CompleteConnection(this.FindAvailableConnector(toGraphic));
             this.Connections.Add(connection);
         }
 
@@ -368,13 +368,13 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Assign an available connector.
+        /// Find an available connector.
         /// </summary>
         /// <param name="theGraphic">Graphic containing the connectors.</param>
-        /// <returns>Available connector.</returns>
-        private ConnectorViewModel AssignConnector(GraphicViewModel theGraphic)
+        /// <returns>Available connector or null if no connector is available.</returns>
+        private ConnectorViewModel FindAvailableConnector(GraphicViewModel theGraphic)
         {
-            return theGraphic.Connectors.FirstOrDefault(x => x.AttachedConnection == null);
+            return theGraphic.Connectors.FirstOrDefault(connector => connector.AttachedConnection == null);
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace DynaApp.ViewModels
                                                    .ToList();
             foreach (var constraintViewModel in validConstraints)
             {
-                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Expression);
+                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Text);
                 theModel.AddConstraint(constraint);
             }
         }

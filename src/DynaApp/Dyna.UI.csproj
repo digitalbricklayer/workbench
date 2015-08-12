@@ -121,7 +121,13 @@
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Models\WorkspaceReader.cs" />
     <Compile Include="Models\WorkspaceWriter.cs" />
-    <Compile Include="Services\ModelService.cs" />
+    <Compile Include="Services\ConstraintMapper.cs" />
+    <Compile Include="Services\DomainMapper.cs" />
+    <Compile Include="Services\ModelMapper.cs" />
+    <Compile Include="Services\SolutionMapper.cs" />
+    <Compile Include="Services\ValueMapper.cs" />
+    <Compile Include="Services\VariableMapper.cs" />
+    <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="Services\ViewModelProfile.cs" />
     <Compile Include="ViewModels\AbstractViewModel.cs" />
     <Compile Include="ViewModels\ValueViewModel.cs" />

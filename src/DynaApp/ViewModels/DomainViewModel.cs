@@ -50,6 +50,7 @@ namespace DynaApp.ViewModels
         public DomainViewModel()
         {
             this.Expression = new DomainExpressionViewModel();
+            this.PopulateConnectors();
         }
 
         /// <summary>

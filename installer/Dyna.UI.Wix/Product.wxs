@@ -48,8 +48,6 @@
             </Component>
             <Component Id="DynaAppDependencies" Guid="EBB0BEDC-99EF-4F4F-9979-50383A91DD1D" Directory="INSTALLDIR">
                 <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\DynaApp.exe.config" Checksum="yes"/>
-                <File Id="AutoMapper" Source="$(var.APPPATH)\AutoMapper.dll" Checksum="yes"/>
-                <File Id="AutoMapper.Net4" Source="$(var.APPPATH)\AutoMapper.Net4.dll" Checksum="yes"/>
                 <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" Checksum="yes"/>
                 <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
             </Component>

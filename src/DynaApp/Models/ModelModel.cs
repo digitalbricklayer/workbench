@@ -57,6 +57,16 @@ namespace DynaApp.Models
         }
 
         /// <summary>
+        /// Get the variable matching the variable name.
+        /// </summary>
+        /// <param name="theVariableName">The variable name.</param>
+        /// <returns>Variable model.</returns>
+        public VariableModel GetVariableByName(string theVariableName)
+        {
+            return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
+        }
+
+        /// <summary>
         /// Assign an available connector.
         /// </summary>
         /// <param name="theGraphic">Graphic containing the connectors.</param>

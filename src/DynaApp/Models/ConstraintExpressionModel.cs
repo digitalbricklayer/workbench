@@ -7,14 +7,14 @@ namespace DynaApp.Models
     {
         public ConstraintExpressionModel(string rawExpression)
         {
-            this.Expression = rawExpression;
+            this.Text = rawExpression;
         }
 
         public ConstraintExpressionModel()
         {
-            this.Expression = string.Empty;
+            this.Text = string.Empty;
         }
 
-        public string Expression { get; set; }
+        public string Text { get; set; }
     }
 }

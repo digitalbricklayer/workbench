@@ -318,5 +318,20 @@ namespace DynaApp.ViewModels
             //
             this.Model.DeleteConstraint(constraint);
         }
+
+        private void SyncSolutionFrom(SolutionViewModel solutionViewModel)
+        {
+            var newSolutionModel = new SolutionModel();
+            foreach (var valueViewModel in solutionViewModel.Values)
+            {
+                var variableModel = this.WorkspaceModel.Model.GetVariableByName(valueViewModel.VariableName);
+                var newValueModel = new ValueModel(variableModel)
+                {
+                    Value = valueViewModel.Value
+                };
+                newSolutionModel.AddValue(newValueModel);
+            }
+            this.WorkspaceModel.Solution = newSolutionModel;
+        }
     }
 }

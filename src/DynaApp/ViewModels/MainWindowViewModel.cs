@@ -16,7 +16,7 @@ namespace DynaApp.ViewModels
         private string filename = string.Empty;
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
-        private readonly ModelService modelService = new ModelService();
+        private readonly WorkspaceMapper workspaceMapper = new WorkspaceMapper();
 
         /// <summary>
         /// Initialize a main windows view model with default values.
@@ -251,8 +251,7 @@ namespace DynaApp.ViewModels
                 // Load file
                 var workspaceReader = new WorkspaceReader(openFileDialog.FileName);
                 var theWorkspaceModel = workspaceReader.Read();
-                this.Workspace = this.modelService.MapFrom(theWorkspaceModel);
-                this.Workspace.WorkspaceModel = theWorkspaceModel;
+                this.Workspace = this.workspaceMapper.MapFrom(theWorkspaceModel);
             }
             catch (Exception e)
             {

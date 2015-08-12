@@ -15,6 +15,7 @@ namespace DynaApp.Models
         }
 
         public List<ValueModel> Values { get; set; }
+        public ModelModel Model { get; set; }
 
         public void AddValue(ValueModel theValue)
         {

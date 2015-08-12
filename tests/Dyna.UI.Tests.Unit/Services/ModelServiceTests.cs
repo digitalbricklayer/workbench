@@ -9,7 +9,7 @@ namespace Dyna.UI.Tests.Unit.Services
         [Test]
         public void MapFrom_With_Valid_Model_Returns_Expected_View_Model()
         {
-            var sut = new ModelService();
+            var sut = new WorkspaceMapper();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel, Is.Not.Null);
         }

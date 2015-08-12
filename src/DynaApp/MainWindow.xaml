@@ -720,7 +720,7 @@
                     <TextBox
                         Grid.Column="1"
                         Grid.Row="2"
-                        Text="{Binding Path=Expression.Expression, Mode=TwoWay}"
+                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         />

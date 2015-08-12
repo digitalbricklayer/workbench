@@ -16,7 +16,7 @@ namespace DynaApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
-            this.Expression = rawExpression;
+            this.Text = rawExpression;
         }
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace DynaApp.ViewModels
         /// </summary>
         public ConstraintExpressionViewModel()
         {
-            this.Expression = string.Empty;
+            this.Text = string.Empty;
         }
 
         /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
-        public string Expression
+        public string Text
         {
             get { return this.expression; }
             set

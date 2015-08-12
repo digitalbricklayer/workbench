@@ -48,6 +48,7 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel()
         {
             this.Expression = new ConstraintExpressionViewModel();
+            this.PopulateConnectors();
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(this.Expression.Expression);
+                return !string.IsNullOrWhiteSpace(this.Expression.Text);
             }
         }
 
