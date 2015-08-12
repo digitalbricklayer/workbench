@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -66,6 +67,11 @@ namespace DynaApp.ViewModels
                 return !string.IsNullOrWhiteSpace(this.Expression.Text);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the constraint model.
+        /// </summary>
+        public ConstraintModel Model { get; set; }
 
         private void PopulateConnectors()
         {

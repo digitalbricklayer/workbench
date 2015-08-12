@@ -1,4 +1,5 @@
 ﻿using System;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -57,5 +58,10 @@ namespace DynaApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the value model.
+        /// </summary>
+        public ValueModel Model { get; set; }
     }
 }

@@ -15,7 +15,10 @@ namespace DynaApp.Services
         /// <returns>Value view model.</returns>
         internal ValueViewModel MapFrom(ValueModel theValueModel)
         {
-            return new ValueViewModel(theValueModel.Variable.Name);
+            return new ValueViewModel(theValueModel.Variable.Name)
+            {
+                Model = theValueModel
+            };
         }
     }
 }

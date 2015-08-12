@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -33,6 +34,11 @@ namespace DynaApp.ViewModels
             : this("New variable")
         {
         }
+
+        /// <summary>
+        /// Gets or sets the variable model.
+        /// </summary>
+        public VariableModel Model { get; set; }
 
         /// <summary>
         /// Is the destination graphic connectable to the variable?

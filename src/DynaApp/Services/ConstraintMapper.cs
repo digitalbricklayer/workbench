@@ -8,6 +8,7 @@ namespace DynaApp.Services
         internal ConstraintViewModel MapFrom(ConstraintModel theConstraintModel)
         {
             var constraintViewModel = new ConstraintViewModel();
+            constraintViewModel.Model = theConstraintModel;
             constraintViewModel.Name = theConstraintModel.Name;
             constraintViewModel.Expression.Text = theConstraintModel.Expression.Text;
             constraintViewModel.X = theConstraintModel.X;

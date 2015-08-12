@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -35,6 +36,11 @@ namespace DynaApp.ViewModels
         {
             get; private set;
         }
+
+        /// <summary>
+        /// Gets or sets the solution model.
+        /// </summary>
+        public SolutionModel Model { get; set; }
 
         /// <summary>
         /// Bind the bound values to the solution.

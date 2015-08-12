@@ -13,5 +13,13 @@ namespace Dyna.UI.Tests.Unit.Services
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel, Is.Not.Null);
         }
+
+        [Test]
+        public void MapFrom_With_Valid_Model_Sets_Expected_Workspace_Model()
+        {
+            var sut = new WorkspaceMapper();
+            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
+        }
     }
 }

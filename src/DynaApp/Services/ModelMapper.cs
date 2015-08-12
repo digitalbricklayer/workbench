@@ -25,6 +25,7 @@ namespace DynaApp.Services
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
             var modelViewModel = new ModelViewModel();
+            modelViewModel.Model = theModelModel;
 
             foreach (var domainModel in theModelModel.Domains)
             {

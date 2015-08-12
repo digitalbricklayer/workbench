@@ -18,6 +18,7 @@ namespace DynaApp.Services
         {
             var variableViewModel = new VariableViewModel
             {
+                Model = theVariableModel,
                 Name = theVariableModel.Name,
                 X = theVariableModel.X,
                 Y = theVariableModel.Y

@@ -7,6 +7,7 @@ using System.Windows;
 using Dyna.Core.Entities;
 using Dyna.Core.Solver;
 using DynaApp.Controls;
+using DynaApp.Models;
 using DynaApp.Views;
 
 namespace DynaApp.ViewModels
@@ -52,6 +53,11 @@ namespace DynaApp.ViewModels
         /// Gets the collection of connections in the model.
         /// </summary>
         public ObservableCollection<ConnectionViewModel> Connections { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the model model.
+        /// </summary>
+        public ModelModel Model { get; set; }
 
         /// <summary>
         /// Add a new variable to the model.

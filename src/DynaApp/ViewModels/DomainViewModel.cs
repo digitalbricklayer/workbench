@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -68,6 +69,11 @@ namespace DynaApp.ViewModels
                 return !string.IsNullOrWhiteSpace(this.Expression.Text);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the domain model.
+        /// </summary>
+        public DomainModel Model { get; set; }
 
         private void PopulateConnectors()
         {

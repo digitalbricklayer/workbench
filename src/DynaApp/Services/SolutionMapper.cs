@@ -25,6 +25,7 @@ namespace DynaApp.Services
         internal SolutionViewModel MapFrom(SolutionModel theSolutionModel)
         {
             var solutionViewModel = new SolutionViewModel();
+            solutionViewModel.Model = theSolutionModel;
             foreach (var valueModel in theSolutionModel.Values)
             {
                 solutionViewModel.AddValue(this.valueMapper.MapFrom(valueModel));

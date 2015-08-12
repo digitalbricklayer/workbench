@@ -8,6 +8,7 @@ namespace DynaApp.Services
         internal DomainViewModel MapFrom(DomainModel theDomainModel)
         {
             var domainViewModel = new DomainViewModel();
+            domainViewModel.Model = theDomainModel;
             domainViewModel.Name = theDomainModel.Name;
             domainViewModel.Expression.Text = theDomainModel.Expression.Text;
             domainViewModel.X = theDomainModel.X;
