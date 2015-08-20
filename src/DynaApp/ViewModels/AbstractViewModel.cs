@@ -8,19 +8,6 @@ namespace DynaApp.ViewModels
     /// </summary>
     public abstract class AbstractViewModel : INotifyPropertyChanged
     {
-#if DEBUG
-        private static int nextObjectId;
-        private readonly int objectDebugId = nextObjectId++;
-
-        public int ObjectDebugId
-        {
-            get
-            {
-                return objectDebugId;
-            }
-        }
-#endif //  DEBUG
-
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>

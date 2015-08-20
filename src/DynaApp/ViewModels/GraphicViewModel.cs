@@ -188,6 +188,25 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Synchronise the graphic view model to the model.
+        /// </summary>
+        public void SyncToModel()
+        {
+            /* 
+             * The only thing that needs synchronising are the connectors 
+             * auto populated in the model.
+             */
+            foreach (var connectorModel in this.Model.Connectors)
+            {
+                var newConnectorViewModel = new ConnectorViewModel
+                {
+                    ConnectorIdentity = connectorModel.Id
+                };
+                this.AddConnector(newConnectorViewModel);
+            }
+        }
+
+        /// <summary>
         /// Update the graphic name.
         /// </summary>
         /// <param name="newName">New name.</param>

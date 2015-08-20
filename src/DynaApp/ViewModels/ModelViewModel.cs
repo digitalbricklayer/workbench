@@ -141,24 +141,24 @@ namespace DynaApp.ViewModels
             //
             // Create a new connection to add to the view-model.
             //
-            var connection = new ConnectionViewModel();
+            var newConnection = new ConnectionViewModel();
 
             //
             // Link the source connector to the connector that was dragged out.
             //
-            connection.InitiateConnection(draggedOutConnector);
+            newConnection.InitiateConnection(draggedOutConnector);
 
             //
             // Set the position of destination connector to the current position of the mouse cursor.
             //
-            connection.DestinationConnectorHotspot = curDragPoint;
+            newConnection.DestinationConnectorHotspot = curDragPoint;
 
             //
             // Add the new connection to the view-model.
             //
-            this.Connections.Add(connection);
+            this.AddConnection(newConnection);
 
-            return connection;
+            return newConnection;
         }
 
         /// <summary>

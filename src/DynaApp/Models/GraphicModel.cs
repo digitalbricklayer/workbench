@@ -6,7 +6,7 @@ namespace DynaApp.Models
     [Serializable]
     public abstract class GraphicModel : ModelBase
     {
-        private const int NumberConnectors = 4;
+        private const int DefaultNumberConnectors = 4;
 
         /// <summary>
         /// Initialize a graphic model with a name.
@@ -39,7 +39,7 @@ namespace DynaApp.Models
         /// </summary>
         private void CreateConnectors()
         {
-            for (var i = 0; i < NumberConnectors; i++)
+            for (var i = 0; i < DefaultNumberConnectors; i++)
                 this.AddConnector(new ConnectorModel());
         }
 
