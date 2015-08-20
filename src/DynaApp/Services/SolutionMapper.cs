@@ -1,4 +1,5 @@
-﻿using DynaApp.Models;
+﻿using System;
+using DynaApp.Models;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services
@@ -8,13 +9,13 @@ namespace DynaApp.Services
     /// </summary>
     internal class SolutionMapper
     {
-        private WorkspaceMapper workspaceMapper;
         private readonly ValueMapper valueMapper;
 
-        public SolutionMapper(WorkspaceMapper theWorkspaceMapper)
+        internal SolutionMapper(ModelViewModelCache theCache)
         {
-            this.workspaceMapper = theWorkspaceMapper;
-            this.valueMapper = new ValueMapper();
+            if (theCache == null)
+                throw new ArgumentNullException("theCache");
+            this.valueMapper = new ValueMapper(theCache);
         }
 
         /// <summary>

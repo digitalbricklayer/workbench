@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -62,7 +63,12 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the domain name.
+        /// Gets or sets the graphic model.
+        /// </summary>
+        public GraphicModel Model { get; set; }
+
+        /// <summary>
+        /// Gets or sets the graphic name.
         /// </summary>
         public string Name
         {
@@ -71,6 +77,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.name == value) return;
                 this.name = value;
+                this.UpdateModelName(value);
                 OnPropertyChanged();
             }
         }
@@ -87,12 +94,13 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return x;
+                return this.x;
             }
             set
             {
-                if (x.Equals(value)) return;
-                x = value;
+                if (this.x.Equals(value)) return;
+                this.x = value;
+                this.UpdateModelX(value);
                 OnPropertyChanged();
             }
         }
@@ -104,12 +112,13 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return y;
+                return this.y;
             }
             set
             {
-                if (y.Equals(value)) return;
-                y = value;
+                if (this.y.Equals(value)) return;
+                this.y = value;
+                this.UpdateModelY(value);
                 OnPropertyChanged();
             }
         }
@@ -121,12 +130,13 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return isSelected;
+                return this.isSelected;
             }
             set
             {
-                if (isSelected == value) return;
-                isSelected = value;
+                if (this.isSelected == value) return;
+                // Selection state is not tracked by the model.
+                this.isSelected = value;
                 OnPropertyChanged();
             }
         }
@@ -153,6 +163,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the graphic identity.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Is the destination graphic connectable to this graphic?
         /// </summary>
         /// <param name="destinationGraphic">Destination being connected to.</param>
@@ -163,13 +178,35 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Add a connector
+        /// Add a connector to the graphic.
         /// </summary>
         /// <param name="newConnector">New connector.</param>
-        protected void AddConnector(ConnectorViewModel newConnector)
+        public void AddConnector(ConnectorViewModel newConnector)
         {
             newConnector.Parent = this;
             this.Connectors.Add(newConnector);
+        }
+
+        /// <summary>
+        /// Update the graphic name.
+        /// </summary>
+        /// <param name="newName">New name.</param>
+        private void UpdateModelName(string newName)
+        {
+            if (this.Model == null) return;
+            this.Model.Name = newName;
+        }
+
+        private void UpdateModelX(double newValue)
+        {
+            if (this.Model == null) return;
+            this.Model.X = newValue;
+        }
+
+        private void UpdateModelY(double newValue)
+        {
+            if (this.Model == null) return;
+            this.Model.Y = newValue;
         }
     }
 }

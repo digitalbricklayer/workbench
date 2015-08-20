@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management.Instrumentation;
 using System.Windows;
 using DynaApp.Models;
 
@@ -9,6 +10,8 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class DomainViewModel : GraphicViewModel
     {
+        private DomainModel model;
+
         /// <summary>
         /// Initialize a new domain with a name and raw domain expression.
         /// </summary>
@@ -42,7 +45,7 @@ namespace DynaApp.ViewModels
             : base(newDomainName)
         {
             this.Expression = new DomainExpressionViewModel();
-            this.PopulateConnectors();
+            this.Model = new DomainModel();
         }
 
         /// <summary>
@@ -51,7 +54,6 @@ namespace DynaApp.ViewModels
         public DomainViewModel()
         {
             this.Expression = new DomainExpressionViewModel();
-            this.PopulateConnectors();
         }
 
         /// <summary>
@@ -73,14 +75,14 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the domain model.
         /// </summary>
-        public DomainModel Model { get; set; }
-
-        private void PopulateConnectors()
+        public new DomainModel Model
         {
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
+            get { return this.model; }
+            set
+            {
+                base.Model = value;
+                this.model = value;
+            }
         }
     }
 }

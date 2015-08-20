@@ -22,6 +22,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         public ModelViewModel()
         {
+            this.Model = new ModelModel();
             this.Graphics = new ObservableCollection<GraphicViewModel>();
             this.Variables = new ObservableCollection<VariableViewModel>();
             this.Domains = new ObservableCollection<DomainViewModel>();
@@ -67,8 +68,8 @@ namespace DynaApp.ViewModels
         {
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
-            this.Graphics.Add(newVariableViewModel);
-            this.Variables.Add(newVariableViewModel);
+            this.FixupVariable(newVariableViewModel);
+            this.AddVariableToModel(newVariableViewModel);
         }
 
         /// <summary>
@@ -79,8 +80,8 @@ namespace DynaApp.ViewModels
         {
             if (newDomainViewModel == null)
                 throw new ArgumentNullException("newDomainViewModel");
-            this.Graphics.Add(newDomainViewModel);
-            this.Domains.Add(newDomainViewModel);
+            this.FixupDomain(newDomainViewModel);
+            this.AddDomainToModel(newDomainViewModel);
         }
 
         /// <summary>
@@ -91,8 +92,20 @@ namespace DynaApp.ViewModels
         {
             if (newConstraintViewModel == null)
                 throw new ArgumentNullException("newConstraintViewModel");
-            this.Graphics.Add(newConstraintViewModel);
-            this.Constraints.Add(newConstraintViewModel);
+            this.FixupConstraint(newConstraintViewModel);
+            this.AddConstraintToModel(newConstraintViewModel);
+        }
+
+        /// <summary>
+        /// Add a new connection to the model.
+        /// </summary>
+        /// <param name="newConnectionViewModel">New connection.</param>
+        public void AddConnection(ConnectionViewModel newConnectionViewModel)
+        {
+            if (newConnectionViewModel == null)
+                throw new ArgumentNullException("newConnectionViewModel");
+            this.FixupConnection(newConnectionViewModel);
+            this.AddConnectionToModel(newConnectionViewModel);
         }
 
         /// <summary>
@@ -103,10 +116,12 @@ namespace DynaApp.ViewModels
         public void Connect(VariableViewModel fromVariable, GraphicViewModel toGraphic)
         {
             Trace.Assert(fromVariable.IsConnectableTo(toGraphic));
-            var connection = new ConnectionViewModel();
-            connection.InitiateConnection(this.FindAvailableConnector(fromVariable));
-            connection.CompleteConnection(this.FindAvailableConnector(toGraphic));
-            this.Connections.Add(connection);
+
+            var newConnection = new ConnectionViewModel();
+            newConnection.InitiateConnection(this.FindAvailableConnector(fromVariable));
+            newConnection.CompleteConnection(this.FindAvailableConnector(toGraphic));
+            this.Connections.Add(newConnection);
+            this.AddConnectionToModel(newConnection);
         }
 
         /// <summary>
@@ -270,6 +285,7 @@ namespace DynaApp.ViewModels
             if (connectionToDelete == null) 
                 throw new ArgumentNullException("connectionToDelete");
             this.Connections.Remove(connectionToDelete);
+            this.DeleteConnectionFromModel(connectionToDelete);
         }
 
         /// <summary>
@@ -283,6 +299,7 @@ namespace DynaApp.ViewModels
             this.Variables.Remove(variableToDelete);
             this.Graphics.Remove(variableToDelete);
             this.RemoveConnections(variableToDelete.AttachedConnections);
+            this.DeleteVariableFromModel(variableToDelete);
         }
 
         /// <summary>
@@ -296,6 +313,7 @@ namespace DynaApp.ViewModels
             this.Domains.Remove(domainToDelete);
             this.Graphics.Remove(domainToDelete);
             this.RemoveConnections(domainToDelete.AttachedConnections);
+            this.DeleteDomainFromModel(domainToDelete);
         }
 
         /// <summary>
@@ -309,6 +327,7 @@ namespace DynaApp.ViewModels
             this.Constraints.Remove(constraintToDelete);
             this.Graphics.Remove(constraintToDelete);
             this.RemoveConnections(constraintToDelete.AttachedConnections);
+            this.DeleteConstraintFromModel(constraintToDelete);
         }
 
         /// <summary>
@@ -361,6 +380,62 @@ namespace DynaApp.ViewModels
             this.Variables.Clear();
             this.Constraints.Clear();
             this.Domains.Clear();
+        }
+
+        /// <summary>
+        /// Fixes up a variable view model into the model.
+        /// </summary>
+        /// <remarks>
+        /// Used when mapping the model to a view model.
+        /// </remarks>
+        /// <param name="variableViewModel">Variable view model.</param>
+        internal void FixupVariable(VariableViewModel variableViewModel)
+        {
+            if (variableViewModel == null)
+                throw new ArgumentNullException("variableViewModel");
+            this.Graphics.Add(variableViewModel);
+            this.Variables.Add(variableViewModel);
+        }
+
+        /// <summary>
+        /// Fixes up a domain view model into the model.
+        /// </summary>
+        /// <remarks>
+        /// Used when mapping the model to a view model.
+        /// </remarks>
+        /// <param name="domainViewModel">Domain view model.</param>
+        internal void FixupDomain(DomainViewModel domainViewModel)
+        {
+            if (domainViewModel == null)
+                throw new ArgumentNullException("domainViewModel");
+            this.Graphics.Add(domainViewModel);
+            this.Domains.Add(domainViewModel);
+        }
+
+        /// <summary>
+        /// Fixes up a constraint view model into the model.
+        /// </summary>
+        /// <remarks>
+        /// Used when mapping the model to a view model.
+        /// </remarks>
+        /// <param name="constraintViewModel">Constraint view model.</param>
+        internal void FixupConstraint(ConstraintViewModel constraintViewModel)
+        {
+            if (constraintViewModel == null)
+                throw new ArgumentNullException("constraintViewModel");
+            this.Graphics.Add(constraintViewModel);
+            this.Constraints.Add(constraintViewModel);
+        }
+
+        /// <summary>
+        /// Fixes up a connection view model into the model.
+        /// </summary>
+        /// <param name="newConnectionViewModel">Connection view model.</param>
+        internal void FixupConnection(ConnectionViewModel newConnectionViewModel)
+        {
+            if (newConnectionViewModel == null)
+                throw new ArgumentNullException("newConnectionViewModel");
+            this.Connections.Add(newConnectionViewModel);
         }
 
         /// <summary>
@@ -487,6 +562,70 @@ namespace DynaApp.ViewModels
             }
 
             return errorsViewModel;
+        }
+
+        /// <summary>
+        /// Add a new variable to the model model.
+        /// </summary>
+        /// <param name="newVariableViewModel">New variable view model.</param>
+        private void AddVariableToModel(VariableViewModel newVariableViewModel)
+        {
+            Debug.Assert(newVariableViewModel.Model != null);
+            this.Model.AddVariable(newVariableViewModel.Model);
+        }
+
+        /// <summary>
+        /// Add a new domain to the model model.
+        /// </summary>
+        /// <param name="newDomainViewModel">New domain view model.</param>
+        private void AddDomainToModel(DomainViewModel newDomainViewModel)
+        {
+            Debug.Assert(newDomainViewModel.Model != null);
+            this.Model.AddDomain(newDomainViewModel.Model);
+        }
+
+        /// <summary>
+        /// Add a new constraint to the model model.
+        /// </summary>
+        /// <param name="newConstraintViewModel">New constraint view model.</param>
+        private void AddConstraintToModel(ConstraintViewModel newConstraintViewModel)
+        {
+            Debug.Assert(newConstraintViewModel.Model != null);
+            this.Model.AddConstraint(newConstraintViewModel.Model);
+        }
+
+        /// <summary>
+        /// Add a new connection to the model model.
+        /// </summary>
+        /// <param name="newConnection">New connection view model.</param>
+        private void AddConnectionToModel(ConnectionViewModel newConnection)
+        {
+            Debug.Assert(newConnection.Model != null);
+            this.Model.AddConnection(newConnection.Model);
+        }
+
+        private void DeleteConstraintFromModel(ConstraintViewModel constraintToDelete)
+        {
+            Debug.Assert(constraintToDelete.Model != null);
+            this.Model.DeleteConstraint(constraintToDelete.Model);
+        }
+
+        private void DeleteVariableFromModel(VariableViewModel variableToDelete)
+        {
+            Debug.Assert(variableToDelete.Model != null);
+            this.Model.DeleteVariable(variableToDelete.Model);
+        }
+
+        private void DeleteDomainFromModel(DomainViewModel domainToDelete)
+        {
+            Debug.Assert(domainToDelete.Model != null);
+            this.Model.DeleteDomain(domainToDelete.Model);
+        }
+
+        private void DeleteConnectionFromModel(ConnectionViewModel connectionToDelete)
+        {
+            Debug.Assert(connectionToDelete.Model != null);
+            this.Model.Disconnect(connectionToDelete.Model);
         }
     }
 }

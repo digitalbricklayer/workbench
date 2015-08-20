@@ -7,7 +7,7 @@ namespace DynaApp.Models
     /// The connector hosts a single connection.
     /// </summary>
     [Serializable]
-    public class ConnectorModel
+    public class ConnectorModel : ModelBase
     {
         /// <summary>
         /// Initializes the connector with default values.

@@ -8,6 +8,8 @@ namespace DynaApp.ViewModels
     /// </summary>
     public class ConstraintViewModel : GraphicViewModel
     {
+        private ConstraintModel model;
+
         /// <summary>
         /// Initialize a constraint with a name and raw constraint expression.
         /// </summary>
@@ -17,7 +19,7 @@ namespace DynaApp.ViewModels
             : base(newConstraintName)
         {
             this.Expression = new ConstraintExpressionViewModel(rawExpression);
-            this.PopulateConnectors();
+            this.Model = new ConstraintModel();
         }
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel(string newConstraintName, Point newLocation)
             : this(newConstraintName)
         {
+            this.Model = new ConstraintModel();
             this.X = newLocation.X;
             this.Y = newLocation.Y;
         }
@@ -40,7 +43,7 @@ namespace DynaApp.ViewModels
             : base(newConstraintName)
         {
             this.Expression = new ConstraintExpressionViewModel();
-            this.PopulateConnectors();
+            this.Model = new ConstraintModel();
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel()
         {
             this.Expression = new ConstraintExpressionViewModel();
-            this.PopulateConnectors();
+            this.Model = new ConstraintModel();
         }
 
         /// <summary>
@@ -71,14 +74,14 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the constraint model.
         /// </summary>
-        public ConstraintModel Model { get; set; }
-
-        private void PopulateConnectors()
+        public new ConstraintModel Model
         {
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
+            get { return this.model; }
+            set
+            {
+                base.Model = value;
+                this.model = value;
+            }
         }
     }
 }

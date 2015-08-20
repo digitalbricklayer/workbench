@@ -19,6 +19,7 @@ namespace DynaApp.ViewModels
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
             this.Values = new ObservableCollection<ValueViewModel>(theValues);
+            this.Model = new SolutionModel();
         }
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace DynaApp.ViewModels
         public SolutionViewModel()
         {
             this.Values = new ObservableCollection<ValueViewModel>();
+            this.Model = new SolutionModel();
         }
 
         /// <summary>

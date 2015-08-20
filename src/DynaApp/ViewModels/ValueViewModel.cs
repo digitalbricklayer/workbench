@@ -9,17 +9,17 @@ namespace DynaApp.ViewModels
     public sealed class ValueViewModel : AbstractViewModel
     {
         private int value;
-        private string variableName;
+        private VariableViewModel variable;
 
         /// <summary>
         /// Initialize the value with a variable.
         /// </summary>
-        /// <param name="theVariableName">Name of the variable the value is bound to.</param>
-        public ValueViewModel(string theVariableName)
+        /// <param name="theVariable">The variable the value is bound to.</param>
+        public ValueViewModel(VariableViewModel theVariable)
         {
-            if (string.IsNullOrWhiteSpace(theVariableName))
-                throw new ArgumentNullException("theVariableName");
-            this.VariableName = theVariableName;
+            if (theVariable == null)
+                throw new ArgumentNullException("theVariable");
+            this.Variable = theVariable;
         }
 
         /// <summary>
@@ -27,18 +27,18 @@ namespace DynaApp.ViewModels
         /// </summary>
         public ValueViewModel()
         {
-            this.VariableName = string.Empty;
+            this.Variable = new VariableViewModel();
         }
 
         /// <summary>
-        /// Gets the variable name.
+        /// Gets or sets the variable.
         /// </summary>
-        public string VariableName
+        public VariableViewModel Variable
         {
-            get { return this.variableName; }
+            get { return this.variable; }
             set
             {
-                this.variableName = value;
+                this.variable = value;
                 OnPropertyChanged();
             }
         }
@@ -55,6 +55,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.value = value;
+                this.UpdateModelValue(value);
                 OnPropertyChanged();
             }
         }
@@ -63,5 +64,26 @@ namespace DynaApp.ViewModels
         /// Gets or sets the value model.
         /// </summary>
         public ValueModel Model { get; set; }
+
+        /// <summary>
+        /// Gets the variable name.
+        /// </summary>
+        public string VariableName
+        {
+            get
+            {
+                return this.Variable.Name;
+            }
+        }
+
+        /// <summary>
+        /// Update the model value.
+        /// </summary>
+        /// <param name="newValue">New variable value.</param>
+        private void UpdateModelValue(int newValue)
+        {
+            if (this.Model == null) return;
+            this.Model.Value = newValue;
+        }
     }
 }

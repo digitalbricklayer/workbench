@@ -14,10 +14,10 @@ namespace DynaApp.Services
         /// <summary>
         /// Initialize the model mapper with default values.
         /// </summary>
-        public WorkspaceMapper()
+        internal WorkspaceMapper(ModelViewModelCache theCache)
         {
-            this.modelMapper = new ModelMapper(this);
-            this.solutionMapper = new SolutionMapper(this);
+            this.modelMapper = new ModelMapper(theCache);
+            this.solutionMapper = new SolutionMapper(theCache);
         }
 
         /// <summary>

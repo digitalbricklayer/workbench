@@ -9,13 +9,15 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class VariableViewModel : GraphicViewModel
     {
+        private VariableModel model;
+
         /// <summary>
         /// Initialize a variable with the new name.
         /// </summary>
         public VariableViewModel(string newName, Point newLocation)
             : base(newName, newLocation)
         {
-            this.PopulateConnectors();
+            this.Model = new VariableModel();
         }
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace DynaApp.ViewModels
         public VariableViewModel(string newName)
             : base(newName)
         {
-            this.PopulateConnectors();
+            this.Model = new VariableModel();
         }
 
         /// <summary>
@@ -38,7 +40,15 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the variable model.
         /// </summary>
-        public VariableModel Model { get; set; }
+        public new VariableModel Model
+        {
+            get { return this.model; }
+            set
+            {
+                base.Model = value;
+                this.model = value;
+            }
+        }
 
         /// <summary>
         /// Is the destination graphic connectable to the variable?
@@ -54,14 +64,6 @@ namespace DynaApp.ViewModels
             // Variables are not permitted to have two connections to the same destination...
             return this.AttachedConnections.Where(connection => connection.IsConnectionComplete)
                                            .All(connection => connection.DestinationConnector.Parent != destinationGraphic);
-        }
-
-        private void PopulateConnectors()
-        {
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
-            this.AddConnector(new ConnectorViewModel());
         }
     }
 }

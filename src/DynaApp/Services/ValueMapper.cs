@@ -1,4 +1,5 @@
-﻿using DynaApp.Models;
+﻿using System;
+using DynaApp.Models;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services
@@ -8,6 +9,15 @@ namespace DynaApp.Services
     /// </summary>
     internal class ValueMapper
     {
+        private readonly ModelViewModelCache cache;
+
+        internal ValueMapper(ModelViewModelCache theCache)
+        {
+            if (theCache == null)
+                throw new ArgumentNullException("theCache");
+            this.cache = theCache;
+        }
+
         /// <summary>
         /// Map a value model into a view model.
         /// </summary>
@@ -15,7 +25,8 @@ namespace DynaApp.Services
         /// <returns>Value view model.</returns>
         internal ValueViewModel MapFrom(ValueModel theValueModel)
         {
-            return new ValueViewModel(theValueModel.Variable.Name)
+            var variableViewModel = this.cache.GetVariableByIdentity(theValueModel.Variable.Id);
+            return new ValueViewModel(variableViewModel)
             {
                 Model = theValueModel
             };

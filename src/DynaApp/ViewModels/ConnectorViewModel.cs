@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -14,6 +15,19 @@ namespace DynaApp.ViewModels
         /// This is pushed through from ConnectorItem in the UI.
         /// </summary>
         private Point hotspot;
+
+        /// <summary>
+        /// Initialize a connector view model with default values.
+        /// </summary>
+        public ConnectorViewModel()
+        {
+            this.Model = new ConnectorModel();
+        }
+
+        /// <summary>
+        /// Gets or sets the connector identity.
+        /// </summary>
+        public int ConnectorIdentity { get; set; }
 
         /// <summary>
         /// The connection that is attached to this connector, or null if no connection is attached.
@@ -55,6 +69,11 @@ namespace DynaApp.ViewModels
                 OnHotspotUpdated();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the connector model.
+        /// </summary>
+        public ConnectorModel Model { get; set; }
 
         /// <summary>
         /// Event raised when the connector hotspot has been updated.

@@ -7,7 +7,7 @@ namespace DynaApp.Models
     /// The solution model.
     /// </summary>
     [Serializable]
-    public class SolutionModel
+    public class SolutionModel : ModelBase
     {
         public SolutionModel()
         {

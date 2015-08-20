@@ -106,6 +106,7 @@
     <Compile Include="Models\DomainExpressionModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\GraphicModel.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\ModelModel.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\ValueModel.cs" />
@@ -113,6 +114,9 @@
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Models\WorkspaceReader.cs" />
     <Compile Include="Models\WorkspaceWriter.cs" />
+    <Compile Include="Services\ModelViewModelCache.cs" />
+    <Compile Include="Services\ConnectionMapper.cs" />
+    <Compile Include="Services\ConnectorMapper.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />
     <Compile Include="Services\ModelMapper.cs" />

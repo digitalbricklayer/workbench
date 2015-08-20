@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -30,6 +31,14 @@ namespace DynaApp.ViewModels
         /// Points that make up the connection.
         /// </summary>
         private PointCollection points;
+
+        /// <summary>
+        /// Initialize a connection view model with default values.
+        /// </summary>
+        public ConnectionViewModel()
+        {
+            this.Model = new ConnectionModel();
+        }
 
         /// <summary>
         /// Gets and sets the source connector.
@@ -68,6 +77,11 @@ namespace DynaApp.ViewModels
                 OnConnectionChanged();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the connection identity.
+        /// </summary>
+        public int ConnectionIdentity { get; set; }
 
         /// <summary>
         /// Gets and sets the destination connector.
@@ -167,6 +181,11 @@ namespace DynaApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the connection model.
+        /// </summary>
+        public ConnectionModel Model { get; set; }
 
         /// <summary>
         /// Initiate a connection with a source connector.

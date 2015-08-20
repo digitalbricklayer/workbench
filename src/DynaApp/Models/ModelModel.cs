@@ -8,7 +8,7 @@ namespace DynaApp.Models
     /// The model model.
     /// </summary>
     [Serializable]
-    public class ModelModel
+    public class ModelModel : ModelBase
     {
         public List<VariableModel> Variables { get; set; }
         public List<DomainModel> Domains { get; set; }
@@ -23,19 +23,72 @@ namespace DynaApp.Models
             this.Connections = new List<ConnectionModel>();
         }
 
-        public void AddConstraint(ConstraintModel constraint)
+        public void AddConstraint(ConstraintModel newConstraint)
         {
-            this.Constraints.Add(constraint);
+            if (newConstraint == null)
+                throw new ArgumentNullException("newConstraint");
+            newConstraint.AssignIdentity();
+            this.Constraints.Add(newConstraint);
         }
 
-        public void AddVariable(VariableModel variableModel)
+        /// <summary>
+        /// Delete the constraint from the model.
+        /// </summary>
+        /// <param name="constraintToDelete">Constraint to delete.</param>
+        public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
-            this.Variables.Add(variableModel);
+            if (constraintToDelete == null)
+                throw new ArgumentNullException("constraintToDelete");
+            this.Constraints.Remove(constraintToDelete);
         }
 
-        public void AddDomain(DomainModel domain)
+        public void AddVariable(VariableModel newVariable)
         {
-            this.Domains.Add(domain);
+            if (newVariable == null)
+                throw new ArgumentNullException("newVariable");
+            newVariable.AssignIdentity();
+            this.Variables.Add(newVariable);
+        }
+
+        /// <summary>
+        /// Delete the variable from the model.
+        /// </summary>
+        /// <param name="variableToDelete">Variable to delete.</param>
+        public void DeleteVariable(VariableModel variableToDelete)
+        {
+            if (variableToDelete == null)
+                throw new ArgumentNullException("variableToDelete");
+            this.Variables.Remove(variableToDelete);
+        }
+
+        public void AddDomain(DomainModel newDomain)
+        {
+            if (newDomain == null)
+                throw new ArgumentNullException("newDomain");
+            newDomain.AssignIdentity();
+            this.Domains.Add(newDomain);
+        }
+
+        /// <summary>
+        /// Delete the domain from the model.
+        /// </summary>
+        /// <param name="domainToDelete">Domain to delete.</param>
+        public void DeleteDomain(DomainModel domainToDelete)
+        {
+            if (domainToDelete == null)
+                throw new ArgumentNullException("domainToDelete");
+            this.Domains.Remove(domainToDelete);
+        }
+
+        /// <summary>
+        /// Add a connection.
+        /// </summary>
+        /// <param name="newConnectionModel">New connection.</param>
+        public void AddConnection(ConnectionModel newConnectionModel)
+        {
+            if (newConnectionModel == null)
+                throw new ArgumentNullException("newConnectionModel");
+            this.Connections.Add(newConnectionModel);
         }
 
         /// <summary>
@@ -53,7 +106,19 @@ namespace DynaApp.Models
             newConnection.DestinationConnector.AttachedConnection = newConnection;
             newConnection.SourceConnector.AttachedConnection = newConnection;
             newConnection.Connect(sourceConnector, destinationConnector);
-            this.Connections.Add(newConnection);
+            newConnection.AssignIdentity();
+            this.AddConnection(newConnection);
+        }
+
+        /// <summary>
+        /// Disconnect the connection.
+        /// </summary>
+        /// <param name="connectionModel">Connection to disconnect.</param>
+        public void Disconnect(ConnectionModel connectionModel)
+        {
+            if (connectionModel == null)
+                throw new ArgumentNullException("connectionModel");
+            this.Connections.Remove(connectionModel);
         }
 
         /// <summary>

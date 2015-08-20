@@ -10,7 +10,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         public void Variable_Cannot_Connect_To_Another_Variable()
         {
             // Arrange
-            var sut = new VariableViewModel("X");
+            var sut = CreateVariable();
 
             // Act
             var actualResult= sut.IsConnectableTo(new VariableViewModel("Y"));
@@ -23,7 +23,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         public void Variable_Can_Connect_To_A_Constraint()
         {
             // Arrange
-            var sut = new VariableViewModel("X");
+            var sut = CreateVariable();
 
             // Act
             var actualResult = sut.IsConnectableTo(new ConstraintViewModel("Y"));
@@ -36,7 +36,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         public void Variable_Can_Connect_To_A_Domain()
         {
             // Arrange
-            var sut = new VariableViewModel("X");
+            var sut = CreateVariable();
 
             // Act
             var actualResult = sut.IsConnectableTo(new DomainViewModel("Z"));
@@ -50,9 +50,9 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             // Arrange
             var model = new ModelViewModel();
-            var sut = new VariableViewModel("X");
+            var sut = CreateVariable();
             model.AddVariable(sut);
-            var aDomain = new DomainViewModel("Y");
+            var aDomain = CreateDomain();
             model.AddDomain(aDomain);
             model.Connect(sut, aDomain);
 
@@ -68,9 +68,9 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             // Arrange
             var model = new ModelViewModel();
-            var sut = new VariableViewModel("X");
+            var sut = CreateVariable();
             model.AddVariable(sut);
-            var aConstraint = new ConstraintViewModel("Y");
+            var aConstraint = CreateConstraint();
             model.AddConstraint(aConstraint);
             model.Connect(sut, aConstraint);
 
@@ -79,6 +79,33 @@ namespace Dyna.UI.Tests.Unit.ViewModels
 
             // Assert
             Assert.That(actualResult, Is.False);
+        }
+
+        private static ConstraintViewModel CreateConstraint()
+        {
+            var y = new ConstraintViewModel("Y");
+            y.AddConnector(new ConnectorViewModel());
+            y.AddConnector(new ConnectorViewModel());
+
+            return y;
+        }
+
+        private static DomainViewModel CreateDomain()
+        {
+            var y = new DomainViewModel("Y");
+            y.AddConnector(new ConnectorViewModel());
+            y.AddConnector(new ConnectorViewModel());
+
+            return y;
+        }
+
+        private static VariableViewModel CreateVariable()
+        {
+            var x = new VariableViewModel("X");
+            x.AddConnector(new ConnectorViewModel());
+            x.AddConnector(new ConnectorViewModel());
+
+            return x;
         }
     }
 }

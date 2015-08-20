@@ -6,7 +6,7 @@ namespace DynaApp.Models
     /// Workspace model where the model and solution are stored.
     /// </summary>
     [Serializable]
-    public class WorkspaceModel
+    public class WorkspaceModel : ModelBase
     {
         /// <summary>
         /// Gets or sets the model.

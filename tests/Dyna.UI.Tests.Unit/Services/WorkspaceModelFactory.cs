@@ -7,11 +7,18 @@ namespace Dyna.UI.Tests.Unit.Services
     /// </summary>
     class WorkspaceModelFactory
     {
+        private ModelModel model;
+
         /// <summary>
         /// Create a test workspace model.
         /// </summary>
         /// <returns>Workspace model with test data.</returns>
         internal static WorkspaceModel Create()
+        {
+            return new WorkspaceModelFactory().CreateWorkspace();
+        }
+
+        private WorkspaceModel CreateWorkspace()
         {
             return new WorkspaceModel
             {
@@ -20,25 +27,25 @@ namespace Dyna.UI.Tests.Unit.Services
             };
         }
 
-        private static ModelModel CreateModel()
+        private ModelModel CreateModel()
         {
-            var model = new ModelModel();
+            this.model = new ModelModel();
             var x = new VariableModel("x");
-            model.AddVariable(x);
+            this.model.AddVariable(x);
             var constraint = new ConstraintModel("X", "x > 1");
-            model.AddConstraint(constraint);
+            this.model.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");
-            model.AddDomain(domain);
-            model.Connect(x, constraint);
-            model.Connect(x, domain);
+            this.model.AddDomain(domain);
+            this.model.Connect(x, constraint);
+            this.model.Connect(x, domain);
 
-            return model;
+            return this.model;
         }
 
-        private static SolutionModel CreateSolution()
+        private SolutionModel CreateSolution()
         {
             var solution = new SolutionModel();
-            var x = new VariableModel("x");
+            var x = this.model.GetVariableByName("x");
             var valueOfX = new ValueModel(x);
             solution.AddValue(valueOfX);
 

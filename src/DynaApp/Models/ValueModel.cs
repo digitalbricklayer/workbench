@@ -3,7 +3,7 @@
 namespace DynaApp.Models
 {
     [Serializable]
-    public class ValueModel
+    public class ValueModel : ModelBase
     {
         public ValueModel(VariableModel variableModel)
         {
@@ -21,5 +21,13 @@ namespace DynaApp.Models
         /// Gets or sets the value.
         /// </summary>
         public int Value { get; set; }
+
+        /// <summary>
+        /// Gets the variable name.
+        /// </summary>
+        public string VariableName
+        {
+            get { return this.Variable.Name; }
+        }
     }
 }

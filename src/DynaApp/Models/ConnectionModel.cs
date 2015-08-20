@@ -4,7 +4,7 @@ using System.Windows;
 namespace DynaApp.Models
 {
     [Serializable]
-    public class ConnectionModel
+    public class ConnectionModel : ModelBase
     {
         public ConnectorModel SourceConnector { get; set; }
         public ConnectorModel DestinationConnector { get; set; }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 namespace DynaApp.Models
 {
     [Serializable]
-    public abstract class GraphicModel
+    public abstract class GraphicModel : ModelBase
     {
+        private const int NumberConnectors = 4;
+
         /// <summary>
         /// Initialize a graphic model with a name.
         /// </summary>
@@ -37,7 +39,7 @@ namespace DynaApp.Models
         /// </summary>
         private void CreateConnectors()
         {
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < NumberConnectors; i++)
                 this.AddConnector(new ConnectorModel());
         }
 
@@ -48,6 +50,7 @@ namespace DynaApp.Models
         private void AddConnector(ConnectorModel newConnector)
         {
             newConnector.Parent = this;
+            newConnector.AssignIdentity();
             this.Connectors.Add(newConnector);
         }
     }

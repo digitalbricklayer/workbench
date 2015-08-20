@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using DynaApp.Models;
 using DynaApp.ViewModels;
 
@@ -7,33 +6,37 @@ namespace DynaApp.Services
 {
     internal class VariableMapper
     {
-        private readonly Dictionary<string, VariableViewModel> variableMap;
+        private readonly ModelViewModelCache cache;
+        private readonly ConnectorMapper connectorMapper;
 
-        public VariableMapper()
+        internal VariableMapper(ModelViewModelCache theCache)
         {
-            this.variableMap = new Dictionary<string, VariableViewModel>();
+            this.connectorMapper =  new ConnectorMapper(theCache);
+            this.cache = theCache;
         }
 
         internal VariableViewModel MapFrom(VariableModel theVariableModel)
         {
+            Debug.Assert(theVariableModel.HasIdentity);
+
             var variableViewModel = new VariableViewModel
             {
+                Id = theVariableModel.Id,
                 Model = theVariableModel,
                 Name = theVariableModel.Name,
                 X = theVariableModel.X,
                 Y = theVariableModel.Y
             };
 
-            this.variableMap.Add(variableViewModel.Name, variableViewModel);
+            foreach (var connectorModel in theVariableModel.Connectors)
+            {
+                var connectorViewModel = this.connectorMapper.MapFrom(connectorModel);
+                variableViewModel.AddConnector(connectorViewModel);
+            }
+
+            this.cache.CacheVariable(variableViewModel);
 
             return variableViewModel;
-        }
-
-        internal VariableViewModel GetVariableByName(string theVariableName)
-        {
-            if (string.IsNullOrWhiteSpace(theVariableName))
-                throw new ArgumentException("theVariableName");
-            return this.variableMap[theVariableName];
         }
     }
 }
