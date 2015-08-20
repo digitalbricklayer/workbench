@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Management.Instrumentation;
 using System.Windows;
 using DynaApp.Models;
 
@@ -44,8 +43,8 @@ namespace DynaApp.ViewModels
         public DomainViewModel(string newDomainName)
             : base(newDomainName)
         {
-            this.Expression = new DomainExpressionViewModel();
             this.Model = new DomainModel();
+            this.Expression = new DomainExpressionViewModel();
         }
 
         /// <summary>

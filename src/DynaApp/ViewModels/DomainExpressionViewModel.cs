@@ -1,4 +1,5 @@
 ﻿using System;
+using DynaApp.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -17,6 +18,7 @@ namespace DynaApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
+            this.Model = new DomainExpressionModel();
             this.Text = rawExpression;
         }
 
@@ -25,8 +27,14 @@ namespace DynaApp.ViewModels
         /// </summary>
         public DomainExpressionViewModel()
         {
+            this.Model = new DomainExpressionModel();
             this.Text = string.Empty;
         }
+
+        /// <summary>
+        /// Gets or sets the domain expression model.
+        /// </summary>
+        public DomainExpressionModel Model { get; set; }
 
         /// <summary>
         /// Gets or sets the domain expression text.
@@ -38,6 +46,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.text == value) return;
                 this.text = value;
+                this.Model.Text = value;
                 OnPropertyChanged();
             }
         }
