@@ -14,8 +14,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class WorkspaceViewModel : AbstractViewModel
     {
-        private readonly ObservableCollection<string> availableDisplayModes
-            = new ObservableCollection<string> { "Model" };
+        private readonly ObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
         private object selectedDisplayViewModel;
         private bool isDirty;
@@ -27,6 +26,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         public WorkspaceViewModel()
         {
+            this.availableDisplayModes = new ObservableCollection<string> {"Model"};
             this.solution = new SolutionViewModel();
             this.model = new ModelViewModel();
             this.WorkspaceModel = new WorkspaceModel();

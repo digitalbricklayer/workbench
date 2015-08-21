@@ -163,9 +163,12 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the graphic identity.
+        /// Gets the graphic identity.
         /// </summary>
-        public int Id { get; set; }
+        public int Id
+        {
+            get { return this.Model.Id; }
+        }
 
         /// <summary>
         /// Is the destination graphic connectable to this graphic?
@@ -198,10 +201,7 @@ namespace DynaApp.ViewModels
              */
             foreach (var connectorModel in this.Model.Connectors)
             {
-                var newConnectorViewModel = new ConnectorViewModel
-                {
-                    ConnectorIdentity = connectorModel.Id
-                };
+                var newConnectorViewModel = new ConnectorViewModel();
                 this.AddConnector(newConnectorViewModel);
             }
         }

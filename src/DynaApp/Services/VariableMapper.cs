@@ -21,7 +21,6 @@ namespace DynaApp.Services
 
             var variableViewModel = new VariableViewModel
             {
-                Id = theVariableModel.Id,
                 Model = theVariableModel,
                 Name = theVariableModel.Name,
                 X = theVariableModel.X,

@@ -20,7 +20,6 @@ namespace DynaApp.Services
             Debug.Assert(theConstraintModel.HasIdentity);
 
             var constraintViewModel = new ConstraintViewModel();
-            constraintViewModel.Id = theConstraintModel.Id;
             constraintViewModel.Model = theConstraintModel;
             constraintViewModel.Name = theConstraintModel.Name;
             constraintViewModel.Expression.Text = theConstraintModel.Expression.Text;

@@ -18,7 +18,6 @@ namespace DynaApp.Services
         internal ConnectorViewModel MapFrom(ConnectorModel connectorModel)
         {
             var connectorViewModel = new ConnectorViewModel();
-            connectorViewModel.ConnectorIdentity = connectorModel.Id;
             connectorViewModel.Hotspot = connectorModel.Hotspot;
             connectorViewModel.Model = connectorModel;
 

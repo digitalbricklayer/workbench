@@ -25,9 +25,12 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the connector identity.
+        /// Gets the connector identity.
         /// </summary>
-        public int ConnectorIdentity { get; set; }
+        public int ConnectorIdentity
+        {
+            get { return this.Model.Id; }
+        }
 
         /// <summary>
         /// The connection that is attached to this connector, or null if no connection is attached.

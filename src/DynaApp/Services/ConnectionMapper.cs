@@ -19,7 +19,6 @@ namespace DynaApp.Services
         {
             if (connectionModel == null) return null;
             var connectionViewModel = new ConnectionViewModel();
-            connectionViewModel.ConnectionIdentity = connectionModel.Id;
             connectionViewModel.Model = connectionModel;
             connectionViewModel.SourceConnector =
                 this.cache.GetConnectorByIdentity(connectionModel.SourceConnector.Id);
@@ -29,6 +28,7 @@ namespace DynaApp.Services
             connectionViewModel.DestinationConnectorHotspot = connectionModel.DestinationConnectorHotspot;
 
             this.cache.CacheConnection(connectionViewModel);
+
             return connectionViewModel;
         }
     }

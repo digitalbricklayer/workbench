@@ -21,7 +21,6 @@ namespace DynaApp.Services
 
             var domainViewModel = new DomainViewModel();
             domainViewModel.Model = theDomainModel;
-            domainViewModel.Id = theDomainModel.Id;
             domainViewModel.Name = theDomainModel.Name;
             domainViewModel.Expression.Text = theDomainModel.Expression.Text;
             domainViewModel.X = theDomainModel.X;
