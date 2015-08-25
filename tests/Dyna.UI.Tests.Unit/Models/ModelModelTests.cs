@@ -10,17 +10,6 @@ namespace Dyna.UI.Tests.Unit.Models
         private DomainModel domain;
         private VariableModel variable;
 
-        [Test]
-        public void Connect_Variable_To_Domain_Adds_Connection()
-        {
-            var sut = CreateSut();
-            sut.Connect(this.variable, this.domain);
-
-            var actualNewConnection = sut.Connections.First();
-            Assert.That(actualNewConnection.DestinationConnector.Parent, Is.SameAs(this.variable));
-            Assert.That(actualNewConnection.SourceConnector.Parent, Is.SameAs(this.domain));
-        }
-
         private ModelModel CreateSut()
         {
             var theModel = new ModelModel();

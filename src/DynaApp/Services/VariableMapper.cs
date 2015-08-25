@@ -7,11 +7,9 @@ namespace DynaApp.Services
     internal class VariableMapper
     {
         private readonly ModelViewModelCache cache;
-        private readonly ConnectorMapper connectorMapper;
 
         internal VariableMapper(ModelViewModelCache theCache)
         {
-            this.connectorMapper =  new ConnectorMapper(theCache);
             this.cache = theCache;
         }
 
@@ -26,12 +24,6 @@ namespace DynaApp.Services
                 X = theVariableModel.X,
                 Y = theVariableModel.Y
             };
-
-            foreach (var connectorModel in theVariableModel.Connectors)
-            {
-                var connectorViewModel = this.connectorMapper.MapFrom(connectorModel);
-                variableViewModel.AddConnector(connectorViewModel);
-            }
 
             this.cache.CacheVariable(variableViewModel);
 

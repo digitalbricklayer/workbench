@@ -79,14 +79,13 @@
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
-    <Compile Include="Controls\ConnectionBadIndicator.cs" />
-    <Compile Include="Controls\ConnectionOkIndicator.cs" />
-    <Compile Include="Controls\ConnectorItem.cs" />
     <Compile Include="Controls\ConstraintItem.cs" />
     <Compile Include="Controls\ConstraintItemsControl.cs" />
     <Compile Include="Controls\CurvedArrow.cs" />
     <Compile Include="Controls\DomainItem.cs" />
     <Compile Include="Controls\DomainItemsControl.cs" />
+    <Compile Include="Controls\EditableTextBlock.cs" />
+    <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\VariableItem.cs" />
@@ -115,8 +114,6 @@
     <Compile Include="Models\WorkspaceReader.cs" />
     <Compile Include="Models\WorkspaceWriter.cs" />
     <Compile Include="Services\ModelViewModelCache.cs" />
-    <Compile Include="Services\ConnectionMapper.cs" />
-    <Compile Include="Services\ConnectorMapper.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />
     <Compile Include="Services\ModelMapper.cs" />
@@ -126,8 +123,6 @@
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AbstractViewModel.cs" />
     <Compile Include="ViewModels\ValueViewModel.cs" />
-    <Compile Include="ViewModels\ConnectionViewModel.cs" />
-    <Compile Include="ViewModels\ConnectorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\ConstraintViewModel.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModel.cs" />

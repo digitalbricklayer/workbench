@@ -7,42 +7,10 @@ namespace Dyna.UI.Tests.Unit.ViewModels
     public class DomainViewModelTests
     {
         [Test]
-        public void Domain_Cannot_Connect_To_Another_Domain()
+        public void IsValid_With_Valid_Expression_Returns_True()
         {
-            // Arrange
-            var sut = new DomainViewModel("X");
-
-            // Act
-            var actualResult = sut.IsConnectableTo(new DomainViewModel("Y"));
-
-            // Assert
-            Assert.That(actualResult, Is.False);
-        }
-
-        [Test]
-        public void Domain_Cannot_Connect_To_A_Variable()
-        {
-            // Arrange
-            var sut = new DomainViewModel("X");
-
-            // Act
-            var actualResult = sut.IsConnectableTo(new VariableViewModel("Y"));
-
-            // Assert
-            Assert.That(actualResult, Is.False);
-        }
-
-        [Test]
-        public void Domain_Cannot_Connect_To_A_Constraint()
-        {
-            // Arrange
-            var sut = new DomainViewModel("X");
-
-            // Act
-            var actualResult = sut.IsConnectableTo(new ConstraintViewModel("Y"));
-
-            // Assert
-            Assert.That(actualResult, Is.False);
+            var sut = new DomainViewModel("X", "1..2");
+            Assert.That(sut.IsValid, Is.True);
         }
 
         [Test]
@@ -50,13 +18,6 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             var sut = new DomainViewModel("X");
             Assert.That(sut.IsValid, Is.False);
-        }
-
-        [Test]
-        public void IsValid_With_Valid_Expression_Returns_True()
-        {
-            var sut = new DomainViewModel("X", "1..2");
-            Assert.That(sut.IsValid, Is.True);
         }
     }
 }

@@ -14,27 +14,14 @@
     <Window.Resources>
         <ResourceDictionary>
 
-            <!-- The brush for connections. -->
-            <SolidColorBrush
-                x:Key="connectionBrush"
-                Color="Black"
-                />
-
             <!-- The border brush for variables. -->
             <SolidColorBrush
                 x:Key="variableBorderBrush"
                 Color="Black"
                 />
 
-            <!-- The brush for connectors. -->
-            <SolidColorBrush
-                x:Key="connectorBackgroundBrush"
-                Color="White"
-                />
-
         <!-- UI commands. -->
         <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
-        <RoutedUICommand x:Key="Commands.DeleteConnection" />
         <RoutedUICommand x:Key="Commands.DeleteVariable" />
         <RoutedUICommand x:Key="Commands.DeleteDomain" />
         <RoutedUICommand x:Key="Commands.DeleteConstraint" />
@@ -174,12 +161,6 @@
                         VariablesSource="{Binding Variables}"
                         DomainsSource="{Binding Domains}"
                         ConstraintsSource="{Binding Constraints}"
-                        ConnectionsSource="{Binding Connections}"
-                    
-                        ConnectionDragStarted="modelControl_ConnectionDragStarted"
-                        ConnectionDragging="modelControl_ConnectionDragging"
-                        QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
-                        ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
                         />
 
                 </AdornerDecorator>
@@ -199,75 +180,6 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-        </DataTemplate>
-
-        <!-- 
-        Data-template for ConectionViewModel.
-        
-        Note that the 'Start' and 'End' of the arrow are bound to 'SourceConnectorHotspot' and 'DestConnectorHotspot' in 
-        the view-model.
-
-        In this sample a straight arrow represents connections between variables.
-        -->
-        <DataTemplate
-            DataType="{x:Type viewModels:ConnectionViewModel}"
-            >
-
-            <!-- 
-            An adorned control is used, to represent the connection. 
-            When the user hovers the mouse cursor over the connection, the 
-            'delete connection' adorner pops up and allows them to delete the connection.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Mouse"
-                VerticalAdornerPlacement="Mouse"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <!-- The connection is represented by a curved arrow. -->
-                <controls:CurvedArrow
-                    Stroke="{StaticResource connectionBrush}"
-                    StrokeThickness="2"
-                    Fill="{StaticResource connectionBrush}"
-                    Points="{Binding Points}"
-                    />
-
-                    <controls:AdornedControl.AdornerContent>
-
-                    <!-- 
-                    This is the adorner that pops up when the user hovers the mouse over the connection.
-                    It displays a button that the user can click to delete the connection.
-                    -->
-                    <Canvas
-                        x:Name="connectionAdornerCanvas"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Width="30"
-                        Height="30"
-                        >
-                        <Line
-                            X1="0"
-                            Y1="30"
-                            X2="15"
-                            Y2="15"
-                            Stroke="Black"
-                            StrokeThickness="1"
-                            />
-                        <Button
-                            x:Name="deleteConnectionButton"
-                            Canvas.Left="10"
-                            Canvas.Top="0"
-                            Width="20"
-                            Height="20"
-                            Cursor="Hand"
-                            Focusable="False"
-                            Command="{StaticResource Commands.DeleteConnection}"
-                            CommandParameter="{Binding}"
-                            Template="{StaticResource deleteButtonTemplate}"
-                            />
-                    </Canvas>
-                </controls:AdornedControl.AdornerContent>
-            </controls:AdornedControl>
         </DataTemplate>
 
         <!--
@@ -330,74 +242,6 @@
         </Style>
 
         <!-- 
-        This graphic is used to indicate that a connection cannot be made 
-        between two particular connectors.        
-        -->
-        <DataTemplate DataType="{x:Type controls:ConnectionBadIndicator}">
-            <Grid Width="80">
-                <Image 
-                    Width="32"
-                    Height="32"
-                    Source="/Images/block_16.png"
-                    HorizontalAlignment="Right"
-                    />
-            </Grid>
-        </DataTemplate>
-
-        <!-- 
-        This graphic is used to indicate that a connection can be made between 
-        two particular connectors.        
-        -->
-        <DataTemplate DataType="{x:Type controls:ConnectionOkIndicator}">
-            <Grid Width="80"> 
-                <Image 
-                    Width="32"
-                    Height="32"
-                    Source="/Images/tick_16.png"
-                    HorizontalAlignment="Right"
-                    />
-            </Grid>
-        </DataTemplate>
-
-        <!-- 
-        Define the visual style for a ConnectorItem.
-        -->
-        <Style 
-            TargetType="{x:Type controls:ConnectorItem}">
-            <!-- 
-            Data-binding for the connector hotspot.
-            ConnectorItem automatically computes its center 
-            points and assigns this value to the 'Hotspot' property.  
-            This data-binding in this style then 'pushes' the value into the 
-            application view-model.
-            -->
-            <Setter 
-                Property="Hotspot"
-                Value="{Binding Hotspot, Mode=OneWayToSource}"
-                />
-
-            <!-- The visual template. -->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate 
-                        TargetType="{x:Type controls:ConnectorItem}"
-                        >
-                        <!-- The visual for the connector. -->
-                        <Rectangle
-                            Stroke="Black"
-                            Fill="White"                            
-                            Cursor="Hand"
-                            Width="12"
-                            Height="12"
-                            RadiusX="1"
-                            RadiusY="1"
-                            />
-                        </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- 
         Define a data-template for the 'VariableViewModel' class.
         This generates the UI for each variable.
         -->
@@ -405,123 +249,68 @@
             DataType="{x:Type viewModels:VariableViewModel}"
             >
 
-            <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
+            <Canvas
+                Width="120"
+                Height="60"
                 >
 
-                <Grid
-                    Width="120"
-                    Height="60"
+                <!-- Left hand '<' -->
+                <Line
+                    X1="0"
+                    Y1="30"
+                    X2="30"
+                    Y2="0"
+                    Stroke="Black"
+                    StrokeThickness="2"
+                    />
+                <Line
+                    X1="0"
+                    Y1="30"
+                    X2="30"
+                    Y2="60"
+                    Stroke="Black"
+                    StrokeThickness="2"
+                    />
+
+                <!-- Display the variable name -->
+                <Viewbox 
+                    Stretch="Uniform" 
+                    Width="40"
+                    Height="50"
+                    Canvas.Left="40"
+                    Canvas.Top="5"
                     >
-
-                    <!-- This rectangle is the main visual for the variable. -->
-                    <Rectangle
-                        Stroke="Black"
-                        Fill="White"
-                        RadiusX="4"
-                        RadiusY="4"
-                        />
-
-                <!-- 
-                This grid contains the variable's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
-                -->
-                <Grid Margin="-8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
 
                     <!-- The name of the variable. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Text="{Binding Name, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
+                    <controls:EditableTextBlock
+                        Text="{Binding Name, Mode=TwoWay}" 
+                        IsInEditMode="{Binding IsNameEdited, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontStyle="Italic"
                         />
 
-                    <!-- 
-                    Define the variable's four connectors, one on each edge of the variable.
-                    -->
+                </Viewbox>
 
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
+                <!-- Right hand '>' -->
+                <Line
+                    X1="120"
+                    Y1="30"
+                    X2="90"
+                    Y2="0"
+                    Stroke="Black"
+                    StrokeThickness="2"
+                    />
+                <Line
+                    X1="120"
+                    Y1="30"
+                    X2="90"
+                    Y2="60"
+                    Stroke="Black"
+                    StrokeThickness="2"
+                    />
 
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
+            </Canvas>
 
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
-                        />
-                </Grid>
-            </Grid>
-
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="variableAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteVariableButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteVariable}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
-                </Canvas>
-            </controls:AdornedControl.AdornerContent>
-            </controls:AdornedControl>
         </DataTemplate>
 
         <!-- 
@@ -588,33 +377,6 @@
                         Text="{Binding Path=Expression.Text, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        />
-
-                    <!-- 
-                    Define the domain's four connectors, one on each edge of the domain.
-                    -->
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
                         />
                 </Grid>
             </Grid>
@@ -725,33 +487,6 @@
                         VerticalAlignment="Center"
                         />
 
-                    <!-- 
-                    Define the constraint's four connectors, one on each edge of the constraint.
-                    -->
-
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
-                        />
                 </Grid>
             </Grid>
 
@@ -811,10 +546,6 @@
         <CommandBinding 
             Command="{StaticResource Commands.DeleteSelectedGraphics}" 
             Executed="DeleteSelectedGraphics_Executed" 
-            />
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteConnection}" 
-            Executed="DeleteConnection_Executed" 
             />
         <CommandBinding 
             Command="{StaticResource Commands.DeleteVariable}" 

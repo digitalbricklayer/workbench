@@ -3,10 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DynaApp.Views"
     xmlns:controls="clr-namespace:DynaApp.Controls">
-    <!-- 
-    Include this in binding statements for diagnostics:
-    diagnostics:PresentationTraceSources.TraceLevel=High
-    -->
     
     <SolidColorBrush
         x:Key="selectionBorderColor"
@@ -334,36 +330,6 @@
         </Setter>
     </Style>
 
-    <!-- Default style and control-template for ConnectorItem. -->
-    <Style TargetType="{x:Type controls:ConnectorItem}">
-        
-        <!-- Data-bind the parent ModelView. -->
-        <Setter
-            Property="ParentModelView"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
-            />
-        
-        <!-- Data-bind the parent GraphicItem. -->
-        <Setter
-            Property="ParentListBoxItem"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:GraphicItem}}, Path=.}"
-            />
-
-        <!-- The control-template for the connector. -->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate 
-                    TargetType="{x:Type controls:ConnectorItem}"
-                    >
-                    
-                    <!-- Application-defined connector content is presented here. -->
-                    <ContentPresenter />
-                    
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- 
     Override the style of the ListBox to remove the ScrollViewer.
     All we want is ListBox logic but based on a Canvas.
@@ -437,22 +403,6 @@
                                 ItemTemplateSelector="{TemplateBinding ConstraintItemTemplateSelector}"
                                 ItemContainerStyle="{TemplateBinding ConstraintItemContainerStyle}"
                                 />
-
-                            <!-- Control that presents the connections between variables. -->
-                            <ItemsControl
-                                x:Name="PART_ConnectionItemsControl"
-                                ItemsSource="{TemplateBinding Connections}"
-                                ItemTemplate="{TemplateBinding ConnectionItemTemplate}"
-                                ItemTemplateSelector="{TemplateBinding ConnectionItemTemplateSelector}"
-                                ItemContainerStyle="{TemplateBinding ConnectionItemContainerStyle}"
-                                >
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <!-- Connections are presented in a Canvas. -->
-                                        <Canvas />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
                             
                             <!--
                             This Canvas and Border are used as a very simple way to render a drag selection rectangle.

@@ -159,7 +159,6 @@ namespace DynaApp.ViewModels
         public VariableViewModel AddVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
-            newVariable.SyncToModel();
             this.Model.AddVariable(newVariable);
             this.IsDirty = true;
 
@@ -175,7 +174,6 @@ namespace DynaApp.ViewModels
         public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
         {
             var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
-            newDomain.SyncToModel();
             this.Model.AddDomain(newDomain);
             this.IsDirty = true;
 
@@ -191,7 +189,6 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
         {
             var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
-            newConstraint.SyncToModel();
             this.Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 
@@ -214,15 +211,6 @@ namespace DynaApp.ViewModels
         /// </summary>
         public void DeleteVariable(VariableViewModel variable)
         {
-            //
-            // Remove all connections attached to the variable.
-            //
-            foreach (var connectionViewModel in variable.AttachedConnections)
-                this.Model.DeleteConnection(connectionViewModel);
-
-            //
-            // Remove the variable from the network.
-            //
             this.Model.DeleteVariable(variable);
             this.IsDirty = true;
         }

@@ -15,12 +15,14 @@ namespace DynaApp.Models
         public List<ConstraintModel> Constraints { get; set; }
         public List<ConnectionModel> Connections { get; set; }
 
+        /// <summary>
+        /// Initialize a model model with default values.
+        /// </summary>
         public ModelModel()
         {
             this.Variables = new List<VariableModel>();
             this.Domains = new List<DomainModel>();
             this.Constraints = new List<ConstraintModel>();
-            this.Connections = new List<ConnectionModel>();
         }
 
         public void AddConstraint(ConstraintModel newConstraint)
@@ -81,47 +83,6 @@ namespace DynaApp.Models
         }
 
         /// <summary>
-        /// Add a connection.
-        /// </summary>
-        /// <param name="newConnectionModel">New connection.</param>
-        public void AddConnection(ConnectionModel newConnectionModel)
-        {
-            if (newConnectionModel == null)
-                throw new ArgumentNullException("newConnectionModel");
-            this.Connections.Add(newConnectionModel);
-        }
-
-        /// <summary>
-        /// Connect the variable to the graphic.
-        /// </summary>
-        /// <param name="variableModel">Variable.</param>
-        /// <param name="endPoint">Graphic.</param>
-        public void Connect(VariableModel variableModel, GraphicModel endPoint)
-        {
-            var newConnection = new ConnectionModel();
-            var sourceConnector = this.AssignConnector(endPoint);
-            var destinationConnector = this.AssignConnector(variableModel);
-            newConnection.SourceConnector = sourceConnector;
-            newConnection.DestinationConnector = destinationConnector;
-            newConnection.DestinationConnector.AttachedConnection = newConnection;
-            newConnection.SourceConnector.AttachedConnection = newConnection;
-            newConnection.Connect(sourceConnector, destinationConnector);
-            newConnection.AssignIdentity();
-            this.AddConnection(newConnection);
-        }
-
-        /// <summary>
-        /// Disconnect the connection.
-        /// </summary>
-        /// <param name="connectionModel">Connection to disconnect.</param>
-        public void Disconnect(ConnectionModel connectionModel)
-        {
-            if (connectionModel == null)
-                throw new ArgumentNullException("connectionModel");
-            this.Connections.Remove(connectionModel);
-        }
-
-        /// <summary>
         /// Get the variable matching the variable name.
         /// </summary>
         /// <param name="theVariableName">The variable name.</param>
@@ -129,16 +90,6 @@ namespace DynaApp.Models
         public VariableModel GetVariableByName(string theVariableName)
         {
             return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
-        }
-
-        /// <summary>
-        /// Assign an available connector.
-        /// </summary>
-        /// <param name="theGraphic">Graphic containing the connectors.</param>
-        /// <returns>Available connector.</returns>
-        private ConnectorModel AssignConnector(GraphicModel theGraphic)
-        {
-            return theGraphic.Connectors.FirstOrDefault(x => x.AttachedConnection == null);
         }
     }
 }

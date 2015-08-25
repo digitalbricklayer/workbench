@@ -49,21 +49,5 @@ namespace DynaApp.ViewModels
                 this.model = value;
             }
         }
-
-        /// <summary>
-        /// Is the destination graphic connectable to the variable?
-        /// </summary>
-        /// <param name="destinationGraphic">Destination being connected to.</param>
-        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
-        public override bool IsConnectableTo(GraphicViewModel destinationGraphic)
-        {
-            // Variables cannot connect to other variables...
-            var destinationAsVariable = destinationGraphic as VariableViewModel;
-            if (destinationAsVariable != null) return false;
-
-            // Variables are not permitted to have two connections to the same destination...
-            return this.AttachedConnections.Where(connection => connection.IsConnectionComplete)
-                                           .All(connection => connection.DestinationConnector.Parent != destinationGraphic);
-        }
     }
 }

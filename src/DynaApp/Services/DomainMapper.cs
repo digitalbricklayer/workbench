@@ -6,13 +6,11 @@ namespace DynaApp.Services
 {
     internal class DomainMapper
     {
-        private readonly ConnectorMapper connectorMapper;
         private readonly ModelViewModelCache cache;
 
         internal DomainMapper(ModelViewModelCache theCache)
         {
             this.cache = theCache;
-            this.connectorMapper = new ConnectorMapper(this.cache);
         }
 
         internal DomainViewModel MapFrom(DomainModel theDomainModel)
@@ -25,11 +23,6 @@ namespace DynaApp.Services
             domainViewModel.Expression.Text = theDomainModel.Expression.Text;
             domainViewModel.X = theDomainModel.X;
             domainViewModel.Y = theDomainModel.Y;
-            foreach (var connectorModel in theDomainModel.Connectors)
-            {
-                var connectorViewModel = this.connectorMapper.MapFrom(connectorModel);
-                domainViewModel.AddConnector(connectorViewModel);
-            }
 
             this.cache.CacheGraphic(domainViewModel);
 

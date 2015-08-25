@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using DynaApp.Models;
@@ -31,6 +30,8 @@ namespace DynaApp.ViewModels
         /// </summary>
         private string name;
 
+        private bool isNameEdited;
+
         /// <summary>
         /// Initialize a graphic with a name and location.
         /// </summary>
@@ -59,7 +60,6 @@ namespace DynaApp.ViewModels
         protected GraphicViewModel()
         {
             this.Name = string.Empty;
-            this.Connectors = new ObservableCollection<ConnectorViewModel>();
         }
 
         /// <summary>
@@ -83,9 +83,18 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets the connectors (connection anchor points) attached to the graphic.
+        /// Gets or sets whether the graphic name is being edited.
         /// </summary>
-        public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
+        public bool IsNameEdited
+        {
+            get { return this.isNameEdited; }
+            set
+            {
+                if (this.isNameEdited == value) return;
+                this.isNameEdited = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// The X coordinate for the position of the domain.
@@ -142,68 +151,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets all connections attached to the graphic.
-        /// </summary>
-        public ICollection<ConnectionViewModel> AttachedConnections
-        {
-            get
-            {
-                var attachedConnections = new List<ConnectionViewModel>();
-
-                foreach (var connector in this.Connectors)
-                {
-                    if (connector.AttachedConnection != null)
-                    {
-                        attachedConnections.Add(connector.AttachedConnection);
-                    }
-                }
-
-                return attachedConnections;
-            }
-        }
-
-        /// <summary>
         /// Gets the graphic identity.
         /// </summary>
         public int Id
         {
             get { return this.Model.Id; }
-        }
-
-        /// <summary>
-        /// Is the destination graphic connectable to this graphic?
-        /// </summary>
-        /// <param name="destinationGraphic">Destination being connected to.</param>
-        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
-        public virtual bool IsConnectableTo(GraphicViewModel destinationGraphic)
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Add a connector to the graphic.
-        /// </summary>
-        /// <param name="newConnector">New connector.</param>
-        public void AddConnector(ConnectorViewModel newConnector)
-        {
-            newConnector.Parent = this;
-            this.Connectors.Add(newConnector);
-        }
-
-        /// <summary>
-        /// Synchronise the graphic view model to the model.
-        /// </summary>
-        public void SyncToModel()
-        {
-            /* 
-             * The only thing that needs synchronising are the connectors 
-             * auto populated in the model.
-             */
-            foreach (var connectorModel in this.Model.Connectors)
-            {
-                var newConnectorViewModel = new ConnectorViewModel();
-                this.AddConnector(newConnectorViewModel);
-            }
         }
 
         /// <summary>
