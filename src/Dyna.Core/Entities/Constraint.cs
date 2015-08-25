@@ -3,7 +3,7 @@
 namespace Dyna.Core.Entities
 {
     /// <summary>
-    /// A constraint restricting a variable's possible bound values.
+    /// A constraint restricts a variable's possible values.
     /// </summary>
     public class Constraint
     {
