@@ -13,7 +13,6 @@ namespace DynaApp.Models
         public List<VariableModel> Variables { get; set; }
         public List<DomainModel> Domains { get; set; }
         public List<ConstraintModel> Constraints { get; set; }
-        public List<ConnectionModel> Connections { get; set; }
 
         /// <summary>
         /// Initialize a model model with default values.
@@ -25,6 +24,10 @@ namespace DynaApp.Models
             this.Constraints = new List<ConstraintModel>();
         }
 
+        /// <summary>
+        /// Add a new constraint to the model.
+        /// </summary>
+        /// <param name="newConstraint">New constraint.</param>
         public void AddConstraint(ConstraintModel newConstraint)
         {
             if (newConstraint == null)
@@ -44,6 +47,10 @@ namespace DynaApp.Models
             this.Constraints.Remove(constraintToDelete);
         }
 
+        /// <summary>
+        /// Add a new variable to the model.
+        /// </summary>
+        /// <param name="newVariable">New variable.</param>
         public void AddVariable(VariableModel newVariable)
         {
             if (newVariable == null)
