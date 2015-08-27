@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace DynaApp.Models
 {
@@ -24,6 +23,9 @@ namespace DynaApp.Models
             this.Name = string.Empty;
         }
 
+        /// <summary>
+        /// Gets or sets the graphic name.
+        /// </summary>
         public string Name { get; set; }
 
         public double X { get; set; }

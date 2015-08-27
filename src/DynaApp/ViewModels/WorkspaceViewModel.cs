@@ -119,7 +119,7 @@ namespace DynaApp.ViewModels
             {
                 return this.selectedDisplayViewModel;
             }
-            private set
+            set
             {
                 this.selectedDisplayViewModel = value;
                 OnPropertyChanged();

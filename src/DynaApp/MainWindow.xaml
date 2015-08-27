@@ -14,12 +14,6 @@
     <Window.Resources>
         <ResourceDictionary>
 
-            <!-- The border brush for variables. -->
-            <SolidColorBrush
-                x:Key="variableBorderBrush"
-                Color="Black"
-                />
-
         <!-- UI commands. -->
         <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
         <RoutedUICommand x:Key="Commands.DeleteVariable" />
@@ -249,11 +243,7 @@
             DataType="{x:Type viewModels:VariableViewModel}"
             >
 
-            <Canvas
-                Width="120"
-                Height="60"
-                >
-
+            <Canvas Width="120" Height="60"> 
                 <!-- Left hand '<' -->
                 <Line
                     X1="0"
@@ -284,8 +274,9 @@
                     <!-- The name of the variable. -->
                     <controls:EditableTextBlock
                         Text="{Binding Name, Mode=TwoWay}" 
-                        IsInEditMode="{Binding IsNameEdited, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
                         FontFamily="Courier New"
+                        FontWeight="Bold"
                         FontStyle="Italic"
                         />
 
@@ -313,120 +304,62 @@
 
         </DataTemplate>
 
+        <!--
+        Define a data-template for the DomainExpressionViewModel class.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:DomainExpressionViewModel}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Images/LeftCurlyBracket.png" />
+
+                <!-- The domain expression text. -->
+                <controls:EditableTextBlock
+                    Text="{Binding Path=Text, Mode=TwoWay}"
+                    IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"            
+                    Width="40"
+                    Height="50"/>
+
+                <Image Source="Images/RightCurlyBracket.png" />
+            </StackPanel>
+        </DataTemplate>
+            
         <!-- 
         Define a data-template for the DomainViewModel class.
         -->
-        <DataTemplate
-            DataType="{x:Type viewModels:DomainViewModel}"
-            >
-            
-            <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <Grid
-                    Width="120"
-                    Height="60"
-                    >
-
-                    <!-- This ellipse is the main visual for the domain. -->
-                    <Ellipse
-                        Stroke="Black"
-                        Fill="White"
-                        />
-
-                <!-- 
-                This grid contains the domain's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
-                -->
-                <Grid Margin="-8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+        <DataTemplate DataType="{x:Type viewModels:DomainViewModel}">
+            <Canvas Width="120" Height="60">
+                <Viewbox
+                    Stretch="Uniform" 
+                    Width="40"
+                    Height="50"
+                    Canvas.Left="0"
+                    Canvas.Top="0">
 
                     <!-- The name of the domain. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        FontWeight="Bold"
+                    <controls:EditableTextBlock
+                        x:Name="nameEditor"
                         Text="{Binding Name, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontWeight="Bold"
+                        FontStyle="Italic"/>
+                </Viewbox>
 
-                    <!-- The domain expression text. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
-                </Grid>
-            </Grid>
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="domainAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteDomainButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteDomain}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
-                        </Canvas>
-                    </controls:AdornedControl.AdornerContent>
-                </controls:AdornedControl>
-            </DataTemplate>
+                <ContentPresenter x:Name="expressionEditor"
+                                  Width="100"
+                                  Height="50"
+                                  Canvas.Left="40"
+                                  Canvas.Top="10"
+                                  Content="{Binding Expression}"/>
+            </Canvas>
+        </DataTemplate>
 
         <!-- 
         Define a data-template for the ConstraintViewModel class.
         This generates the UI for each constraint.
         -->
-        <DataTemplate
-            DataType="{x:Type viewModels:ConstraintViewModel}"
-            >
-
+        <DataTemplate DataType="{x:Type viewModels:ConstraintViewModel}">
             <!-- 
             An adorned control is used, to represent the node. 
             When the user hovers the mouse cursor over the node, the 

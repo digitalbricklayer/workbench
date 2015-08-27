@@ -30,7 +30,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         private string name;
 
-        private bool isNameEdited;
+        /// <summary>
+        /// Is the name currently being edited.
+        /// </summary>
+        private bool isNameEditing;
 
         /// <summary>
         /// Initialize a graphic with a name and location.
@@ -85,13 +88,13 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets whether the graphic name is being edited.
         /// </summary>
-        public bool IsNameEdited
+        public bool IsNameEditing
         {
-            get { return this.isNameEdited; }
+            get { return this.isNameEditing; }
             set
             {
-                if (this.isNameEdited == value) return;
-                this.isNameEdited = value;
+                if (this.isNameEditing == value) return;
+                this.isNameEditing = value;
                 OnPropertyChanged();
             }
         }

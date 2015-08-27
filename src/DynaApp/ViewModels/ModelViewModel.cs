@@ -230,9 +230,9 @@ namespace DynaApp.ViewModels
         private Model BuildModel()
         {
             var theModel = new Model();
+            this.BuildDomains(theModel);
             this.BuildVariables(theModel);
             this.BuildConstraints(theModel);
-            this.BuildDomains(theModel);
 
             return theModel;
         }

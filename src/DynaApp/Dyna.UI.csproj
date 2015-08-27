@@ -188,9 +188,6 @@
     <Resource Include="Images\PointerHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Variable.cur" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\block_16.png" />
     <Resource Include="Images\scissors.png" />
     <Resource Include="Images\tick_16.png" />
@@ -203,6 +200,10 @@
       <Project>{bdfda6e8-2bb7-425e-af10-47bcd2cc3dbc}</Project>
       <Name>Dyna.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LeftCurlyBracket.png" />
+    <Resource Include="Images\RightCurlyBracket.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

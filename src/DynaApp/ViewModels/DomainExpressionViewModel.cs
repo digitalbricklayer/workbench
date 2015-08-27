@@ -9,6 +9,7 @@ namespace DynaApp.ViewModels
     public sealed class DomainExpressionViewModel : AbstractViewModel
     {
         private string text;
+        private bool isExpressionEditing;
 
         /// <summary>
         /// Initialize a domain expression with a raw expression.
@@ -47,6 +48,20 @@ namespace DynaApp.ViewModels
                 if (this.text == value) return;
                 this.text = value;
                 this.Model.Text = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the expression is being edited.
+        /// </summary>
+        public bool IsExpressionEditing
+        {
+            get { return this.isExpressionEditing; }
+            set
+            {
+                if (this.isExpressionEditing == value) return;
+                this.isExpressionEditing = value;
                 OnPropertyChanged();
             }
         }
