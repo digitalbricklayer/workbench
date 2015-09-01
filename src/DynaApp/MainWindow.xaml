@@ -308,20 +308,26 @@
         Define a data-template for the DomainExpressionViewModel class.
         -->
         <DataTemplate DataType="{x:Type viewModels:DomainExpressionViewModel}">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="Images/LeftCurlyBracket.png" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
+                    <ColumnDefinition x:Name="DomainExpressionRow" Width="*"/>
+                    <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="Images/LeftCurlyBracket.png"/>
 
                 <!-- The domain expression text. -->
                 <controls:EditableTextBlock
                     Text="{Binding Path=Text, Mode=TwoWay}"
                     IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"            
-                    Width="40"
-                    Height="50"/>
+                    VerticalAlignment="Center"
+                    Grid.Column="1"
+                    MinWidth="40"
+                    MinHeight="50"/>
 
-                <Image Source="Images/RightCurlyBracket.png" />
-            </StackPanel>
+                <Image Grid.Column="2" Source="Images/RightCurlyBracket.png"/>
+            </Grid>
         </DataTemplate>
             
         <!-- 
@@ -343,6 +349,7 @@
                         IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
                         FontFamily="Courier New"
                         FontWeight="Bold"
+                        FontSize="24"
                         FontStyle="Italic"/>
                 </Viewbox>
 
