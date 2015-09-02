@@ -128,7 +128,8 @@
                     SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
                     />
 
-                <ContentPresenter x:Name="contentView" Content="{Binding SelectedDisplayViewModel}"/>
+                <ContentPresenter x:Name="contentView" 
+                                  Content="{Binding SelectedDisplayViewModel}"/>
 
             </StackPanel>
         </DataTemplate>
@@ -334,32 +335,26 @@
         Define a data-template for the DomainViewModel class.
         -->
         <DataTemplate DataType="{x:Type viewModels:DomainViewModel}">
-            <Canvas Width="120" Height="60">
-                <Viewbox
-                    Stretch="Uniform" 
-                    Width="40"
-                    Height="50"
-                    Canvas.Left="0"
-                    Canvas.Top="0">
+            <Grid Width="120" Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="DomainNameRow" Width="40"/>
+                    <ColumnDefinition x:Name="DomainExpressionRow" Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- The name of the domain. -->
-                    <controls:EditableTextBlock
-                        x:Name="nameEditor"
-                        Text="{Binding Name, Mode=TwoWay}"
-                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                        FontFamily="Courier New"
-                        FontWeight="Bold"
-                        FontSize="24"
-                        FontStyle="Italic"/>
-                </Viewbox>
+                <!-- The name of the domain. -->
+                <controls:EditableTextBlock
+                    x:Name="nameEditor"
+                    Text="{Binding Name, Mode=TwoWay}"
+                    IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                    FontFamily="Courier New"
+                    FontWeight="Bold"
+                    FontSize="24"
+                    FontStyle="Italic"/>
 
                 <ContentPresenter x:Name="expressionEditor"
-                                  Width="100"
-                                  Height="50"
-                                  Canvas.Left="40"
-                                  Canvas.Top="10"
+                                  Grid.Column="1"
                                   Content="{Binding Expression}"/>
-            </Canvas>
+            </Grid>
         </DataTemplate>
 
         <!-- 
