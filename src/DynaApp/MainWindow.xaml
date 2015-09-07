@@ -346,8 +346,8 @@
         <DataTemplate DataType="{x:Type viewModels:DomainViewModel}">
             <Grid Width="120" Height="60">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="DomainNameColumn" Width="40"/>
-                    <ColumnDefinition x:Name="DomainExpressionColumn" Width="*"/>
+                    <ColumnDefinition x:Name="DomainNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="DomainExpressionColumn" Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- The name of the domain. -->
