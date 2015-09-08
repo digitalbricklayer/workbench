@@ -321,22 +321,26 @@
                 </Grid.RowDefinitions>
                 <Image Grid.Column="0" 
                        Grid.Row="1"
-                       Source="Images/LeftCurlyBracketsmall.png"/>
+                       Source="Images/LeftCurlyBracket.png"/>
 
                 <!-- The domain expression text. -->
                 <controls:EditableTextBlock
+                    x:Name="domainExpressionEditor"
                     Text="{Binding Path=Text, Mode=TwoWay}"
                     IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    TextAlignment="Center"
                     Grid.Column="1"
                     Grid.Row="1"
+                    FontFamily="Courier New"
+                    FontSize="36"
                     MinWidth="40"
                     MinHeight="50"/>
 
                 <Image Grid.Column="2" 
                        Grid.Row="1"
-                       Source="Images/RightCurlyBracketsmall.png"/>
+                       Source="Images/RightCurlyBracket.png"/>
             </Grid>
         </DataTemplate>
             
