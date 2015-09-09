@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels
@@ -63,6 +64,17 @@ namespace DynaApp.ViewModels
                 if (this.isExpressionEditing == value) return;
                 this.isExpressionEditing = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the domain expression edit command.
+        /// </summary>
+        public ICommand EditExpressionCommand
+        {
+            get
+            {
+                return new CommandHandler(() => this.IsExpressionEditing = true, true);
             }
         }
     }
