@@ -205,6 +205,9 @@
     <Resource Include="Images\LeftCurlyBracket.png" />
     <Resource Include="Images\RightCurlyBracket.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pencil_small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

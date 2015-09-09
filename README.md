@@ -18,5 +18,7 @@ Please do not use this project for anything other than experimentation. I make n
 
 Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [NetworkView: A WPF custom control for visualizing and editing networks, graphs and flow-charts](http://www.codeproject.com/Articles/182683/NetworkView-A-WPF-custom-control-for-visualizing-a) upon which the prototype of the model display is based.
 
+Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
+
 ##License
 dyna is licensed under a BSD license.
