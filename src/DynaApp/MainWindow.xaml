@@ -543,7 +543,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
-                        <ColumnDefinition x:Name="DomainExpressionRow" Width="*"/>
+                        <ColumnDefinition x:Name="ConstraintExpressionRow" Width="*"/>
                         <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
                     </Grid.ColumnDefinitions>
 
@@ -552,7 +552,7 @@
 
                     <!-- The constraint expression text. -->
                     <controls:EditableTextBlock
-                        x:Name="domainExpressionEditor"
+                        x:Name="constraintExpressionEditor"
                         Text="{Binding Path=Text, Mode=TwoWay}"
                         IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
                         HorizontalAlignment="Center"
@@ -584,7 +584,7 @@
                                 Y2="15"
                                 Stroke="Black"
                                 StrokeThickness="1"/>
-                        <Button x:Name="editDomainNameButton"
+                        <Button x:Name="editConstraintExpressionButton"
                                 Canvas.Left="10"
                                 Canvas.Top="0"
                                 Width="20"
