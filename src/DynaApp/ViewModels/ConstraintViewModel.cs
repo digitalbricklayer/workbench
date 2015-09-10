@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels
@@ -81,6 +82,17 @@ namespace DynaApp.ViewModels
             {
                 base.Model = value;
                 this.model = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the edit constraint name command.
+        /// </summary>
+        public ICommand EditNameCommand
+        {
+            get
+            {
+                return new CommandHandler(() => this.IsNameEditing = true, true);
             }
         }
     }

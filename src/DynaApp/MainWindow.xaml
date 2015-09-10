@@ -468,57 +468,57 @@
                     <ColumnDefinition x:Name="DomainExpressionColumn" Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-            <!-- 
-            An adorned control is used to enable the edit button when the user 
-            hovers over the domain name control.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                <!-- 
+                An adorned control is used to enable the edit button when the user 
+                hovers over the domain name control.
+                -->
+                <controls:AdornedControl
+                    HorizontalAdornerPlacement="Outside"
+                    VerticalAdornerPlacement="Outside"
+                    AdornerOffsetX="-12"
+                    AdornerOffsetY="8"
+                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
 
-                <!-- The name of the domain. -->
-                <controls:EditableTextBlock
-                    x:Name="nameEditor"
-                    Text="{Binding Name, Mode=TwoWay}"
-                    IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                    FontFamily="Courier New"
-                    FontWeight="Bold"
-                    FontSize="24"
-                    FontStyle="Italic"/>
+                    <!-- The name of the domain. -->
+                    <controls:EditableTextBlock
+                        x:Name="nameEditor"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontWeight="Bold"
+                        FontSize="24"
+                        FontStyle="Italic"/>
 
-                <controls:AdornedControl.AdornerContent>
+                    <controls:AdornedControl.AdornerContent>
 
-                    <!-- 
-                    This is the adorner that pops up when the user hovers the mouse over the domain name.
-                    It displays a button that the user can click to edit the domain name.
-                    -->
-                    <Canvas x:Name="domainAdornerCanvas"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Width="30"
-                            Height="30">
-                        <Line X1="0"
-                              Y1="30"
-                              X2="15"
-                              Y2="15"
-                              Stroke="Black"
-                              StrokeThickness="1"/>
-                        <Button x:Name="editDomainNameButton"
-                                Canvas.Left="10"
-                                Canvas.Top="0"
-                                Width="20"
-                                Height="20"
-                                Cursor="Hand"
-                                Focusable="False"
-                                Command="{Binding EditNameCommand}"
-                                CommandParameter="{Binding}"
-                                Template="{StaticResource editButtonTemplate}"/>
-                    </Canvas>
-                </controls:AdornedControl.AdornerContent>
-            </controls:AdornedControl>
+                        <!-- 
+                        This is the adorner that pops up when the user hovers the mouse over the domain name.
+                        It displays a button that the user can click to edit the domain name.
+                        -->
+                        <Canvas x:Name="domainAdornerCanvas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Width="30"
+                                Height="30">
+                            <Line X1="0"
+                                  Y1="30"
+                                  X2="15"
+                                  Y2="15"
+                                  Stroke="Black"
+                                  StrokeThickness="1"/>
+                            <Button x:Name="editDomainNameButton"
+                                    Canvas.Left="10"
+                                    Canvas.Top="0"
+                                    Width="20"
+                                    Height="20"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    Command="{Binding EditNameCommand}"
+                                    CommandParameter="{Binding}"
+                                    Template="{StaticResource editButtonTemplate}"/>
+                        </Canvas>
+                    </controls:AdornedControl.AdornerContent>
+                </controls:AdornedControl>
 
                 <ContentPresenter x:Name="expressionEditor"
                                   Grid.Column="1"
@@ -526,112 +526,148 @@
             </Grid>
         </DataTemplate>
 
+        <!--
+        Define a data-template for the ConstraintExpressionViewModel class.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:ConstraintExpressionViewModel}">
+
+            <!-- 
+            An adorned control is used to enable the edit button when the user 
+            hovers over the constraint expression control.
+            -->
+            <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                     VerticalAdornerPlacement="Outside"
+                                     AdornerOffsetX="-12"
+                                     AdornerOffsetY="8"
+                                     IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
+                        <ColumnDefinition x:Name="DomainExpressionRow" Width="*"/>
+                        <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" 
+                           Source="Images/LeftSquareBracket.png"/>
+
+                    <!-- The constraint expression text. -->
+                    <controls:EditableTextBlock
+                        x:Name="domainExpressionEditor"
+                        Text="{Binding Path=Text, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"
+                        Grid.Column="1"
+                        FontFamily="Courier New"
+                        FontSize="36"
+                        MinWidth="40"
+                        MinHeight="50"/>
+
+                    <Image Grid.Column="2" 
+                           Source="Images/RightSquareBracket.png"/>
+                </Grid>
+                <controls:AdornedControl.AdornerContent>
+
+                    <!-- 
+                    This is the adorner that pops up when the user hovers the mouse over the constraint expression.
+                    It displays a button that the user can click to edit the expression.
+                    -->
+                    <Canvas x:Name="constraintAdornerCanvas"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Width="30"
+                            Height="30">
+                        <Line X1="0"
+                                Y1="30"
+                                X2="15"
+                                Y2="15"
+                                Stroke="Black"
+                                StrokeThickness="1"/>
+                        <Button x:Name="editDomainNameButton"
+                                Canvas.Left="10"
+                                Canvas.Top="0"
+                                Width="20"
+                                Height="20"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding EditExpressionCommand}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource editButtonTemplate}"/>
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
+        </DataTemplate>
+
         <!-- 
         Define a data-template for the ConstraintViewModel class.
         This generates the UI for each constraint.
         -->
         <DataTemplate DataType="{x:Type viewModels:ConstraintViewModel}">
-            <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <Grid
-                    Width="120"
-                    Height="60"
-                    >
-
-                <!-- This polygon is the main visual for the constraint. -->
-                <Polygon
-                    Points="0,60 120,60 60,0 0,60"
-                    Stroke="Black"
-                    Fill="White"
-                    />
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ConstraintNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="ConstraintExpressionColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
                 <!-- 
-                This grid contains the domain's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
+                An adorned control is used to enable the edit button when the user 
+                hovers over the constraint name control.
                 -->
-                <Grid Margin="-8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <controls:AdornedControl
+                    HorizontalAdornerPlacement="Outside"
+                    VerticalAdornerPlacement="Outside"
+                    AdornerOffsetX="-12"
+                    AdornerOffsetY="8"
+                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
 
-                    <!-- The name of the constraint. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        FontWeight="Bold"
+                    <!-- The name of the domain. -->
+                    <controls:EditableTextBlock
+                        x:Name="nameEditor"
                         Text="{Binding Name, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontWeight="Bold"
+                        FontSize="24"
+                        FontStyle="Italic"/>
 
-                    <!-- The constraint expression text. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                    <controls:AdornedControl.AdornerContent>
 
+                        <!-- 
+                        This is the adorner that pops up when the user hovers the mouse over the constraint name.
+                        It displays a button that the user can click to edit the name.
+                        -->
+                        <Canvas x:Name="constraintAdornerCanvas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Width="30"
+                                Height="30">
+                            <Line X1="0"
+                                    Y1="30"
+                                    X2="15"
+                                    Y2="15"
+                                    Stroke="Black"
+                                    StrokeThickness="1"/>
+                            <Button x:Name="editConstraintButton"
+                                    Canvas.Left="10"
+                                    Canvas.Top="0"
+                                    Width="20"
+                                    Height="20"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    Command="{Binding EditNameCommand}"
+                                    CommandParameter="{Binding}"
+                                    Template="{StaticResource editButtonTemplate}"/>
+                            </Canvas>
+                        </controls:AdornedControl.AdornerContent>
+                    </controls:AdornedControl>
+
+                    <ContentPresenter x:Name="expressionEditor"
+                                        Grid.Column="1"
+                                        Content="{Binding Expression}"/>
                 </Grid>
-            </Grid>
+            </DataTemplate>
 
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="variableAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteConstraintButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteConstraint}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
-                    </Canvas>
-                </controls:AdornedControl.AdornerContent>
-            </controls:AdornedControl>
-        </DataTemplate>
-            
         </ResourceDictionary>
     </Window.Resources>
     
