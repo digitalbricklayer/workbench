@@ -84,16 +84,5 @@ namespace DynaApp.ViewModels
                 this.model = value;
             }
         }
-
-        /// <summary>
-        /// Gets the edit domain name command.
-        /// </summary>
-        public ICommand EditNameCommand
-        {
-            get
-            {
-                return new CommandHandler(() => this.IsNameEditing = true, true);
-            }
-        }
     }
 }

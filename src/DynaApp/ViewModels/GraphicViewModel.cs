@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 using DynaApp.Models;
 
 namespace DynaApp.ViewModels
@@ -159,6 +159,17 @@ namespace DynaApp.ViewModels
         public int Id
         {
             get { return this.Model.Id; }
+        }
+
+        /// <summary>
+        /// Gets the edit domain name command.
+        /// </summary>
+        public ICommand EditNameCommand
+        {
+            get
+            {
+                return new CommandHandler(() => this.IsNameEditing = true, true);
+            }
         }
 
         /// <summary>

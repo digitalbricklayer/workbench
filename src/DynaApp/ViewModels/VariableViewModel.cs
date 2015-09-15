@@ -10,12 +10,12 @@ namespace DynaApp.ViewModels
     public sealed class VariableViewModel : GraphicViewModel
     {
         private VariableModel model;
-        private DomainExpressionViewModel domainExpression;
+        private VariableDomainExpressionViewModel domainExpression;
 
         /// <summary>
         /// Initialize a variable with the new name.
         /// </summary>
-        public VariableViewModel(string newName, Point newLocation, DomainExpressionViewModel newDomainExpression)
+        public VariableViewModel(string newName, Point newLocation, VariableDomainExpressionViewModel newDomainExpression)
             : base(newName, newLocation)
         {
             if (newDomainExpression == null)
@@ -32,7 +32,7 @@ namespace DynaApp.ViewModels
             : base(newName, newLocation)
         {
             this.Model = new VariableModel();
-            this.DomainExpression = new DomainExpressionViewModel();
+            this.DomainExpression = new VariableDomainExpressionViewModel();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace DynaApp.ViewModels
             : base(newName)
         {
             this.Model = new VariableModel();
-            this.DomainExpression = new DomainExpressionViewModel();
+            this.DomainExpression = new VariableDomainExpressionViewModel();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
-        public DomainExpressionViewModel DomainExpression
+        public VariableDomainExpressionViewModel DomainExpression
         {
             get
             {

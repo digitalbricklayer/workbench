@@ -106,6 +106,7 @@
     <Compile Include="Models\ModelModel.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\ValueModel.cs" />
+    <Compile Include="Models\VariableDomainExpressionModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Models\WorkspaceReader.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewModel.cs" />
+    <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
