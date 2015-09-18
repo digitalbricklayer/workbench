@@ -56,14 +56,14 @@ namespace Dyna.Core.Tests.Unit.Solver
         private static ModelModel MakeModel()
         {
             return ModelModel.Create("A test")
-                        .WithSharedDomain("a", "1..9")
-                        .AddVariable("x", "a")
-                        .AddVariable("y", "a")
-                        .AddVariable("z", "a")
-                        .WithConstraint("x != y")
-                        .WithConstraint("x <= y")
-                        .WithConstraint("y = z")
-                        .Build();
+                             .WithSharedDomain("a", "1..9")
+                             .AddVariable("x", "a")
+                             .AddVariable("y", "a")
+                             .AddVariable("z", "a")
+                             .WithConstraint("x != y")
+                             .WithConstraint("x <= y")
+                             .WithConstraint("y = z")
+                             .Build();
         }
     }
 }

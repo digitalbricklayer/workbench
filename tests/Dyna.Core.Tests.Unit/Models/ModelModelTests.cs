@@ -11,7 +11,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = new ModelModel("An Empty Model");
             var actualValidationResult = sut.Validate();
-            Assert.That((object) actualValidationResult, Is.True);
+            Assert.That(actualValidationResult, Is.True);
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = MakeValidModel();
             var actualValidationResult = sut.Validate();
-            Assert.That((object) actualValidationResult, Is.True);
+            Assert.That(actualValidationResult, Is.True);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = MakeValidModel();
             sut.Validate();
-            Assert.That((object) sut.Errors, Is.Empty);
+            Assert.That(sut.Errors, Is.Empty);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = MakeModelWithMissingVariable();
             var actualValidationResult = sut.Validate();
-            Assert.That((object) actualValidationResult, Is.False);
+            Assert.That(actualValidationResult, Is.False);
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = MakeModelWithMissingVariable();
             sut.Validate();
-            Assert.That((object) sut.Errors, Is.Not.Empty);
+            Assert.That(sut.Errors, Is.Not.Empty);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = MakeModelWithMissingSharedDomain();
             sut.Validate();
-            Assert.That((object) sut.Errors, Is.Not.Empty);
+            Assert.That(sut.Errors, Is.Not.Empty);
         }
 
         private static ModelModel MakeValidModel()

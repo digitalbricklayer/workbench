@@ -56,12 +56,12 @@ namespace Dyna.Core.Tests.Unit.Solver
         private static ModelModel MakeModel()
         {
             return ModelModel.Create("A test")
-                        .AddVariable("x", new DomainModel("1..9"))
-                        .AddVariable("y", new DomainModel("1..9"))
-                        .AddVariable("z", new DomainModel("1..9"))
-                        .WithConstraint("x < y")
-                        .WithConstraint("y > z")
-                        .Build();
+                             .AddVariable("x", new DomainModel("1..9"))
+                             .AddVariable("y", new DomainModel("1..9"))
+                             .AddVariable("z", new DomainModel("1..9"))
+                             .WithConstraint("x < y")
+                             .WithConstraint("y > z")
+                             .Build();
         }
     }
 }

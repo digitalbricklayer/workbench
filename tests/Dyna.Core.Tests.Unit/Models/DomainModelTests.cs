@@ -16,7 +16,7 @@ namespace Dyna.Core.Tests.Unit.Models
             var sut = new DomainModel("A domain", "    1..9     ");
 
             // Assert
-            Assert.That((object) sut.Expression.UpperBand, Is.EqualTo(9));
+            Assert.That(sut.Expression.UpperBand, Is.EqualTo(9));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace Dyna.Core.Tests.Unit.Models
             var sut = new DomainModel("    1..9     ");
 
             // Assert
-            Assert.That((object) sut.Expression.LowerBand, Is.EqualTo(1));
+            Assert.That(sut.Expression.LowerBand, Is.EqualTo(1));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Dyna.Core.Tests.Unit.Models
             var sut = new DomainModel("    1..9     ");
 
             // Assert
-            Assert.That(Enumerable.First<int>(sut.Values), Is.EqualTo(1));
+            Assert.That(sut.Values.First(), Is.EqualTo(1));
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Dyna.Core.Tests.Unit.Models
             var sut = new DomainModel("    33..40     ");
 
             // Assert
-            Assert.That(Enumerable.Last<int>(sut.Values), Is.EqualTo(40));
+            Assert.That(sut.Values.Last(), Is.EqualTo(40));
         }
     }
 }
