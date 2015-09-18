@@ -1,9 +1,9 @@
 ﻿using Sprache;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
-    /// Grammar for parsing constraint expressions.
+    /// Grammar for parsing a constraint expression.
     /// </summary>
     internal class ConstraintGrammar
     {
@@ -13,7 +13,7 @@ namespace Dyna.Core.Entities
         private static readonly Parser<string> identifier =
             from first in Sprache.Parse.Letter.Once().Text()
             from rest in Sprache.Parse.LetterOrDigit.Many().Text()
-            select string.Concat(first, rest);
+            select string.Concat((string) first, (string) rest);
 
         /// <summary>
         /// Parse a literal.
@@ -25,11 +25,11 @@ namespace Dyna.Core.Entities
         /// <summary>
         /// LHS must be a variable.
         /// </summary>
-        private static readonly Parser<Variable> leftHandSide =
+        private static readonly Parser<VariableModel> leftHandSide =
             from leading in Sprache.Parse.WhiteSpace.Many()
             from id in identifier
             from trailing in Sprache.Parse.WhiteSpace.Many()
-            select new Variable(id);
+            select new VariableModel(id);
 
         /// <summary>
         /// Parse an expression, either a variable or a literal.
@@ -73,13 +73,13 @@ namespace Dyna.Core.Entities
         /// </summary>
         /// <param name="rawExpression">String constraint expression.</param>
         /// <returns>Parsed expression tree.</returns>
-        public static BinaryExpression Parse(string rawExpression)
+        public static ConstraintExpressionModel Parse(string rawExpression)
         {
             var constraintGrammar =
                 from lhs in leftHandSide
                 from operatorType in op
                 from rhs in rightHandSide
-                select new BinaryExpression(lhs, rhs, operatorType);
+                select new ConstraintExpressionModel(lhs, rhs, operatorType);
 
             return constraintGrammar.End().Parse(rawExpression);
         }

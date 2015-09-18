@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using DynaApp.Models;
+using Dyna.Core.Models;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services

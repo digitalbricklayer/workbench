@@ -1,25 +1,25 @@
 using System;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// Fluent interface for building models.
     /// </summary>
     public class ModelContext
     {
-        private readonly Model model;
+        private readonly ModelModel model;
 
-        internal ModelContext(Model theModel)
+        internal ModelContext(ModelModel theModel)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
             this.model = theModel;
         }
 
-        public ModelContext AddVariable(string theVariableName, Domain domain)
+        public ModelContext AddVariable(string theVariableName, DomainModel domain)
         {
-            var newVariable = new Variable(theVariableName);
-            newVariable.Domain = domain;
+            var newVariable = new VariableModel(theVariableName);
+            newVariable.AttachTo(domain);
             this.model.AddVariable(newVariable);
 
             return this;
@@ -27,7 +27,7 @@ namespace Dyna.Core.Entities
 
         public ModelContext AddVariable(string theVariableName, string theSharedDomainName)
         {
-            var newVariable = new Variable(theVariableName);
+            var newVariable = new VariableModel(theVariableName);
             var sharedDomain = this.model.GetSharedDomainByName(theSharedDomainName);
             newVariable.Domain = sharedDomain;
             this.model.AddVariable(newVariable);
@@ -37,13 +37,13 @@ namespace Dyna.Core.Entities
 
         public ModelContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
-            var newDomain = new Domain(newDomainName, newDomainExpression);
+            var newDomain = new DomainModel(newDomainName, newDomainExpression);
             this.model.AddSharedDomain(newDomain);
 
             return this;
         }
 
-        public ModelContext WithSharedDomain(Domain theDomainExpression)
+        public ModelContext WithSharedDomain(DomainModel theDomainExpression)
         {
             this.model.AddSharedDomain(theDomainExpression);
             return this;
@@ -51,11 +51,11 @@ namespace Dyna.Core.Entities
 
         public ModelContext WithConstraint(string theConstraintExpression)
         {
-            this.model.AddConstraint(new Constraint(theConstraintExpression));
+            this.model.AddConstraint(new ConstraintModel(theConstraintExpression));
             return this;
         }
 
-        public Model Build()
+        public ModelModel Build()
         {
             return this.model;
         }

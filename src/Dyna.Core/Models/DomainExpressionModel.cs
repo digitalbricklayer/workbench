@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// An expression specifying a domain.
@@ -21,6 +21,17 @@ namespace DynaApp.Models
         }
 
         /// <summary>
+        /// Initialize a domain expression with an upper and lower band for the domain.
+        /// </summary>
+        /// <param name="upperBand">Domain upper band.</param>
+        /// <param name="lowerBand">Domain lower band.</param>
+        public DomainExpressionModel(int upperBand, int lowerBand)
+        {
+            this.UpperBand = upperBand;
+            this.LowerBand = lowerBand;
+        }
+
+        /// <summary>
         /// Initialize a domain expression with default values.
         /// </summary>
         public DomainExpressionModel()
@@ -32,5 +43,19 @@ namespace DynaApp.Models
         /// Gets or sets the expression text.
         /// </summary>
         public string Text { get; set; }
+
+        public int UpperBand { get; private set; }
+        public int LowerBand { get; private set; }
+
+        /// <summary>
+        /// Gets the size of the range.
+        /// </summary>
+        public int Size
+        {
+            get
+            {
+                return this.UpperBand - this.LowerBand + 1;
+            }
+        }
     }
 }

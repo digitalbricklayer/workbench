@@ -1,4 +1,4 @@
-﻿using DynaApp.Models;
+﻿using Dyna.Core.Models;
 
 namespace Dyna.UI.Tests.Unit.Services
 {

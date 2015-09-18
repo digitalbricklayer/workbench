@@ -3,9 +3,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using Dyna.Core.Entities;
+using Dyna.Core.Models;
 using Dyna.Core.Solver;
-using DynaApp.Models;
 using DynaApp.Views;
 
 namespace DynaApp.ViewModels
@@ -133,27 +132,27 @@ namespace DynaApp.ViewModels
         /// <param name="parentWindow">Parent window.</param>
         public SolveResult Solve(Window parentWindow)
         {
-            var model = BuildModel();
-            var isModelValid = model.Validate();
+            var theModel = this.Model;
+            var isModelValid = theModel.Validate();
             if (!isModelValid)
             {
-                Trace.Assert(model.Errors.Any());
+                Trace.Assert(theModel.Errors.Any());
 
                 // Display error dialog...
                 var errorWindow = new ModelErrorsWindow
                 {
                     Owner = parentWindow,
-                    DataContext = CreateModelErrorsFrom(model)
+                    DataContext = CreateModelErrorsFrom(theModel)
                 };
                 errorWindow.ShowDialog();
                 return SolveResult.InvalidModel;
             }
 
-            Trace.Assert(!model.Errors.Any());
+            Trace.Assert(!theModel.Errors.Any());
 
             var solver = new ConstraintSolver();
 
-            return solver.Solve(model);
+            return solver.Solve(theModel);
         }
 
         /// <summary>
@@ -224,78 +223,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Build the model from the view model.
-        /// </summary>
-        /// <returns>A model populated with the same contents as the view model.</returns>
-        private Model BuildModel()
-        {
-            var theModel = new Model();
-            this.BuildDomains(theModel);
-            this.BuildVariables(theModel);
-            this.BuildConstraints(theModel);
-
-            return theModel;
-        }
-
-        /// <summary>
-        /// Build the constraints in the model from the constraint view models.
-        /// </summary>
-        /// <param name="theModel">Model being built.</param>
-        private void BuildConstraints(Model theModel)
-        {
-            var validConstraints = this.Constraints.Where(constraint => constraint.IsValid)
-                                                   .ToList();
-            foreach (var constraintViewModel in validConstraints)
-            {
-                var constraint = Constraint.ParseExpression(constraintViewModel.Expression.Text);
-                theModel.AddConstraint(constraint);
-            }
-        }
-
-        /// <summary>
-        /// Build the domains in the model from the domain view models.
-        /// </summary>
-        /// <param name="theModel">Model being built.</param>
-        private void BuildDomains(Model theModel)
-        {
-            var validDomains = this.Domains.Where(domain => domain.IsValid)
-                                           .ToList();
-            foreach (var domainViewModel in validDomains)
-            {
-                var domain = new Domain(domainViewModel.Name, domainViewModel.Expression.Text);
-                theModel.AddSharedDomain(domain);
-#if false
-                foreach (var connection in this.Connections)
-                {
-                    if (!connection.IsConnectionComplete) continue;
-                    var variableViewModel = connection.SourceConnector.Parent as VariableViewModel;
-                    Trace.Assert(variableViewModel != null);
-                    var variable = theModel.GetVariableByName(variableViewModel.Name);
-                    variable.AttachTo(domain);
-                }
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Build the variables in the model from the variable view models.
-        /// </summary>
-        /// <param name="theModel">Model being built.</param>
-        private void BuildVariables(Model theModel)
-        {
-            foreach (var variableViewModel in this.Variables)
-            {
-                var variable = new Variable(variableViewModel.Name);
-                theModel.AddVariable(variable);
-            }
-        }
-
-        /// <summary>
         /// Create a model errros view model from a model.
         /// </summary>
         /// <param name="aModel">Model with errors.</param>
         /// <returns>View model with all errors in the model.</returns>
-        private static ModelErrorsViewModel CreateModelErrorsFrom(Model aModel)
+        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelModel aModel)
         {
             Trace.Assert(aModel.Errors.Any());
 

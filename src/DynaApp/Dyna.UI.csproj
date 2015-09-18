@@ -97,20 +97,6 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ConstraintExpressionModel.cs" />
-    <Compile Include="Models\ConstraintModel.cs" />
-    <Compile Include="Models\DomainExpressionModel.cs" />
-    <Compile Include="Models\DomainModel.cs" />
-    <Compile Include="Models\GraphicModel.cs" />
-    <Compile Include="Models\ModelBase.cs" />
-    <Compile Include="Models\ModelModel.cs" />
-    <Compile Include="Models\SolutionModel.cs" />
-    <Compile Include="Models\ValueModel.cs" />
-    <Compile Include="Models\VariableDomainExpressionModel.cs" />
-    <Compile Include="Models\VariableModel.cs" />
-    <Compile Include="Models\WorkspaceModel.cs" />
-    <Compile Include="Models\WorkspaceReader.cs" />
-    <Compile Include="Models\WorkspaceWriter.cs" />
     <Compile Include="Services\ModelViewModelCache.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />

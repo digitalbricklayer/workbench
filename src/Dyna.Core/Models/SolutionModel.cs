@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// A solution to a model.
     /// </summary>
     [Serializable]
-    public class Solution
+    public class SolutionModel : ModelBase
     {
-        private readonly List<BoundVariable> boundVariables = new List<BoundVariable>();
-
         /// <summary>
         /// Initialize the solution with the model and the bound domains.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         /// <param name="theBoundVariables">Bound domains.</param>
-        public Solution(Model theModel, params BoundVariable[] theBoundVariables)
+        public SolutionModel(ModelModel theModel, params ValueModel[] theBoundVariables)
             : this(theModel)
         {
             if (theBoundVariables == null)
                 throw new ArgumentNullException("theBoundVariables");
-            this.boundVariables.AddRange(theBoundVariables);
+            this.Values.AddRange(theBoundVariables);
         }
 
         /// <summary>
@@ -30,37 +28,46 @@ namespace Dyna.Core.Entities
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         /// <param name="theBoundVariables">Bound domains.</param>
-        public Solution(Model theModel, IEnumerable<BoundVariable> theBoundVariables)
+        public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theBoundVariables)
             : this(theModel)
         {
             if (theBoundVariables == null)
                 throw new ArgumentNullException("theBoundVariables");
-            this.boundVariables.AddRange(theBoundVariables);
+            this.Values.AddRange(theBoundVariables);
         }
 
         /// <summary>
         /// Initialize the solution with the model.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        public Solution(Model theModel)
+        public SolutionModel(ModelModel theModel)
+            : this()
         {
             this.Model = theModel;
         }
 
-        /// <summary>
-        /// Gets the model this solutin solves.
-        /// </summary>
-        public Model Model { get; private set; }
+        public SolutionModel()
+        {
+            this.Values = new List<ValueModel>();
+        }
 
         /// <summary>
-        /// Gets the bound domains in the solution.
+        /// Gets the values in the solution.
         /// </summary>
-        public IEnumerable<BoundVariable> BoundVariables
+        public List<ValueModel> Values { get; set; }
+
+        /// <summary>
+        /// Gets the model this solution solves.
+        /// </summary>
+        public ModelModel Model { get; set; }
+
+        /// <summary>
+        /// Add a value to the solution.
+        /// </summary>
+        /// <param name="theValue">New value.</param>
+        public void AddValue(ValueModel theValue)
         {
-            get
-            {
-                return this.boundVariables;
-            }
+            this.Values.Add(theValue);
         }
 
         /// <summary>
@@ -68,9 +75,9 @@ namespace Dyna.Core.Entities
         /// </summary>
         /// <param name="theVariableName">Name of the variable to find.</param>
         /// <returns>Bound variable matching the name. Null if no domains matches the name.</returns>
-        public BoundVariable GetVariableByName(string theVariableName)
+        public ValueModel GetVariableByName(string theVariableName)
         {
-            return this.boundVariables.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return this.Values.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
     }
 }

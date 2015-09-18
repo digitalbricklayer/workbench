@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Dyna.Core.Entities;
-using DynaApp.Models;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -229,16 +228,16 @@ namespace DynaApp.ViewModels
         /// Display the solution.
         /// </summary>
         /// <param name="theSolution">A valid solution.</param>
-        private void DisplaySolution(Solution theSolution)
+        private void DisplaySolution(SolutionModel theSolution)
         {
             this.Solution.Reset();
             var newBoundVariables = new List<ValueViewModel>();
-            foreach (var boundVariable in theSolution.BoundVariables)
+            foreach (var value in theSolution.Values)
             {
-                var variable = this.Model.GetVariableByName(boundVariable.Name);
+                var variable = this.Model.GetVariableByName(value.VariableName);
                 var boundVariableViewModel = new ValueViewModel(variable)
                 {
-                    Value = boundVariable.Value
+                    Value = value.Value
                 };
                 newBoundVariables.Add(boundVariableViewModel);
             }

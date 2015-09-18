@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DynaApp.Models;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {

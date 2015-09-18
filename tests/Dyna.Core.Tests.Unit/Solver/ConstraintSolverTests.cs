@@ -1,4 +1,4 @@
-﻿using Dyna.Core.Entities;
+﻿using Dyna.Core.Models;
 using Dyna.Core.Solver;
 using NUnit.Framework;
 
@@ -53,12 +53,12 @@ namespace Dyna.Core.Tests.Unit.Solver
             Assert.That(y.Value, Is.InRange(y.Variable.Domain.Expression.LowerBand, y.Variable.Domain.Expression.UpperBand));
         }
 
-        private static Model MakeModel()
+        private static ModelModel MakeModel()
         {
-            return Model.Create("A test")
-                        .AddVariable("x", new Domain("1..9"))
-                        .AddVariable("y", new Domain("1..9"))
-                        .AddVariable("z", new Domain("1..9"))
+            return ModelModel.Create("A test")
+                        .AddVariable("x", new DomainModel("1..9"))
+                        .AddVariable("y", new DomainModel("1..9"))
+                        .AddVariable("z", new DomainModel("1..9"))
                         .WithConstraint("x < y")
                         .WithConstraint("y > z")
                         .Build();

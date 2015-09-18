@@ -1,6 +1,6 @@
 using System;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// A variable domain expression model can be either a reference to a shared 

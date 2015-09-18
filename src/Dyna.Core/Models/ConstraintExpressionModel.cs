@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// Expression tree of the constraint.
     /// </summary>
-    public class BinaryExpression
+    [Serializable]
+    public class ConstraintExpressionModel
     {
-        public BinaryExpression(Variable lhs, Expression rhs, OperatorType operatorType)
+        public ConstraintExpressionModel(VariableModel lhs, Expression rhs, OperatorType operatorType)
         {
             if (lhs == null)
                 throw new ArgumentNullException("lhs");
@@ -19,10 +20,22 @@ namespace Dyna.Core.Entities
             this.OperatorType = operatorType;
         }
 
+        public ConstraintExpressionModel(string rawExpression)
+        {
+            this.Text = rawExpression;
+        }
+
+        public ConstraintExpressionModel()
+        {
+            this.Text = string.Empty;
+        }
+
+        public string Text { get; set; }
+
         /// <summary>
         /// Gets the left hand side of the expression.
         /// </summary>
-        public Variable Left { get; private set; }
+        public VariableModel Left { get; private set; }
 
         /// <summary>
         /// Gets the right hand side expression.
@@ -34,6 +47,12 @@ namespace Dyna.Core.Entities
         /// </summary>
         public OperatorType OperatorType { get; private set; }
 
+        /// <summary>
+        /// Returns a string that represents the constraint expression.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Left, OperatorType, Right);

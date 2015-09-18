@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// Workspace model where the model and solution are stored.

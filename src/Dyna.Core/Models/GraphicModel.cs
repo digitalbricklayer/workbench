@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     [Serializable]
     public abstract class GraphicModel : ModelBase

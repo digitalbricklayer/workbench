@@ -2,8 +2,11 @@
 using System.Linq;
 using Sprache;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
+    /// <summary>
+    /// Grammar for parsing a domain expression.
+    /// </summary>
     internal class DomainGrammar
     {
         /// <summary>
@@ -22,13 +25,13 @@ namespace Dyna.Core.Entities
             from trailing in Sprache.Parse.WhiteSpace.Many()
             select new String(x.ToArray());
 
-        private static readonly Parser<RangeExpression> rangeExpressionGrammar =
+        private static readonly Parser<DomainExpressionModel> rangeExpressionGrammar =
             from lowerBand in bandGrammar
             from rangeSpecifier in rangeSpecifierGrammar
             from upperBand in bandGrammar
-            select new RangeExpression(Convert.ToInt32(upperBand), Convert.ToInt32(lowerBand));
+            select new DomainExpressionModel(Convert.ToInt32(upperBand), Convert.ToInt32(lowerBand));
 
-        public static RangeExpression Parse(string rawExpression)
+        public static DomainExpressionModel Parse(string rawExpression)
         {
             return rangeExpressionGrammar.End().Parse(rawExpression);
         }

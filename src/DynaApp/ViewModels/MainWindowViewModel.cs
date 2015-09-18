@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using DynaApp.Models;
+using Dyna.Core.Models;
 using DynaApp.Services;
 using Microsoft.Win32;
 

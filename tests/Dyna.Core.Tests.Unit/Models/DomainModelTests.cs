@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Dyna.Core.Entities;
+using Dyna.Core.Models;
 using NUnit.Framework;
 
-namespace Dyna.Core.Tests.Unit.Entities
+namespace Dyna.Core.Tests.Unit.Models
 {
     [TestFixture]
-    public class DomainTests
+    public class DomainModelTests
     {
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Upper_Band()
@@ -13,10 +13,10 @@ namespace Dyna.Core.Tests.Unit.Entities
             // Arrange
 
             // Act
-            var sut = new Domain("A domain", "    1..9     ");
+            var sut = new DomainModel("A domain", "    1..9     ");
 
             // Assert
-            Assert.That(sut.Expression.UpperBand, Is.EqualTo(9));
+            Assert.That((object) sut.Expression.UpperBand, Is.EqualTo(9));
         }
 
         [Test]
@@ -25,10 +25,10 @@ namespace Dyna.Core.Tests.Unit.Entities
             // Arrange
 
             // Act
-            var sut = new Domain("    1..9     ");
+            var sut = new DomainModel("    1..9     ");
 
             // Assert
-            Assert.That(sut.Expression.LowerBand, Is.EqualTo(1));
+            Assert.That((object) sut.Expression.LowerBand, Is.EqualTo(1));
         }
 
         [Test]
@@ -37,10 +37,10 @@ namespace Dyna.Core.Tests.Unit.Entities
             // Arrange
 
             // Act
-            var sut = new Domain("    1..9     ");
+            var sut = new DomainModel("    1..9     ");
 
             // Assert
-            Assert.That(sut.Values.First(), Is.EqualTo(1));
+            Assert.That(Enumerable.First<int>(sut.Values), Is.EqualTo(1));
         }
 
         [Test]
@@ -49,10 +49,10 @@ namespace Dyna.Core.Tests.Unit.Entities
             // Arrange
 
             // Act
-            var sut = new Domain("    33..40     ");
+            var sut = new DomainModel("    33..40     ");
 
             // Assert
-            Assert.That(sut.Values.Last(), Is.EqualTo(40));
+            Assert.That(Enumerable.Last<int>(sut.Values), Is.EqualTo(40));
         }
     }
 }

@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// A model for specifying the problem.
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
-    public class Model
+    [Serializable]
+    public class ModelModel : ModelBase
     {
-        private readonly List<Variable> variables = new List<Variable>();
-        private readonly List<Domain> domains = new List<Domain>();
-        private readonly List<Constraint> constraints = new List<Constraint>();
         private readonly List<string> errors = new List<string>();
 
         /// <summary>
         /// Initialize a model with a model name.
         /// </summary>
         /// <param name="theName">Model name.</param>
-        public Model(string theName)
+        public ModelModel(string theName)
+            : this()
         {
             if (string.IsNullOrWhiteSpace(theName))
                 throw new ArgumentException("theName");
@@ -27,11 +26,13 @@ namespace Dyna.Core.Entities
         }
 
         /// <summary>
-        /// Initialize a default model.
+        /// Initialize a model model with default values.
         /// </summary>
-        public Model()
+        public ModelModel()
         {
-            this.Name = string.Empty;
+            this.Variables = new List<VariableModel>();
+            this.Domains = new List<DomainModel>();
+            this.Constraints = new List<ConstraintModel>();
         }
 
         /// <summary>
@@ -42,88 +43,118 @@ namespace Dyna.Core.Entities
         /// <summary>
         /// Gets the variables.
         /// </summary>
-        public IEnumerable<Variable> Variables
-        {
-            get { return variables; }
-        }
+        public List<VariableModel> Variables { get; set; }
 
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public IEnumerable<Domain> Domains
-        {
-            get { return domains; }
-        }
+        public List<DomainModel> Domains { get; set; }
 
         /// <summary>
         /// Gets the constraints.
         /// </summary>
-        public IEnumerable<Constraint> Constraints
-        {
-            get { return constraints; }
-        }
-
-        /// <summary>
-        /// Gets the validation errors.
-        /// </summary>
-        public IEnumerable<String> Errors
-        {
-            get { return this.errors; }
-        }
+        public List<ConstraintModel> Constraints { get; set; }
 
         /// <summary>
         /// Add a new constraint to the model.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
-        public void AddConstraint(Constraint newConstraint)
+        public void AddConstraint(ConstraintModel newConstraint)
         {
             if (newConstraint == null)
                 throw new ArgumentNullException("newConstraint");
-            newConstraint.Model = this;
-            this.constraints.Add(newConstraint);
+            newConstraint.AssignIdentity();
+            this.Constraints.Add(newConstraint);
         }
 
         /// <summary>
-        /// Removes a constraint from the model.
+        /// Delete the constraint from the model.
         /// </summary>
-        /// <param name="oldConstraint">Constraint to remove.</param>
-        public void RemoveConstraint(Constraint oldConstraint)
+        /// <param name="constraintToDelete">Constraint to delete.</param>
+        public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
-            if (oldConstraint == null)
-                throw new ArgumentNullException("oldConstraint");
-            this.constraints.Add(oldConstraint);
+            if (constraintToDelete == null)
+                throw new ArgumentNullException("constraintToDelete");
+            this.Constraints.Remove(constraintToDelete);
         }
 
-        public void AddVariable(Variable newVariable)
+        /// <summary>
+        /// Add a new variable to the model.
+        /// </summary>
+        /// <param name="newVariable">New variable.</param>
+        public void AddVariable(VariableModel newVariable)
         {
             if (newVariable == null)
                 throw new ArgumentNullException("newVariable");
-            newVariable.Model = this;
-            this.variables.Add(newVariable);
+            newVariable.AssignIdentity();
+            this.Variables.Add(newVariable);
         }
 
-        public void RemoveVariable(Variable oldVariable)
+        /// <summary>
+        /// Gets the model validation errors.
+        /// </summary>
+        public IEnumerable<String> Errors
         {
-            if (oldVariable == null)
-                throw new ArgumentNullException("oldVariable");
-            this.variables.Add(oldVariable);
+            get
+            {
+                return this.errors;
+            }
         }
 
-        public void AddSharedDomain(Domain newDomain)
+        /// <summary>
+        /// Delete the variable from the model.
+        /// </summary>
+        /// <param name="variableToDelete">Variable to delete.</param>
+        public void DeleteVariable(VariableModel variableToDelete)
+        {
+            if (variableToDelete == null)
+                throw new ArgumentNullException("variableToDelete");
+            this.Variables.Remove(variableToDelete);
+        }
+
+        public void AddDomain(DomainModel newDomain)
+        {
+            if (newDomain == null)
+                throw new ArgumentNullException("newDomain");
+            newDomain.AssignIdentity();
+            this.Domains.Add(newDomain);
+        }
+
+        public void AddSharedDomain(DomainModel newDomain)
         {
             if (newDomain == null)
                 throw new ArgumentNullException("newDomain");
             if (string.IsNullOrWhiteSpace(newDomain.Name))
                 throw new ArgumentException("Shared domains must have a name.", "newDomain");
-            newDomain.Model = this;
-            this.domains.Add(newDomain);
+            this.Domains.Add(newDomain);
         }
 
-        public void RemoveSharedDomain(Domain oldDomain)
+        public void RemoveSharedDomain(DomainModel oldDomain)
         {
             if (oldDomain == null)
                 throw new ArgumentNullException("oldDomain");
-            this.domains.Add(oldDomain);
+            this.Domains.Add(oldDomain);
+        }
+
+        /// <summary>
+        /// Delete the domain from the model.
+        /// </summary>
+        /// <param name="domainToDelete">Domain to delete.</param>
+        public void DeleteDomain(DomainModel domainToDelete)
+        {
+            if (domainToDelete == null)
+                throw new ArgumentNullException("domainToDelete");
+            this.Domains.Remove(domainToDelete);
+        }
+
+        /// <summary>
+        /// Get the variable matching the variable name.
+        /// </summary>
+        /// <param name="theVariableName">The variable name.</param>
+        /// <returns>Variable model.</returns>
+        public VariableModel GetVariableByName(string theVariableName)
+        {
+            return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
         }
 
         /// <summary>
@@ -144,11 +175,11 @@ namespace Dyna.Core.Entities
         /// </summary>
         /// <param name="theSharedDomainName">Shared domain name.</param>
         /// <returns>Shared domain matching the name.</returns>
-        public Domain GetSharedDomainByName(string theSharedDomainName)
+        public DomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             if (string.IsNullOrWhiteSpace(theSharedDomainName))
                 throw new ArgumentException("theSharedDomainName");
-            return this.domains.FirstOrDefault(x => x.Name == theSharedDomainName);
+            return this.Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
         }
 
         /// <summary>
@@ -158,17 +189,7 @@ namespace Dyna.Core.Entities
         /// <returns>Fluent interface context.</returns>
         public static ModelContext Create(string theModelName)
         {
-            return new ModelContext(new Model(theModelName));
-        }
-
-        /// <summary>
-        /// Get the variable by the given name.
-        /// </summary>
-        /// <param name="variableName">Variable name.</param>
-        /// <returns>Variable matching the name.</returns>
-        public Variable GetVariableByName(string variableName)
-        {
-            return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+            return new ModelContext(new ModelModel(theModelName));
         }
 
         private bool ValidateConstraintExpressions()

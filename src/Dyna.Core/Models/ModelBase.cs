@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     [Serializable]
     public abstract class ModelBase

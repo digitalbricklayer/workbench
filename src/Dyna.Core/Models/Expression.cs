@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// An expression can either be a variable or literal.
     /// </summary>
+    [Serializable]
     public class Expression
     {
-        private Expression(Variable theVariable)
+        private Expression(VariableModel theVariable)
         {
             if (theVariable == null)
                 throw new ArgumentNullException("theVariable");
@@ -21,7 +22,7 @@ namespace Dyna.Core.Entities
             this.Literal = theLiteral;
         }
 
-        public Variable Variable { get; set; }
+        public VariableModel Variable { get; set; }
         public Literal Literal { get; set; }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Dyna.Core.Entities
         /// <returns>Expression.</returns>
         public static Expression CreateIdentifier(string newIdentifier)
         {
-            return new Expression(new Variable(newIdentifier));
+            return new Expression(new VariableModel(newIdentifier));
         }
 
         /// <summary>

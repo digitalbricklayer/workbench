@@ -1,4 +1,4 @@
-namespace Dyna.Core.Entities
+namespace Dyna.Core.Models
 {
     public class RangeExpression
     {

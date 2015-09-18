@@ -2,12 +2,12 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
     /// <summary>
     /// Workspace model reader.
     /// </summary>
-    class WorkspaceReader
+    public class WorkspaceReader
     {
         private readonly string filename;
 

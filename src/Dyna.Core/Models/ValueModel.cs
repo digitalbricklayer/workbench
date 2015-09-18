@@ -1,20 +1,25 @@
 ﻿using System;
 
-namespace DynaApp.Models
+namespace Dyna.Core.Models
 {
+    /// <summary>
+    /// A value bound to a variable.
+    /// </summary>
     [Serializable]
     public class ValueModel : ModelBase
     {
-        public ValueModel(VariableModel variableModel)
+        /// <summary>
+        /// Initialize the value with a variable.
+        /// </summary>
+        /// <param name="theVariable"></param>
+        public ValueModel(VariableModel theVariable)
         {
-            this.Variable = variableModel;
+            this.Variable = theVariable;
         }
 
-        public ValueModel()
-        {
-            this.Variable = new VariableModel();
-        }
-
+        /// <summary>
+        /// Gets or sets the variable that the value is bound to.
+        /// </summary>
         public VariableModel Variable { get; set; }
 
         /// <summary>
