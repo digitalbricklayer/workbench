@@ -3,13 +3,13 @@
 namespace Dyna.Core.Models
 {
     /// <summary>
-    /// A constraint restricts a variable's possible values.
+    /// A constraint restricts the values that can be bound to a variable.
     /// </summary>
     [Serializable]
     public class ConstraintModel : GraphicModel
     {
         /// <summary>
-        /// Initialize a constraint with an expression.
+        /// Initialize a constraint with a name and constraint expression.
         /// </summary>
         /// <param name="constraintName">Constraint name.</param>
         /// <param name="rawExpression">Raw constraint expression.</param>
@@ -20,7 +20,7 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
-        /// Initialize a constraint with an expression.
+        /// Initialize a constraint with a name and a constraint expression.
         /// </summary>
         /// <param name="constraintName">Constraint name.</param>
         /// <param name="theExpression">Binary expression expressing the constraint.</param>
@@ -33,7 +33,7 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
-        /// Initialize a constraint with an expression.
+        /// Initialize a constraint with a constraint expression.
         /// </summary>
         /// <param name="rawExpression">Raw constraint expression.</param>
         public ConstraintModel(string rawExpression)

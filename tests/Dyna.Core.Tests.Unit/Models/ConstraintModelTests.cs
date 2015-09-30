@@ -8,6 +8,13 @@ namespace Dyna.Core.Tests.Unit.Models
     public class ConstraintModelTests
     {
         [Test]
+        public void InitializeWithName()
+        {
+            var sut = new ConstraintModel("y", "");
+            Assert.That(sut.Name, Is.EqualTo("y"));
+        }
+
+        [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Variable_Name_On_Left()
         {
             var sut = new ConstraintModel("x > 1");
