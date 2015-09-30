@@ -5,10 +5,6 @@ namespace Dyna.Core.Models
     /// <summary>
     /// An expression specifying a domain.
     /// </summary>
-    /// <remarks>
-    /// Can be either a name referencing a seperate shared 
-    /// domain, or an expression specifying a domain for the variable.
-    /// </remarks>
     [Serializable]
     public class DomainExpressionModel
     {

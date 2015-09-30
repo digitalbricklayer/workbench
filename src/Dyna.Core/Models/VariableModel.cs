@@ -11,6 +11,27 @@ namespace Dyna.Core.Models
         public VariableModel(string variableName)
             : base(variableName)
         {
+            this.DomainExpression = new VariableDomainExpressionModel();
+        }
+
+        /// <summary>
+        /// Initializes a variable with a variable name and domain expression.
+        /// </summary>
+        public VariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(variableName)
+        {
+            if (theDomainExpression == null)
+                throw new ArgumentNullException("theDomainExpression");
+            this.DomainExpression = theDomainExpression;
+        }
+
+        /// <summary>
+        /// Initializes a variable with a variable name and domain expression.
+        /// </summary>
+        public VariableModel(string variableName, string theRawDomainExpression)
+            : base(variableName)
+        {
+            this.DomainExpression = VariableDomainGrammar.Parse(theRawDomainExpression);
         }
 
         /// <summary>
@@ -19,12 +40,13 @@ namespace Dyna.Core.Models
         public VariableModel()
             : base("New variable")
         {
+            this.DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>
-        public DomainExpressionModel DomainExpression { get; set; }
+        public VariableDomainExpressionModel DomainExpression { get; set; }
 
         /// <summary>
         /// Gets or sets the domain.
@@ -43,7 +65,7 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        /// Returns a string that represents the variable.
         /// </summary>
         /// <returns>
         /// A string that represents the current object.

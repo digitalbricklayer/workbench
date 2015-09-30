@@ -25,7 +25,7 @@ namespace Dyna.Core.Models
             from trailing in Sprache.Parse.WhiteSpace.Many()
             select new String(x.ToArray());
 
-        private static readonly Parser<DomainExpressionModel> rangeExpressionGrammar =
+        public static readonly Parser<DomainExpressionModel> RangeExpressionGrammar =
             from lowerBand in bandGrammar
             from rangeSpecifier in rangeSpecifierGrammar
             from upperBand in bandGrammar
@@ -33,7 +33,7 @@ namespace Dyna.Core.Models
 
         public static DomainExpressionModel Parse(string rawExpression)
         {
-            return rangeExpressionGrammar.End().Parse(rawExpression);
+            return RangeExpressionGrammar.End().Parse(rawExpression);
         }
     }
 }
