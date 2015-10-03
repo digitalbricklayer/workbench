@@ -19,7 +19,7 @@ namespace DynaApp.ViewModels
             : base(newConstraintName)
         {
             this.Expression = new ConstraintExpressionViewModel(rawExpression);
-            this.Model = new ConstraintModel();
+            this.Model = new ConstraintModel(this.Expression.Model);
         }
 
         /// <summary>

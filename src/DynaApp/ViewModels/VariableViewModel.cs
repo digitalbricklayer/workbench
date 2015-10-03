@@ -41,8 +41,8 @@ namespace DynaApp.ViewModels
         public VariableViewModel(string newName)
             : base(newName)
         {
-            this.Model = new VariableModel();
             this.DomainExpression = new VariableDomainExpressionViewModel();
+            this.Model = new VariableModel(newName, this.DomainExpression.Model);
         }
 
         /// <summary>
