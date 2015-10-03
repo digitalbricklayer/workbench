@@ -1,5 +1,5 @@
 ﻿using System;
-using Dyna.Core.Entities;
+using Dyna.Core.Models;
 
 namespace Dyna.Core.Solver
 {
@@ -16,14 +16,14 @@ namespace Dyna.Core.Solver
         /// <summary>
         /// Gets the model solution.
         /// </summary>
-        public Solution Solution { get; private set; }
+        public SolutionModel Solution { get; private set; }
 
         /// <summary>
         /// Initialize the soltion result with status and solution.
         /// </summary>
         /// <param name="theStatus">Solve status.</param>
         /// <param name="theSolution">Solution.</param>
-        public SolveResult(SolveStatus theStatus, Solution theSolution)
+        public SolveResult(SolveStatus theStatus, SolutionModel theSolution)
         {
             if (theSolution == null)
                 throw new ArgumentNullException("theSolution");

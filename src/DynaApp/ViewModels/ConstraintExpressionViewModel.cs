@@ -1,5 +1,6 @@
 ﻿using System;
-using DynaApp.Models;
+using System.Windows.Input;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -9,6 +10,7 @@ namespace DynaApp.ViewModels
     public sealed class ConstraintExpressionViewModel : AbstractViewModel
     {
         private string text;
+        private bool isExpressionEditing;
 
         /// <summary>
         /// Initialize a constraint expression with a raw expression.
@@ -47,6 +49,31 @@ namespace DynaApp.ViewModels
                 this.text = value;
                 this.Model.Text = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the expression is being edited.
+        /// </summary>
+        public bool IsExpressionEditing
+        {
+            get { return this.isExpressionEditing; }
+            set
+            {
+                if (this.isExpressionEditing == value) return;
+                this.isExpressionEditing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the domain expression edit command.
+        /// </summary>
+        public ICommand EditExpressionCommand
+        {
+            get
+            {
+                return new CommandHandler(() => this.IsExpressionEditing = true, true);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using DynaApp.Models;
+﻿using Dyna.Core.Models;
 
 namespace Dyna.UI.Tests.Integration
 {
@@ -29,8 +29,6 @@ namespace Dyna.UI.Tests.Integration
             modelModel.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");
             modelModel.AddDomain(domain);
-            modelModel.Connect(x, constraint);
-            modelModel.Connect(x, domain);
 
             return modelModel;
         }

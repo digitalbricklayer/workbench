@@ -63,9 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ConstraintTests.cs" />
-    <Compile Include="Entities\DomainTests.cs" />
-    <Compile Include="Entities\ModelTests.cs" />
+    <Compile Include="Models\ConstraintModelTests.cs" />
+    <Compile Include="Models\DomainModelTests.cs" />
+    <Compile Include="Models\ModelModelEmptyTests.cs" />
+    <Compile Include="Models\ModelModelInvalidModelTests.cs" />
+    <Compile Include="Models\ModelModelTests.cs" />
+    <Compile Include="Models\VariableModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\ConstraintSolverSimpleTests.cs" />
     <Compile Include="Solver\ConstraintSolverTests.cs" />

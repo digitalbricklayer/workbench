@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using DynaApp.Models;
+using System.Windows.Input;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -32,6 +31,11 @@ namespace DynaApp.ViewModels
         private string name;
 
         /// <summary>
+        /// Is the name currently being edited.
+        /// </summary>
+        private bool isNameEditing;
+
+        /// <summary>
         /// Initialize a graphic with a name and location.
         /// </summary>
         protected GraphicViewModel(string newName, Point newLocation)
@@ -59,7 +63,6 @@ namespace DynaApp.ViewModels
         protected GraphicViewModel()
         {
             this.Name = string.Empty;
-            this.Connectors = new ObservableCollection<ConnectorViewModel>();
         }
 
         /// <summary>
@@ -83,9 +86,18 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets the connectors (connection anchor points) attached to the graphic.
+        /// Gets or sets whether the graphic name is being edited.
         /// </summary>
-        public ObservableCollection<ConnectorViewModel> Connectors { get; private set; }
+        public bool IsNameEditing
+        {
+            get { return this.isNameEditing; }
+            set
+            {
+                if (this.isNameEditing == value) return;
+                this.isNameEditing = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// The X coordinate for the position of the domain.
@@ -142,27 +154,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets all connections attached to the graphic.
-        /// </summary>
-        public ICollection<ConnectionViewModel> AttachedConnections
-        {
-            get
-            {
-                var attachedConnections = new List<ConnectionViewModel>();
-
-                foreach (var connector in this.Connectors)
-                {
-                    if (connector.AttachedConnection != null)
-                    {
-                        attachedConnections.Add(connector.AttachedConnection);
-                    }
-                }
-
-                return attachedConnections;
-            }
-        }
-
-        /// <summary>
         /// Gets the graphic identity.
         /// </summary>
         public int Id
@@ -171,38 +162,13 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Is the destination graphic connectable to this graphic?
+        /// Gets the edit domain name command.
         /// </summary>
-        /// <param name="destinationGraphic">Destination being connected to.</param>
-        /// <returns>True if the destination can be connected, False if it cannot be connected.</returns>
-        public virtual bool IsConnectableTo(GraphicViewModel destinationGraphic)
+        public ICommand EditNameCommand
         {
-            return false;
-        }
-
-        /// <summary>
-        /// Add a connector to the graphic.
-        /// </summary>
-        /// <param name="newConnector">New connector.</param>
-        public void AddConnector(ConnectorViewModel newConnector)
-        {
-            newConnector.Parent = this;
-            this.Connectors.Add(newConnector);
-        }
-
-        /// <summary>
-        /// Synchronise the graphic view model to the model.
-        /// </summary>
-        public void SyncToModel()
-        {
-            /* 
-             * The only thing that needs synchronising are the connectors 
-             * auto populated in the model.
-             */
-            foreach (var connectorModel in this.Model.Connectors)
+            get
             {
-                var newConnectorViewModel = new ConnectorViewModel();
-                this.AddConnector(newConnectorViewModel);
+                return new CommandHandler(() => this.IsNameEditing = true, true);
             }
         }
 

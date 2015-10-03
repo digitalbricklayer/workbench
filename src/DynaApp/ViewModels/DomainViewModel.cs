@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
-using DynaApp.Models;
+using System.Windows.Input;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {

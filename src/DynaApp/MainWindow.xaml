@@ -8,267 +8,147 @@
         xmlns:views="clr-namespace:DynaApp.Views"
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
         xmlns:controls="clr-namespace:DynaApp.Controls"
-        Icon="Images/AppIcon.ico"
-        >
+        Icon="Images/AppIcon.ico">
 
     <Window.Resources>
         <ResourceDictionary>
 
-            <!-- The brush for connections. -->
-            <SolidColorBrush
-                x:Key="connectionBrush"
-                Color="Black"
-                />
+            <!-- UI commands. -->
+            <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
+            <RoutedUICommand x:Key="Commands.DeleteVariable" />
+            <RoutedUICommand x:Key="Commands.DeleteDomain" />
+            <RoutedUICommand x:Key="Commands.DeleteConstraint" />
 
-            <!-- The border brush for variables. -->
-            <SolidColorBrush
-                x:Key="variableBorderBrush"
-                Color="Black"
-                />
-
-            <!-- The brush for connectors. -->
-            <SolidColorBrush
-                x:Key="connectorBackgroundBrush"
-                Color="White"
-                />
-
-        <!-- UI commands. -->
-        <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
-        <RoutedUICommand x:Key="Commands.DeleteConnection" />
-        <RoutedUICommand x:Key="Commands.DeleteVariable" />
-        <RoutedUICommand x:Key="Commands.DeleteDomain" />
-        <RoutedUICommand x:Key="Commands.DeleteConstraint" />
-
-        <!-- 
-        Template for the button that is used to delete nodes and connections in the graph.
-        This button is displayed in an adorner when the user hovers the mouse over a node or connection.
-        -->
-        <ControlTemplate 
-                x:Key="deleteButtonTemplate"
-                TargetType="{x:Type Button}"
-                >
-            <Grid
-                x:Name="grid"
-                >
-                <Grid.RenderTransform>
-                    <ScaleTransform
+            <ControlTemplate x:Key="editButtonTemplate"
+                             TargetType="{x:Type Button}">
+                <Grid x:Name="grid">
+                    <Grid.RenderTransform>
+                        <ScaleTransform
                         ScaleX="1"
                         ScaleY="1"
                         CenterX="10"
-                        CenterY="10"
-                        />
-                </Grid.RenderTransform>
-                <Ellipse
-                    x:Name="shadow"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Fill="Gray"
-                    >
-                    <Ellipse.RenderTransform>
-                        <TranslateTransform
-                            X="1.5"
-                            Y="1.5"
-                            />
-                    </Ellipse.RenderTransform>
-                </Ellipse>
-                <Ellipse
-                    x:Name="ellipse"
-                    Stroke="Black"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Fill="White"
-                    />
-                <Image
-                    Source="/Images/scissors.png" 
-                    Margin="2"
-                    />
-            </Grid>
-            <ControlTemplate.Triggers>
-                <EventTrigger
-                    RoutedEvent="Mouse.MouseEnter"
-                    >
-                    <!-- 
-                    Make the 'delete connection button' larger when the mouse 
-                    cursor is hovered over it.
-                    -->
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation
-                                Storyboard.TargetName="grid"
-                                Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                To="1.3"
-                                Duration="0:0:0.25"
-                                />
-                            <DoubleAnimation
-                                Storyboard.TargetName="grid"
-                                Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                To="1.3"
-                                Duration="0:0:0.25"
-                                />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
+                        CenterY="10"/>
+                    </Grid.RenderTransform>
+                    <Ellipse x:Name="shadow"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Fill="Gray"> 
+                        <Ellipse.RenderTransform>
+                            <TranslateTransform X="1.5"
+                                                Y="1.5"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    <Ellipse x:Name="ellipse"
+                                Stroke="Black"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Fill="White"/>
+                    <Image Source="/Images/pencil_small.png"
+                            Margin="2"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                        <!-- 
+                        Make the 'delete connection button' larger when the mouse 
+                        cursor is hovered over it.
+                        -->
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="grid"
+                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    To="1.3"
+                                    Duration="0:0:0.25"/>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="grid"
+                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                    To="1.3"
+                                    Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
 
-                <EventTrigger
-                        RoutedEvent="Mouse.MouseLeave"
-                        >
-                    <!-- 
+                    <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                        <!-- 
                         Return the 'delete connection button' to normal size when the mouse
                         cursor is moved away.
                         -->
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation
-                                Storyboard.TargetName="grid"
-                                Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                To="1"
-                                Duration="0:0:0.05"
-                                />
-                            <DoubleAnimation
-                                Storyboard.TargetName="grid"
-                                Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                To="1"
-                                Duration="0:0:0.05"
-                                />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </ControlTemplate.Triggers>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="grid"
+                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    To="1"
+                                    Duration="0:0:0.05"/>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="grid"
+                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                    To="1"
+                                    Duration="0:0:0.05"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ControlTemplate.Triggers>
 
-        </ControlTemplate>
+            </ControlTemplate>
 
-        <DataTemplate DataType="{x:Type viewModels:WorkspaceViewModel}">
-            <StackPanel>
+            <DataTemplate DataType="{x:Type viewModels:WorkspaceViewModel}">
+                <StackPanel>
 
-                <!-- Workspace mode selector -->
-                <ComboBox 
-                    x:Name="workspaceViewSelector"
-                    ItemsSource="{Binding AvailableDisplayModes}"
-                    SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
-                    />
-
-                <ContentPresenter x:Name="contentView" Content="{Binding SelectedDisplayViewModel}"/>
-
-            </StackPanel>
-        </DataTemplate>
-            
-        <DataTemplate DataType="{x:Type viewModels:ModelViewModel}">
-            <!--
-            The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
-            Focusable is set to False because it is only that ModelView that I want to be focusable.
-            -->
-            <ScrollViewer
-                x:Name="contentViewer"
-                HorizontalScrollBarVisibility="Auto"
-                Focusable="False">
-
-                <!--
-                We need to nest the ModelView inside an AdornerDecorator so that adorners 
-                work correctly.
-                -->
-                <AdornerDecorator>
-                    
-                    <views:ModelView 
-                        x:Name="modelControl"
-                        Width="2000" Height="2000"
-                        VariablesSource="{Binding Variables}"
-                        DomainsSource="{Binding Domains}"
-                        ConstraintsSource="{Binding Constraints}"
-                        ConnectionsSource="{Binding Connections}"
-                    
-                        ConnectionDragStarted="modelControl_ConnectionDragStarted"
-                        ConnectionDragging="modelControl_ConnectionDragging"
-                        QueryConnectionFeedback="modelControl_QueryConnectionFeedback"
-                        ConnectionDragCompleted="modelControl_ConnectionDragCompleted"
+                    <!-- Workspace mode selector -->
+                    <ComboBox 
+                        x:Name="workspaceViewSelector"
+                        ItemsSource="{Binding AvailableDisplayModes}"
+                        SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"
                         />
 
-                </AdornerDecorator>
+                    <ContentPresenter x:Name="contentView" 
+                                      Content="{Binding SelectedDisplayViewModel}"/>
 
-            </ScrollViewer>
-        </DataTemplate>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewModels:ModelViewModel}">
+                <!--
+                The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+                Focusable is set to False because it is only that ModelView that I want to be focusable.
+                -->
+                <ScrollViewer x:Name="contentViewer"
+                                HorizontalScrollBarVisibility="Auto"
+                                Focusable="False">
 
-        <DataTemplate DataType="{x:Type viewModels:SolutionViewModel}">
-            <ListView x:Name="valuesListBox"
-                      ItemsSource="{Binding Values}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" 
-                                        DisplayMemberBinding="{Binding VariableName}"/>
-                        <GridViewColumn Header="Value" 
-                                        DisplayMemberBinding="{Binding Value}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </DataTemplate>
-
-        <!-- 
-        Data-template for ConectionViewModel.
-        
-        Note that the 'Start' and 'End' of the arrow are bound to 'SourceConnectorHotspot' and 'DestConnectorHotspot' in 
-        the view-model.
-
-        In this sample a straight arrow represents connections between variables.
-        -->
-        <DataTemplate
-            DataType="{x:Type viewModels:ConnectionViewModel}"
-            >
-
-            <!-- 
-            An adorned control is used, to represent the connection. 
-            When the user hovers the mouse cursor over the connection, the 
-            'delete connection' adorner pops up and allows them to delete the connection.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Mouse"
-                VerticalAdornerPlacement="Mouse"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <!-- The connection is represented by a curved arrow. -->
-                <controls:CurvedArrow
-                    Stroke="{StaticResource connectionBrush}"
-                    StrokeThickness="2"
-                    Fill="{StaticResource connectionBrush}"
-                    Points="{Binding Points}"
-                    />
-
-                    <controls:AdornedControl.AdornerContent>
-
-                    <!-- 
-                    This is the adorner that pops up when the user hovers the mouse over the connection.
-                    It displays a button that the user can click to delete the connection.
+                    <!--
+                    We need to nest the ModelView inside an AdornerDecorator so that adorners 
+                    work correctly.
                     -->
-                    <Canvas
-                        x:Name="connectionAdornerCanvas"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Width="30"
-                        Height="30"
-                        >
-                        <Line
-                            X1="0"
-                            Y1="30"
-                            X2="15"
-                            Y2="15"
-                            Stroke="Black"
-                            StrokeThickness="1"
+                    <AdornerDecorator>
+                    
+                        <views:ModelView 
+                            x:Name="modelControl"
+                            Width="2000" Height="2000"
+                            VariablesSource="{Binding Variables}"
+                            DomainsSource="{Binding Domains}"
+                            ConstraintsSource="{Binding Constraints}"
                             />
-                        <Button
-                            x:Name="deleteConnectionButton"
-                            Canvas.Left="10"
-                            Canvas.Top="0"
-                            Width="20"
-                            Height="20"
-                            Cursor="Hand"
-                            Focusable="False"
-                            Command="{StaticResource Commands.DeleteConnection}"
-                            CommandParameter="{Binding}"
-                            Template="{StaticResource deleteButtonTemplate}"
-                            />
-                    </Canvas>
-                </controls:AdornedControl.AdornerContent>
-            </controls:AdornedControl>
-        </DataTemplate>
+
+                    </AdornerDecorator>
+
+                </ScrollViewer>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:SolutionViewModel}">
+                <ListView x:Name="valuesListBox"
+                          ItemsSource="{Binding Values}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" 
+                                            DisplayMemberBinding="{Binding VariableName}"/>
+                            <GridViewColumn Header="Value" 
+                                            DisplayMemberBinding="{Binding Value}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DataTemplate>
 
         <!--
         Define the visual style for a 'VariableItem'.
@@ -329,470 +209,473 @@
                 />
         </Style>
 
-        <!-- 
-        This graphic is used to indicate that a connection cannot be made 
-        between two particular connectors.        
-        -->
-        <DataTemplate DataType="{x:Type controls:ConnectionBadIndicator}">
-            <Grid Width="80">
-                <Image 
-                    Width="32"
-                    Height="32"
-                    Source="/Images/block_16.png"
-                    HorizontalAlignment="Right"
-                    />
-            </Grid>
-        </DataTemplate>
-
-        <!-- 
-        This graphic is used to indicate that a connection can be made between 
-        two particular connectors.        
-        -->
-        <DataTemplate DataType="{x:Type controls:ConnectionOkIndicator}">
-            <Grid Width="80"> 
-                <Image 
-                    Width="32"
-                    Height="32"
-                    Source="/Images/tick_16.png"
-                    HorizontalAlignment="Right"
-                    />
-            </Grid>
-        </DataTemplate>
-
-        <!-- 
-        Define the visual style for a ConnectorItem.
-        -->
-        <Style 
-            TargetType="{x:Type controls:ConnectorItem}">
+        <DataTemplate DataType="{x:Type viewModels:VariableDomainExpressionViewModel}">
             <!-- 
-            Data-binding for the connector hotspot.
-            ConnectorItem automatically computes its center 
-            points and assigns this value to the 'Hotspot' property.  
-            This data-binding in this style then 'pushes' the value into the 
-            application view-model.
+            An adorned control is used to enable the edit button when the user 
+            hovers over the expression control.
             -->
-            <Setter 
-                Property="Hotspot"
-                Value="{Binding Hotspot, Mode=OneWayToSource}"
-                />
-
-            <!-- The visual template. -->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate 
-                        TargetType="{x:Type controls:ConnectorItem}"
-                        >
-                        <!-- The visual for the connector. -->
-                        <Rectangle
-                            Stroke="Black"
-                            Fill="White"                            
-                            Cursor="Hand"
-                            Width="12"
-                            Height="12"
-                            RadiusX="1"
-                            RadiusY="1"
-                            />
-                        </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- 
-        Define a data-template for the 'VariableViewModel' class.
-        This generates the UI for each variable.
-        -->
-        <DataTemplate
-            DataType="{x:Type viewModels:VariableViewModel}"
-            >
-
-            <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <Grid
-                    Width="120"
-                    Height="60"
-                    >
-
-                    <!-- This rectangle is the main visual for the variable. -->
-                    <Rectangle
-                        Stroke="Black"
-                        Fill="White"
-                        RadiusX="4"
-                        RadiusY="4"
-                        />
-
-                <!-- 
-                This grid contains the variable's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
-                -->
-                <Grid Margin="-8">
+            <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                     VerticalAdornerPlacement="Outside"
+                                     AdornerOffsetX="-12"
+                                     AdornerOffsetY="8"
+                                     IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
+                        <ColumnDefinition x:Name="VariableExpressionRow" Width="*"/>
+                        <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition x:Name="PaddingRow" Height="20"/>
+                        <RowDefinition x:Name="ContentRow" Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- The name of the variable. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Text="{Binding Name, Mode=TwoWay}"
+                    <Image Grid.Column="0" 
+                           Grid.Row="1"
+                           Source="Images/LeftCurlyBracket.png"/>
+
+                    <!-- The domain expression text. -->
+                    <controls:EditableTextBlock
+                        x:Name="domainExpressionEditor"
+                        Text="{Binding Path=Text, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        />
-
-                    <!-- 
-                    Define the variable's four connectors, one on each edge of the variable.
-                    -->
-
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
+                        TextAlignment="Center"
                         Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
-
-                    <controls:ConnectorItem 
                         Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
+                        FontFamily="Courier New"
+                        FontSize="36"
+                        MinWidth="40"
+                        MinHeight="50"/>
 
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
-                        />
+                    <Image Grid.Column="2" 
+                           Grid.Row="1"
+                           Source="Images/RightCurlyBracket.png"/>
                 </Grid>
-            </Grid>
-
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="variableAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteVariableButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteVariable}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
-                </Canvas>
-            </controls:AdornedControl.AdornerContent>
+                <controls:AdornedControl.AdornerContent>
+                    <!-- 
+                    This is the adorner that pops up when the user hovers the mouse over the domain name.
+                    It displays a button that the user can click to edit the domain name.
+                    -->
+                    <Canvas x:Name="variableExpressionAdornerCanvas"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Width="30"
+                            Height="30">
+                        <Line X1="0"
+                              Y1="30"
+                              X2="15"
+                              Y2="15"
+                              Stroke="Black"
+                              StrokeThickness="1"/>
+                        <Button x:Name="editVariableExpressionButton"
+                                Canvas.Left="10"
+                                Canvas.Top="0"
+                                Width="20"
+                                Height="20"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding EditExpressionCommand}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource editButtonTemplate}"/>
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
             </controls:AdornedControl>
         </DataTemplate>
 
         <!-- 
-        Define a data-template for the DomainViewModel class.
+        Define a data-template for the 'VariableViewModel' class.
         -->
-        <DataTemplate
-            DataType="{x:Type viewModels:DomainViewModel}"
-            >
-            
-            <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
-            -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <Grid
-                    Width="120"
-                    Height="60"
-                    >
-
-                    <!-- This ellipse is the main visual for the domain. -->
-                    <Ellipse
-                        Stroke="Black"
-                        Fill="White"
-                        />
+        <DataTemplate DataType="{x:Type viewModels:VariableViewModel}">
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="VariableNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="VariableDomainExpressionColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
                 <!-- 
-                This grid contains the domain's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
+                An adorned control is used to enable the edit button when the user 
+                hovers over the variable name control.
                 -->
-                <Grid Margin="-8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                         VerticalAdornerPlacement="Outside"
+                                         AdornerOffsetX="-12"
+                                         AdornerOffsetY="8"
+                                         IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="LeftGraphicColumn" Width="30"/>
+                            <ColumnDefinition x:Name="NameGraphicColumn" Width="Auto"/>
+                            <ColumnDefinition x:Name="RightGraphicColumn" Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Left hand '<' -->
+                        <Line X1="0"
+                              Y1="30"
+                              X2="30"
+                              Y2="0"
+                              Grid.Column="0"
+                              Stroke="Black"
+                              StrokeThickness="2"/>
+                        <Line X1="0"
+                              Y1="30"
+                              X2="30"
+                              Y2="60"
+                              Grid.Column="0"
+                              Stroke="Black"
+                              StrokeThickness="2"/>
 
-                    <!-- The name of the domain. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        FontWeight="Bold"
-                        Text="{Binding Name, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                        <!-- The name of the variable. -->
+                        <controls:EditableTextBlock x:Name="nameEditor"
+                                                    Grid.Column="1"
+                                                    Text="{Binding Name, Mode=TwoWay}"
+                                                    IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                                                    FontFamily="Courier New"
+                                                    FontWeight="Bold"
+                                                    FontSize="24"
+                                                    FontStyle="Italic"/>
 
-                    <!-- The domain expression text. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
-
-                    <!-- 
-                    Define the domain's four connectors, one on each edge of the domain.
-                    -->
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
-                        />
-                </Grid>
-            </Grid>
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="domainAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteDomainButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteDomain}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
+                        <!-- Right hand '>' -->
+                        <Canvas Grid.Column="2">
+                            <Line X1="0"
+                                  Y1="0"
+                                  X2="30"
+                                  Y2="30"
+                                  Stroke="Black"
+                                  StrokeThickness="2"/>
+                            <Line X1="30"
+                                  Y1="30"
+                                  X2="0"
+                                  Y2="60"
+                                  Stroke="Black"
+                                  StrokeThickness="2"/>
+                        </Canvas>
+                    </Grid>
+                    <controls:AdornedControl.AdornerContent>
+                        <!-- 
+                        This is the adorner that pops up when the user hovers the mouse over the variable name.
+                        It displays a button that the user can click to edit the name.
+                        -->
+                        <Canvas x:Name="variableAdornerCanvas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Width="30"
+                                Height="30">
+                            <Line X1="0"
+                                  Y1="30"
+                                  X2="15"
+                                  Y2="15"
+                                  Stroke="Black"
+                                  StrokeThickness="1"/>
+                            <Button x:Name="editVariableNameButton"
+                                    Canvas.Left="10"
+                                    Canvas.Top="0"
+                                    Width="20"
+                                    Height="20"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    Command="{Binding EditNameCommand}"
+                                    CommandParameter="{Binding}"
+                                    Template="{StaticResource editButtonTemplate}"/>
                         </Canvas>
                     </controls:AdornedControl.AdornerContent>
                 </controls:AdornedControl>
-            </DataTemplate>
 
-        <!-- 
-        Define a data-template for the ConstraintViewModel class.
-        This generates the UI for each constraint.
+                <ContentPresenter x:Name="expressionEditor"
+                                  Grid.Column="1"
+                                  Content="{Binding DomainExpression}"/>
+            </Grid>
+        </DataTemplate>
+
+        <!--
+        Define a data-template for the DomainExpressionViewModel class.
         -->
-        <DataTemplate
-            DataType="{x:Type viewModels:ConstraintViewModel}"
-            >
-
+        <DataTemplate DataType="{x:Type viewModels:DomainExpressionViewModel}">
             <!-- 
-            An adorned control is used, to represent the node. 
-            When the user hovers the mouse cursor over the node, the 
-            'delete node' adorner pops up and allows them to delete the node.
+            An adorned control is used to enable the edit button when the user 
+            hovers over the domain name control.
             -->
-            <controls:AdornedControl
-                HorizontalAdornerPlacement="Outside"
-                VerticalAdornerPlacement="Outside"
-                AdornerOffsetX="-12"
-                AdornerOffsetY="8"
-                IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}"
-                >
-
-                <Grid
-                    Width="120"
-                    Height="60"
-                    >
-
-                <!-- This polygon is the main visual for the constraint. -->
-                <Polygon
-                    Points="0,60 120,60 60,0 0,60"
-                    Stroke="Black"
-                    Fill="White"
-                    />
-
-                <!-- 
-                This grid contains the domain's name and connectors.
-                The margin is negative so that the connectors overlap the body of the variable and it's selection border.
-                -->
-                <Grid Margin="-8">
+            <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                     VerticalAdornerPlacement="Outside"
+                                     AdornerOffsetX="-12"
+                                     AdornerOffsetY="8"
+                                     IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
+                        <ColumnDefinition x:Name="DomainExpressionRow" Width="*"/>
+                        <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition x:Name="PaddingRow" Height="20"/>
+                        <RowDefinition x:Name="ContentRow" Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- The name of the constraint. -->
-                    <TextBox
+                    <Image Grid.Column="0" 
+                           Grid.Row="1"
+                           Source="Images/LeftCurlyBracket.png"/>
+
+                    <!-- The domain expression text. -->
+                    <controls:EditableTextBlock
+                        x:Name="domainExpressionEditor"
+                        Text="{Binding Path=Text, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"
                         Grid.Column="1"
                         Grid.Row="1"
-                        FontWeight="Bold"
-                        Text="{Binding Name, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                        FontFamily="Courier New"
+                        FontSize="36"
+                        MinWidth="40"
+                        MinHeight="50"/>
 
-                    <!-- The constraint expression text. -->
-                    <TextBox
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        Text="{Binding Path=Expression.Text, Mode=TwoWay}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        />
+                    <Image Grid.Column="2" 
+                           Grid.Row="1"
+                           Source="Images/RightCurlyBracket.png"/>
+                </Grid>
+                <controls:AdornedControl.AdornerContent>
 
                     <!-- 
-                    Define the constraint's four connectors, one on each edge of the constraint.
+                    This is the adorner that pops up when the user hovers the mouse over the domain name.
+                    It displays a button that the user can click to edit the domain name.
                     -->
-
-                    <controls:ConnectorItem 
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[0]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        DataContext="{Binding Connectors[1]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        DataContext="{Binding Connectors[2]}"
-                        />
-
-                    <controls:ConnectorItem 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        DataContext="{Binding Connectors[3]}"
-                        />
-                </Grid>
-            </Grid>
-
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the variable.
-                It displays a button that the user can click to delete the variable.
-                -->
-                <Canvas
-                    x:Name="variableAdornerCanvas"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="30"
-                    Height="30"
-                    >
-                    <Line
-                        X1="0"
-                        Y1="30"
-                        X2="15"
-                        Y2="15"
-                        Stroke="Black"
-                        StrokeThickness="1"
-                        />
-                    <Button
-                        x:Name="deleteConstraintButton"
-                        Canvas.Left="10"
-                        Canvas.Top="0"
-                        Width="20"
-                        Height="20"
-                        Cursor="Hand"
-                        Focusable="False"
-                        Command="{StaticResource Commands.DeleteConstraint}"
-                        CommandParameter="{Binding}"
-                        Template="{StaticResource deleteButtonTemplate}"
-                        />
+                    <Canvas x:Name="domainAdornerCanvas"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Height="30">
+                        <Line X1="0"
+                              Y1="30"
+                              X2="15"
+                              Y2="15"
+                              Stroke="Black"
+                              StrokeThickness="1"/>
+                        <Button x:Name="editDomainNameButton"
+                                Canvas.Left="10"
+                                Canvas.Top="0"
+                                Width="20"
+                                Height="20"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding EditExpressionCommand}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource editButtonTemplate}"/>
                     </Canvas>
                 </controls:AdornedControl.AdornerContent>
             </controls:AdornedControl>
         </DataTemplate>
             
+        <!-- 
+        Define a data-template for the DomainViewModel class.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:DomainViewModel}">
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="DomainNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="DomainExpressionColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 
+                An adorned control is used to enable the edit button when the user 
+                hovers over the domain name control.
+                -->
+                <controls:AdornedControl
+                    HorizontalAdornerPlacement="Outside"
+                    VerticalAdornerPlacement="Outside"
+                    AdornerOffsetX="-12"
+                    AdornerOffsetY="8"
+                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+
+                    <!-- The name of the domain. -->
+                    <controls:EditableTextBlock
+                        x:Name="nameEditor"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontWeight="Bold"
+                        FontSize="24"
+                        FontStyle="Italic"/>
+
+                    <controls:AdornedControl.AdornerContent>
+
+                        <!-- 
+                        This is the adorner that pops up when the user hovers the mouse over the domain name.
+                        It displays a button that the user can click to edit the domain name.
+                        -->
+                        <Canvas x:Name="domainAdornerCanvas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Width="30"
+                                Height="30">
+                            <Line X1="0"
+                                  Y1="30"
+                                  X2="15"
+                                  Y2="15"
+                                  Stroke="Black"
+                                  StrokeThickness="1"/>
+                            <Button x:Name="editDomainNameButton"
+                                    Canvas.Left="10"
+                                    Canvas.Top="0"
+                                    Width="20"
+                                    Height="20"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    Command="{Binding EditNameCommand}"
+                                    CommandParameter="{Binding}"
+                                    Template="{StaticResource editButtonTemplate}"/>
+                        </Canvas>
+                    </controls:AdornedControl.AdornerContent>
+                </controls:AdornedControl>
+
+                <ContentPresenter x:Name="expressionEditor"
+                                  Grid.Column="1"
+                                  Content="{Binding Expression}"/>
+            </Grid>
+        </DataTemplate>
+
+        <!--
+        Define a data-template for the ConstraintExpressionViewModel class.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:ConstraintExpressionViewModel}">
+
+            <!-- 
+            An adorned control is used to enable the edit button when the user 
+            hovers over the constraint expression control.
+            -->
+            <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                     VerticalAdornerPlacement="Outside"
+                                     AdornerOffsetX="-12"
+                                     AdornerOffsetY="8"
+                                     IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="LeftGraphicRow" Width="20"/>
+                        <ColumnDefinition x:Name="ConstraintExpressionRow" Width="*"/>
+                        <ColumnDefinition x:Name="RightGraphicRow" Width="20"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" 
+                           Source="Images/LeftSquareBracket.png"/>
+
+                    <!-- The constraint expression text. -->
+                    <controls:EditableTextBlock
+                        x:Name="constraintExpressionEditor"
+                        Text="{Binding Path=Text, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsExpressionEditing, Mode=TwoWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"
+                        Grid.Column="1"
+                        FontFamily="Courier New"
+                        FontSize="36"
+                        MinWidth="40"
+                        MinHeight="50"/>
+
+                    <Image Grid.Column="2" 
+                           Source="Images/RightSquareBracket.png"/>
+                </Grid>
+                <controls:AdornedControl.AdornerContent>
+
+                    <!-- 
+                    This is the adorner that pops up when the user hovers the mouse over the constraint expression.
+                    It displays a button that the user can click to edit the expression.
+                    -->
+                    <Canvas x:Name="constraintAdornerCanvas"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Width="30"
+                            Height="30">
+                        <Line X1="0"
+                                Y1="30"
+                                X2="15"
+                                Y2="15"
+                                Stroke="Black"
+                                StrokeThickness="1"/>
+                        <Button x:Name="editConstraintExpressionButton"
+                                Canvas.Left="10"
+                                Canvas.Top="0"
+                                Width="20"
+                                Height="20"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding EditExpressionCommand}"
+                                CommandParameter="{Binding}"
+                                Template="{StaticResource editButtonTemplate}"/>
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
+        </DataTemplate>
+
+        <!-- 
+        Define a data-template for the ConstraintViewModel class.
+        This generates the UI for each constraint.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:ConstraintViewModel}">
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ConstraintNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="ConstraintExpressionColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 
+                An adorned control is used to enable the edit button when the user 
+                hovers over the constraint name control.
+                -->
+                <controls:AdornedControl
+                    HorizontalAdornerPlacement="Outside"
+                    VerticalAdornerPlacement="Outside"
+                    AdornerOffsetX="-12"
+                    AdornerOffsetY="8"
+                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+
+                    <!-- The name of the domain. -->
+                    <controls:EditableTextBlock
+                        x:Name="nameEditor"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                        FontFamily="Courier New"
+                        FontWeight="Bold"
+                        FontSize="24"
+                        FontStyle="Italic"/>
+
+                    <controls:AdornedControl.AdornerContent>
+
+                        <!-- 
+                        This is the adorner that pops up when the user hovers the mouse over the constraint name.
+                        It displays a button that the user can click to edit the name.
+                        -->
+                        <Canvas x:Name="constraintAdornerCanvas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Width="30"
+                                Height="30">
+                            <Line X1="0"
+                                    Y1="30"
+                                    X2="15"
+                                    Y2="15"
+                                    Stroke="Black"
+                                    StrokeThickness="1"/>
+                            <Button x:Name="editConstraintButton"
+                                    Canvas.Left="10"
+                                    Canvas.Top="0"
+                                    Width="20"
+                                    Height="20"
+                                    Cursor="Hand"
+                                    Focusable="False"
+                                    Command="{Binding EditNameCommand}"
+                                    CommandParameter="{Binding}"
+                                    Template="{StaticResource editButtonTemplate}"/>
+                            </Canvas>
+                        </controls:AdornedControl.AdornerContent>
+                    </controls:AdornedControl>
+
+                    <ContentPresenter x:Name="expressionEditor"
+                                        Grid.Column="1"
+                                        Content="{Binding Expression}"/>
+                </Grid>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
     
@@ -811,10 +694,6 @@
         <CommandBinding 
             Command="{StaticResource Commands.DeleteSelectedGraphics}" 
             Executed="DeleteSelectedGraphics_Executed" 
-            />
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteConnection}" 
-            Executed="DeleteConnection_Executed" 
             />
         <CommandBinding 
             Command="{StaticResource Commands.DeleteVariable}" 

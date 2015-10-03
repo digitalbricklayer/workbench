@@ -1,4 +1,4 @@
-using DynaApp.Models;
+using Dyna.Core.Models;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services
@@ -8,18 +8,14 @@ namespace DynaApp.Services
         private readonly VariableMapper variableMapper;
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
-        private readonly ConnectionMapper connectionMapper;
-        private readonly ConnectorMapper connectorMapper;
         private readonly ModelViewModelCache cache;
 
         internal ModelMapper(ModelViewModelCache theWorkspaceMapper)
         {
             this.cache = theWorkspaceMapper;
-            this.connectorMapper = new ConnectorMapper(this.cache);
             this.variableMapper = new VariableMapper(this.cache);
             this.domainMapper = new DomainMapper(this.cache);
             this.constraintMapper = new ConstraintMapper(this.cache);
-            this.connectionMapper = new ConnectionMapper(this.cache);
         }
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
@@ -43,13 +39,6 @@ namespace DynaApp.Services
             {
                 var variableViewModel = this.variableMapper.MapFrom(variableModel);
                 modelViewModel.FixupVariable(variableViewModel);
-            }
-
-            foreach (var connectionModel in theModelModel.Connections)
-            {
-                var connectionViewModel = this.connectionMapper.MapFrom(connectionModel);
-                this.connectorMapper.FixupFrom(connectionModel);
-                modelViewModel.FixupConnection(connectionViewModel);
             }
 
             return modelViewModel;

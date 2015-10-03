@@ -1,4 +1,4 @@
-﻿using DynaApp.Models;
+﻿using Dyna.Core.Models;
 
 namespace Dyna.UI.Tests.Unit.Services
 {
@@ -36,8 +36,6 @@ namespace Dyna.UI.Tests.Unit.Services
             this.model.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");
             this.model.AddDomain(domain);
-            this.model.Connect(x, constraint);
-            this.model.Connect(x, domain);
 
             return this.model;
         }

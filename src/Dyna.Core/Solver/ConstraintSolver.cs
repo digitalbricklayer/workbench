@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dyna.Core.Entities;
+using System.Diagnostics;
+using Dyna.Core.Models;
 using Google.OrTools.ConstraintSolver;
-using Constraint = Dyna.Core.Entities.Constraint;
 
 namespace Dyna.Core.Solver
 {
@@ -12,16 +12,27 @@ namespace Dyna.Core.Solver
     public class ConstraintSolver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
-        private readonly Dictionary<string, Tuple<Variable, IntVar>> variableMap = new Dictionary<string, Tuple<Variable, IntVar>>();
+        private readonly Dictionary<string, Tuple<VariableModel, IntVar>> variableMap;
+        private ModelModel model;
 
         /// <summary>
-        /// Solve the problem in the workspace.
+        /// Initialize the constraint solver with default values.
+        /// </summary>
+        public ConstraintSolver()
+        {
+            this.variableMap = new Dictionary<string, Tuple<VariableModel, IntVar>>();
+        }
+
+        /// <summary>
+        /// Solve the problem in the model.
         /// </summary>
         /// <param name="theModel">The problem workspace.</param>
-        public SolveResult Solve(Model theModel)
+        public SolveResult Solve(ModelModel theModel)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
+
+            this.model = theModel;
 
             if (!theModel.Validate()) return SolveResult.InvalidModel;
 
@@ -31,12 +42,11 @@ namespace Dyna.Core.Solver
             var variables = new IntVarVector();
             foreach (var variable in theModel.Variables)
             {
-                var orVariable = solver.MakeIntVar(variable.Domain.Expression.LowerBand,
-                                                   variable.Domain.Expression.UpperBand,
-                                                   variable.Name);
+                var band = this.GetVariableBand(variable);
+                var orVariable = solver.MakeIntVar(band.Item1, band.Item2, variable.Name);
                 variables.Add(orVariable);
                 this.variableMap.Add(variable.Name,
-                                     new Tuple<Variable, IntVar>(variable, orVariable));
+                                     new Tuple<VariableModel, IntVar>(variable, orVariable));
             }
 
             // Variables
@@ -81,14 +91,31 @@ namespace Dyna.Core.Solver
             var solveResult = this.solver.Solve(db, collector);
             if (!solveResult) return SolveResult.Failed;
 
-            var boundVariables = this.CreateBoundVariablesFrom(collector);
-            var theSolution = new Solution(theModel, boundVariables);
+            var values = this.CreateValuesFrom(collector);
+            var theSolution = new SolutionModel(theModel, values);
             return new SolveResult(SolveStatus.Success, theSolution);
         }
 
-        private void HandleLessOperator(Constraint constraint)
+        private Tuple<long,long> GetVariableBand(VariableModel theVariable)
         {
-            Google.OrTools.ConstraintSolver.Constraint lessConstraint;
+            Debug.Assert(!theVariable.DomainExpression.IsEmpty);
+
+            if (theVariable.DomainExpression.InlineDomain != null)
+            {
+                var inlineDomain = theVariable.DomainExpression.InlineDomain;
+                return new Tuple<long, long>(inlineDomain.LowerBand,
+                                             inlineDomain.UpperBand);
+            }
+
+            var sharedDomainName = theVariable.DomainExpression.DomainReference.DomainName;
+            var sharedDomain = this.model.GetSharedDomainByName(sharedDomainName);
+            return new Tuple<long, long>(sharedDomain.Expression.LowerBand,
+                                         sharedDomain.Expression.UpperBand);
+        }
+
+        private void HandleLessOperator(ConstraintModel constraint)
+        {
+            Constraint lessConstraint;
             var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
             if (constraint.Expression.Right.IsVarable)
             {
@@ -103,9 +130,9 @@ namespace Dyna.Core.Solver
             this.solver.Add(lessConstraint);
         }
 
-        private void HandleGreaterOperator(Constraint constraint)
+        private void HandleGreaterOperator(ConstraintModel constraint)
         {
-            Google.OrTools.ConstraintSolver.Constraint greaterConstraint;
+            Constraint greaterConstraint;
             var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
             if (constraint.Expression.Right.IsVarable)
             {
@@ -120,9 +147,9 @@ namespace Dyna.Core.Solver
             this.solver.Add(greaterConstraint);
         }
 
-        private void HandleNotEqualOperator(Constraint constraint)
+        private void HandleNotEqualOperator(ConstraintModel constraint)
         {
-            Google.OrTools.ConstraintSolver.Constraint notEqualConstraint;
+            Constraint notEqualConstraint;
             var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
             if (constraint.Expression.Right.IsVarable)
             {
@@ -137,10 +164,10 @@ namespace Dyna.Core.Solver
             this.solver.Add(notEqualConstraint);
         }
 
-        private void HandleLessThanOrEqualOperator(Constraint constraint)
+        private void HandleLessThanOrEqualOperator(ConstraintModel constraint)
         {
             {
-                Google.OrTools.ConstraintSolver.Constraint lessThanOrEqualConstraint;
+                Constraint lessThanOrEqualConstraint;
                 var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
                 if (constraint.Expression.Right.IsVarable)
                 {
@@ -156,9 +183,9 @@ namespace Dyna.Core.Solver
             }
         }
 
-        private void HandleGreaterThanOrEqualOperator(Constraint constraint)
+        private void HandleGreaterThanOrEqualOperator(ConstraintModel constraint)
         {
-            Google.OrTools.ConstraintSolver.Constraint greaterThanOrEqualConstraint;
+            Constraint greaterThanOrEqualConstraint;
             var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
             if (constraint.Expression.Right.IsVarable)
             {
@@ -173,9 +200,9 @@ namespace Dyna.Core.Solver
             this.solver.Add(greaterThanOrEqualConstraint);
         }
 
-        private void HandleEqualsOperator(Constraint constraint)
+        private void HandleEqualsOperator(ConstraintModel constraint)
         {
-            Google.OrTools.ConstraintSolver.Constraint equalsConstraint;
+            Constraint equalsConstraint;
             var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
             if (constraint.Expression.Right.IsVarable)
             {
@@ -199,12 +226,12 @@ namespace Dyna.Core.Solver
             return collector;
         }
 
-        private BoundVariable[] CreateBoundVariablesFrom(SolutionCollector solutionCollector)
+        private ValueModel[] CreateValuesFrom(SolutionCollector solutionCollector)
         {
-            var boundVariables = new List<BoundVariable>();
+            var boundVariables = new List<ValueModel>();
             foreach (var variableTuple in this.variableMap)
             {
-                var boundVariable = new BoundVariable(variableTuple.Value.Item1);
+                var boundVariable = new ValueModel(variableTuple.Value.Item1);
                 var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
                 boundVariable.Value = Convert.ToInt32(boundValue);
                 boundVariables.Add(boundVariable);

@@ -1,4 +1,4 @@
-﻿using Dyna.Core.Entities;
+﻿using Dyna.Core.Models;
 using Dyna.Core.Solver;
 using NUnit.Framework;
 
@@ -49,21 +49,21 @@ namespace Dyna.Core.Tests.Unit.Solver
             var actualSolution = actualResult.Solution;
             var x = actualSolution.GetVariableByName("x");
             var y = actualSolution.GetVariableByName("y");
-            Assert.That(x.Value, Is.InRange(x.Variable.Domain.Expression.LowerBand, x.Variable.Domain.Expression.UpperBand));
-            Assert.That(y.Value, Is.InRange(y.Variable.Domain.Expression.LowerBand, y.Variable.Domain.Expression.UpperBand));
+            Assert.That(x.Value, Is.InRange(1, 9));
+            Assert.That(y.Value, Is.InRange(1, 9));
         }
 
-        private static Model MakeModel()
+        private static ModelModel MakeModel()
         {
-            return Model.Create("A test")
-                        .WithSharedDomain("a", "1..9")
-                        .AddVariable("x", "a")
-                        .AddVariable("y", "a")
-                        .AddVariable("z", "a")
-                        .WithConstraint("x != y")
-                        .WithConstraint("x <= y")
-                        .WithConstraint("y = z")
-                        .Build();
+            return ModelModel.Create("A test")
+                             .WithSharedDomain("a", "1..9")
+                             .AddVariable("x", "a")
+                             .AddVariable("y", "a")
+                             .AddVariable("z", "a")
+                             .WithConstraint("x != y")
+                             .WithConstraint("x <= y")
+                             .WithConstraint("y = z")
+                             .Build();
         }
     }
 }
