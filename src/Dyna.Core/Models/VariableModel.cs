@@ -2,6 +2,9 @@
 
 namespace Dyna.Core.Models
 {
+    /// <summary>
+    /// A variable can hold a value constrained by a constraint.
+    /// </summary>
     [Serializable]
     public class VariableModel : GraphicModel
     {
