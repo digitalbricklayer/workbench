@@ -221,7 +221,7 @@ namespace Dyna.Core.Models
             {
                 if (variable.Domain == null)
                 {
-                    this.errors.Add(string.Format("Missing domain"));
+                    this.errors.Add("Missing domain");
                     return false;
                 }
 
