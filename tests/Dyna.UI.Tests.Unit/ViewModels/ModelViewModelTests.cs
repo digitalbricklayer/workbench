@@ -16,11 +16,11 @@ namespace Dyna.UI.Tests.Unit.ViewModels
 
         private static ModelViewModel CreateValidModel()
         {
-            var x = new ModelViewModel();
-            x.AddVariable(new VariableViewModel("x"));
-            x.AddConstraint(new ConstraintViewModel("x", "x > 1"));
+            var modelViewModel = new ModelViewModel();
+            modelViewModel.AddVariable(new VariableViewModel("x"));
+            modelViewModel.AddConstraint(new ConstraintViewModel("x", "x > 1"));
 
-            return x;
+            return modelViewModel;
         }
     }
 }
