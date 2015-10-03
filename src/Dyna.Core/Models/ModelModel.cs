@@ -56,6 +56,17 @@ namespace Dyna.Core.Models
         public List<ConstraintModel> Constraints { get; set; }
 
         /// <summary>
+        /// Gets the model validation errors.
+        /// </summary>
+        public IEnumerable<String> Errors
+        {
+            get
+            {
+                return this.errors;
+            }
+        }
+
+        /// <summary>
         /// Add a new constraint to the model.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
@@ -88,17 +99,6 @@ namespace Dyna.Core.Models
                 throw new ArgumentNullException("newVariable");
             newVariable.AssignIdentity();
             this.Variables.Add(newVariable);
-        }
-
-        /// <summary>
-        /// Gets the model validation errors.
-        /// </summary>
-        public IEnumerable<String> Errors
-        {
-            get
-            {
-                return this.errors;
-            }
         }
 
         /// <summary>
