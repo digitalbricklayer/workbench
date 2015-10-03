@@ -49,22 +49,6 @@ namespace Dyna.Core.Models
         public VariableDomainExpressionModel DomainExpression { get; set; }
 
         /// <summary>
-        /// Gets or sets the domain.
-        /// </summary>
-        public DomainModel Domain { get; internal set; }
-
-        /// <summary>
-        /// Attach the variable to a domain.
-        /// </summary>
-        /// <param name="domain">A domain.</param>
-        public void AttachTo(DomainModel domain)
-        {
-            if (domain == null)
-                throw new ArgumentNullException("domain");
-            this.Domain = domain;
-        }
-
-        /// <summary>
         /// Returns a string that represents the variable.
         /// </summary>
         /// <returns>

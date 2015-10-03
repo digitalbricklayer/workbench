@@ -16,20 +16,9 @@ namespace Dyna.Core.Models
             this.model = theModel;
         }
 
-        public ModelContext AddVariable(string theVariableName, DomainModel domain)
-        {
-            var newVariable = new VariableModel(theVariableName);
-            newVariable.AttachTo(domain);
-            this.model.AddVariable(newVariable);
-
-            return this;
-        }
-
         public ModelContext AddVariable(string theVariableName, string theDomainExpression)
         {
             var newVariable = new VariableModel(theVariableName, theDomainExpression);
-//            var sharedDomain = this.model.GetSharedDomainByName(theSharedDomainName);
-//            newVariable.Domain = sharedDomain;
             this.model.AddVariable(newVariable);
 
             return this;

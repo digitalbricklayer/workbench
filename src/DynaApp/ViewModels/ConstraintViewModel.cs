@@ -30,7 +30,8 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel(string newConstraintName, Point newLocation)
             : this(newConstraintName)
         {
-            this.Model = new ConstraintModel();
+            this.Expression = new ConstraintExpressionViewModel();
+            this.Model = new ConstraintModel(this.Expression.Model);
             this.X = newLocation.X;
             this.Y = newLocation.Y;
         }
@@ -43,7 +44,7 @@ namespace DynaApp.ViewModels
             : base(newConstraintName)
         {
             this.Expression = new ConstraintExpressionViewModel();
-            this.Model = new ConstraintModel();
+            this.Model = new ConstraintModel(this.Expression.Model);
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace DynaApp.ViewModels
         public ConstraintViewModel()
         {
             this.Expression = new ConstraintExpressionViewModel();
-            this.Model = new ConstraintModel();
+            this.Model = new ConstraintModel(this.Expression.Model);
         }
 
         /// <summary>
