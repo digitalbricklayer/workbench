@@ -2,6 +2,7 @@
 
 namespace Dyna.Core.Models
 {
+    [Serializable]
     public class Literal
     {
         public Literal(string newLiteral)

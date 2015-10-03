@@ -73,7 +73,7 @@ namespace Dyna.Core.Models
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
-            this.Expression = DomainGrammar.Parse(rawExpression);
+            this.Expression = new DomainExpressionModel(DomainGrammar.Parse(rawExpression));
             var theRange = Enumerable.Range(this.Expression.LowerBand, this.Expression.Size);
             this.values.AddRange(theRange);
         }

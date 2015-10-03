@@ -7,35 +7,35 @@ namespace Dyna.Core.Tests.Unit.Models
     public class VariableModelTests
     {
         [Test]
-        public void InitializeWithName()
+        public void InitializeVariableWithValidNameSetsExpectedNameInVariable()
         {
             var sut = new VariableModel("x");
             Assert.That(sut.Name, Is.EqualTo("x"));
         }
 
         [Test]
-        public void InitializeWithEmptyExpressionWoutWhitespace()
+        public void InitializeVariableWithEmptyExpressionWoutWhitespace()
         {
             var sut = new VariableModel("x", "");
             Assert.That(sut.DomainExpression.IsEmpty, Is.True);
         }
 
         [Test]
-        public void InitializeWithDomainReferenceRawExpressionWithWhitespace()
+        public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
             var sut = new VariableModel("x", "   A    ");
             Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
         }
 
         [Test]
-        public void InitializeWithDomainReferenceRawExpressionWoutWhitespace()
+        public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
             var sut = new VariableModel("x", "A");
             Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
         }
 
         [Test]
-        public void InitializeWithInlineRawExpressionWoutWhitespace()
+        public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
             var sut = new VariableModel("x", "1..10");
             Assert.That(sut.DomainExpression.InlineDomain.Size, Is.EqualTo(10));

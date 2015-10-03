@@ -67,7 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ConstraintExpressionModel.cs" />
+    <Compile Include="Models\ConstraintExpressionUnit.cs" />
+    <Compile Include="Models\DomainExpressionUnit.cs" />
     <Compile Include="Models\SharedDomainReference.cs" />
+    <Compile Include="Models\VariableDomainExpressionUnit.cs" />
     <Compile Include="Models\VariableDomainGrammar.cs" />
     <Compile Include="Models\ConstraintGrammar.cs" />
     <Compile Include="Models\ConstraintModel.cs" />

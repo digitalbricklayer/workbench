@@ -8,23 +8,23 @@ namespace Dyna.Core.Models
     [Serializable]
     public class DomainExpressionModel
     {
+        private string text;
+
+        /// <summary>
+        /// Initialize a domain expression with a domain expression unit.
+        /// </summary>
+        /// <param name="theDomainExpressionUnit">Domain expression unit.</param>
+        public DomainExpressionModel(DomainExpressionUnit theDomainExpressionUnit)
+        {
+            this.Unit = theDomainExpressionUnit;
+        }
+
         /// <summary>
         /// Initialize a domain expression with a raw domain expression text.
         /// </summary>
         public DomainExpressionModel(string rawDomainExpression)
         {
             this.Text = rawDomainExpression;
-        }
-
-        /// <summary>
-        /// Initialize a domain expression with an upper and lower band for the domain.
-        /// </summary>
-        /// <param name="upperBand">Domain upper band.</param>
-        /// <param name="lowerBand">Domain lower band.</param>
-        public DomainExpressionModel(int upperBand, int lowerBand)
-        {
-            this.UpperBand = upperBand;
-            this.LowerBand = lowerBand;
         }
 
         /// <summary>
@@ -38,10 +38,33 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets or sets the expression text.
         /// </summary>
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return this.text; }
+            set
+            {
+                this.text = value;
+                this.ParseUnit(value);
+            }
+        }
 
-        public int UpperBand { get; private set; }
-        public int LowerBand { get; private set; }
+        public DomainExpressionUnit Unit { get; private set; }
+
+        public int UpperBand
+        {
+            get
+            {
+                return this.Unit.UpperBand;
+            }
+        }
+
+        public int LowerBand
+        {
+            get
+            {
+                return this.Unit.LowerBand;
+            }
+        }
 
         /// <summary>
         /// Gets the size of the range.
@@ -50,8 +73,20 @@ namespace Dyna.Core.Models
         {
             get
             {
-                return this.UpperBand - this.LowerBand + 1;
+                return this.Unit.Size;
             }
+        }
+
+        /// <summary>
+        /// Parse the raw domain expression.
+        /// </summary>
+        /// <param name="rawExpression">Raw domain expression.</param>
+        private void ParseUnit(string rawExpression)
+        {
+            if (!string.IsNullOrWhiteSpace(rawExpression))
+                this.Unit = DomainGrammar.Parse(rawExpression);
+            else
+                this.Unit = null;
         }
     }
 }

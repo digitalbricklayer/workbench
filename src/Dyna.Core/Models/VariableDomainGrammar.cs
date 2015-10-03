@@ -18,32 +18,32 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Empty expression parser.
         /// </summary>
-        private static readonly Parser<VariableDomainExpressionModel> EmptyExpression =
+        private static readonly Parser<VariableDomainExpressionUnit> EmptyExpression =
             from leading in Sprache.Parse.WhiteSpace.Many()
-            select new VariableDomainExpressionModel();
+            select new VariableDomainExpressionUnit();
 
         /// <summary>
         /// Shared domain name parser.
         /// </summary>
-        private static readonly Parser<VariableDomainExpressionModel> SharedDomainName =
+        private static readonly Parser<VariableDomainExpressionUnit> SharedDomainName =
             from leading in Sprache.Parse.WhiteSpace.Many()
             from sharedDomainName in Identifier
             from trailing in Sprache.Parse.WhiteSpace.Many()
-            select new VariableDomainExpressionModel(new SharedDomainReference(sharedDomainName));
+            select new VariableDomainExpressionUnit(new SharedDomainReference(sharedDomainName));
 
         /// <summary>
         /// Inline domain expression parser.
         /// </summary>
-        private static readonly Parser<VariableDomainExpressionModel> InlineDomainExpression =
+        private static readonly Parser<VariableDomainExpressionUnit> InlineDomainExpression =
             from expression in DomainGrammar.RangeExpressionGrammar
-            select new VariableDomainExpressionModel(expression);
+            select new VariableDomainExpressionUnit(new DomainExpressionModel(expression));
 
         /// <summary>
         /// Parse a raw variable domain expression.
         /// </summary>
         /// <param name="rawExpression">Raw domain expression.</param>
         /// <returns>Parsed expression tree.</returns>
-        public static VariableDomainExpressionModel Parse(string rawExpression)
+        public static VariableDomainExpressionUnit Parse(string rawExpression)
         {
             var variableDomainExpressionGrammar =
                 from expression in SharedDomainName

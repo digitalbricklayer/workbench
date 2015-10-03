@@ -13,7 +13,7 @@ namespace Dyna.Core.Models
         private static readonly Parser<string> identifier =
             from first in Sprache.Parse.Letter.Once().Text()
             from rest in Sprache.Parse.LetterOrDigit.Many().Text()
-            select string.Concat((string) first, (string) rest);
+            select string.Concat(first, rest);
 
         /// <summary>
         /// Parse a literal.
@@ -73,13 +73,13 @@ namespace Dyna.Core.Models
         /// </summary>
         /// <param name="rawExpression">String constraint expression.</param>
         /// <returns>Parsed expression tree.</returns>
-        public static ConstraintExpressionModel Parse(string rawExpression)
+        public static ConstraintExpressionUnit Parse(string rawExpression)
         {
             var constraintGrammar =
                 from lhs in leftHandSide
                 from operatorType in op
                 from rhs in rightHandSide
-                select new ConstraintExpressionModel(lhs, rhs, operatorType);
+                select new ConstraintExpressionUnit(lhs, rhs, operatorType);
 
             return constraintGrammar.End().Parse(rawExpression);
         }

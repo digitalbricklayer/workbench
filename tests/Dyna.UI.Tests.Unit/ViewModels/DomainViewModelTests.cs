@@ -19,5 +19,13 @@ namespace Dyna.UI.Tests.Unit.ViewModels
             var sut = new DomainViewModel("X");
             Assert.That(sut.IsValid, Is.False);
         }
+
+        [Test]
+        public void UpdateDomainExpressionUpdatesModel()
+        {
+            var sut = new DomainViewModel();
+            sut.Expression.Text = "1..10";
+            Assert.That(sut.Expression.Model.Size, Is.EqualTo(10));
+        }
     }
 }

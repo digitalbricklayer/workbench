@@ -31,7 +31,7 @@ namespace Dyna.Core.Models
         public VariableModel(string variableName, string theRawDomainExpression)
             : base(variableName)
         {
-            this.DomainExpression = VariableDomainGrammar.Parse(theRawDomainExpression);
+            this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
         }
 
         /// <summary>

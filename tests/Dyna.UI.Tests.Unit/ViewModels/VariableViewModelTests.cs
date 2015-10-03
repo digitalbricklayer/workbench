@@ -6,26 +6,25 @@ namespace Dyna.UI.Tests.Unit.ViewModels
     [TestFixture]
     public class VariableViewModelTests
     {
-
-        private static ConstraintViewModel CreateConstraint()
+        [Test]
+        public void UpdateVariableDomainExpressionWithDomainReferenceUpdatesModel()
         {
-            var y = new ConstraintViewModel("Y");
-
-            return y;
+            var sut = CreateVariable();
+            sut.DomainExpression.Text = "x";
+            Assert.That(sut.DomainExpression.Model.DomainReference.DomainName, Is.EqualTo("x"));
         }
 
-        private static DomainViewModel CreateDomain()
+        [Test]
+        public void UpdateDomainExpressionWithInlineDomainUpdatesModel()
         {
-            var y = new DomainViewModel("Y");
-
-            return y;
+            var sut = CreateVariable();
+            sut.DomainExpression.Text = "1..10";
+            Assert.That(sut.DomainExpression.Model.InlineDomain.Size, Is.EqualTo(10));
         }
 
         private static VariableViewModel CreateVariable()
         {
-            var x = new VariableViewModel("X");
-
-            return x;
+            return new VariableViewModel("X");
         }
     }
 }

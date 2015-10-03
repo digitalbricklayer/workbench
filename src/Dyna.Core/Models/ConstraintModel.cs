@@ -41,7 +41,7 @@ namespace Dyna.Core.Models
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
-            this.Expression = ConstraintGrammar.Parse(rawExpression);
+            this.Expression = new ConstraintExpressionModel(rawExpression);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Dyna.Core.Models
                 throw new ArgumentException("constraintName");
             if (string.IsNullOrWhiteSpace(expressionText))
                 throw new ArgumentException("expressionText");
-            return new ConstraintModel(constraintName, ConstraintGrammar.Parse(expressionText));
+            return new ConstraintModel(constraintName, expressionText);
         }
     }
 }

@@ -3,21 +3,18 @@
 namespace Dyna.Core.Models
 {
     /// <summary>
-    /// Expression tree of the constraint.
+    /// Constraint expression model.
     /// </summary>
     [Serializable]
     public class ConstraintExpressionModel
     {
-        public ConstraintExpressionModel(VariableModel lhs, Expression rhs, OperatorType operatorType)
-        {
-            if (lhs == null)
-                throw new ArgumentNullException("lhs");
-            if (rhs == null)
-                throw new ArgumentNullException("rhs");
+        private string text;
 
-            this.Left = lhs;
-            this.Right = rhs;
-            this.OperatorType = operatorType;
+        public ConstraintExpressionModel(ConstraintExpressionUnit theExpressionUnit)
+        {
+            if (theExpressionUnit == null)
+                throw new ArgumentNullException("theExpressionUnit");
+            this.Unit = theExpressionUnit;
         }
 
         public ConstraintExpressionModel(string rawExpression)
@@ -30,22 +27,50 @@ namespace Dyna.Core.Models
             this.Text = string.Empty;
         }
 
-        public string Text { get; set; }
+        /// <summary>
+        /// Gets or sets the expression as text.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return this.text;
+            }
+            set
+            {
+                this.text = value;
+                this.ParseUnit(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the expression unit.
+        /// </summary>
+        public ConstraintExpressionUnit Unit { get; private set; }
 
         /// <summary>
         /// Gets the left hand side of the expression.
         /// </summary>
-        public VariableModel Left { get; private set; }
+        public VariableModel Left
+        {
+            get { return this.Unit.Left; }
+        }
 
         /// <summary>
         /// Gets the right hand side expression.
         /// </summary>
-        public Expression Right { get; private set; }
+        public Expression Right
+        {
+            get { return this.Unit.Right; }
+        }
 
         /// <summary>
         /// Gets the operator type of the expression.
         /// </summary>
-        public OperatorType OperatorType { get; private set; }
+        public OperatorType OperatorType
+        {
+            get { return this.Unit.OperatorType; }
+        }
 
         /// <summary>
         /// Returns a string that represents the constraint expression.
@@ -56,6 +81,18 @@ namespace Dyna.Core.Models
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Left, OperatorType, Right);
+        }
+
+        /// <summary>
+        /// Parse the raw constraint expression.
+        /// </summary>
+        /// <param name="rawExpression">Raw constraint expression.</param>
+        private void ParseUnit(string rawExpression)
+        {
+            if (!string.IsNullOrWhiteSpace(rawExpression))
+                this.Unit = ConstraintGrammar.Parse(rawExpression);
+            else
+                this.Unit = null;
         }
     }
 }
