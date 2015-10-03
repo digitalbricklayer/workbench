@@ -11,29 +11,29 @@ namespace Dyna.Core.Models
     public class SolutionModel : ModelBase
     {
         /// <summary>
-        /// Initialize the solution with the model and the bound domains.
+        /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theBoundVariables">Bound domains.</param>
-        public SolutionModel(ModelModel theModel, params ValueModel[] theBoundVariables)
+        /// <param name="theValues">Values making up the model solution.</param>
+        public SolutionModel(ModelModel theModel, params ValueModel[] theValues)
             : this(theModel)
         {
-            if (theBoundVariables == null)
-                throw new ArgumentNullException("theBoundVariables");
-            this.Values.AddRange(theBoundVariables);
+            if (theValues == null)
+                throw new ArgumentNullException("theValues");
+            this.Values.AddRange(theValues);
         }
 
         /// <summary>
-        /// Initialize the solution with the model and the bound domains.
+        /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theBoundVariables">Bound domains.</param>
-        public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theBoundVariables)
+        /// <param name="theValues">Values making up the model solution.</param>
+        public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theValues)
             : this(theModel)
         {
-            if (theBoundVariables == null)
-                throw new ArgumentNullException("theBoundVariables");
-            this.Values.AddRange(theBoundVariables);
+            if (theValues == null)
+                throw new ArgumentNullException("theValues");
+            this.Values.AddRange(theValues);
         }
 
         /// <summary>
@@ -46,6 +46,9 @@ namespace Dyna.Core.Models
             this.Model = theModel;
         }
 
+        /// <summary>
+        /// Initialize the solution with default values.
+        /// </summary>
         public SolutionModel()
         {
             this.Values = new List<ValueModel>();

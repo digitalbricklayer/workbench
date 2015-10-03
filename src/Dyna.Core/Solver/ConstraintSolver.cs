@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Dyna.Core.Models;
 using Google.OrTools.ConstraintSolver;
 
@@ -12,6 +13,7 @@ namespace Dyna.Core.Solver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private readonly Dictionary<string, Tuple<VariableModel, IntVar>> variableMap;
+        private ModelModel model;
 
         /// <summary>
         /// Initialize the constraint solver with default values.
@@ -30,6 +32,8 @@ namespace Dyna.Core.Solver
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
 
+            this.model = theModel;
+
             if (!theModel.Validate()) return SolveResult.InvalidModel;
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
@@ -38,9 +42,8 @@ namespace Dyna.Core.Solver
             var variables = new IntVarVector();
             foreach (var variable in theModel.Variables)
             {
-                var orVariable = solver.MakeIntVar(variable.Domain.Expression.LowerBand,
-                                                   variable.Domain.Expression.UpperBand,
-                                                   variable.Name);
+                var band = this.GetVariableBand(variable);
+                var orVariable = solver.MakeIntVar(band.Item1, band.Item2, variable.Name);
                 variables.Add(orVariable);
                 this.variableMap.Add(variable.Name,
                                      new Tuple<VariableModel, IntVar>(variable, orVariable));
@@ -91,6 +94,23 @@ namespace Dyna.Core.Solver
             var values = this.CreateValuesFrom(collector);
             var theSolution = new SolutionModel(theModel, values);
             return new SolveResult(SolveStatus.Success, theSolution);
+        }
+
+        private Tuple<long,long> GetVariableBand(VariableModel theVariable)
+        {
+            Debug.Assert(!theVariable.DomainExpression.IsEmpty);
+
+            if (theVariable.DomainExpression.InlineDomain != null)
+            {
+                var inlineDomain = theVariable.DomainExpression.InlineDomain;
+                return new Tuple<long, long>(inlineDomain.LowerBand,
+                                             inlineDomain.UpperBand);
+            }
+
+            var sharedDomainName = theVariable.DomainExpression.DomainReference.DomainName;
+            var sharedDomain = this.model.GetSharedDomainByName(sharedDomainName);
+            return new Tuple<long, long>(sharedDomain.Expression.LowerBand,
+                                         sharedDomain.Expression.UpperBand);
         }
 
         private void HandleLessOperator(ConstraintModel constraint)

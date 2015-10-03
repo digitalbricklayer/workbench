@@ -21,8 +21,21 @@ namespace DynaApp.ViewModels
             if (newDomainExpression == null)
                 throw new ArgumentNullException("newDomainExpression");
 
-            this.Model = new VariableModel();
             this.DomainExpression = newDomainExpression;
+            this.Model = new VariableModel(newName, this.DomainExpression.Model);
+        }
+
+        /// <summary>
+        /// Initialize a variable with the new name.
+        /// </summary>
+        public VariableViewModel(string newName, VariableDomainExpressionViewModel newDomainExpression)
+            : base(newName)
+        {
+            if (newDomainExpression == null)
+                throw new ArgumentNullException("newDomainExpression");
+
+            this.DomainExpression = newDomainExpression;
+            this.Model = new VariableModel(newName, this.DomainExpression.Model);
         }
 
         /// <summary>
@@ -31,8 +44,8 @@ namespace DynaApp.ViewModels
         public VariableViewModel(string newName, Point newLocation)
             : base(newName, newLocation)
         {
-            this.Model = new VariableModel();
             this.DomainExpression = new VariableDomainExpressionViewModel();
+            this.Model = new VariableModel(newName, this.DomainExpression.Model);
         }
 
         /// <summary>

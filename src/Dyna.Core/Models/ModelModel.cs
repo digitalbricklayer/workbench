@@ -30,6 +30,7 @@ namespace Dyna.Core.Models
         /// </summary>
         public ModelModel()
         {
+            this.Name = string.Empty;
             this.Variables = new List<VariableModel>();
             this.Domains = new List<DomainModel>();
             this.Constraints = new List<ConstraintModel>();
@@ -219,20 +220,20 @@ namespace Dyna.Core.Models
         {
             foreach (var variable in this.Variables)
             {
-                if (variable.Domain == null)
+                if (variable.DomainExpression == null)
                 {
                     this.errors.Add("Missing domain");
                     return false;
                 }
 
                 // Make sure the domain is a shared domain...
-                if (string.IsNullOrWhiteSpace(variable.Domain.Name))
+                if (variable.DomainExpression.DomainReference == null)
                     continue;
 
-                var sharedDomain = this.GetSharedDomainByName(variable.Domain.Name);
+                var sharedDomain = this.GetSharedDomainByName(variable.DomainExpression.DomainReference.DomainName);
                 if (sharedDomain == null)
                 {
-                    this.errors.Add(string.Format("Missing shared domain {0}", variable.Domain.Name));
+                    this.errors.Add(string.Format("Missing shared domain {0}", variable.DomainExpression.DomainReference.DomainName));
                     return false;
                 }
             }

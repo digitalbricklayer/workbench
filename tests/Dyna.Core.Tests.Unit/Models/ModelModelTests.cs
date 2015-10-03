@@ -25,8 +25,8 @@ namespace Dyna.Core.Tests.Unit.Models
         private static ModelModel MakeValidModel()
         {
             return ModelModel.Create("A valid model")
-                             .AddVariable("x", new DomainModel("1..9"))
-                             .AddVariable("y", new DomainModel("1..9"))
+                             .AddVariable("x", "1..9")
+                             .AddVariable("y", "1..9")
                              .WithConstraint("x > y")
                              .Build();
         }
