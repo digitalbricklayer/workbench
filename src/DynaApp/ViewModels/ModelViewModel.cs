@@ -138,13 +138,7 @@ namespace DynaApp.ViewModels
             {
                 Trace.Assert(theModel.Errors.Any());
 
-                // Display error dialog...
-                var errorWindow = new ModelErrorsWindow
-                {
-                    Owner = parentWindow,
-                    DataContext = CreateModelErrorsFrom(theModel)
-                };
-                errorWindow.ShowDialog();
+                this.DisplayErrorDialog(parentWindow, theModel);
                 return SolveResult.InvalidModel;
             }
 
@@ -290,6 +284,24 @@ namespace DynaApp.ViewModels
         {
             Debug.Assert(domainToDelete.Model != null);
             this.Model.DeleteDomain(domainToDelete.Model);
+        }
+
+        /// <summary>
+        /// Display a dialog box with a display of all of the model errors.
+        /// </summary>
+        /// <param name="parentWindow">Dialog parent window.</param>
+        /// <param name="theModel">Model with errors to display.</param>
+        private void DisplayErrorDialog(Window parentWindow, ModelModel theModel)
+        {
+            // TODO: Fix this horendous cludge...
+            // If parent window is null, then this is likely to being run inside a test fixture.
+            if (parentWindow == null) return;
+            var errorWindow = new ModelErrorsWindow
+            {
+                Owner = parentWindow,
+                DataContext = CreateModelErrorsFrom(theModel)
+            };
+            errorWindow.ShowDialog();
         }
     }
 }
