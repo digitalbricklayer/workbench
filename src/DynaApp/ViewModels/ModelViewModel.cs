@@ -27,7 +27,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets the collection of domains in the model.
+        /// Gets the collection of variables in the model.
         /// </summary>
         public ObservableCollection<VariableViewModel> Variables { get; private set; }
 
@@ -37,7 +37,7 @@ namespace DynaApp.ViewModels
         public ObservableCollection<DomainViewModel> Domains { get; private set; }
 
         /// <summary>
-        /// Gets the collection of Variables in the model.
+        /// Gets the collection of constraints in the model.
         /// </summary>
         public ObservableCollection<ConstraintViewModel> Constraints { get; private set; }
 

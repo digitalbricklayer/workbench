@@ -126,10 +126,7 @@
                         <views:ModelView 
                             x:Name="modelControl"
                             Width="2000" Height="2000"
-                            VariablesSource="{Binding Variables}"
-                            DomainsSource="{Binding Domains}"
-                            ConstraintsSource="{Binding Constraints}"
-                            />
+                            VariablesSource="{Binding Graphics}"/>
 
                     </AdornerDecorator>
 
@@ -151,50 +148,13 @@
             </DataTemplate>
 
         <!--
-        Define the visual style for a 'VariableItem'.
+        Define the visual style for a GraphicItem.
         
-        Binds 'X' and 'Y' in the view-model (the 'VariableViewModel' class)
-        to 'X' and 'Y' in the VariableItem class.
+        Binds 'X' and 'Y' in the view-model to 'X' and 'Y' in the GraphicItem class.
         
-        This sets the position of the variable within the Canvas.
+        This sets the position of the graphic within the Canvas.
         -->
-        <Style TargetType="{x:Type controls:VariableItem}">
-            <Setter
-                Property="X"
-                Value="{Binding X}"
-                />
-            <Setter
-                Property="Y"
-                Value="{Binding Y}"
-                />
-            <Setter
-                Property="IsSelected"
-                Value="{Binding IsSelected}"
-                />
-        </Style>
-
-        <!--
-        Define the visual style for a DomainItem.
-        -->
-        <Style TargetType="{x:Type controls:DomainItem}">
-            <Setter
-                Property="X"
-                Value="{Binding X}"
-                />
-            <Setter
-                Property="Y"
-                Value="{Binding Y}"
-                />
-            <Setter
-                Property="IsSelected"
-                Value="{Binding IsSelected}"
-                />
-        </Style>
-
-        <!--
-        Define the visual style for a ConstraintItem.
-        -->
-        <Style TargetType="{x:Type controls:ConstraintItem}">
+        <Style TargetType="{x:Type controls:GraphicItem}">
             <Setter
                 Property="X"
                 Value="{Binding X}"
