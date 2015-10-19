@@ -6,61 +6,49 @@
     
     <SolidColorBrush
         x:Key="selectionBorderColor"
-        Color="Blue"
-        />
+        Color="Blue"/>
     
     <SolidColorBrush
         x:Key="selectionBorderBackgroundColor"
         Color="Blue"
-        Opacity="0.25"
-        />
+        Opacity="0.25"/>
 
     <!-- Default style and control-template for 'VariableItem'. -->
-    <Style 
-        TargetType="{x:Type controls:VariableItem}">
+    <Style TargetType="{x:Type controls:GraphicItem}">
         
         <!-- Data-bind the parent ModelView. -->
         <Setter
             Property="ParentModelView"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
-            />
+            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"/>
         
         <!-- Set the position of the variable within the canvas. -->
         <Setter
             Property="Canvas.Left"
-            Value="{Binding X, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
+            Value="{Binding X, RelativeSource={RelativeSource Self}, Mode=TwoWay}"/>
         <Setter
             Property="Canvas.Top"
-            Value="{Binding Y, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
+            Value="{Binding Y, RelativeSource={RelativeSource Self}, Mode=TwoWay}"/>
         
         <!-- Set the z-order of the variable within the canvas. -->
         <Setter
             Property="Canvas.ZIndex"
-            Value="{Binding ZIndex, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
+            Value="{Binding ZIndex, RelativeSource={RelativeSource Self}, Mode=TwoWay}"/>
 
         <!-- Set defaults for background and border. -->
         <Setter 
             Property="Background" 
-            Value="Transparent" 
-            />
+            Value="Transparent" />
         <Setter 
             Property="BorderBrush" 
-            Value="Transparent" 
-            />
+            Value="Transparent" />
         <Setter 
             Property="BorderThickness" 
-            Value="1" 
-            />
+            Value="1" />
 
         <!-- The control-template for the variable. -->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate 
-                    TargetType="{x:Type controls:VariableItem}"
-                    >
+                <ControlTemplate TargetType="{x:Type controls:GraphicItem}">
                     <Grid>
                         
                         <!-- 
@@ -120,216 +108,6 @@
         </Setter>
     </Style>
 
-    <!-- Default style and control-template for 'DomainItem'. -->
-    <Style 
-        TargetType="{x:Type controls:DomainItem}">
-
-        <!-- Data-bind the parent ModelView. -->
-        <Setter
-            Property="ParentModelView"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
-            />
-
-        <!-- Set the position of the variable within the canvas. -->
-        <Setter
-            Property="Canvas.Left"
-            Value="{Binding X, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-        <Setter
-            Property="Canvas.Top"
-            Value="{Binding Y, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-
-        <!-- Set the z-order of the variable within the canvas. -->
-        <Setter
-            Property="Canvas.ZIndex"
-            Value="{Binding ZIndex, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-
-        <!-- Set defaults for background and border. -->
-        <Setter 
-            Property="Background" 
-            Value="Transparent" 
-            />
-        <Setter 
-            Property="BorderBrush" 
-            Value="Transparent" 
-            />
-        <Setter 
-            Property="BorderThickness" 
-            Value="1" 
-            />
-
-        <!-- The control-template for the variable. -->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate 
-                    TargetType="{x:Type controls:DomainItem}"
-                    >
-                    <Grid>
-
-                        <!-- 
-                        This border indicates that variable is selected.
-                        Normally it is transparent, but when 'IsSelected' is set
-                        to 'true' the border brush becomes blue and its background
-                        becomds light blue.
-                        -->
-                        <Border
-                            x:Name="selectionBorder"
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Margin="{TemplateBinding Margin}"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="2"
-                            >
-
-                            <!-- 
-                            User-defined variable content is presented here. 
-                            -->
-                            <ContentPresenter />
-
-                        </Border>
-
-                    </Grid>
-                    <ControlTemplate.Triggers>
-
-                        <Trigger 
-                            Property="IsSelected"
-                            Value="True"
-                            >
-
-                            <!-- When the variable is selected, set the color of 'selectionBorder' to blue. -->
-                            <Setter
-                                TargetName="selectionBorder"
-                                Property="BorderBrush"
-                                Value="{StaticResource selectionBorderColor}"
-                                />
-                        </Trigger>
-
-                        <Trigger 
-                            Property="IsSelected"
-                            Value="True"
-                            >
-
-                            <!-- When the variable is selected, set the background of 'selectionBorder' to light blue. -->
-                            <Setter
-                                TargetName="selectionBorder"
-                                Property="Background"
-                                Value="{StaticResource selectionBorderBackgroundColor}"
-                                />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Default style and control-template for ConstraintItem. -->
-    <Style 
-        TargetType="{x:Type controls:ConstraintItem}">
-
-        <!-- Data-bind the parent ModelView. -->
-        <Setter
-            Property="ParentModelView"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"
-            />
-
-        <!-- Set the position of the variable within the canvas. -->
-        <Setter
-            Property="Canvas.Left"
-            Value="{Binding X, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-        <Setter
-            Property="Canvas.Top"
-            Value="{Binding Y, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-
-        <!-- Set the z-order of the variable within the canvas. -->
-        <Setter
-            Property="Canvas.ZIndex"
-            Value="{Binding ZIndex, RelativeSource={RelativeSource Self}, Mode=TwoWay}"
-            />
-
-        <!-- Set defaults for background and border. -->
-        <Setter 
-            Property="Background" 
-            Value="Transparent" 
-            />
-        <Setter 
-            Property="BorderBrush" 
-            Value="Transparent" 
-            />
-        <Setter 
-            Property="BorderThickness" 
-            Value="1" 
-            />
-
-        <!-- The control-template for the variable. -->
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate 
-                    TargetType="{x:Type controls:ConstraintItem}"
-                    >
-                    <Grid>
-
-                        <!-- 
-                        This border indicates that variable is selected.
-                        Normally it is transparent, but when 'IsSelected' is set
-                        to 'true' the border brush becomes blue and its background
-                        becomds light blue.
-                        -->
-                        <Border
-                            x:Name="selectionBorder"
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Margin="{TemplateBinding Margin}"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="2"
-                            >
-
-                            <!-- 
-                            User-defined variable content is presented here. 
-                            -->
-                            <ContentPresenter />
-
-                        </Border>
-
-                    </Grid>
-                    <ControlTemplate.Triggers>
-
-                        <Trigger 
-                            Property="IsSelected"
-                            Value="True"
-                            >
-
-                            <!-- When the variable is selected, set the color of 'selectionBorder' to blue. -->
-                            <Setter
-                                TargetName="selectionBorder"
-                                Property="BorderBrush"
-                                Value="{StaticResource selectionBorderColor}"
-                                />
-                        </Trigger>
-
-                        <Trigger 
-                            Property="IsSelected"
-                            Value="True"
-                            >
-
-                            <!-- When the variable is selected, set the background of 'selectionBorder' to light blue. -->
-                            <Setter
-                                TargetName="selectionBorder"
-                                Property="Background"
-                                Value="{StaticResource selectionBorderBackgroundColor}"
-                                />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- 
     Override the style of the ListBox to remove the ScrollViewer.
     All we want is ListBox logic but based on a Canvas.
@@ -352,73 +130,41 @@
     </Style>
 
     <!-- Default style and visual template for 'NetworkView'. -->
-    <Style 
-        TargetType="{x:Type local:ModelView}"
-        >
+    <Style TargetType="{x:Type local:ModelView}">
         
         <!-- The visual template. -->
-        <Setter 
-            Property="Template"
-            >
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate 
-                    TargetType="{x:Type local:ModelView}"
-                    >
+                <ControlTemplate TargetType="{x:Type local:ModelView}">
                     <Border 
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        Background="{TemplateBinding Background}"
-                        >
+                        Background="{TemplateBinding Background}">
                         <Grid>
 
                             <!-- Control that presents the variables. -->
-                            <controls:VariableItemsControl
+                            <controls:GraphicItemsControl
                                 x:Name="PART_VariableItemsControl"
                                 ItemsSource="{TemplateBinding Variables}"
                                 SelectionMode="Extended"
                                 Style="{StaticResource noScrollViewerListBoxStyle}"
-                                ItemTemplate="{TemplateBinding VariableItemTemplate}"
-                                ItemTemplateSelector="{TemplateBinding VariableItemTemplateSelector}"
-                                ItemContainerStyle="{TemplateBinding VariableItemContainerStyle}"
-                                />
-                            
-                            <!-- Control that presents the domains. -->
-                            <controls:DomainItemsControl
-                                x:Name="PART_DomainItemsControl"
-                                ItemsSource="{TemplateBinding Domains}"
-                                SelectionMode="Extended"
-                                Style="{StaticResource noScrollViewerListBoxStyle}"
-                                ItemTemplate="{TemplateBinding DomainItemTemplate}"
-                                ItemTemplateSelector="{TemplateBinding DomainItemTemplateSelector}"
-                                ItemContainerStyle="{TemplateBinding DomainItemContainerStyle}"
-                                />
-
-                            <!-- Control that presents the constraints. -->
-                            <controls:ConstraintItemsControl
-                                x:Name="PART_ConstraintItemsControl"
-                                ItemsSource="{TemplateBinding Constraints}"
-                                SelectionMode="Extended"
-                                Style="{StaticResource noScrollViewerListBoxStyle}"
-                                ItemTemplate="{TemplateBinding ConstraintItemTemplate}"
-                                ItemTemplateSelector="{TemplateBinding ConstraintItemTemplateSelector}"
-                                ItemContainerStyle="{TemplateBinding ConstraintItemContainerStyle}"
-                                />
+                                ItemTemplate="{TemplateBinding GraphicItemTemplate}"
+                                ItemTemplateSelector="{TemplateBinding GraphicItemTemplateSelector}"
+                                ItemContainerStyle="{TemplateBinding GraphicItemContainerStyle}"/>
                             
                             <!--
                             This Canvas and Border are used as a very simple way to render a drag selection rectangle.
                             -->
                             <Canvas
                                 x:Name="PART_DragSelectionCanvas"
-                                Visibility="Collapsed"
-                                >
+                                Visibility="Collapsed">
                                 <Border 
                                     x:Name="PART_DragSelectionBorder"
                                     BorderBrush="Blue"
                                     BorderThickness="1"
                                     Background="LightBlue"
                                     CornerRadius="1"
-                                    Opacity="0.5"
-                                    />
+                                    Opacity="0.5"/>
                             </Canvas>
                         </Grid>
                     </Border>

@@ -79,16 +79,11 @@
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
-    <Compile Include="Controls\ConstraintItem.cs" />
-    <Compile Include="Controls\ConstraintItemsControl.cs" />
-    <Compile Include="Controls\DomainItem.cs" />
-    <Compile Include="Controls\DomainItemsControl.cs" />
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
-    <Compile Include="Controls\VariableItem.cs" />
-    <Compile Include="Controls\VariableItemsControl.cs" />
+    <Compile Include="Controls\GraphicItemsControl.cs" />
     <Compile Include="Events\ConnectionDragEvents.cs" />
     <Compile Include="Events\ConnectorItemDragEvents.cs" />
     <Compile Include="Events\ConstraintDragEvents.cs" />
