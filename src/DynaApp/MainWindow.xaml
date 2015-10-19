@@ -128,8 +128,7 @@
                             Width="2000" Height="2000"
                             VariablesSource="{Binding Variables}"
                             DomainsSource="{Binding Domains}"
-                            ConstraintsSource="{Binding Constraints}"
-                            />
+                            ConstraintsSource="{Binding Constraints}"/>
 
                     </AdornerDecorator>
 
@@ -151,7 +150,7 @@
             </DataTemplate>
 
         <!--
-        Define the visual style for a 'VariableItem'.
+        Define the visual style for a VariableItem.
         
         Binds 'X' and 'Y' in the view-model (the 'VariableViewModel' class)
         to 'X' and 'Y' in the VariableItem class.
@@ -693,20 +692,16 @@
         <!-- Bind commands to event handlers. -->
         <CommandBinding 
             Command="{StaticResource Commands.DeleteSelectedGraphics}" 
-            Executed="DeleteSelectedGraphics_Executed" 
-            />
+            Executed="DeleteSelectedGraphics_Executed" />
         <CommandBinding 
             Command="{StaticResource Commands.DeleteVariable}" 
-            Executed="DeleteVariable_Executed" 
-            />
+            Executed="DeleteVariable_Executed" />
         <CommandBinding 
             Command="{StaticResource Commands.DeleteDomain}" 
-            Executed="DeleteDomain_Executed" 
-            />
+            Executed="DeleteDomain_Executed" />
         <CommandBinding 
             Command="{StaticResource Commands.DeleteConstraint}" 
-            Executed="DeleteConstraint_Executed" 
-            />
+            Executed="DeleteConstraint_Executed" />
 
     </Window.CommandBindings>
 
