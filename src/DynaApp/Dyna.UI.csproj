@@ -82,13 +82,9 @@
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
+    <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
-    <Compile Include="Events\ConnectionDragEvents.cs" />
-    <Compile Include="Events\ConnectorItemDragEvents.cs" />
-    <Compile Include="Events\ConstraintDragEvents.cs" />
-    <Compile Include="Events\DomainDragEvents.cs" />
-    <Compile Include="Events\GraphicDragEvents.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

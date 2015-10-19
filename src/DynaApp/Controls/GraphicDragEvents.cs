@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Windows;
 
-namespace DynaApp.Events
+namespace DynaApp.Controls
 {
     /// <summary>
     /// Base class for graphic dragging event args.
@@ -11,7 +11,7 @@ namespace DynaApp.Events
         /// <summary>
         /// The GraphicItems or their DataContext (when non-NULL).
         /// </summary>
-        public ICollection graphics;
+        private readonly ICollection graphics;
 
         protected GraphicDragEventArgs(RoutedEvent routedEvent, object source, ICollection graphics) :
             base(routedEvent, source)
@@ -20,7 +20,7 @@ namespace DynaApp.Events
         }
 
         /// <summary>
-        /// The VariableItem's or their DataContext (when non-NULL).
+        /// Gets the graphic items.
         /// </summary>
         public ICollection Graphics
         {
@@ -37,7 +37,7 @@ namespace DynaApp.Events
     public delegate void GraphicDragEventHandler(object sender, GraphicDragEventArgs e);
 
     /// <summary>
-    /// Arguments for event raised when the user starts to drag a Graphic in the model.
+    /// Arguments for event raised when the user starts to drag a graphic in the model.
     /// </summary>
     public class GraphicDragStartedEventArgs : GraphicDragEventArgs
     {
@@ -52,7 +52,7 @@ namespace DynaApp.Events
         }
 
         /// <summary>
-        /// Set to 'false' to disallow dragging.
+        /// Gets or sets the disallow dragging flag.
         /// </summary>
         public bool Cancel
         {
@@ -95,7 +95,7 @@ namespace DynaApp.Events
         }
 
         /// <summary>
-        /// The amount the variable has been dragged horizontally.
+        /// Gets the amount the graphic has been dragged horizontally.
         /// </summary>
         public double HorizontalChange
         {
@@ -106,7 +106,7 @@ namespace DynaApp.Events
         }
 
         /// <summary>
-        /// The amount the variable has been dragged vertically.
+        /// Gets the amount the graphic has been dragged vertically.
         /// </summary>
         public double VerticalChange
         {

@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using DynaApp.Controls;
-using DynaApp.Events;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Views
