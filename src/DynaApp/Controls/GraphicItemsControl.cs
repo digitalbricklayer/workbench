@@ -17,10 +17,10 @@ namespace DynaApp.Controls
         }
 
         /// <summary>
-        /// Find the VariableItem UI element that has the specified data context.
-        /// Return null if no such VariableItem exists.
+        /// Find the GraphicItem UI element that has the specified data context.
+        /// Return null if no such GraphicItem exists.
         /// </summary>
-        internal GraphicItem FindAssociatedVariableItem(object variableDataContext)
+        internal GraphicItem FindAssociatedGraphicItem(object variableDataContext)
         {
             return (GraphicItem)this.ItemContainerGenerator.ContainerFromItem(variableDataContext);
         }

@@ -7,18 +7,21 @@ using DynaApp.Views;
 
 namespace DynaApp.Controls
 {
+    /// <summary>
+    /// An item used to display a graphic.
+    /// </summary>
     public class GraphicItem : ListBoxItem
     {
         #region Dependency Property/Event Definitions
 
-        internal static readonly RoutedEvent VariableDragStartedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragStarted", RoutingStrategy.Bubble, typeof(VariableDragStartedEventHandler), typeof(GraphicItem));
+        internal static readonly RoutedEvent GraphicDragStartedEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragStarted", RoutingStrategy.Bubble, typeof(GraphicDragStartedEventHandler), typeof(GraphicItem));
 
-        internal static readonly RoutedEvent VariableDraggingEvent =
-            EventManager.RegisterRoutedEvent("VariableDragging", RoutingStrategy.Bubble, typeof(VariableDraggingEventHandler), typeof(GraphicItem));
+        internal static readonly RoutedEvent GraphicDraggingEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragging", RoutingStrategy.Bubble, typeof(GraphicDraggingEventHandler), typeof(GraphicItem));
 
-        internal static readonly RoutedEvent VariableDragCompletedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragCompleted", RoutingStrategy.Bubble, typeof(VariableDragCompletedEventHandler), typeof(GraphicItem));
+        internal static readonly RoutedEvent GraphicDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragCompleted", RoutingStrategy.Bubble, typeof(GraphicDragCompletedEventHandler), typeof(GraphicItem));
 
         public static readonly DependencyProperty XProperty =
             DependencyProperty.Register("X", typeof(double), typeof(GraphicItem),
@@ -213,15 +216,15 @@ namespace DynaApp.Controls
                 //
                 isLeftMouseAndControlDown = false;
 
-                if (this.ParentModelView.SelectedVariables.Count == 0)
+                if (this.ParentModelView.SelectedGraphics.Count == 0)
                 {
                     //
                     // Nothing already selected, select the item.
                     //
                     this.IsSelected = true;
                 }
-                else if (this.ParentModelView.SelectedVariables.Contains(this) ||
-                         this.ParentModelView.SelectedVariables.Contains(this.DataContext))
+                else if (this.ParentModelView.SelectedGraphics.Contains(this) ||
+                         this.ParentModelView.SelectedGraphics.Contains(this.DataContext))
                 {
                     // 
                     // Item is already selected, do nothing.
@@ -234,7 +237,7 @@ namespace DynaApp.Controls
                     // Item is not selected.
                     // Deselect all, and select the item.
                     //
-                    this.ParentModelView.SelectedVariables.Clear();
+                    this.ParentModelView.SelectedGraphics.Clear();
                     this.IsSelected = true;
                 }
             }
@@ -247,15 +250,15 @@ namespace DynaApp.Controls
         /// </summary>
         internal void RightMouseDownSelectionLogic()
         {
-            if (this.ParentModelView.SelectedVariables.Count == 0)
+            if (this.ParentModelView.SelectedGraphics.Count == 0)
             {
                 //
                 // Nothing already selected, select the item.
                 //
                 this.IsSelected = true;
             }
-            else if (this.ParentModelView.SelectedVariables.Contains(this) ||
-                     this.ParentModelView.SelectedVariables.Contains(this.DataContext))
+            else if (this.ParentModelView.SelectedGraphics.Contains(this) ||
+                     this.ParentModelView.SelectedGraphics.Contains(this.DataContext))
             {
                 // 
                 // Item is already selected, do nothing.
@@ -299,10 +302,10 @@ namespace DynaApp.Controls
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new VariableDraggingEventArgs(VariableDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new GraphicDraggingEventArgs(GraphicDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
                 }
             }
-            else if (isLeftMouseDown && this.ParentModelView.EnableVariableDragging)
+            else if (isLeftMouseDown && this.ParentModelView.EnableGraphicDragging)
             {
                 //
                 // The user is left-dragging the variable,
@@ -321,7 +324,7 @@ namespace DynaApp.Controls
                     //
                     // Raise an event to notify that that dragging has commenced.
                     //
-                    VariableDragStartedEventArgs eventArgs = new VariableDragStartedEventArgs(VariableDragStartedEvent, this, new GraphicItem[] { this });
+                    GraphicDragStartedEventArgs eventArgs = new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, new GraphicItem[] { this });
                     RaiseEvent(eventArgs);
 
                     if (eventArgs.Cancel)
@@ -356,7 +359,7 @@ namespace DynaApp.Controls
                     // Raise an event to notify that variable dragging has finished.
                     //
 
-                    RaiseEvent(new VariableDragCompletedEventArgs(VariableDragCompletedEvent, this, new GraphicItem[] { this }));
+                    RaiseEvent(new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, new GraphicItem[] { this }));
 
 					this.ReleaseMouseCapture();
 
@@ -398,9 +401,9 @@ namespace DynaApp.Controls
                 //
                 // Control key was not held down.
                 //
-                if (this.ParentModelView.SelectedVariables.Count == 1 &&
-                    (this.ParentModelView.SelectedVariable == this ||
-                     this.ParentModelView.SelectedVariable == this.DataContext))
+                if (this.ParentModelView.SelectedGraphics.Count == 1 &&
+                    (this.ParentModelView.SelectedGraphic == this ||
+                     this.ParentModelView.SelectedGraphic == this.DataContext))
                 {
                     //
                     // The item that was clicked is already the only selected item.
@@ -412,7 +415,7 @@ namespace DynaApp.Controls
                     //
                     // Clear the selection and select the clicked item as the only selected item.
                     //
-                    this.ParentModelView.SelectedVariables.Clear();
+                    this.ParentModelView.SelectedGraphics.Clear();
                     this.IsSelected = true;
                 }
             }

@@ -126,7 +126,7 @@
                         <views:ModelView 
                             x:Name="modelControl"
                             Width="2000" Height="2000"
-                            VariablesSource="{Binding Graphics}"/>
+                            GraphicsSource="{Binding Graphics}"/>
 
                     </AdornerDecorator>
 

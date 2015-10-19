@@ -21,40 +21,32 @@ namespace DynaApp.Views
     {
         #region Dependency Property/Event Definitions
 
-        private static readonly DependencyPropertyKey VariablesPropertyKey =
-            DependencyProperty.RegisterReadOnly("Variables", typeof(ObservableCollection<object>), typeof(ModelView),
+        private static readonly DependencyPropertyKey GraphicsPropertyKey =
+            DependencyProperty.RegisterReadOnly("Graphics", typeof(ObservableCollection<object>), typeof(ModelView),
                 new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty VariablesProperty = VariablesPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty GraphicsProperty = GraphicsPropertyKey.DependencyProperty;
 
-        public static readonly DependencyProperty VariablesSourceProperty =
-            DependencyProperty.Register("VariablesSource", typeof(IEnumerable), typeof(ModelView),
-                new FrameworkPropertyMetadata(VariablesSource_PropertyChanged));
-
-        public static readonly DependencyProperty DomainsSourceProperty =
-            DependencyProperty.Register("DomainsSource", typeof(IEnumerable), typeof(ModelView),
-                new FrameworkPropertyMetadata(VariablesSource_PropertyChanged));
-
-        public static readonly DependencyProperty ConstraintsSourceProperty =
-            DependencyProperty.Register("ConstraintsSource", typeof(IEnumerable), typeof(ModelView),
-                new FrameworkPropertyMetadata(VariablesSource_PropertyChanged));
+        public static readonly DependencyProperty GraphicsSourceProperty =
+            DependencyProperty.Register("GraphicsSource", typeof(IEnumerable), typeof(ModelView),
+                new FrameworkPropertyMetadata(GraphicsSource_PropertyChanged));
 
         public static readonly DependencyProperty IsClearSelectionOnEmptySpaceClickEnabledProperty =
             DependencyProperty.Register("IsClearSelectionOnEmptySpaceClickEnabled", typeof(bool), typeof(ModelView),
                 new FrameworkPropertyMetadata(true));
 
-        public static readonly DependencyProperty EnableVariableDraggingProperty =
-            DependencyProperty.Register("EnableVariableDragging", typeof(bool), typeof(ModelView),
+        public static readonly DependencyProperty EnableGraphicDraggingProperty =
+            DependencyProperty.Register("EnableGraphicDragging", typeof(bool), typeof(ModelView),
                 new FrameworkPropertyMetadata(true));
 
-        private static readonly DependencyPropertyKey IsDraggingVariablePropertyKey =
-            DependencyProperty.RegisterReadOnly("IsDraggingVariable", typeof(bool), typeof(ModelView),
+        private static readonly DependencyPropertyKey IsDraggingGraphicPropertyKey =
+            DependencyProperty.RegisterReadOnly("IsDraggingGraphic", typeof(bool), typeof(ModelView),
                 new FrameworkPropertyMetadata(false));
-        public static readonly DependencyProperty IsDraggingVariableProperty = IsDraggingVariablePropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsDraggingGraphicProperty = IsDraggingGraphicPropertyKey.DependencyProperty;
 
-        private static readonly DependencyPropertyKey IsNotDraggingVariablePropertyKey =
-            DependencyProperty.RegisterReadOnly("IsNotDraggingVariable", typeof(bool), typeof(ModelView),
+        private static readonly DependencyPropertyKey IsNotDraggingGraphicPropertyKey =
+            DependencyProperty.RegisterReadOnly("IsNotDraggingGraphic", typeof(bool), typeof(ModelView),
                 new FrameworkPropertyMetadata(true));
-        public static readonly DependencyProperty IsNotDraggingVariableProperty = IsDraggingVariablePropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsNotDraggingGraphicProperty = IsDraggingGraphicPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey IsDraggingPropertyKey =
             DependencyProperty.RegisterReadOnly("IsDragging", typeof(bool), typeof(ModelView),
@@ -75,32 +67,14 @@ namespace DynaApp.Views
         public static readonly DependencyProperty GraphicItemContainerStyleProperty =
             DependencyProperty.Register("GraphicItemContainerStyle", typeof(Style), typeof(ModelView));
 
-        public static readonly DependencyProperty DomainItemTemplateProperty =
-            DependencyProperty.Register("DomainItemTemplate", typeof(DataTemplate), typeof(ModelView));
+        public static readonly RoutedEvent GraphicDragStartedEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragStarted", RoutingStrategy.Bubble, typeof(GraphicDragStartedEventHandler), typeof(ModelView));
 
-        public static readonly DependencyProperty DomainItemTemplateSelectorProperty =
-            DependencyProperty.Register("DomainItemTemplateSelector", typeof(DataTemplateSelector), typeof(ModelView));
+        public static readonly RoutedEvent GraphicDraggingEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragging", RoutingStrategy.Bubble, typeof(GraphicDraggingEventHandler), typeof(ModelView));
 
-        public static readonly DependencyProperty DomainItemContainerStyleProperty =
-            DependencyProperty.Register("DomainItemContainerStyle", typeof(Style), typeof(ModelView));
-
-        public static readonly DependencyProperty ConstraintItemTemplateProperty =
-            DependencyProperty.Register("ConstraintItemTemplate", typeof(DataTemplate), typeof(ModelView));
-
-        public static readonly DependencyProperty ConstraintItemTemplateSelectorProperty =
-            DependencyProperty.Register("ConstraintItemTemplateSelector", typeof(DataTemplateSelector), typeof(ModelView));
-
-        public static readonly DependencyProperty ConstraintItemContainerStyleProperty =
-            DependencyProperty.Register("ConstraintItemContainerStyle", typeof(Style), typeof(ModelView));
-
-        public static readonly RoutedEvent VariableDragStartedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragStarted", RoutingStrategy.Bubble, typeof(VariableDragStartedEventHandler), typeof(ModelView));
-
-        public static readonly RoutedEvent VariableDraggingEvent =
-            EventManager.RegisterRoutedEvent("VariableDragging", RoutingStrategy.Bubble, typeof(VariableDraggingEventHandler), typeof(ModelView));
-
-        public static readonly RoutedEvent VariableDragCompletedEvent =
-            EventManager.RegisterRoutedEvent("VariableDragCompleted", RoutingStrategy.Bubble, typeof(VariableDragCompletedEventHandler), typeof(ModelView));
+        public static readonly RoutedEvent GraphicDragCompletedEvent =
+            EventManager.RegisterRoutedEvent("GraphicDragCompleted", RoutingStrategy.Bubble, typeof(GraphicDragCompletedEventHandler), typeof(ModelView));
 
         public static readonly RoutedCommand SelectAllCommand;
         public static readonly RoutedCommand SelectNoneCommand;
@@ -109,14 +83,14 @@ namespace DynaApp.Views
         #endregion Dependency Property/Event Definitions
 
         /// <summary>
-        /// Cached reference to the VariableItemsControl in the visual-tree.
+        /// Cached reference to the GraphicItemsControl in the visual-tree.
         /// </summary>
         private GraphicItemsControl graphicItemsControl;
 
         /// <summary>
-        /// Cached list of currently selected Variables.
+        /// Cached list of currently selected graphics.
         /// </summary>
-        private List<object> initialSelectedVariables;
+        private List<object> initialSelectedGraphics;
 
         /// <summary>
         /// Set to 'true' when the control key and the left mouse button is currently held down.
@@ -146,7 +120,7 @@ namespace DynaApp.Views
         /// <summary>
         /// Cached list of selected VariableItems, used while dragging domains.
         /// </summary>
-        private List<GraphicItem> cachedSelectedVariableItems;
+        private List<GraphicItem> cachedSelectedGraphicItems;
 
         /// <summary>
         /// The threshold distance the mouse-cursor must move before drag-selection begins.
@@ -158,7 +132,7 @@ namespace DynaApp.Views
             //
             // Create a collection to contain domains.
             //
-            this.Variables = new ObservableCollection<object>();
+            this.Graphics = new ObservableCollection<object>();
 
             //
             // Default background is white.
@@ -168,9 +142,9 @@ namespace DynaApp.Views
             //
             // Add handlers for graphic drag events.
             //
-            AddHandler(GraphicItem.VariableDragStartedEvent, new VariableDragStartedEventHandler(VariableItem_DragStarted));
-            AddHandler(GraphicItem.VariableDraggingEvent, new VariableDraggingEventHandler(VariableItem_Dragging));
-            AddHandler(GraphicItem.VariableDragCompletedEvent, new VariableDragCompletedEventHandler(VariableItem_DragCompleted));
+            AddHandler(GraphicItem.GraphicDragStartedEvent, new GraphicDragStartedEventHandler(GraphicItem_DragStarted));
+            AddHandler(GraphicItem.GraphicDraggingEvent, new GraphicDraggingEventHandler(GraphicItem_Dragging));
+            AddHandler(GraphicItem.GraphicDragCompletedEvent, new GraphicDragCompletedEventHandler(GraphicItem_DragCompleted));
         }
 
         /// <summary>
@@ -222,42 +196,42 @@ namespace DynaApp.Views
         /// <summary>
         /// Event raised when the user starts dragging a variable in the network.
         /// </summary>
-        public event VariableDragStartedEventHandler VariableDragStarted
+        public event GraphicDragStartedEventHandler GraphicDragStarted
         {
-            add { AddHandler(VariableDragStartedEvent, value); }
-            remove { RemoveHandler(VariableDragStartedEvent, value); }
+            add { AddHandler(GraphicDragStartedEvent, value); }
+            remove { RemoveHandler(GraphicDragStartedEvent, value); }
         }
 
         /// <summary>
         /// Event raised while user is dragging a variable in the network.
         /// </summary>
-        public event VariableDraggingEventHandler VariableDragging
+        public event GraphicDraggingEventHandler GraphicDragging
         {
-            add { AddHandler(VariableDraggingEvent, value); }
-            remove { RemoveHandler(VariableDraggingEvent, value); }
+            add { AddHandler(GraphicDraggingEvent, value); }
+            remove { RemoveHandler(GraphicDraggingEvent, value); }
         }
 
         /// <summary>
         /// Event raised when the user has completed dragging a variable in the network.
         /// </summary>
-        public event VariableDragCompletedEventHandler VariableDragCompleted
+        public event GraphicDragCompletedEventHandler GraphicDragCompleted
         {
-            add { AddHandler(VariableDragCompletedEvent, value); }
-            remove { RemoveHandler(VariableDragCompletedEvent, value); }
+            add { AddHandler(GraphicDragCompletedEvent, value); }
+            remove { RemoveHandler(GraphicDragCompletedEvent, value); }
         }
 
         /// <summary>
         /// Collection of domains in the model.
         /// </summary>
-        public ObservableCollection<object> Variables
+        public ObservableCollection<object> Graphics
         {
             get
             {
-                return (ObservableCollection<object>)GetValue(VariablesProperty);
+                return (ObservableCollection<object>)GetValue(GraphicsProperty);
             }
             private set
             {
-                SetValue(VariablesPropertyKey, value);
+                SetValue(GraphicsPropertyKey, value);
             }
         }
 
@@ -265,15 +239,15 @@ namespace DynaApp.Views
         /// A reference to the collection that is the source used to populate 'domains'.
         /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
         /// </summary>
-        public IEnumerable VariablesSource
+        public IEnumerable GraphicsSource
         {
             get
             {
-                return (IEnumerable)GetValue(VariablesSourceProperty);
+                return (IEnumerable)GetValue(GraphicsSourceProperty);
             }
             set
             {
-                SetValue(VariablesSourceProperty, value);
+                SetValue(GraphicsSourceProperty, value);
             }
         }
 
@@ -296,15 +270,15 @@ namespace DynaApp.Views
         /// <summary>
         /// Set to 'true' to enable dragging of domains.
         /// </summary>
-        public bool EnableVariableDragging
+        public bool EnableGraphicDragging
         {
             get
             {
-                return (bool)GetValue(EnableVariableDraggingProperty);
+                return (bool)GetValue(EnableGraphicDraggingProperty);
             }
             set
             {
-                SetValue(EnableVariableDraggingProperty, value);
+                SetValue(EnableGraphicDraggingProperty, value);
             }
         }
 
@@ -312,15 +286,15 @@ namespace DynaApp.Views
         /// Dependency property that is set to 'true' when the user is 
         /// dragging out a connection.
         /// </summary>
-        public bool IsDraggingVariable
+        public bool IsDraggingGraphic
         {
             get
             {
-                return (bool)GetValue(IsDraggingVariableProperty);
+                return (bool)GetValue(IsDraggingGraphicProperty);
             }
             private set
             {
-                SetValue(IsDraggingVariablePropertyKey, value);
+                SetValue(IsDraggingGraphicPropertyKey, value);
             }
         }
 
@@ -328,15 +302,15 @@ namespace DynaApp.Views
         /// Dependency property that is set to 'false' when the user is 
         /// dragging out a connection.
         /// </summary>
-        public bool IsNotDraggingVariable
+        public bool IsNotDraggingGraphic
         {
             get
             {
-                return (bool)GetValue(IsNotDraggingVariableProperty);
+                return (bool)GetValue(IsNotDraggingGraphicProperty);
             }
             private set
             {
-                SetValue(IsNotDraggingVariablePropertyKey, value);
+                SetValue(IsNotDraggingGraphicPropertyKey, value);
             }
         }
 
@@ -419,9 +393,9 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// A reference to currently selected variable.
+        /// Gets the currently selected graphic.
         /// </summary>
-        public object SelectedVariable
+        public object SelectedGraphic
         {
             get
             {
@@ -431,17 +405,17 @@ namespace DynaApp.Views
                 }
                 else
                 {
-                    if (initialSelectedVariables == null)
+                    if (initialSelectedGraphics == null)
                     {
                         return null;
                     }
 
-                    if (initialSelectedVariables.Count != 1)
+                    if (initialSelectedGraphics.Count != 1)
                     {
                         return null;
                     }
 
-                    return initialSelectedVariables[0];
+                    return initialSelectedGraphics[0];
                 }
             }
             set
@@ -452,21 +426,21 @@ namespace DynaApp.Views
                 }
                 else
                 {
-                    if (initialSelectedVariables == null)
+                    if (initialSelectedGraphics == null)
                     {
-                        initialSelectedVariables = new List<object>();
+                        initialSelectedGraphics = new List<object>();
                     }
 
-                    initialSelectedVariables.Clear();
-                    initialSelectedVariables.Add(value);
+                    initialSelectedGraphics.Clear();
+                    initialSelectedGraphics.Add(value);
                 }
             }
         }
 
         /// <summary>
-        /// A list of selected domains.
+        /// Gets a list of selected graphics.
         /// </summary>
-        public IList SelectedVariables
+        public IList SelectedGraphics
         {
             get
             {
@@ -476,12 +450,12 @@ namespace DynaApp.Views
                 }
                 else
                 {
-                    if (initialSelectedVariables == null)
+                    if (initialSelectedGraphics == null)
                     {
-                        initialSelectedVariables = new List<object>();
+                        initialSelectedGraphics = new List<object>();
                     }
 
-                    return initialSelectedVariables;
+                    return initialSelectedGraphics;
                 }
             }
         }
@@ -497,7 +471,7 @@ namespace DynaApp.Views
         /// </summary>
         public void BringSelectedVariablesIntoView()
         {
-            BringVariablesIntoView(SelectedVariables);
+            BringVariablesIntoView(SelectedGraphics);
         }
 
         /// <summary>
@@ -520,7 +494,7 @@ namespace DynaApp.Views
 
             foreach (var variable in variables)
             {
-                GraphicItem graphicItem = FindAssociatedVariableItem(variable);
+                GraphicItem graphicItem = FindAssociatedGraphicItem(variable);
                 Rect variableRect = new Rect(graphicItem.X, graphicItem.Y, graphicItem.ActualWidth, graphicItem.ActualHeight);
 
                 if (rect == Rect.Empty)
@@ -541,7 +515,7 @@ namespace DynaApp.Views
         /// </summary>
         public void SelectNone()
         {
-            this.SelectedVariables.Clear();
+            this.SelectedGraphics.Clear();
         }
 
         /// <summary>
@@ -549,16 +523,16 @@ namespace DynaApp.Views
         /// </summary>
         public void SelectAll()
         {
-            this.SelectAllVariables();
+            this.SelectAllGraphics();
         }
 
-        private void SelectAllVariables()
+        private void SelectAllGraphics()
         {
-            if (this.SelectedVariables.Count == this.Variables.Count) return;
-            this.SelectedVariables.Clear();
-            foreach (var variable in this.Variables)
+            if (this.SelectedGraphics.Count == this.Graphics.Count) return;
+            this.SelectedGraphics.Clear();
+            foreach (var variable in this.Graphics)
             {
-                this.SelectedVariables.Add(variable);
+                this.SelectedGraphics.Add(variable);
             }
         }
 
@@ -567,35 +541,16 @@ namespace DynaApp.Views
         /// </summary>
         public void InvertSelection()
         {
-            var selectedVariablesCopy = new ArrayList(this.SelectedVariables);
-            this.SelectedVariables.Clear();
+            var selectedVariablesCopy = new ArrayList(this.SelectedGraphics);
+            this.SelectedGraphics.Clear();
 
-            foreach (var variable in this.Variables)
+            foreach (var variable in this.Graphics)
             {
                 if (!selectedVariablesCopy.Contains(variable))
                 {
-                    this.SelectedVariables.Add(variable);
+                    this.SelectedGraphics.Add(variable);
                 }
             }
-        }
-
-        private HitTestResult HitTestContainers(Point hitPoint)
-        {
-            HitTestResult result = null;
-            VisualTreeHelper.HitTest(graphicItemsControl, null,
-                //
-                // Result callback delegate.
-                // This method is called when we have a result.
-                //
-                delegate(HitTestResult hitTestResult)
-                {
-                    result = hitTestResult;
-
-                    return HitTestResultBehavior.Stop;
-                },
-                new PointHitTestParameters(hitPoint));
-
-            return result;
         }
 
         /// <summary>
@@ -646,15 +601,15 @@ namespace DynaApp.Views
             //
             // Synchronize initial selected variables to the VariableItemsControl.
             //
-            if (this.initialSelectedVariables != null && this.initialSelectedVariables.Any())
+            if (this.initialSelectedGraphics != null && this.initialSelectedGraphics.Any())
             {
-                foreach (var variable in this.initialSelectedVariables)
+                foreach (var variable in this.initialSelectedGraphics)
                 {
                     this.graphicItemsControl.SelectedItems.Add(variable);
                 }
             }
 
-            this.initialSelectedVariables = null; // Don't need this any more.
+            this.initialSelectedGraphics = null; // Don't need this any more.
 
             this.graphicItemsControl.SelectionChanged += new SelectionChangedEventHandler(variableItemsControl_SelectionChanged);
 
@@ -674,14 +629,14 @@ namespace DynaApp.Views
         /// <summary>
         /// Event raised when a new collection has been assigned to the 'VariablesSource' property.
         /// </summary>
-        private static void VariablesSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void GraphicsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ModelView c = (ModelView)d;
 
             //
             // Clear variables.
             //
-            c.Variables.Clear();
+            c.Graphics.Clear();
 
             if (e.OldValue != null)
             {
@@ -705,7 +660,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in enumerable)
                     {
-                        c.Variables.Add(obj);
+                        c.Graphics.Add(obj);
                     }
                 }
 
@@ -730,7 +685,7 @@ namespace DynaApp.Views
                 //
                 // 'VariablesSource' has been cleared, also clear 'domains'.
                 //
-                this.Variables.Clear();
+                this.Graphics.Clear();
             }
             else
             {
@@ -741,7 +696,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in e.OldItems)
                     {
-                        this.Variables.Remove(obj);
+                        this.Graphics.Remove(obj);
                     }
                 }
 
@@ -752,7 +707,7 @@ namespace DynaApp.Views
                     //
                     foreach (object obj in e.NewItems)
                     {
-                        this.Variables.Add(obj);
+                        this.Graphics.Add(obj);
                     }
                 }
             }
@@ -788,18 +743,14 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Find the VariableItem UI element that is associated with 'variable'.
-        /// 'variable' can be a view-model object, in which case the visual-tree
-        /// is searched for the associated VariableItem.
-        /// Otherwise 'variable' can actually be a 'VariableItem' in which case it is 
-        /// simply returned.
+        /// Find the GraphicItem UI element that is associated with graphic.
         /// </summary>
-        internal GraphicItem FindAssociatedVariableItem(object variable)
+        internal GraphicItem FindAssociatedGraphicItem(object graphic)
         {
-            GraphicItem graphicItem = variable as GraphicItem;
+            GraphicItem graphicItem = graphic as GraphicItem;
             if (graphicItem == null)
             {
-                graphicItem = graphicItemsControl.FindAssociatedVariableItem(variable);
+                graphicItem = graphicItemsControl.FindAssociatedGraphicItem(graphic);
             }
             return graphicItem;
         }
@@ -809,7 +760,7 @@ namespace DynaApp.Views
         /// </summary>
         internal void DeselectAll()
         {
-            this.SelectedVariables.Clear();
+            this.SelectedGraphics.Clear();
         }
 
         /// <summary>
@@ -997,7 +948,7 @@ namespace DynaApp.Views
             //
             // Find and select all the variable list box items.
             //
-            for (int variableIndex = 0; variableIndex < this.Variables.Count; ++variableIndex)
+            for (int variableIndex = 0; variableIndex < this.Graphics.Count; ++variableIndex)
             {
                 var variableItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(variableIndex);
                 var transformToAncestor = variableItem.TransformToAncestor(this);
@@ -1025,16 +976,16 @@ namespace DynaApp.Views
         /// <summary>
         /// Event raised when the user starts to drag a variable.
         /// </summary>
-        private void VariableItem_DragStarted(object source, VariableDragStartedEventArgs e)
+        private void GraphicItem_DragStarted(object source, GraphicDragStartedEventArgs e)
         {
             e.Handled = true;
 
             this.IsDragging = true;
             this.IsNotDragging = false;
-            this.IsDraggingVariable = true;
-            this.IsNotDraggingVariable = false;
+            this.IsDraggingGraphic = true;
+            this.IsNotDraggingGraphic = false;
 
-            var eventArgs = new VariableDragStartedEventArgs(VariableDragStartedEvent, this, this.SelectedVariables);            
+            var eventArgs = new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, this.SelectedGraphics);            
             RaiseEvent(eventArgs);
 
             e.Cancel = eventArgs.Cancel;
@@ -1043,61 +994,61 @@ namespace DynaApp.Views
         /// <summary>
         /// Event raised while the user is dragging a variable.
         /// </summary>
-        private void VariableItem_Dragging(object source, VariableDraggingEventArgs e)
+        private void GraphicItem_Dragging(object source, GraphicDraggingEventArgs e)
         {
             e.Handled = true;
 
             //
             // Cache the VariableItem for each selected variable whilst dragging is in progress.
             //
-            if (this.cachedSelectedVariableItems == null)
+            if (this.cachedSelectedGraphicItems == null)
             {
-                this.cachedSelectedVariableItems = new List<GraphicItem>();
+                this.cachedSelectedGraphicItems = new List<GraphicItem>();
 
-                foreach (var selectedVariable in this.SelectedVariables)
+                foreach (var selectedVariable in this.SelectedGraphics)
                 {
-                    var variableItem = FindAssociatedVariableItem(selectedVariable);
+                    var variableItem = FindAssociatedGraphicItem(selectedVariable);
                     if (variableItem == null)
                     {
                         throw new ApplicationException("Unexpected code path!");
                     }
 
-                    this.cachedSelectedVariableItems.Add(variableItem);
+                    this.cachedSelectedGraphicItems.Add(variableItem);
                 }
             }
 
             // 
             // Update the position of the variable within the Canvas.
             //
-            foreach (var variableItem in this.cachedSelectedVariableItems)
+            foreach (var graphicItem in this.cachedSelectedGraphicItems)
             {
-                variableItem.X += e.HorizontalChange;
-                variableItem.Y += e.VerticalChange;
+                graphicItem.X += e.HorizontalChange;
+                graphicItem.Y += e.VerticalChange;
             }
 
-            var eventArgs = new VariableDraggingEventArgs(VariableDraggingEvent, this, this.SelectedVariables, e.HorizontalChange, e.VerticalChange);
+            var eventArgs = new GraphicDraggingEventArgs(GraphicDraggingEvent, this, this.SelectedGraphics, e.HorizontalChange, e.VerticalChange);
             RaiseEvent(eventArgs);
         }
 
         /// <summary>
         /// Event raised when the user has finished dragging a variable.
         /// </summary>
-        private void VariableItem_DragCompleted(object source, VariableDragCompletedEventArgs e)
+        private void GraphicItem_DragCompleted(object source, GraphicDragCompletedEventArgs e)
         {
             e.Handled = true;
 
-            var eventArgs = new VariableDragCompletedEventArgs(VariableDragCompletedEvent, this, this.SelectedVariables);
+            var eventArgs = new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, this.SelectedGraphics);
             RaiseEvent(eventArgs);
 
-            if (cachedSelectedVariableItems != null)
+            if (cachedSelectedGraphicItems != null)
             {
-                cachedSelectedVariableItems = null;
+                cachedSelectedGraphicItems = null;
             }
 
             this.IsDragging = false;
             this.IsNotDragging = true;
-            this.IsDraggingVariable = false;
-            this.IsNotDraggingVariable = true;
+            this.IsDraggingGraphic = false;
+            this.IsNotDraggingGraphic = true;
         }
     }
 }
