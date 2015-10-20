@@ -64,8 +64,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Margin="{TemplateBinding Margin}"
                             Padding="{TemplateBinding Padding}"
-                            CornerRadius="2"
-                            >
+                            CornerRadius="2">
                             
                             <!-- 
                             User-defined variable content is presented here. 
@@ -79,28 +78,24 @@
                         
                         <Trigger 
                             Property="IsSelected"
-                            Value="True"
-                            >
+                            Value="True">
                             
                             <!-- When the variable is selected, set the color of 'selectionBorder' to blue. -->
                             <Setter
                                 TargetName="selectionBorder"
                                 Property="BorderBrush"
-                                Value="{StaticResource selectionBorderColor}"
-                                />                                
+                                Value="{StaticResource selectionBorderColor}" />                                
                         </Trigger>
                         
                         <Trigger 
                             Property="IsSelected"
-                            Value="True"
-                            >
+                            Value="True">
                             
                             <!-- When the variable is selected, set the background of 'selectionBorder' to light blue. -->
                             <Setter
                                 TargetName="selectionBorder"
                                 Property="Background"
-                                Value="{StaticResource selectionBorderBackgroundColor}"
-                                />
+                                Value="{StaticResource selectionBorderBackgroundColor}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -121,9 +116,7 @@
                     'IsItemsHost' is set to 'True' so that the ListBox
                     uses the Canvas as the container for its items.
                     -->
-                    <Canvas 
-                        IsItemsHost="True" 
-                        />
+                    <Canvas IsItemsHost="True" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
