@@ -117,7 +117,7 @@ namespace DynaApp.Views
         private FrameworkElement dragSelectionBorder;
 
         /// <summary>
-        /// Cached list of selected VariableItems, used while dragging domains.
+        /// Cached list of selected GraphicItems, used while dragging graphics.
         /// </summary>
         private List<GraphicItem> cachedSelectedGraphicItems;
 
@@ -591,14 +591,14 @@ namespace DynaApp.Views
             // Cache the parts of the visual tree that we need access to later.
             //
 
-            this.graphicItemsControl = (GraphicItemsControl)this.Template.FindName("PART_VariableItemsControl", this);
+            this.graphicItemsControl = (GraphicItemsControl)this.Template.FindName("PART_GraphicItemsControl", this);
             if (this.graphicItemsControl == null)
             {
-                throw new ApplicationException("Failed to find 'PART_VariableItemsControl' in the visual tree for 'ModelView'.");
+                throw new ApplicationException("Failed to find 'PART_GraphicItemsControl' in the visual tree for 'ModelView'.");
             }
 
             //
-            // Synchronize initial selected variables to the VariableItemsControl.
+            // Synchronize initial selected graphics to the GraphicItemsControl.
             //
             if (this.initialSelectedGraphics != null && this.initialSelectedGraphics.Any())
             {
@@ -610,7 +610,7 @@ namespace DynaApp.Views
 
             this.initialSelectedGraphics = null; // Don't need this any more.
 
-            this.graphicItemsControl.SelectionChanged += new SelectionChangedEventHandler(variableItemsControl_SelectionChanged);
+            this.graphicItemsControl.SelectionChanged += new SelectionChangedEventHandler(graphicItemsControl_SelectionChanged);
 
             this.dragSelectionCanvas = (FrameworkElement)this.Template.FindName("PART_DragSelectionCanvas", this);
             if (this.dragSelectionCanvas == null)
@@ -947,24 +947,24 @@ namespace DynaApp.Views
             //
             // Find and select all the variable list box items.
             //
-            for (int variableIndex = 0; variableIndex < this.Graphics.Count; ++variableIndex)
+            for (int graphicIndex = 0; graphicIndex < this.Graphics.Count; ++graphicIndex)
             {
-                var variableItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(variableIndex);
-                var transformToAncestor = variableItem.TransformToAncestor(this);
+                var graphicItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(graphicIndex);
+                var transformToAncestor = graphicItem.TransformToAncestor(this);
                 Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
-                Point itemPt2 = transformToAncestor.Transform(new Point(variableItem.ActualWidth, variableItem.ActualHeight));
+                Point itemPt2 = transformToAncestor.Transform(new Point(graphicItem.ActualWidth, graphicItem.ActualHeight));
                 Rect itemRect = new Rect(itemPt1, itemPt2);
                 if (dragRect.Contains(itemRect))
                 {
-                    variableItem.IsSelected = true;
+                    graphicItem.IsSelected = true;
                 }
             }
         }
 
         /// <summary>
-        /// Event raised when the selection in 'variableItemsControl' changes.
+        /// Event raised when the selection in GraphicItemsControl changes.
         /// </summary>
-        private void variableItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void graphicItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.SelectionChanged != null)
             {
@@ -1004,15 +1004,15 @@ namespace DynaApp.Views
             {
                 this.cachedSelectedGraphicItems = new List<GraphicItem>();
 
-                foreach (var selectedVariable in this.SelectedGraphics)
+                foreach (var selectedGraphic in this.SelectedGraphics)
                 {
-                    var variableItem = FindAssociatedGraphicItem(selectedVariable);
-                    if (variableItem == null)
+                    var graphicItem = FindAssociatedGraphicItem(selectedGraphic);
+                    if (graphicItem == null)
                     {
                         throw new ApplicationException("Unexpected code path!");
                     }
 
-                    this.cachedSelectedGraphicItems.Add(variableItem);
+                    this.cachedSelectedGraphicItems.Add(graphicItem);
                 }
             }
 
