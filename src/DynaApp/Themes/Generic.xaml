@@ -144,7 +144,7 @@
 
                             <!-- Control that presents the variables. -->
                             <controls:GraphicItemsControl
-                                x:Name="PART_VariableItemsControl"
+                                x:Name="PART_GraphicItemsControl"
                                 ItemsSource="{TemplateBinding Graphics}"
                                 SelectionMode="Extended"
                                 Style="{StaticResource noScrollViewerListBoxStyle}"
