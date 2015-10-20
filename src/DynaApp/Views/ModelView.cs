@@ -973,7 +973,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Event raised when the user starts to drag a variable.
+        /// Event raised when the user starts to drag a graphic.
         /// </summary>
         private void GraphicItem_DragStarted(object source, GraphicDragStartedEventArgs e)
         {
@@ -991,14 +991,14 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Event raised while the user is dragging a variable.
+        /// Event raised while the user is dragging a graphic.
         /// </summary>
         private void GraphicItem_Dragging(object source, GraphicDraggingEventArgs e)
         {
             e.Handled = true;
 
             //
-            // Cache the VariableItem for each selected variable whilst dragging is in progress.
+            // Cache the GraphicItem for each selected graphic whilst dragging is in progress.
             //
             if (this.cachedSelectedGraphicItems == null)
             {
@@ -1017,7 +1017,7 @@ namespace DynaApp.Views
             }
 
             // 
-            // Update the position of the variable within the Canvas.
+            // Update the position of the graphic within the Canvas.
             //
             foreach (var graphicItem in this.cachedSelectedGraphicItems)
             {
@@ -1030,7 +1030,7 @@ namespace DynaApp.Views
         }
 
         /// <summary>
-        /// Event raised when the user has finished dragging a variable.
+        /// Event raised when the user has finished dragging a graphic.
         /// </summary>
         private void GraphicItem_DragCompleted(object source, GraphicDragCompletedEventArgs e)
         {
