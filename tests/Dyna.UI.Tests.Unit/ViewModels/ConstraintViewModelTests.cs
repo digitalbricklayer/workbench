@@ -21,11 +21,19 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         }
 
         [Test]
-        public void UpdateConstraintExpressionTextUpdatesModel()
+        public void UpdateConstraintExpressionTextUpdatesExpressionModel()
         {
             var sut = new ConstraintViewModel();
             sut.Expression.Text = "x > 1";
             Assert.That(sut.Expression.Model.Left.Name, Is.EqualTo("x"));
+        }
+
+        [Test]
+        public void UpdateConstraintExpressionTextUpdatesConstraintModel()
+        {
+            var sut = new ConstraintViewModel();
+            sut.Expression.Text = "x > 1";
+            Assert.That(sut.Model.Expression.Left.Name, Is.EqualTo(sut.Expression.Model.Left.Name));
         }
     }
 }
