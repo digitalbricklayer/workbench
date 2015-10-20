@@ -5,7 +5,7 @@ using DynaApp.ViewModels;
 namespace DynaApp.Services
 {
     /// <summary>
-    /// Map a value into a view model.
+    /// Map a value model into a view model.
     /// </summary>
     internal class ValueMapper
     {

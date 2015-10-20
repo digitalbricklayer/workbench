@@ -4,6 +4,9 @@ using DynaApp.ViewModels;
 
 namespace DynaApp.Services
 {
+    /// <summary>
+    /// Maps a constraint model into a view model.
+    /// </summary>
     internal class ConstraintMapper
     {
         private readonly ModelViewModelCache cache;

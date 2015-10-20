@@ -3,6 +3,9 @@ using DynaApp.ViewModels;
 
 namespace DynaApp.Services
 {
+    /// <summary>
+    /// Maps a model model into a view model.
+    /// </summary>
     internal class ModelMapper
     {
         private readonly VariableMapper variableMapper;

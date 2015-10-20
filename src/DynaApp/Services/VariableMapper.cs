@@ -4,6 +4,9 @@ using DynaApp.ViewModels;
 
 namespace DynaApp.Services
 {
+    /// <summary>
+    /// Maps a variable model into a view model.
+    /// </summary>
     internal class VariableMapper
     {
         private readonly ModelViewModelCache cache;

@@ -4,6 +4,9 @@ using DynaApp.ViewModels;
 
 namespace DynaApp.Services
 {
+    /// <summary>
+    /// Maps a domain model into a view model.
+    /// </summary>
     internal class DomainMapper
     {
         private readonly ModelViewModelCache cache;
