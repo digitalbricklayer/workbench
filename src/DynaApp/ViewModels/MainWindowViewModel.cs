@@ -13,6 +13,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractViewModel
     {
+		private const string ProgramTitle = "Constraint Workbench";
         private string filename = string.Empty;
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
@@ -232,7 +233,7 @@ namespace DynaApp.ViewModels
             // Show Open File dialog
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
+                Filter = ProgramTitle + " (*.dpf)|*.dpf|All Files|*.*",
                 DefaultExt = "dpf",
                 RestoreDirectory = true
             };
@@ -286,7 +287,7 @@ namespace DynaApp.ViewModels
             // Show Save File dialog
             var dlg = new SaveFileDialog
             {
-                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
+                Filter = ProgramTitle + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
                 DefaultExt = "dpf",
                 RestoreDirectory = true
@@ -423,7 +424,7 @@ namespace DynaApp.ViewModels
         {
             MessageBox.Show(Application.Current.MainWindow,
                             message,
-                            "Dyna Project",
+                            ProgramTitle,
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
         }
@@ -433,7 +434,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var newTitle = "Dyna Project" + " - ";
+            var newTitle = ProgramTitle + " - ";
 
             if (string.IsNullOrEmpty(this.filename))
             {
