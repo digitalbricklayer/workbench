@@ -97,6 +97,7 @@
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AbstractViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableViewModel.cs" />
     <Compile Include="ViewModels\ValueViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\ConstraintViewModel.cs" />

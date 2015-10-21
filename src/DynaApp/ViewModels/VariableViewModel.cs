@@ -13,7 +13,7 @@ namespace DynaApp.ViewModels
         private VariableDomainExpressionViewModel domainExpression;
 
         /// <summary>
-        /// Initialize a variable with the new name.
+        /// Initialize a variable with a name, location and domain expression.
         /// </summary>
         public VariableViewModel(string newName, Point newLocation, VariableDomainExpressionViewModel newDomainExpression)
             : base(newName, newLocation)
@@ -26,7 +26,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize a variable with the new name.
+        /// Initialize a variable with a name and domain expression.
         /// </summary>
         public VariableViewModel(string newName, VariableDomainExpressionViewModel newDomainExpression)
             : base(newName)
@@ -39,7 +39,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize a variable with the new name.
+        /// Initialize a variable with a name and location.
         /// </summary>
         public VariableViewModel(string newName, Point newLocation)
             : base(newName, newLocation)
@@ -49,7 +49,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize a variable with the new name.
+        /// Initialize a variable with a name.
         /// </summary>
         public VariableViewModel(string newName)
             : base(newName)
