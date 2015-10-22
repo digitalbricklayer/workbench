@@ -11,7 +11,7 @@ build:
 artifacts:
   - path: '**\*.msi'
 deploy:
-  release: dynaproject-v$(appveyor_build_version)-alpha
+  release: constraintworkbench-v$(appveyor_build_version)-alpha
   provider: GitHub
   auth_token:
     secure: S4Tp4mWcK10d80w6YRHIrxrKS7x+vhJzkyyeWL5phUNKWSVKvyHcvBYdth9o8DK/ # encrypted access token from GitHub

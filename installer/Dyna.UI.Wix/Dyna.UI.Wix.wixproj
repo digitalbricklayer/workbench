@@ -21,7 +21,7 @@
     <OutputPath>..\..\src\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <DefineConstants>APPTITLE=Dyna Project;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Dyna Project</DefineConstants>
+    <DefineConstants>APPTITLE=Constraint Workbench;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Constraint Workbench</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreConditions.wxs" />
