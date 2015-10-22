@@ -31,7 +31,7 @@
           </Directory>
         </Directory>
 
-        <Icon Id="DynaIcon.exe" SourceFile="$(var.APPPATH)\DynaApp.exe" />
+        <Icon Id="DynaIcon.exe" SourceFile="$(var.APPPATH)\ConstraintWorkbench.exe" />
 
         <!-- Add files to your installer package -->
         <ComponentGroup Id="AppFiles">
@@ -43,7 +43,7 @@
                           Directory="ProgramMenuFolderLevel1"
                           Advertise="yes"
                           WorkingDirectory="INSTALLDIR"
-                          Icon ="DynaIcon.exe" />
+                          Icon ="ConstraintWorkbench.exe" />
               </File>
               <RemoveFolder Id='remove.ProgramMenuFolderLevel1' Directory='ProgramMenuFolderLevel1' On='uninstall' />
             </Component>
