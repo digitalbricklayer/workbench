@@ -59,13 +59,12 @@ namespace Dyna.Core.Models
         public void Resize(int newSize)
         {
             if (this.variables.Length == newSize) return;
-            var newVariables = new VariableModel[newSize];
-            var originalVariablesToCopyCount = this.variables.Length > newSize ? newSize : this.variables.Length;
-            Array.Copy(this.variables, newVariables, originalVariablesToCopyCount);
+            var originalVariableCount = this.variables.Length;
+            Array.Resize(ref this.variables, newSize);
+            var originalVariablesToCopyCount = originalVariableCount > newSize ? newSize : originalVariableCount;
             // Fill the new array elements with a default variable model
-            for (int i = originalVariablesToCopyCount; i < newSize; i++)
-                newVariables[i] = new VariableModel();
-            this.variables = newVariables;
+            for (var i = originalVariablesToCopyCount; i < newSize; i++)
+                this.variables[i] = new VariableModel();
         }
     }
 }
