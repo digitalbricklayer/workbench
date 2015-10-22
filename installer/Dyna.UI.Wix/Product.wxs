@@ -43,7 +43,7 @@
                           Directory="ProgramMenuFolderLevel1"
                           Advertise="yes"
                           WorkingDirectory="INSTALLDIR"
-                          Icon="ConstraintWorkbench.exe" />
+                          Icon="DynaIcon.exe" />
               </File>
               <RemoveFolder Id='remove.ProgramMenuFolderLevel1' Directory='ProgramMenuFolderLevel1' On='uninstall' />
             </Component>
