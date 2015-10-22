@@ -13,11 +13,25 @@ namespace Dyna.Core.Models
         private VariableModel[] variables;
 
         /// <summary>
-        /// Initialize an aggregate variable with default values.
+        /// Initializes an aggregate variable with a name and domain expression.
         /// </summary>
-        public AggregateVariableModel()
+        public AggregateVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(variableName)
+        {
+            if (theDomainExpression == null)
+                throw new ArgumentNullException("theDomainExpression");
+            this.variables = new VariableModel[0];
+            this.DomainExpression = theDomainExpression;
+        }
+
+        /// <summary>
+        /// Initializes an aggregate variable with a name and domain expression.
+        /// </summary>
+        public AggregateVariableModel(string variableName, string theRawDomainExpression)
+            : base(variableName)
         {
             this.variables = new VariableModel[0];
+            this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
         }
 
         /// <summary>
@@ -28,6 +42,16 @@ namespace Dyna.Core.Models
             : base(newName)
         {
             this.variables = new VariableModel[0];
+            this.DomainExpression = new VariableDomainExpressionModel();
+        }
+
+        /// <summary>
+        /// Initialize an aggregate variable with default values.
+        /// </summary>
+        public AggregateVariableModel()
+        {
+            this.variables = new VariableModel[0];
+            this.DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>
@@ -51,6 +75,11 @@ namespace Dyna.Core.Models
                 return this.variables.Length;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the variable domain expression.
+        /// </summary>
+        public VariableDomainExpressionModel DomainExpression { get; set; }
 
         /// <summary>
         /// Resize the aggregate variable.

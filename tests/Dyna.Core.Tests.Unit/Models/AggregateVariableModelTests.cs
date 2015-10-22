@@ -14,6 +14,34 @@ namespace Dyna.Core.Tests.Unit.Models
         }
 
         [Test]
+        public void InitializeVariableWithEmptyExpressionWoutWhitespace()
+        {
+            var sut = new AggregateVariableModel("x", "");
+            Assert.That(sut.DomainExpression.IsEmpty, Is.True);
+        }
+
+        [Test]
+        public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
+        {
+            var sut = new AggregateVariableModel("x", "   A    ");
+            Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
+        }
+
+        [Test]
+        public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
+        {
+            var sut = new AggregateVariableModel("x", "A");
+            Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
+        }
+
+        [Test]
+        public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
+        {
+            var sut = new AggregateVariableModel("x", "1..10");
+            Assert.That(sut.DomainExpression.InlineDomain.Size, Is.EqualTo(10));
+        }
+
+        [Test]
         public void ResizeAggregateWithZeroSetsNewSize()
         {
             var sut = new AggregateVariableModel("x");
