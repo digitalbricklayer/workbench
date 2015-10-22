@@ -43,12 +43,12 @@
                           Directory="ProgramMenuFolderLevel1"
                           Advertise="yes"
                           WorkingDirectory="INSTALLDIR"
-                          Icon ="ConstraintWorkbench.exe" />
+                          Icon="ConstraintWorkbench.exe" />
               </File>
               <RemoveFolder Id='remove.ProgramMenuFolderLevel1' Directory='ProgramMenuFolderLevel1' On='uninstall' />
             </Component>
             <Component Id="DynaAppDependencies" Guid="EBB0BEDC-99EF-4F4F-9979-50383A91DD1D" Directory="INSTALLDIR">
-                <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\DynaApp.exe.config" Checksum="yes"/>
+                <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\ConstraintWorkbench.exe.config" Checksum="yes"/>
                 <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" Checksum="yes"/>
                 <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
             </Component>
@@ -57,7 +57,6 @@
         <!-- Define application features -->
         <Feature Id="MainApplication" Title="Main Application" Level="1">
             <ComponentGroupRef Id="AppFiles" />
-
 			      <!-- Note: The following ComponentGroupRef is required to pull in the default launch conditions. -->
 			      <ComponentGroupRef Id="CoreLaunchConditions"/>
         </Feature>
