@@ -37,7 +37,7 @@
         <ComponentGroup Id="AppFiles">
             <Component Id="DynaAppExecutable" Guid="8DFAEA14-E192-4609-A15F-91BBB38BA28D" Directory="INSTALLDIR">
               <File Id="Dyna.Core" Source="$(var.APPPATH)\Dyna.Core.dll" Checksum="yes"/>
-              <File Id="DynaApp" Source="$(var.APPPATH)\DynaApp.exe" KeyPath="yes" Checksum="yes">
+              <File Id="DynaApp" Source="$(var.APPPATH)\ConstraintWorkbench.exe" KeyPath="yes" Checksum="yes">
                 <Shortcut Id="StartMenuShortcut"
                           Name="$(var.APPTITLE)"
                           Directory="ProgramMenuFolderLevel1"
