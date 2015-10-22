@@ -53,17 +53,17 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
-        /// Resize the aggregate variable to a new size.
+        /// Resize the aggregate variable.
         /// </summary>
-        /// <param name="newSize">New number of variables.</param>
-        public void Resize(int newSize)
+        /// <param name="newAggregateSize">New aggregate size.</param>
+        public void Resize(int newAggregateSize)
         {
-            if (this.variables.Length == newSize) return;
-            var originalVariableCount = this.variables.Length;
-            Array.Resize(ref this.variables, newSize);
-            var originalVariablesToCopyCount = originalVariableCount > newSize ? newSize : originalVariableCount;
+            if (this.variables.Length == newAggregateSize) return;
+            var originalAggregateSize = this.variables.Length;
+            Array.Resize(ref this.variables, newAggregateSize);
+            var newAggregateCount = originalAggregateSize > newAggregateSize ? newAggregateSize : originalAggregateSize;
             // Fill the new array elements with a default variable model
-            for (var i = originalVariablesToCopyCount; i < newSize; i++)
+            for (var i = newAggregateCount; i < newAggregateSize; i++)
                 this.variables[i] = new VariableModel();
         }
     }
