@@ -1,4 +1,5 @@
-﻿using Dyna.Core.Models;
+﻿using System;
+using Dyna.Core.Models;
 using NUnit.Framework;
 
 namespace Dyna.Core.Tests.Unit.Models
@@ -39,6 +40,33 @@ namespace Dyna.Core.Tests.Unit.Models
         {
             var sut = new AggregateVariableModel("x", "1..10");
             Assert.That(sut.DomainExpression.InlineDomain.Size, Is.EqualTo(10));
+        }
+
+        [Test]
+        public void ChangeDomainOfAggregatedVariableWithValueInsideAggregateDomain()
+        {
+            var sut = new AggregateVariableModel("A test", "1..10");
+            sut.Resize(10);
+            sut.OverrideDomainTo(10, new VariableDomainExpressionModel("1..5"));
+            var actualVariable = sut.GetVariableByIndex(10);
+            Assert.That(actualVariable.DomainExpression.Text, Is.EqualTo("1..5"));
+        }
+
+        [Test]
+        public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomain()
+        {
+            var sut = new AggregateVariableModel("A test", "1..10");
+            sut.Resize(10);
+            sut.OverrideDomainTo(10, new VariableDomainExpressionModel("1..5"));
+            Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(10, new VariableDomainExpressionModel("8..11")));
+        }
+
+        [Test]
+        public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomainX()
+        {
+            var sut = new AggregateVariableModel("A test", "1..10");
+            sut.Resize(10);
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.OverrideDomainTo(11, new VariableDomainExpressionModel("8..10")));
         }
 
         [Test]

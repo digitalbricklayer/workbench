@@ -95,5 +95,33 @@ namespace Dyna.Core.Models
             for (var i = newAggregateCount; i < newAggregateSize; i++)
                 this.variables[i] = new VariableModel();
         }
+
+        /// <summary>
+        /// Get the variable at the one based index.
+        /// </summary>
+        /// <param name="variableIndex">Variable index starts at one.</param>
+        /// <returns>Variable at the index.</returns>
+        public VariableModel GetVariableByIndex(int variableIndex)
+        {
+            if (this.variables.Length < variableIndex)
+                throw new ArgumentOutOfRangeException("variableIndex");
+            return this.variables[variableIndex-1];
+        }
+
+        /// <summary>
+        /// Overrides a variable domain expression to a new domain expression.
+        /// </summary>
+        /// <param name="variableIndex">Variable index starts at one.</param>
+        /// <param name="newDomainExpression">New domain expression.</param>
+        public void OverrideDomainTo(int variableIndex, VariableDomainExpressionModel newDomainExpression)
+        {
+            var variableToOverride = this.GetVariableByIndex(variableIndex);
+            if (!variableToOverride.DomainExpression.IsEmpty)
+            {
+                if (!variableToOverride.DomainExpression.Intersects(newDomainExpression))
+                    throw new ArgumentException("newDomainExpression");
+            }
+            variableToOverride.DomainExpression = newDomainExpression;
+        }
     }
 }
