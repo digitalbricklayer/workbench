@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Dyna.UI.Tests.Integration.Models
 {
     [TestFixture]
-    public class WorkspaceWriterTests
+    public class WorkspaceModelWriterTests
     {
         [Test]
         public void Write_A_Model_Then_Read_Back_Same_Model()
@@ -20,13 +20,13 @@ namespace Dyna.UI.Tests.Integration.Models
 
         private static WorkspaceModel ReadWorkspaceModel(string filePath)
         {
-            var workspaceReader = new WorkspaceReader(filePath);
+            var workspaceReader = new WorkspaceModelReader(filePath);
             return workspaceReader.Read();
         }
 
         private static void WriteWorkspaceToDisk(string filePath, WorkspaceModel workspaceModel)
         {
-            var workspaceWriter = new WorkspaceWriter(filePath);
+            var workspaceWriter = new WorkspaceModelWriter(filePath);
             workspaceWriter.Write(workspaceModel);
         }
     }
