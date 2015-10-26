@@ -94,7 +94,7 @@
     <Compile Include="Models\WorkspaceReader.cs" />
     <Compile Include="Models\WorkspaceWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solver\ConstraintSolver.cs" />
+    <Compile Include="Solver\OrToolsSolver.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
   </ItemGroup>

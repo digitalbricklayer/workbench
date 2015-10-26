@@ -144,7 +144,7 @@ namespace DynaApp.ViewModels
 
             Trace.Assert(!theModel.Errors.Any());
 
-            var solver = new ConstraintSolver();
+            var solver = new OrToolsSolver();
 
             return solver.Solve(theModel);
         }
