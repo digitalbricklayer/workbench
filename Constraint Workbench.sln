@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96D48A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.Core.Tests.Integration", "tests\Dyna.UI.Tests.Integration\Dyna.Core.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.Core.Tests.Integration", "tests\Dyna.Core.Tests.Integration\Dyna.Core.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dyna.UI.Wix", "installer\Dyna.UI.Wix\Dyna.UI.Wix.wixproj", "{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}"
 EndProject
