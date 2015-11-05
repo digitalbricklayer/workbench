@@ -38,7 +38,7 @@ namespace Dyna.UI.Tests.Integration
             var solutionModel = new SolutionModel();
             var x = new VariableModel("x");
             var valueOfX = new ValueModel(x);
-            solutionModel.AddValue(valueOfX);
+            solutionModel.AddSingletonValue(valueOfX);
             return solutionModel;
         }
     }

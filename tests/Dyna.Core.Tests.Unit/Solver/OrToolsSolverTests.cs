@@ -31,8 +31,8 @@ namespace Dyna.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetVariableByName("x");
-            var y = actualSolution.GetVariableByName("y");
+            var x = actualSolution.GetSingletonVariableByName("x");
+            var y = actualSolution.GetSingletonVariableByName("y");
             Assert.That(x.Value, Is.Not.EqualTo(y.Value));
         }
 
@@ -47,8 +47,8 @@ namespace Dyna.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetVariableByName("x");
-            var y = actualSolution.GetVariableByName("y");
+            var x = actualSolution.GetSingletonVariableByName("x");
+            var y = actualSolution.GetSingletonVariableByName("y");
             Assert.That(x.Value, Is.InRange(1, 9));
             Assert.That(y.Value, Is.InRange(1, 9));
         }

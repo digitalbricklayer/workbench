@@ -25,13 +25,15 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
-        /// Initializes an aggregate variable with a name and domain expression.
+        /// Initializes an aggregate variable with a name, a size and domain expression.
         /// </summary>
-        public AggregateVariableModel(string variableName, string theRawDomainExpression)
+        public AggregateVariableModel(string variableName, int aggregateSize, string theRawDomainExpression)
             : base(variableName)
         {
-            this.variables = new VariableModel[0];
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
+            this.variables = new VariableModel[aggregateSize];
+            for (var i = 0; i < aggregateSize; i++)
+                this.variables[i] = this.CreateNewVariableAt(i+1);
         }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace Dyna.Core.Models
             var newAggregateCount = originalAggregateSize > newAggregateSize ? newAggregateSize : originalAggregateSize;
             // Fill the new array elements with a default variable model
             for (var i = newAggregateCount; i < newAggregateSize; i++)
-                this.variables[i] = new VariableModel();
+                this.variables[i] = this.CreateNewVariableAt(i);
         }
 
         /// <summary>
@@ -122,6 +124,16 @@ namespace Dyna.Core.Models
                     throw new ArgumentException("newDomainExpression");
             }
             variableToOverride.DomainExpression = newDomainExpression;
+        }
+
+        /// <summary>
+        /// Create a new variable.
+        /// </summary>
+        /// <param name="index">Index of the new variable.</param>
+        /// <returns>Variable.</returns>
+        private VariableModel CreateNewVariableAt(int index)
+        {
+            return new VariableModel(this.Name + index, this.DomainExpression);
         }
     }
 }

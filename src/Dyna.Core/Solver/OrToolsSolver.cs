@@ -12,7 +12,8 @@ namespace Dyna.Core.Solver
     public class OrToolsSolver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
-        private readonly Dictionary<string, Tuple<VariableModel, IntVar>> variableMap;
+        private readonly Dictionary<string, Tuple<VariableModel, IntVar>> singletonVariableMap;
+        private readonly Dictionary<string, Tuple<AggregateVariableModel, List<IntVar>>> aggregateVariableMap;
         private ModelModel model;
 
         /// <summary>
@@ -20,7 +21,8 @@ namespace Dyna.Core.Solver
         /// </summary>
         public OrToolsSolver()
         {
-            this.variableMap = new Dictionary<string, Tuple<VariableModel, IntVar>>();
+            this.singletonVariableMap = new Dictionary<string, Tuple<VariableModel, IntVar>>();
+            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, List<IntVar>>>();
         }
 
         /// <summary>
@@ -38,18 +40,23 @@ namespace Dyna.Core.Solver
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
 
-            // domains
-            var variables = new IntVarVector();
-            foreach (var variable in theModel.Variables)
-            {
-                var band = this.GetVariableBand(variable);
-                var orVariable = solver.MakeIntVar(band.Item1, band.Item2, variable.Name);
-                variables.Add(orVariable);
-                this.variableMap.Add(variable.Name,
-                                     new Tuple<VariableModel, IntVar>(variable, orVariable));
-            }
+            var variables = this.ProcessVariables(theModel);
+            this.ProcessConstraints(theModel);
 
-            // Variables
+            // Search
+            var db = solver.MakePhase(variables,
+                                      Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
+                                      Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
+            var collector = this.CreateCollector();
+            var solveResult = this.solver.Solve(db, collector);
+            if (!solveResult) return SolveResult.Failed;
+
+            var theSolution = this.ExtractValuesFrom(collector);
+            return new SolveResult(SolveStatus.Success, theSolution);
+        }
+
+        private void ProcessConstraints(ModelModel theModel)
+        {
             foreach (var constraint in theModel.Constraints)
             {
                 switch (constraint.Expression.OperatorType)
@@ -57,15 +64,15 @@ namespace Dyna.Core.Solver
                     case OperatorType.Equals:
                         this.HandleEqualsOperator(constraint);
                         break;
-                    
+
                     case OperatorType.GreaterThanOrEqual:
                         this.HandleGreaterThanOrEqualOperator(constraint);
                         break;
-                    
+
                     case OperatorType.LessThanOrEqual:
                         this.HandleLessThanOrEqualOperator(constraint);
                         break;
-                    
+
                     case OperatorType.NotEqual:
                         this.HandleNotEqualOperator(constraint);
                         break;
@@ -82,18 +89,52 @@ namespace Dyna.Core.Solver
                         throw new NotImplementedException("Not sure how to represent this operator type.");
                 }
             }
+        }
 
-            // Search
-            var db = solver.MakePhase(variables,
-                                      Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
-                                      Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
-            var collector = this.CreateCollector();
-            var solveResult = this.solver.Solve(db, collector);
-            if (!solveResult) return SolveResult.Failed;
+        private IntVarVector ProcessVariables(ModelModel theModel)
+        {
+            var variables = new IntVarVector();
+            this.ProcessSingletonVariables(theModel, variables);
+            this.ProcessAggregateVariables(theModel, variables);
+            
+            return variables;
+        }
 
-            var values = this.CreateValuesFrom(collector);
-            var theSolution = new SolutionModel(theModel, values);
-            return new SolveResult(SolveStatus.Success, theSolution);
+        private void ProcessAggregateVariables(ModelModel theModel, IntVarVector theVariables)
+        {
+            foreach (var aggregate in theModel.Aggregates)
+                this.ProcessAggregateVariable(theVariables, aggregate);
+        }
+
+        private void ProcessSingletonVariables(ModelModel theModel, IntVarVector variables)
+        {
+            foreach (var variable in theModel.Variables)
+            {
+                var orVariable = this.ProcessVariable(variables, variable);
+                this.singletonVariableMap.Add(variable.Name,
+                                              new Tuple<VariableModel, IntVar>(variable, orVariable));
+            }
+        }
+
+        private void ProcessAggregateVariable(IntVarVector theVariables, AggregateVariableModel aggregate)
+        {
+            var orVariables = new List<IntVar>();
+            foreach (var variable in aggregate.Variables)
+            {
+                var orVariable = this.ProcessVariable(theVariables, variable);
+                orVariables.Add(orVariable);
+            }
+            this.aggregateVariableMap.Add(aggregate.Name,
+                                          new Tuple<AggregateVariableModel, List<IntVar>>(aggregate, orVariables));
+        }
+
+        private IntVar ProcessVariable(IntVarVector variables, VariableModel variable)
+        {
+            var band = this.GetVariableBand(variable);
+            var orVariable = solver.MakeIntVar(band.Item1, band.Item2, variable.Name);
+            variables.Add(orVariable);
+
+            return orVariable;
         }
 
         private Tuple<long,long> GetVariableBand(VariableModel theVariable)
@@ -116,10 +157,10 @@ namespace Dyna.Core.Solver
         private void HandleLessOperator(ConstraintModel constraint)
         {
             Constraint lessConstraint;
-            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
             if (constraint.Expression.Right.IsVarable)
             {
-                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
                 lessConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
             }
             else
@@ -133,10 +174,10 @@ namespace Dyna.Core.Solver
         private void HandleGreaterOperator(ConstraintModel constraint)
         {
             Constraint greaterConstraint;
-            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
             if (constraint.Expression.Right.IsVarable)
             {
-                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
                 greaterConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
             }
             else
@@ -150,10 +191,10 @@ namespace Dyna.Core.Solver
         private void HandleNotEqualOperator(ConstraintModel constraint)
         {
             Constraint notEqualConstraint;
-            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
             if (constraint.Expression.Right.IsVarable)
             {
-                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
                 notEqualConstraint = this.solver.MakeNonEquality(lhsVariable, rhsVariable);
             }
             else
@@ -166,36 +207,34 @@ namespace Dyna.Core.Solver
 
         private void HandleLessThanOrEqualOperator(ConstraintModel constraint)
         {
+            Constraint lessThanOrEqualConstraint;
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
+            if (constraint.Expression.Right.IsVarable)
             {
-                Constraint lessThanOrEqualConstraint;
-                var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
-                if (constraint.Expression.Right.IsVarable)
-                {
-                    var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
-                    lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable, rhsVariable);
-                }
-                else
-                {
-                    lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable,
-                                                               constraint.Expression.Right.Literal.Value);
-                }
-                this.solver.Add(lessThanOrEqualConstraint);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable, rhsVariable);
             }
+            else
+            {
+                lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable,
+                    constraint.Expression.Right.Literal.Value);
+            }
+            this.solver.Add(lessThanOrEqualConstraint);
         }
 
         private void HandleGreaterThanOrEqualOperator(ConstraintModel constraint)
         {
             Constraint greaterThanOrEqualConstraint;
-            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
             if (constraint.Expression.Right.IsVarable)
             {
-                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
                 greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
             }
             else
             {
                 greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable,
-                                                              constraint.Expression.Right.Literal.Value);
+                                                                              constraint.Expression.Right.Literal.Value);
             }
             this.solver.Add(greaterThanOrEqualConstraint);
         }
@@ -203,10 +242,10 @@ namespace Dyna.Core.Solver
         private void HandleEqualsOperator(ConstraintModel constraint)
         {
             Constraint equalsConstraint;
-            var lhsVariable = this.GetVariableByName(constraint.Expression.Left.Name);
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
             if (constraint.Expression.Right.IsVarable)
             {
-                var rhsVariable = this.GetVariableByName(constraint.Expression.Right.Variable.Name);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
                 equalsConstraint = this.solver.MakeEquality(lhsVariable, rhsVariable);
             }
             else
@@ -220,29 +259,65 @@ namespace Dyna.Core.Solver
         private SolutionCollector CreateCollector()
         {
             var collector = this.solver.MakeFirstSolutionCollector();
-            foreach (var variableTuple in this.variableMap)
+            foreach (var variableTuple in this.singletonVariableMap)
                 collector.Add(variableTuple.Value.Item2);
+            foreach (var variableTuple in this.aggregateVariableMap)
+            {
+                var variablesInsideAggregate = variableTuple.Value.Item2;
+                foreach (var intVar in variablesInsideAggregate)
+                    collector.Add(intVar);
+            }
 
             return collector;
         }
 
-        private ValueModel[] CreateValuesFrom(SolutionCollector solutionCollector)
+        private SolutionModel ExtractValuesFrom(SolutionCollector solutionCollector)
         {
-            var boundVariables = new List<ValueModel>();
-            foreach (var variableTuple in this.variableMap)
+            var theSolution = new SolutionModel(this.model);
+            foreach (var variableTuple in this.singletonVariableMap)
             {
-                var boundVariable = new ValueModel(variableTuple.Value.Item1);
+                var newValue = new ValueModel(variableTuple.Value.Item1);
                 var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
-                boundVariable.Value = Convert.ToInt32(boundValue);
-                boundVariables.Add(boundVariable);
+                newValue.Value = Convert.ToInt32(boundValue);
+                theSolution.AddSingletonValue(newValue);
             }
 
-            return boundVariables.ToArray();
+            foreach (var aggregateTuple in this.aggregateVariableMap)
+            {
+                var newValues = new List<int>();
+                var orVariables = aggregateTuple.Value.Item2;
+                foreach (var orVariable in orVariables)
+                {
+                    var boundValue = solutionCollector.Value(0, orVariable);
+                    newValues.Add(Convert.ToInt32(boundValue));
+                }
+                var newValue = new AggregateValueModel(aggregateTuple.Value.Item1, newValues);
+                theSolution.AddAggregateValue(newValue);
+            }
+
+            return theSolution;
         }
 
-        private IntVar GetVariableByName(string theVariableName)
+        private IntVar GetSingletonVariableByName(string theVariableName)
         {
-            return this.variableMap[theVariableName].Item2;
+            return this.singletonVariableMap[theVariableName].Item2;
+        }
+
+        private IntVar GetAggregateVariableByName(string theVariableName, int index)
+        {
+            var orVariables = this.aggregateVariableMap[theVariableName].Item2;
+            return orVariables[index-1];
+        }
+
+        private IntVar GetVariableFrom(Expression theExpression)
+        {
+            Debug.Assert(!theExpression.IsLiteral);
+
+            if (theExpression.IsSingleton)
+                return this.GetSingletonVariableByName(theExpression.Variable.Name);
+
+            return this.GetAggregateVariableByName(theExpression.AggregateReference.IdentifierName,
+                                                   theExpression.AggregateReference.Index);
         }
     }
 }

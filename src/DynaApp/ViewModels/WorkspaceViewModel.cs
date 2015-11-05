@@ -231,17 +231,17 @@ namespace DynaApp.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             this.Solution.Reset();
-            var newBoundVariables = new List<ValueViewModel>();
+            var newValues = new List<ValueViewModel>();
             foreach (var value in theSolution.Values)
             {
                 var variable = this.Model.GetVariableByName(value.VariableName);
-                var boundVariableViewModel = new ValueViewModel(variable)
+                var valueViewModel = new ValueViewModel(variable)
                 {
                     Value = value.Value
                 };
-                newBoundVariables.Add(boundVariableViewModel);
+                newValues.Add(valueViewModel);
             }
-            this.Solution.BindTo(newBoundVariables);
+            this.Solution.BindTo(newValues);
 
             if (!this.AvailableDisplayModes.Contains("Solution"))
                 this.AvailableDisplayModes.Add("Solution");
@@ -319,7 +319,7 @@ namespace DynaApp.ViewModels
                 {
                     Value = valueViewModel.Value
                 };
-                newSolutionModel.AddValue(newValueModel);
+                newSolutionModel.AddSingletonValue(newValueModel);
             }
             this.WorkspaceModel.Solution = newSolutionModel;
         }

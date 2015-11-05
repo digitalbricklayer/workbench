@@ -32,6 +32,7 @@ namespace Dyna.Core.Models
         {
             this.Name = string.Empty;
             this.Variables = new List<VariableModel>();
+            this.Aggregates = new List<AggregateVariableModel>();
             this.Domains = new List<DomainModel>();
             this.Constraints = new List<ConstraintModel>();
         }
@@ -42,9 +43,14 @@ namespace Dyna.Core.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets the variables.
+        /// Gets and sets the variables.
         /// </summary>
         public List<VariableModel> Variables { get; set; }
+
+        /// <summary>
+        /// Gets and sets the aggregate variables.
+        /// </summary>
+        public List<AggregateVariableModel> Aggregates { get; set; }
 
         /// <summary>
         /// Gets the domains.
@@ -100,6 +106,18 @@ namespace Dyna.Core.Models
                 throw new ArgumentNullException("newVariable");
             newVariable.AssignIdentity();
             this.Variables.Add(newVariable);
+        }
+
+        /// <summary>
+        /// Add a new aggregate variable to the model.
+        /// </summary>
+        /// <param name="newVariable">New aggregate variable.</param>
+        public void AddVariable(AggregateVariableModel newVariable)
+        {
+            if (newVariable == null)
+                throw new ArgumentNullException("newVariable");
+            newVariable.AssignIdentity();
+            this.Aggregates.Add(newVariable);
         }
 
         /// <summary>
@@ -166,7 +184,7 @@ namespace Dyna.Core.Models
         public bool Validate()
         {
             this.errors.Clear();
-            var expressionsValid = this.ValidateConstraintExpressions();
+            var expressionsValid = this.ValidateConstraints();
             if (!expressionsValid) return false;
             return this.ValidateSharedDomains();
         }
@@ -193,23 +211,35 @@ namespace Dyna.Core.Models
             return new ModelContext(new ModelModel(theModelName));
         }
 
-        private bool ValidateConstraintExpressions()
+        private bool ValidateConstraints()
         {
-            foreach (var aConstraint in this.Constraints)
+            return this.Constraints.All(ValidateConstraint);
+        }
+
+        private bool ValidateConstraint(ConstraintModel aConstraint)
+        {
+            if (!ValidateConstraintExpression(aConstraint.Expression.Left)) return false;
+            if (!ValidateConstraintExpression(aConstraint.Expression.Right)) return false;
+
+            return true;
+        }
+
+        private bool ValidateConstraintExpression(Expression theExpression)
+        {
+            if (theExpression.IsSingleton)
             {
-                if (this.Variables.FirstOrDefault(x => x.Name == aConstraint.Expression.Left.Name) == null)
+                if (this.Variables.FirstOrDefault(x => x.Name == theExpression.Variable.Name) == null)
                 {
-                    this.errors.Add(string.Format("Missing variable {0}", aConstraint.Expression.Right.Variable));
+                    this.errors.Add(string.Format("Missing singleton variable {0}", theExpression.Variable));
                     return false;
                 }
-
-                if (aConstraint.Expression.Right.IsVarable)
+            }
+            else if (theExpression.IsAggregate)
+            {
+                if (this.Aggregates.FirstOrDefault(x => x.Name == theExpression.AggregateReference.IdentifierName) == null)
                 {
-                    if (this.Variables.FirstOrDefault(x => x.Name == aConstraint.Expression.Right.Variable.Name) == null)
-                    {
-                        this.errors.Add(string.Format("Missing variable {0}", aConstraint.Expression.Right.Variable));
-                        return false;
-                    }
+                    this.errors.Add(string.Format("Missing aggregate variable {0}", theExpression.AggregateReference.IdentifierName));
+                    return false;
                 }
             }
 

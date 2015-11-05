@@ -44,7 +44,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the bound value.
+        /// Gets or sets the value.
         /// </summary>
         public int Value
         {

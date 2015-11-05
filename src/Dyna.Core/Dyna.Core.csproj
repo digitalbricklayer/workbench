@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AggregateValueModel.cs" />
+    <Compile Include="Models\AggregateVariableReference.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\ConstraintExpressionUnit.cs" />

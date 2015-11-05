@@ -1,4 +1,5 @@
-﻿using Sprache;
+﻿using System;
+using Sprache;
 
 namespace Dyna.Core.Models
 {
@@ -10,62 +11,83 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Parse an identifier.
         /// </summary>
-        private static readonly Parser<string> identifier =
+        private static readonly Parser<VariableModel> Identifier =
             from first in Sprache.Parse.Letter.Once().Text()
             from rest in Sprache.Parse.LetterOrDigit.Many().Text()
-            select string.Concat(first, rest);
+            select new VariableModel(string.Concat(first, rest));
 
         /// <summary>
         /// Parse a literal.
         /// </summary>
-        private static readonly Parser<string> literal =
+        private static readonly Parser<string> Literal =
             from first in Sprache.Parse.Number
             select first;
 
         /// <summary>
-        /// LHS must be a variable.
+        /// Parse an aggregate variable reference.
         /// </summary>
-        private static readonly Parser<VariableModel> leftHandSide =
+        private static readonly Parser<AggregateVariableReference> AggregateVariableReference =
+            from variableName in Identifier
+            from openingSubscript in Sprache.Parse.Char('[').Once()
+            from subscriptStatement in Sprache.Parse.Number.Text()
+            from closingSubscript in Sprache.Parse.Char(']').Once()
+            select new AggregateVariableReference(variableName.Name,
+                                                  Convert.ToInt32(subscriptStatement));
+
+        /// <summary>
+        /// Parse a singleton variable name.
+        /// </summary>
+        private static readonly Parser<VariableModel> SingletonVariableReference =
             from leading in Sprache.Parse.WhiteSpace.Many()
-            from id in identifier
+            from variable in Identifier
             from trailing in Sprache.Parse.WhiteSpace.Many()
-            select new VariableModel(id);
+            select variable;
 
         /// <summary>
-        /// Parse an expression, either a variable or a literal.
+        /// Parse an expression, either a singleton variable reference, an 
+        /// aggregate variable reference or a literal.
         /// </summary>
-        private static readonly Parser<Expression> expression =
-            identifier.Select(Expression.CreateIdentifier)
-                .Or(literal.Select(Expression.CreateLiteral));
+        private static readonly Parser<Expression> Expression =
+            AggregateVariableReference.Select(Models.Expression.CreateAggregateReference)
+                .Or(SingletonVariableReference.Select(Models.Expression.CreateSingletonReference))
+                .Or(Literal.Select(Models.Expression.CreateLiteral));
 
         /// <summary>
-        /// RHS can be a variable or integer literal.
+        /// LHS can be a singleton variable name or an aggregate variable reference.
         /// </summary>
-        private static readonly Parser<Expression> rightHandSide =
+        private static readonly Parser<Expression> LeftHandSide =
+            AggregateVariableReference.Select(Models.Expression.CreateAggregateReference)
+                .Or(SingletonVariableReference.Select(Models.Expression.CreateSingletonReference));
+
+        /// <summary>
+        /// RHS can be a singleton variable, an aggregate variable 
+        /// reference or an integer literal.
+        /// </summary>
+        private static readonly Parser<Expression> RightHandSide =
             from leading in Sprache.Parse.WhiteSpace.Many()
-            from exp in expression
+            from exp in Expression
             from trailing in Sprache.Parse.WhiteSpace.Many()
             select exp;
 
         /// <summary>
         /// Operator parser.
         /// </summary>
-        private static readonly Parser<OperatorType> op =
+        private static readonly Parser<OperatorType> Operator =
             from leading in Sprache.Parse.WhiteSpace.Many()
-            from type in operatorType
+            from type in OperatorType
             from trailing in Sprache.Parse.WhiteSpace.Many()
             select type;
 
         /// <summary>
         /// Operator type parser.
         /// </summary>
-        private static readonly Parser<OperatorType> operatorType =
-            from type in Sprache.Parse.String("=").Return(OperatorType.Equals)
-                .Or(Sprache.Parse.String("!=").Return(OperatorType.NotEqual))
-                .Or(Sprache.Parse.String(">=").Return(OperatorType.GreaterThanOrEqual))
-                .Or(Sprache.Parse.String("<=").Return(OperatorType.LessThanOrEqual))
-                .Or(Sprache.Parse.String(">").Return(OperatorType.Greater))
-                .Or(Sprache.Parse.String("<").Return(OperatorType.Less))
+        private static readonly Parser<OperatorType> OperatorType =
+            from type in Sprache.Parse.String("=").Return(Models.OperatorType.Equals)
+                .Or(Sprache.Parse.String("!=").Return(Models.OperatorType.NotEqual))
+                .Or(Sprache.Parse.String(">=").Return(Models.OperatorType.GreaterThanOrEqual))
+                .Or(Sprache.Parse.String("<=").Return(Models.OperatorType.LessThanOrEqual))
+                .Or(Sprache.Parse.String(">").Return(Models.OperatorType.Greater))
+                .Or(Sprache.Parse.String("<").Return(Models.OperatorType.Less))
             select type;
 
         /// <summary>
@@ -76,9 +98,9 @@ namespace Dyna.Core.Models
         public static ConstraintExpressionUnit Parse(string rawExpression)
         {
             var constraintGrammar =
-                from lhs in leftHandSide
-                from operatorType in op
-                from rhs in rightHandSide
+                from lhs in LeftHandSide
+                from operatorType in Operator
+                from rhs in RightHandSide
                 select new ConstraintExpressionUnit(lhs, rhs, operatorType);
 
             return constraintGrammar.End().Parse(rawExpression);
