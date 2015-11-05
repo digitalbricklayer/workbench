@@ -27,6 +27,16 @@ namespace Dyna.Core.Tests.Unit.Solver
         }
 
         [Test]
+        public void SolveWithModelSatisfiesValueCount()
+        {
+            var sut = new OrToolsSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSolution = actualResult.Solution;
+            var c = actualSolution.GetAggregateVariableByName("c");
+            Assert.That(c.Values, Has.Count.EqualTo(10));
+        }
+
+        [Test]
         public void SolveWithModelCreatesValidSolution()
         {
             var sut = new OrToolsSolver();
