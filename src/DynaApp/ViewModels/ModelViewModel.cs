@@ -52,15 +52,27 @@ namespace DynaApp.ViewModels
         public ModelModel Model { get; set; }
 
         /// <summary>
-        /// Add a new variable to the model.
+        /// Add a new singleton variable to the model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable.</param>
-        public void AddVariable(VariableViewModel newVariableViewModel)
+        public void AddSingletonVariable(VariableViewModel newVariableViewModel)
         {
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
-            this.FixupVariable(newVariableViewModel);
-            this.AddVariableToModel(newVariableViewModel);
+            this.FixupSingletonVariable(newVariableViewModel);
+            this.AddSingletonVariableToModel(newVariableViewModel);
+        }
+
+        /// <summary>
+        /// Add a new aggregate variable to the model.
+        /// </summary>
+        /// <param name="newVariableViewModel">New variable.</param>
+        public void AddAggregateVariable(AggregateVariableViewModel newVariableViewModel)
+        {
+            if (newVariableViewModel == null)
+                throw new ArgumentNullException("newVariableViewModel");
+            this.FixupAggregateVariable(newVariableViewModel);
+            this.AddAggregateVariableToModel(newVariableViewModel);
         }
 
         /// <summary>
@@ -172,13 +184,28 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Fixes up a variable view model into the model.
+        /// Fixes up a singleton variable view model into the model.
         /// </summary>
         /// <remarks>
         /// Used when mapping the model to a view model.
         /// </remarks>
-        /// <param name="variableViewModel">Variable view model.</param>
-        internal void FixupVariable(VariableViewModel variableViewModel)
+        /// <param name="variableViewModel">Singleton variable view model.</param>
+        internal void FixupSingletonVariable(VariableViewModel variableViewModel)
+        {
+            if (variableViewModel == null)
+                throw new ArgumentNullException("variableViewModel");
+            this.Graphics.Add(variableViewModel);
+            this.Variables.Add(variableViewModel);
+        }
+
+        /// <summary>
+        /// Fixes up an aggregate variable view model into the model.
+        /// </summary>
+        /// <remarks>
+        /// Used when mapping the model to a view model.
+        /// </remarks>
+        /// <param name="variableViewModel">Aggregate variable view model.</param>
+        internal void FixupAggregateVariable(AggregateVariableViewModel variableViewModel)
         {
             if (variableViewModel == null)
                 throw new ArgumentNullException("variableViewModel");
@@ -242,7 +269,17 @@ namespace DynaApp.ViewModels
         /// Add a new variable to the model model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddVariableToModel(VariableViewModel newVariableViewModel)
+        private void AddSingletonVariableToModel(VariableViewModel newVariableViewModel)
+        {
+            Debug.Assert(newVariableViewModel.Model != null);
+            this.Model.AddVariable(newVariableViewModel.Model);
+        }
+
+        /// <summary>
+        /// Add a new variable to the model model.
+        /// </summary>
+        /// <param name="newVariableViewModel">New variable view model.</param>
+        private void AddAggregateVariableToModel(AggregateVariableViewModel newVariableViewModel)
         {
             Debug.Assert(newVariableViewModel.Model != null);
             this.Model.AddVariable(newVariableViewModel.Model);

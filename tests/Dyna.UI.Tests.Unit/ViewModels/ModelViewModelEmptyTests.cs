@@ -18,7 +18,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             var modelViewModel = new ModelViewModel();
             var variableViewModel = new VariableViewModel("x");
-            modelViewModel.AddVariable(variableViewModel);
+            modelViewModel.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
             var constraintViewModel = new ConstraintViewModel("x");
             modelViewModel.AddConstraint(constraintViewModel);

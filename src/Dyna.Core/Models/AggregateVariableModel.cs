@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,6 +35,13 @@ namespace Dyna.Core.Models
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
                 this.variables[i] = this.CreateNewVariableAt(i+1);
+        }
+
+        public AggregateVariableModel(string newVariableName, Point newVariableLocation)
+            : this(newVariableName)
+        {
+            this.X = newVariableLocation.X;
+            this.Y = newVariableLocation.Y;
         }
 
         /// <summary>

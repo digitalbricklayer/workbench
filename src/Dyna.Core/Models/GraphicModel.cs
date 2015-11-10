@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Dyna.Core.Models
 {
@@ -6,13 +7,25 @@ namespace Dyna.Core.Models
     public abstract class GraphicModel : ModelBase
     {
         /// <summary>
+        /// Initialize a graphic model with a name and location.
+        /// </summary>
+        /// <param name="graphicName">Name for the graphic.</param>
+        /// <param name="location">Location of the graphic.</param>
+        protected GraphicModel(string graphicName, Point location)
+            : this(graphicName)
+        {
+            this.X = location.X;
+            this.Y = location.Y;
+        }
+
+        /// <summary>
         /// Initialize a graphic model with a name.
         /// </summary>
-        /// <param name="connectableName">Connectable name.</param>
-        protected GraphicModel(string connectableName)
+        /// <param name="graphicName">Name for the graphic.</param>
+        protected GraphicModel(string graphicName)
             : this()
         {
-            this.Name = connectableName;
+            this.Name = graphicName;
         }
 
         /// <summary>

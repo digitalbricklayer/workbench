@@ -7,7 +7,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for a variable.
     /// </summary>
-    public sealed class VariableViewModel : GraphicViewModel
+    public class VariableViewModel : GraphicViewModel
     {
         private VariableModel model;
         private VariableDomainExpressionViewModel domainExpression;

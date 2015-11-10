@@ -41,7 +41,7 @@ namespace DynaApp.Services
             foreach (var variableModel in theModelModel.Variables)
             {
                 var variableViewModel = this.variableMapper.MapFrom(variableModel);
-                modelViewModel.FixupVariable(variableViewModel);
+                modelViewModel.FixupSingletonVariable(variableViewModel);
             }
 
             return modelViewModel;

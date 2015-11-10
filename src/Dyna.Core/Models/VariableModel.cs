@@ -9,15 +9,6 @@ namespace Dyna.Core.Models
     public class VariableModel : GraphicModel
     {
         /// <summary>
-        /// Initializes a variable with a variable name.
-        /// </summary>
-        public VariableModel(string variableName)
-            : base(variableName)
-        {
-            this.DomainExpression = new VariableDomainExpressionModel();
-        }
-
-        /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
         public VariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
@@ -35,6 +26,15 @@ namespace Dyna.Core.Models
             : base(variableName)
         {
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
+        }
+
+        /// <summary>
+        /// Initializes a variable with a variable name.
+        /// </summary>
+        public VariableModel(string variableName)
+            : base(variableName)
+        {
+            this.DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>

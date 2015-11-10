@@ -126,9 +126,21 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "Model|Add Variable" menu item can be executed.
+        /// Gets whether the "Model|Add Singleton Variable" menu item can be executed.
         /// </summary>
-        public bool CanAddVariableExecute
+        public bool CanAddSingletonVariableExecute
+        {
+            get
+            {
+                // Can always execute
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the "Model|Add Aggregate Variable" menu item can be executed.
+        /// </summary>
+        public bool CanAddAggregateVariableExecute
         {
             get
             {
@@ -180,9 +192,14 @@ namespace DynaApp.ViewModels
         public ICommand SolveCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Model|Add Variable command.
+        /// Gets the Model|Add Singleton Variable command.
         /// </summary>
-        public ICommand AddVariableCommand { get; private set; }
+        public ICommand AddSingletonVariableCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Add Aggregate Variable command.
+        /// </summary>
+        public ICommand AddAggregateVariableCommand { get; private set; }
 
         /// <summary>
         /// Gets the Model|Add Constraint command.
@@ -325,12 +342,22 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new variable.
+        /// Event raised to create a new singleton variable.
         /// </summary>
-        private void ModelAddVariableAction()
+        private void ModelAddSingletonVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddVariable("New Variable", newVariableLocation);
+            this.Workspace.AddSingletonVariable("New Variable", newVariableLocation);
+            this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Event raised to create a new singleton variable.
+        /// </summary>
+        private void ModelAddAggregateVariableAction()
+        {
+            var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.AddAggregateVariable("New Variable", newVariableLocation);
             this.UpdateTitle();
         }
 
@@ -464,7 +491,8 @@ namespace DynaApp.ViewModels
             this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
             this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
             this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
-            this.AddVariableCommand = new CommandHandler(ModelAddVariableAction, CanAddVariableExecute);
+            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, CanAddSingletonVariableExecute);
+            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, CanAddAggregateVariableExecute);
             this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
         }

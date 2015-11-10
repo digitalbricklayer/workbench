@@ -150,15 +150,30 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Create a new variable.
+        /// Create a new singleton variable.
         /// </summary>
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
-        /// <returns>New variable view model.</returns>
-        public VariableViewModel AddVariable(string newVariableName, Point newVariableLocation)
+        /// <returns>New singleton variable view model.</returns>
+        public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
-            this.Model.AddVariable(newVariable);
+            this.Model.AddSingletonVariable(newVariable);
+            this.IsDirty = true;
+
+            return newVariable;
+        }
+
+        /// <summary>
+        /// Create a new aggregate variable.
+        /// </summary>
+        /// <param name="newVariableName">New variable name.</param>
+        /// <param name="newVariableLocation">New variable location.</param>
+        /// <returns>New aggregate variable view model.</returns>
+        public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
+        {
+            var newVariable = new AggregateVariableViewModel(newVariableName, newVariableLocation);
+            this.Model.AddAggregateVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;

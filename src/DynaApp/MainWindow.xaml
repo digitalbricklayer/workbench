@@ -341,6 +341,109 @@
             </Grid>
         </DataTemplate>
 
+        <!-- 
+        Define a data-template for the AggregateVariableViewModel class.
+        -->
+        <DataTemplate DataType="{x:Type viewModels:AggregateVariableViewModel}">
+            <Grid Height="60">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="VariableNameColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="VariableDomainExpressionColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 
+                An adorned control is used to enable the edit button when the user 
+                hovers over the variable name control.
+                -->
+                <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                        VerticalAdornerPlacement="Outside"
+                                        AdornerOffsetX="-12"
+                                        AdornerOffsetY="8"
+                                        IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="LeftGraphicColumn" Width="30"/>
+                            <ColumnDefinition x:Name="NameGraphicColumn" Width="Auto"/>
+                            <ColumnDefinition x:Name="RightGraphicColumn" Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Left hand '<' -->
+                        <Line X1="0"
+                            Y1="30"
+                            X2="30"
+                            Y2="0"
+                            Grid.Column="0"
+                            Stroke="Black"
+                            StrokeThickness="2"/>
+                        <Line X1="0"
+                            Y1="30"
+                            X2="30"
+                            Y2="60"
+                            Grid.Column="0"
+                            Stroke="Black"
+                            StrokeThickness="2"/>
+
+                        <!-- The name of the variable. -->
+                        <controls:EditableTextBlock x:Name="nameEditor"
+                                                Grid.Column="1"
+                                                Text="{Binding Name, Mode=TwoWay}"
+                                                IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                                                FontFamily="Courier New"
+                                                FontWeight="Bold"
+                                                FontSize="24"
+                                                FontStyle="Italic"/>
+
+                        <!-- Right hand '>' -->
+                        <Canvas Grid.Column="2">
+                            <Line X1="0"
+                                Y1="0"
+                                X2="30"
+                                Y2="30"
+                                Stroke="Black"
+                                StrokeThickness="2"/>
+                            <Line X1="30"
+                                Y1="30"
+                                X2="0"
+                                Y2="60"
+                                Stroke="Black"
+                                StrokeThickness="2"/>
+                        </Canvas>
+                    </Grid>
+                    <controls:AdornedControl.AdornerContent>
+                    <!-- 
+                    This is the adorner that pops up when the user hovers the mouse over the variable name.
+                    It displays a button that the user can click to edit the name.
+                    -->
+                    <Canvas x:Name="variableAdornerCanvas"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Height="30">
+                        <Line X1="0"
+                            Y1="30"
+                            X2="15"
+                            Y2="15"
+                            Stroke="Black"
+                            StrokeThickness="1"/>
+                        <Button x:Name="editVariableNameButton"
+                            Canvas.Left="10"
+                            Canvas.Top="0"
+                            Width="20"
+                            Height="20"
+                            Cursor="Hand"
+                            Focusable="False"
+                            Command="{Binding EditNameCommand}"
+                            CommandParameter="{Binding}"
+                            Template="{StaticResource editButtonTemplate}"/>
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
+
+            <ContentPresenter x:Name="expressionEditor"
+                            Grid.Column="1"
+                            Content="{Binding DomainExpression}"/>
+            </Grid>
+        </DataTemplate>
+
         <!--
         Define a data-template for the DomainExpressionViewModel class.
         -->
@@ -665,8 +768,13 @@
         <ContextMenu>
 
             <MenuItem
-                Header="Create Variable"
-                Command="{Binding AddVariableCommand}"
+                Header="Create Singleton Variable"
+                Command="{Binding AddSingletonVariableCommand}"
+                ToolTip="Create a new variable" />
+
+            <MenuItem
+                Header="Create Aggregate Variable"
+                Command="{Binding AddAggregateVariableCommand}"
                 ToolTip="Create a new variable" />
 
         </ContextMenu>
@@ -717,7 +825,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Add Variable" Command="{Binding AddVariableCommand}">
+                <MenuItem Header="Add Singleton Variable" Command="{Binding AddSingletonVariableCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add Aggregate Variable" Command="{Binding AddAggregateVariableCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>

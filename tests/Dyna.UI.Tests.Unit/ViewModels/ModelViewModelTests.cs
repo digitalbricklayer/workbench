@@ -17,7 +17,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         private static ModelViewModel CreateValidModel()
         {
             var modelViewModel = new ModelViewModel();
-            modelViewModel.AddVariable(new VariableViewModel("x", new VariableDomainExpressionViewModel("1..10")));
+            modelViewModel.AddSingletonVariable(new VariableViewModel("x", new VariableDomainExpressionViewModel("1..10")));
             modelViewModel.AddConstraint(new ConstraintViewModel("x", "x > 1"));
 
             return modelViewModel;

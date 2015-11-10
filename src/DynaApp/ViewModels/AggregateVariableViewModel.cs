@@ -1,15 +1,27 @@
-﻿using Dyna.Core.Models;
+﻿using System.Windows;
+using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
-    public sealed class AggregateVariableViewModel : GraphicViewModel
+    public sealed class AggregateVariableViewModel : VariableViewModel
     {
         /// <summary>
-        /// Initialize the aggregate variable with default values.
+        /// Initialize a new aggregate variable with a name and location.
+        /// </summary>
+        /// <param name="newVariableName">Variable name.</param>
+        /// <param name="newVariableLocation">Location.</param>
+        public AggregateVariableViewModel(string newVariableName, Point newVariableLocation)
+            : base(newVariableName, newVariableLocation)
+        {
+            this.Model = new AggregateVariableModel(newVariableName, newVariableLocation);
+        }
+
+        /// <summary>
+        /// Initialize a new aggregate variable with default values.
         /// </summary>
         public AggregateVariableViewModel()
         {
-            Model = new AggregateVariableModel();
+            this.Model = new AggregateVariableModel();
         }
 
         /// <summary>
