@@ -13,16 +13,13 @@ namespace Dyna.Core.Models
     {
         private VariableModel[] variables;
 
-        /// <summary>
-        /// Initializes an aggregate variable with a name and domain expression.
-        /// </summary>
-        public AggregateVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(variableName)
+        public AggregateVariableModel(string newVariableName, int aggregateSize, VariableDomainExpressionModel domainExpression)
+            : base(newVariableName)
         {
-            if (theDomainExpression == null)
-                throw new ArgumentNullException("theDomainExpression");
-            this.variables = new VariableModel[0];
-            this.DomainExpression = theDomainExpression;
+            this.DomainExpression = domainExpression;
+            this.variables = new VariableModel[aggregateSize];
+            for (var i = 0; i < aggregateSize; i++)
+                this.variables[i] = this.CreateNewVariableAt(i + 1);
         }
 
         /// <summary>
@@ -34,7 +31,19 @@ namespace Dyna.Core.Models
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i+1);
+                this.variables[i] = this.CreateNewVariableAt(i + 1);
+        }
+
+        /// <summary>
+        /// Initializes an aggregate variable with a name and domain expression.
+        /// </summary>
+        public AggregateVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(variableName)
+        {
+            if (theDomainExpression == null)
+                throw new ArgumentNullException("theDomainExpression");
+            this.variables = new VariableModel[0];
+            this.DomainExpression = theDomainExpression;
         }
 
         public AggregateVariableModel(string newVariableName, Point newVariableLocation)

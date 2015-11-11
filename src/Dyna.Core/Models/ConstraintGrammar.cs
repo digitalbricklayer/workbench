@@ -84,6 +84,7 @@ namespace Dyna.Core.Models
         private static readonly Parser<OperatorType> OperatorType =
             from type in Sprache.Parse.String("=").Return(Models.OperatorType.Equals)
                 .Or(Sprache.Parse.String("!=").Return(Models.OperatorType.NotEqual))
+                .Or(Sprache.Parse.String("<>").Return(Models.OperatorType.NotEqual))
                 .Or(Sprache.Parse.String(">=").Return(Models.OperatorType.GreaterThanOrEqual))
                 .Or(Sprache.Parse.String("<=").Return(Models.OperatorType.LessThanOrEqual))
                 .Or(Sprache.Parse.String(">").Return(Models.OperatorType.Greater))
