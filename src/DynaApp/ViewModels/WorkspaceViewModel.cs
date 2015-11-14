@@ -221,7 +221,6 @@ namespace DynaApp.ViewModels
 
         /// <summary>
         /// Delete the variable from the view-model.
-        /// Also deletes any connections to or from the variable.
         /// </summary>
         public void DeleteVariable(VariableViewModel variable)
         {

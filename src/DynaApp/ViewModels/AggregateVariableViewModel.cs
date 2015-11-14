@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -13,6 +14,8 @@ namespace DynaApp.ViewModels
         public AggregateVariableViewModel(string newVariableName, Point newVariableLocation)
             : base(newVariableName, newVariableLocation)
         {
+            this.Variables = new ObservableCollection<VariableViewModel>();
+            this.Variables.Add(new VariableViewModel(newVariableName + "1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel(newVariableName, newVariableLocation);
         }
 
@@ -25,6 +28,8 @@ namespace DynaApp.ViewModels
         public AggregateVariableViewModel(string newVariableName, int size, VariableDomainExpressionViewModel domainExpression)
             : base(newVariableName)
         {
+            this.Variables = new ObservableCollection<VariableViewModel>();
+            this.Variables.Add(new VariableViewModel(newVariableName+"1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel(newVariableName, size, domainExpression.Model);
         }
 
@@ -33,6 +38,8 @@ namespace DynaApp.ViewModels
         /// </summary>
         public AggregateVariableViewModel()
         {
+            this.Variables = new ObservableCollection<VariableViewModel>();
+            this.Variables.Add(new VariableViewModel("x" + "1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel();
         }
 
@@ -40,5 +47,21 @@ namespace DynaApp.ViewModels
         /// Gets or sets the aggregate variable model.
         /// </summary>
         public new AggregateVariableModel Model { get; private set; }
+
+        /// <summary>
+        /// Gets the variables inside the aggregate.
+        /// </summary>
+        public ObservableCollection<VariableViewModel> Variables { get; private set; }
+
+        /// <summary>
+        /// Gets the variable count range expression.
+        /// </summary>
+        public string Range
+        {
+            get
+            {
+                return "1.."+this.Variables.Count;
+            }
+        }
     }
 }
