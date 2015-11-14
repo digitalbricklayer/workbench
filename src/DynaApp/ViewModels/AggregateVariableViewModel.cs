@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Dyna.Core.Models;
 
@@ -60,7 +61,9 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return "1.."+this.Variables.Count;
+                if (this.Variables.Any())
+                    return "1.."+this.Variables.Count;
+                return "0";
             }
         }
     }
