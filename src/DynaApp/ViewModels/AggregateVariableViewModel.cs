@@ -16,7 +16,6 @@ namespace DynaApp.ViewModels
             : base(newVariableName, newVariableLocation)
         {
             this.Variables = new ObservableCollection<VariableViewModel>();
-            this.Variables.Add(new VariableViewModel(newVariableName + "1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel(newVariableName, newVariableLocation);
         }
 
@@ -30,7 +29,6 @@ namespace DynaApp.ViewModels
             : base(newVariableName)
         {
             this.Variables = new ObservableCollection<VariableViewModel>();
-            this.Variables.Add(new VariableViewModel(newVariableName+"1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel(newVariableName, size, domainExpression.Model);
         }
 
@@ -40,8 +38,22 @@ namespace DynaApp.ViewModels
         public AggregateVariableViewModel()
         {
             this.Variables = new ObservableCollection<VariableViewModel>();
-            this.Variables.Add(new VariableViewModel("x" + "1", new VariableDomainExpressionViewModel()));
             this.Model = new AggregateVariableModel();
+        }
+
+        /// <summary>
+        /// Gets the aggregate variable name.
+        /// </summary>
+        public override string Name
+        {
+            get { return base.Name; }
+            set
+            {
+                base.Name = value;
+                this.Model.Name = value;
+                for (var i = 1; i <= this.Variables.Count; i++)
+                    this.Variables[i-1].Name = this.Name + i;
+            }
         }
 
         /// <summary>
@@ -53,6 +65,11 @@ namespace DynaApp.ViewModels
         /// Gets the variables inside the aggregate.
         /// </summary>
         public ObservableCollection<VariableViewModel> Variables { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the number of variables in the aggregate variable.
+        /// </summary>
+        public int VariableCount { get; set; }
 
         /// <summary>
         /// Gets the variable count range expression.

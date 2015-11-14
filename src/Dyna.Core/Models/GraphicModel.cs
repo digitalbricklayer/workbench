@@ -6,6 +6,8 @@ namespace Dyna.Core.Models
     [Serializable]
     public abstract class GraphicModel : ModelBase
     {
+        private string name;
+
         /// <summary>
         /// Initialize a graphic model with a name and location.
         /// </summary>
@@ -25,7 +27,7 @@ namespace Dyna.Core.Models
         protected GraphicModel(string graphicName)
             : this()
         {
-            this.Name = graphicName;
+            this.name = graphicName;
         }
 
         /// <summary>
@@ -33,13 +35,17 @@ namespace Dyna.Core.Models
         /// </summary>
         protected GraphicModel()
         {
-            this.Name = string.Empty;
+            this.name = string.Empty;
         }
 
         /// <summary>
         /// Gets or sets the graphic name.
         /// </summary>
-        public string Name { get; set; }
+        public virtual string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         public double X { get; set; }
         public double Y { get; set; }

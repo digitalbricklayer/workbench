@@ -54,7 +54,7 @@ namespace DynaApp.ViewModels
         {
             if (string.IsNullOrWhiteSpace(newName))
                 throw new ArgumentException("newName");
-            this.Name = newName;
+            this.name = newName;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         protected GraphicViewModel()
         {
-            this.Name = string.Empty;
+            this.name = string.Empty;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets or sets the graphic name.
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get { return this.name; }
             set

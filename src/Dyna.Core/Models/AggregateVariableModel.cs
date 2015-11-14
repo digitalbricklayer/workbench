@@ -74,6 +74,23 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
+        /// Gets the name of the aggregate variable.
+        /// </summary>
+        public override string Name
+        {
+            get { return base.Name; }
+            set
+            {
+                base.Name = value;
+                for (var i = 1; i <= this.Variables.Count(); i++)
+                {
+                    var variable = this.variables[i-1];
+                    variable.Name = this.GetVariableNameFor(i);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the variables in the aggregate.
         /// </summary>
         public IEnumerable<VariableModel> Variables
@@ -150,7 +167,17 @@ namespace Dyna.Core.Models
         /// <returns>Variable.</returns>
         private VariableModel CreateNewVariableAt(int index)
         {
-            return new VariableModel(this.Name + index, this.DomainExpression);
+            return new VariableModel(this.GetVariableNameFor(index), this.DomainExpression);
+        }
+
+        /// <summary>
+        /// Get the variable name for the index.
+        /// </summary>
+        /// <param name="index">Index the variable is located.</param>
+        /// <returns>Variable name.</returns>
+        private string GetVariableNameFor(int index)
+        {
+            return this.Name + index;
         }
     }
 }
