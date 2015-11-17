@@ -21,4 +21,4 @@ Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [Networ
 Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
 
 ##License
-Constraint Workbench is licensed under a BSD license.
+Constraint Workbench is [licensed under a BSD license](LICENSE.md).
