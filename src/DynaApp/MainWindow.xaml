@@ -852,6 +852,12 @@
                         <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 

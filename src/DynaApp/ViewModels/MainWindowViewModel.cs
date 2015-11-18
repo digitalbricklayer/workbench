@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Dyna.Core.Models;
@@ -162,6 +163,17 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Gets whether the "Model|Delete" menu item can be executed.
+        /// </summary>
+        public bool CanDeleteExecute
+        {
+            get
+            {
+                return this.Workspace.Model.Graphics.Any(_ => _.IsSelected);
+            }
+        }
+
+        /// <summary>
         /// Gets the File|New command.
         /// </summary>
         public ICommand NewCommand { get; private set; }
@@ -210,6 +222,11 @@ namespace DynaApp.ViewModels
         /// Gets the Model|Add Domain command.
         /// </summary>
         public ICommand AddDomainCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Delete command.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the main window title.
@@ -382,6 +399,15 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Event raised to delete all selected graphics.
+        /// </summary>
+        private void ModelDeleteAction()
+        {
+            this.Workspace.DeleteSelectedGraphics();
+            this.UpdateTitle();
+        }
+
+        /// <summary>
         /// Prompt to save and make Save operation if necessary.
         /// </summary>
         /// <returns>
@@ -485,16 +511,17 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void CreateMenuCommands()
         {
-            this.NewCommand = new CommandHandler(FileNewAction, CanFileNewExecute);
-            this.OpenCommand = new CommandHandler(FileOpenAction, CanFileOpenExecute);
-            this.SaveCommand = new CommandHandler(FileSaveAction, CanFileSaveExecute);
-            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
-            this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
-            this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
-            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, CanAddSingletonVariableExecute);
-            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, CanAddAggregateVariableExecute);
-            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
-            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
+            this.NewCommand = new CommandHandler(FileNewAction, _ => CanFileNewExecute);
+            this.OpenCommand = new CommandHandler(FileOpenAction, _ => CanFileOpenExecute);
+            this.SaveCommand = new CommandHandler(FileSaveAction, _ => CanFileSaveExecute);
+            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, _ => CanFileSaveAsExecute);
+            this.ExitCommand = new CommandHandler(FileExitAction, _ => CanFileExitExecute);
+            this.SolveCommand = new CommandHandler(ModelSolveAction, _ => CanModelSolveExecute);
+            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, _ => CanAddSingletonVariableExecute);
+            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, _ => CanAddAggregateVariableExecute);
+            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, _ => CanAddConstraintExecute);
+            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, _ => CanAddDomainExecute);
+            this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
         }
     }
 }

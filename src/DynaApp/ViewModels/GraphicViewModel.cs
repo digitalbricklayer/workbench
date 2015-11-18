@@ -168,7 +168,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsNameEditing = true, true);
+                return new CommandHandler(() => this.IsNameEditing = true, _ => true);
             }
         }
 

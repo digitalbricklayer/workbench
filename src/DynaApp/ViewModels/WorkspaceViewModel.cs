@@ -263,11 +263,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Delete the currently selected domains from the view-model.
+        /// Delete the currently selected variables from the view-model.
         /// </summary>
         private void DeleteSelectedVariables()
         {
-            // Take a copy of the domains list so we can delete domains while iterating.
+            // Take a copy of the variables list so we can delete domains while iterating.
             var variablesCopy = this.Model.Variables.ToArray();
 
             foreach (var variable in variablesCopy)
@@ -321,21 +321,6 @@ namespace DynaApp.ViewModels
             // Remove the variable from the network.
             //
             this.Model.DeleteConstraint(constraint);
-        }
-
-        private void SyncSolutionFrom(SolutionViewModel solutionViewModel)
-        {
-            var newSolutionModel = new SolutionModel();
-            foreach (var valueViewModel in solutionViewModel.Values)
-            {
-                var variableModel = this.WorkspaceModel.Model.GetVariableByName(valueViewModel.VariableName);
-                var newValueModel = new ValueModel(variableModel)
-                {
-                    Value = valueViewModel.Value
-                };
-                newSolutionModel.AddSingletonValue(newValueModel);
-            }
-            this.WorkspaceModel.Solution = newSolutionModel;
         }
     }
 }
