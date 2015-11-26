@@ -246,7 +246,7 @@ namespace DynaApp.ViewModels
         {
             this.Solution.Reset();
             var newValues = new List<ValueViewModel>();
-            foreach (var value in theSolution.Values)
+            foreach (var value in theSolution.SingletonValues)
             {
                 var variable = this.Model.GetVariableByName(value.VariableName);
                 var valueViewModel = new ValueViewModel(variable)
@@ -254,6 +254,18 @@ namespace DynaApp.ViewModels
                     Value = value.Value
                 };
                 newValues.Add(valueViewModel);
+            }
+            foreach (var aggregateValue in theSolution.AggregateValues)
+            {
+                foreach (var value in aggregateValue.Values)
+                {
+                    var aggregateViewModel = this.Model.GetVariableByName(aggregateValue.Variable.Name);
+                    var valueViewModel = new ValueViewModel(aggregateViewModel)
+                    {
+                        Value = value
+                    };
+                    newValues.Add(valueViewModel);
+                }
             }
             this.Solution.BindTo(newValues);
 

@@ -12,6 +12,7 @@ namespace Dyna.Core.Models
     public class AggregateVariableModel : GraphicModel
     {
         private VariableModel[] variables;
+        private VariableDomainExpressionModel domainExpression;
 
         public AggregateVariableModel(string newVariableName, int aggregateSize, VariableDomainExpressionModel domainExpression)
             : base(newVariableName)
@@ -115,7 +116,16 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>
-        public VariableDomainExpressionModel DomainExpression { get; set; }
+        public VariableDomainExpressionModel DomainExpression
+        {
+            get { return this.domainExpression; }
+            set
+            {
+                this.domainExpression = value;
+                foreach (var variableModel in this.Variables)
+                    variableModel.DomainExpression = this.domainExpression;
+            }
+        }
 
         /// <summary>
         /// Resize the aggregate variable.

@@ -354,10 +354,10 @@
                 hovers over the variable name control.
                 -->
                 <controls:AdornedControl HorizontalAdornerPlacement="Outside"
-                                        VerticalAdornerPlacement="Outside"
-                                        AdornerOffsetX="-12"
-                                        AdornerOffsetY="8"
-                                        IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+                                         VerticalAdornerPlacement="Outside"
+                                         AdornerOffsetX="-12"
+                                         AdornerOffsetY="8"
+                                         IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="LeftGraphicColumn" Width="30"/>
@@ -394,9 +394,10 @@
                                                         FontWeight="Bold"
                                                         FontSize="24"
                                                         FontStyle="Italic"/>
-                            <TextBlock x:Name="variableRangeBox"
+                            <!-- Size of the aggregate -->
+                            <controls:EditableTextBlock x:Name="variableSizeEditor"
                                        Grid.Column="1"
-                                       Text="{Binding Range}"/>
+                                       Text="{Binding NumberVariables}"/>
                         </Grid>
 
                         <!-- Right hand '>' -->
@@ -854,6 +855,12 @@
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Resize Aggregate" Command="{Binding ResizeCommand}">
                     <MenuItem.Icon>
                         <Image Source="/Images/Transparent.png" />
                     </MenuItem.Icon>

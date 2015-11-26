@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -162,7 +163,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Get the variable matching the given name.
+        /// Get the singleton variable matching the given name.
         /// </summary>
         /// <param name="variableName">Variable name.</param>
         /// <returns>Variable matching the name.</returns>
@@ -171,6 +172,16 @@ namespace DynaApp.ViewModels
             if (string.IsNullOrWhiteSpace(variableName))
                 throw new ArgumentNullException("variableName");
             return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+        }
+
+        /// <summary>
+        /// Get all selected aggregate variables.
+        /// </summary>
+        /// <returns>All selected variables.</returns>
+        public List<VariableViewModel> GetSelectedAggregateVariables()
+        {
+            return this.Variables.Where(_ => _.IsSelected && _.IsAggregate)
+                                 .ToList();
         }
 
         /// <summary>

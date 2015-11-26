@@ -20,7 +20,7 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.Values.AddRange(theValues);
+            this.SingletonValues.AddRange(theValues);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.Values.AddRange(theValues);
+            this.SingletonValues.AddRange(theValues);
         }
 
         /// <summary>
@@ -51,14 +51,14 @@ namespace Dyna.Core.Models
         /// </summary>
         public SolutionModel()
         {
-            this.Values = new List<ValueModel>();
+            this.SingletonValues = new List<ValueModel>();
             this.AggregateValues = new List<AggregateValueModel>();
         }
 
         /// <summary>
         /// Gets and sets the values in the solution.
         /// </summary>
-        public List<ValueModel> Values { get; set; }
+        public List<ValueModel> SingletonValues { get; set; }
 
         /// <summary>
         /// Gets and sets the aggregate values in the solution.
@@ -76,7 +76,7 @@ namespace Dyna.Core.Models
         /// <param name="theValue">New value.</param>
         public void AddSingletonValue(ValueModel theValue)
         {
-            this.Values.Add(theValue);
+            this.SingletonValues.Add(theValue);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Dyna.Core.Models
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
         public ValueModel GetSingletonVariableByName(string theVariableName)
         {
-            return this.Values.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return this.SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
 
         /// <summary>

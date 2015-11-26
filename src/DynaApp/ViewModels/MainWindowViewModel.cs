@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using Dyna.Core.Models;
 using DynaApp.Services;
+using DynaApp.Views;
 using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
@@ -91,18 +92,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "File|Exit" menu item can be executed.
-        /// </summary>
-        public bool CanFileExitExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
         /// Gets whether the "Model|Solve" menu item can be executed.
         /// </summary>
         public bool CanModelSolveExecute
@@ -174,6 +163,17 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
+        /// Gets whether the "Model|Resize" menu item can be executed.
+        /// </summary>
+        public bool CanResizeExecute
+        {
+            get
+            {
+                return this.Workspace.Model.GetSelectedAggregateVariables().Any();
+            }
+        }
+
+        /// <summary>
         /// Gets the File|New command.
         /// </summary>
         public ICommand NewCommand { get; private set; }
@@ -227,6 +227,11 @@ namespace DynaApp.ViewModels
         /// Gets the Model|Delete command.
         /// </summary>
         public ICommand DeleteCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Resize command.
+        /// </summary>
+        public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the main window title.
@@ -350,7 +355,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Handle the "Model|Solve" menu item.
+        /// Solve the model.
         /// </summary>
         private void ModelSolveAction()
         {
@@ -359,7 +364,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new singleton variable.
+        /// Create a new singleton variable.
         /// </summary>
         private void ModelAddSingletonVariableAction()
         {
@@ -369,7 +374,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new singleton variable.
+        /// Create a new singleton variable.
         /// </summary>
         private void ModelAddAggregateVariableAction()
         {
@@ -379,7 +384,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new constraint.
+        /// Create a new constraint.
         /// </summary>
         private void ModelAddConstraintAction()
         {
@@ -389,7 +394,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new domain.
+        /// Create a new domain.
         /// </summary>
         private void ModelAddDomainAction()
         {
@@ -399,12 +404,38 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to delete all selected graphics.
+        /// Delete all selected graphics.
         /// </summary>
         private void ModelDeleteAction()
         {
             this.Workspace.DeleteSelectedGraphics();
             this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Resize the selected aggregate variable.
+        /// </summary>
+        private void ModelResizeAction()
+        {
+            var selectedVariable = this.Workspace.Model.GetSelectedAggregateVariables();
+            if (selectedVariable == null) return;
+
+            var resizeViewModel = new AggregateResizeViewModel();
+            var resizeWindow = new AggregateVariableResizeWindow
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = resizeViewModel
+            };
+            var showDialogResult = resizeWindow.ShowDialog();
+
+            if (showDialogResult.HasValue && showDialogResult.Value)
+            {
+                foreach (var variableViewModel in selectedVariable)
+                {
+                    var aggregate = (AggregateVariableViewModel) variableViewModel;
+                    aggregate.NumberVariables = Convert.ToString(resizeViewModel.Size);
+                }
+            }
         }
 
         /// <summary>
@@ -515,13 +546,14 @@ namespace DynaApp.ViewModels
             this.OpenCommand = new CommandHandler(FileOpenAction, _ => CanFileOpenExecute);
             this.SaveCommand = new CommandHandler(FileSaveAction, _ => CanFileSaveExecute);
             this.SaveAsCommand = new CommandHandler(FileSaveAsAction, _ => CanFileSaveAsExecute);
-            this.ExitCommand = new CommandHandler(FileExitAction, _ => CanFileExitExecute);
+            this.ExitCommand = new CommandHandler(FileExitAction);
             this.SolveCommand = new CommandHandler(ModelSolveAction, _ => CanModelSolveExecute);
             this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, _ => CanAddSingletonVariableExecute);
             this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, _ => CanAddAggregateVariableExecute);
             this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, _ => CanAddConstraintExecute);
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, _ => CanAddDomainExecute);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
+            this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
     }
 }

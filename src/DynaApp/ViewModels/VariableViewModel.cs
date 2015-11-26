@@ -10,7 +10,7 @@ namespace DynaApp.ViewModels
     public class VariableViewModel : GraphicViewModel
     {
         private VariableModel model;
-        private VariableDomainExpressionViewModel domainExpression;
+        protected VariableDomainExpressionViewModel domainExpression;
 
         /// <summary>
         /// Initialize a variable with a name, location and domain expression.
@@ -64,6 +64,8 @@ namespace DynaApp.ViewModels
         public VariableViewModel()
             : this("New variable")
         {
+            this.DomainExpression = new VariableDomainExpressionViewModel();
+            this.Model = new VariableModel("New variable", this.DomainExpression.Model);
         }
 
         /// <summary>
@@ -78,6 +80,8 @@ namespace DynaApp.ViewModels
             set
             {
                 this.domainExpression = value;
+                if (this.Model != null)
+                    this.Model.DomainExpression = this.domainExpression.Model;
                 OnPropertyChanged();
             }
         }
@@ -92,6 +96,17 @@ namespace DynaApp.ViewModels
             {
                 base.Model = value;
                 this.model = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the variable is an aggregate.
+        /// </summary>
+        public virtual bool IsAggregate
+        {
+            get
+            {
+                return false;
             }
         }
     }

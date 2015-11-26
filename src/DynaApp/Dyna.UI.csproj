@@ -97,6 +97,7 @@
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AbstractViewModel.cs" />
+    <Compile Include="ViewModels\AggregateResizeViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableViewModel.cs" />
     <Compile Include="ViewModels\ValueViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
@@ -116,6 +117,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\WorkspaceViewModel.cs" />
+    <Compile Include="Views\AggregateVariableResizeWindow.xaml.cs">
+      <DependentUpon>AggregateVariableResizeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ModelErrorsWindow.xaml.cs">
       <DependentUpon>ModelErrorsWindow.xaml</DependentUpon>
     </Compile>
@@ -128,6 +132,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AggregateVariableResizeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModelErrorsWindow.xaml">
       <SubType>Designer</SubType>
