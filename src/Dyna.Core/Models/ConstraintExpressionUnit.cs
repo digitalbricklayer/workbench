@@ -5,7 +5,7 @@ namespace Dyna.Core.Models
     [Serializable]
     public class ConstraintExpressionUnit
     {
-        public ConstraintExpressionUnit(VariableModel lhs, Expression rhs, OperatorType operatorType)
+        public ConstraintExpressionUnit(Expression lhs, Expression rhs, OperatorType operatorType)
         {
             if (lhs == null)
                 throw new ArgumentNullException("lhs");
@@ -20,7 +20,7 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets the left hand side of the expression.
         /// </summary>
-        public VariableModel Left { get; private set; }
+        public Expression Left { get; private set; }
 
         /// <summary>
         /// Gets the right hand side expression.

@@ -5,8 +5,7 @@
         Title="Model Errors"
         Height="300" Width="300"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner"
-        >
+        WindowStartupLocation="CenterOwner">
 
     <Window.DataContext>
         <viewModels:ModelErrorsViewModel />

@@ -74,7 +74,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsExpressionEditing = true, true);
+                return new CommandHandler(() => this.IsExpressionEditing = true, _ => true);
             }
         }
     }

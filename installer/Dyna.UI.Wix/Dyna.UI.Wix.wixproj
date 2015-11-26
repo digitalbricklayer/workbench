@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>a2337ac6-b32e-4d7e-a6d6-157415beb0cc</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>DynaApp</OutputName>
+    <OutputName>ConstraintWorkbench</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -21,7 +21,7 @@
     <OutputPath>..\..\src\DynaApp\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <DefineConstants>APPTITLE=Dyna Project;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Dyna Project</DefineConstants>
+    <DefineConstants>APPTITLE=Constraint Workbench;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Constraint Workbench</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreConditions.wxs" />

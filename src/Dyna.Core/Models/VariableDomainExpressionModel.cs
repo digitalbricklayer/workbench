@@ -85,6 +85,18 @@ namespace Dyna.Core.Models
         }
 
         /// <summary>
+        /// Does the comparitor intersect with the domain.
+        /// </summary>
+        /// <param name="comparitor">Comparitor domain.</param>
+        /// <returns>True if the comparitor does intersect, False 
+        /// if the comparitor does not intersect.</returns>
+        public bool Intersects(VariableDomainExpressionModel comparitor)
+        {
+            return comparitor.InlineDomain.UpperBand <= this.InlineDomain.UpperBand &&
+                   comparitor.InlineDomain.LowerBand >= this.InlineDomain.LowerBand;
+        }
+
+        /// <summary>
         /// Parse the raw variable domain expression.
         /// </summary>
         /// <param name="rawExpression">Raw variable domain expression.</param>

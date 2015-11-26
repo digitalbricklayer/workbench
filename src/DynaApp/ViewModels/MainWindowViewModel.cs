@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Dyna.Core.Models;
 using DynaApp.Services;
+using DynaApp.Views;
 using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
@@ -13,6 +15,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : AbstractViewModel
     {
+		private const string ProgramTitle = "Constraint Workbench";
         private string filename = string.Empty;
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
@@ -89,18 +92,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "File|Exit" menu item can be executed.
-        /// </summary>
-        public bool CanFileExitExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
         /// Gets whether the "Model|Solve" menu item can be executed.
         /// </summary>
         public bool CanModelSolveExecute
@@ -125,9 +116,21 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "Model|Add Variable" menu item can be executed.
+        /// Gets whether the "Model|Add Singleton Variable" menu item can be executed.
         /// </summary>
-        public bool CanAddVariableExecute
+        public bool CanAddSingletonVariableExecute
+        {
+            get
+            {
+                // Can always execute
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the "Model|Add Aggregate Variable" menu item can be executed.
+        /// </summary>
+        public bool CanAddAggregateVariableExecute
         {
             get
             {
@@ -145,6 +148,28 @@ namespace DynaApp.ViewModels
             {
                 // Can always execute
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the "Model|Delete" menu item can be executed.
+        /// </summary>
+        public bool CanDeleteExecute
+        {
+            get
+            {
+                return this.Workspace.Model.Graphics.Any(_ => _.IsSelected);
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the "Model|Resize" menu item can be executed.
+        /// </summary>
+        public bool CanResizeExecute
+        {
+            get
+            {
+                return this.Workspace.Model.GetSelectedAggregateVariables().Any();
             }
         }
 
@@ -179,9 +204,14 @@ namespace DynaApp.ViewModels
         public ICommand SolveCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Model|Add Variable command.
+        /// Gets the Model|Add Singleton Variable command.
         /// </summary>
-        public ICommand AddVariableCommand { get; private set; }
+        public ICommand AddSingletonVariableCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Add Aggregate Variable command.
+        /// </summary>
+        public ICommand AddAggregateVariableCommand { get; private set; }
 
         /// <summary>
         /// Gets the Model|Add Constraint command.
@@ -192,6 +222,16 @@ namespace DynaApp.ViewModels
         /// Gets the Model|Add Domain command.
         /// </summary>
         public ICommand AddDomainCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Delete command.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Resize command.
+        /// </summary>
+        public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the main window title.
@@ -232,7 +272,7 @@ namespace DynaApp.ViewModels
             // Show Open File dialog
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
+                Filter = ProgramTitle + " (*.dpf)|*.dpf|All Files|*.*",
                 DefaultExt = "dpf",
                 RestoreDirectory = true
             };
@@ -248,7 +288,7 @@ namespace DynaApp.ViewModels
             try
             {
                 // Load file
-                var workspaceReader = new WorkspaceReader(openFileDialog.FileName);
+                var workspaceReader = new WorkspaceModelReader(openFileDialog.FileName);
                 var theWorkspaceModel = workspaceReader.Read();
                 var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache());
                 this.Workspace = workspaceMapper.MapFrom(theWorkspaceModel);
@@ -286,7 +326,7 @@ namespace DynaApp.ViewModels
             // Show Save File dialog
             var dlg = new SaveFileDialog
             {
-                Filter = "Dyna Project files (*.dpf)|*.dpf|All Files|*.*",
+                Filter = ProgramTitle + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
                 DefaultExt = "dpf",
                 RestoreDirectory = true
@@ -315,7 +355,7 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Handle the "Model|Solve" menu item.
+        /// Solve the model.
         /// </summary>
         private void ModelSolveAction()
         {
@@ -324,17 +364,27 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new variable.
+        /// Create a new singleton variable.
         /// </summary>
-        private void ModelAddVariableAction()
+        private void ModelAddSingletonVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddVariable("New Variable", newVariableLocation);
+            this.Workspace.AddSingletonVariable("New Variable", newVariableLocation);
             this.UpdateTitle();
         }
 
         /// <summary>
-        /// Event raised to create a new constraint.
+        /// Create a new singleton variable.
+        /// </summary>
+        private void ModelAddAggregateVariableAction()
+        {
+            var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.AddAggregateVariable("New Variable", newVariableLocation);
+            this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Create a new constraint.
         /// </summary>
         private void ModelAddConstraintAction()
         {
@@ -344,13 +394,48 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Event raised to create a new domain.
+        /// Create a new domain.
         /// </summary>
         private void ModelAddDomainAction()
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.Workspace.AddDomain("New Domain", newDomainLocation);
             this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Delete all selected graphics.
+        /// </summary>
+        private void ModelDeleteAction()
+        {
+            this.Workspace.DeleteSelectedGraphics();
+            this.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Resize the selected aggregate variable.
+        /// </summary>
+        private void ModelResizeAction()
+        {
+            var selectedVariable = this.Workspace.Model.GetSelectedAggregateVariables();
+            if (selectedVariable == null) return;
+
+            var resizeViewModel = new AggregateResizeViewModel();
+            var resizeWindow = new AggregateVariableResizeWindow
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = resizeViewModel
+            };
+            var showDialogResult = resizeWindow.ShowDialog();
+
+            if (showDialogResult.HasValue && showDialogResult.Value)
+            {
+                foreach (var variableViewModel in selectedVariable)
+                {
+                    var aggregate = (AggregateVariableViewModel) variableViewModel;
+                    aggregate.NumberVariables = Convert.ToString(resizeViewModel.Size);
+                }
+            }
         }
 
         /// <summary>
@@ -400,7 +485,7 @@ namespace DynaApp.ViewModels
             try
             {
                 // Save file
-                var workspaceWriter = new WorkspaceWriter(file);
+                var workspaceWriter = new WorkspaceModelWriter(file);
                 workspaceWriter.Write(this.Workspace.WorkspaceModel);
             }
             catch (Exception e)
@@ -423,7 +508,7 @@ namespace DynaApp.ViewModels
         {
             MessageBox.Show(Application.Current.MainWindow,
                             message,
-                            "Dyna Project",
+                            ProgramTitle,
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
         }
@@ -433,7 +518,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var newTitle = "Dyna Project" + " - ";
+            var newTitle = ProgramTitle + " - ";
 
             if (string.IsNullOrEmpty(this.filename))
             {
@@ -457,15 +542,18 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void CreateMenuCommands()
         {
-            this.NewCommand = new CommandHandler(FileNewAction, CanFileNewExecute);
-            this.OpenCommand = new CommandHandler(FileOpenAction, CanFileOpenExecute);
-            this.SaveCommand = new CommandHandler(FileSaveAction, CanFileSaveExecute);
-            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, CanFileSaveAsExecute);
-            this.ExitCommand = new CommandHandler(FileExitAction, CanFileExitExecute);
-            this.SolveCommand = new CommandHandler(ModelSolveAction, CanModelSolveExecute);
-            this.AddVariableCommand = new CommandHandler(ModelAddVariableAction, CanAddVariableExecute);
-            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, CanAddConstraintExecute);
-            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, CanAddDomainExecute);
+            this.NewCommand = new CommandHandler(FileNewAction, _ => CanFileNewExecute);
+            this.OpenCommand = new CommandHandler(FileOpenAction, _ => CanFileOpenExecute);
+            this.SaveCommand = new CommandHandler(FileSaveAction, _ => CanFileSaveExecute);
+            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, _ => CanFileSaveAsExecute);
+            this.ExitCommand = new CommandHandler(FileExitAction);
+            this.SolveCommand = new CommandHandler(ModelSolveAction, _ => CanModelSolveExecute);
+            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, _ => CanAddSingletonVariableExecute);
+            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, _ => CanAddAggregateVariableExecute);
+            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, _ => CanAddConstraintExecute);
+            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, _ => CanAddDomainExecute);
+            this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
+            this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
     }
 }

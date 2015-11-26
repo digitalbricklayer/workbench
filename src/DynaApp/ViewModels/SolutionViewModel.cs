@@ -11,9 +11,9 @@ namespace DynaApp.ViewModels
     public sealed class SolutionViewModel : AbstractViewModel
     {
         /// <summary>
-        /// Initialize the solution with bound values.
+        /// Initialize the solution with values.
         /// </summary>
-        /// <param name="theValues">Bound values.</param>
+        /// <param name="theValues">Values.</param>
         public SolutionViewModel(IEnumerable<ValueViewModel> theValues)
         {
             if (theValues == null)
@@ -45,9 +45,9 @@ namespace DynaApp.ViewModels
         public SolutionModel Model { get; set; }
 
         /// <summary>
-        /// Bind the bound values to the solution.
+        /// Bind the values to the solution.
         /// </summary>
-        /// <param name="theValues">Bound values.</param>
+        /// <param name="theValues">Values.</param>
         public void BindTo(IEnumerable<ValueViewModel> theValues)
         {
             this.Reset();

@@ -45,7 +45,7 @@ namespace Dyna.UI.Tests.Unit.Services
             var solution = new SolutionModel();
             var x = this.model.GetVariableByName("x");
             var valueOfX = new ValueModel(x);
-            solution.AddValue(valueOfX);
+            solution.AddSingletonValue(valueOfX);
 
             return solution;
         }

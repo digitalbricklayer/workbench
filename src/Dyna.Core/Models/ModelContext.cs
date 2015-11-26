@@ -24,6 +24,14 @@ namespace Dyna.Core.Models
             return this;
         }
 
+        public ModelContext AddAggregate(string newAggregateName, int aggregateSize, string newDomainExpression)
+        {
+            var newVariable = new AggregateVariableModel(newAggregateName, aggregateSize, newDomainExpression);
+            this.model.AddVariable(newVariable);
+
+            return this;
+        }
+
         public ModelContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
             var newDomain = new DomainModel(newDomainName, newDomainExpression);

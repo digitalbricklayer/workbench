@@ -18,7 +18,7 @@ namespace Dyna.Core.Tests.Unit.Models
         public void Initialize_With_Raw_Expression_Parses_Expected_Variable_Name_On_Left()
         {
             var sut = new ConstraintModel("x > 1");
-            Assert.That(sut.Expression.Left.Name, Is.EqualTo("x"));
+            Assert.That(sut.Expression.Left.Variable.Name, Is.EqualTo("x"));
         }
 
         [Test]
@@ -46,6 +46,27 @@ namespace Dyna.Core.Tests.Unit.Models
         public void Initialize_With_Empty_Expression_Throws_ArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new ConstraintModel(string.Empty));
+        }
+
+        [Test]
+        public void InitializeWithRawExpressionParsesExpectedAggregateVariableNameOnLeft()
+        {
+            var sut = new ConstraintModel("xx[1] > 1");
+            Assert.That(sut.Expression.Left.AggregateReference.IdentifierName, Is.EqualTo("xx"));
+        }
+
+        [Test]
+        public void InitializeWithRawExpressionParsesExpectedAggregateVariableSubscriptOnLeft()
+        {
+            var sut = new ConstraintModel("xx[1] > 1");
+            Assert.That(sut.Expression.Left.AggregateReference.Index, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void InitializeWithRawExpressionParsesExpectedAggregateVariableNameOnRight()
+        {
+            var sut = new ConstraintModel("x[1] > x[2]");
+            Assert.That(sut.Expression.Right.AggregateReference.IdentifierName, Is.EqualTo("x"));
         }
     }
 }

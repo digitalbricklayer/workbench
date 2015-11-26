@@ -27,7 +27,7 @@ namespace DynaApp.Services
         {
             var solutionViewModel = new SolutionViewModel();
             solutionViewModel.Model = theSolutionModel;
-            foreach (var valueModel in theSolutionModel.Values)
+            foreach (var valueModel in theSolutionModel.SingletonValues)
             {
                 solutionViewModel.AddValue(this.valueMapper.MapFrom(valueModel));
             }

@@ -51,7 +51,7 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets the left hand side of the expression.
         /// </summary>
-        public VariableModel Left
+        public Expression Left
         {
             get { return this.Unit.Left; }
         }

@@ -25,7 +25,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             var sut = new ConstraintViewModel();
             sut.Expression.Text = "x > 1";
-            Assert.That(sut.Expression.Model.Left.Name, Is.EqualTo("x"));
+            Assert.That(sut.Expression.Model.Left.Variable.Name, Is.EqualTo("x"));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             var sut = new ConstraintViewModel();
             sut.Expression.Text = "x > 1";
-            Assert.That(sut.Model.Expression.Left.Name, Is.EqualTo(sut.Expression.Model.Left.Name));
+            Assert.That(sut.Model.Expression.Left.Variable.Name, Is.EqualTo(sut.Expression.Model.Left.Variable.Name));
         }
     }
 }

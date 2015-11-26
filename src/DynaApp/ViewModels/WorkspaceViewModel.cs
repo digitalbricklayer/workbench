@@ -150,15 +150,30 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Create a new variable.
+        /// Create a new singleton variable.
         /// </summary>
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
-        /// <returns>New variable view model.</returns>
-        public VariableViewModel AddVariable(string newVariableName, Point newVariableLocation)
+        /// <returns>New singleton variable view model.</returns>
+        public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
             var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
-            this.Model.AddVariable(newVariable);
+            this.Model.AddSingletonVariable(newVariable);
+            this.IsDirty = true;
+
+            return newVariable;
+        }
+
+        /// <summary>
+        /// Create a new aggregate variable.
+        /// </summary>
+        /// <param name="newVariableName">New variable name.</param>
+        /// <param name="newVariableLocation">New variable location.</param>
+        /// <returns>New aggregate variable view model.</returns>
+        public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
+        {
+            var newVariable = new AggregateVariableViewModel(newVariableName, newVariableLocation);
+            this.Model.AddAggregateVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
@@ -206,7 +221,6 @@ namespace DynaApp.ViewModels
 
         /// <summary>
         /// Delete the variable from the view-model.
-        /// Also deletes any connections to or from the variable.
         /// </summary>
         public void DeleteVariable(VariableViewModel variable)
         {
@@ -231,17 +245,29 @@ namespace DynaApp.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             this.Solution.Reset();
-            var newBoundVariables = new List<ValueViewModel>();
-            foreach (var value in theSolution.Values)
+            var newValues = new List<ValueViewModel>();
+            foreach (var value in theSolution.SingletonValues)
             {
                 var variable = this.Model.GetVariableByName(value.VariableName);
-                var boundVariableViewModel = new ValueViewModel(variable)
+                var valueViewModel = new ValueViewModel(variable)
                 {
                     Value = value.Value
                 };
-                newBoundVariables.Add(boundVariableViewModel);
+                newValues.Add(valueViewModel);
             }
-            this.Solution.BindTo(newBoundVariables);
+            foreach (var aggregateValue in theSolution.AggregateValues)
+            {
+                foreach (var value in aggregateValue.Values)
+                {
+                    var aggregateViewModel = this.Model.GetVariableByName(aggregateValue.Variable.Name);
+                    var valueViewModel = new ValueViewModel(aggregateViewModel)
+                    {
+                        Value = value
+                    };
+                    newValues.Add(valueViewModel);
+                }
+            }
+            this.Solution.BindTo(newValues);
 
             if (!this.AvailableDisplayModes.Contains("Solution"))
                 this.AvailableDisplayModes.Add("Solution");
@@ -249,11 +275,11 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Delete the currently selected domains from the view-model.
+        /// Delete the currently selected variables from the view-model.
         /// </summary>
         private void DeleteSelectedVariables()
         {
-            // Take a copy of the domains list so we can delete domains while iterating.
+            // Take a copy of the variables list so we can delete domains while iterating.
             var variablesCopy = this.Model.Variables.ToArray();
 
             foreach (var variable in variablesCopy)
@@ -307,21 +333,6 @@ namespace DynaApp.ViewModels
             // Remove the variable from the network.
             //
             this.Model.DeleteConstraint(constraint);
-        }
-
-        private void SyncSolutionFrom(SolutionViewModel solutionViewModel)
-        {
-            var newSolutionModel = new SolutionModel();
-            foreach (var valueViewModel in solutionViewModel.Values)
-            {
-                var variableModel = this.WorkspaceModel.Model.GetVariableByName(valueViewModel.VariableName);
-                var newValueModel = new ValueModel(variableModel)
-                {
-                    Value = valueViewModel.Value
-                };
-                newSolutionModel.AddValue(newValueModel);
-            }
-            this.WorkspaceModel.Solution = newSolutionModel;
         }
     }
 }

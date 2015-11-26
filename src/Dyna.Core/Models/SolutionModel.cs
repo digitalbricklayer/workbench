@@ -20,7 +20,7 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.Values.AddRange(theValues);
+            this.SingletonValues.AddRange(theValues);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.Values.AddRange(theValues);
+            this.SingletonValues.AddRange(theValues);
         }
 
         /// <summary>
@@ -51,13 +51,19 @@ namespace Dyna.Core.Models
         /// </summary>
         public SolutionModel()
         {
-            this.Values = new List<ValueModel>();
+            this.SingletonValues = new List<ValueModel>();
+            this.AggregateValues = new List<AggregateValueModel>();
         }
 
         /// <summary>
-        /// Gets the values in the solution.
+        /// Gets and sets the values in the solution.
         /// </summary>
-        public List<ValueModel> Values { get; set; }
+        public List<ValueModel> SingletonValues { get; set; }
+
+        /// <summary>
+        /// Gets and sets the aggregate values in the solution.
+        /// </summary>
+        public List<AggregateValueModel> AggregateValues { get; set; }
 
         /// <summary>
         /// Gets the model this solution solves.
@@ -68,19 +74,38 @@ namespace Dyna.Core.Models
         /// Add a value to the solution.
         /// </summary>
         /// <param name="theValue">New value.</param>
-        public void AddValue(ValueModel theValue)
+        public void AddSingletonValue(ValueModel theValue)
         {
-            this.Values.Add(theValue);
+            this.SingletonValues.Add(theValue);
         }
 
         /// <summary>
-        /// Get the bound variable matching the name.
+        /// Add a value to the solution.
+        /// </summary>
+        /// <param name="theValue">New value.</param>
+        public void AddAggregateValue(AggregateValueModel theValue)
+        {
+            this.AggregateValues.Add(theValue);
+        }
+
+        /// <summary>
+        /// Get the value matching the name.
         /// </summary>
         /// <param name="theVariableName">Name of the variable to find.</param>
-        /// <returns>Bound variable matching the name. Null if no domains matches the name.</returns>
-        public ValueModel GetVariableByName(string theVariableName)
+        /// <returns>Value matching the name. Null if no value matches the name.</returns>
+        public ValueModel GetSingletonVariableByName(string theVariableName)
         {
-            return this.Values.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return this.SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+        }
+
+        /// <summary>
+        /// Get the aggregate value matching the name.
+        /// </summary>
+        /// <param name="theVariableName">Aggregate value.</param>
+        /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
+        public AggregateValueModel GetAggregateVariableByName(string theVariableName)
+        {
+            return this.AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
     }
 }
