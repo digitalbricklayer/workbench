@@ -122,6 +122,7 @@ namespace Dyna.Core.Models
             set
             {
                 this.domainExpression = value;
+                if (this.Variables == null) return;
                 foreach (var variableModel in this.Variables)
                     variableModel.DomainExpression = this.domainExpression;
             }
