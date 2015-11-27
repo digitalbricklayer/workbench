@@ -11,6 +11,7 @@ namespace Dyna.Core.Models
     public class DomainModel : GraphicModel
     {
         private readonly List<int> values = new List<int>();
+        private DomainExpressionModel expression;
 
         public DomainModel(string domainName, string rawDomainExpression)
             : base(domainName)
@@ -53,7 +54,15 @@ namespace Dyna.Core.Models
             }
         }
 
-        public DomainExpressionModel Expression { get; set; }
+        public DomainExpressionModel Expression
+        {
+            get { return expression; }
+            set
+            {
+                expression = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Create a new Domain from a range of individual values.

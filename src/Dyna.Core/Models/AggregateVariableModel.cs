@@ -88,6 +88,7 @@ namespace Dyna.Core.Models
                     var variable = this.variables[i-1];
                     variable.Name = this.GetVariableNameFor(i);
                 }
+                OnPropertyChanged();
             }
         }
 
@@ -125,6 +126,7 @@ namespace Dyna.Core.Models
                 if (this.Variables == null) return;
                 foreach (var variableModel in this.Variables)
                     variableModel.DomainExpression = this.domainExpression;
+                OnPropertyChanged();
             }
         }
 

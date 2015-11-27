@@ -8,6 +8,8 @@ namespace Dyna.Core.Models
     [Serializable]
     public class ConstraintModel : GraphicModel
     {
+        private ConstraintExpressionModel expression;
+
         /// <summary>
         /// Initialize a constraint with a name and constraint expression.
         /// </summary>
@@ -66,7 +68,15 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
-        public ConstraintExpressionModel Expression { get; set; }
+        public ConstraintExpressionModel Expression
+        {
+            get { return expression; }
+            set
+            {
+                expression = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Parse the raw expression text.

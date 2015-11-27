@@ -8,6 +8,8 @@ namespace Dyna.Core.Models
     [Serializable]
     public class VariableModel : GraphicModel
     {
+        private VariableDomainExpressionModel domainExpression;
+
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
@@ -49,7 +51,15 @@ namespace Dyna.Core.Models
         /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>
-        public VariableDomainExpressionModel DomainExpression { get; set; }
+        public VariableDomainExpressionModel DomainExpression
+        {
+            get { return domainExpression; }
+            set
+            {
+                domainExpression = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Returns a string that represents the variable.

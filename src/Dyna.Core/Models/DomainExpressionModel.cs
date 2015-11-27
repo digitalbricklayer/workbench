@@ -6,7 +6,7 @@ namespace Dyna.Core.Models
     /// An expression specifying a domain.
     /// </summary>
     [Serializable]
-    public class DomainExpressionModel
+    public class DomainExpressionModel : AbstractModel
     {
         private string text;
 
@@ -45,6 +45,7 @@ namespace Dyna.Core.Models
             {
                 this.text = value;
                 this.ParseUnit(value);
+                OnPropertyChanged();
             }
         }
 
