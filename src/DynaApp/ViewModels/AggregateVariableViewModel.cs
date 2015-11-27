@@ -17,9 +17,9 @@ namespace DynaApp.ViewModels
             : base(newVariableName)
         {
             this.Variables = new ObservableCollection<VariableViewModel>();
-            this.DomainExpression = domainExpression;
             this.Model = new AggregateVariableModel(newVariableName, size, this.DomainExpression.Model);
             this.Model.DomainExpression = this.DomainExpression.Model;
+            this.DomainExpression = domainExpression;
         }
 
         /// <summary>

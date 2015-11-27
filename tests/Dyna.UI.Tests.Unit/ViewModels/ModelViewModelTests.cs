@@ -18,10 +18,10 @@ namespace Dyna.UI.Tests.Unit.ViewModels
         {
             var modelViewModel = new ModelViewModel();
             modelViewModel.AddSingletonVariable(new VariableViewModel("x", new VariableDomainExpressionViewModel("1..10")));
-            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel("x", 2, new VariableDomainExpressionViewModel("1..10")));
+            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel("y", 2, new VariableDomainExpressionViewModel("1..10")));
             modelViewModel.AddConstraint(new ConstraintViewModel("x", "x > 1"));
             modelViewModel.AddConstraint(new ConstraintViewModel("aggregates must be different",
-                                                                 "x[1] <> x[2]"));
+                                                                 "y[1] <> y[2]"));
 
             return modelViewModel;
         }
