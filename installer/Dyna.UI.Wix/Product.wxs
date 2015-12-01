@@ -51,6 +51,8 @@
                 <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\ConstraintWorkbench.exe.config" Checksum="yes"/>
                 <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" Checksum="yes"/>
                 <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
+                <File Id="Caliburn.Micro" Source="$(var.APPPATH)\Caliburn.Micro.dll" Checksum="yes"/>
+              <File Id="Caliburn.Micro.Platform" Source="$(var.APPPATH)\Caliburn.Micro.Platform.dll" Checksum="yes"/>
             </Component>
         </ComponentGroup>
 

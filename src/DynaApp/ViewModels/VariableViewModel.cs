@@ -82,7 +82,7 @@ namespace DynaApp.ViewModels
                 this.domainExpression = value;
                 if (this.Model != null)
                     this.Model.DomainExpression = this.domainExpression.Model;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

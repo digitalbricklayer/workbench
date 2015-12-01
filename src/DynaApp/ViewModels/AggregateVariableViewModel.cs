@@ -58,7 +58,7 @@ namespace DynaApp.ViewModels
                 this.Model.Name = value;
                 for (var i = 1; i <= this.Variables.Count; i++)
                     this.Variables[i-1].Name = this.Name + i;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -95,7 +95,7 @@ namespace DynaApp.ViewModels
                     variable.DomainExpression = value;
                     variable.Model.DomainExpression = value.Model;
                 }
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -121,7 +121,7 @@ namespace DynaApp.ViewModels
                 var newSize = Convert.ToInt32(value);
                 if (newSize == this.Variables.Count) return;
                 this.Resize(newSize);
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

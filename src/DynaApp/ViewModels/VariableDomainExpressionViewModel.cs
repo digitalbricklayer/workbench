@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -7,7 +8,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for a variable domain expression.
     /// </summary>
-    public sealed class VariableDomainExpressionViewModel : AbstractViewModel
+    public sealed class VariableDomainExpressionViewModel : PropertyChangedBase
     {
         private string text;
         private bool isExpressionEditing;
@@ -49,7 +50,7 @@ namespace DynaApp.ViewModels
                 if (this.text == value) return;
                 this.text = value;
                 this.Model.Text = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -63,7 +64,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.isExpressionEditing == value) return;
                 this.isExpressionEditing = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
