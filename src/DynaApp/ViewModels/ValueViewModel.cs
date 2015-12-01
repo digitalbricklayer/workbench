@@ -1,4 +1,5 @@
 ﻿using System;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -6,7 +7,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for a value.
     /// </summary>
-    public sealed class ValueViewModel : AbstractViewModel
+    public sealed class ValueViewModel : PropertyChangedBase
     {
         private int value;
         private VariableViewModel variable;
@@ -39,7 +40,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.variable = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -56,7 +57,7 @@ namespace DynaApp.ViewModels
             {
                 this.value = value;
                 this.UpdateModelValue(value);
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

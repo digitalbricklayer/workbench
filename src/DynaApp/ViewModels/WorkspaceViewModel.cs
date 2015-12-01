@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -11,7 +12,7 @@ namespace DynaApp.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : AbstractViewModel
+    public sealed class WorkspaceViewModel : PropertyChangedBase
     {
         private readonly ObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
@@ -48,7 +49,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.model = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -63,7 +64,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.solution = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -93,7 +94,7 @@ namespace DynaApp.ViewModels
                     default:
                         throw new NotImplementedException("Unknown display mode.");
                 }
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -121,7 +122,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.selectedDisplayViewModel = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -135,7 +136,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.isDirty == value) return;
                 this.isDirty = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

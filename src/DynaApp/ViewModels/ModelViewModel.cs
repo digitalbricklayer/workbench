@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 using Dyna.Core.Solver;
 using DynaApp.Views;
@@ -13,7 +14,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// A view model for a model.
     /// </summary>
-    public sealed class ModelViewModel : AbstractViewModel
+    public sealed class ModelViewModel : PropertyChangedBase
     {
         /// <summary>
         /// Initialize a model view model with default values.

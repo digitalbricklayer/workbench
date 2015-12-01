@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -8,7 +9,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// Base for all graphic elements displayed on the model view.
     /// </summary>
-    public abstract class GraphicViewModel : AbstractViewModel
+    public abstract class GraphicViewModel : PropertyChangedBase
     {
         /// <summary>
         /// The X coordinate for the position of the graphic.
@@ -81,7 +82,7 @@ namespace DynaApp.ViewModels
                 if (this.name == value) return;
                 this.name = value;
                 this.UpdateModelName(value);
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -95,7 +96,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.isNameEditing == value) return;
                 this.isNameEditing = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -113,7 +114,7 @@ namespace DynaApp.ViewModels
                 if (this.x.Equals(value)) return;
                 this.x = value;
                 this.UpdateModelX(value);
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -131,7 +132,7 @@ namespace DynaApp.ViewModels
                 if (this.y.Equals(value)) return;
                 this.y = value;
                 this.UpdateModelY(value);
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -149,7 +150,7 @@ namespace DynaApp.ViewModels
                 if (this.isSelected == value) return;
                 // Selection state is not tracked by the model.
                 this.isSelected = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

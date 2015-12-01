@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 using DynaApp.Services;
 using DynaApp.Views;
@@ -13,7 +14,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for the main window.
     /// </summary>
-    public sealed class MainWindowViewModel : AbstractViewModel
+    public sealed class MainWindowViewModel : PropertyChangedBase
     {
 		private const string ProgramTitle = "Constraint Workbench";
         private string filename = string.Empty;
@@ -39,7 +40,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.workspace = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -242,7 +243,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.title = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 

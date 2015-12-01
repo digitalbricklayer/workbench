@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -8,7 +9,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for the solution.
     /// </summary>
-    public sealed class SolutionViewModel : AbstractViewModel
+    public sealed class SolutionViewModel : PropertyChangedBase
     {
         /// <summary>
         /// Initialize the solution with values.
