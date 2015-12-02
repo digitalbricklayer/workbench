@@ -1,4 +1,4 @@
-version: 0.2.{build}
+version: 0.3.{build}
 platform: x86
 assembly_info:
   patch: true
