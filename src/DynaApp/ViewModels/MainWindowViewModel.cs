@@ -20,12 +20,16 @@ namespace DynaApp.ViewModels
         private string filename = string.Empty;
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
+        private readonly DataService dataService;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel()
+        public MainWindowViewModel(DataService theDataService)
         {
+            if (theDataService == null)
+                throw new ArgumentNullException("theDataService");
+            this.dataService = theDataService;
             this.Workspace = new WorkspaceViewModel();
             this.UpdateTitle();
             this.CreateMenuCommands();
@@ -483,15 +487,11 @@ namespace DynaApp.ViewModels
         /// </summary>
         private bool Save(string file)
         {
-            try
+            var result = this.dataService.Save(file, this.Workspace.WorkspaceModel);
+
+            if (result.Status == SaveStatus.Failure)
             {
-                // Save file
-                var workspaceWriter = new WorkspaceModelWriter(file);
-                workspaceWriter.Write(this.Workspace.WorkspaceModel);
-            }
-            catch (Exception e)
-            {
-                this.ShowError(e.Message);
+                this.ShowError(result.Message);
                 return false;
             }
 

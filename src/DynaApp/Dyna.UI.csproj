@@ -84,7 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
@@ -95,6 +95,7 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>

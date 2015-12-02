@@ -789,10 +789,6 @@
 
     </Window.ContextMenu>
 
-    <Window.DataContext>
-        <viewModels:MainWindowViewModel />
-    </Window.DataContext>
-
     <DockPanel LastChildFill="True">
 
         <Menu DockPanel.Dock="Top">
