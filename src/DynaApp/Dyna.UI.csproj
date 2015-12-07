@@ -98,10 +98,6 @@
     <Compile Include="Factories\IViewModelFactory.cs" />
     <Compile Include="Factories\SimpleContainerViewModelFactory.cs" />
     <Compile Include="Services\DataService.cs" />
-    <Compile Include="Services\OpenResult.cs" />
-    <Compile Include="Services\OpenStatus.cs" />
-    <Compile Include="Services\SaveResult.cs" />
-    <Compile Include="Services\SaveStatus.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
