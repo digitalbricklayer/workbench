@@ -4,49 +4,81 @@ using Dyna.Core.Models;
 namespace DynaApp.Services
 {
     /// <summary>
-    /// Service for controlling access to the data.
+    /// Service for controlling access to the model.
     /// </summary>
     public class DataService
     {
+        /// <summary>
+        /// Initialize a data service with default values.
+        /// </summary>
+        public DataService()
+        {
+            this.IsModelDirty = false;
+            this.FileName = string.Empty;
+        }
+
         /// <summary>
         /// Gets whether the model is currently up-to-date on disk.
         /// </summary>
         public bool IsModelDirty { get; private set; }
 
         /// <summary>
-        /// Save the data to a storage medium.
+        /// Gets the current workspace model.
         /// </summary>
-        public SaveResult Save(string file, WorkspaceModel theWorkspace)
+        public WorkspaceModel CurrentWorkspace { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the file path.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Save the data to a file.
+        /// </summary>
+        /// <param name="file">Path to the file.</param>
+        public SaveResult Save(string file)
         {
+            if (string.IsNullOrWhiteSpace(file))
+                throw new ArgumentException("file");
+
+            this.FileName = file;
+
             try
             {
-                var workspaceWriter = new WorkspaceModelWriter(file);
-                workspaceWriter.Write(theWorkspace);
-
-                return SaveResult.Success;
+                var workspaceWriter = new WorkspaceModelWriter();
+                workspaceWriter.Write(file, this.CurrentWorkspace);
             }
             catch (Exception e)
             {
                 return new SaveResult(SaveStatus.Failure, e.Message);
             }
+
+            return SaveResult.Success;
         }
 
         /// <summary>
-        /// Open the storgage medium and read the contents.
+        /// Open the file and read the contents.
         /// </summary>
         /// <param name="file">Path to the file.</param>
-        public void Open(string file)
+        public OpenResult Open(string file)
         {
+            if (string.IsNullOrWhiteSpace(file))
+                throw new ArgumentException("file");
+
+            this.FileName = file;
+
             try
             {
                 // Load file
-                var workspaceReader = new WorkspaceModelReader(file);
-                var theWorkspaceModel = workspaceReader.Read();
+                var workspaceReader = new WorkspaceModelReader();
+                this.CurrentWorkspace = workspaceReader.Read(file);
             }
             catch (Exception e)
             {
-                return;
+                return new OpenResult(OpenStatus.Failure, e.Message);
             }
+
+            return OpenResult.Success;
         }
 
         /// <summary>
@@ -54,42 +86,28 @@ namespace DynaApp.Services
         /// </summary>
         public void Reset()
         {
+            this.FileName = string.Empty;
         }
-    }
 
-    public class SaveResult
-    {
-        public SaveResult(SaveStatus theStatus, string theMessage = null)
+        /// <summary>
+        /// Get a new workspace.
+        /// </summary>
+        /// <returns>A new workspace.</returns>
+        public WorkspaceModel GetWorkspace()
         {
-            this.Message = string.Empty;
-            this.Status = theStatus;
-            if (theMessage != null)
-                this.Message = theMessage;
+            var newWorkspace = new WorkspaceModel();
+            this.CurrentWorkspace = newWorkspace;
+
+            return newWorkspace;
         }
 
-        public SaveStatus Status { get; private set; }
-        public string Message { get; private set; }
-
-        public static SaveResult Failure
+        /// <summary>
+        /// Get a model for the workspace.
+        /// </summary>
+        /// <returns>A new model.</returns>
+        public ModelModel GetModelFor(WorkspaceModel theWorkspace)
         {
-            get
-            {
-                return new SaveResult(SaveStatus.Failure);
-            }
+            return new ModelModel();
         }
-
-        public static SaveResult Success
-        {
-            get
-            {
-                return new SaveResult(SaveStatus.Success);
-            }
-        }
-    }
-
-    public enum SaveStatus
-    {
-        Failure,
-        Success
     }
 }

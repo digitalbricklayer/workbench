@@ -7,31 +7,21 @@ namespace Dyna.Core.Models
     /// <summary>
     /// Workspace model writer.
     /// </summary>
-    public class WorkspaceModelWriter
+    public class WorkspaceModelWriter : IWorkspaceModelWriter
     {
-        private readonly string filename;
-
-        /// <summary>
-        /// Initialize worapce writer with file name.
-        /// </summary>
-        /// <param name="filename">File path for the output file.</param>
-        public WorkspaceModelWriter(string filename)
-        {
-            if (string.IsNullOrWhiteSpace(filename))
-                throw new ArgumentException("filename");
-            this.filename = filename;
-        }
-
         /// <summary>
         /// Write a workspace model to a file.
         /// </summary>
+        /// <param name="filename">File path.</param>
         /// <param name="theWorkspace">Workspace model.</param>
-        public void Write(WorkspaceModel theWorkspace)
+        public void Write(string filename, WorkspaceModel theWorkspace)
         {
+            if (string.IsNullOrWhiteSpace(filename))
+                throw new ArgumentException("filename");
             if (theWorkspace == null)
                 throw new ArgumentNullException("theWorkspace");
 
-            using (var fileStream = File.OpenWrite(this.filename))
+            using (var fileStream = File.OpenWrite(filename))
             {
                 var binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(fileStream, theWorkspace);

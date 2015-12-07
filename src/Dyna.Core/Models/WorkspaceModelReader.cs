@@ -7,28 +7,17 @@ namespace Dyna.Core.Models
     /// <summary>
     /// Workspace model reader.
     /// </summary>
-    public class WorkspaceModelReader
+    public class WorkspaceModelReader : IWorkspaceModelReader
     {
-        private readonly string filename;
-
-        /// <summary>
-        /// Initialize worapce writer with file name.
-        /// </summary>
-        /// <param name="filename">File path for the output file.</param>
-        public WorkspaceModelReader(string filename)
-        {
-            if (string.IsNullOrWhiteSpace(filename))
-                throw new ArgumentException("filename");
-            this.filename = filename;
-        }
-
         /// <summary>
         /// Read a workspace model from a file.
         /// </summary>
         /// <returns>Workspace model.</returns>
-        public WorkspaceModel Read()
+        public WorkspaceModel Read(string filename)
         {
-            using (var fileStream = File.OpenRead(this.filename))
+            if (string.IsNullOrWhiteSpace(filename))
+                throw new ArgumentException("filename");
+            using (var fileStream = File.OpenRead(filename))
             {
                 var binaryFormatter = new BinaryFormatter();
                 return (WorkspaceModel) binaryFormatter.Deserialize(fileStream);

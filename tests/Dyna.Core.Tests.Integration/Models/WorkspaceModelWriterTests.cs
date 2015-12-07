@@ -20,14 +20,14 @@ namespace Dyna.UI.Tests.Integration.Models
 
         private static WorkspaceModel ReadWorkspaceModel(string filePath)
         {
-            var workspaceReader = new WorkspaceModelReader(filePath);
-            return workspaceReader.Read();
+            var workspaceReader = new WorkspaceModelReader();
+            return workspaceReader.Read(filePath);
         }
 
         private static void WriteWorkspaceToDisk(string filePath, WorkspaceModel workspaceModel)
         {
-            var workspaceWriter = new WorkspaceModelWriter(filePath);
-            workspaceWriter.Write(workspaceModel);
+            var workspaceWriter = new WorkspaceModelWriter();
+            workspaceWriter.Write(filePath, workspaceModel);
         }
     }
 }

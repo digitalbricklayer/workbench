@@ -17,20 +17,24 @@ namespace DynaApp.ViewModels
     public sealed class MainWindowViewModel : PropertyChangedBase
     {
 		private const string ProgramTitle = "Constraint Workbench";
-        private string filename = string.Empty;
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
         private readonly DataService dataService;
+        private readonly IWorkspaceModelReaderWriter modelReaderWriter;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel(DataService theDataService)
+        public MainWindowViewModel(DataService theDataService,
+                                   IWorkspaceModelReaderWriter theModelReaderWriter)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
+            if (theModelReaderWriter == null)
+                throw new ArgumentNullException("theModelReaderWriter");
             this.dataService = theDataService;
-            this.Workspace = new WorkspaceViewModel();
+            this.modelReaderWriter = theModelReaderWriter;
+            this.Workspace = IoC.Get<WorkspaceViewModel>();
             this.UpdateTitle();
             this.CreateMenuCommands();
         }
@@ -256,13 +260,9 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            if (!PromptToSave())
-            {
-                return;
-            }
-
+            if (!PromptToSave()) return;
+            this.dataService.Reset();
             this.Workspace.Reset();
-            this.filename = string.Empty;
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
@@ -290,21 +290,18 @@ namespace DynaApp.ViewModels
 
             this.Workspace.Reset();
 
-            try
+            var result = this.dataService.Open(openFileDialog.FileName);
+
+            if (result.Status == OpenStatus.Failure)
             {
-                // Load file
-                var workspaceReader = new WorkspaceModelReader(openFileDialog.FileName);
-                var theWorkspaceModel = workspaceReader.Read();
-                var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache());
-                this.Workspace = workspaceMapper.MapFrom(theWorkspaceModel);
-            }
-            catch (Exception e)
-            {
-                this.ShowError(e.Message);
+                this.ShowError(result.Message);
                 return;
             }
 
-            this.filename = openFileDialog.FileName;
+            var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache(), null);
+            this.Workspace = workspaceMapper.MapFrom(this.dataService.CurrentWorkspace);
+
+            this.dataService.FileName = openFileDialog.FileName;
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
@@ -314,13 +311,13 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileSaveAction()
         {
-            if (string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(this.dataService.FileName))
             {
                 this.FileSaveAsAction();
                 return;
             }
 
-            this.Save(filename);
+            this.Save(this.dataService.FileName);
         }
 
         /// <summary>
@@ -468,7 +465,7 @@ namespace DynaApp.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    return this.Save(this.filename);
+                    return this.Save(this.dataService.FileName);
 
                 case MessageBoxResult.No:
                     // User wishes to discard changes
@@ -487,7 +484,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         private bool Save(string file)
         {
-            var result = this.dataService.Save(file, this.Workspace.WorkspaceModel);
+            var result = this.dataService.Save(file);
 
             if (result.Status == SaveStatus.Failure)
             {
@@ -495,7 +492,7 @@ namespace DynaApp.ViewModels
                 return false;
             }
 
-            this.filename = file;
+            this.dataService.FileName = file;
             this.Workspace.IsDirty = false;
             UpdateTitle();
 
@@ -521,14 +518,14 @@ namespace DynaApp.ViewModels
         {
             var newTitle = ProgramTitle + " - ";
 
-            if (string.IsNullOrEmpty(this.filename))
+            if (string.IsNullOrEmpty(this.dataService.FileName))
             {
                 newTitle += "Untitled";
                 this.Title = newTitle;
                 return;
             }
 
-            newTitle += Path.GetFileName(this.filename);
+            newTitle += Path.GetFileName(this.dataService.FileName);
 
             if (this.Workspace.IsDirty)
             {

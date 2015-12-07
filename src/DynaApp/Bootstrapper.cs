@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
+using Dyna.Core.Models;
 using DynaApp.Services;
 using DynaApp.ViewModels;
 
@@ -29,6 +30,9 @@ namespace DynaApp
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<DataService>();
+            container.PerRequest<IWorkspaceModelReader, WorkspaceModelReader>();
+            container.PerRequest<IWorkspaceModelWriter, WorkspaceModelWriter>();
+            container.PerRequest<IViewModelFactory, SimpleContainerViewModelFactory>();
             container.PerRequest<MainWindowViewModel>();
             container.PerRequest<WorkspaceViewModel>();
             container.PerRequest<ConstraintViewModel>();

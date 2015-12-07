@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Dyna.Core.Models;
+using DynaApp.Services;
 
 namespace DynaApp.ViewModels
 {
@@ -20,16 +21,21 @@ namespace DynaApp.ViewModels
         private bool isDirty;
         private SolutionViewModel solution;
         private ModelViewModel model;
+        private readonly DataService dataService;
 
         /// <summary>
         /// Initialize a workspace view model with default values.
         /// </summary>
-        public WorkspaceViewModel()
+        public WorkspaceViewModel(DataService theDataService)
         {
+            if (theDataService == null)
+                throw new ArgumentNullException("theDataService");
+
+            this.dataService = theDataService;
             this.availableDisplayModes = new ObservableCollection<string> {"Model"};
             this.solution = new SolutionViewModel();
             this.model = new ModelViewModel();
-            this.WorkspaceModel = new WorkspaceModel();
+            this.WorkspaceModel = this.dataService.GetWorkspace();
             this.SelectedDisplayMode = "Model";
         }
 
@@ -301,7 +307,7 @@ namespace DynaApp.ViewModels
             {
                 if (domain.IsSelected)
                 {
-                    this.DeleteDomain(domain);
+                    this.Model.DeleteDomain(domain);
                 }
             }
         }
@@ -315,25 +321,9 @@ namespace DynaApp.ViewModels
             {
                 if (constraint.IsSelected)
                 {
-                    this.DeleteConstraint(constraint);
+                    this.Model.DeleteConstraint(constraint);
                 }
             }
-        }
-
-        private void DeleteDomain(DomainViewModel domain)
-        {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.DeleteDomain(domain);
-        }
-
-        private void DeleteConstraint(ConstraintViewModel constraint)
-        {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.DeleteConstraint(constraint);
         }
     }
 }

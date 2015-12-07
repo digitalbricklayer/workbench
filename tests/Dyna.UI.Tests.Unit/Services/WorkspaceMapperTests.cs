@@ -9,7 +9,7 @@ namespace Dyna.UI.Tests.Unit.Services
         [Test]
         public void MapFrom_With_Valid_Model_Returns_Expected_View_Model()
         {
-            var sut = new WorkspaceMapper(new ModelViewModelCache());
+            var sut = BuildSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel, Is.Not.Null);
         }
@@ -17,9 +17,15 @@ namespace Dyna.UI.Tests.Unit.Services
         [Test]
         public void MapFrom_With_Valid_Model_Sets_Expected_Workspace_Model()
         {
-            var sut = new WorkspaceMapper(new ModelViewModelCache());
+            var sut = BuildSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
+        }
+
+        private static WorkspaceMapper BuildSut()
+        {
+            return new WorkspaceMapper(new ModelViewModelCache(),
+                                       new SimpleViewModelFactory(new DataService()));
         }
     }
 }
