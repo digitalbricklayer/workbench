@@ -1,6 +1,6 @@
 ﻿namespace Dyna.Core.Models
 {
-    public interface IWorkspaceModelWriter
+    public interface IWorkspaceWriter
     {
         /// <summary>
         /// Write a workspace model to a file.

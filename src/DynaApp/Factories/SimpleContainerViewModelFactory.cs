@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using DynaApp.ViewModels;
 
-namespace DynaApp.Services
+namespace DynaApp.Factories
 {
     /// <summary>
     /// View model factory implemented using the Caliburn Micro simple container.

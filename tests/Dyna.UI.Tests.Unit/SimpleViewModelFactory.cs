@@ -1,7 +1,8 @@
-﻿using DynaApp.Services;
+﻿using DynaApp.Factories;
+using DynaApp.Services;
 using DynaApp.ViewModels;
 
-namespace Dyna.UI.Tests.Unit.Services
+namespace Dyna.UI.Tests.Unit
 {
     /// <summary>
     /// View model factory used whilst testing.

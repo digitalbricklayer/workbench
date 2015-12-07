@@ -2,13 +2,16 @@
 
 namespace Dyna.Core.Models
 {
-    public sealed class WorkspaceModelReaderWriter : IWorkspaceModelReaderWriter
+    /// <summary>
+    /// Reads/writes the workspace to a binary file.
+    /// </summary>
+    public sealed class BinaryFileWorkspaceReaderWriter : IWorkspaceReaderWriter
     {
-        private readonly IWorkspaceModelReader reader;
-        private readonly IWorkspaceModelReaderWriter writer;
+        private readonly IWorkspaceReader reader;
+        private readonly IWorkspaceReaderWriter writer;
 
-        public WorkspaceModelReaderWriter(IWorkspaceModelReader theReader,
-                                          IWorkspaceModelReaderWriter theWriter)
+        public BinaryFileWorkspaceReaderWriter(IWorkspaceReader theReader,
+                                               IWorkspaceReaderWriter theWriter)
         {
             if (theReader == null)
                 throw new ArgumentNullException("theReader");

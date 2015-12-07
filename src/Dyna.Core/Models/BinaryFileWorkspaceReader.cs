@@ -7,7 +7,7 @@ namespace Dyna.Core.Models
     /// <summary>
     /// Workspace model reader.
     /// </summary>
-    public class WorkspaceModelReader : IWorkspaceModelReader
+    public class BinaryFileWorkspaceReader : IWorkspaceReader
     {
         /// <summary>
         /// Read a workspace model from a file.

@@ -1,6 +1,6 @@
 ﻿using DynaApp.ViewModels;
 
-namespace DynaApp.Services
+namespace DynaApp.Factories
 {
     /// <summary>
     /// Contract for a view model factory.

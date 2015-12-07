@@ -1,6 +1,6 @@
 ﻿namespace Dyna.Core.Models
 {
-    public interface IWorkspaceModelReader
+    public interface IWorkspaceReader
     {
         /// <summary>
         /// Read a workspace model from a file.

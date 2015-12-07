@@ -14,7 +14,6 @@ namespace DynaApp.Services
         public DataService()
         {
             this.IsModelDirty = false;
-            this.FileName = string.Empty;
         }
 
         /// <summary>
@@ -28,65 +27,10 @@ namespace DynaApp.Services
         public WorkspaceModel CurrentWorkspace { get; private set; }
 
         /// <summary>
-        /// Gets or sets the file path.
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// Save the data to a file.
-        /// </summary>
-        /// <param name="file">Path to the file.</param>
-        public SaveResult Save(string file)
-        {
-            if (string.IsNullOrWhiteSpace(file))
-                throw new ArgumentException("file");
-
-            this.FileName = file;
-
-            try
-            {
-                var workspaceWriter = new WorkspaceModelWriter();
-                workspaceWriter.Write(file, this.CurrentWorkspace);
-            }
-            catch (Exception e)
-            {
-                return new SaveResult(SaveStatus.Failure, e.Message);
-            }
-
-            return SaveResult.Success;
-        }
-
-        /// <summary>
-        /// Open the file and read the contents.
-        /// </summary>
-        /// <param name="file">Path to the file.</param>
-        public OpenResult Open(string file)
-        {
-            if (string.IsNullOrWhiteSpace(file))
-                throw new ArgumentException("file");
-
-            this.FileName = file;
-
-            try
-            {
-                // Load file
-                var workspaceReader = new WorkspaceModelReader();
-                this.CurrentWorkspace = workspaceReader.Read(file);
-            }
-            catch (Exception e)
-            {
-                return new OpenResult(OpenStatus.Failure, e.Message);
-            }
-
-            return OpenResult.Success;
-        }
-
-        /// <summary>
         /// Reset the data back to default state.
         /// </summary>
         public void Reset()
         {
-            this.FileName = string.Empty;
         }
 
         /// <summary>
@@ -95,10 +39,10 @@ namespace DynaApp.Services
         /// <returns>A new workspace.</returns>
         public WorkspaceModel GetWorkspace()
         {
-            var newWorkspace = new WorkspaceModel();
-            this.CurrentWorkspace = newWorkspace;
+            if (this.CurrentWorkspace == null)
+                this.CurrentWorkspace = new WorkspaceModel();
 
-            return newWorkspace;
+            return this.CurrentWorkspace;
         }
 
         /// <summary>

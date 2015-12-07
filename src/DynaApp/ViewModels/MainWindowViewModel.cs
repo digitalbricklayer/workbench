@@ -20,20 +20,21 @@ namespace DynaApp.ViewModels
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
         private readonly DataService dataService;
-        private readonly IWorkspaceModelReaderWriter modelReaderWriter;
+        private readonly IWorkspaceReaderWriter workspaceReaderWriter;
+        private string fileName = String.Empty;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
         public MainWindowViewModel(DataService theDataService,
-                                   IWorkspaceModelReaderWriter theModelReaderWriter)
+                                   IWorkspaceReaderWriter theWorkspaceReaderWriter)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
-            if (theModelReaderWriter == null)
-                throw new ArgumentNullException("theModelReaderWriter");
+            if (theWorkspaceReaderWriter == null)
+                throw new ArgumentNullException("theWorkspaceReaderWriter");
             this.dataService = theDataService;
-            this.modelReaderWriter = theModelReaderWriter;
+            this.workspaceReaderWriter = theWorkspaceReaderWriter;
             this.Workspace = IoC.Get<WorkspaceViewModel>();
             this.UpdateTitle();
             this.CreateMenuCommands();
@@ -290,18 +291,18 @@ namespace DynaApp.ViewModels
 
             this.Workspace.Reset();
 
-            var result = this.dataService.Open(openFileDialog.FileName);
-
-            if (result.Status == OpenStatus.Failure)
+            try
             {
-                this.ShowError(result.Message);
-                return;
+                var workspaceModel = this.workspaceReaderWriter.Read(openFileDialog.FileName);
+                var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache(), null);
+                this.Workspace = workspaceMapper.MapFrom(workspaceModel);
+            }
+            catch (Exception e)
+            {
+                this.ShowError(e.Message);
             }
 
-            var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache(), null);
-            this.Workspace = workspaceMapper.MapFrom(this.dataService.CurrentWorkspace);
-
-            this.dataService.FileName = openFileDialog.FileName;
+            this.fileName = openFileDialog.FileName;
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
@@ -311,13 +312,13 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileSaveAction()
         {
-            if (string.IsNullOrEmpty(this.dataService.FileName))
+            if (string.IsNullOrEmpty(this.fileName))
             {
                 this.FileSaveAsAction();
                 return;
             }
 
-            this.Save(this.dataService.FileName);
+            this.Save(this.fileName);
         }
 
         /// <summary>
@@ -465,7 +466,7 @@ namespace DynaApp.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    return this.Save(this.dataService.FileName);
+                    return this.Save(this.fileName);
 
                 case MessageBoxResult.No:
                     // User wishes to discard changes
@@ -484,15 +485,17 @@ namespace DynaApp.ViewModels
         /// </summary>
         private bool Save(string file)
         {
-            var result = this.dataService.Save(file);
-
-            if (result.Status == SaveStatus.Failure)
+            try
             {
-                this.ShowError(result.Message);
+                this.workspaceReaderWriter.Write(file, this.dataService.GetWorkspace());
+            }
+            catch (Exception e)
+            {
+                this.ShowError(e.Message);
                 return false;
             }
 
-            this.dataService.FileName = file;
+            this.fileName = file;
             this.Workspace.IsDirty = false;
             UpdateTitle();
 
@@ -518,14 +521,14 @@ namespace DynaApp.ViewModels
         {
             var newTitle = ProgramTitle + " - ";
 
-            if (string.IsNullOrEmpty(this.dataService.FileName))
+            if (string.IsNullOrEmpty(this.fileName))
             {
                 newTitle += "Untitled";
                 this.Title = newTitle;
                 return;
             }
 
-            newTitle += Path.GetFileName(this.dataService.FileName);
+            newTitle += Path.GetFileName(this.fileName);
 
             if (this.Workspace.IsDirty)
             {

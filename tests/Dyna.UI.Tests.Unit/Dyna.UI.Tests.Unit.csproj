@@ -78,9 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\SimpleViewModelFactory.cs" />
     <Compile Include="Services\WorkspaceMapperTests.cs" />
     <Compile Include="Services\WorkspaceModelFactory.cs" />
+    <Compile Include="SimpleViewModelFactory.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />

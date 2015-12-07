@@ -1,5 +1,6 @@
 ﻿using System;
 using Dyna.Core.Models;
+using DynaApp.Factories;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services

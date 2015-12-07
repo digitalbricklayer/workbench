@@ -7,7 +7,7 @@ namespace Dyna.Core.Models
     /// <summary>
     /// Workspace model writer.
     /// </summary>
-    public class WorkspaceModelWriter : IWorkspaceModelWriter
+    public class BinaryFileWorkspaceWriter : IWorkspaceWriter
     {
         /// <summary>
         /// Write a workspace model to a file.

@@ -74,9 +74,9 @@
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\ConstraintExpressionUnit.cs" />
     <Compile Include="Models\DomainExpressionUnit.cs" />
-    <Compile Include="Models\IWorkspaceModelReader.cs" />
-    <Compile Include="Models\IWorkspaceModelReaderWriter.cs" />
-    <Compile Include="Models\IWorkspaceModelWriter.cs" />
+    <Compile Include="Models\IWorkspaceReader.cs" />
+    <Compile Include="Models\IWorkspaceReaderWriter.cs" />
+    <Compile Include="Models\IWorkspaceWriter.cs" />
     <Compile Include="Models\SharedDomainReference.cs" />
     <Compile Include="Models\VariableDomainExpressionUnit.cs" />
     <Compile Include="Models\VariableDomainGrammar.cs" />
@@ -98,9 +98,9 @@
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
-    <Compile Include="Models\WorkspaceModelReader.cs" />
-    <Compile Include="Models\WorkspaceModelReaderWriter.cs" />
-    <Compile Include="Models\WorkspaceModelWriter.cs" />
+    <Compile Include="Models\BinaryFileWorkspaceReader.cs" />
+    <Compile Include="Models\BinaryFileWorkspaceReaderWriter.cs" />
+    <Compile Include="Models\BinaryFileWorkspaceWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />
     <Compile Include="Solver\SolveResult.cs" />
