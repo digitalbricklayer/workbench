@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
-using Dyna.Core.Models;
-using DynaApp.Factories;
-using DynaApp.Services;
 using DynaApp.ViewModels;
 
 namespace DynaApp
@@ -26,29 +23,7 @@ namespace DynaApp
         /// </summary>
         protected override void Configure()
         {
-            container = new SimpleContainer();
-
-            container.Singleton<IWindowManager, WindowManager>();
-            container.Singleton<IEventAggregator, EventAggregator>();
-            container.Singleton<DataService>();
-            container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
-            container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
-            container.PerRequest<IViewModelFactory, SimpleContainerViewModelFactory>();
-            container.PerRequest<MainWindowViewModel>();
-            container.PerRequest<WorkspaceViewModel>();
-            container.PerRequest<ConstraintViewModel>();
-            container.PerRequest<DomainViewModel>();
-            container.PerRequest<VariableViewModel>();
-            container.PerRequest<AggregateVariableViewModel>();
-            container.PerRequest<AggregateResizeViewModel>();
-            container.PerRequest<ConstraintExpressionViewModel>();
-            container.PerRequest<DomainExpressionViewModel>();
-            container.PerRequest<ModelErrorsViewModel>();
-            container.PerRequest<ModelErrorViewModel>();
-            container.PerRequest<ModelViewModel>();
-            container.PerRequest<SolutionViewModel>();
-            container.PerRequest<VariableDomainExpressionViewModel>();
-            container.PerRequest<ValueViewModel>();
+            this.container = ContainerBuilder.Build();
         }
 
         /// <summary>
@@ -61,7 +36,7 @@ namespace DynaApp
         /// </returns>
         protected override object GetInstance(Type service, string key)
         {
-            var instance = container.GetInstance(service, key);
+            var instance = this.container.GetInstance(service, key);
             if (instance != null)
                 return instance;
 
@@ -77,7 +52,7 @@ namespace DynaApp
         /// </returns>
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return container.GetAllInstances(service);
+            return this.container.GetAllInstances(service);
         }
 
         /// <summary>
@@ -86,7 +61,7 @@ namespace DynaApp
         /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
-            container.BuildUp(instance);
+            this.container.BuildUp(instance);
         }
 
         /// <summary>

@@ -124,7 +124,7 @@
                         <views:ModelView x:Name="modelControl"
                                          Width="2000"
                                          Height="2000"
-                                         GraphicsSource="{Binding Graphics}"/>
+                                         GraphicsSource="{Binding Items}"/>
 
                     </AdornerDecorator>
 

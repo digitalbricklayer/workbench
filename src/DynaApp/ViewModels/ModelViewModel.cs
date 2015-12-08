@@ -14,7 +14,7 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// A view model for a model.
     /// </summary>
-    public sealed class ModelViewModel : PropertyChangedBase
+    public sealed class ModelViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
         /// <summary>
         /// Initialize a model view model with default values.
@@ -22,7 +22,6 @@ namespace DynaApp.ViewModels
         public ModelViewModel()
         {
             this.Model = new ModelModel();
-            this.Graphics = new ObservableCollection<GraphicViewModel>();
             this.Variables = new ObservableCollection<VariableViewModel>();
             this.Domains = new ObservableCollection<DomainViewModel>();
             this.Constraints = new ObservableCollection<ConstraintViewModel>();
@@ -42,11 +41,6 @@ namespace DynaApp.ViewModels
         /// Gets the collection of constraints in the model.
         /// </summary>
         public ObservableCollection<ConstraintViewModel> Constraints { get; private set; }
-
-        /// <summary>
-        /// Gets the collection of all graphic items in the model.
-        /// </summary>
-        public ObservableCollection<GraphicViewModel> Graphics { get; private set; }
 
         /// <summary>
         /// Gets or sets the model model.
@@ -110,7 +104,7 @@ namespace DynaApp.ViewModels
             if (variableToDelete == null) 
                 throw new ArgumentNullException("variableToDelete");
             this.Variables.Remove(variableToDelete);
-            this.Graphics.Remove(variableToDelete);
+            this.DeactivateItem(variableToDelete, close:true);
             this.DeleteVariableFromModel(variableToDelete);
         }
 
@@ -123,7 +117,7 @@ namespace DynaApp.ViewModels
             if (domainToDelete == null) 
                 throw new ArgumentNullException("domainToDelete");
             this.Domains.Remove(domainToDelete);
-            this.Graphics.Remove(domainToDelete);
+            this.DeactivateItem(domainToDelete, close:true);
             this.DeleteDomainFromModel(domainToDelete);
         }
 
@@ -136,7 +130,7 @@ namespace DynaApp.ViewModels
             if (constraintToDelete == null)
                 throw new ArgumentNullException("constraintToDelete");
             this.Constraints.Remove(constraintToDelete);
-            this.Graphics.Remove(constraintToDelete);
+            this.DeactivateItem(constraintToDelete, close:true);
             this.DeleteConstraintFromModel(constraintToDelete);
         }
 
@@ -206,7 +200,7 @@ namespace DynaApp.ViewModels
         {
             if (variableViewModel == null)
                 throw new ArgumentNullException("variableViewModel");
-            this.Graphics.Add(variableViewModel);
+            this.ActivateItem(variableViewModel);
             this.Variables.Add(variableViewModel);
         }
 
@@ -221,7 +215,7 @@ namespace DynaApp.ViewModels
         {
             if (variableViewModel == null)
                 throw new ArgumentNullException("variableViewModel");
-            this.Graphics.Add(variableViewModel);
+            this.ActivateItem(variableViewModel);
             this.Variables.Add(variableViewModel);
         }
 
@@ -236,7 +230,7 @@ namespace DynaApp.ViewModels
         {
             if (domainViewModel == null)
                 throw new ArgumentNullException("domainViewModel");
-            this.Graphics.Add(domainViewModel);
+            this.ActivateItem(domainViewModel);
             this.Domains.Add(domainViewModel);
         }
 
@@ -251,7 +245,7 @@ namespace DynaApp.ViewModels
         {
             if (constraintViewModel == null)
                 throw new ArgumentNullException("constraintViewModel");
-            this.Graphics.Add(constraintViewModel);
+            this.ActivateItem(constraintViewModel);
             this.Constraints.Add(constraintViewModel);
         }
 

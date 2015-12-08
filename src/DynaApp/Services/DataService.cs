@@ -1,5 +1,4 @@
-﻿using System;
-using Dyna.Core.Models;
+﻿using Dyna.Core.Models;
 
 namespace DynaApp.Services
 {

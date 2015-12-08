@@ -8,10 +8,10 @@ namespace Dyna.Core.Models
     public sealed class BinaryFileWorkspaceReaderWriter : IWorkspaceReaderWriter
     {
         private readonly IWorkspaceReader reader;
-        private readonly IWorkspaceReaderWriter writer;
+        private readonly IWorkspaceWriter writer;
 
         public BinaryFileWorkspaceReaderWriter(IWorkspaceReader theReader,
-                                               IWorkspaceReaderWriter theWriter)
+                                               IWorkspaceWriter theWriter)
         {
             if (theReader == null)
                 throw new ArgumentNullException("theReader");
