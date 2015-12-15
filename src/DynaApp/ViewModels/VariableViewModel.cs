@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using Dyna.Core.Models;
+﻿using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -12,60 +10,11 @@ namespace DynaApp.ViewModels
         private VariableModel model;
         protected VariableDomainExpressionViewModel domainExpression;
 
-        /// <summary>
-        /// Initialize a variable with a name, location and domain expression.
-        /// </summary>
-        public VariableViewModel(string newName, Point newLocation, VariableDomainExpressionViewModel newDomainExpression)
-            : base(newName, newLocation)
+        public VariableViewModel(VariableModel theVariableModel)
+            : base(theVariableModel)
         {
-            if (newDomainExpression == null)
-                throw new ArgumentNullException("newDomainExpression");
-
-            this.DomainExpression = newDomainExpression;
-            this.Model = new VariableModel(newName, this.DomainExpression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a variable with a name and domain expression.
-        /// </summary>
-        public VariableViewModel(string newName, VariableDomainExpressionViewModel newDomainExpression)
-            : base(newName)
-        {
-            if (newDomainExpression == null)
-                throw new ArgumentNullException("newDomainExpression");
-
-            this.DomainExpression = newDomainExpression;
-            this.Model = new VariableModel(newName, this.DomainExpression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a variable with a name and location.
-        /// </summary>
-        public VariableViewModel(string newName, Point newLocation)
-            : base(newName, newLocation)
-        {
-            this.DomainExpression = new VariableDomainExpressionViewModel();
-            this.Model = new VariableModel(newName, this.DomainExpression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a variable with a name.
-        /// </summary>
-        public VariableViewModel(string newName)
-            : base(newName)
-        {
-            this.DomainExpression = new VariableDomainExpressionViewModel();
-            this.Model = new VariableModel(newName, this.DomainExpression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a variable with default values.
-        /// </summary>
-        public VariableViewModel()
-            : this("New variable")
-        {
-            this.DomainExpression = new VariableDomainExpressionViewModel();
-            this.Model = new VariableModel("New variable", this.DomainExpression.Model);
+            this.Model = theVariableModel;
+            this.DomainExpression = new VariableDomainExpressionViewModel(this.Model.DomainExpression);
         }
 
         /// <summary>

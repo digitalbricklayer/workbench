@@ -24,25 +24,25 @@
                 <Grid x:Name="grid">
                     <Grid.RenderTransform>
                         <ScaleTransform
-                        ScaleX="1"
-                        ScaleY="1"
-                        CenterX="10"
-                        CenterY="10"/>
+                            ScaleX="1"
+                            ScaleY="1"
+                            CenterX="10"
+                            CenterY="10"/>
                     </Grid.RenderTransform>
                     <Ellipse x:Name="shadow"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Fill="Gray"> 
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                             Fill="Gray"> 
                         <Ellipse.RenderTransform>
                             <TranslateTransform X="1.5"
                                                 Y="1.5"/>
                         </Ellipse.RenderTransform>
                     </Ellipse>
                     <Ellipse x:Name="ellipse"
-                                Stroke="Black"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Fill="White"/>
+                             Stroke="Black"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                             Fill="White"/>
                     <Image Source="../Images/pencil_small.png"
                             Margin="2"/>
                 </Grid>
@@ -112,8 +112,8 @@
                 Focusable is set to False because it is only that ModelView that I want to be focusable.
                 -->
                 <ScrollViewer x:Name="contentViewer"
-                                HorizontalScrollBarVisibility="Auto"
-                                Focusable="False">
+                              HorizontalScrollBarVisibility="Auto"
+                              Focusable="False">
 
                     <!--
                     We need to nest the ModelView inside an AdornerDecorator so that adorners 

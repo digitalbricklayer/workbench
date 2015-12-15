@@ -20,12 +20,7 @@ namespace DynaApp.Services
         {
             Debug.Assert(theDomainModel.HasIdentity);
 
-            var domainViewModel = new DomainViewModel();
-            domainViewModel.Model = theDomainModel;
-            domainViewModel.Name = theDomainModel.Name;
-            domainViewModel.Expression.Text = theDomainModel.Expression.Text;
-            domainViewModel.X = theDomainModel.X;
-            domainViewModel.Y = theDomainModel.Y;
+            var domainViewModel = new DomainViewModel(theDomainModel);
 
             this.cache.CacheGraphic(domainViewModel);
 

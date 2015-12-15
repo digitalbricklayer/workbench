@@ -5,7 +5,7 @@ namespace DynaApp.Services
     /// <summary>
     /// Service for controlling access to the model.
     /// </summary>
-    public class DataService
+    public class DataService : IDataService
     {
         /// <summary>
         /// Initialize a data service with default values.

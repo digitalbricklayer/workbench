@@ -96,9 +96,8 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
-    <Compile Include="Factories\IViewModelFactory.cs" />
-    <Compile Include="Factories\SimpleContainerViewModelFactory.cs" />
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\IDataService.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>

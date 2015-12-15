@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Dyna.Core.Models;
@@ -12,24 +11,9 @@ namespace DynaApp.ViewModels
     public abstract class GraphicViewModel : Screen
     {
         /// <summary>
-        /// The X coordinate for the position of the graphic.
-        /// </summary>
-        private double x;
-
-        /// <summary>
-        /// The Y coordinate for the position of the graphic.
-        /// </summary>
-        private double y;
-
-        /// <summary>
         /// Set to 'true' when the graphic is selected.
         /// </summary>
         private bool isSelected;
-
-        /// <summary>
-        /// The graphic name.
-        /// </summary>
-        private string name;
 
         /// <summary>
         /// Is the name currently being edited.
@@ -37,33 +21,14 @@ namespace DynaApp.ViewModels
         private bool isNameEditing;
 
         /// <summary>
-        /// Initialize a graphic with a name and location.
+        /// Initialize a graphic with a data service.
         /// </summary>
-        protected GraphicViewModel(string newName, Point newLocation)
-            : this(newName)
+        /// <param name="theGraphicModel">Graphic model.</param>
+        protected GraphicViewModel(GraphicModel theGraphicModel)
         {
-            this.X = newLocation.X;
-            this.Y = newLocation.Y;
-        }
-
-        /// <summary>
-        /// Initialize a graphic with a name.
-        /// </summary>
-        /// <param name="newName"></param>
-        protected GraphicViewModel(string newName)
-            : this()
-        {
-            if (string.IsNullOrWhiteSpace(newName))
-                throw new ArgumentException("newName");
-            this.name = newName;
-        }
-
-        /// <summary>
-        /// Initialize a graphic with default values.
-        /// </summary>
-        protected GraphicViewModel()
-        {
-            this.name = string.Empty;
+            if (theGraphicModel == null)
+                throw new ArgumentNullException("theGraphicModel");
+            this.Model = theGraphicModel;
         }
 
         /// <summary>
@@ -76,12 +41,11 @@ namespace DynaApp.ViewModels
         /// </summary>
         public virtual string Name
         {
-            get { return this.name; }
+            get { return this.Model.Name; }
             set
             {
-                if (this.name == value) return;
-                this.name = value;
-                this.UpdateModelName(value);
+                if (this.Model.Name == value) return;
+                this.Model.Name = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -107,13 +71,12 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return this.x;
+                return this.Model.X;
             }
             set
             {
-                if (this.x.Equals(value)) return;
-                this.x = value;
-                this.UpdateModelX(value);
+                if (this.Model.X.Equals(value)) return;
+                this.Model.X = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -125,13 +88,12 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return this.y;
+                return this.Model.Y;
             }
             set
             {
-                if (this.y.Equals(value)) return;
-                this.y = value;
-                this.UpdateModelY(value);
+                if (this.Model.Y.Equals(value)) return;
+                this.Model.Y = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -169,30 +131,8 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsNameEditing = true, _ => true);
+                return new CommandHandler(() => this.IsNameEditing = true);
             }
-        }
-
-        /// <summary>
-        /// Update the graphic name.
-        /// </summary>
-        /// <param name="newName">New name.</param>
-        private void UpdateModelName(string newName)
-        {
-            if (this.Model == null) return;
-            this.Model.Name = newName;
-        }
-
-        private void UpdateModelX(double newValue)
-        {
-            if (this.Model == null) return;
-            this.Model.X = newValue;
-        }
-
-        private void UpdateModelY(double newValue)
-        {
-            if (this.Model == null) return;
-            this.Model.Y = newValue;
         }
     }
 }

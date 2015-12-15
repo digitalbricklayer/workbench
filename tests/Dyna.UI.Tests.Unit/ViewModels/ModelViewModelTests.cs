@@ -1,4 +1,5 @@
-﻿using DynaApp.ViewModels;
+﻿using Dyna.Core.Models;
+using DynaApp.ViewModels;
 using NUnit.Framework;
 
 namespace Dyna.UI.Tests.Unit.ViewModels
@@ -16,12 +17,12 @@ namespace Dyna.UI.Tests.Unit.ViewModels
 
         private static ModelViewModel CreateValidModel()
         {
-            var modelViewModel = new ModelViewModel();
-            modelViewModel.AddSingletonVariable(new VariableViewModel("x", new VariableDomainExpressionViewModel("1..10")));
-            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel("y", 2, new VariableDomainExpressionViewModel("1..10")));
-            modelViewModel.AddConstraint(new ConstraintViewModel("x", "x > 1"));
-            modelViewModel.AddConstraint(new ConstraintViewModel("aggregates must be different",
-                                                                 "y[1] <> y[2]"));
+            var modelViewModel = new ModelViewModel(new ModelModel());
+            modelViewModel.AddSingletonVariable(new VariableViewModel(new VariableModel("x", new VariableDomainExpressionModel("1..10"))));
+            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableModel("y", 2, new VariableDomainExpressionModel("1..10"))));
+            modelViewModel.AddConstraint(new ConstraintViewModel(new ConstraintModel("x", "x > 1")));
+            modelViewModel.AddConstraint(new ConstraintViewModel(new ConstraintModel("aggregates must be different",
+                                                                                     "y[1] <> y[2]")));
 
             return modelViewModel;
         }

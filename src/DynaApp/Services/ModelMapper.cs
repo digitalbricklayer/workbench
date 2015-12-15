@@ -11,20 +11,24 @@ namespace DynaApp.Services
         private readonly VariableMapper variableMapper;
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
-        private readonly ModelViewModelCache cache;
 
-        internal ModelMapper(ModelViewModelCache theWorkspaceMapper)
+        internal ModelMapper(VariableMapper theVariableMapper, DomainMapper theDomainMapper, ConstraintMapper theConstraintMapper)
         {
-            this.cache = theWorkspaceMapper;
-            this.variableMapper = new VariableMapper(this.cache);
-            this.domainMapper = new DomainMapper(this.cache);
-            this.constraintMapper = new ConstraintMapper(this.cache);
+            this.variableMapper = theVariableMapper;
+            this.domainMapper = theDomainMapper;
+            this.constraintMapper = theConstraintMapper;
+        }
+
+        internal ModelMapper(ModelViewModelCache theCache)
+        {
+            this.variableMapper = new VariableMapper(theCache);
+            this.domainMapper = new DomainMapper(theCache);
+            this.constraintMapper = new ConstraintMapper(theCache);
         }
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
-            var modelViewModel = new ModelViewModel();
-            modelViewModel.Model = theModelModel;
+            var modelViewModel = new ModelViewModel(theModelModel);
 
             foreach (var domainModel in theModelModel.Domains)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Dyna.Core.Models
 {
@@ -9,6 +10,17 @@ namespace Dyna.Core.Models
     public class VariableModel : GraphicModel
     {
         private VariableDomainExpressionModel domainExpression;
+
+        /// <summary>
+        /// Initializes a variable with a variable name, location and domain expression.
+        /// </summary>
+        public VariableModel(string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
+            : base(variableName, newLocation)
+        {
+            if (newVariableExpression == null)
+                throw new ArgumentNullException("newVariableExpression");
+            this.DomainExpression = newVariableExpression;
+        }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.

@@ -24,14 +24,6 @@ namespace DynaApp.ViewModels
         }
 
         /// <summary>
-        /// Initialize the value with default values.
-        /// </summary>
-        public ValueViewModel()
-        {
-            this.Variable = new VariableViewModel();
-        }
-
-        /// <summary>
         /// Gets or sets the variable.
         /// </summary>
         public VariableViewModel Variable

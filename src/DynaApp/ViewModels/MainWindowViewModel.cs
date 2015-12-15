@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Dyna.Core.Models;
-using DynaApp.Factories;
 using DynaApp.Services;
 using DynaApp.Views;
 using Microsoft.Win32;
@@ -20,28 +19,22 @@ namespace DynaApp.ViewModels
 		private const string ProgramTitle = "Constraint Workbench";
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
-        private readonly DataService dataService;
+        private readonly IDataService dataService;
         private readonly IWorkspaceReaderWriter workspaceReaderWriter;
         private string fileName = String.Empty;
-        private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel(DataService theDataService,
-                                   IWorkspaceReaderWriter theWorkspaceReaderWriter,
-                                   IViewModelFactory theViewModelFactory)
+        public MainWindowViewModel(IDataService theDataService, IWorkspaceReaderWriter theWorkspaceReaderWriter)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
             if (theWorkspaceReaderWriter == null)
                 throw new ArgumentNullException("theWorkspaceReaderWriter");
-            if (theViewModelFactory == null)
-                throw new ArgumentNullException("theViewModelFactory");
             this.dataService = theDataService;
             this.workspaceReaderWriter = theWorkspaceReaderWriter;
-            this.viewModelFactory = theViewModelFactory;
-            this.Workspace = this.viewModelFactory.CreateWorkspace();
+            this.Workspace = new WorkspaceViewModel(new WorkspaceModel());
             this.UpdateTitle();
             this.CreateMenuCommands();
         }
@@ -268,7 +261,6 @@ namespace DynaApp.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            this.dataService.Reset();
             this.Workspace.Reset();
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
@@ -300,7 +292,7 @@ namespace DynaApp.ViewModels
             try
             {
                 var workspaceModel = this.workspaceReaderWriter.Read(openFileDialog.FileName);
-                var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache(), null);
+                var workspaceMapper = IoC.Get<WorkspaceMapper>();
                 this.Workspace = workspaceMapper.MapFrom(workspaceModel);
             }
             catch (Exception e)

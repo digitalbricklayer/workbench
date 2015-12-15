@@ -12,14 +12,14 @@ namespace DynaApp.ViewModels
     public sealed class SolutionViewModel : PropertyChangedBase
     {
         /// <summary>
-        /// Initialize the solution with values.
+        /// Initialize the solution with a solution model.
         /// </summary>
-        /// <param name="theValues">Values.</param>
-        public SolutionViewModel(IEnumerable<ValueViewModel> theValues)
+        /// <param name="theSolution">The solution model.</param>
+        public SolutionViewModel(SolutionModel theSolution)
         {
-            if (theValues == null)
-                throw new ArgumentNullException("theValues");
-            this.Values = new ObservableCollection<ValueViewModel>(theValues);
+            if (theSolution == null)
+                throw new ArgumentNullException("theSolution");
+            this.Values = new ObservableCollection<ValueViewModel>();
             this.Model = new SolutionModel();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Windows;
+using System.Linq;
 using Dyna.Core.Models;
 using NUnit.Framework;
 
@@ -10,7 +11,7 @@ namespace Dyna.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Upper_Band()
         {
-            var sut = new DomainModel("A domain", "    1..9     ");
+            var sut = new DomainModel("A domain", new Point(0, 0), new DomainExpressionModel("    1..9     "));
             Assert.That(sut.Expression.UpperBand, Is.EqualTo(9));
         }
 

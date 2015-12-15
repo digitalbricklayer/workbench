@@ -39,7 +39,8 @@ namespace Dyna.Core.Models
             set
             {
                 this.text = value;
-                this.ParseUnit(value);
+                if (!string.IsNullOrWhiteSpace(this.text))
+                   this.ParseUnit(value);
                 OnPropertyChanged();
             }
         }

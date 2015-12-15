@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Dyna.Core.Models
 {
@@ -11,6 +12,20 @@ namespace Dyna.Core.Models
         private ConstraintExpressionModel expression;
 
         /// <summary>
+        /// Initialize a constraint with a name and a constraint expression.
+        /// </summary>
+        /// <param name="constraintName">Constraint name.</param>
+        /// <param name="location">Location of the graphic.</param>
+        /// <param name="theExpression">Binary expression expressing the constraint.</param>
+        public ConstraintModel(string constraintName, Point location, ConstraintExpressionModel theExpression)
+            : base(constraintName, location)
+        {
+            if (theExpression == null)
+                throw new ArgumentNullException("theExpression");
+            this.Expression = theExpression;
+        }
+
+        /// <summary>
         /// Initialize a constraint with a name and constraint expression.
         /// </summary>
         /// <param name="constraintName">Constraint name.</param>
@@ -19,19 +34,6 @@ namespace Dyna.Core.Models
             : base(constraintName)
         {
             this.Expression = new ConstraintExpressionModel(rawExpression);
-        }
-
-        /// <summary>
-        /// Initialize a constraint with a name and a constraint expression.
-        /// </summary>
-        /// <param name="constraintName">Constraint name.</param>
-        /// <param name="theExpression">Binary expression expressing the constraint.</param>
-        public ConstraintModel(string constraintName, ConstraintExpressionModel theExpression)
-            : base(constraintName)
-        {
-            if (theExpression == null)
-                throw new ArgumentNullException("theExpression");
-            this.Expression = theExpression;
         }
 
         /// <summary>

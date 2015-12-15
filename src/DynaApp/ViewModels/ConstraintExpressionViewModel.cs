@@ -10,27 +10,17 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class ConstraintExpressionViewModel : PropertyChangedBase
     {
-        private string text;
         private bool isExpressionEditing;
 
         /// <summary>
-        /// Initialize a constraint expression with a raw expression.
+        /// Initialize a constraint expression with an expression model.
         /// </summary>
-        public ConstraintExpressionViewModel(string rawExpression)
+        /// <param name="theExpressionModel">Constraint expression model.</param>
+        public ConstraintExpressionViewModel(ConstraintExpressionModel theExpressionModel)
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            this.Model = new ConstraintExpressionModel();
-            this.Text = rawExpression;
-        }
-
-        /// <summary>
-        /// Initialize a constraint expression with default values.
-        /// </summary>
-        public ConstraintExpressionViewModel()
-        {
-            this.Model = new ConstraintExpressionModel();
-            this.Text = string.Empty;
+            if (theExpressionModel == null)
+                throw new ArgumentNullException("theExpressionModel");
+            this.Model = theExpressionModel;
         }
 
         /// <summary>
@@ -43,11 +33,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         public string Text
         {
-            get { return this.text; }
+            get { return this.Model.Text; }
             set
             {
-                if (this.text == value) return;
-                this.text = value;
+                if (this.Model.Text == value) return;
                 this.Model.Text = value;
                 NotifyOfPropertyChange();
             }
@@ -74,7 +63,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsExpressionEditing = true, _ => true);
+                return new CommandHandler(() => this.IsExpressionEditing = true);
             }
         }
     }

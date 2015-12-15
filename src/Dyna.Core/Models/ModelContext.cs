@@ -1,4 +1,5 @@
 using System;
+using System.Windows;
 
 namespace Dyna.Core.Models
 {
@@ -34,7 +35,7 @@ namespace Dyna.Core.Models
 
         public ModelContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
-            var newDomain = new DomainModel(newDomainName, newDomainExpression);
+            var newDomain = new DomainModel(newDomainName, new Point(1, 1),  new DomainExpressionModel(newDomainExpression));
             this.model.AddSharedDomain(newDomain);
 
             return this;

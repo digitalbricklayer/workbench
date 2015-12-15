@@ -11,6 +11,12 @@ namespace Dyna.Core.Models
         private ModelModel model;
         private SolutionModel solution;
 
+        public WorkspaceModel()
+        {
+            this.Model = new ModelModel();
+            this.Solution = new SolutionModel();
+        }
+
         /// <summary>
         /// Gets or sets the model.
         /// </summary>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -19,28 +18,31 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Initialize a model view model with default values.
         /// </summary>
-        public ModelViewModel()
+        public ModelViewModel(ModelModel theModel)
         {
-            this.Model = new ModelModel();
-            this.Variables = new ObservableCollection<VariableViewModel>();
-            this.Domains = new ObservableCollection<DomainViewModel>();
-            this.Constraints = new ObservableCollection<ConstraintViewModel>();
+            if (theModel == null)
+                throw new ArgumentNullException("theModel");
+
+            this.Model = theModel;
+            this.Variables = new BindableCollection<VariableViewModel>();
+            this.Domains = new BindableCollection<DomainViewModel>();
+            this.Constraints = new BindableCollection<ConstraintViewModel>();
         }
 
         /// <summary>
         /// Gets the collection of variables in the model.
         /// </summary>
-        public ObservableCollection<VariableViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets the collection of domains in the model.
         /// </summary>
-        public ObservableCollection<DomainViewModel> Domains { get; private set; }
+        public IObservableCollection<DomainViewModel> Domains { get; private set; }
 
         /// <summary>
         /// Gets the collection of constraints in the model.
         /// </summary>
-        public ObservableCollection<ConstraintViewModel> Constraints { get; private set; }
+        public IObservableCollection<ConstraintViewModel> Constraints { get; private set; }
 
         /// <summary>
         /// Gets or sets the model model.
@@ -187,6 +189,7 @@ namespace DynaApp.ViewModels
             this.Variables.Clear();
             this.Constraints.Clear();
             this.Domains.Clear();
+            this.Items.Clear();
         }
 
         /// <summary>

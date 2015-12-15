@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using Dyna.Core.Models;
-using DynaApp.Factories;
 using DynaApp.Services;
 using DynaApp.ViewModels;
 
@@ -18,26 +17,14 @@ namespace DynaApp
 
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
-            container.Singleton<DataService>();
+            container.Singleton<IDataService, DataService>();
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
-            container.PerRequest<IViewModelFactory, SimpleContainerViewModelFactory>();
+            container.Singleton<ModelViewModelCache>();
+            container.PerRequest<WorkspaceMapper>();
             container.PerRequest<MainWindowViewModel>();
-            container.PerRequest<WorkspaceViewModel>();
-            container.PerRequest<ConstraintViewModel>();
-            container.PerRequest<DomainViewModel>();
-            container.PerRequest<VariableViewModel>();
-            container.PerRequest<AggregateVariableViewModel>();
-            container.PerRequest<AggregateResizeViewModel>();
-            container.PerRequest<ConstraintExpressionViewModel>();
-            container.PerRequest<DomainExpressionViewModel>();
             container.PerRequest<ModelErrorsViewModel>();
-            container.PerRequest<ModelErrorViewModel>();
-            container.PerRequest<ModelViewModel>();
-            container.PerRequest<SolutionViewModel>();
-            container.PerRequest<VariableDomainExpressionViewModel>();
-            container.PerRequest<ValueViewModel>();
 
             return container;
         }

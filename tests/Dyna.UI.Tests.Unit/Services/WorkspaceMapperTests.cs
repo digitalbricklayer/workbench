@@ -24,8 +24,7 @@ namespace Dyna.UI.Tests.Unit.Services
 
         private static WorkspaceMapper BuildSut()
         {
-            return new WorkspaceMapper(new ModelViewModelCache(),
-                                       new SimpleViewModelFactory(new DataService()));
+            return new WorkspaceMapper(new ModelViewModelCache());
         }
     }
 }

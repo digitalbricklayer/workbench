@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Dyna.Core.Models;
-using DynaApp.Services;
 
 namespace DynaApp.ViewModels
 {
@@ -13,7 +12,7 @@ namespace DynaApp.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : PropertyChangedBase
+    public sealed class WorkspaceViewModel : Screen
     {
         private readonly ObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
@@ -21,21 +20,19 @@ namespace DynaApp.ViewModels
         private bool isDirty;
         private SolutionViewModel solution;
         private ModelViewModel model;
-        private readonly DataService dataService;
 
         /// <summary>
         /// Initialize a workspace view model with default values.
         /// </summary>
-        public WorkspaceViewModel(DataService theDataService)
+        public WorkspaceViewModel(WorkspaceModel theWorkspaceModel)
         {
-            if (theDataService == null)
-                throw new ArgumentNullException("theDataService");
+            if (theWorkspaceModel == null)
+                throw new ArgumentNullException("theWorkspaceModel");
 
-            this.dataService = theDataService;
             this.availableDisplayModes = new ObservableCollection<string> {"Model"};
-            this.solution = new SolutionViewModel();
-            this.model = new ModelViewModel();
-            this.WorkspaceModel = this.dataService.GetWorkspace();
+            this.WorkspaceModel = theWorkspaceModel;
+            this.model = new ModelViewModel(theWorkspaceModel.Model);
+            this.solution = new SolutionViewModel(theWorkspaceModel.Solution);
             this.SelectedDisplayMode = "Model";
         }
 
@@ -164,7 +161,7 @@ namespace DynaApp.ViewModels
         /// <returns>New singleton variable view model.</returns>
         public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
+            var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()));
             this.Model.AddSingletonVariable(newVariable);
             this.IsDirty = true;
 
@@ -179,7 +176,7 @@ namespace DynaApp.ViewModels
         /// <returns>New aggregate variable view model.</returns>
         public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new AggregateVariableViewModel(newVariableName, newVariableLocation);
+            var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()));
             this.Model.AddAggregateVariable(newVariable);
             this.IsDirty = true;
 
@@ -194,7 +191,7 @@ namespace DynaApp.ViewModels
         /// <returns>New domain view model.</returns>
         public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
         {
-            var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
+            var newDomain = new DomainViewModel(new DomainModel(newDomainName, newDomainLocation, new DomainExpressionModel()));
             this.Model.AddDomain(newDomain);
             this.IsDirty = true;
 
@@ -209,7 +206,7 @@ namespace DynaApp.ViewModels
         /// <returns>New constraint view model.</returns>
         public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
         {
-            var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
+            var newConstraint = new ConstraintViewModel(new ConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
             this.Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 

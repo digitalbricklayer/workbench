@@ -10,7 +10,6 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class DomainExpressionViewModel : PropertyChangedBase
     {
-        private string text;
         private bool isExpressionEditing;
 
         /// <summary>
@@ -22,7 +21,17 @@ namespace DynaApp.ViewModels
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
             this.Model = new DomainExpressionModel();
-            this.Text = rawExpression;
+        }
+
+        /// <summary>
+        /// Initialize a domain expression with a domain expression.
+        /// </summary>
+        /// <param name="theDomainExpression">Domain expression.</param>
+        public DomainExpressionViewModel(DomainExpressionModel theDomainExpression)
+        {
+            if (theDomainExpression == null)
+                throw new ArgumentNullException("theDomainExpression");
+            this.Model = theDomainExpression;
         }
 
         /// <summary>
@@ -31,7 +40,6 @@ namespace DynaApp.ViewModels
         public DomainExpressionViewModel()
         {
             this.Model = new DomainExpressionModel();
-            this.Text = string.Empty;
         }
 
         /// <summary>
@@ -44,11 +52,10 @@ namespace DynaApp.ViewModels
         /// </summary>
         public string Text
         {
-            get { return this.text; }
+            get { return this.Model.Text; }
             set
             {
-                if (this.text == value) return;
-                this.text = value;
+                if (this.Model.Text == value) return;
                 this.Model.Text = value;
                 NotifyOfPropertyChange();
             }

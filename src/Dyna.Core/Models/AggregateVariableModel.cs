@@ -9,13 +9,25 @@ namespace Dyna.Core.Models
     /// An aggregate variable can hold zero or more variables.
     /// </summary>
     [Serializable]
-    public class AggregateVariableModel : GraphicModel
+    public class AggregateVariableModel : VariableModel
     {
         private VariableModel[] variables;
         private VariableDomainExpressionModel domainExpression;
 
-        public AggregateVariableModel(string newVariableName, int aggregateSize, VariableDomainExpressionModel domainExpression)
-            : base(newVariableName)
+        public AggregateVariableModel(string newVariableName, Point newVariableLocation, int aggregateSize, VariableDomainExpressionModel domainExpression)
+            : base(newVariableName, newVariableLocation, domainExpression)
+        {
+            this.DomainExpression = domainExpression;
+            this.variables = new VariableModel[aggregateSize];
+            for (var i = 0; i < aggregateSize; i++)
+                this.variables[i] = this.CreateNewVariableAt(i + 1);
+        }
+
+        /// <summary>
+        /// Initializes an aggregate variable with a name, a size and domain expression.
+        /// </summary>
+        public AggregateVariableModel(string variableName, int aggregateSize, VariableDomainExpressionModel domainExpression)
+            : base(variableName)
         {
             this.DomainExpression = domainExpression;
             this.variables = new VariableModel[aggregateSize];

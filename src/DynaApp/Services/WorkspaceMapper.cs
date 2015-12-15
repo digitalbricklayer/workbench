@@ -1,6 +1,4 @@
-﻿using System;
-using Dyna.Core.Models;
-using DynaApp.Factories;
+﻿using Dyna.Core.Models;
 using DynaApp.ViewModels;
 
 namespace DynaApp.Services
@@ -12,16 +10,12 @@ namespace DynaApp.Services
     {
         private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
-        private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
-        /// Initialize the model mapper with default values.
+        /// Initialize the model mapper with a model view model cache.
         /// </summary>
-        internal WorkspaceMapper(ModelViewModelCache theCache, IViewModelFactory theViewModelFactory)
+        internal WorkspaceMapper(ModelViewModelCache theCache)
         {
-            if (theViewModelFactory == null)
-                throw new ArgumentNullException("theViewModelFactory");
-            this.viewModelFactory = theViewModelFactory;
             this.modelMapper = new ModelMapper(theCache);
             this.solutionMapper = new SolutionMapper(theCache);
         }
@@ -33,8 +27,7 @@ namespace DynaApp.Services
         /// <returns>Workspace view model.</returns>
         internal WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
-            var workspaceViewModel = this.viewModelFactory.CreateWorkspace();
-            workspaceViewModel.WorkspaceModel = theWorkspaceModel;
+            var workspaceViewModel = new WorkspaceViewModel(theWorkspaceModel);
             workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
             workspaceViewModel.Solution = this.solutionMapper.MapFrom(theWorkspaceModel.Solution);
 
