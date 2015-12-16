@@ -11,9 +11,8 @@ namespace Dyna.UI.Tests.Integration.Services
         [Test]
         public void WriteWorkspaceToDiskThenReadBackContainsSameWorkspace()
         {
-            var orginalWorkspaceModel = WorkspaceModelFactory.Create();
             var filePath = Path.GetTempFileName();
-            WriteWorkspaceToDisk(filePath, orginalWorkspaceModel);
+            WriteWorkspaceToDisk(filePath);
             var readWorkspaceModel = ReadWorkspaceModel(filePath);
             Assert.That(readWorkspaceModel, Is.Not.Null);
             Assert.That(readWorkspaceModel.Model.Name, Is.Empty);
@@ -28,8 +27,9 @@ namespace Dyna.UI.Tests.Integration.Services
             return workspaceReader.Read(filePath);
         }
 
-        private static void WriteWorkspaceToDisk(string filePath, WorkspaceModel workspaceModel)
+        private static void WriteWorkspaceToDisk(string filePath)
         {
+            var workspaceModel = WorkspaceModelFactory.Create();
             var workspaceWriter = new BinaryFileWorkspaceWriter();
             workspaceWriter.Write(filePath, workspaceModel);
         }
