@@ -56,8 +56,17 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,7 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="ContainerBuilder.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
@@ -85,8 +96,16 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
+    <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
+    <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
+    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\IWorkspaceReader.cs" />
+    <Compile Include="Services\IWorkspaceReaderWriter.cs" />
+    <Compile Include="Services\IWorkspaceWriter.cs" />
+    <Compile Include="Views\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ModelViewModelCache.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
@@ -96,8 +115,7 @@
     <Compile Include="Services\ValueMapper.cs" />
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
-    <Compile Include="ViewModels\AbstractViewModel.cs" />
-    <Compile Include="ViewModels\AggregateResizeViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableViewModel.cs" />
     <Compile Include="ViewModels\ValueViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
@@ -117,15 +135,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\WorkspaceViewModel.cs" />
-    <Compile Include="Views\AggregateVariableResizeWindow.xaml.cs">
-      <DependentUpon>AggregateVariableResizeWindow.xaml</DependentUpon>
+    <Compile Include="Views\AggregateVariableResizeView.xaml.cs">
+      <DependentUpon>AggregateVariableResizeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModelErrorsWindow.xaml.cs">
-      <DependentUpon>ModelErrorsWindow.xaml</DependentUpon>
+    <Compile Include="Views\ModelErrorsView.xaml.cs">
+      <DependentUpon>ModelErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModelView.cs" />
     <Compile Include="WpfUtils.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -133,11 +151,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AggregateVariableResizeWindow.xaml">
+    <Page Include="Views\AggregateVariableResizeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ModelErrorsWindow.xaml">
+    <Page Include="Views\ModelErrorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +178,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

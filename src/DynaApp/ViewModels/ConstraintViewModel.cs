@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Dyna.Core.Models;
+﻿using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
 {
@@ -10,50 +9,11 @@ namespace DynaApp.ViewModels
     {
         private ConstraintModel model;
 
-        /// <summary>
-        /// Initialize a constraint with a name and raw constraint expression.
-        /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="rawExpression">Raw constraint expression.</param>
-        public ConstraintViewModel(string newConstraintName, string rawExpression)
-            : base(newConstraintName)
+        public ConstraintViewModel(ConstraintModel theConstraintModel)
+            : base(theConstraintModel)
         {
-            this.Expression = new ConstraintExpressionViewModel(rawExpression);
-            this.Model = new ConstraintModel(this.Expression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a constraint with a name and a location.
-        /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="newLocation">New constraint location.</param>
-        public ConstraintViewModel(string newConstraintName, Point newLocation)
-            : this(newConstraintName)
-        {
-            this.Expression = new ConstraintExpressionViewModel();
-            this.Model = new ConstraintModel(this.Expression.Model);
-            this.X = newLocation.X;
-            this.Y = newLocation.Y;
-        }
-
-        /// <summary>
-        /// Initialize a constraint with a constraint name.
-        /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        public ConstraintViewModel(string newConstraintName)
-            : base(newConstraintName)
-        {
-            this.Expression = new ConstraintExpressionViewModel();
-            this.Model = new ConstraintModel(this.Expression.Model);
-        }
-
-        /// <summary>
-        /// Initialize a constraint with default values.
-        /// </summary>
-        public ConstraintViewModel()
-        {
-            this.Expression = new ConstraintExpressionViewModel();
-            this.Model = new ConstraintModel(this.Expression.Model);
+            this.Model = theConstraintModel;
+            this.Expression = new ConstraintExpressionViewModel(this.Model.Expression);
         }
 
         /// <summary>

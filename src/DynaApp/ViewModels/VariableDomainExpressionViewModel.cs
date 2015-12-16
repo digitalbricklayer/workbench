@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -7,30 +8,28 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for a variable domain expression.
     /// </summary>
-    public sealed class VariableDomainExpressionViewModel : AbstractViewModel
+    public sealed class VariableDomainExpressionViewModel : PropertyChangedBase
     {
-        private string text;
         private bool isExpressionEditing;
+
+        /// <summary>
+        /// Initialize a variable domain expression with an expression.
+        /// </summary>
+        /// <param name="theExpressionModel">Variable domain expression model.</param>
+        public VariableDomainExpressionViewModel(VariableDomainExpressionModel theExpressionModel)
+        {
+            if (theExpressionModel == null)
+                throw new ArgumentException("theExpressionModel");
+            this.Model = theExpressionModel;
+        }
 
         /// <summary>
         /// Initialize a variable domain expression with a raw expression.
         /// </summary>
-        /// <param name="rawExpression">Raw expression text.</param>
-        public VariableDomainExpressionViewModel(string rawExpression)
+        /// <param name="theRawExpressionModel">Raw variable domain expression.</param>
+        public VariableDomainExpressionViewModel(string theRawExpressionModel)
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            this.Model = new VariableDomainExpressionModel();
-            this.Text = rawExpression;
-        }
-
-        /// <summary>
-        /// Initialize a variable domain expression with default values.
-        /// </summary>
-        public VariableDomainExpressionViewModel()
-        {
-            this.Model = new VariableDomainExpressionModel();
-            this.Text = string.Empty;
+            this.Model = new VariableDomainExpressionModel(theRawExpressionModel);
         }
 
         /// <summary>
@@ -43,13 +42,12 @@ namespace DynaApp.ViewModels
         /// </summary>
         public string Text
         {
-            get { return this.text; }
+            get { return this.Model.Text; }
             set
             {
-                if (this.text == value) return;
-                this.text = value;
+                if (this.Model.Text == value) return;
                 this.Model.Text = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -63,7 +61,7 @@ namespace DynaApp.ViewModels
             {
                 if (this.isExpressionEditing == value) return;
                 this.isExpressionEditing = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -74,7 +72,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsExpressionEditing = true, _ => true);
+                return new CommandHandler(() => this.IsExpressionEditing = true);
             }
         }
     }

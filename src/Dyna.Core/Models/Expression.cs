@@ -30,6 +30,11 @@ namespace Dyna.Core.Models
             this.AggregateReference = theReference;
         }
 
+        public Expression()
+        {
+            
+        }
+
         public VariableModel Variable { get; private set; }
         public Literal Literal { get; private set; }
 

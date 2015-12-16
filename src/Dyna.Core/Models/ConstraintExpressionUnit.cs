@@ -17,6 +17,11 @@ namespace Dyna.Core.Models
             this.OperatorType = operatorType;
         }
 
+        public ConstraintExpressionUnit()
+        {
+            
+        }
+
         /// <summary>
         /// Gets the left hand side of the expression.
         /// </summary>

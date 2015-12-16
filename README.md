@@ -1,5 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/vef4rqs4cp84kgjl?svg=true)](https://ci.appveyor.com/project/JackHughes/dyna)
-# Constraint Workbench
+# Constraint Capers Workbench
 A tool to explore how to model a constraint satisfaction problem with an engine for solving it and presenting a solution. Uses the [Google or-tools](https://developers.google.com/optimization/) for solving the problem.
 
 The program idea is outlined in [The strange case of the missing application](http://techteapot.com/strange-case-of-the-missing-application/). The Constraint Workbench is an attempt to build the missing application, to see if such a thing exists, or has *any* utility. In the past whenever I've tried to come up with a suitable interface I've always eventually come up with something a lot like a spreadsheet. Just goes to show just how good a paradigm the spreadsheet is.
@@ -21,4 +21,4 @@ Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [Networ
 Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
 
 ##License
-Constraint Workbench is [licensed under a BSD license](LICENSE.md).
+Constraint Capers Workbench is [licensed under a BSD license](LICENSE.md).

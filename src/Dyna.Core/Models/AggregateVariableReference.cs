@@ -14,6 +14,11 @@ namespace Dyna.Core.Models
             this.Index = aggregateIndex;
         }
 
+        public AggregateVariableReference()
+        {
+            this.IdentifierName = String.Empty;
+        }
+
         public int Index { get; private set; }
 
         public string IdentifierName { get; private set; }

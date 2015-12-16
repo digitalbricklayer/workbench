@@ -23,8 +23,10 @@ namespace Dyna.UI.Tests.Integration
         private static ModelModel CreateModel()
         {
             var modelModel = new ModelModel();
-            var x = new VariableModel("x");
+            var x = new VariableModel("x", "z");
             modelModel.AddVariable(x);
+            var y = new AggregateVariableModel("y", 10, new VariableDomainExpressionModel("1..9"));
+            modelModel.AddVariable(y);
             var constraint = new ConstraintModel("X", "x > 1");
             modelModel.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");

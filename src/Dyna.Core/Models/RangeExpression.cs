@@ -8,6 +8,11 @@ namespace Dyna.Core.Models
             this.LowerBand = lowerBand;
         }
 
+        public RangeExpression()
+        {
+            
+        }
+
         public int UpperBand { get; private set; }
         public int LowerBand { get; private set; }
 

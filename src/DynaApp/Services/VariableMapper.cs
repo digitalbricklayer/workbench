@@ -20,13 +20,7 @@ namespace DynaApp.Services
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-            var variableViewModel = new VariableViewModel
-            {
-                Model = theVariableModel,
-                Name = theVariableModel.Name,
-                X = theVariableModel.X,
-                Y = theVariableModel.Y
-            };
+            var variableViewModel = new VariableViewModel(theVariableModel);
 
             this.cache.CacheVariable(variableViewModel);
 

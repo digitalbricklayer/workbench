@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 using DynaApp.Services;
-using DynaApp.Views;
 using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
@@ -13,19 +13,27 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for the main window.
     /// </summary>
-    public sealed class MainWindowViewModel : AbstractViewModel
+    public sealed class MainWindowViewModel : PropertyChangedBase
     {
-		private const string ProgramTitle = "Constraint Workbench";
-        private string filename = string.Empty;
+		private const string ProgramTitle = "Constraint Capers Workbench";
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
+        private readonly IDataService dataService;
+        private readonly IWindowManager windowManager;
+        private string fileName = String.Empty;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDataService theDataService, IWindowManager theWindowManager)
         {
-            this.Workspace = new WorkspaceViewModel();
+            if (theDataService == null)
+                throw new ArgumentNullException("theDataService");
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
+            this.dataService = theDataService;
+            this.windowManager = theWindowManager;
+            this.Workspace = new WorkspaceViewModel(new WorkspaceModel(), this.windowManager);
             this.UpdateTitle();
             this.CreateMenuCommands();
         }
@@ -39,7 +47,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.workspace = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -158,7 +166,7 @@ namespace DynaApp.ViewModels
         {
             get
             {
-                return this.Workspace.Model.Graphics.Any(_ => _.IsSelected);
+                return this.Workspace.Model.Items.Any(_ => _.IsSelected);
             }
         }
 
@@ -242,7 +250,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.title = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -251,13 +259,8 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            if (!PromptToSave())
-            {
-                return;
-            }
-
+            if (!PromptToSave()) return;
             this.Workspace.Reset();
-            this.filename = string.Empty;
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
@@ -287,19 +290,16 @@ namespace DynaApp.ViewModels
 
             try
             {
-                // Load file
-                var workspaceReader = new WorkspaceModelReader(openFileDialog.FileName);
-                var theWorkspaceModel = workspaceReader.Read();
-                var workspaceMapper = new WorkspaceMapper(new ModelViewModelCache());
-                this.Workspace = workspaceMapper.MapFrom(theWorkspaceModel);
+                var workspaceModel = this.dataService.Open(openFileDialog.FileName);
+                var workspaceMapper = IoC.Get<WorkspaceMapper>();
+                this.Workspace = workspaceMapper.MapFrom(workspaceModel);
             }
             catch (Exception e)
             {
                 this.ShowError(e.Message);
-                return;
             }
 
-            this.filename = openFileDialog.FileName;
+            this.fileName = openFileDialog.FileName;
             this.Workspace.IsDirty = false;
             this.UpdateTitle();
         }
@@ -309,13 +309,13 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void FileSaveAction()
         {
-            if (string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(this.fileName))
             {
                 this.FileSaveAsAction();
                 return;
             }
 
-            this.Save(filename);
+            this.Save(this.fileName);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void ModelSolveAction()
         {
-            this.Workspace.SolveModel(Application.Current.MainWindow);
+            this.Workspace.SolveModel();
             this.UpdateTitle();
         }
 
@@ -420,13 +420,8 @@ namespace DynaApp.ViewModels
             var selectedVariable = this.Workspace.Model.GetSelectedAggregateVariables();
             if (selectedVariable == null) return;
 
-            var resizeViewModel = new AggregateResizeViewModel();
-            var resizeWindow = new AggregateVariableResizeWindow
-            {
-                Owner = Application.Current.MainWindow,
-                DataContext = resizeViewModel
-            };
-            var showDialogResult = resizeWindow.ShowDialog();
+            var resizeViewModel = new AggregateVariableResizeViewModel();
+            var showDialogResult = this.windowManager.ShowDialog(resizeViewModel);
 
             if (showDialogResult.HasValue && showDialogResult.Value)
             {
@@ -463,7 +458,7 @@ namespace DynaApp.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    return this.Save(this.filename);
+                    return this.Save(this.fileName);
 
                 case MessageBoxResult.No:
                     // User wishes to discard changes
@@ -484,9 +479,7 @@ namespace DynaApp.ViewModels
         {
             try
             {
-                // Save file
-                var workspaceWriter = new WorkspaceModelWriter(file);
-                workspaceWriter.Write(this.Workspace.WorkspaceModel);
+                this.dataService.Save(file, this.Workspace.WorkspaceModel);
             }
             catch (Exception e)
             {
@@ -494,7 +487,7 @@ namespace DynaApp.ViewModels
                 return false;
             }
 
-            this.filename = file;
+            this.fileName = file;
             this.Workspace.IsDirty = false;
             UpdateTitle();
 
@@ -520,14 +513,14 @@ namespace DynaApp.ViewModels
         {
             var newTitle = ProgramTitle + " - ";
 
-            if (string.IsNullOrEmpty(this.filename))
+            if (string.IsNullOrEmpty(this.fileName))
             {
                 newTitle += "Untitled";
                 this.Title = newTitle;
                 return;
             }
 
-            newTitle += Path.GetFileName(this.filename);
+            newTitle += Path.GetFileName(this.fileName);
 
             if (this.Workspace.IsDirty)
             {

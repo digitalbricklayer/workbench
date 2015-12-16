@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using Dyna.Core.Models;
 using DynaApp.ViewModels;
@@ -13,6 +14,8 @@ namespace DynaApp.Services
 
         internal ConstraintMapper(ModelViewModelCache theCache)
         {
+            if (theCache == null)
+                throw new ArgumentNullException("theCache");
             this.cache = theCache;
         }
 
@@ -20,12 +23,7 @@ namespace DynaApp.Services
         {
             Debug.Assert(theConstraintModel.HasIdentity);
 
-            var constraintViewModel = new ConstraintViewModel();
-            constraintViewModel.Model = theConstraintModel;
-            constraintViewModel.Name = theConstraintModel.Name;
-            constraintViewModel.Expression.Text = theConstraintModel.Expression.Text;
-            constraintViewModel.X = theConstraintModel.X;
-            constraintViewModel.Y = theConstraintModel.Y;
+            var constraintViewModel = new ConstraintViewModel(theConstraintModel);
 
             this.cache.CacheGraphic(constraintViewModel);
 

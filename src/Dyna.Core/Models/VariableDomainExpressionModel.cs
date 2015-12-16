@@ -8,7 +8,7 @@ namespace Dyna.Core.Models
     /// domain or an inline domain expression.
     /// </summary>
     [Serializable]
-    public class VariableDomainExpressionModel
+    public class VariableDomainExpressionModel : AbstractModel
     {
         private string text;
 
@@ -50,6 +50,7 @@ namespace Dyna.Core.Models
             {
                 this.text = value;
                 this.ParseUnit(value);
+                OnPropertyChanged();
             }
         }
 
