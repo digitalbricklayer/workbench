@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Dyna.Core.Models
@@ -8,8 +9,11 @@ namespace Dyna.Core.Models
     /// A solution to a model.
     /// </summary>
     [Serializable]
-    public class SolutionModel : ModelBase
+    public class SolutionModel : AbstractModel
     {
+        private ObservableCollection<ValueModel> singletonValues;
+        private ObservableCollection<AggregateValueModel> aggregateValues;
+
         /// <summary>
         /// Initialize the solution with the model and the values.
         /// </summary>
@@ -20,7 +24,8 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.SingletonValues.AddRange(theValues);
+            foreach (var valueModel in theValues)
+                this.SingletonValues.Add(valueModel);
         }
 
         /// <summary>
@@ -33,7 +38,8 @@ namespace Dyna.Core.Models
         {
             if (theValues == null)
                 throw new ArgumentNullException("theValues");
-            this.SingletonValues.AddRange(theValues);
+            foreach (var valueModel in theValues)
+                this.SingletonValues.Add(valueModel);
         }
 
         /// <summary>
@@ -51,24 +57,40 @@ namespace Dyna.Core.Models
         /// </summary>
         public SolutionModel()
         {
-            this.SingletonValues = new List<ValueModel>();
-            this.AggregateValues = new List<AggregateValueModel>();
+            this.SingletonValues = new ObservableCollection<ValueModel>();
+            this.AggregateValues = new ObservableCollection<AggregateValueModel>();
         }
 
         /// <summary>
         /// Gets and sets the values in the solution.
         /// </summary>
-        public List<ValueModel> SingletonValues { get; set; }
+        public ObservableCollection<ValueModel> SingletonValues
+        {
+            get { return singletonValues; }
+            set
+            {
+                singletonValues = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets and sets the aggregate values in the solution.
         /// </summary>
-        public List<AggregateValueModel> AggregateValues { get; set; }
+        public ObservableCollection<AggregateValueModel> AggregateValues
+        {
+            get { return aggregateValues; }
+            set
+            {
+                aggregateValues = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the model this solution solves.
         /// </summary>
-        public ModelModel Model { get; set; }
+        public ModelModel Model { get; private set; }
 
         /// <summary>
         /// Add a value to the solution.

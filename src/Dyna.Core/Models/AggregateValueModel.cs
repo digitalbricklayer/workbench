@@ -20,6 +20,11 @@ namespace Dyna.Core.Models
             this.values = new List<int>(theValues);
         }
 
+        public AggregateValueModel()
+        {
+            this.values = new List<int>();
+        }
+
         /// <summary>
         /// Gets the variable associated with the values.
         /// </summary>

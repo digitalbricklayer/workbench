@@ -7,9 +7,9 @@ namespace DynaApp.Views
     /// <summary>
     /// Interaction logic for AggregateVariableResizeWindow.xaml
     /// </summary>
-    public partial class AggregateVariableResizeWindow : Window
+    public partial class AggregateVariableResizeView : Window
     {
-        public AggregateVariableResizeWindow()
+        public AggregateVariableResizeView()
         {
             InitializeComponent();
         }
@@ -24,11 +24,11 @@ namespace DynaApp.Views
         /// <summary>
         /// Gets the dialog view model.
         /// </summary>
-        public AggregateResizeViewModel ViewModel
+        public AggregateVariableResizeViewModel ViewModel
         {
             get
             {
-                return (AggregateResizeViewModel)this.DataContext;
+                return (AggregateVariableResizeViewModel)this.DataContext;
             }
         }
     }

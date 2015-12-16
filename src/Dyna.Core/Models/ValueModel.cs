@@ -6,7 +6,7 @@ namespace Dyna.Core.Models
     /// A value bound to a variable.
     /// </summary>
     [Serializable]
-    public class ValueModel : ModelBase
+    public class ValueModel : AbstractModel
     {
         /// <summary>
         /// Initialize the value with a variable.
@@ -15,6 +15,11 @@ namespace Dyna.Core.Models
         public ValueModel(VariableModel theVariable)
         {
             this.Variable = theVariable;
+        }
+
+        public ValueModel()
+        {
+            
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Dyna.Core.Models
@@ -9,9 +10,14 @@ namespace Dyna.Core.Models
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
     [Serializable]
-    public class ModelModel : ModelBase
+    public class ModelModel : AbstractModel
     {
-        private readonly List<string> errors = new List<string>();
+        private readonly ObservableCollection<string> errors = new ObservableCollection<string>();
+        private ObservableCollection<VariableModel> variables;
+        private ObservableCollection<AggregateVariableModel> aggregates;
+        private ObservableCollection<DomainModel> domains;
+        private ObservableCollection<ConstraintModel> constraints;
+        private string name;
 
         /// <summary>
         /// Initialize a model with a model name.
@@ -31,36 +37,76 @@ namespace Dyna.Core.Models
         public ModelModel()
         {
             this.Name = string.Empty;
-            this.Variables = new List<VariableModel>();
-            this.Aggregates = new List<AggregateVariableModel>();
-            this.Domains = new List<DomainModel>();
-            this.Constraints = new List<ConstraintModel>();
+            this.Variables = new ObservableCollection<VariableModel>();
+            this.Aggregates = new ObservableCollection<AggregateVariableModel>();
+            this.Domains = new ObservableCollection<DomainModel>();
+            this.Constraints = new ObservableCollection<ConstraintModel>();
         }
 
         /// <summary>
         /// Gets or sets the model name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets and sets the variables.
         /// </summary>
-        public List<VariableModel> Variables { get; set; }
+        public ObservableCollection<VariableModel> Variables
+        {
+            get { return variables; }
+            set
+            {
+                variables = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets and sets the aggregate variables.
         /// </summary>
-        public List<AggregateVariableModel> Aggregates { get; set; }
+        public ObservableCollection<AggregateVariableModel> Aggregates
+        {
+            get { return aggregates; }
+            set
+            {
+                aggregates = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public List<DomainModel> Domains { get; set; }
+        public ObservableCollection<DomainModel> Domains
+        {
+            get { return domains; }
+            set
+            {
+                domains = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the constraints.
         /// </summary>
-        public List<ConstraintModel> Constraints { get; set; }
+        public ObservableCollection<ConstraintModel> Constraints
+        {
+            get { return constraints; }
+            set
+            {
+                constraints = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the model validation errors.

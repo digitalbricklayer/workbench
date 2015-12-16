@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -8,17 +9,17 @@ namespace DynaApp.ViewModels
     /// <summary>
     /// View model for the solution.
     /// </summary>
-    public sealed class SolutionViewModel : AbstractViewModel
+    public sealed class SolutionViewModel : PropertyChangedBase
     {
         /// <summary>
-        /// Initialize the solution with values.
+        /// Initialize the solution with a solution model.
         /// </summary>
-        /// <param name="theValues">Values.</param>
-        public SolutionViewModel(IEnumerable<ValueViewModel> theValues)
+        /// <param name="theSolution">The solution model.</param>
+        public SolutionViewModel(SolutionModel theSolution)
         {
-            if (theValues == null)
-                throw new ArgumentNullException("theValues");
-            this.Values = new ObservableCollection<ValueViewModel>(theValues);
+            if (theSolution == null)
+                throw new ArgumentNullException("theSolution");
+            this.Values = new ObservableCollection<ValueViewModel>();
             this.Model = new SolutionModel();
         }
 

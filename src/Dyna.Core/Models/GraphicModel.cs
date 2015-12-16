@@ -4,7 +4,7 @@ using System.Windows;
 namespace Dyna.Core.Models
 {
     [Serializable]
-    public abstract class GraphicModel : ModelBase
+    public abstract class GraphicModel : AbstractModel
     {
         private string name;
 

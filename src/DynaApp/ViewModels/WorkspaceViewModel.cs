@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -11,9 +12,9 @@ namespace DynaApp.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : AbstractViewModel
+    public sealed class WorkspaceViewModel : Screen
     {
-        private readonly ObservableCollection<string> availableDisplayModes;
+        private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
         private object selectedDisplayViewModel;
         private bool isDirty;
@@ -23,12 +24,18 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Initialize a workspace view model with default values.
         /// </summary>
-        public WorkspaceViewModel()
+        public WorkspaceViewModel(WorkspaceModel theWorkspaceModel, IWindowManager theWindowManager)
         {
-            this.availableDisplayModes = new ObservableCollection<string> {"Model"};
-            this.solution = new SolutionViewModel();
-            this.model = new ModelViewModel();
-            this.WorkspaceModel = new WorkspaceModel();
+            if (theWorkspaceModel == null)
+                throw new ArgumentNullException("theWorkspaceModel");
+
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
+
+            this.availableDisplayModes = new BindableCollection<string> {"Model"};
+            this.WorkspaceModel = theWorkspaceModel;
+            this.model = new ModelViewModel(theWorkspaceModel.Model, theWindowManager);
+            this.solution = new SolutionViewModel(theWorkspaceModel.Solution);
             this.SelectedDisplayMode = "Model";
         }
 
@@ -48,7 +55,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.model = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -63,7 +70,7 @@ namespace DynaApp.ViewModels
                 if (value == null)
                     throw new ArgumentNullException("value");
                 this.solution = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -93,7 +100,7 @@ namespace DynaApp.ViewModels
                     default:
                         throw new NotImplementedException("Unknown display mode.");
                 }
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -101,7 +108,7 @@ namespace DynaApp.ViewModels
         /// Gets the available display modes. Changes depending upon 
         /// whether the model has a solution or not.
         /// </summary>
-        public ObservableCollection<string> AvailableDisplayModes
+        public IObservableCollection<string> AvailableDisplayModes
         {
             get
             {
@@ -121,7 +128,7 @@ namespace DynaApp.ViewModels
             set
             {
                 this.selectedDisplayViewModel = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
@@ -135,16 +142,16 @@ namespace DynaApp.ViewModels
             {
                 if (this.isDirty == value) return;
                 this.isDirty = value;
-                OnPropertyChanged();
+                NotifyOfPropertyChange();
             }
         }
 
         /// <summary>
         /// Solve the constraint model.
         /// </summary>
-        public void SolveModel(Window parentWindow)
+        public void SolveModel()
         {
-            var solveResult = this.Model.Solve(parentWindow);
+            var solveResult = this.Model.Solve();
             if (!solveResult.IsSuccess) return;
             this.DisplaySolution(solveResult.Solution);
         }
@@ -157,7 +164,7 @@ namespace DynaApp.ViewModels
         /// <returns>New singleton variable view model.</returns>
         public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new VariableViewModel(newVariableName, newVariableLocation);
+            var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()));
             this.Model.AddSingletonVariable(newVariable);
             this.IsDirty = true;
 
@@ -172,7 +179,7 @@ namespace DynaApp.ViewModels
         /// <returns>New aggregate variable view model.</returns>
         public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new AggregateVariableViewModel(newVariableName, newVariableLocation);
+            var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()));
             this.Model.AddAggregateVariable(newVariable);
             this.IsDirty = true;
 
@@ -187,7 +194,7 @@ namespace DynaApp.ViewModels
         /// <returns>New domain view model.</returns>
         public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
         {
-            var newDomain = new DomainViewModel(newDomainName, newDomainLocation);
+            var newDomain = new DomainViewModel(new DomainModel(newDomainName, newDomainLocation, new DomainExpressionModel()));
             this.Model.AddDomain(newDomain);
             this.IsDirty = true;
 
@@ -202,7 +209,7 @@ namespace DynaApp.ViewModels
         /// <returns>New constraint view model.</returns>
         public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
         {
-            var newConstraint = new ConstraintViewModel(newConstraintName, newLocation);
+            var newConstraint = new ConstraintViewModel(new ConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
             this.Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 
@@ -300,7 +307,7 @@ namespace DynaApp.ViewModels
             {
                 if (domain.IsSelected)
                 {
-                    this.DeleteDomain(domain);
+                    this.Model.DeleteDomain(domain);
                 }
             }
         }
@@ -314,25 +321,9 @@ namespace DynaApp.ViewModels
             {
                 if (constraint.IsSelected)
                 {
-                    this.DeleteConstraint(constraint);
+                    this.Model.DeleteConstraint(constraint);
                 }
             }
-        }
-
-        private void DeleteDomain(DomainViewModel domain)
-        {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.DeleteDomain(domain);
-        }
-
-        private void DeleteConstraint(ConstraintViewModel constraint)
-        {
-            //
-            // Remove the variable from the network.
-            //
-            this.Model.DeleteConstraint(constraint);
         }
     }
 }

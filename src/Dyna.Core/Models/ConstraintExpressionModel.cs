@@ -6,7 +6,7 @@ namespace Dyna.Core.Models
     /// Constraint expression model.
     /// </summary>
     [Serializable]
-    public class ConstraintExpressionModel
+    public class ConstraintExpressionModel : AbstractModel
     {
         private string text;
 
@@ -39,7 +39,9 @@ namespace Dyna.Core.Models
             set
             {
                 this.text = value;
-                this.ParseUnit(value);
+                if (!string.IsNullOrWhiteSpace(this.text))
+                   this.ParseUnit(value);
+                OnPropertyChanged();
             }
         }
 

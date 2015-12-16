@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace Dyna.Core.Models
 {
@@ -11,15 +12,27 @@ namespace Dyna.Core.Models
     public class DomainModel : GraphicModel
     {
         private readonly List<int> values = new List<int>();
+        private DomainExpressionModel expression;
 
-        public DomainModel(string domainName, string rawDomainExpression)
+        public DomainModel(string domainName, Point location, DomainExpressionModel theExpression)
+            : base(domainName, location)
+        {
+            if (theExpression == null)
+                throw new ArgumentNullException("theExpression");
+            this.expression = theExpression;
+        }
+
+        public DomainModel(string domainName, DomainExpressionModel theExpression)
             : base(domainName)
         {
-            if (string.IsNullOrWhiteSpace(domainName))
-                throw new ArgumentException("domainName");
-            if (string.IsNullOrWhiteSpace(rawDomainExpression))
-                throw new ArgumentException("rawDomainExpression");
-            this.ParseExpression(rawDomainExpression);
+            if (theExpression == null)
+                throw new ArgumentNullException("theExpression");
+            this.expression = theExpression;
+        }
+
+        public DomainModel(string domainName, string rawDomainExpression)
+            : this(domainName, new DomainExpressionModel(rawDomainExpression))
+        {
         }
 
         public DomainModel(params int[] theRange)
@@ -53,7 +66,15 @@ namespace Dyna.Core.Models
             }
         }
 
-        public DomainExpressionModel Expression { get; set; }
+        public DomainExpressionModel Expression
+        {
+            get { return expression; }
+            set
+            {
+                expression = value; 
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Create a new Domain from a range of individual values.
