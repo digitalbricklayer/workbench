@@ -1,3 +1,5 @@
+using System;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 using DynaApp.ViewModels;
 
@@ -11,16 +13,14 @@ namespace DynaApp.Services
         private readonly VariableMapper variableMapper;
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
+        private readonly IWindowManager windowManager;
 
-        internal ModelMapper(VariableMapper theVariableMapper, DomainMapper theDomainMapper, ConstraintMapper theConstraintMapper)
+        internal ModelMapper(ModelViewModelCache theCache, IWindowManager theWindowManager)
         {
-            this.variableMapper = theVariableMapper;
-            this.domainMapper = theDomainMapper;
-            this.constraintMapper = theConstraintMapper;
-        }
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
 
-        internal ModelMapper(ModelViewModelCache theCache)
-        {
+            this.windowManager = theWindowManager;
             this.variableMapper = new VariableMapper(theCache);
             this.domainMapper = new DomainMapper(theCache);
             this.constraintMapper = new ConstraintMapper(theCache);
@@ -28,7 +28,7 @@ namespace DynaApp.Services
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
-            var modelViewModel = new ModelViewModel(theModelModel);
+            var modelViewModel = new ModelViewModel(theModelModel, this.windowManager);
 
             foreach (var domainModel in theModelModel.Domains)
             {

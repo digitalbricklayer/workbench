@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using Caliburn.Micro;
 using Dyna.Core.Models;
 
 namespace DynaApp.ViewModels
@@ -9,6 +9,7 @@ namespace DynaApp.ViewModels
         public AggregateVariableViewModel(AggregateVariableModel theVariableModel)
             : base(theVariableModel)
         {
+            this.Variables = new BindableCollection<VariableViewModel>();
             this.Model = theVariableModel;
         }
 
@@ -35,7 +36,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Gets the variables inside the aggregate.
         /// </summary>
-        public ObservableCollection<VariableViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of variables in the aggregate variable.

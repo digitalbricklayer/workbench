@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Dyna.Core.Models;
 using Dyna.Core.Solver;
-using DynaApp.Views;
 
 namespace DynaApp.ViewModels
 {
@@ -15,15 +13,21 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class ModelViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
+        private readonly IWindowManager windowManager;
+
         /// <summary>
-        /// Initialize a model view model with default values.
+        /// Initialize a model view model with a model and window manager.
         /// </summary>
-        public ModelViewModel(ModelModel theModel)
+        public ModelViewModel(ModelModel theModel, IWindowManager theWindowManager)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
 
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
+
             this.Model = theModel;
+            this.windowManager = theWindowManager;
             this.Variables = new BindableCollection<VariableViewModel>();
             this.Domains = new BindableCollection<DomainViewModel>();
             this.Constraints = new BindableCollection<ConstraintViewModel>();
@@ -139,8 +143,7 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Solve the model.
         /// </summary>
-        /// <param name="parentWindow">Parent window.</param>
-        public SolveResult Solve(Window parentWindow)
+        public SolveResult Solve()
         {
             var theModel = this.Model;
             var isModelValid = theModel.Validate();
@@ -148,7 +151,7 @@ namespace DynaApp.ViewModels
             {
                 Trace.Assert(theModel.Errors.Any());
 
-                this.DisplayErrorDialog(parentWindow, theModel);
+                this.DisplayErrorDialog(theModel);
                 return SolveResult.InvalidModel;
             }
 
@@ -335,19 +338,11 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Display a dialog box with a display of all of the model errors.
         /// </summary>
-        /// <param name="parentWindow">Dialog parent window.</param>
         /// <param name="theModel">Model with errors to display.</param>
-        private void DisplayErrorDialog(Window parentWindow, ModelModel theModel)
+        private void DisplayErrorDialog(ModelModel theModel)
         {
-            // TODO: Fix this horendous cludge...
-            // If parent window is null, then this is likely to being run inside a test fixture.
-            if (parentWindow == null) return;
-            var errorWindow = new ModelErrorsWindow
-            {
-                Owner = parentWindow,
-                DataContext = CreateModelErrorsFrom(theModel)
-            };
-            errorWindow.ShowDialog();
+            var errorsViewModel = CreateModelErrorsFrom(theModel);
+            this.windowManager.ShowDialog(errorsViewModel);
         }
     }
 }

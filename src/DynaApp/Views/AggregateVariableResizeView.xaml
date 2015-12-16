@@ -1,4 +1,4 @@
-﻿<Window x:Class="DynaApp.Views.AggregateVariableResizeWindow"
+﻿<Window x:Class="DynaApp.Views.AggregateVariableResizeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
@@ -6,7 +6,7 @@
         Height="142" Width="364">
     
     <Window.DataContext>
-        <viewModels:AggregateResizeViewModel />
+        <viewModels:AggregateVariableResizeViewModel />
     </Window.DataContext>
 
     <Grid Margin="15">

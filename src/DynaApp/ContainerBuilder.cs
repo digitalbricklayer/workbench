@@ -18,13 +18,12 @@ namespace DynaApp
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<IDataService, DataService>();
+            container.Singleton<ModelViewModelCache>();
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
-            container.Singleton<ModelViewModelCache>();
             container.PerRequest<WorkspaceMapper>();
             container.PerRequest<MainWindowViewModel>();
-            container.PerRequest<ModelErrorsViewModel>();
 
             return container;
         }

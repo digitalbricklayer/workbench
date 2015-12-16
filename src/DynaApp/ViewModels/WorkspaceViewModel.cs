@@ -14,7 +14,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class WorkspaceViewModel : Screen
     {
-        private readonly ObservableCollection<string> availableDisplayModes;
+        private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
         private object selectedDisplayViewModel;
         private bool isDirty;
@@ -24,14 +24,17 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Initialize a workspace view model with default values.
         /// </summary>
-        public WorkspaceViewModel(WorkspaceModel theWorkspaceModel)
+        public WorkspaceViewModel(WorkspaceModel theWorkspaceModel, IWindowManager theWindowManager)
         {
             if (theWorkspaceModel == null)
                 throw new ArgumentNullException("theWorkspaceModel");
 
-            this.availableDisplayModes = new ObservableCollection<string> {"Model"};
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
+
+            this.availableDisplayModes = new BindableCollection<string> {"Model"};
             this.WorkspaceModel = theWorkspaceModel;
-            this.model = new ModelViewModel(theWorkspaceModel.Model);
+            this.model = new ModelViewModel(theWorkspaceModel.Model, theWindowManager);
             this.solution = new SolutionViewModel(theWorkspaceModel.Solution);
             this.SelectedDisplayMode = "Model";
         }
@@ -105,7 +108,7 @@ namespace DynaApp.ViewModels
         /// Gets the available display modes. Changes depending upon 
         /// whether the model has a solution or not.
         /// </summary>
-        public ObservableCollection<string> AvailableDisplayModes
+        public IObservableCollection<string> AvailableDisplayModes
         {
             get
             {
@@ -146,9 +149,9 @@ namespace DynaApp.ViewModels
         /// <summary>
         /// Solve the constraint model.
         /// </summary>
-        public void SolveModel(Window parentWindow)
+        public void SolveModel()
         {
-            var solveResult = this.Model.Solve(parentWindow);
+            var solveResult = this.Model.Solve();
             if (!solveResult.IsSuccess) return;
             this.DisplaySolution(solveResult.Solution);
         }

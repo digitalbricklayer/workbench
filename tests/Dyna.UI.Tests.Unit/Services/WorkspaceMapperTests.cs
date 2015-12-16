@@ -1,4 +1,6 @@
-﻿using DynaApp.Services;
+﻿using Caliburn.Micro;
+using DynaApp.Services;
+using Moq;
 using NUnit.Framework;
 
 namespace Dyna.UI.Tests.Unit.Services
@@ -24,7 +26,12 @@ namespace Dyna.UI.Tests.Unit.Services
 
         private static WorkspaceMapper BuildSut()
         {
-            return new WorkspaceMapper(new ModelViewModelCache());
+            return new WorkspaceMapper(new ModelViewModelCache(), CreateWindowManager());
+        }
+
+        private static IWindowManager CreateWindowManager()
+        {
+            return new Mock<IWindowManager>().Object;
         }
     }
 }

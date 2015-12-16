@@ -6,7 +6,6 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Dyna.Core.Models;
 using DynaApp.Services;
-using DynaApp.Views;
 using Microsoft.Win32;
 
 namespace DynaApp.ViewModels
@@ -21,20 +20,24 @@ namespace DynaApp.ViewModels
         private WorkspaceViewModel workspace;
         private readonly IDataService dataService;
         private readonly IWorkspaceReaderWriter workspaceReaderWriter;
+        private readonly IWindowManager windowManager;
         private string fileName = String.Empty;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel(IDataService theDataService, IWorkspaceReaderWriter theWorkspaceReaderWriter)
+        public MainWindowViewModel(IDataService theDataService, IWorkspaceReaderWriter theWorkspaceReaderWriter, IWindowManager theWindowManager)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
             if (theWorkspaceReaderWriter == null)
                 throw new ArgumentNullException("theWorkspaceReaderWriter");
+            if (theWindowManager == null)
+                throw new ArgumentNullException("theWindowManager");
             this.dataService = theDataService;
             this.workspaceReaderWriter = theWorkspaceReaderWriter;
-            this.Workspace = new WorkspaceViewModel(new WorkspaceModel());
+            this.windowManager = theWindowManager;
+            this.Workspace = new WorkspaceViewModel(new WorkspaceModel(), this.windowManager);
             this.UpdateTitle();
             this.CreateMenuCommands();
         }
@@ -360,7 +363,7 @@ namespace DynaApp.ViewModels
         /// </summary>
         private void ModelSolveAction()
         {
-            this.Workspace.SolveModel(Application.Current.MainWindow);
+            this.Workspace.SolveModel();
             this.UpdateTitle();
         }
 
@@ -421,13 +424,8 @@ namespace DynaApp.ViewModels
             var selectedVariable = this.Workspace.Model.GetSelectedAggregateVariables();
             if (selectedVariable == null) return;
 
-            var resizeViewModel = new AggregateResizeViewModel();
-            var resizeWindow = new AggregateVariableResizeWindow
-            {
-                Owner = Application.Current.MainWindow,
-                DataContext = resizeViewModel
-            };
-            var showDialogResult = resizeWindow.ShowDialog();
+            var resizeViewModel = new AggregateVariableResizeViewModel();
+            var showDialogResult = this.windowManager.ShowDialog(resizeViewModel);
 
             if (showDialogResult.HasValue && showDialogResult.Value)
             {
