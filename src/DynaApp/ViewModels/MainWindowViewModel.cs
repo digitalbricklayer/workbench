@@ -16,7 +16,7 @@ namespace DynaApp.ViewModels
     /// </summary>
     public sealed class MainWindowViewModel : PropertyChangedBase
     {
-		private const string ProgramTitle = "Constraint Workbench";
+		private const string ProgramTitle = "Constraint Capers Workbench";
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
         private readonly IDataService dataService;
