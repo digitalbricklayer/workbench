@@ -3,19 +3,22 @@ using Dyna.Core.Models;
 using DynaApp.Services;
 using NUnit.Framework;
 
-namespace Dyna.UI.Tests.Integration.Models
+namespace Dyna.UI.Tests.Integration.Services
 {
     [TestFixture]
     public class BinaryFileWorkspaceWriterTests
     {
         [Test]
-        public void Write_A_Model_Then_Read_Back_Same_Model()
+        public void WriteWorkspaceToDiskThenReadBackContainsSameWorkspace()
         {
             var orginalWorkspaceModel = WorkspaceModelFactory.Create();
             var filePath = Path.GetTempFileName();
             WriteWorkspaceToDisk(filePath, orginalWorkspaceModel);
             var readWorkspaceModel = ReadWorkspaceModel(filePath);
             Assert.That(readWorkspaceModel, Is.Not.Null);
+            Assert.That(readWorkspaceModel.Model.Name, Is.Empty);
+            var variableX = readWorkspaceModel.Model.GetVariableByName("x");
+            Assert.That(variableX.Name, Is.EqualTo("x"));
             File.Delete(filePath);
         }
 
