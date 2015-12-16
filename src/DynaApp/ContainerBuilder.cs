@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using Dyna.Core.Models;
 using DynaApp.Services;
 using DynaApp.ViewModels;
 

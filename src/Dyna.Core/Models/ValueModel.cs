@@ -17,6 +17,11 @@ namespace Dyna.Core.Models
             this.Variable = theVariable;
         }
 
+        public ValueModel()
+        {
+            
+        }
+
         /// <summary>
         /// Gets or sets the variable that the value is bound to.
         /// </summary>

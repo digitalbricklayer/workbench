@@ -19,23 +19,19 @@ namespace DynaApp.ViewModels
         private string title = string.Empty;
         private WorkspaceViewModel workspace;
         private readonly IDataService dataService;
-        private readonly IWorkspaceReaderWriter workspaceReaderWriter;
         private readonly IWindowManager windowManager;
         private string fileName = String.Empty;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel(IDataService theDataService, IWorkspaceReaderWriter theWorkspaceReaderWriter, IWindowManager theWindowManager)
+        public MainWindowViewModel(IDataService theDataService, IWindowManager theWindowManager)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
-            if (theWorkspaceReaderWriter == null)
-                throw new ArgumentNullException("theWorkspaceReaderWriter");
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
             this.dataService = theDataService;
-            this.workspaceReaderWriter = theWorkspaceReaderWriter;
             this.windowManager = theWindowManager;
             this.Workspace = new WorkspaceViewModel(new WorkspaceModel(), this.windowManager);
             this.UpdateTitle();
@@ -294,7 +290,7 @@ namespace DynaApp.ViewModels
 
             try
             {
-                var workspaceModel = this.workspaceReaderWriter.Read(openFileDialog.FileName);
+                var workspaceModel = this.dataService.Open(openFileDialog.FileName);
                 var workspaceMapper = IoC.Get<WorkspaceMapper>();
                 this.Workspace = workspaceMapper.MapFrom(workspaceModel);
             }
@@ -483,7 +479,7 @@ namespace DynaApp.ViewModels
         {
             try
             {
-                this.workspaceReaderWriter.Write(file, this.dataService.GetWorkspace());
+                this.dataService.Save(file, this.Workspace.WorkspaceModel);
             }
             catch (Exception e)
             {

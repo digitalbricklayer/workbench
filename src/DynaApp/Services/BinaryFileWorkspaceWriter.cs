@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Dyna.Core.Models;
 
-namespace Dyna.Core.Models
+namespace DynaApp.Services
 {
     /// <summary>
     /// Workspace model writer.

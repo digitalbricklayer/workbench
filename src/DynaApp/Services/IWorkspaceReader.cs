@@ -1,4 +1,6 @@
-﻿namespace Dyna.Core.Models
+﻿using Dyna.Core.Models;
+
+namespace DynaApp.Services
 {
     public interface IWorkspaceReader
     {

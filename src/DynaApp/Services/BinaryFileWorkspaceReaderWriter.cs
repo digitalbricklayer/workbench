@@ -1,6 +1,7 @@
 ﻿using System;
+using Dyna.Core.Models;
 
-namespace Dyna.Core.Models
+namespace DynaApp.Services
 {
     /// <summary>
     /// Reads/writes the workspace to a binary file.

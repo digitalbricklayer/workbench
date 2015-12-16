@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Dyna.Core.Models;
+using DynaApp.Services;
 using NUnit.Framework;
 
 namespace Dyna.UI.Tests.Integration.Models

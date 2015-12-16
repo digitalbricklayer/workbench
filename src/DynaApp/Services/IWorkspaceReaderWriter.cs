@@ -1,4 +1,4 @@
-﻿namespace Dyna.Core.Models
+﻿namespace DynaApp.Services
 {
     /// <summary>
     /// Contract for the workspace reader/writer.

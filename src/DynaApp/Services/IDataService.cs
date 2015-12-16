@@ -5,15 +5,16 @@ namespace DynaApp.Services
     public interface IDataService
     {
         /// <summary>
-        /// Get a new workspace.
+        /// Open the file and read the contents.
         /// </summary>
-        /// <returns>A new workspace.</returns>
-        WorkspaceModel GetWorkspace();
+        /// <param name="file">Path to the file.</param>
+        WorkspaceModel Open(string file);
 
         /// <summary>
-        /// Get a model for the workspace.
+        /// Save the workspace to a file.
         /// </summary>
-        /// <returns>A new model.</returns>
-        ModelModel GetModelFor(WorkspaceModel theWorkspace);
+        /// <param name="file">Path to the file.</param>
+        /// <param name="theWorkspace">Workspace to save to disk.</param>
+        void Save(string file, WorkspaceModel theWorkspace);
     }
 }

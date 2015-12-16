@@ -1,4 +1,5 @@
-﻿using Dyna.Core.Models;
+﻿using System;
+using Dyna.Core.Models;
 
 namespace DynaApp.Services
 {
@@ -7,50 +8,36 @@ namespace DynaApp.Services
     /// </summary>
     public class DataService : IDataService
     {
-        /// <summary>
-        /// Initialize a data service with default values.
-        /// </summary>
-        public DataService()
+        private readonly IWorkspaceReaderWriter readerWriter;
+
+        public DataService(IWorkspaceReaderWriter theReaderWriter)
         {
-            this.IsModelDirty = false;
+            if (theReaderWriter == null)
+                throw new ArgumentNullException("theReaderWriter");
+            this.readerWriter = theReaderWriter;
         }
 
         /// <summary>
-        /// Gets whether the model is currently up-to-date on disk.
+        /// Open the file and read the contents.
         /// </summary>
-        public bool IsModelDirty { get; private set; }
-
-        /// <summary>
-        /// Gets the current workspace model.
-        /// </summary>
-        public WorkspaceModel CurrentWorkspace { get; private set; }
-
-        /// <summary>
-        /// Reset the data back to default state.
-        /// </summary>
-        public void Reset()
+        /// <param name="file">Path to the file.</param>
+        public WorkspaceModel Open(string file)
         {
+            if (string.IsNullOrWhiteSpace(file))
+                throw new ArgumentException("file");
+            return this.readerWriter.Read(file);
         }
 
         /// <summary>
-        /// Get a new workspace.
+        /// Save the workspace to a file.
         /// </summary>
-        /// <returns>A new workspace.</returns>
-        public WorkspaceModel GetWorkspace()
+        /// <param name="file">Path to the file.</param>
+        /// <param name="theWorkspace">Workspace to save to disk.</param>
+        public void Save(string file, WorkspaceModel theWorkspace)
         {
-            if (this.CurrentWorkspace == null)
-                this.CurrentWorkspace = new WorkspaceModel();
-
-            return this.CurrentWorkspace;
-        }
-
-        /// <summary>
-        /// Get a model for the workspace.
-        /// </summary>
-        /// <returns>A new model.</returns>
-        public ModelModel GetModelFor(WorkspaceModel theWorkspace)
-        {
-            return new ModelModel();
+            if (string.IsNullOrWhiteSpace(file))
+                throw new ArgumentException("file");
+            this.readerWriter.Write(file, theWorkspace);
         }
     }
 }

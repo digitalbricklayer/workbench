@@ -19,6 +19,11 @@ namespace Dyna.Core.Models
             this.DomainName = sharedDomainName;
         }
 
+        public SharedDomainReference()
+        {
+            
+        }
+
         /// <summary>
         /// Gets the shared domain name.
         /// </summary>

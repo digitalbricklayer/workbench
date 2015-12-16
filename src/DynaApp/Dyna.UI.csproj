@@ -96,8 +96,14 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
+    <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
+    <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
+    <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\IWorkspaceReader.cs" />
+    <Compile Include="Services\IWorkspaceReaderWriter.cs" />
+    <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
