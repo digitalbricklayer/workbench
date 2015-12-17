@@ -7,10 +7,6 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
 
-    <Window.DataContext>
-        <viewModels:ModelErrorsViewModel />
-    </Window.DataContext>
-
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close"
                         Executed="CloseCommandHandler"/>

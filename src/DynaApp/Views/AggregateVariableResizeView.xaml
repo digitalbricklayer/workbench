@@ -4,10 +4,6 @@
         xmlns:viewModels="clr-namespace:DynaApp.ViewModels"
         Title="Resize Aggregate Variable"
         Height="142" Width="364">
-    
-    <Window.DataContext>
-        <viewModels:AggregateVariableResizeViewModel />
-    </Window.DataContext>
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
