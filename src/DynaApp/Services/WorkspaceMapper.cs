@@ -8,7 +8,7 @@ namespace DynaApp.Services
     /// <summary>
     /// Maps a model into a view model.
     /// </summary>
-    internal class WorkspaceMapper
+    public class WorkspaceMapper
     {
         private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
@@ -17,7 +17,7 @@ namespace DynaApp.Services
         /// <summary>
         /// Initialize the model mapper with a model view model cache.
         /// </summary>
-        internal WorkspaceMapper(ModelViewModelCache theCache, IWindowManager theWindowManager)
+        public WorkspaceMapper(ModelViewModelCache theCache, IWindowManager theWindowManager)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");
@@ -35,7 +35,7 @@ namespace DynaApp.Services
         /// </summary>
         /// <param name="theWorkspaceModel">Workspace model.</param>
         /// <returns>Workspace view model.</returns>
-        internal WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
+        public WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
             var workspaceViewModel = new WorkspaceViewModel(theWorkspaceModel, this.windowManager);
             workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
