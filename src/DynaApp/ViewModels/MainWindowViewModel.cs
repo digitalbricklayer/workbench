@@ -20,7 +20,7 @@ namespace DynaApp.ViewModels
         private WorkspaceViewModel workspace;
         private readonly IDataService dataService;
         private readonly IWindowManager windowManager;
-        private string fileName = String.Empty;
+        private string fileName = string.Empty;
 
         /// <summary>
         /// Initialize a main windows view model with default values.
@@ -31,6 +31,7 @@ namespace DynaApp.ViewModels
                 throw new ArgumentNullException("theDataService");
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
+
             this.dataService = theDataService;
             this.windowManager = theWindowManager;
             this.Workspace = new WorkspaceViewModel(new WorkspaceModel(), this.windowManager);
@@ -293,6 +294,7 @@ namespace DynaApp.ViewModels
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
                 var workspaceMapper = IoC.Get<WorkspaceMapper>();
                 this.Workspace = workspaceMapper.MapFrom(workspaceModel);
+                this.Workspace.SelectedDisplayMode = "Model";
             }
             catch (Exception e)
             {

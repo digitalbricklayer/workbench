@@ -84,7 +84,6 @@ namespace DynaApp.ViewModels
             }
             set
             {
-                if (this.selectedDisplayMode == value) return;
                 this.selectedDisplayMode = value;
                 switch (this.selectedDisplayMode)
                 {
