@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.UI", "src\DynaApp\Dyna.UI.csproj", "{523D6D0B-595F-4C35-9F6C-C8BAAC322E2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.UI", "src\Workbench\Workbench.UI.csproj", "{523D6D0B-595F-4C35-9F6C-C8BAAC322E2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.UI.Tests.Unit", "tests\Dyna.UI.Tests.Unit\Dyna.UI.Tests.Unit.csproj", "{05262768-6951-40B3-B1E1-DB24C41ECB05}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.UI.Tests.Unit", "tests\Workbench.UI.Tests.Unit\Workbench.UI.Tests.Unit.csproj", "{05262768-6951-40B3-B1E1-DB24C41ECB05}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96D48A07-2470-4B66-8069-513ED49E58E0}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,13 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96D48A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.UI.Tests.Integration", "tests\Dyna.Core.Tests.Integration\Dyna.UI.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.UI.Tests.Integration", "tests\Workbench.Core.Tests.Integration\Workbench.UI.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dyna.UI.Wix", "installer\Dyna.UI.Wix\Dyna.UI.Wix.wixproj", "{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Workbench.UI.Wix", "installer\Workbench.UI.Wix\Workbench.UI.Wix.wixproj", "{A2337AC6-B32E-4D7E-A6D6-157415BEB0CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.Core", "src\Dyna.Core\Dyna.Core.csproj", "{BDFDA6E8-2BB7-425E-AF10-47BCD2CC3DBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.Core", "src\Workbench.Core\Workbench.Core.csproj", "{BDFDA6E8-2BB7-425E-AF10-47BCD2CC3DBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dyna.Core.Tests.Unit", "tests\Dyna.Core.Tests.Unit\Dyna.Core.Tests.Unit.csproj", "{B8A6ABDC-586B-434E-A9EE-2B922F8F6237}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.Core.Tests.Unit", "tests\Workbench.Core.Tests.Unit\Workbench.Core.Tests.Unit.csproj", "{B8A6ABDC-586B-434E-A9EE-2B922F8F6237}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
