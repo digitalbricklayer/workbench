@@ -17,14 +17,12 @@ namespace DynaApp.Services
         /// <summary>
         /// Initialize the model mapper with a model view model cache.
         /// </summary>
-        public WorkspaceMapper(ModelViewModelCache theCache, IWindowManager theWindowManager)
+        public WorkspaceMapper(IWindowManager theWindowManager)
         {
-            if (theCache == null)
-                throw new ArgumentNullException("theCache");
-
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
 
+            var theCache = new ModelViewModelCache();
             this.windowManager = theWindowManager;
             this.modelMapper = new ModelMapper(theCache, this.windowManager);
             this.solutionMapper = new SolutionMapper(theCache);

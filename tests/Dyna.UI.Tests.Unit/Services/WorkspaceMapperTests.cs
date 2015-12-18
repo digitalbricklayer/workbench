@@ -26,7 +26,7 @@ namespace Dyna.UI.Tests.Unit.Services
 
         private static WorkspaceMapper BuildSut()
         {
-            return new WorkspaceMapper(new ModelViewModelCache(), CreateWindowManager());
+            return new WorkspaceMapper(CreateWindowManager());
         }
 
         private static IWindowManager CreateWindowManager()

@@ -292,7 +292,7 @@ namespace DynaApp.ViewModels
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                var workspaceMapper = IoC.Get<WorkspaceMapper>();
+                var workspaceMapper = new WorkspaceMapper(this.windowManager);
                 this.Workspace = workspaceMapper.MapFrom(workspaceModel);
                 this.Workspace.SelectedDisplayMode = "Model";
             }
