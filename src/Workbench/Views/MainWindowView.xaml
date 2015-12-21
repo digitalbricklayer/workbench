@@ -15,9 +15,6 @@
 
             <!-- UI commands. -->
             <RoutedUICommand x:Key="Commands.DeleteSelectedGraphics" />
-            <RoutedUICommand x:Key="Commands.DeleteVariable" />
-            <RoutedUICommand x:Key="Commands.DeleteDomain" />
-            <RoutedUICommand x:Key="Commands.DeleteConstraint" />
 
             <ControlTemplate x:Key="editButtonTemplate"
                              TargetType="{x:Type Button}">
@@ -747,29 +744,10 @@
     <Window.InputBindings>
 
         <!-- Bind input to commands. -->
-        <KeyBinding
-			Key="Delete"
-			Command="{StaticResource Commands.DeleteSelectedGraphics}" />
+        <KeyBinding Key="Delete"
+			        Command="{Binding DeleteCommand}" />
 
     </Window.InputBindings>
-
-    <Window.CommandBindings>
-
-        <!-- Bind commands to event handlers. -->
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteSelectedGraphics}" 
-            Executed="DeleteSelectedGraphics_Executed" />
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteVariable}" 
-            Executed="DeleteVariable_Executed" />
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteDomain}" 
-            Executed="DeleteDomain_Executed" />
-        <CommandBinding 
-            Command="{StaticResource Commands.DeleteConstraint}" 
-            Executed="DeleteConstraint_Executed" />
-
-    </Window.CommandBindings>
 
     <Window.ContextMenu>
 
