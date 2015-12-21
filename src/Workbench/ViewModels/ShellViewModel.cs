@@ -13,7 +13,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the main window.
     /// </summary>
-    public sealed class MainWindowViewModel : PropertyChangedBase
+    public sealed class ShellViewModel : Screen, IShell
     {
 		private const string ProgramTitle = "Constraint Capers Workbench";
         private string title = string.Empty;
@@ -25,7 +25,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a main windows view model with default values.
         /// </summary>
-        public MainWindowViewModel(IDataService theDataService, IWindowManager theWindowManager)
+        public ShellViewModel(IDataService theDataService, IWindowManager theWindowManager)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");

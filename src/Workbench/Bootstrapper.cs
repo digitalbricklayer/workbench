@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
-using Workbench.ViewModels;
 
 namespace Workbench
 {
@@ -71,7 +70,7 @@ namespace Workbench
         /// <param name="e">The args.</param>
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            DisplayRootViewFor<MainWindowViewModel>();
+            DisplayRootViewFor<IShell>();
         }
     }
 }

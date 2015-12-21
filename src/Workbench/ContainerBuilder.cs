@@ -20,7 +20,7 @@ namespace Workbench
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
-            container.PerRequest<MainWindowViewModel>();
+            container.PerRequest<IShell, ShellViewModel>();
 
             return container;
         }
