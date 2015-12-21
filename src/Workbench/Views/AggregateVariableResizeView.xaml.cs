@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using Workbench.ViewModels;
+﻿using System.Windows;
 
 namespace Workbench.Views
 {
@@ -12,24 +10,6 @@ namespace Workbench.Views
         public AggregateVariableResizeView()
         {
             InitializeComponent();
-        }
-
-        private void btnDialogOk_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.variableSizeEditor.Text)) return;
-            this.ViewModel.Size = Convert.ToInt32(this.variableSizeEditor.Text);
-            this.DialogResult = true; 
-        }
-
-        /// <summary>
-        /// Gets the dialog view model.
-        /// </summary>
-        public AggregateVariableResizeViewModel ViewModel
-        {
-            get
-            {
-                return (AggregateVariableResizeViewModel)this.DataContext;
-            }
         }
     }
 }
