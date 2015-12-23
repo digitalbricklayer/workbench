@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\WorkspaceMapperTests.cs" />
-    <Compile Include="Services\WorkspaceModelFactory.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="ViewModels\ModelViewModelEmptyTests.cs" />
     <Compile Include="ViewModels\ModelViewModelTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
+    <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Workbench.Core\Workbench.Core.csproj">

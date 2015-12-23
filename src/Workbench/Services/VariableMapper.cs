@@ -26,5 +26,16 @@ namespace Workbench.Services
 
             return variableViewModel;
         }
+
+        internal AggregateVariableViewModel MapFrom(AggregateVariableModel theVariableModel)
+        {
+            Debug.Assert(theVariableModel.HasIdentity);
+
+            var variableViewModel = new AggregateVariableViewModel(theVariableModel);
+
+            this.cache.CacheVariable(variableViewModel);
+
+            return variableViewModel;
+        }
     }
 }

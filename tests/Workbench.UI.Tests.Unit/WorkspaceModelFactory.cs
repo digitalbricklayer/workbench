@@ -1,6 +1,7 @@
-﻿using Workbench.Core.Models;
+﻿using System.Windows;
+using Workbench.Core.Models;
 
-namespace Workbench.UI.Tests.Unit.Services
+namespace Workbench.UI.Tests.Unit
 {
     /// <summary>
     /// Factory for test workspace models.
@@ -36,6 +37,8 @@ namespace Workbench.UI.Tests.Unit.Services
             this.model.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");
             this.model.AddDomain(domain);
+            var y = new AggregateVariableModel("y", new Point(1, 1), 1, new VariableDomainExpressionModel("z"));
+            this.model.AddVariable(y);
 
             return this.model;
         }

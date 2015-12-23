@@ -2,6 +2,9 @@ using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
+    /// <summary>
+    /// Contract for the data service.
+    /// </summary>
     public interface IDataService
     {
         /// <summary>

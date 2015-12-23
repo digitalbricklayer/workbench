@@ -48,6 +48,12 @@ namespace Workbench.Services
                 modelViewModel.FixupSingletonVariable(variableViewModel);
             }
 
+            foreach (var aggregateModel in theModelModel.Aggregates)
+            {
+                var variableViewModel = this.variableMapper.MapFrom(aggregateModel);
+                modelViewModel.FixupAggregateVariable(variableViewModel);
+            }
+
             return modelViewModel;
         }
     }

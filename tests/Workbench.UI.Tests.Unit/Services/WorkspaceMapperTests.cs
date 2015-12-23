@@ -9,11 +9,27 @@ namespace Workbench.UI.Tests.Unit.Services
     public class WorkspaceMapperTests
     {
         [Test]
-        public void MapFrom_With_Valid_Model_Returns_Expected_View_Model()
+        public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
         {
             var sut = BuildSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel, Is.Not.Null);
+            Assert.That(actualWorkspaceModel.Model.Variables.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void MapFrom_With_Valid_Model_Returns_Expected_Domains()
+        {
+            var sut = BuildSut();
+            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceModel.Model.Domains.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void MapFrom_With_Valid_Model_Returns_Expected_Constraints()
+        {
+            var sut = BuildSut();
+            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceModel.Model.Constraints.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -31,7 +47,7 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private static IWindowManager CreateWindowManager()
         {
-            return new Mock<IWindowManager>().Object;
+            return Mock.Of<IWindowManager>();
         }
     }
 }
