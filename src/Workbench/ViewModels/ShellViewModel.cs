@@ -23,8 +23,10 @@ namespace Workbench.ViewModels
         private string fileName = string.Empty;
 
         /// <summary>
-        /// Initialize a main windows view model with default values.
+        /// Initialize a shell view model with a data service and window manager.
         /// </summary>
+        /// <param name="theDataService">Data service.</param>
+        /// <param name="theWindowManager">Window manager.</param>
         public ShellViewModel(IDataService theDataService, IWindowManager theWindowManager)
         {
             if (theDataService == null)
@@ -49,78 +51,6 @@ namespace Workbench.ViewModels
             {
                 this.workspace = value;
                 NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "File|New" menu item can be executed.
-        /// </summary>
-        public bool CanFileNewExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "File|Save As" menu item can be executed.
-        /// </summary>
-        public bool CanFileSaveAsExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "File|Save" menu item can be executed.
-        /// </summary>
-        public bool CanFileSaveExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "File|Open" menu item can be executed.
-        /// </summary>
-        public bool CanFileOpenExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "Model|Solve" menu item can be executed.
-        /// </summary>
-        public bool CanModelSolveExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "Model|Add Constraint" menu item can be executed.
-        /// </summary>
-        public bool CanAddConstraintExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
             }
         }
 
@@ -537,15 +467,15 @@ namespace Workbench.ViewModels
         /// </summary>
         private void CreateMenuCommands()
         {
-            this.NewCommand = new CommandHandler(FileNewAction, _ => CanFileNewExecute);
-            this.OpenCommand = new CommandHandler(FileOpenAction, _ => CanFileOpenExecute);
-            this.SaveCommand = new CommandHandler(FileSaveAction, _ => CanFileSaveExecute);
-            this.SaveAsCommand = new CommandHandler(FileSaveAsAction, _ => CanFileSaveAsExecute);
+            this.NewCommand = new CommandHandler(FileNewAction);
+            this.OpenCommand = new CommandHandler(FileOpenAction);
+            this.SaveCommand = new CommandHandler(FileSaveAction);
+            this.SaveAsCommand = new CommandHandler(FileSaveAsAction);
             this.ExitCommand = new CommandHandler(FileExitAction);
-            this.SolveCommand = new CommandHandler(ModelSolveAction, _ => CanModelSolveExecute);
+            this.SolveCommand = new CommandHandler(ModelSolveAction);
             this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, _ => CanAddSingletonVariableExecute);
             this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, _ => CanAddAggregateVariableExecute);
-            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction, _ => CanAddConstraintExecute);
+            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction);
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, _ => CanAddDomainExecute);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
