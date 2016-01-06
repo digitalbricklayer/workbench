@@ -33,8 +33,8 @@ namespace Workbench.Core.Tests.Unit.Models
         private static ModelModel MakeModelWithMissingVariable()
         {
             return ModelModel.Create("An invalid model")
-                             .AddVariable("x", "1..9")
-                             .AddVariable("y", "1..9")
+                             .AddSingleton("x", "1..9")
+                             .AddSingleton("y", "1..9")
                              .WithConstraint("x > z")
                              .Build();
         }
@@ -43,8 +43,8 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             return ModelModel.Create("An model missing shared domain")
                              .WithSharedDomain("a", "1..10")
-                             .AddVariable("x", "b")
-                             .AddVariable("y", "1..9")
+                             .AddSingleton("x", "b")
+                             .AddSingleton("y", "1..9")
                              .WithConstraint("x > y")
                              .Build();
         }

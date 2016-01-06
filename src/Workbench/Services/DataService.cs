@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
@@ -9,6 +10,7 @@ namespace Workbench.Services
     public class DataService : IDataService
     {
         private readonly IWorkspaceReaderWriter readerWriter;
+        private WorkspaceModel currentWorkspace;
 
         public DataService(IWorkspaceReaderWriter theReaderWriter)
         {
@@ -25,19 +27,32 @@ namespace Workbench.Services
         {
             if (string.IsNullOrWhiteSpace(file))
                 throw new ArgumentException("file");
-            return this.readerWriter.Read(file);
+            this.currentWorkspace = this.readerWriter.Read(file);
+
+            return this.currentWorkspace;
         }
 
         /// <summary>
-        /// Save the workspace to a file.
+        /// Save the current workspace to a file.
         /// </summary>
         /// <param name="file">Path to the file.</param>
-        /// <param name="theWorkspace">Workspace to save to disk.</param>
-        public void Save(string file, WorkspaceModel theWorkspace)
+        public void Save(string file)
         {
             if (string.IsNullOrWhiteSpace(file))
                 throw new ArgumentException("file");
-            this.readerWriter.Write(file, theWorkspace);
+            Debug.Assert(this.currentWorkspace != null);
+            this.readerWriter.Write(file, this.currentWorkspace);
+        }
+
+        /// <summary>
+        /// Get the current workspace.
+        /// </summary>
+        /// <returns>Current workspace.</returns>
+        public WorkspaceModel GetWorkspace()
+        {
+            if (this.currentWorkspace != null)
+                return this.currentWorkspace;
+            return new WorkspaceModel();
         }
     }
 }

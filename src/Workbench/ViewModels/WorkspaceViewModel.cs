@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Messages;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
@@ -19,22 +21,29 @@ namespace Workbench.ViewModels
         private bool isDirty;
         private SolutionViewModel solution;
         private ModelViewModel model;
+        private readonly IEventAggregator eventAggregator;
 
         /// <summary>
         /// Initialize a workspace view model with default values.
         /// </summary>
-        public WorkspaceViewModel(WorkspaceModel theWorkspaceModel, IWindowManager theWindowManager)
+        public WorkspaceViewModel(IDataService theDataService,
+                                  IWindowManager theWindowManager,
+                                  IEventAggregator theEventAggregator)
         {
-            if (theWorkspaceModel == null)
-                throw new ArgumentNullException("theWorkspaceModel");
+            if (theDataService == null)
+                throw new ArgumentNullException("theDataService");
 
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
 
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
+            this.eventAggregator = theEventAggregator;
             this.availableDisplayModes = new BindableCollection<string> {"Model"};
-            this.WorkspaceModel = theWorkspaceModel;
-            this.model = new ModelViewModel(theWorkspaceModel.Model, theWindowManager);
-            this.solution = new SolutionViewModel(theWorkspaceModel.Solution);
+            this.WorkspaceModel = theDataService.GetWorkspace();
+            this.model = new ModelViewModel(this.WorkspaceModel.Model, theWindowManager);
+            this.solution = new SolutionViewModel(this.WorkspaceModel.Solution);
             this.SelectedDisplayMode = "Model";
         }
 
@@ -152,6 +161,7 @@ namespace Workbench.ViewModels
             var solveResult = this.Model.Solve();
             if (!solveResult.IsSuccess) return;
             this.DisplaySolution(solveResult.Solution);
+            this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
         }
 
         /// <summary>

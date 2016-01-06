@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
             this.model = theModel;
         }
 
-        public ModelContext AddVariable(string theVariableName, string theDomainExpression)
+        public ModelContext AddSingleton(string theVariableName, string theDomainExpression)
         {
             var newVariable = new VariableModel(theVariableName, theDomainExpression);
             this.model.AddVariable(newVariable);

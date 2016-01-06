@@ -115,7 +115,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Name of the variable to find.</param>
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
-        public ValueModel GetSingletonVariableByName(string theVariableName)
+        public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
             return this.SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
@@ -125,7 +125,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Aggregate value.</param>
         /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
-        public AggregateValueModel GetAggregateVariableByName(string theVariableName)
+        public AggregateValueModel GetAggregateVariableValueByName(string theVariableName)
         {
             return this.AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }

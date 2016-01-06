@@ -16,64 +16,64 @@ namespace Workbench.Views
     /// <summary>
     /// Model view graphically displays the model.
     /// </summary>
-    public class ModelView : Control
+    public class GraphicView : Control
     {
         #region Dependency Property/Event Definitions
 
         private static readonly DependencyPropertyKey GraphicsPropertyKey =
-            DependencyProperty.RegisterReadOnly("Graphics", typeof(ObservableCollection<object>), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("Graphics", typeof(ObservableCollection<object>), typeof(GraphicView),
                 new FrameworkPropertyMetadata());
         public static readonly DependencyProperty GraphicsProperty = GraphicsPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty GraphicsSourceProperty =
-            DependencyProperty.Register("GraphicsSource", typeof(IEnumerable), typeof(ModelView),
+            DependencyProperty.Register("GraphicsSource", typeof(IEnumerable), typeof(GraphicView),
                 new FrameworkPropertyMetadata(GraphicsSource_PropertyChanged));
 
         public static readonly DependencyProperty IsClearSelectionOnEmptySpaceClickEnabledProperty =
-            DependencyProperty.Register("IsClearSelectionOnEmptySpaceClickEnabled", typeof(bool), typeof(ModelView),
+            DependencyProperty.Register("IsClearSelectionOnEmptySpaceClickEnabled", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(true));
 
         public static readonly DependencyProperty EnableGraphicDraggingProperty =
-            DependencyProperty.Register("EnableGraphicDragging", typeof(bool), typeof(ModelView),
+            DependencyProperty.Register("EnableGraphicDragging", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(true));
 
         private static readonly DependencyPropertyKey IsDraggingGraphicPropertyKey =
-            DependencyProperty.RegisterReadOnly("IsDraggingGraphic", typeof(bool), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("IsDraggingGraphic", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(false));
         public static readonly DependencyProperty IsDraggingGraphicProperty = IsDraggingGraphicPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey IsNotDraggingGraphicPropertyKey =
-            DependencyProperty.RegisterReadOnly("IsNotDraggingGraphic", typeof(bool), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("IsNotDraggingGraphic", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(true));
         public static readonly DependencyProperty IsNotDraggingGraphicProperty = IsDraggingGraphicPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey IsDraggingPropertyKey =
-            DependencyProperty.RegisterReadOnly("IsDragging", typeof(bool), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("IsDragging", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(false));
         public static readonly DependencyProperty IsDraggingProperty = IsDraggingPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey IsNotDraggingPropertyKey =
-            DependencyProperty.RegisterReadOnly("IsNotDragging", typeof(bool), typeof(ModelView),
+            DependencyProperty.RegisterReadOnly("IsNotDragging", typeof(bool), typeof(GraphicView),
                 new FrameworkPropertyMetadata(true));
         public static readonly DependencyProperty IsNotDraggingProperty = IsNotDraggingPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty GraphicItemTemplateProperty =
-            DependencyProperty.Register("GraphicItemTemplate", typeof(DataTemplate), typeof(ModelView));
+            DependencyProperty.Register("GraphicItemTemplate", typeof(DataTemplate), typeof(GraphicView));
 
         public static readonly DependencyProperty GraphicItemTemplateSelectorProperty =
-            DependencyProperty.Register("GraphicItemTemplateSelector", typeof(DataTemplateSelector), typeof(ModelView));
+            DependencyProperty.Register("GraphicItemTemplateSelector", typeof(DataTemplateSelector), typeof(GraphicView));
 
         public static readonly DependencyProperty GraphicItemContainerStyleProperty =
-            DependencyProperty.Register("GraphicItemContainerStyle", typeof(Style), typeof(ModelView));
+            DependencyProperty.Register("GraphicItemContainerStyle", typeof(Style), typeof(GraphicView));
 
         public static readonly RoutedEvent GraphicDragStartedEvent =
-            EventManager.RegisterRoutedEvent("GraphicDragStarted", RoutingStrategy.Bubble, typeof(GraphicDragStartedEventHandler), typeof(ModelView));
+            EventManager.RegisterRoutedEvent("GraphicDragStarted", RoutingStrategy.Bubble, typeof(GraphicDragStartedEventHandler), typeof(GraphicView));
 
         public static readonly RoutedEvent GraphicDraggingEvent =
-            EventManager.RegisterRoutedEvent("GraphicDragging", RoutingStrategy.Bubble, typeof(GraphicDraggingEventHandler), typeof(ModelView));
+            EventManager.RegisterRoutedEvent("GraphicDragging", RoutingStrategy.Bubble, typeof(GraphicDraggingEventHandler), typeof(GraphicView));
 
         public static readonly RoutedEvent GraphicDragCompletedEvent =
-            EventManager.RegisterRoutedEvent("GraphicDragCompleted", RoutingStrategy.Bubble, typeof(GraphicDragCompletedEventHandler), typeof(ModelView));
+            EventManager.RegisterRoutedEvent("GraphicDragCompleted", RoutingStrategy.Bubble, typeof(GraphicDragCompletedEventHandler), typeof(GraphicView));
 
         public static readonly RoutedCommand SelectAllCommand;
         public static readonly RoutedCommand SelectNoneCommand;
@@ -126,7 +126,7 @@ namespace Workbench.Views
         /// </summary>
         private const double DragThreshold = 5;
 
-        public ModelView()
+        public GraphicView()
         {
             //
             // Create a collection to contain domains.
@@ -149,36 +149,36 @@ namespace Workbench.Views
         /// <summary>
         /// Static constructor.
         /// </summary>
-        static ModelView()
+        static GraphicView()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ModelView), new FrameworkPropertyMetadata(typeof(ModelView)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GraphicView), new FrameworkPropertyMetadata(typeof(GraphicView)));
 
             InputGestureCollection inputs = new InputGestureCollection();
             inputs.Add(new KeyGesture(Key.A, ModifierKeys.Control));
-            SelectAllCommand = new RoutedCommand("SelectAll", typeof(ModelView), inputs);
+            SelectAllCommand = new RoutedCommand("SelectAll", typeof(GraphicView), inputs);
 
             inputs = new InputGestureCollection();
             inputs.Add(new KeyGesture(Key.Escape));
-            SelectNoneCommand = new RoutedCommand("SelectNone", typeof(ModelView), inputs);
+            SelectNoneCommand = new RoutedCommand("SelectNone", typeof(GraphicView), inputs);
 
             inputs = new InputGestureCollection();
             inputs.Add(new KeyGesture(Key.I, ModifierKeys.Control));
-            InvertSelectionCommand = new RoutedCommand("InvertSelection", typeof(ModelView), inputs);
+            InvertSelectionCommand = new RoutedCommand("InvertSelection", typeof(GraphicView), inputs);
 
             CommandBinding binding = new CommandBinding();
             binding.Command = SelectAllCommand;
             binding.Executed += new ExecutedRoutedEventHandler(SelectAll_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
 
             binding = new CommandBinding();
             binding.Command = SelectNoneCommand;
             binding.Executed += new ExecutedRoutedEventHandler(SelectNone_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
 
             binding = new CommandBinding();
             binding.Command = InvertSelectionCommand;
             binding.Executed += new ExecutedRoutedEventHandler(InvertSelection_Executed);
-            CommandManager.RegisterClassCommandBinding(typeof(ModelView), binding);
+            CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
         }
 
         /// <summary>
@@ -557,7 +557,7 @@ namespace Workbench.Views
         /// </summary>
         private static void SelectAll_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ModelView c = (ModelView)sender;
+            GraphicView c = (GraphicView)sender;
             c.SelectAll();
         }
 
@@ -566,7 +566,7 @@ namespace Workbench.Views
         /// </summary>
         private static void SelectNone_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ModelView c = (ModelView)sender;
+            GraphicView c = (GraphicView)sender;
             c.SelectNone();
         }
 
@@ -575,7 +575,7 @@ namespace Workbench.Views
         /// </summary>
         private static void InvertSelection_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ModelView c = (ModelView)sender;
+            GraphicView c = (GraphicView)sender;
             c.InvertSelection();
         }
 
@@ -630,7 +630,7 @@ namespace Workbench.Views
         /// </summary>
         private static void GraphicsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ModelView c = (ModelView)d;
+            GraphicView c = (GraphicView)d;
 
             //
             // Clear variables.

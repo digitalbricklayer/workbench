@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution.
     /// </summary>
-    public sealed class SolutionViewModel : PropertyChangedBase
+    public sealed class SolutionViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
         /// <summary>
         /// Initialize the solution with a solution model.

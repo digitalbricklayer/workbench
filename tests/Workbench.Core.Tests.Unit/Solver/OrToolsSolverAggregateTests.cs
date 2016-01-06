@@ -21,7 +21,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             var sut = new OrToolsSolver();
             var actualResult = sut.Solve(MakeModel());
             var actualSolution = actualResult.Solution;
-            var c = actualSolution.GetAggregateVariableByName("c");
+            var c = actualSolution.GetAggregateVariableValueByName("c");
             Assert.That(c.GetValueAt(1), Is.LessThan(c.GetValueAt(10)));
             Assert.That(c.GetValueAt(2), Is.GreaterThan(c.GetValueAt(9)));
         }
@@ -32,7 +32,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             var sut = new OrToolsSolver();
             var actualResult = sut.Solve(MakeModel());
             var actualSolution = actualResult.Solution;
-            var c = actualSolution.GetAggregateVariableByName("c");
+            var c = actualSolution.GetAggregateVariableValueByName("c");
             Assert.That(c.Values, Has.Count.EqualTo(10));
         }
 
@@ -42,7 +42,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             var sut = new OrToolsSolver();
             var actualResult = sut.Solve(MakeModel());
             var actualSolution = actualResult.Solution;
-            var c = actualSolution.GetAggregateVariableByName("c");
+            var c = actualSolution.GetAggregateVariableValueByName("c");
             Assert.That(c.GetValueAt(1), Is.InRange(1, 9));
         }
 

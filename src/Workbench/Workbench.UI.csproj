@@ -97,14 +97,17 @@
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Messages\ModelSolvedMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IDataService.cs" />
+    <Compile Include="Services\IViewModelFactory.cs" />
     <Compile Include="Services\IWorkspaceReader.cs" />
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
+    <Compile Include="Services\ViewModelFactory.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -142,7 +145,7 @@
     <Compile Include="Views\ModelErrorsView.xaml.cs">
       <DependentUpon>ModelErrorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModelView.cs" />
+    <Compile Include="Views\GraphicView.cs" />
     <Compile Include="WpfUtils.cs" />
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -18,8 +18,8 @@
         
         <!-- Data-bind the parent ModelView. -->
         <Setter
-            Property="ParentModelView"
-            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ModelView}}, Path=.}"/>
+            Property="ParentGraphicView"
+            Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicView}}, Path=.}"/>
         
         <!-- Set the position of the variable within the canvas. -->
         <Setter
@@ -123,12 +123,12 @@
     </Style>
 
     <!-- Default style and visual template for 'NetworkView'. -->
-    <Style TargetType="{x:Type local:ModelView}">
+    <Style TargetType="{x:Type local:GraphicView}">
         
         <!-- The visual template. -->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ModelView}">
+                <ControlTemplate TargetType="{x:Type local:GraphicView}">
                     <Border 
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"

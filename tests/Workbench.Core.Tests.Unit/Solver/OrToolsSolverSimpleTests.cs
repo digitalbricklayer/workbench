@@ -31,8 +31,8 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableByName("x");
-            var y = actualSolution.GetSingletonVariableByName("y");
+            var x = actualSolution.GetSingletonVariableValueByName("x");
+            var y = actualSolution.GetSingletonVariableValueByName("y");
             Assert.That(x.Value, Is.Not.EqualTo(y.Value));
         }
 
@@ -47,8 +47,8 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableByName("x");
-            var y = actualSolution.GetSingletonVariableByName("y");
+            var x = actualSolution.GetSingletonVariableValueByName("x");
+            var y = actualSolution.GetSingletonVariableValueByName("y");
             Assert.That(x.Value, Is.InRange(1, 9));
             Assert.That(y.Value, Is.InRange(1, 9));
         }
@@ -57,9 +57,9 @@ namespace Workbench.Core.Tests.Unit.Solver
         {
             return ModelModel.Create("A test")
                              .WithSharedDomain("a", "1..9")
-                             .AddVariable("x", "a")
-                             .AddVariable("y", "a")
-                             .AddVariable("z", "a")
+                             .AddSingleton("x", "a")
+                             .AddSingleton("y", "a")
+                             .AddSingleton("z", "a")
                              .WithConstraint("x != y")
                              .WithConstraint("x <= y")
                              .WithConstraint("y = z")

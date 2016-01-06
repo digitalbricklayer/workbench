@@ -6,7 +6,7 @@ namespace Workbench.Core.Models
     /// A value bound to a variable.
     /// </summary>
     [Serializable]
-    public class ValueModel : AbstractModel
+    public class ValueModel : GraphicModel
     {
         /// <summary>
         /// Initialize the value with a variable.

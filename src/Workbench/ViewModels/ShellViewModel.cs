@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using Workbench.Core.Models;
 using Microsoft.Win32;
 using Workbench.Services;
 
@@ -36,7 +35,7 @@ namespace Workbench.ViewModels
 
             this.dataService = theDataService;
             this.windowManager = theWindowManager;
-            this.Workspace = new WorkspaceViewModel(new WorkspaceModel(), this.windowManager);
+            this.Workspace = IoC.Get<WorkspaceViewModel>();
             this.UpdateTitle();
             this.CreateMenuCommands();
         }
@@ -222,7 +221,7 @@ namespace Workbench.ViewModels
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                var workspaceMapper = new WorkspaceMapper(this.windowManager);
+                var workspaceMapper = new WorkspaceMapper(this.windowManager, null);
                 this.Workspace = workspaceMapper.MapFrom(workspaceModel);
                 this.Workspace.SelectedDisplayMode = "Model";
             }
@@ -411,7 +410,7 @@ namespace Workbench.ViewModels
         {
             try
             {
-                this.dataService.Save(file, this.Workspace.WorkspaceModel);
+                this.dataService.Save(file);
             }
             catch (Exception e)
             {

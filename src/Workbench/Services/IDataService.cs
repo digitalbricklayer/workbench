@@ -17,7 +17,12 @@ namespace Workbench.Services
         /// Save the workspace to a file.
         /// </summary>
         /// <param name="file">Path to the file.</param>
-        /// <param name="theWorkspace">Workspace to save to disk.</param>
-        void Save(string file, WorkspaceModel theWorkspace);
+        void Save(string file);
+
+        /// <summary>
+        /// Get the current workspace.
+        /// </summary>
+        /// <returns>Current workspace.</returns>
+        WorkspaceModel GetWorkspace();
     }
 }

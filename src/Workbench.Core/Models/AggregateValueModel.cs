@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace Workbench.Core.Models
 {
+    /// <summary>
+    /// Value(s) bound to an aggregate variable.
+    /// </summary>
     [Serializable]
-    public class AggregateValueModel
+    public class AggregateValueModel : GraphicModel
     {
         private readonly List<int> values;
 
@@ -20,6 +23,9 @@ namespace Workbench.Core.Models
             this.values = new List<int>(theValues);
         }
 
+        /// <summary>
+        /// Initialize an aggregate value with default values.
+        /// </summary>
         public AggregateValueModel()
         {
             this.values = new List<int>();

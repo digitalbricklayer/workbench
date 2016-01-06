@@ -4,6 +4,9 @@ using Workbench.ViewModels;
 
 namespace Workbench
 {
+    /// <summary>
+    /// Application container builder.
+    /// </summary>
     internal static class ContainerBuilder
     {
         /// <summary>
@@ -17,10 +20,12 @@ namespace Workbench
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<IDataService, DataService>();
+            container.PerRequest<IViewModelFactory, ViewModelFactory>();
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
             container.PerRequest<IShell, ShellViewModel>();
+            container.PerRequest<WorkspaceViewModel>();
 
             return container;
         }

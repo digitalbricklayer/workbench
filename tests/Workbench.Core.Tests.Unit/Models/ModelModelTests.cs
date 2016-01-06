@@ -25,8 +25,8 @@ namespace Workbench.Core.Tests.Unit.Models
         private static ModelModel MakeValidModel()
         {
             return ModelModel.Create("A valid model")
-                             .AddVariable("x", "1..9")
-                             .AddVariable("y", "1..9")
+                             .AddSingleton("x", "1..9")
+                             .AddSingleton("y", "1..9")
                              .WithConstraint("x > y")
                              .Build();
         }

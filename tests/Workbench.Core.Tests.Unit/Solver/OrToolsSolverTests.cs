@@ -31,9 +31,11 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableByName("x");
-            var y = actualSolution.GetSingletonVariableByName("y");
+            var x = actualSolution.GetSingletonVariableValueByName("x");
+            var y = actualSolution.GetSingletonVariableValueByName("y");
+            var z = actualSolution.GetAggregateVariableValueByName("z");
             Assert.That(x.Value, Is.Not.EqualTo(y.Value));
+            Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
         }
 
         [Test]
@@ -47,8 +49,8 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableByName("x");
-            var y = actualSolution.GetSingletonVariableByName("y");
+            var x = actualSolution.GetSingletonVariableValueByName("x");
+            var y = actualSolution.GetSingletonVariableValueByName("y");
             Assert.That(x.Value, Is.InRange(1, 9));
             Assert.That(y.Value, Is.InRange(1, 9));
         }
@@ -56,11 +58,11 @@ namespace Workbench.Core.Tests.Unit.Solver
         private static ModelModel MakeModel()
         {
             return ModelModel.Create("A test")
-                             .AddVariable("x", "1..9")
-                             .AddVariable("y", "1..9")
-                             .AddVariable("z", "1..9")
+                             .AddSingleton("x", "1..9")
+                             .AddSingleton("y", "1..9")
+                             .AddAggregate("z", 1, "1..9")
                              .WithConstraint("x < y")
-                             .WithConstraint("y > z")
+                             .WithConstraint("y > z[1]")
                              .Build();
         }
     }

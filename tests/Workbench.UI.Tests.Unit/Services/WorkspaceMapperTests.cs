@@ -2,6 +2,8 @@
 using Workbench.Services;
 using Moq;
 using NUnit.Framework;
+using Workbench.Core.Models;
+using Workbench.ViewModels;
 
 namespace Workbench.UI.Tests.Unit.Services
 {
@@ -42,7 +44,29 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private static WorkspaceMapper BuildSut()
         {
-            return new WorkspaceMapper(CreateWindowManager());
+            return new WorkspaceMapper(CreateWindowManager(), CreateViewModelFactory());
+        }
+
+        private static IViewModelFactory CreateViewModelFactory()
+        {
+            var mock = new Mock<IViewModelFactory>();
+            mock.Setup(_ => _.CreateWorkspace())
+                .Returns(CreateNewWorkspace());
+            return mock.Object;
+        }
+
+        private static WorkspaceViewModel CreateNewWorkspace()
+        {
+            return new WorkspaceViewModel(CreateDataService(),
+                                          CreateWindowManager(),
+                                          Mock.Of<IEventAggregator>());
+        }
+
+        private static IDataService CreateDataService()
+        {
+            var mock = new Mock<IDataService>();
+            mock.Setup(_ => _.GetWorkspace()).Returns(new WorkspaceModel());
+            return mock.Object;
         }
 
         private static IWindowManager CreateWindowManager()
