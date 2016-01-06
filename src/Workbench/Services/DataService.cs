@@ -12,11 +12,16 @@ namespace Workbench.Services
         private readonly IWorkspaceReaderWriter readerWriter;
         private WorkspaceModel currentWorkspace;
 
+        /// <summary>
+        /// Initialize a new data service with a workspace reader/writer.
+        /// </summary>
+        /// <param name="theReaderWriter">Persistence reader/writer.</param>
         public DataService(IWorkspaceReaderWriter theReaderWriter)
         {
             if (theReaderWriter == null)
                 throw new ArgumentNullException("theReaderWriter");
             this.readerWriter = theReaderWriter;
+            this.currentWorkspace = this.GetWorkspace();
         }
 
         /// <summary>

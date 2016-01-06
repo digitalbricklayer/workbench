@@ -21,6 +21,7 @@ namespace Workbench
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<IDataService, DataService>();
             container.PerRequest<IViewModelFactory, ViewModelFactory>();
+            container.PerRequest<WorkspaceMapper>();
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();

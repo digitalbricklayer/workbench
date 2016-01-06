@@ -20,21 +20,28 @@ namespace Workbench.ViewModels
         private readonly IDataService dataService;
         private readonly IWindowManager windowManager;
         private string fileName = string.Empty;
+        private readonly WorkspaceMapper workspaceMapper;
 
         /// <summary>
         /// Initialize a shell view model with a data service and window manager.
         /// </summary>
         /// <param name="theDataService">Data service.</param>
         /// <param name="theWindowManager">Window manager.</param>
-        public ShellViewModel(IDataService theDataService, IWindowManager theWindowManager)
+        /// <param name="theWorkspaceMapper"></param>
+        public ShellViewModel(IDataService theDataService,
+                              IWindowManager theWindowManager,
+                              WorkspaceMapper theWorkspaceMapper)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
+            if (theWorkspaceMapper == null)
+                throw new ArgumentNullException("theWorkspaceMapper");
 
             this.dataService = theDataService;
             this.windowManager = theWindowManager;
+            this.workspaceMapper = theWorkspaceMapper;
             this.Workspace = IoC.Get<WorkspaceViewModel>();
             this.UpdateTitle();
             this.CreateMenuCommands();
@@ -221,8 +228,7 @@ namespace Workbench.ViewModels
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                var workspaceMapper = new WorkspaceMapper(this.windowManager, null);
-                this.Workspace = workspaceMapper.MapFrom(workspaceModel);
+                this.Workspace = this.workspaceMapper.MapFrom(workspaceModel);
                 this.Workspace.SelectedDisplayMode = "Model";
             }
             catch (Exception e)
