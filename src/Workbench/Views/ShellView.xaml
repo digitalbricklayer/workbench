@@ -2,7 +2,7 @@
         x:Name="mainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{Binding Path=Title}"
+        Title="{Binding Path=TitleBar.Title}"
         Height="800" Width="500"
         FocusManager.FocusedElement="{Binding ElementName=modelControl}"
         xmlns:views="clr-namespace:Workbench.Views"

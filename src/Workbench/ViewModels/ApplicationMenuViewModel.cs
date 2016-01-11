@@ -17,11 +17,13 @@ namespace Workbench.ViewModels
         private readonly WorkspaceMapper workspaceMapper;
         private readonly IWindowManager windowManager;
         private readonly IAppRuntime appRuntime;
+        private readonly TitleBarViewModel titleBar;
 
         public ApplicationMenuViewModel(IDataService theDataService,
                                         WorkspaceMapper theWorkspaceMapper,
                                         IWindowManager theWindowManager,
-                                        IAppRuntime theAppRuntime)
+                                        IAppRuntime theAppRuntime,
+                                        TitleBarViewModel theTitleBarViewModel)
         {
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
@@ -36,6 +38,7 @@ namespace Workbench.ViewModels
             this.workspaceMapper = theWorkspaceMapper;
             this.windowManager = theWindowManager;
             this.appRuntime = theAppRuntime;
+            this.titleBar = theTitleBarViewModel;
             this.CreateMenuCommands();
         }
 
@@ -185,7 +188,7 @@ namespace Workbench.ViewModels
             if (!PromptToSave()) return;
             this.Workspace.Reset();
             this.Workspace.IsDirty = false;
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -224,7 +227,7 @@ namespace Workbench.ViewModels
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
             this.Workspace.IsDirty = false;
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -283,7 +286,7 @@ namespace Workbench.ViewModels
         private void ModelSolveAction()
         {
             this.Workspace.SolveModel();
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -293,7 +296,7 @@ namespace Workbench.ViewModels
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.Workspace.AddSingletonVariable("New Variable", newVariableLocation);
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -303,7 +306,7 @@ namespace Workbench.ViewModels
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.Workspace.AddAggregateVariable("New Variable", newVariableLocation);
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -313,7 +316,7 @@ namespace Workbench.ViewModels
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.Workspace.AddConstraint("New Constraint", newConstraintLocation);
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -323,7 +326,7 @@ namespace Workbench.ViewModels
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.Workspace.AddDomain("New Domain", newDomainLocation);
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -332,7 +335,7 @@ namespace Workbench.ViewModels
         private void ModelDeleteAction()
         {
             this.Workspace.DeleteSelectedGraphics();
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -412,7 +415,7 @@ namespace Workbench.ViewModels
 
             this.appRuntime.CurrentFileName = file;
             this.Workspace.IsDirty = false;
-            this.Shell.UpdateTitle();
+            this.titleBar.UpdateTitle();
 
             return true;
         }

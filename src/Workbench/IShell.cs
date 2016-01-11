@@ -8,10 +8,5 @@ namespace Workbench
         /// Gets or sets the workspace view model.
         /// </summary>
         WorkspaceViewModel Workspace { get; set; }
-
-        /// <summary>
-        /// Update the application title.
-        /// </summary>
-        void UpdateTitle();
     }
 }

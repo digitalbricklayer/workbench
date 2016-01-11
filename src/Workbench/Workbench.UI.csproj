@@ -111,6 +111,7 @@
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
+    <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
@@ -9,10 +8,10 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Screen, IShell
     {
-        private string title = string.Empty;
         private WorkspaceViewModel workspace;
         private ApplicationMenuViewModel applicationMenu;
         private readonly IAppRuntime appRuntime;
+        private TitleBarViewModel titleBar;
 
         /// <summary>
         /// Initialize a shell view model with a data service and window manager.
@@ -20,7 +19,11 @@ namespace Workbench.ViewModels
         /// <param name="theAppRuntime">Application runtime.</param>
         /// <param name="theWorkspaceViewModel">Workspace view model.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
-        public ShellViewModel(IAppRuntime theAppRuntime, WorkspaceViewModel theWorkspaceViewModel, ApplicationMenuViewModel theApplicationMenuViewModel)
+        /// <param name="theTitleBarViewModel">Title bar view model.</param>
+        public ShellViewModel(IAppRuntime theAppRuntime,
+                              WorkspaceViewModel theWorkspaceViewModel,
+                              ApplicationMenuViewModel theApplicationMenuViewModel,
+                              TitleBarViewModel theTitleBarViewModel)
         {
             if (theAppRuntime == null)
                 throw new ArgumentNullException("theAppRuntime");
@@ -28,12 +31,15 @@ namespace Workbench.ViewModels
                 throw new ArgumentNullException("theWorkspaceViewModel");
             if (theApplicationMenuViewModel == null)
                 throw new ArgumentNullException("theApplicationMenuViewModel");
+            if (theTitleBarViewModel == null)
+                throw new ArgumentNullException("theTitleBarViewModel");
 
             this.appRuntime = theAppRuntime;
             this.Workspace = theWorkspaceViewModel;
             this.appRuntime.Shell = this;
             this.ApplicationMenu = theApplicationMenuViewModel;
-            this.UpdateTitle();
+            this.TitleBar = theTitleBarViewModel;
+            this.TitleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -63,40 +69,16 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the main window title.
+        /// Gets or sets the title bar view model.
         /// </summary>
-        public string Title
+        public TitleBarViewModel TitleBar
         {
-            get { return this.title; }
+            get { return this.titleBar; }
             set
             {
-                this.title = value;
+                this.titleBar = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Update main window title.
-        /// </summary>
-        public void UpdateTitle()
-        {
-            var newTitle = this.appRuntime.ApplicationName + " - ";
-
-            if (string.IsNullOrEmpty(this.appRuntime.CurrentFileName))
-            {
-                newTitle += "Untitled";
-                this.Title = newTitle;
-                return;
-            }
-
-            newTitle += Path.GetFileName(this.appRuntime.CurrentFileName);
-
-            if (this.Workspace.IsDirty)
-            {
-                newTitle += " *";
-            }
-
-            this.Title = newTitle;
         }
     }
 }

@@ -27,8 +27,9 @@ namespace Workbench
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
             container.Singleton<IShell, ShellViewModel>();
-            container.PerRequest<WorkspaceViewModel>();
-            container.PerRequest<ApplicationMenuViewModel>();
+            container.Singleton<WorkspaceViewModel>();
+            container.Singleton<ApplicationMenuViewModel>();
+            container.Singleton<TitleBarViewModel>();
 
             return container;
         }
