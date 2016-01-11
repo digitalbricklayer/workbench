@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
         private readonly IEventAggregator eventAggregator;
 
         /// <summary>
-        /// Initialize a workspace view model with default values.
+        /// Initialize a workspace view model with a data service, window manager and event aggregator.
         /// </summary>
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,

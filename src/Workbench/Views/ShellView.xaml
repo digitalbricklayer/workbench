@@ -86,6 +86,81 @@
 
             </ControlTemplate>
 
+            <DataTemplate DataType="{x:Type viewModels:ApplicationMenuViewModel}">
+                <Menu>
+                    <MenuItem Header="File">
+                        <MenuItem Header="New" Command="{Binding NewCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png"  />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Open" Command="{Binding OpenCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png"  />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Save" Command="{Binding SaveCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png"  />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png"  />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Exit" Command="{Binding ExitCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Edit">
+                    </MenuItem>
+                    <MenuItem Header="Model">
+                        <MenuItem Header="Solve..." Command="{Binding SolveCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Add Singleton Variable" Command="{Binding AddSingletonVariableCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Add Aggregate Variable" Command="{Binding AddAggregateVariableCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Add Constraint" Command="{Binding AddConstraintCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Add Domain" Command="{Binding AddDomainCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Resize Aggregate" Command="{Binding ResizeCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="../Images/Transparent.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModels:WorkspaceViewModel}">
                 <StackPanel>
 
@@ -753,7 +828,7 @@
 
         <!-- Bind input to commands. -->
         <KeyBinding Key="Delete"
-			        Command="{Binding DeleteCommand}" />
+			        Command="{Binding ApplicationMenu.DeleteCommand}" />
 
     </Window.InputBindings>
 
@@ -763,12 +838,12 @@
 
             <MenuItem
                 Header="Create Singleton Variable"
-                Command="{Binding AddSingletonVariableCommand}"
+                Command="{Binding ApplicationMenu.AddSingletonVariableCommand}"
                 ToolTip="Create a new variable" />
 
             <MenuItem
                 Header="Create Aggregate Variable"
-                Command="{Binding AddAggregateVariableCommand}"
+                Command="{Binding ApplicationMenu.AddAggregateVariableCommand}"
                 ToolTip="Create a new variable" />
 
         </ContextMenu>
@@ -776,80 +851,11 @@
     </Window.ContextMenu>
 
     <DockPanel LastChildFill="True">
+        <ContentPresenter x:Name="applicationMenu"
+                          Content="{Binding ApplicationMenu}"
+                          DockPanel.Dock="Top"/>
 
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png"  />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png"  />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png"  />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png"  />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Edit">
-            </MenuItem>
-            <MenuItem Header="Model">
-                <MenuItem Header="Solve..." Command="{Binding SolveCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Add Singleton Variable" Command="{Binding AddSingletonVariableCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Add Aggregate Variable" Command="{Binding AddAggregateVariableCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Add Constraint" Command="{Binding AddConstraintCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Add Domain" Command="{Binding AddDomainCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Resize Aggregate" Command="{Binding ResizeCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
-
-        <ContentPresenter x:Name="workspaceView" Content="{Binding Workspace}"/>
+        <ContentPresenter x:Name="workspaceView"
+                          Content="{Binding Workspace}"/>
     </DockPanel>
 </Window>

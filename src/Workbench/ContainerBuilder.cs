@@ -17,6 +17,7 @@ namespace Workbench
         {
             var container = new SimpleContainer();
 
+            container.Singleton<IAppRuntime, AppRuntime>();
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<IDataService, DataService>();
@@ -25,8 +26,9 @@ namespace Workbench
             container.PerRequest<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>();
             container.PerRequest<IWorkspaceReader, BinaryFileWorkspaceReader>();
             container.PerRequest<IWorkspaceWriter, BinaryFileWorkspaceWriter>();
-            container.PerRequest<IShell, ShellViewModel>();
+            container.Singleton<IShell, ShellViewModel>();
             container.PerRequest<WorkspaceViewModel>();
+            container.PerRequest<ApplicationMenuViewModel>();
 
             return container;
         }

@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppRuntime.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="ContainerBuilder.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
+    <Compile Include="IAppRuntime.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Messages\ModelSolvedMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
