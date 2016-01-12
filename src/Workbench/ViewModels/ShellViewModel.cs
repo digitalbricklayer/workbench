@@ -39,7 +39,6 @@ namespace Workbench.ViewModels
             this.appRuntime.Shell = this;
             this.ApplicationMenu = theApplicationMenuViewModel;
             this.TitleBar = theTitleBarViewModel;
-            this.TitleBar.UpdateTitle();
         }
 
         /// <summary>

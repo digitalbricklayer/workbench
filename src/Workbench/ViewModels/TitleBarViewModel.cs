@@ -13,6 +13,7 @@ namespace Workbench.ViewModels
         {
             this.appRuntime = theAppRuntime;
             this.Workspace = theWorkspaceViewModel;
+			this.UpdateTitle();
         }
 
         public WorkspaceViewModel Workspace { get; private set; }
