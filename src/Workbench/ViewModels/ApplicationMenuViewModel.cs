@@ -214,7 +214,7 @@ namespace Workbench.ViewModels
         private void FileSaveAsAction()
         {
             // Show Save File dialog
-            var dlg = new SaveFileDialog
+            var saveFileDialog = new SaveFileDialog
             {
                 Filter = this.appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
@@ -222,13 +222,13 @@ namespace Workbench.ViewModels
                 RestoreDirectory = true
             };
 
-            if (dlg.ShowDialog().GetValueOrDefault() != true)
-            {
+            var result = saveFileDialog.ShowDialog();
+
+            if (result.GetValueOrDefault() != true)
                 return;
-            }
 
             // Save
-            this.Save(dlg.FileName);
+            this.Save(saveFileDialog.FileName);
         }
 
         /// <summary>

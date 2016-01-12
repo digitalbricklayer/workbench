@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Workbench.ViewModels;
+﻿using Workbench.ViewModels;
 
 namespace Workbench
 {
@@ -13,19 +12,7 @@ namespace Workbench
         /// <summary>
         /// Gets or sets the workspace view model.
         /// </summary>
-        public WorkspaceViewModel Workspace
-        {
-            get
-            {
-                Debug.Assert(this.Shell != null);
-                return this.Shell.Workspace;
-            }
-            set
-            {
-                Debug.Assert(this.Shell != null);
-                this.Shell.Workspace = value;
-            }
-        }
+        public WorkspaceViewModel Workspace { get; set; }
 
         /// <summary>
         /// Gets the shell view model.

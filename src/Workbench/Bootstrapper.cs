@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using Castle.Windsor;
 
 namespace Workbench
 {
     public class Bootstrapper : BootstrapperBase
     {
-        private SimpleContainer container;
+        private WindsorContainer container;
 
         /// <summary>
         /// Initialize a new bootstrapper with default values.
@@ -35,11 +37,11 @@ namespace Workbench
         /// </returns>
         protected override object GetInstance(Type service, string key)
         {
-            var instance = this.container.GetInstance(service, key);
-            if (instance != null)
-                return instance;
-
-            throw new Exception("Could not locate any instances.");
+            if (string.IsNullOrEmpty(key))
+            {
+                return this.container.Resolve(service);
+            }
+            return this.container.Resolve(key, service);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Workbench
         /// </returns>
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return this.container.GetAllInstances(service);
+            return this.container.ResolveAll(service).Cast<object>();
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace Workbench
         /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
-            this.container.BuildUp(instance);
+            throw new NotImplementedException("The BuildUp method has not been implemented.");
         }
 
         /// <summary>
