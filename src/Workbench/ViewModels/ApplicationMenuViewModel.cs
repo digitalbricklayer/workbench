@@ -63,42 +63,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "Model|Add Singleton Variable" menu item can be executed.
-        /// </summary>
-        public bool CanAddSingletonVariableExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "Model|Add Aggregate Variable" menu item can be executed.
-        /// </summary>
-        public bool CanAddAggregateVariableExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the "Model|Add Domain" menu item can be executed.
-        /// </summary>
-        public bool CanAddDomainExecute
-        {
-            get
-            {
-                // Can always execute
-                return true;
-            }
-        }
-
-        /// <summary>
         /// Gets whether the "Model|Delete" menu item can be executed.
         /// </summary>
         public bool CanDeleteExecute
@@ -443,10 +407,10 @@ namespace Workbench.ViewModels
             this.SaveAsCommand = new CommandHandler(FileSaveAsAction);
             this.ExitCommand = new CommandHandler(FileExitAction);
             this.SolveCommand = new CommandHandler(ModelSolveAction);
-            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction, _ => CanAddSingletonVariableExecute);
-            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction, _ => CanAddAggregateVariableExecute);
+            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction);
+            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction);
             this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction);
-            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction, _ => CanAddDomainExecute);
+            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
