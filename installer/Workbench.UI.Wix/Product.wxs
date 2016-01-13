@@ -53,6 +53,8 @@
               <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
               <File Id="Caliburn.Micro" Source="$(var.APPPATH)\Caliburn.Micro.dll" Checksum="yes"/>
               <File Id="Caliburn.Micro.Platform" Source="$(var.APPPATH)\Caliburn.Micro.Platform.dll" Checksum="yes"/>
+              <File Id="Castle.Core" Source="$(var.APPPATH)\Castle.Core.dll" Checksum="yes"/>
+              <File Id="Castle.Windsor" Source="$(var.APPPATH)\Castle.Windsor.dll" Checksum="yes"/>
             </Component>
         </ComponentGroup>
 
