@@ -129,12 +129,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>
-        public VariableDomainExpressionModel DomainExpression
+        public new VariableDomainExpressionModel DomainExpression
         {
             get { return this.domainExpression; }
             set
             {
                 this.domainExpression = value;
+                base.DomainExpression = value;
                 if (this.Variables == null) return;
                 foreach (var variableModel in this.Variables)
                     variableModel.DomainExpression = this.domainExpression;
