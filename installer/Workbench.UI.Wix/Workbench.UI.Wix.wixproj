@@ -29,7 +29,7 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DynaApp\Workbench.UI.csproj">
+    <ProjectReference Include="..\..\src\Workbench\Workbench.UI.csproj">
       <Name>Workbench.UI</Name>
       <Project>{523d6d0b-595f-4c35-9f6c-c8baac322e2e}</Project>
       <Private>True</Private>

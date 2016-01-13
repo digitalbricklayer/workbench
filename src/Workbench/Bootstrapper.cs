@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Castle.Windsor;
+using Workbench.ViewModels;
 
 namespace Workbench
 {
