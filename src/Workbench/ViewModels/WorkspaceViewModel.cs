@@ -13,11 +13,10 @@ namespace Workbench.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : Screen
+    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
-        private object selectedDisplayViewModel;
         private bool isDirty;
         private SolutionViewModel solution;
         private ModelViewModel model;
@@ -97,11 +96,11 @@ namespace Workbench.ViewModels
                 switch (this.selectedDisplayMode)
                 {
                     case "Model":
-                        this.SelectedDisplayViewModel = this.Model;
+                        this.ChangeActiveItem(this.Model, closePrevious:false);
                         break;
 
                     case "Solution":
-                        this.SelectedDisplayViewModel = this.Solution;
+                        this.ChangeActiveItem(this.Solution, closePrevious:false);
                         break;
 
                     default:
@@ -120,22 +119,6 @@ namespace Workbench.ViewModels
             get
             {
                 return this.availableDisplayModes;
-            }
-        }
-
-        /// <summary>
-        /// Gets the selected display view model.
-        /// </summary>
-        public object SelectedDisplayViewModel
-        {
-            get
-            {
-                return this.selectedDisplayViewModel;
-            }
-            set
-            {
-                this.selectedDisplayViewModel = value;
-                NotifyOfPropertyChange();
             }
         }
 

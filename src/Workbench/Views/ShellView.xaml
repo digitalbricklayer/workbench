@@ -170,7 +170,7 @@
                               SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"/>
 
                     <ContentPresenter x:Name="contentView" 
-                                      Content="{Binding SelectedDisplayViewModel}"/>
+                                      Content="{Binding ActiveItem}"/>
 
                 </StackPanel>
             </DataTemplate>
