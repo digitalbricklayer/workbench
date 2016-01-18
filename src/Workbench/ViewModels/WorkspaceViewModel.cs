@@ -20,6 +20,7 @@ namespace Workbench.ViewModels
         private bool isDirty;
         private SolutionViewModel solution;
         private ModelViewModel model;
+        private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
 
         /// <summary>
@@ -39,10 +40,11 @@ namespace Workbench.ViewModels
                 throw new ArgumentNullException("theEventAggregator");
 
             this.eventAggregator = theEventAggregator;
-            this.availableDisplayModes = new BindableCollection<string> {"Model"};
+            this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, theWindowManager);
             this.solution = new SolutionViewModel(this.WorkspaceModel.Solution);
+            this.designer = new SolutionDesignerViewModel();
             this.SelectedDisplayMode = "Model";
         }
 
@@ -82,6 +84,21 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the solution designer view model.
+        /// </summary>
+        public SolutionDesignerViewModel Designer
+        {
+            get { return this.designer; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                this.designer = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the currently selected display mode.
         /// </summary>
         public string SelectedDisplayMode
@@ -101,6 +118,10 @@ namespace Workbench.ViewModels
 
                     case "Solution":
                         this.ChangeActiveItem(this.Solution, closePrevious:false);
+                        break;
+
+                    case "Designer":
+                        ChangeActiveItem(this.designer, closePrevious: false);
                         break;
 
                     default:
