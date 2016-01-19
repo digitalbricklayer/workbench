@@ -108,9 +108,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppRuntime.cs" />
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Bootstrapper\CaliburnInfrastructureInstaller.cs" />
+    <Compile Include="Bootstrapper\ContainerBuilder.cs" />
+    <Compile Include="Bootstrapper\DalInstaller.cs" />
+    <Compile Include="Bootstrapper\InfrastructureInstaller.cs" />
+    <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="ContainerBuilder.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
@@ -159,7 +163,7 @@
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewModel.cs" />
+    <Compile Include="ViewModels\SolutionViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="App.xaml.cs">

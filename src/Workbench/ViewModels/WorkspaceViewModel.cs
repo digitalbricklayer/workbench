@@ -18,7 +18,7 @@ namespace Workbench.ViewModels
         private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
         private bool isDirty;
-        private SolutionViewModel solution;
+        private SolutionViewerViewModel viewer;
         private ModelViewModel model;
         private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
@@ -43,7 +43,7 @@ namespace Workbench.ViewModels
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, theWindowManager);
-            this.solution = new SolutionViewModel(this.WorkspaceModel.Solution);
+            this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
             this.designer = new SolutionDesignerViewModel();
             this.SelectedDisplayMode = "Model";
         }
@@ -71,14 +71,14 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the solution displayed in the workspace.
         /// </summary>
-        public SolutionViewModel Solution
+        public SolutionViewerViewModel Solution
         {
-            get { return this.solution; }
+            get { return this.viewer; }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
-                this.solution = value;
+                this.viewer = value;
                 NotifyOfPropertyChange();
             }
         }

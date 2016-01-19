@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using Castle.Windsor;
 using Workbench.ViewModels;
 
-namespace Workbench
+namespace Workbench.Bootstrapper
 {
     public class Bootstrapper : BootstrapperBase
     {

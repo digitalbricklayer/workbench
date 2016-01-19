@@ -200,7 +200,7 @@
                 </ScrollViewer>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModels:SolutionViewModel}">
+            <DataTemplate DataType="{x:Type viewModels:SolutionViewerViewModel}">
                 <!--
                 The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
                 Focusable is set to False because it is only the solution view that should be focusable.
