@@ -10,6 +10,14 @@ namespace Workbench
         private const string ProgramName = "Constraint Capers Workbench";
 
         /// <summary>
+        /// Initialize an application runtime with default values.
+        /// </summary>
+        public AppRuntime()
+        {
+            this.CurrentFileName = string.Empty;
+        }
+
+        /// <summary>
         /// Gets or sets the workspace view model.
         /// </summary>
         public WorkspaceViewModel Workspace { get; set; }
