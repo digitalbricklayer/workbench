@@ -121,6 +121,9 @@
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
+    <Compile Include="Controls\GraphicDisplayControl.xaml.cs">
+      <DependentUpon>GraphicDisplayControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
@@ -179,6 +182,10 @@
     </Compile>
     <Compile Include="Views\GraphicView.cs" />
     <Compile Include="WpfUtils.cs" />
+    <Page Include="Controls\GraphicDisplayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ApplicationMenuDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModelErrorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionDesignerDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

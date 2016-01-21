@@ -5,7 +5,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution designer.
     /// </summary>
-    public sealed class SolutionDesignerViewModel : Screen
+    public sealed class SolutionDesignerViewModel : Conductor<IScreen>.Collection.AllActive
     {
     }
 }

@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="ApplicationMenuDictionary.xaml"/>
                 <ResourceDictionary Source="WorkspaceDictionary.xaml"/>
                 <ResourceDictionary Source="ModelDictionary.xaml"/>
+                <ResourceDictionary Source="SolutionDesignerDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionViewerDictionary.xaml"/>
                 <ResourceDictionary Source="VariableDictionary.xaml"/>
                 <ResourceDictionary Source="DomainDictionary.xaml"/>
