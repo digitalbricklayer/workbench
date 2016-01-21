@@ -13,8 +13,15 @@
         Color="Blue"
         Opacity="0.25"/>
 
-    <!-- Default style and control-template for 'VariableItem'. -->
+    <!-- Default style and control-template for 'GraphicItem'. -->
     <Style TargetType="{x:Type controls:GraphicItem}">
+
+        <Setter Property="X"
+                Value="{Binding X}" />
+        <Setter Property="Y"
+                Value="{Binding Y}" />
+        <Setter Property="IsSelected" 
+                Value="{Binding IsSelected}" />
         
         <!-- Data-bind the parent ModelView. -->
         <Setter

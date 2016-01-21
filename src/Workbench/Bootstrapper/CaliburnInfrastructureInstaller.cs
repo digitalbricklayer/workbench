@@ -16,9 +16,9 @@ namespace Workbench.Bootstrapper
         public void Register(IKernelInternal kernel)
         {
             kernel.Register(Component.For<IWindowManager, WindowManager>()
-                .LifeStyle.Singleton,
-                Component.For<IEventAggregator, EventAggregator>()
-                    .LifeStyle.Singleton);
+                                     .LifeStyle.Singleton,
+                            Component.For<IEventAggregator, EventAggregator>()
+                                     .LifeStyle.Singleton);
         }
     }
 }

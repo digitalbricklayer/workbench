@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Workbench.Views"
+                    xmlns:viewModels="clr-namespace:Workbench.ViewModels">
+
+    <DataTemplate DataType="{x:Type viewModels:SolutionViewerViewModel}">
+        <!--
+        The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+        Focusable is set to False because it is only the solution view that should be focusable.
+        -->
+        <ScrollViewer x:Name="contentViewer"
+                      HorizontalScrollBarVisibility="Auto"
+                      Focusable="False">
+
+            <!--
+            We need to nest the solution view inside an AdornerDecorator so that adorners 
+            work correctly.
+            -->
+            <AdornerDecorator>
+
+                <local:GraphicView x:Name="solutionControl"
+                                   Width="2000"
+                                   Height="2000"
+                                   GraphicsSource="{Binding Items}"/>
+
+            </AdornerDecorator>
+
+        </ScrollViewer>
+    </DataTemplate>
+
+</ResourceDictionary>

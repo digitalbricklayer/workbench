@@ -63,7 +63,7 @@ namespace Workbench.Bootstrapper
         /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
-            throw new NotImplementedException("The BuildUp method has not been implemented.");
+            throw new NotImplementedException("The BuildUp method has not been implemented because Castle Windsor supports property based injection natively.");
         }
 
         /// <summary>

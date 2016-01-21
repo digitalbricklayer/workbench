@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:Workbench.ViewModels"
+                    xmlns:views="clr-namespace:Workbench.Views">
+
+    <DataTemplate DataType="{x:Type viewModels:ModelViewModel}">
+        <!--
+        The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
+        Focusable is set to False because it is only that ModelView that I want to be focusable.
+        -->
+        <ScrollViewer x:Name="contentViewer"
+                              HorizontalScrollBarVisibility="Auto"
+                              Focusable="False">
+
+            <!--
+            We need to nest the ModelView inside an AdornerDecorator so that adorners 
+            work correctly.
+            -->
+            <AdornerDecorator>
+
+                <views:GraphicView x:Name="modelControl"
+                                   Width="2000"
+                                   Height="2000"
+                                   GraphicsSource="{Binding Items}"/>
+
+            </AdornerDecorator>
+
+        </ScrollViewer>
+    </DataTemplate>
+
+</ResourceDictionary>
+    
