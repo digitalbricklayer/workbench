@@ -94,6 +94,7 @@
     <Compile Include="Models\ValueModel.cs" />
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
+    <Compile Include="Models\VariableVisualiserModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />

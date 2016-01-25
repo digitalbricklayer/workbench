@@ -74,6 +74,13 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Solution">
+                <MenuItem Header="Add Visualizer" Command="{Binding AddVisualizerCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
         </Menu>
     </DataTemplate>
 

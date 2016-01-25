@@ -15,9 +15,6 @@
                 <ResourceDictionary Source="ModelDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionDesignerDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionViewerDictionary.xaml"/>
-                <ResourceDictionary Source="VariableDictionary.xaml"/>
-                <ResourceDictionary Source="DomainDictionary.xaml"/>
-                <ResourceDictionary Source="ConstraintDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -30,15 +27,13 @@
 
     <Window.ContextMenu>
         <ContextMenu>
-            <MenuItem
-                Header="Create Singleton Variable"
-                Command="{Binding ApplicationMenu.AddSingletonVariableCommand}"
-                ToolTip="Create a new variable" />
+            <MenuItem Header="Create Singleton Variable"
+					  Command="{Binding ApplicationMenu.AddSingletonVariableCommand}"
+					  ToolTip="Create a new variable" />
 
-            <MenuItem
-                Header="Create Aggregate Variable"
-                Command="{Binding ApplicationMenu.AddAggregateVariableCommand}"
-                ToolTip="Create a new variable" />
+            <MenuItem Header="Create Aggregate Variable"
+					  Command="{Binding ApplicationMenu.AddAggregateVariableCommand}"
+					  ToolTip="Create a new variable" />
         </ContextMenu>
     </Window.ContextMenu>
 

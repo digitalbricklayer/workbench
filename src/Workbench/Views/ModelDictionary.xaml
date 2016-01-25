@@ -3,6 +3,12 @@
                     xmlns:viewModels="clr-namespace:Workbench.ViewModels"
                     xmlns:controls="clr-namespace:Workbench.Controls">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ConstraintDictionary.xaml"/>
+        <ResourceDictionary Source="DomainDictionary.xaml"/>
+        <ResourceDictionary Source="VariableDictionary.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
     <DataTemplate DataType="{x:Type viewModels:ModelViewModel}">
         <controls:GraphicDisplayControl />
     </DataTemplate>

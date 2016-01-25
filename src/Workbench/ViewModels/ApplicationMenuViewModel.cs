@@ -85,6 +85,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Gets whether the Solution|Add Visualizer command can execute.
+        /// </summary>
+        public bool CanAddVisualizerExecute
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets the File|New command.
         /// </summary>
         public ICommand NewCommand { get; private set; }
@@ -143,6 +154,11 @@ namespace Workbench.ViewModels
         /// Gets the Model|Resize command.
         /// </summary>
         public ICommand ResizeCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Solution|Add Visualizer command.
+        /// </summary>
+        public ICommand AddVisualizerCommand { get; private set; }
 
         /// <summary>
         /// Handle the "File|New" menu item.
@@ -396,6 +412,11 @@ namespace Workbench.ViewModels
                             MessageBoxImage.Error);
         }
 
+        private void SolutionAddVisualizerAction()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Create main menu commands.
         /// </summary>
@@ -413,6 +434,7 @@ namespace Workbench.ViewModels
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
+            this.AddVisualizerCommand = new CommandHandler(SolutionAddVisualizerAction, _ => CanAddVisualizerExecute);
         }
     }
 }
