@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using Workbench.Core.Models;
+using Workbench.Commands;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -82,17 +82,6 @@ namespace Workbench.ViewModels
             get
             {
                 return this.Workspace.Model.GetSelectedAggregateVariables().Any();
-            }
-        }
-
-        /// <summary>
-        /// Gets whether the Solution|Add Visualizer command can execute.
-        /// </summary>
-        public bool CanAddVisualizerExecute
-        {
-            get
-            {
-                return false;
             }
         }
 
@@ -341,16 +330,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new visualizer to the solution designer.
-        /// </summary>
-        private void SolutionAddVisualizerAction()
-        {
-            var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddVisualizer(new VariableVisualizerViewModel(new VariableVisualizerModel(newVisualizerLocation)));
-            this.titleBar.UpdateTitle();
-        }
-
-        /// <summary>
         /// Prompt to save and make Save operation if necessary.
         /// </summary>
         /// <returns>
@@ -440,7 +419,7 @@ namespace Workbench.ViewModels
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
-            this.AddVisualizerCommand = new CommandHandler(SolutionAddVisualizerAction, _ => CanAddVisualizerExecute);
+            this.AddVisualizerCommand = IoC.Get<AddVisualizerCommand>();
         }
     }
 }

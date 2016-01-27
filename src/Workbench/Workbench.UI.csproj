@@ -110,11 +110,13 @@
     <Compile Include="AppRuntime.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\CaliburnInfrastructureInstaller.cs" />
+    <Compile Include="Bootstrapper\CommandInstaller.cs" />
     <Compile Include="Bootstrapper\ContainerBuilder.cs" />
     <Compile Include="Bootstrapper\DalInstaller.cs" />
     <Compile Include="Bootstrapper\InfrastructureInstaller.cs" />
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="Commands\AddVisualizerCommand.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
@@ -316,6 +318,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

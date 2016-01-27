@@ -18,6 +18,7 @@ namespace Workbench.Bootstrapper
             container.Register(new ViewModelInstaller(),
                                new CaliburnInfrastructureInstaller(),
                                new DalInstaller(),
+                               new CommandInstaller(),
                                new InfrastructureInstaller());
 
             return container;
