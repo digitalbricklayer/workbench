@@ -247,16 +247,6 @@ namespace Workbench.Core.Models
             return this.Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
         }
 
-        /// <summary>
-        /// Create a new model with the given name.
-        /// </summary>
-        /// <param name="theModelName">Model name.</param>
-        /// <returns>Fluent interface context.</returns>
-        public static ModelContext Create(string theModelName)
-        {
-            return new ModelContext(new ModelModel(theModelName));
-        }
-
         private bool ValidateConstraints()
         {
             return this.Constraints.All(ValidateConstraint);

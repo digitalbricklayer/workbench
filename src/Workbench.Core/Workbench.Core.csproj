@@ -87,7 +87,7 @@
     <Compile Include="Models\GraphicModel.cs" />
     <Compile Include="Models\Literal.cs" />
     <Compile Include="Models\AbstractModel.cs" />
-    <Compile Include="Models\ModelContext.cs" />
+    <Compile Include="Models\WorkspaceContext.cs" />
     <Compile Include="Models\ModelModel.cs" />
     <Compile Include="Models\OperatorType.cs" />
     <Compile Include="Models\RangeExpression.cs" />

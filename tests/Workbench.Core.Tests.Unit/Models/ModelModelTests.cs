@@ -24,11 +24,13 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeValidModel()
         {
-            return ModelModel.Create("A valid model")
-                             .AddSingleton("x", "1..9")
-                             .AddSingleton("y", "1..9")
-                             .WithConstraint("x > y")
-                             .Build();
+            var workspace = WorkspaceModel.Create("A valid model")
+                                          .AddSingleton("x", "1..9")
+                                          .AddSingleton("y", "1..9")
+                                          .WithConstraint("x > y")
+                                          .Build();
+
+            return workspace.Model;
         }
     }
 }

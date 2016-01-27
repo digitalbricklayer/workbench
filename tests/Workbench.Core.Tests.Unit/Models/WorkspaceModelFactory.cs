@@ -13,41 +13,12 @@ namespace Workbench.Core.Tests.Unit.Models
         /// <returns>A simple workspace model.</returns>
         internal static WorkspaceModel Create()
         {
-            return new WorkspaceModel
-            {
-                Model = CreateModel(),
-                Solution = CreateSolution(),
-                Display = CreateDisplay()
-            };
-        }
-
-        private static ModelModel CreateModel()
-        {
-            var modelModel = new ModelModel();
-            var x = new VariableModel("x", "z");
-            modelModel.AddVariable(x);
-            var y = new AggregateVariableModel("y", 10, new VariableDomainExpressionModel("1..9"));
-            modelModel.AddVariable(y);
-            var constraint = new ConstraintModel("X", "x > 1");
-            modelModel.AddConstraint(constraint);
-            var domain = new DomainModel("z", "1..10");
-            modelModel.AddDomain(domain);
-
-            return modelModel;
-        }
-
-        private static SolutionModel CreateSolution()
-        {
-            var solutionModel = new SolutionModel();
-            var x = new VariableModel("x");
-            var valueOfX = new ValueModel(x);
-            solutionModel.AddSingletonValue(valueOfX);
-            return solutionModel;
-        }
-
-        private static DisplayModel CreateDisplay()
-        {
-            return new DisplayModel();
+            return WorkspaceModel.Create()
+                                 .AddSingleton("x", "z")
+                                 .AddAggregate("y", 10, "1..9")
+                                 .WithConstraint("x > 1")
+                                 .WithSharedDomain("z", "1..10")
+                                 .Build();
         }
     }
 }

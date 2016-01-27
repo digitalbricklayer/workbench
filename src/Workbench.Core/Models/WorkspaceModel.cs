@@ -60,5 +60,28 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Create a new workspace.
+        /// </summary>
+        /// <param name="theModelName">Name for the model.</param>
+        /// <returns>Fluent interface context.</returns>
+        public static WorkspaceContext Create(string theModelName)
+        {
+            if (string.IsNullOrWhiteSpace(theModelName))
+                throw new ArgumentException("Model must have a valid name.", "theModelName");
+            var newWorkspace = new WorkspaceModel();
+            newWorkspace.Model.Name = theModelName;
+            return new WorkspaceContext(newWorkspace);
+        }
+
+        /// <summary>
+        /// Create a new workspace.
+        /// </summary>
+        /// <returns>Fluent interface context.</returns>
+        public static WorkspaceContext Create()
+        {
+            return new WorkspaceContext(new WorkspaceModel());
+        }
     }
 }

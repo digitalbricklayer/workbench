@@ -48,11 +48,13 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            return ModelModel.Create("An aggregate test")
-                             .AddAggregate("c", 10, "1..9")
-                             .WithConstraint("c[1] < c[10]")
-                             .WithConstraint("c[2] > c[9]")
-                             .Build();
+            var workspace = WorkspaceModel.Create("An aggregate test")
+                                          .AddAggregate("c", 10, "1..9")
+                                          .WithConstraint("c[1] < c[10]")
+                                          .WithConstraint("c[2] > c[9]")
+                                          .Build();
+
+            return workspace.Model;
         }
     }
 }

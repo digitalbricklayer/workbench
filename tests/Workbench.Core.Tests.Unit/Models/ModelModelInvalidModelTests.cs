@@ -32,21 +32,25 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeModelWithMissingVariable()
         {
-            return ModelModel.Create("An invalid model")
-                             .AddSingleton("x", "1..9")
-                             .AddSingleton("y", "1..9")
-                             .WithConstraint("x > z")
-                             .Build();
+            var workspace = WorkspaceModel.Create("An invalid model")
+                                          .AddSingleton("x", "1..9")
+                                          .AddSingleton("y", "1..9")
+                                          .WithConstraint("x > z")
+                                          .Build();
+
+            return workspace.Model;
         }
 
         private static ModelModel MakeModelWithMissingSharedDomain()
         {
-            return ModelModel.Create("An model missing shared domain")
-                             .WithSharedDomain("a", "1..10")
-                             .AddSingleton("x", "b")
-                             .AddSingleton("y", "1..9")
-                             .WithConstraint("x > y")
-                             .Build();
+            var workspace = WorkspaceModel.Create("An model missing shared domain")
+                                          .WithSharedDomain("a", "1..10")
+                                          .AddSingleton("x", "b")
+                                          .AddSingleton("y", "1..9")
+                                          .WithConstraint("x > y")
+                                          .Build();
+
+            return workspace.Model;
         }
     }
 }

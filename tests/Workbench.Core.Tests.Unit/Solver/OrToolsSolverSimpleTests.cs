@@ -55,15 +55,17 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            return ModelModel.Create("A test")
-                             .WithSharedDomain("a", "1..9")
-                             .AddSingleton("x", "a")
-                             .AddSingleton("y", "a")
-                             .AddSingleton("z", "a")
-                             .WithConstraint("x != y")
-                             .WithConstraint("x <= y")
-                             .WithConstraint("y = z")
-                             .Build();
+            var workspace = WorkspaceModel.Create("A test")
+                                          .WithSharedDomain("a", "1..9")
+                                          .AddSingleton("x", "a")
+                                          .AddSingleton("y", "a")
+                                          .AddSingleton("z", "a")
+                                          .WithConstraint("x != y")
+                                          .WithConstraint("x <= y")
+                                          .WithConstraint("y = z")
+                                          .Build();
+
+            return workspace.Model;
         }
     }
 }
