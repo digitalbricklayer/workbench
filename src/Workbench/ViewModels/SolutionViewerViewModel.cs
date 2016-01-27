@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -11,6 +10,9 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class SolutionViewerViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
+        private IObservableCollection<ValueViewModel> values;
+        private IObservableCollection<VariableVisualizerViewModel> visualizers;
+
         /// <summary>
         /// Initialize the solution with a solution model.
         /// </summary>
@@ -19,7 +21,9 @@ namespace Workbench.ViewModels
         {
             if (theSolution == null)
                 throw new ArgumentNullException("theSolution");
-            this.Values = new ObservableCollection<ValueViewModel>();
+
+            this.values = new BindableCollection<ValueViewModel>();
+            this.visualizers = new BindableCollection<VariableVisualizerViewModel>();
             this.Model = new SolutionModel();
         }
 
@@ -28,16 +32,35 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolutionViewerViewModel()
         {
-            this.Values = new ObservableCollection<ValueViewModel>();
+            this.Values = new BindableCollection<ValueViewModel>();
+            this.visualizers = new BindableCollection<VariableVisualizerViewModel>();
             this.Model = new SolutionModel();
         }
 
         /// <summary>
         /// Gets the values displayed in the solution.
         /// </summary>
-        public ObservableCollection<ValueViewModel> Values
+        public IObservableCollection<ValueViewModel> Values
         {
-            get; private set;
+            get { return values; }
+            set
+            {
+                this.values = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets the variable visualizers.
+        /// </summary>
+        public IObservableCollection<VariableVisualizerViewModel> Visualizers
+        {
+            get { return visualizers; }
+            set
+            {
+                this.visualizers = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         /// <summary>
@@ -73,6 +96,17 @@ namespace Workbench.ViewModels
             if (newValueViewModel == null)
                 throw new ArgumentNullException("newValueViewModel");
             this.Values.Add(newValueViewModel);
+        }
+
+        /// <summary>
+        /// Add a new variable visualizer.
+        /// </summary>
+        /// <param name="newVariableVisualizer">New visualizer.</param>
+        public void AddVisualzer(VariableVisualizerViewModel newVariableVisualizer)
+        {
+            if (newVariableVisualizer == null)
+                throw new ArgumentNullException("newVariableVisualizer");
+            this.Visualizers.Add(newVariableVisualizer);
         }
     }
 }

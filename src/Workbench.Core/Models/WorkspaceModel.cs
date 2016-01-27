@@ -3,18 +3,23 @@
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// Workspace model where the model and solution are stored.
+    /// Workspace model where the model, display and solution are stored.
     /// </summary>
     [Serializable]
     public class WorkspaceModel : AbstractModel
     {
         private ModelModel model;
         private SolutionModel solution;
+        private DisplayModel display;
 
+        /// <summary>
+        /// Initialize a workspace with default values.
+        /// </summary>
         public WorkspaceModel()
         {
             this.Model = new ModelModel();
             this.Solution = new SolutionModel();
+            this.Display = new DisplayModel();
         }
 
         /// <summary>
@@ -39,6 +44,19 @@ namespace Workbench.Core.Models
             set
             {
                 solution = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the solution display.
+        /// </summary>
+        public DisplayModel Display
+        {
+            get { return display; }
+            set
+            {
+                display = value;
                 OnPropertyChanged();
             }
         }

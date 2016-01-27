@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Microsoft.Win32;
+using Workbench.Core.Models;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -340,6 +341,16 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Add a new visualizer to the solution designer.
+        /// </summary>
+        private void SolutionAddVisualizerAction()
+        {
+            var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            this.Workspace.AddVisualizer(new VariableVisualizerViewModel(new VariableVisualizerModel(newVisualizerLocation)));
+            this.titleBar.UpdateTitle();
+        }
+
+        /// <summary>
         /// Prompt to save and make Save operation if necessary.
         /// </summary>
         /// <returns>
@@ -410,11 +421,6 @@ namespace Workbench.ViewModels
                             this.appRuntime.ApplicationName,
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
-        }
-
-        private void SolutionAddVisualizerAction()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

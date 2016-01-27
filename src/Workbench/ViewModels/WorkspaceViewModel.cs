@@ -44,7 +44,7 @@ namespace Workbench.ViewModels
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, theWindowManager);
             this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
-            this.designer = new SolutionDesignerViewModel();
+            this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Display);
             this.SelectedDisplayMode = "Model";
         }
 
@@ -69,9 +69,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the solution displayed in the workspace.
+        /// Gets or sets the solution viewer.
         /// </summary>
-        public SolutionViewerViewModel Solution
+        public SolutionViewerViewModel Viewer
         {
             get { return this.viewer; }
             set
@@ -84,7 +84,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the solution designer view model.
+        /// Gets or sets the solution designer.
         /// </summary>
         public SolutionDesignerViewModel Designer
         {
@@ -117,11 +117,11 @@ namespace Workbench.ViewModels
                         break;
 
                     case "Solution":
-                        this.ChangeActiveItem(this.Solution, closePrevious:false);
+                        this.ChangeActiveItem(this.Viewer, closePrevious:false);
                         break;
 
                     case "Designer":
-                        ChangeActiveItem(this.designer, closePrevious: false);
+                        ChangeActiveItem(this.Designer, closePrevious: false);
                         break;
 
                     default:
@@ -229,6 +229,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Add a new visualizer to the solution.
+        /// </summary>
+        /// <param name="variableVisualizer"></param>
+        public void AddVisualizer(VariableVisualizerViewModel variableVisualizer)
+        {
+            this.Designer.AddVisualizer(variableVisualizer);
+            this.Viewer.AddVisualzer(variableVisualizer);
+            this.IsDirty = true;
+        }
+
+        /// <summary>
         /// Delete all selected graphic items.
         /// </summary>
         public void DeleteSelectedGraphics()
@@ -253,7 +264,7 @@ namespace Workbench.ViewModels
         public void Reset()
         {
             this.Model.Reset();
-            this.Solution.Reset();
+            this.Viewer.Reset();
             this.IsDirty = true;
         }
 
@@ -263,7 +274,7 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            this.Solution.Reset();
+            this.Viewer.Reset();
             var newValues = new List<ValueViewModel>();
             foreach (var value in theSolution.SingletonValues)
             {
@@ -286,7 +297,7 @@ namespace Workbench.ViewModels
                     newValues.Add(valueViewModel);
                 }
             }
-            this.Solution.BindTo(newValues);
+            this.Viewer.BindTo(newValues);
 
             if (!this.AvailableDisplayModes.Contains("Solution"))
                 this.AvailableDisplayModes.Add("Solution");

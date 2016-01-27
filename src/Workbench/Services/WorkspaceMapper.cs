@@ -12,11 +12,12 @@ namespace Workbench.Services
     {
         private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
+        private readonly DisplayMapper displayMapper;
         private readonly IWindowManager windowManager;
         private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
-        /// Initialize the model mapper with a model view model cache.
+        /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
         public WorkspaceMapper(IWindowManager theWindowManager, IViewModelFactory theViewModelFactory)
         {
@@ -30,6 +31,7 @@ namespace Workbench.Services
             this.windowManager = theWindowManager;
             this.viewModelFactory = theViewModelFactory;
             this.modelMapper = new ModelMapper(theCache, this.windowManager);
+            this.displayMapper = new DisplayMapper();
             this.solutionMapper = new SolutionMapper(theCache);
         }
 
@@ -42,7 +44,8 @@ namespace Workbench.Services
         {
             var workspaceViewModel = this.viewModelFactory.CreateWorkspace();
             workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
-            workspaceViewModel.Solution = this.solutionMapper.MapFrom(theWorkspaceModel.Solution);
+            workspaceViewModel.Viewer = this.solutionMapper.MapFrom(theWorkspaceModel.Solution);
+            workspaceViewModel.Designer = this.displayMapper.MapFrom(theWorkspaceModel.Display);
 
             return workspaceViewModel;
         }

@@ -121,7 +121,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public int Id
         {
-            get { return this.Model.Id; }
+            get
+            {
+                return this.Model.Id;
+            }
         }
 
         /// <summary>

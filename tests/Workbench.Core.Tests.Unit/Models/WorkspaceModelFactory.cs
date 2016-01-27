@@ -16,7 +16,8 @@ namespace Workbench.Core.Tests.Unit.Models
             return new WorkspaceModel
             {
                 Model = CreateModel(),
-                Solution = CreateSolution()
+                Solution = CreateSolution(),
+                Display = CreateDisplay()
             };
         }
 
@@ -42,6 +43,11 @@ namespace Workbench.Core.Tests.Unit.Models
             var valueOfX = new ValueModel(x);
             solutionModel.AddSingletonValue(valueOfX);
             return solutionModel;
+        }
+
+        private static DisplayModel CreateDisplay()
+        {
+            return new DisplayModel();
         }
     }
 }

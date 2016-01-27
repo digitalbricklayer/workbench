@@ -133,6 +133,7 @@
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
     <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\DisplayMapper.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IViewModelFactory.cs" />
     <Compile Include="Services\IWorkspaceReader.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
-    <Compile Include="ViewModels\VariableVisualiserViewModel.cs" />
+    <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -235,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VariableVisualiserDictionary.xaml">
+    <Page Include="Views\VariableVisualizerDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
