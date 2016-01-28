@@ -117,6 +117,7 @@
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\AddVisualizerCommand.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
     <Compile Include="Controls\AdornerPlacement.cs" />
