@@ -5,6 +5,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
+using Workbench.Messages;
 
 namespace Workbench.ViewModels
 {
@@ -14,11 +15,14 @@ namespace Workbench.ViewModels
     public sealed class ModelViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
         private readonly IWindowManager windowManager;
+        private readonly IEventAggregator eventAggregator;
 
         /// <summary>
         /// Initialize a model view model with a model and window manager.
         /// </summary>
-        public ModelViewModel(ModelModel theModel, IWindowManager theWindowManager)
+        public ModelViewModel(ModelModel theModel, 
+                              IWindowManager theWindowManager, 
+                              IEventAggregator theEventAggregator)
         {
             if (theModel == null)
                 throw new ArgumentNullException("theModel");
@@ -26,8 +30,12 @@ namespace Workbench.ViewModels
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
 
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
             this.Model = theModel;
             this.windowManager = theWindowManager;
+            this.eventAggregator = theEventAggregator;
             this.Variables = new BindableCollection<VariableViewModel>();
             this.Domains = new BindableCollection<DomainViewModel>();
             this.Constraints = new BindableCollection<ConstraintViewModel>();
@@ -61,8 +69,10 @@ namespace Workbench.ViewModels
         {
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
+
             this.FixupSingletonVariable(newVariableViewModel);
             this.AddSingletonVariableToModel(newVariableViewModel);
+            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariableViewModel));
         }
 
         /// <summary>
@@ -73,8 +83,10 @@ namespace Workbench.ViewModels
         {
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
+
             this.FixupAggregateVariable(newVariableViewModel);
             this.AddAggregateVariableToModel(newVariableViewModel);
+            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariableViewModel));
         }
 
         /// <summary>

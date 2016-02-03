@@ -1,6 +1,6 @@
 ﻿using Workbench.Core.Models;
 
-namespace Workbench.Core.Tests.Unit.Models
+namespace Workbench.Core.Tests.Unit
 {
     /// <summary>
     /// Factory for building workspace models.

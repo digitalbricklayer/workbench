@@ -14,13 +14,18 @@ namespace Workbench.Services
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
         private readonly IWindowManager windowManager;
+        private readonly IEventAggregator eventAggregator;
 
-        internal ModelMapper(ModelViewModelCache theCache, IWindowManager theWindowManager)
+        internal ModelMapper(ModelViewModelCache theCache, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
         {
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
 
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
             this.windowManager = theWindowManager;
+            this.eventAggregator = theEventAggregator;
             this.variableMapper = new VariableMapper(theCache);
             this.domainMapper = new DomainMapper(theCache);
             this.constraintMapper = new ConstraintMapper(theCache);
@@ -28,7 +33,9 @@ namespace Workbench.Services
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
-            var modelViewModel = new ModelViewModel(theModelModel, this.windowManager);
+            var modelViewModel = new ModelViewModel(theModelModel, 
+                                                    this.windowManager, 
+                                                    this.eventAggregator);
 
             foreach (var domainModel in theModelModel.Domains)
             {

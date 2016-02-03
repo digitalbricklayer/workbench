@@ -44,7 +44,9 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private static WorkspaceMapper BuildSut()
         {
-            return new WorkspaceMapper(CreateWindowManager(), CreateViewModelFactory());
+            return new WorkspaceMapper(CreateWindowManager(),
+                                       CreateViewModelFactory(),
+                                       CreateEventAggregator());
         }
 
         private static IViewModelFactory CreateViewModelFactory()
@@ -67,6 +69,11 @@ namespace Workbench.UI.Tests.Unit.Services
             var mock = new Mock<IDataService>();
             mock.Setup(_ => _.GetWorkspace()).Returns(new WorkspaceModel());
             return mock.Object;
+        }
+
+        private static IEventAggregator CreateEventAggregator()
+        {
+            return new Mock<IEventAggregator>().Object;
         }
 
         private static IWindowManager CreateWindowManager()

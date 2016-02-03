@@ -2,7 +2,45 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModels="clr-namespace:Workbench.ViewModels">
 
-    <DataTemplate DataType="{x:Type viewModels:VariableVisualizerViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:VariableVisualizerDesignViewModel}">
+        <Grid Width="120"
+              Height="60">
+
+            <!-- This rectangle is the main visual for the node. -->
+            <Rectangle Stroke="Black"
+                       Fill="White"
+                       RadiusX="4"
+                       RadiusY="4" />
+
+            <!-- 
+            This grid contains the node's name and connectors.
+            The margin is negative so that the connectors overlap the body of the node and it's selection border.
+            -->
+            <Grid Margin="-8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MinWidth="10" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="1"
+                            Grid.Row="1">
+                    <ComboBox x:Name="variableSelector"
+                              ItemsSource="{Binding AvailableVariables}"
+                              SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"/>
+
+                    <TextBlock x:Name="valueText" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:VariableVisualizerViewerViewModel}">
     </DataTemplate>
 
 </ResourceDictionary>

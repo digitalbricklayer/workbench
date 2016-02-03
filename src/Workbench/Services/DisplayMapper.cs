@@ -3,6 +3,9 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+    /// <summary>
+    /// Map the display model to a solution designer view model.
+    /// </summary>
     internal class DisplayMapper
     {
         /// <summary>

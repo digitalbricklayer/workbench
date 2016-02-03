@@ -15,11 +15,14 @@ namespace Workbench.Services
         private readonly DisplayMapper displayMapper;
         private readonly IWindowManager windowManager;
         private readonly IViewModelFactory viewModelFactory;
+        private readonly IEventAggregator eventAggregator;
 
         /// <summary>
         /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
-        public WorkspaceMapper(IWindowManager theWindowManager, IViewModelFactory theViewModelFactory)
+        public WorkspaceMapper(IWindowManager theWindowManager, 
+                               IViewModelFactory theViewModelFactory, 
+                               IEventAggregator theEventAggregator)
         {
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");
@@ -27,10 +30,16 @@ namespace Workbench.Services
             if (theViewModelFactory == null)
                 throw new ArgumentNullException("theViewModelFactory");
 
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
             var theCache = new ModelViewModelCache();
             this.windowManager = theWindowManager;
             this.viewModelFactory = theViewModelFactory;
-            this.modelMapper = new ModelMapper(theCache, this.windowManager);
+            this.eventAggregator = theEventAggregator;
+            this.modelMapper = new ModelMapper(theCache,
+                                               this.windowManager,
+                                               this.eventAggregator);
             this.displayMapper = new DisplayMapper();
             this.solutionMapper = new SolutionMapper(theCache);
         }

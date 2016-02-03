@@ -19,7 +19,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private static ModelViewModel CreateValidModel()
         {
-            var modelViewModel = new ModelViewModel(new ModelModel(), CreateWindowManager());
+            var modelViewModel = new ModelViewModel(new ModelModel(),
+                                                    CreateWindowManager(),
+                                                    CreateEventAggregator());
             var variableViewModel = new VariableViewModel(new VariableModel("x"));
             modelViewModel.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
@@ -28,6 +30,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             constraintViewModel.Expression.Text = "x > 1";
 
             return modelViewModel;
+        }
+
+        private static IEventAggregator CreateEventAggregator()
+        {
+            return new Mock<IEventAggregator>().Object;
         }
 
         private static IWindowManager CreateWindowManager()

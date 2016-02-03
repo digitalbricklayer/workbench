@@ -131,7 +131,9 @@
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
     <Compile Include="IAppRuntime.cs" />
+    <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
     <Compile Include="Messages\ModelSolvedMessage.cs" />
+    <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
@@ -147,7 +149,8 @@
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
-    <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\VariableVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\VariableVisualizerDesignViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

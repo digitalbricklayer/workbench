@@ -7,12 +7,12 @@
 
             <!-- Workspace mode selector -->
             <ComboBox x:Name="workspaceViewSelector"
-                              ItemsSource="{Binding AvailableDisplayModes}"
-                              SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"/>
+                      ItemsSource="{Binding AvailableDisplayModes}"
+                      SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"/>
 
             <!-- Workspace area -->
             <ContentPresenter x:Name="contentView" 
-                                      Content="{Binding ActiveItem}"/>
+                              Content="{Binding ActiveItem}"/>
 
         </StackPanel>
     </DataTemplate>

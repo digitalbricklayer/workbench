@@ -6,7 +6,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the main window.
     /// </summary>
-    public sealed class ShellViewModel : Screen, IShell
+    public sealed class ShellViewModel : Conductor<Screen>, IShell
     {
         private WorkspaceViewModel workspace;
         private ApplicationMenuViewModel applicationMenu;
@@ -39,6 +39,7 @@ namespace Workbench.ViewModels
             this.appRuntime.Shell = this;
             this.ApplicationMenu = theApplicationMenuViewModel;
             this.TitleBar = theTitleBarViewModel;
+            this.ActivateItem(this.Workspace);
         }
 
         /// <summary>

@@ -42,7 +42,9 @@ namespace Workbench.ViewModels
             this.eventAggregator = theEventAggregator;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
-            this.model = new ModelViewModel(this.WorkspaceModel.Model, theWindowManager);
+            this.model = new ModelViewModel(this.WorkspaceModel.Model, 
+                                            theWindowManager, 
+                                            theEventAggregator);
             this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
             this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Display);
             this.SelectedDisplayMode = "Model";
@@ -121,7 +123,7 @@ namespace Workbench.ViewModels
                         break;
 
                     case "Designer":
-                        ChangeActiveItem(this.Designer, closePrevious: false);
+                        this.ChangeActiveItem(this.Designer, closePrevious: false);
                         break;
 
                     default:
@@ -232,10 +234,9 @@ namespace Workbench.ViewModels
         /// Add a new visualizer to the solution.
         /// </summary>
         /// <param name="variableVisualizer"></param>
-        public void AddVisualizer(VariableVisualizerViewModel variableVisualizer)
+        public void AddVisualizer(VariableVisualizerDesignViewModel variableVisualizer)
         {
             this.Designer.AddVisualizer(variableVisualizer);
-            this.Viewer.AddVisualzer(variableVisualizer);
             this.IsDirty = true;
         }
 

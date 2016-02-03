@@ -81,11 +81,11 @@
     <Compile Include="Models\ModelModelTests.cs" />
     <Compile Include="Models\VariableModelTests.cs" />
     <Compile Include="Models\WorkspaceTests.cs" />
-    <Compile Include="Models\WorkspaceModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\OrToolsSolverSimpleTests.cs" />
     <Compile Include="Solver\OrToolsSolverAggregateTests.cs" />
     <Compile Include="Solver\OrToolsSolverTests.cs" />
+    <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Workbench.Core\Workbench.Core.csproj">

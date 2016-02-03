@@ -1,21 +1,20 @@
-﻿using System.Windows;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// Variable visualizer view model.
+    /// View model for the variable visualizer in design mode.
     /// </summary>
-    public sealed class VariableVisualizerViewModel : GraphicViewModel
+    public sealed class VariableVisualizerViewerViewModel : GraphicViewModel
     {
         private VariableViewModel boundTo;
         private VariableVisualizerModel model;
 
         /// <summary>
-        /// Initialize the variable visualizer view model with the variable visualizer model.
+        /// Initialize the variable visualizer viewer view model with the variable visualizer model.
         /// </summary>
         /// <param name="theVariableVisualizerModel">Visualizer model.</param>
-        public VariableVisualizerViewModel(VariableVisualizerModel theVariableVisualizerModel)
+        public VariableVisualizerViewerViewModel(VariableVisualizerModel theVariableVisualizerModel)
             : base(theVariableVisualizerModel)
         {
             this.Model = theVariableVisualizerModel;

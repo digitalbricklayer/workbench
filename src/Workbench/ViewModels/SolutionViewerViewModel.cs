@@ -11,7 +11,7 @@ namespace Workbench.ViewModels
     public sealed class SolutionViewerViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
         private IObservableCollection<ValueViewModel> values;
-        private IObservableCollection<VariableVisualizerViewModel> visualizers;
+        private IObservableCollection<VariableVisualizerViewerViewModel> visualizers;
 
         /// <summary>
         /// Initialize the solution with a solution model.
@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
                 throw new ArgumentNullException("theSolution");
 
             this.values = new BindableCollection<ValueViewModel>();
-            this.visualizers = new BindableCollection<VariableVisualizerViewModel>();
+            this.visualizers = new BindableCollection<VariableVisualizerViewerViewModel>();
             this.Model = new SolutionModel();
         }
 
@@ -33,7 +33,7 @@ namespace Workbench.ViewModels
         public SolutionViewerViewModel()
         {
             this.Values = new BindableCollection<ValueViewModel>();
-            this.visualizers = new BindableCollection<VariableVisualizerViewModel>();
+            this.visualizers = new BindableCollection<VariableVisualizerViewerViewModel>();
             this.Model = new SolutionModel();
         }
 
@@ -53,7 +53,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variable visualizers.
         /// </summary>
-        public IObservableCollection<VariableVisualizerViewModel> Visualizers
+        public IObservableCollection<VariableVisualizerViewerViewModel> Visualizers
         {
             get { return visualizers; }
             set
@@ -102,10 +102,11 @@ namespace Workbench.ViewModels
         /// Add a new variable visualizer.
         /// </summary>
         /// <param name="newVariableVisualizer">New visualizer.</param>
-        public void AddVisualzer(VariableVisualizerViewModel newVariableVisualizer)
+        public void AddVisualzer(VariableVisualizerViewerViewModel newVariableVisualizer)
         {
             if (newVariableVisualizer == null)
                 throw new ArgumentNullException("newVariableVisualizer");
+            this.ActivateItem(newVariableVisualizer);
             this.Visualizers.Add(newVariableVisualizer);
         }
     }

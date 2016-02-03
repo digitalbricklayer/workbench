@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class SolutionDesignerViewModel : Conductor<IScreen>.Collection.AllActive
     {
-        private IObservableCollection<VariableVisualizerViewModel> visualizers;
+        private IObservableCollection<VariableVisualizerDesignViewModel> visualizers;
         private DisplayModel model;
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolutionDesignerViewModel(DisplayModel theModel)
         {
-            this.Visualizers = new BindableCollection<VariableVisualizerViewModel>();
+            this.Visualizers = new BindableCollection<VariableVisualizerDesignViewModel>();
             this.Model = theModel;
         }
 
@@ -36,7 +36,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variable visualizers.
         /// </summary>
-        public IObservableCollection<VariableVisualizerViewModel> Visualizers
+        public IObservableCollection<VariableVisualizerDesignViewModel> Visualizers
         {
             get { return this.visualizers; }
             set
@@ -50,7 +50,7 @@ namespace Workbench.ViewModels
         /// Add a variable visualizer.
         /// </summary>
         /// <param name="newVisualizer">New variable visualizer.</param>
-        public void AddVisualizer(VariableVisualizerViewModel newVisualizer)
+        public void AddVisualizer(VariableVisualizerDesignViewModel newVisualizer)
         {
             this.ActivateItem(newVisualizer);
             this.Visualizers.Add(newVisualizer);
