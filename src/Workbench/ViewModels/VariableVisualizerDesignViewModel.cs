@@ -1,6 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Messages;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
@@ -16,6 +18,7 @@ namespace Workbench.ViewModels
         private IObservableCollection<string> availableVariables;
         private string selectedVariable;
         private readonly IEventAggregator eventAggregator;
+        private readonly IDataService dataService;
 
         /// <summary>
         /// Initialize the variable visualizer design view model with the 
@@ -23,12 +26,22 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="theVariableVisualizerModel">Visualizer model.</param>
         /// <param name="theEventAggregator">The event aggregator.</param>
-        public VariableVisualizerDesignViewModel(VariableVisualizerModel theVariableVisualizerModel, IEventAggregator theEventAggregator)
+        /// <param name="theDataService">Data service.</param>
+        public VariableVisualizerDesignViewModel(VariableVisualizerModel theVariableVisualizerModel,
+                                                 IEventAggregator theEventAggregator,
+                                                 IDataService theDataService)
             : base(theVariableVisualizerModel)
         {
+            if (theVariableVisualizerModel == null)
+                throw new ArgumentNullException("theVariableVisualizerModel");
+
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
             this.AvailableVariables = new BindableCollection<string>();
             this.Model = theVariableVisualizerModel;
             this.eventAggregator = theEventAggregator;
+            this.dataService = theDataService;
         }
 
         /// <summary>
@@ -109,8 +122,9 @@ namespace Workbench.ViewModels
         /// </summary>
         protected override void OnActivate()
         {
-            this.eventAggregator.Subscribe(this);
+            this.PopulateAvailableVariables();
             base.OnActivate();
+            this.eventAggregator.Subscribe(this);
         }
 
         /// <summary>
@@ -121,6 +135,19 @@ namespace Workbench.ViewModels
         {
             this.eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
+        }
+
+        /// <summary>
+        /// Populate the available variables collection.
+        /// </summary>
+        private void PopulateAvailableVariables()
+        {
+            var theWorkspace = this.dataService.GetWorkspace();
+            var theModel = theWorkspace.Model;
+            foreach (var aVariable in theModel.Variables)
+            {
+                this.AvailableVariables.Add(aVariable.Name);
+            }
         }
     }
 }

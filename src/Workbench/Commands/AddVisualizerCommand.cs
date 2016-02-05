@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Services;
 using Workbench.ViewModels;
 
 namespace Workbench.Commands
@@ -14,6 +15,7 @@ namespace Workbench.Commands
     {
         private readonly WorkspaceViewModel workspace;
         private readonly TitleBarViewModel titleBar;
+        private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
 
         /// <summary>
@@ -22,9 +24,11 @@ namespace Workbench.Commands
         /// <param name="theWorkspace">Workspace view model.</param>
         /// <param name="theTitleBar">Title bar view model.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
+        /// <param name="theDataService">Event aggregator.</param>
         public AddVisualizerCommand(WorkspaceViewModel theWorkspace,
                                     TitleBarViewModel theTitleBar,
-                                    IEventAggregator theEventAggregator)
+                                    IEventAggregator theEventAggregator,
+                                    IDataService theDataService)
         {
             if (theWorkspace == null)
                 throw new ArgumentNullException("theWorkspace");
@@ -35,9 +39,13 @@ namespace Workbench.Commands
             if (theEventAggregator == null)
                 throw new ArgumentNullException("theEventAggregator");
 
+            if (theDataService == null)
+                throw new ArgumentNullException("theDataService");
+
             this.workspace = theWorkspace;
             this.titleBar = theTitleBar;
-            eventAggregator = theEventAggregator;
+            this.eventAggregator = theEventAggregator;
+            this.dataService = theDataService;
         }
 
         /// <summary>
@@ -50,7 +58,8 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             var visualizerDesignViewModel = new VariableVisualizerDesignViewModel(new VariableVisualizerModel(newVisualizerLocation),
-                                                                                  this.eventAggregator);
+                                                                                  this.eventAggregator,
+                                                                                  this.dataService);
             this.workspace.AddVisualizer(visualizerDesignViewModel);
             this.titleBar.UpdateTitle();
         }

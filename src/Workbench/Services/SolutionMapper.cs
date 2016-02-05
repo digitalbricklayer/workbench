@@ -11,7 +11,7 @@ namespace Workbench.Services
     {
         private readonly ValueMapper valueMapper;
 
-        internal SolutionMapper(ModelViewModelCache theCache)
+        internal SolutionMapper(ViewModelCache theCache)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");

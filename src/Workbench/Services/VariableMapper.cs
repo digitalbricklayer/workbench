@@ -9,9 +9,9 @@ namespace Workbench.Services
     /// </summary>
     internal class VariableMapper
     {
-        private readonly ModelViewModelCache cache;
+        private readonly ViewModelCache cache;
 
-        internal VariableMapper(ModelViewModelCache theCache)
+        internal VariableMapper(ViewModelCache theCache)
         {
             this.cache = theCache;
         }

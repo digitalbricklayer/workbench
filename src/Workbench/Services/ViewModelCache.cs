@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
-    public class ModelViewModelCache
+    /// <summary>
+    /// Cache view models used in the workspace.
+    /// </summary>
+    public class ViewModelCache : IViewModelCache
     {
         private readonly Dictionary<int, GraphicViewModel> graphicMap;
         private readonly Dictionary<int, VariableViewModel> variableMap;
 
-        public ModelViewModelCache()
+        /// <summary>
+        /// Initialize the view model cache with default values.
+        /// </summary>
+        public ViewModelCache()
         {
             this.graphicMap = new Dictionary<int, GraphicViewModel>();
             this.variableMap = new Dictionary<int, VariableViewModel>();
@@ -34,6 +41,11 @@ namespace Workbench.Services
             return this.graphicMap[graphicIdentity];
         }
 
+        /// <summary>
+        /// Get the variable with the identity.
+        /// </summary>
+        /// <param name="variableIdentity">Variable identity.</param>
+        /// <returns>Variable with the identity.</returns>
         public VariableViewModel GetVariableByIdentity(int variableIdentity)
         {
             Debug.Assert(variableIdentity != default(int));

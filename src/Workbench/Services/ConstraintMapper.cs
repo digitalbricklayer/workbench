@@ -10,9 +10,9 @@ namespace Workbench.Services
     /// </summary>
     internal class ConstraintMapper
     {
-        private readonly ModelViewModelCache cache;
+        private readonly ViewModelCache cache;
 
-        internal ConstraintMapper(ModelViewModelCache theCache)
+        internal ConstraintMapper(ViewModelCache theCache)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");

@@ -16,7 +16,7 @@ namespace Workbench.Services
         private readonly IWindowManager windowManager;
         private readonly IEventAggregator eventAggregator;
 
-        internal ModelMapper(ModelViewModelCache theCache, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
+        internal ModelMapper(ViewModelCache theCache, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
         {
             if (theWindowManager == null)
                 throw new ArgumentNullException("theWindowManager");

@@ -33,7 +33,7 @@ namespace Workbench.Services
             if (theEventAggregator == null)
                 throw new ArgumentNullException("theEventAggregator");
 
-            var theCache = new ModelViewModelCache();
+            var theCache = new ViewModelCache();
             this.windowManager = theWindowManager;
             this.viewModelFactory = theViewModelFactory;
             this.eventAggregator = theEventAggregator;
