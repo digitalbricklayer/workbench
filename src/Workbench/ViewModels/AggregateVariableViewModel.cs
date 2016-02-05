@@ -6,8 +6,9 @@ namespace Workbench.ViewModels
 {
     public sealed class AggregateVariableViewModel : VariableViewModel
     {
-        public AggregateVariableViewModel(AggregateVariableModel theVariableModel)
-            : base(theVariableModel)
+        public AggregateVariableViewModel(AggregateVariableModel theVariableModel,
+                                          IEventAggregator theEventAggregator)
+            : base(theVariableModel, theEventAggregator)
         {
             this.Variables = new BindableCollection<VariableViewModel>();
             this.Model = theVariableModel;
@@ -112,7 +113,8 @@ namespace Workbench.ViewModels
         {
             for (var i = 0; i < variablesToIncreaseBy; i++)
             {
-                var newVariable = new VariableViewModel(new VariableModel());
+                var newVariable = new VariableViewModel(new VariableModel(),
+                                                        this.eventAggregator);
                 newVariable.DomainExpression = this.DomainExpression;
                 this.Variables.Add(newVariable);
             }

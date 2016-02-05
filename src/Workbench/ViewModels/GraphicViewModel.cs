@@ -45,8 +45,10 @@ namespace Workbench.ViewModels
             set
             {
                 if (this.Model.Name == value) return;
+                var oldVariableName = this.Model.Name;
                 this.Model.Name = value;
                 NotifyOfPropertyChange();
+                this.OnRename(oldVariableName);
             }
         }
 
@@ -58,7 +60,6 @@ namespace Workbench.ViewModels
             get { return this.isNameEditing; }
             set
             {
-                if (this.isNameEditing == value) return;
                 this.isNameEditing = value;
                 NotifyOfPropertyChange();
             }
@@ -136,6 +137,14 @@ namespace Workbench.ViewModels
             {
                 return new CommandHandler(() => this.IsNameEditing = true);
             }
+        }
+
+        /// <summary>
+        /// Hook called prior to a graphic is renamed.
+        /// </summary>
+        protected virtual void OnRename(string theOldName)
+        {
+            // Intentionally left blank, override as necessary.
         }
     }
 }

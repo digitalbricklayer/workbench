@@ -1,4 +1,7 @@
-﻿using Workbench.Core.Models;
+﻿using System;
+using Caliburn.Micro;
+using Workbench.Core.Models;
+using Workbench.Messages;
 
 namespace Workbench.ViewModels
 {
@@ -8,13 +11,26 @@ namespace Workbench.ViewModels
     public class VariableViewModel : GraphicViewModel
     {
         private VariableModel model;
+        protected readonly IEventAggregator eventAggregator;
         protected VariableDomainExpressionViewModel domainExpression;
 
-        public VariableViewModel(VariableModel theVariableModel)
+        /// <summary>
+        /// Initialize the variable view model with the variable model and event aggregator.
+        /// </summary>
+        /// <param name="theVariableModel">Variable model.</param>
+        /// <param name="theEventAggregator">Event aggregator.</param>
+        public VariableViewModel(VariableModel theVariableModel, IEventAggregator theEventAggregator)
             : base(theVariableModel)
         {
+            if (theVariableModel == null)
+                throw new ArgumentNullException("theVariableModel");
+
+            if (theEventAggregator == null)
+                throw new ArgumentNullException("theEventAggregator");
+
             this.Model = theVariableModel;
             this.DomainExpression = new VariableDomainExpressionViewModel(this.Model.DomainExpression);
+            this.eventAggregator = theEventAggregator;
         }
 
         /// <summary>
@@ -57,6 +73,17 @@ namespace Workbench.ViewModels
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Hook called when a graphic is renamed.
+        /// </summary>
+        protected override void OnRename(string oldVariableName)
+        {
+            base.OnRename(oldVariableName);
+            var variableRenamedMessage = new VariableRenamedMessage(oldVariableName,
+                                                                    this.Model.Name);
+            this.eventAggregator.PublishOnUIThread(variableRenamedMessage);
         }
     }
 }

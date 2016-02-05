@@ -134,6 +134,7 @@
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
     <Compile Include="Messages\ModelSolvedMessage.cs" />
     <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
+    <Compile Include="Messages\VariableRenamedMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />

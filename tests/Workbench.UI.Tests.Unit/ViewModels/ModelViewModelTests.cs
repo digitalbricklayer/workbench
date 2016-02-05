@@ -22,8 +22,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var modelViewModel = new ModelViewModel(new ModelModel(),
                                                     CreateWindowManager(),
                                                     CreateEventAggregator());
-            modelViewModel.AddSingletonVariable(new VariableViewModel(new VariableModel("x", new VariableDomainExpressionModel("1..10"))));
-            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableModel("y", 2, new VariableDomainExpressionModel("1..10"))));
+            modelViewModel.AddSingletonVariable(new VariableViewModel(new VariableModel("x", new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
+            modelViewModel.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableModel("y", 2, new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
             modelViewModel.AddConstraint(new ConstraintViewModel(new ConstraintModel("x", "x > 1")));
             modelViewModel.AddConstraint(new ConstraintViewModel(new ConstraintModel("aggregates must be different",
                                                                                      "y[1] <> y[2]")));

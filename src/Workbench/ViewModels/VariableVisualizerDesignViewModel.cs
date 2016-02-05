@@ -11,7 +11,8 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class VariableVisualizerDesignViewModel : GraphicViewModel,
                                                             IHandle<SingletonVariableAddedMessage>,
-                                                            IHandle<AggregateVariableAddedMessage>
+                                                            IHandle<AggregateVariableAddedMessage>,
+                                                            IHandle<VariableRenamedMessage>
     {
         private VariableViewModel boundTo;
         private VariableVisualizerModel model;
@@ -118,7 +119,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Called when activating.
+        /// Handle a variable renamed message.
+        /// </summary>
+        /// <param name="message">Variable rename message.</param>
+        public void Handle(VariableRenamedMessage message)
+        {
+            this.AvailableVariables.Remove(message.OldName);
+            this.AvailableVariables.Add(message.NewName);
+        }
+
+        /// <summary>
+        /// Called when activating the graphic.
         /// </summary>
         protected override void OnActivate()
         {
@@ -128,7 +139,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Called when deactivating.
+        /// Called when deactivating the graphic.
         /// </summary>
         /// <param name="close">Indicates whether this instance will be closed.</param>
         protected override void OnDeactivate(bool close)
@@ -142,6 +153,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void PopulateAvailableVariables()
         {
+            this.AvailableVariables.Clear();
             var theWorkspace = this.dataService.GetWorkspace();
             var theModel = theWorkspace.Model;
             foreach (var aVariable in theModel.Variables)

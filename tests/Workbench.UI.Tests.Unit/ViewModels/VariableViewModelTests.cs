@@ -1,4 +1,6 @@
-﻿using Workbench.ViewModels;
+﻿using Caliburn.Micro;
+using Moq;
+using Workbench.ViewModels;
 using NUnit.Framework;
 using Workbench.Core.Models;
 
@@ -25,7 +27,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private static VariableViewModel CreateVariable()
         {
-            return new VariableViewModel(new VariableModel("X"));
+            return new VariableViewModel(new VariableModel("X"),
+                                         Mock.Of<IEventAggregator>());
         }
     }
 }

@@ -22,7 +22,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var modelViewModel = new ModelViewModel(new ModelModel(),
                                                     CreateWindowManager(),
                                                     CreateEventAggregator());
-            var variableViewModel = new VariableViewModel(new VariableModel("x"));
+            var variableViewModel = new VariableViewModel(new VariableModel("x"),
+                                                          Mock.Of<IEventAggregator>());
             modelViewModel.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
             var constraintViewModel = new ConstraintViewModel(new ConstraintModel("x", string.Empty));

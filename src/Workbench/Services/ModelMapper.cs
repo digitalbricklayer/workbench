@@ -26,7 +26,7 @@ namespace Workbench.Services
 
             this.windowManager = theWindowManager;
             this.eventAggregator = theEventAggregator;
-            this.variableMapper = new VariableMapper(theCache);
+            this.variableMapper = new VariableMapper(theCache, this.eventAggregator);
             this.domainMapper = new DomainMapper(theCache);
             this.constraintMapper = new ConstraintMapper(theCache);
         }

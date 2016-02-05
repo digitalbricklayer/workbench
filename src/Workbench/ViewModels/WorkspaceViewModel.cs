@@ -178,7 +178,8 @@ namespace Workbench.ViewModels
         /// <returns>New singleton variable view model.</returns>
         public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()));
+            var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
+                                                    this.eventAggregator);
             this.Model.AddSingletonVariable(newVariable);
             this.IsDirty = true;
 
@@ -193,7 +194,8 @@ namespace Workbench.ViewModels
         /// <returns>New aggregate variable view model.</returns>
         public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
         {
-            var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()));
+            var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
+                                                             this.eventAggregator);
             this.Model.AddAggregateVariable(newVariable);
             this.IsDirty = true;
 
