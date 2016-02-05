@@ -1,14 +1,27 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Moq;
 using Workbench.ViewModels;
 using NUnit.Framework;
 using Workbench.Core.Models;
+using Workbench.Messages;
 
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
     [TestFixture]
     public class VariableViewModelTests
     {
+        private readonly Mock<IEventAggregator> eventAggregatorMock = new Mock<IEventAggregator>();
+
+        [Test]
+        public void RenameVariableWithValidNewNamePublishesVariableRenamedMessage()
+        {
+            var sut = CreateVariable();
+            sut.Name = "NewName";
+            this.eventAggregatorMock.Verify(_ => _.Publish(It.IsAny<VariableRenamedMessage>(), It.IsAny<Action<System.Action>>()),
+                                            Times.Once);
+        }
+
         [Test]
         public void UpdateVariableDomainExpressionWithDomainReferenceUpdatesModel()
         {
@@ -25,10 +38,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             Assert.That(sut.DomainExpression.Model.InlineDomain.Size, Is.EqualTo(10));
         }
 
-        private static VariableViewModel CreateVariable()
+        private VariableViewModel CreateVariable()
         {
             return new VariableViewModel(new VariableModel("X"),
-                                         Mock.Of<IEventAggregator>());
+                                         this.eventAggregatorMock.Object);
         }
     }
 }
