@@ -24,5 +24,12 @@ namespace Workbench.Services
         /// </summary>
         /// <returns>Current workspace.</returns>
         WorkspaceModel GetWorkspace();
+
+        /// <summary>
+        /// Get the variable by the variable name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable.</returns>
+        VariableModel GetVariableByName(string variableName);
     }
 }

@@ -14,7 +14,6 @@ namespace Workbench.ViewModels
                                                             IHandle<AggregateVariableAddedMessage>,
                                                             IHandle<VariableRenamedMessage>
     {
-        private VariableViewModel boundTo;
         private VariableVisualizerModel model;
         private IObservableCollection<string> availableVariables;
         private string selectedVariable;
@@ -59,22 +58,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the variable the visualizer is bound to.
-        /// </summary>
-        public VariableViewModel BoundTo
-        {
-            get
-            {
-                return this.boundTo;
-            }
-            set
-            {
-                this.boundTo = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the available variables available to bind to.
         /// </summary>
         public IObservableCollection<string> AvailableVariables
@@ -97,6 +80,8 @@ namespace Workbench.ViewModels
             {
                 selectedVariable = value;
                 NotifyOfPropertyChange();
+                var variableToBindTo = this.dataService.GetVariableByName(this.selectedVariable);
+                this.Model.BindTo(variableToBindTo);
             }
         }
 

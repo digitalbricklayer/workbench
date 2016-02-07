@@ -33,7 +33,6 @@ namespace Workbench.Services
             if (string.IsNullOrWhiteSpace(file))
                 throw new ArgumentException("file");
             this.currentWorkspace = this.readerWriter.Read(file);
-
             return this.currentWorkspace;
         }
 
@@ -58,6 +57,16 @@ namespace Workbench.Services
             if (this.currentWorkspace != null)
                 return this.currentWorkspace;
             return new WorkspaceModel();
+        }
+
+        /// <summary>
+        /// Get the variable by the variable name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable.</returns>
+        public VariableModel GetVariableByName(string variableName)
+        {
+            return this.currentWorkspace.Model.GetVariableByName(variableName);
         }
     }
 }
