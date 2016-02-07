@@ -49,7 +49,7 @@ namespace Workbench.Services
                 modelViewModel.FixupConstraint(constraintViewModel);
             }
 
-            foreach (var variableModel in theModelModel.Variables)
+            foreach (var variableModel in theModelModel.Singletons)
             {
                 var variableViewModel = this.variableMapper.MapFrom(variableModel);
                 modelViewModel.FixupSingletonVariable(variableViewModel);

@@ -14,6 +14,7 @@ namespace Workbench.Core.Models
     {
         private readonly ObservableCollection<string> errors = new ObservableCollection<string>();
         private ObservableCollection<VariableModel> variables;
+        private ObservableCollection<VariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
         private ObservableCollection<DomainModel> domains;
         private ObservableCollection<ConstraintModel> constraints;
@@ -38,6 +39,7 @@ namespace Workbench.Core.Models
         {
             this.Name = string.Empty;
             this.Variables = new ObservableCollection<VariableModel>();
+            this.Singletons = new ObservableCollection<VariableModel>();
             this.Aggregates = new ObservableCollection<AggregateVariableModel>();
             this.Domains = new ObservableCollection<DomainModel>();
             this.Constraints = new ObservableCollection<ConstraintModel>();
@@ -65,6 +67,19 @@ namespace Workbench.Core.Models
             set
             {
                 variables = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the singleton variable collection.
+        /// </summary>
+        public ObservableCollection<VariableModel> Singletons
+        {
+            get { return this.singletons; }
+            set
+            {
+                this.singletons = value;
                 OnPropertyChanged();
             }
         }
@@ -152,6 +167,7 @@ namespace Workbench.Core.Models
                 throw new ArgumentNullException("newVariable");
             newVariable.AssignIdentity();
             this.Variables.Add(newVariable);
+            this.Singletons.Add(newVariable);
         }
 
         /// <summary>
@@ -163,6 +179,7 @@ namespace Workbench.Core.Models
             if (newVariable == null)
                 throw new ArgumentNullException("newVariable");
             newVariable.AssignIdentity();
+            this.Variables.Add(newVariable);
             this.Aggregates.Add(newVariable);
         }
 

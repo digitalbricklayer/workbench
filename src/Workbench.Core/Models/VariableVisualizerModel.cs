@@ -14,9 +14,9 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the bound variable.
+        /// Gets the variable the visualizer is bound.
         /// </summary>
-        public VariableModel BoundVariable
+        public VariableModel BoundTo
         {
             get
             {
@@ -25,6 +25,7 @@ namespace Workbench.Core.Models
             private set
             {
                 this.boundVariable = value;
+                OnPropertyChanged();
             }
         }
 
@@ -36,7 +37,7 @@ namespace Workbench.Core.Models
         {
             if (theVariable == null)
                 throw new ArgumentNullException("theVariable");
-            this.BoundVariable = theVariable;
+            this.BoundTo = theVariable;
         }
     }
 }
