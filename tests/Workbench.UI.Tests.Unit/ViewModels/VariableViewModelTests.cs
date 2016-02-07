@@ -18,7 +18,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateVariable();
             sut.Name = "NewName";
-            this.eventAggregatorMock.Verify(_ => _.Publish(It.IsAny<VariableRenamedMessage>(), It.IsAny<Action<System.Action>>()),
+            this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<VariableRenamedMessage>(message => message.NewName == "NewName"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
 
