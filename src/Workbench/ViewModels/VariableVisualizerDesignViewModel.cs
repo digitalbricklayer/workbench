@@ -114,23 +114,13 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Called when activating the graphic.
+        /// Called when initializing the visualizer.
         /// </summary>
-        protected override void OnActivate()
+        protected override void OnInitialize()
         {
+            base.OnInitialize();
             this.PopulateAvailableVariables();
-            base.OnActivate();
             this.eventAggregator.Subscribe(this);
-        }
-
-        /// <summary>
-        /// Called when deactivating the graphic.
-        /// </summary>
-        /// <param name="close">Indicates whether this instance will be closed.</param>
-        protected override void OnDeactivate(bool close)
-        {
-            this.eventAggregator.Unsubscribe(this);
-            base.OnDeactivate(close);
         }
 
         /// <summary>
