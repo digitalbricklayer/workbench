@@ -236,6 +236,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable model.</returns>
         public VariableModel GetVariableByName(string theVariableName)
         {
+            if (string.IsNullOrWhiteSpace(theVariableName))
+                throw new ArgumentNullException("theVariableName");
             return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
         }
 

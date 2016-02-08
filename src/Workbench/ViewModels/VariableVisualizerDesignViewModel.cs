@@ -120,6 +120,8 @@ namespace Workbench.ViewModels
         {
             base.OnInitialize();
             this.PopulateAvailableVariables();
+			if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
+				this.SelectedVariable = this.Model.Binding.Name;
             this.eventAggregator.Subscribe(this);
         }
 
