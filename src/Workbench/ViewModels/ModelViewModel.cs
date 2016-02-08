@@ -124,6 +124,7 @@ namespace Workbench.ViewModels
             this.Variables.Remove(variableToDelete);
             this.DeactivateItem(variableToDelete, close:true);
             this.DeleteVariableFromModel(variableToDelete);
+            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete.Name));
         }
 
         /// <summary>

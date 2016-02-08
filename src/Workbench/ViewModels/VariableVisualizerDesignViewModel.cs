@@ -12,7 +12,8 @@ namespace Workbench.ViewModels
     public sealed class VariableVisualizerDesignViewModel : GraphicViewModel,
                                                             IHandle<SingletonVariableAddedMessage>,
                                                             IHandle<AggregateVariableAddedMessage>,
-                                                            IHandle<VariableRenamedMessage>
+                                                            IHandle<VariableRenamedMessage>,
+                                                            IHandle<VariableDeletedMessage>
     {
         private VariableVisualizerModel model;
         private IObservableCollection<string> availableVariables;
@@ -77,13 +78,16 @@ namespace Workbench.ViewModels
         /// </summary>
         public string SelectedVariable
         {
-            get { return selectedVariable; }
+            get { return this.selectedVariable; }
             set
             {
-                selectedVariable = value;
+                this.selectedVariable = value;
                 NotifyOfPropertyChange();
-                var variableToBindTo = this.dataService.GetVariableByName(this.selectedVariable);
-                this.Model.BindTo(variableToBindTo);
+                if (this.selectedVariable != string.Empty)
+                {
+                    var variableToBindTo = this.dataService.GetVariableByName(this.selectedVariable);
+                    this.Model.BindTo(variableToBindTo);
+                }
             }
         }
 
@@ -113,6 +117,17 @@ namespace Workbench.ViewModels
         {
             this.AvailableVariables.Remove(message.OldName);
             this.AvailableVariables.Add(message.NewName);
+        }
+
+        /// <summary>
+        /// Handle the variable delete message.
+        /// </summary>
+        /// <param name="message">Variable deleted message.</param>
+        public void Handle(VariableDeletedMessage message)
+        {
+            this.AvailableVariables.Remove(message.VariableName);
+            if (this.SelectedVariable == message.VariableName)
+                this.SelectedVariable = string.Empty;
         }
 
         /// <summary>
