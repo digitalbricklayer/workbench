@@ -90,6 +90,7 @@
     <Compile Include="ViewModels\ModelViewModelEmptyTests.cs" />
     <Compile Include="ViewModels\ModelViewModelTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
+    <Compile Include="ViewModels\VariableVisualizerViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

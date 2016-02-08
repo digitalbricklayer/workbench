@@ -42,6 +42,8 @@ namespace Workbench.ViewModels
             this.Model = theVariableVisualizerModel;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
+            if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
+                this.selectedVariable = this.Model.Binding.Name;
         }
 
         /// <summary>
@@ -120,8 +122,6 @@ namespace Workbench.ViewModels
         {
             base.OnInitialize();
             this.PopulateAvailableVariables();
-			if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
-				this.SelectedVariable = this.Model.Binding.Name;
             this.eventAggregator.Subscribe(this);
         }
 
