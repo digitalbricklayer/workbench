@@ -11,7 +11,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
     [TestFixture]
     public class ModelViewModelTests
     {
-        private readonly Mock<IEventAggregator> eventAggregatorMock = new Mock<IEventAggregator>();
+        private Mock<IEventAggregator> eventAggregatorMock;
+
+        [SetUp]
+        public void Initialize()
+        {
+            this.eventAggregatorMock = new Mock<IEventAggregator>();
+        }
 
         [Test]
         public void SolveWithValidModelReturnsSuccessStatus()
@@ -19,6 +25,24 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var sut = CreateValidModel();
             var actualStatus = sut.Solve();
             Assert.That(actualStatus.IsSuccess, Is.True);
+        }
+
+        [Test]
+        public void AddWithValidSingletonVariablePublishesVariableAddedMessage()
+        {
+            var sut = CreateValidModel();
+            sut.AddSingletonVariable(new VariableViewModel(new VariableModel("z"), this.eventAggregatorMock.Object));
+            this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<SingletonVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
+                                            Times.Once);
+        }
+
+        [Test]
+        public void AddWithValidAggregatorVariablePublishesVariableAddedMessage()
+        {
+            var sut = CreateValidModel();
+            sut.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableModel("z"), this.eventAggregatorMock.Object));
+            this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<AggregateVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
+                                            Times.Once);
         }
 
         [Test]
