@@ -1,56 +1,25 @@
-﻿using System.Windows;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.UI.Tests.Unit
 {
     /// <summary>
     /// Factory for test workspace models.
     /// </summary>
-    class WorkspaceModelFactory
+    internal class WorkspaceModelFactory
     {
-        private ModelModel model;
-
         /// <summary>
-        /// Create a test workspace model.
+        /// Create a valid test workspace model.
         /// </summary>
         /// <returns>Workspace model with test data.</returns>
         internal static WorkspaceModel Create()
         {
-            return new WorkspaceModelFactory().CreateWorkspace();
-        }
-
-        private WorkspaceModel CreateWorkspace()
-        {
-            return new WorkspaceModel
-            {
-                Model = CreateModel(),
-                Solution = CreateSolution()
-            };
-        }
-
-        private ModelModel CreateModel()
-        {
-            this.model = new ModelModel();
-            var x = new VariableModel("x");
-            this.model.AddVariable(x);
-            var constraint = new ConstraintModel("X", "x > 1");
-            this.model.AddConstraint(constraint);
-            var domain = new DomainModel("z", "1..10");
-            this.model.AddDomain(domain);
-            var y = new AggregateVariableModel("y", new Point(1, 1), 1, new VariableDomainExpressionModel("z"));
-            this.model.AddVariable(y);
-
-            return this.model;
-        }
-
-        private SolutionModel CreateSolution()
-        {
-            var solution = new SolutionModel();
-            var x = this.model.GetVariableByName("x");
-            var valueOfX = new ValueModel(x);
-            solution.AddSingletonValue(valueOfX);
-
-            return solution;
+            return WorkspaceModel.Create()
+                                 .AddSingleton("x", "1..10")
+                                 .AddAggregate("y", 10, "z")
+                                 .WithConstraint("x > 1")
+                                 .WithSharedDomain("z", "1..10")
+                                 .WithVisualizerBindingTo("x")
+                                 .Build();
         }
     }
 }

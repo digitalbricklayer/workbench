@@ -30,10 +30,10 @@ namespace Workbench.Core.Tests.Unit.Solver
             var actualResult = sut.Solve(MakeModel());
 
             // Assert
-            var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableValueByName("x");
-            var y = actualSolution.GetSingletonVariableValueByName("y");
-            var z = actualSolution.GetAggregateVariableValueByName("z");
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonVariableValueByName("x");
+            var y = actualSnapshot.GetSingletonVariableValueByName("y");
+            var z = actualSnapshot.GetAggregateVariableValueByName("z");
             Assert.That(x.Value, Is.Not.EqualTo(y.Value));
             Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
         }
@@ -48,9 +48,9 @@ namespace Workbench.Core.Tests.Unit.Solver
             var actualResult = sut.Solve(MakeModel());
 
             // Assert
-            var actualSolution = actualResult.Solution;
-            var x = actualSolution.GetSingletonVariableValueByName("x");
-            var y = actualSolution.GetSingletonVariableValueByName("y");
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonVariableValueByName("x");
+            var y = actualSnapshot.GetSingletonVariableValueByName("y");
             Assert.That(x.Value, Is.InRange(1, 9));
             Assert.That(y.Value, Is.InRange(1, 9));
         }

@@ -6,12 +6,11 @@ using Workbench.Core.Models;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the solution.
+    /// View model for the solution viewer.
     /// </summary>
-    public sealed class SolutionViewerViewModel : Conductor<GraphicViewModel>.Collection.AllActive
+    public sealed class SolutionViewerViewModel : Conductor<VariableVisualizerViewerViewModel>.Collection.AllActive
     {
         private IObservableCollection<ValueViewModel> values;
-        private IObservableCollection<VariableVisualizerViewerViewModel> visualizers;
 
         /// <summary>
         /// Initialize the solution with a solution model.
@@ -23,18 +22,7 @@ namespace Workbench.ViewModels
                 throw new ArgumentNullException("theSolution");
 
             this.values = new BindableCollection<ValueViewModel>();
-            this.visualizers = new BindableCollection<VariableVisualizerViewerViewModel>();
-            this.Model = new SolutionModel();
-        }
-
-        /// <summary>
-        /// Initialize the solution with default values.
-        /// </summary>
-        public SolutionViewerViewModel()
-        {
-            this.Values = new BindableCollection<ValueViewModel>();
-            this.visualizers = new BindableCollection<VariableVisualizerViewerViewModel>();
-            this.Model = new SolutionModel();
+            this.Model = theSolution;
         }
 
         /// <summary>
@@ -51,19 +39,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the variable visualizers.
-        /// </summary>
-        public IObservableCollection<VariableVisualizerViewerViewModel> Visualizers
-        {
-            get { return visualizers; }
-            set
-            {
-                this.visualizers = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the solution model.
         /// </summary>
         public SolutionModel Model { get; set; }
@@ -71,12 +46,14 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Bind the values to the solution.
         /// </summary>
-        /// <param name="theValues">Values.</param>
+        /// <param name="theValues">SingletonValues.</param>
         public void BindTo(IEnumerable<ValueViewModel> theValues)
         {
             this.Reset();
             foreach (var value in theValues)
+            {
                 this.Values.Add(value);
+            }
         }
 
         /// <summary>
@@ -102,12 +79,32 @@ namespace Workbench.ViewModels
         /// Add a new variable visualizer.
         /// </summary>
         /// <param name="newVariableVisualizer">New visualizer.</param>
-        public void AddVisualzer(VariableVisualizerViewerViewModel newVariableVisualizer)
+        public void AddVisualizer(VariableVisualizerViewerViewModel newVariableVisualizer)
         {
             if (newVariableVisualizer == null)
                 throw new ArgumentNullException("newVariableVisualizer");
             this.ActivateItem(newVariableVisualizer);
-            this.Visualizers.Add(newVariableVisualizer);
+        }
+
+        /// <summary>
+        /// Unbind all viewers from their existing values.
+        /// </summary>
+        public void UnbindAll()
+        {
+            foreach (var aViewer in this.Items)
+            {
+                aViewer.Unbind();
+            }
+        }
+
+        /// <summary>
+        /// Get the visualizer bound to the variable matching the variable name.
+        /// </summary>
+        /// <param name="variableName">Name of the variable.</param>
+        /// <returns>Visualizer bound to the variable matching the variable name.</returns>
+        public VariableVisualizerModel GetVisualizerFor(string variableName)
+        {
+            return this.Model.GetVisualizerFor(variableName);
         }
     }
 }

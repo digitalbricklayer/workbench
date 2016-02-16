@@ -3,12 +3,13 @@
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the variable visualizer in design mode.
+    /// View model for the variable visualizer in viewer mode.
     /// </summary>
     public sealed class VariableVisualizerViewerViewModel : GraphicViewModel
     {
         private VariableViewModel boundTo;
         private VariableVisualizerModel model;
+        private ValueViewModel value;
 
         /// <summary>
         /// Initialize the variable visualizer viewer view model with the variable visualizer model.
@@ -34,9 +35,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the variable the visualizer is bound to.
+        /// Gets or sets the variable binding.
         /// </summary>
-        public VariableViewModel BoundTo
+        public VariableViewModel Binding
         {
             get
             {
@@ -47,6 +48,30 @@ namespace Workbench.ViewModels
                 this.boundTo = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the variable value;
+        /// </summary>
+        public ValueViewModel Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Unbind the value from viewer.
+        /// </summary>
+        public void Unbind()
+        {
+            this.Value = null;
         }
     }
 }

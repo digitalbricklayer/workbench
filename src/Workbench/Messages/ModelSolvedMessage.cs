@@ -1,5 +1,4 @@
 ﻿using System;
-using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
 namespace Workbench.Messages
@@ -19,7 +18,7 @@ namespace Workbench.Messages
                 throw new ArgumentNullException("theResult");
 
             this.Result = theResult;
-            this.Solution = theResult.Solution;
+            this.Snapshot = theResult.Snapshot;
         }
 
         /// <summary>
@@ -28,8 +27,8 @@ namespace Workbench.Messages
         public SolveResult Result { get; private set; }
 
         /// <summary>
-        /// Gets the model solution.
+        /// Gets the model solution snapshot.
         /// </summary>
-        public SolutionModel Solution { get; private set; }
+        public SolutionSnapshot Snapshot { get; private set; }
     }
 }

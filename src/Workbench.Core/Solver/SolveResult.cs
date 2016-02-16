@@ -1,10 +1,10 @@
 ﻿using System;
-using Workbench.Core.Models;
+using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Solver
 {
     /// <summary>
-    /// The constraint model solution.
+    /// A solution to the model.
     /// </summary>
     public sealed class SolveResult
     {
@@ -16,20 +16,19 @@ namespace Workbench.Core.Solver
         /// <summary>
         /// Gets the model solution.
         /// </summary>
-        public SolutionModel Solution { get; private set; }
+        public SolutionSnapshot Snapshot { get; private set; }
 
         /// <summary>
         /// Initialize the soltion result with status and solution.
         /// </summary>
         /// <param name="theStatus">Solve status.</param>
-        /// <param name="theSolution">Solution.</param>
-        public SolveResult(SolveStatus theStatus, SolutionModel theSolution)
+        /// <param name="theSnapshot">A solution snapshot.</param>
+        public SolveResult(SolveStatus theStatus, SolutionSnapshot theSnapshot)
         {
-            if (theSolution == null)
-                throw new ArgumentNullException("theSolution");
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
 
             this.Status = theStatus;
-            this.Solution = theSolution;
+            this.Snapshot = theSnapshot;
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace Workbench.Core.Solver
         }
 
         /// <summary>
-        /// Gets whether the solve succeeded.
+        /// Gets whether the result resolved the model successfully.
         /// </summary>
         public bool IsSuccess
         {

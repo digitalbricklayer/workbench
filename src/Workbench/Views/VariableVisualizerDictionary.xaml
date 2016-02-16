@@ -49,11 +49,8 @@
                 </Grid>
             </Grid>
             <controls:AdornedControl.AdornerContent>
-                <!-- 
-                This is the adorner that pops up when the user hovers the mouse over the domain name.
-                It displays a button that the user can click to edit the domain name.
-                -->
-                <Canvas x:Name="variableExpressionAdornerCanvas"
+                <!-- Just here because the app crashes if it isn't here... -->
+                <Canvas x:Name="designerAdornerCanvas"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Width="30"
@@ -64,6 +61,60 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:VariableVisualizerViewerViewModel}">
+        <!-- 
+        An adorned control is used to enable the edit button when the user 
+        hovers over the expression control.
+        -->
+        <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                 VerticalAdornerPlacement="Outside"
+                                 AdornerOffsetX="-12"
+                                 AdornerOffsetY="8"
+                                 IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
+            <Grid Width="120"
+                  Height="60">
+
+                <!-- This rectangle is the main visual for the node. -->
+                <Rectangle Stroke="Black"
+                           Fill="White"
+                           RadiusX="4"
+                           RadiusY="4" />
+
+                <!-- 
+                This grid contains the node's name and connectors.
+                The margin is negative so that the connectors overlap the body of the node and it's selection border.
+                -->
+                <Grid Margin="-8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="10" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="1"
+                                Grid.Row="1">
+                        <TextBlock x:Name="variableName"
+                                   Text="{Binding SelectedVariable}"/>
+
+                        <TextBlock x:Name="valueText"
+                                   Text="{Binding Value.Text}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <controls:AdornedControl.AdornerContent>
+                <!-- Just here because the app crashes if it isn't here... -->
+                <Canvas x:Name="viewerAdornerCanvas"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="30"
+                        Height="30">
+                </Canvas>
+            </controls:AdornedControl.AdornerContent>
+        </controls:AdornedControl>
     </DataTemplate>
 
 </ResourceDictionary>

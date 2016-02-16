@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -10,7 +12,6 @@ namespace Workbench.Core.Models
     {
         private ModelModel model;
         private SolutionModel solution;
-        private DisplayModel display;
 
         /// <summary>
         /// Initialize a workspace with default values.
@@ -18,8 +19,7 @@ namespace Workbench.Core.Models
         public WorkspaceModel()
         {
             this.Model = new ModelModel();
-            this.Solution = new SolutionModel();
-            this.Display = new DisplayModel();
+            this.Solution = new SolutionModel(this.Model);
         }
 
         /// <summary>
@@ -49,16 +49,13 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the solution display.
+        /// Add the visualizer.
         /// </summary>
-        public DisplayModel Display
+        /// <param name="theVisualizer">The visualizer to add.</param>
+        public void AddVisualizer(VariableVisualizerModel theVisualizer)
         {
-            get { return display; }
-            set
-            {
-                display = value;
-                OnPropertyChanged();
-            }
+            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            this.Solution.AddVisualizer(theVisualizer);
         }
 
         /// <summary>
@@ -82,6 +79,15 @@ namespace Workbench.Core.Models
         public static WorkspaceContext Create()
         {
             return new WorkspaceContext(new WorkspaceModel());
+        }
+
+        /// <summary>
+        /// Update the solution from a snapshot.
+        /// </summary>
+        /// <param name="theSnapshot">The snapshot.</param>
+        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        {
+            this.Solution.UpdateSolutionFrom(theSnapshot);
         }
     }
 }

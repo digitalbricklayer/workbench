@@ -25,8 +25,7 @@ namespace Workbench.Services
         /// <returns>Solution view model.</returns>
         internal SolutionViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
-            var solutionViewModel = new SolutionViewerViewModel();
-            solutionViewModel.Model = theSolutionModel;
+            var solutionViewModel = new SolutionViewerViewModel(theSolutionModel);
             foreach (var valueModel in theSolutionModel.SingletonValues)
             {
                 solutionViewModel.AddValue(this.valueMapper.MapFrom(valueModel));

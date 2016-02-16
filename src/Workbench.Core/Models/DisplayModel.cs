@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -41,6 +43,38 @@ namespace Workbench.Core.Models
             if (theVisualizer == null)
                 throw new ArgumentNullException("theVisualizer");
             this.Visualizers.Add(theVisualizer);
+        }
+
+        /// <summary>
+        /// Get the visualizer bound to the variable matching the variable name.
+        /// </summary>
+        /// <param name="theVariableName">Name of the variable.</param>
+        /// <returns>Visualizer bound to the variable matching the variable name.</returns>
+        public VariableVisualizerModel GetVisualizerFor(string theVariableName)
+        {
+            return (from aViewerViewModel in this.Visualizers
+                    where aViewerViewModel.Binding.Name == theVariableName
+                    select aViewerViewModel).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Update the solution from a snapshot.
+        /// </summary>
+        /// <param name="theSnapshot">The solution snapshot.</param>
+        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        {
+            foreach (var aVisualizer in this.Visualizers)
+            {
+                var theSingletonValue = theSnapshot.GetSingletonVariableValueByName(aVisualizer.Binding.Name);
+                if (theSingletonValue != null)
+                    aVisualizer.Value = theSingletonValue;
+                else
+                {
+                    var theAggregateValue = theSnapshot.GetAggregateVariableValueByName(aVisualizer.Binding.Name);
+                    if (theAggregateValue != null)
+                        aVisualizer.Value = theAggregateValue;
+                }
+            }
         }
     }
 }

@@ -46,7 +46,8 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             return new WorkspaceMapper(CreateWindowManager(),
                                        CreateViewModelFactory(),
-                                       CreateEventAggregator());
+                                       CreateEventAggregator(),
+                                       CreateDataService());
         }
 
         private static IViewModelFactory CreateViewModelFactory()

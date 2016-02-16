@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -11,14 +13,15 @@ namespace Workbench.Core.Models
     [Serializable]
     public class SolutionModel : AbstractModel
     {
+        private DisplayModel display;
         private ObservableCollection<ValueModel> singletonValues;
-        private ObservableCollection<AggregateValueModel> aggregateValues;
+        private ObservableCollection<ValueModel> aggregateValues;
 
         /// <summary>
         /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">Values making up the model solution.</param>
+        /// <param name="theValues">SingletonValues making up the model solution.</param>
         public SolutionModel(ModelModel theModel, params ValueModel[] theValues)
             : this(theModel)
         {
@@ -32,7 +35,7 @@ namespace Workbench.Core.Models
         /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">Values making up the model solution.</param>
+        /// <param name="theValues">SingletonValues making up the model solution.</param>
         public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theValues)
             : this(theModel)
         {
@@ -57,8 +60,22 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionModel()
         {
+            this.Display = new DisplayModel();
             this.SingletonValues = new ObservableCollection<ValueModel>();
-            this.AggregateValues = new ObservableCollection<AggregateValueModel>();
+            this.AggregateValues = new ObservableCollection<ValueModel>();
+        }
+
+        /// <summary>
+        /// Gets or sets the solution display.
+        /// </summary>
+        public DisplayModel Display
+        {
+            get { return display; }
+            set
+            {
+                display = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -77,7 +94,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets and sets the aggregate values in the solution.
         /// </summary>
-        public ObservableCollection<AggregateValueModel> AggregateValues
+        public ObservableCollection<ValueModel> AggregateValues
         {
             get { return aggregateValues; }
             set
@@ -98,6 +115,7 @@ namespace Workbench.Core.Models
         /// <param name="theValue">New value.</param>
         public void AddSingletonValue(ValueModel theValue)
         {
+            Contract.Requires<ArgumentNullException>(theValue != null);
             this.SingletonValues.Add(theValue);
         }
 
@@ -105,8 +123,9 @@ namespace Workbench.Core.Models
         /// Add a value to the solution.
         /// </summary>
         /// <param name="theValue">New value.</param>
-        public void AddAggregateValue(AggregateValueModel theValue)
+        public void AddAggregateValue(ValueModel theValue)
         {
+            Contract.Requires<ArgumentNullException>(theValue != null);
             this.AggregateValues.Add(theValue);
         }
 
@@ -117,6 +136,7 @@ namespace Workbench.Core.Models
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
         public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return this.SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
 
@@ -125,9 +145,41 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Aggregate value.</param>
         /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
-        public AggregateValueModel GetAggregateVariableValueByName(string theVariableName)
+        public ValueModel GetAggregateVariableValueByName(string theVariableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return this.AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+        }
+
+        /// <summary>
+        /// Add the visualizer.
+        /// </summary>
+        /// <param name="theVisualizer">The visualizer to add.</param>
+        public void AddVisualizer(VariableVisualizerModel theVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            this.Display.AddVisualizer(theVisualizer);
+        }
+
+        /// <summary>
+        /// Get the visualizer bound to the variable matching the variable name.
+        /// </summary>
+        /// <param name="theVariableName">Name of the variable.</param>
+        /// <returns>Visualizer bound to the variable matching the variable name.</returns>
+        public VariableVisualizerModel GetVisualizerFor(string theVariableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
+            return this.Display.GetVisualizerFor(theVariableName);
+        }
+
+        /// <summary>
+        /// Update the solution from a snapshot.
+        /// </summary>
+        /// <param name="theSnapshot">The snapshot.</param>
+        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        {
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
+            this.Display.UpdateSolutionFrom(theSnapshot);
         }
     }
 }

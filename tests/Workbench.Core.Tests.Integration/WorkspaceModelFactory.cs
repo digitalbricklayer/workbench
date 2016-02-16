@@ -39,7 +39,7 @@ namespace Workbench.UI.Tests.Integration
         {
             var solutionModel = new SolutionModel();
             var x = new VariableModel("x");
-            var valueOfX = new ValueModel(x);
+            var valueOfX = new ValueModel(x, 1);
             solutionModel.AddSingletonValue(valueOfX);
             return solutionModel;
         }

@@ -158,21 +158,20 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolveResult Solve()
         {
-            var theModel = this.Model;
-            var isModelValid = theModel.Validate();
+            var isModelValid = this.Model.Validate();
             if (!isModelValid)
             {
-                Trace.Assert(theModel.Errors.Any());
+                Trace.Assert(this.Model.Errors.Any());
 
-                this.DisplayErrorDialog(theModel);
+                this.DisplayErrorDialog(this.Model);
                 return SolveResult.InvalidModel;
             }
 
-            Trace.Assert(!theModel.Errors.Any());
+            Trace.Assert(!this.Model.Errors.Any());
 
             var solver = new OrToolsSolver();
 
-            return solver.Solve(theModel);
+            return solver.Solve(this.Model);
         }
 
         /// <summary>

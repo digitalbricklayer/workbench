@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -18,8 +19,7 @@ namespace Workbench.ViewModels
         /// <param name="theVariable">The variable the value is bound to.</param>
         public ValueViewModel(VariableViewModel theVariable)
         {
-            if (theVariable == null)
-                throw new ArgumentNullException("theVariable");
+            Contract.Requires<ArgumentNullException>(theVariable != null);
             this.Variable = theVariable;
         }
 

@@ -46,7 +46,7 @@ namespace Workbench.ViewModels
                                             theWindowManager, 
                                             theEventAggregator);
             this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
-            this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Display);
+            this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Solution.Display);
             this.SelectedDisplayMode = "Model";
         }
 
@@ -166,7 +166,8 @@ namespace Workbench.ViewModels
         {
             var solveResult = this.Model.Solve();
             if (!solveResult.IsSuccess) return;
-            this.DisplaySolution(solveResult.Solution);
+            this.WorkspaceModel.UpdateSolutionFrom(solveResult.Snapshot);
+            this.DisplaySolution(this.WorkspaceModel.Solution);
             this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
         }
 
@@ -233,12 +234,22 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new visualizer to the solution.
+        /// Add a new designer to the solution designer.
         /// </summary>
-        /// <param name="variableVisualizer"></param>
-        public void AddVisualizer(VariableVisualizerDesignViewModel variableVisualizer)
+        /// <param name="newDesigner">Visualizer designer.</param>
+        public void AddDesigner(VariableVisualizerDesignViewModel newDesigner)
         {
-            this.Designer.AddVisualizer(variableVisualizer);
+            this.Designer.AddVisualizer(newDesigner);
+            this.IsDirty = true;
+        }
+
+        /// <summary>
+        /// Add a new viewer to the solution designer.
+        /// </summary>
+        /// <param name="newViewer">Variable viewer.</param>
+        public void AddViewer(VariableVisualizerViewerViewModel newViewer)
+        {
+            this.Viewer.AddVisualizer(newViewer);
             this.IsDirty = true;
         }
 
@@ -277,7 +288,7 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            this.Viewer.Reset();
+            this.Viewer.UnbindAll();
             var newValues = new List<ValueViewModel>();
             foreach (var value in theSolution.SingletonValues)
             {

@@ -208,6 +208,7 @@ namespace Workbench.Core.Models
                 throw new ArgumentNullException("newDomain");
             if (string.IsNullOrWhiteSpace(newDomain.Name))
                 throw new ArgumentException("Shared domains must have a name.", "newDomain");
+            newDomain.AssignIdentity();
             this.Domains.Add(newDomain);
         }
 

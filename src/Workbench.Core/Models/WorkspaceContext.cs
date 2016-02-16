@@ -9,19 +9,19 @@ namespace Workbench.Core.Models
     /// </summary>
     public class WorkspaceContext
     {
-        private readonly WorkspaceModel model;
+        private readonly WorkspaceModel workspace;
 
         internal WorkspaceContext(WorkspaceModel theWorkspace)
         {
             if (theWorkspace == null)
                 throw new ArgumentNullException("theWorkspace");
-            this.model = theWorkspace;
+            this.workspace = theWorkspace;
         }
 
         public WorkspaceContext AddSingleton(string theVariableName, string theDomainExpression)
         {
             var newVariable = new VariableModel(theVariableName, theDomainExpression);
-            this.model.Model.AddVariable(newVariable);
+            this.workspace.Model.AddVariable(newVariable);
 
             return this;
         }
@@ -29,7 +29,7 @@ namespace Workbench.Core.Models
         public WorkspaceContext AddAggregate(string newAggregateName, int aggregateSize, string newDomainExpression)
         {
             var newVariable = new AggregateVariableModel(newAggregateName, aggregateSize, newDomainExpression);
-            this.model.Model.AddVariable(newVariable);
+            this.workspace.Model.AddVariable(newVariable);
 
             return this;
         }
@@ -37,38 +37,46 @@ namespace Workbench.Core.Models
         public WorkspaceContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
             var newDomain = new DomainModel(newDomainName, new Point(1, 1),  new DomainExpressionModel(newDomainExpression));
-            this.model.Model.AddSharedDomain(newDomain);
+            this.workspace.Model.AddSharedDomain(newDomain);
 
             return this;
         }
 
         public WorkspaceContext WithSharedDomain(DomainModel theDomainExpression)
         {
-            this.model.Model.AddSharedDomain(theDomainExpression);
+            this.workspace.Model.AddSharedDomain(theDomainExpression);
             return this;
         }
 
         public WorkspaceContext WithConstraint(string theConstraintExpression)
         {
-            this.model.Model.AddConstraint(new ConstraintModel(theConstraintExpression));
+            this.workspace.Model.AddConstraint(new ConstraintModel(theConstraintExpression));
+            return this;
+        }
+
+        public WorkspaceContext WithVisualizerBindingTo(string variableNameToBindTo)
+        {
+            var theVisualizer = new VariableVisualizerModel(new Point());
+            theVisualizer.BindTo(this.workspace.Model.GetVariableByName(variableNameToBindTo));
+            this.workspace.AddVisualizer(theVisualizer);
             return this;
         }
 
         public ModelModel GetModel()
         {
-            Debug.Assert(this.model != null);
-            return this.model.Model;
+            Debug.Assert(this.workspace != null);
+            return this.workspace.Model;
         }
 
         public DisplayModel GetDisplay()
         {
-            Debug.Assert(this.model != null);
-            return this.model.Display;
+            Debug.Assert(this.workspace != null);
+            return this.workspace.Solution.Display;
         }
 
         public WorkspaceModel Build()
         {
-            return this.model;
+            return this.workspace;
         }
     }
 }

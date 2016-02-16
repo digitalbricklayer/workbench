@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -28,11 +29,10 @@ namespace Workbench.Core.Solver
         /// <summary>
         /// Solve the problem in the model.
         /// </summary>
-        /// <param name="theModel">The problem workspace.</param>
+        /// <param name="theModel">The model to solve.</param>
         public SolveResult Solve(ModelModel theModel)
         {
-            if (theModel == null)
-                throw new ArgumentNullException("theModel");
+            Contract.Requires<ArgumentNullException>(theModel != null);
 
             this.model = theModel;
 
@@ -51,8 +51,8 @@ namespace Workbench.Core.Solver
             var solveResult = this.solver.Solve(db, collector);
             if (!solveResult) return SolveResult.Failed;
 
-            var theSolution = this.ExtractValuesFrom(collector);
-            return new SolveResult(SolveStatus.Success, theSolution);
+            var theSolutionSnapshot = this.ExtractValuesFrom(collector);
+            return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
         }
 
         private void ProcessConstraints(ModelModel theModel)
@@ -271,15 +271,14 @@ namespace Workbench.Core.Solver
             return collector;
         }
 
-        private SolutionModel ExtractValuesFrom(SolutionCollector solutionCollector)
+        private SolutionSnapshot ExtractValuesFrom(SolutionCollector solutionCollector)
         {
-            var theSolution = new SolutionModel(this.model);
+            var theSnapshot = new SolutionSnapshot();
             foreach (var variableTuple in this.singletonVariableMap)
             {
-                var newValue = new ValueModel(variableTuple.Value.Item1);
                 var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
-                newValue.Value = Convert.ToInt32(boundValue);
-                theSolution.AddSingletonValue(newValue);
+                var newValue = new ValueModel(variableTuple.Value.Item1, Convert.ToInt32(boundValue));
+                theSnapshot.AddSingletonValue(newValue);
             }
 
             foreach (var aggregateTuple in this.aggregateVariableMap)
@@ -291,11 +290,11 @@ namespace Workbench.Core.Solver
                     var boundValue = solutionCollector.Value(0, orVariable);
                     newValues.Add(Convert.ToInt32(boundValue));
                 }
-                var newValue = new AggregateValueModel(aggregateTuple.Value.Item1, newValues);
-                theSolution.AddAggregateValue(newValue);
+                var newValue = new ValueModel(aggregateTuple.Value.Item1, newValues);
+                theSnapshot.AddAggregateValue(newValue);
             }
 
-            return theSolution;
+            return theSnapshot;
         }
 
         private IntVar GetSingletonVariableByName(string theVariableName)

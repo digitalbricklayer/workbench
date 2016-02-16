@@ -53,15 +53,29 @@ namespace Workbench.Commands
         /// </summary>
         /// <param name="parameter">
         /// Data used by the command. 
-        /// If the command does not require data to be passed, this object can be set to null.</param>
+        /// If the command does not require data to be passed, this object can be set to null.
+        /// </param>
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            var visualizerDesignViewModel = new VariableVisualizerDesignViewModel(new VariableVisualizerModel(newVisualizerLocation),
+            var newVisualizerModel = new VariableVisualizerModel(newVisualizerLocation);
+            this.CreateDesigner(newVisualizerModel);
+            this.CreateViewer(newVisualizerModel);
+            this.titleBar.UpdateTitle();
+        }
+
+        private void CreateViewer(VariableVisualizerModel newVisualizerModel)
+        {
+            var visualizerViewerViewModel = new VariableVisualizerViewerViewModel(newVisualizerModel);
+            this.workspace.AddViewer(visualizerViewerViewModel);
+        }
+
+        private void CreateDesigner(VariableVisualizerModel newVisualizerModel)
+        {
+            var visualizerDesignViewModel = new VariableVisualizerDesignViewModel(newVisualizerModel,
                                                                                   this.eventAggregator,
                                                                                   this.dataService);
-            this.workspace.AddVisualizer(visualizerDesignViewModel);
-            this.titleBar.UpdateTitle();
+            this.workspace.AddDesigner(visualizerDesignViewModel);
         }
     }
 }
