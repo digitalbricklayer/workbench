@@ -180,6 +180,16 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.Display.UpdateSolutionFrom(theSnapshot);
+
+            foreach (var aSingletonValue in theSnapshot.SingletonValues)
+            {
+                this.AddSingletonValue(aSingletonValue);
+            }
+
+            foreach (var anAggregateValue in theSnapshot.AggregateValues)
+            {
+                this.AddAggregateValue(anAggregateValue);
+            }
         }
     }
 }

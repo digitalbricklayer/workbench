@@ -10,11 +10,13 @@ namespace Workbench.Services
     internal class SolutionMapper
     {
         private readonly ValueMapper valueMapper;
+        private ViewModelCache viewModelCache;
 
         internal SolutionMapper(ViewModelCache theCache)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");
+            this.viewModelCache = theCache;
             this.valueMapper = new ValueMapper(theCache);
         }
 
@@ -29,6 +31,14 @@ namespace Workbench.Services
             foreach (var valueModel in theSolutionModel.SingletonValues)
             {
                 solutionViewModel.AddValue(this.valueMapper.MapFrom(valueModel));
+            }
+
+            foreach (var aVisualizer in theSolutionModel.Display.Visualizers)
+            {
+                var newViewer = new VariableVisualizerViewerViewModel(aVisualizer);
+                if (aVisualizer.Binding != null)
+                    newViewer.Binding = this.viewModelCache.GetVariableByIdentity(aVisualizer.Binding.Id);
+                solutionViewModel.ActivateItem(newViewer);
             }
 
             return solutionViewModel;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -46,13 +48,16 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Bind the values to the solution.
         /// </summary>
-        /// <param name="theValues">SingletonValues.</param>
+        /// <param name="theValues">Variable values.</param>
         public void BindTo(IEnumerable<ValueViewModel> theValues)
         {
             this.Reset();
-            foreach (var value in theValues)
+            foreach (var aValue in theValues)
             {
-                this.Values.Add(value);
+                var theVisualizer = this.GetVisualizerFor(aValue.VariableName);
+                if (theVisualizer != null)
+                    theVisualizer.Value = aValue;
+                this.Values.Add(aValue);
             }
         }
 
@@ -61,6 +66,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
+            foreach (var aVisualizer in this.Items)
+            {
+                aVisualizer.Unbind();
+            }
             this.Values.Clear();
         }
 
@@ -102,9 +111,12 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="variableName">Name of the variable.</param>
         /// <returns>Visualizer bound to the variable matching the variable name.</returns>
-        public VariableVisualizerModel GetVisualizerFor(string variableName)
+        public VariableVisualizerViewerViewModel GetVisualizerFor(string variableName)
         {
-            return this.Model.GetVisualizerFor(variableName);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            return (from x in this.Items
+                    where x.Binding.Name == variableName
+                    select x).FirstOrDefault();
         }
     }
 }

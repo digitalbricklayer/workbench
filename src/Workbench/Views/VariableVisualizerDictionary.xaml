@@ -98,10 +98,10 @@
                     <StackPanel Grid.Column="1"
                                 Grid.Row="1">
                         <TextBlock x:Name="variableName"
-                                   Text="{Binding SelectedVariable}"/>
+                                   Text="{Binding Binding.Name}"/>
 
                         <TextBlock x:Name="valueText"
-                                   Text="{Binding Value.Text}"/>
+                                   Text="{Binding Value.Value}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
