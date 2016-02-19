@@ -41,6 +41,7 @@
                     <StackPanel Grid.Column="1"
                                 Grid.Row="1">
                         <ComboBox x:Name="variableSelector"
+                                  DisplayMemberPath="Name"
                                   ItemsSource="{Binding AvailableVariables}"
                                   SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"/>
 
