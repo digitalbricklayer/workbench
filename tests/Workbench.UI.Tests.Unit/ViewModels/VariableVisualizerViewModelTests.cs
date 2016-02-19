@@ -57,7 +57,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var x = new WorkspaceViewModel(this.dataServiceMock.Object,
                                            this.windowManagerMock.Object,
-                                           this.eventAggregator.Object);
+                                           this.eventAggregator.Object,
+                                           this.viewModelCacheMock.Object);
             x.AddSingletonVariable("x", new Point());
             return x;
         }

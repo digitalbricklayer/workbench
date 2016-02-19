@@ -50,7 +50,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var newWorkspace = new WorkspaceViewModel(this.dataService,
                                                       this.windowManagerMock.Object,
-                                                      this.eventAggregator);
+                                                      this.eventAggregator,
+                                                      this.viewModelMock.Object);
             newWorkspace.AddSingletonVariable("x", new Point());
             this.xVariable = newWorkspace.Model.GetVariableByName("x");
             this.xVariable.DomainExpression.Text = "1..2";
