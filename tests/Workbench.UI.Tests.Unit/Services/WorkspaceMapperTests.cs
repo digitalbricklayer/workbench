@@ -10,6 +10,14 @@ namespace Workbench.UI.Tests.Unit.Services
     [TestFixture]
     public class WorkspaceMapperTests
     {
+        private IViewModelCache viewModelCache;
+
+        [SetUp]
+        public void Initialize()
+        {
+            this.viewModelCache = new ViewModelCache();
+        }
+
         [Test]
         public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
         {
@@ -42,33 +50,68 @@ namespace Workbench.UI.Tests.Unit.Services
             Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
         }
 
-        private static WorkspaceMapper CreateSut()
+        private WorkspaceMapper CreateSut()
         {
-            return new WorkspaceMapper(CreateWindowManager(),
-                                       CreateViewModelFactory(),
-                                       CreateEventAggregator(),
-                                       CreateDataService());
+            return new WorkspaceMapper(CreateModelMapper(),
+                                       CreateSolutionMapper(),
+                                       CreateDisplayMapper(),
+                                       CreateViewModelFactoryMock().Object);
         }
 
-        private static IViewModelFactory CreateViewModelFactory()
+        private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
             mock.Setup(_ => _.CreateWorkspace())
-                .Returns(CreateNewWorkspace());
-            return mock.Object;
+                .Returns(new WorkspaceViewModel(CreateDataService(),
+                                                CreateWindowManager(),
+                                                CreateEventAggregator()));
+
+            return mock;
         }
 
-        private static WorkspaceViewModel CreateNewWorkspace()
+        private DisplayMapper CreateDisplayMapper()
         {
-            return new WorkspaceViewModel(CreateDataService(),
-                                          CreateWindowManager(),
-                                          CreateEventAggregator());
+            return new DisplayMapper(CreateEventAggregator(),
+                                     CreateDataService(),
+                                     this.viewModelCache);
+        }
+
+        private SolutionMapper CreateSolutionMapper()
+        {
+            return new SolutionMapper(this.viewModelCache,
+                                      CreateEventAggregator());
+        }
+
+        private ModelMapper CreateModelMapper()
+        {
+            return new ModelMapper(CreateVariableMapper(),
+                                   CreateConstraintMapper(),
+                                   CreateDomainMapper(),
+                                   CreateWindowManager(),
+                                   CreateEventAggregator());
+        }
+
+        private DomainMapper CreateDomainMapper()
+        {
+            return new DomainMapper(this.viewModelCache);
+        }
+
+        private ConstraintMapper CreateConstraintMapper()
+        {
+            return new ConstraintMapper(this.viewModelCache);
+        }
+
+        private VariableMapper CreateVariableMapper()
+        {
+            return new VariableMapper(this.viewModelCache,
+                                      CreateEventAggregator());
         }
 
         private static IDataService CreateDataService()
         {
             var mock = new Mock<IDataService>();
-            mock.Setup(_ => _.GetWorkspace()).Returns(new WorkspaceModel());
+            mock.Setup(_ => _.GetWorkspace())
+                .Returns(new WorkspaceModel());
             return mock.Object;
         }
 

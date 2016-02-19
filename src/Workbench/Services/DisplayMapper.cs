@@ -9,19 +9,23 @@ namespace Workbench.Services
     /// <summary>
     /// Map the display model to a solution designer view model.
     /// </summary>
-    internal class DisplayMapper
+    public class DisplayMapper
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IDataService dataService;
+        private readonly IViewModelCache viewModelCache;
 
         public DisplayMapper(IEventAggregator theEventAggregator,
-                             IDataService theDataService)
+                             IDataService theDataService,
+                             IViewModelCache theViewModelCache)
         {
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
 
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
+            this.viewModelCache = theViewModelCache;
         }
 
         /// <summary>
@@ -38,7 +42,8 @@ namespace Workbench.Services
             {
                 var newVisualizerViewModel = new VariableVisualizerDesignViewModel(aVisualizer,
                                                                                    this.eventAggregator,
-                                                                                   this.dataService);
+                                                                                   this.dataService,
+                                                                                   this.viewModelCache);
                 newDesignerViewModel.AddVisualizer(newVisualizerViewModel);
             }
 

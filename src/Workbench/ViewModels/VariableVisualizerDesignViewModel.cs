@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Messages;
@@ -12,14 +13,14 @@ namespace Workbench.ViewModels
     public sealed class VariableVisualizerDesignViewModel : GraphicViewModel,
                                                             IHandle<SingletonVariableAddedMessage>,
                                                             IHandle<AggregateVariableAddedMessage>,
-                                                            IHandle<VariableRenamedMessage>,
                                                             IHandle<VariableDeletedMessage>
     {
         private VariableVisualizerModel model;
-        private IObservableCollection<string> availableVariables;
-        private string selectedVariable;
+        private IObservableCollection<VariableViewModel> availableVariables;
+        private VariableViewModel selectedVariable;
         private readonly IEventAggregator eventAggregator;
         private readonly IDataService dataService;
+        private readonly IViewModelCache viewModelCache;
 
         /// <summary>
         /// Initialize the variable visualizer design view model with the 
@@ -28,23 +29,25 @@ namespace Workbench.ViewModels
         /// <param name="theVariableVisualizerModel">Visualizer model.</param>
         /// <param name="theEventAggregator">The event aggregator.</param>
         /// <param name="theDataService">Data service.</param>
+        /// <param name="theViewModelCache">The workspace.</param>
         public VariableVisualizerDesignViewModel(VariableVisualizerModel theVariableVisualizerModel,
                                                  IEventAggregator theEventAggregator,
-                                                 IDataService theDataService)
+                                                 IDataService theDataService,
+                                                 IViewModelCache theViewModelCache)
             : base(theVariableVisualizerModel)
         {
-            if (theVariableVisualizerModel == null)
-                throw new ArgumentNullException("theVariableVisualizerModel");
+            Contract.Requires<ArgumentNullException>(theVariableVisualizerModel != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
 
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
-
-            this.AvailableVariables = new BindableCollection<string>();
+            this.AvailableVariables = new BindableCollection<VariableViewModel>();
             this.Model = theVariableVisualizerModel;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
+            this.viewModelCache = theViewModelCache;
             if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
-                this.selectedVariable = this.Model.Binding.Name;
+                SelectVariableBinding();
+            this.eventAggregator.Subscribe(this);
         }
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the available variables available to bind to.
         /// </summary>
-        public IObservableCollection<string> AvailableVariables
+        public IObservableCollection<VariableViewModel> AvailableVariables
         {
             get { return availableVariables; }
             set
@@ -76,18 +79,23 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the selected variable to bind to.
         /// </summary>
-        public string SelectedVariable
+        public VariableViewModel SelectedVariable
         {
             get { return this.selectedVariable; }
             set
             {
                 this.selectedVariable = value;
-                NotifyOfPropertyChange();
-                if (this.selectedVariable != string.Empty)
+                if (this.SelectedVariable != null)
                 {
-                    var variableToBindTo = this.dataService.GetVariableByName(this.selectedVariable);
+                    var variableToBindTo = this.dataService.GetVariableByName(this.SelectedVariable.Name);
                     this.Model.BindTo(variableToBindTo);
                 }
+                NotifyOfPropertyChange();
+
+                var newVariableBoundMessage 
+                    = new VariableVisualizerBoundMessage(this.Model,
+                                                         this.SelectedVariable);
+                this.eventAggregator.BeginPublishOnUIThread(newVariableBoundMessage);
             }
         }
 
@@ -97,7 +105,7 @@ namespace Workbench.ViewModels
         /// <param name="theMessage">Variable added message.</param>
         public void Handle(SingletonVariableAddedMessage theMessage)
         {
-            this.AvailableVariables.Add(theMessage.NewVariableName);
+            this.AvailableVariables.Add(theMessage.NewVariable);
         }
 
         /// <summary>
@@ -106,17 +114,7 @@ namespace Workbench.ViewModels
         /// <param name="message">Variable added message.</param>
         public void Handle(AggregateVariableAddedMessage message)
         {
-            this.AvailableVariables.Add(message.NewVariableName);
-        }
-
-        /// <summary>
-        /// Handle a variable renamed message.
-        /// </summary>
-        /// <param name="message">Variable rename message.</param>
-        public void Handle(VariableRenamedMessage message)
-        {
-            this.AvailableVariables.Remove(message.OldName);
-            this.AvailableVariables.Add(message.NewName);
+            this.AvailableVariables.Add(message.Added);
         }
 
         /// <summary>
@@ -125,9 +123,9 @@ namespace Workbench.ViewModels
         /// <param name="message">Variable deleted message.</param>
         public void Handle(VariableDeletedMessage message)
         {
-            this.AvailableVariables.Remove(message.VariableName);
-            if (this.SelectedVariable == message.VariableName)
-                this.SelectedVariable = string.Empty;
+            this.AvailableVariables.Remove(message.Deleted);
+            if (this.SelectedVariable == message.Deleted)
+                this.SelectedVariable = null;
         }
 
         /// <summary>
@@ -137,7 +135,6 @@ namespace Workbench.ViewModels
         {
             base.OnInitialize();
             this.PopulateAvailableVariables();
-            this.eventAggregator.Subscribe(this);
         }
 
         /// <summary>
@@ -146,12 +143,16 @@ namespace Workbench.ViewModels
         private void PopulateAvailableVariables()
         {
             this.AvailableVariables.Clear();
-            var theWorkspace = this.dataService.GetWorkspace();
-            var theModel = theWorkspace.Model;
-            foreach (var aVariable in theModel.Variables)
+            var allVariables = this.viewModelCache.GetAllVariables();
+            foreach (var aVariable in allVariables)
             {
-                this.AvailableVariables.Add(aVariable.Name);
+                this.AvailableVariables.Add(aVariable);
             }
+        }
+
+        private void SelectVariableBinding()
+        {
+            this.selectedVariable = this.viewModelCache.GetVariableByIdentity(this.Model.Binding.Id);
         }
     }
 }

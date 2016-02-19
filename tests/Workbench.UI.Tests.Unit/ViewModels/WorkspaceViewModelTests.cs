@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
 using Workbench.Core.Models;
@@ -7,74 +8,62 @@ using Workbench.ViewModels;
 
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
+    /// <summary>
+    /// Fixture to test using an empty workspace.
+    /// </summary>
     [TestFixture]
     public class WorkspaceViewModelTests
     {
-        private Mock<IDataService> dataServiceMock;
+        private IDataService dataService;
         private Mock<IWindowManager> windowManagerMock;
-        private Mock<IEventAggregator> eventAggregatorMock;
-        private Mock<IViewModelFactory> viewModelFactoryMock;
-        private WorkspaceModel workspaceModel;
+        private IEventAggregator eventAggregator;
+        private Mock<IViewModelCache> viewModelMock;
+        private VariableViewModel xVariable;
 
         [SetUp]
         public void Initialize()
         {
-            this.workspaceModel = WorkspaceModelFactory.Create();
-            this.dataServiceMock = CreateDataServiceMock();
+            this.dataService = new DataService(CreateWorkspaceReaderWriterMock().Object);
             this.windowManagerMock = new Mock<IWindowManager>();
-            this.eventAggregatorMock = new Mock<IEventAggregator>();
-            this.viewModelFactoryMock = CreateViewModelMock();
+            this.eventAggregator = new EventAggregator();
+            this.viewModelMock = new Mock<IViewModelCache>();
         }
 
         [Test]
-        public void SolveModelWithValidModelDisplaysSolution()
+        public void SolveModelWithVisualizerDisplaysSolution()
         {
             var sut = CreateSut();
+            var theVisualizer = new VariableVisualizerModel(new Point());
+            var newViewer = new VariableVisualizerViewerViewModel(theVisualizer, this.eventAggregator);
+            sut.AddViewer(newViewer);
+            var newDesigner = new VariableVisualizerDesignViewModel(theVisualizer,
+                                                                    this.eventAggregator,
+                                                                    this.dataService,
+                                                                    this.viewModelMock.Object);
+            sut.AddDesigner(newDesigner);
+            newDesigner.SelectedVariable = this.xVariable;
             sut.SolveModel();
             Assert.That(sut.SelectedDisplayMode, Is.EqualTo("Solution"));
         }
 
-        [Test]
-        public void SolveModelWithValidModelVisualizerHasValue()
-        {
-            var sut = CreateSut();
-            sut.SolveModel();
-            var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
-            Assert.That(actualVisualizer.Value.Value, Is.GreaterThan(1)
-                                                        .And
-                                                        .LessThanOrEqualTo(10));
-        }
-
         private WorkspaceViewModel CreateSut()
         {
-            var workspaceMapper = new WorkspaceMapper(this.windowManagerMock.Object,
-                                                      this.viewModelFactoryMock.Object,
-                                                      this.eventAggregatorMock.Object,
-                                                      this.dataServiceMock.Object);
-            return workspaceMapper.MapFrom(this.workspaceModel);
+            var newWorkspace = new WorkspaceViewModel(this.dataService,
+                                                      this.windowManagerMock.Object,
+                                                      this.eventAggregator);
+            newWorkspace.AddSingletonVariable("x", new Point());
+            this.xVariable = newWorkspace.Model.GetVariableByName("x");
+            this.xVariable.DomainExpression.Text = "1..2";
+            newWorkspace.AddConstraint("X", new Point());
+            var theConstraint = newWorkspace.Model.GetConstraintByName("X");
+            theConstraint.Expression.Text = "x > 1";
+
+            return newWorkspace;
         }
 
-        private Mock<IDataService> CreateDataServiceMock()
+        private Mock<IWorkspaceReaderWriter> CreateWorkspaceReaderWriterMock()
         {
-            var mock = new Mock<IDataService>();
-            mock.Setup(_ => _.GetWorkspace())
-                .Returns(this.workspaceModel);
-            return mock;
-        }
-
-        private Mock<IViewModelFactory> CreateViewModelMock()
-        {
-            var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateWorkspace())
-                .Returns(CreateWorkspaceViewModel);
-            return mock;
-        }
-
-        private WorkspaceViewModel CreateWorkspaceViewModel()
-        {
-            return new WorkspaceViewModel(this.dataServiceMock.Object,
-                                          this.windowManagerMock.Object,
-                                          this.eventAggregatorMock.Object);
+            return new Mock<IWorkspaceReaderWriter>();
         }
     }
 }

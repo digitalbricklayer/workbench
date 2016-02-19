@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -7,16 +9,19 @@ namespace Workbench.Services
     /// <summary>
     /// Map the solution model into a view model.
     /// </summary>
-    internal class SolutionMapper
+    public class SolutionMapper
     {
         private readonly ValueMapper valueMapper;
-        private ViewModelCache viewModelCache;
+        private readonly IViewModelCache viewModelCache;
+        private readonly IEventAggregator eventAggregator;
 
-        internal SolutionMapper(ViewModelCache theCache)
+        public SolutionMapper(IViewModelCache theCache, IEventAggregator theEventAggregator)
         {
-            if (theCache == null)
-                throw new ArgumentNullException("theCache");
+            Contract.Requires<ArgumentNullException>(theCache != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+
             this.viewModelCache = theCache;
+            this.eventAggregator = theEventAggregator;
             this.valueMapper = new ValueMapper(theCache);
         }
 
@@ -35,7 +40,8 @@ namespace Workbench.Services
 
             foreach (var aVisualizer in theSolutionModel.Display.Visualizers)
             {
-                var newViewer = new VariableVisualizerViewerViewModel(aVisualizer);
+                var newViewer = new VariableVisualizerViewerViewModel(aVisualizer,
+                                                                      this.eventAggregator);
                 if (aVisualizer.Binding != null)
                     newViewer.Binding = this.viewModelCache.GetVariableByIdentity(aVisualizer.Binding.Id);
                 solutionViewModel.ActivateItem(newViewer);

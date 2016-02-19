@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -124,7 +125,7 @@ namespace Workbench.ViewModels
             this.Variables.Remove(variableToDelete);
             this.DeactivateItem(variableToDelete, close:true);
             this.DeleteVariableFromModel(variableToDelete);
-            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete.Name));
+            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete));
         }
 
         /// <summary>
@@ -184,6 +185,17 @@ namespace Workbench.ViewModels
             if (string.IsNullOrWhiteSpace(variableName))
                 throw new ArgumentNullException("variableName");
             return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+        }
+
+        /// <summary>
+        /// Get the constraint with the constraint name.
+        /// </summary>
+        /// <param name="constraintName">Name of the constraint.</param>
+        /// <returns>Constraint view model matching the name.</returns>
+        public ConstraintViewModel GetConstraintByName(string constraintName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
+            return this.Constraints.FirstOrDefault(_ => _.Name == constraintName);
         }
 
         /// <summary>

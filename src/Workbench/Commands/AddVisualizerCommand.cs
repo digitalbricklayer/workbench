@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -17,6 +18,7 @@ namespace Workbench.Commands
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelCache viewModelCache;
 
         /// <summary>
         /// Initialize an add visualizer command with a workspace and titlebar.
@@ -25,10 +27,12 @@ namespace Workbench.Commands
         /// <param name="theTitleBar">Title bar view model.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
         /// <param name="theDataService">Event aggregator.</param>
+        /// <param name="theViewModelCache">View model cache.</param>
         public AddVisualizerCommand(WorkspaceViewModel theWorkspace,
                                     TitleBarViewModel theTitleBar,
                                     IEventAggregator theEventAggregator,
-                                    IDataService theDataService)
+                                    IDataService theDataService,
+                                    IViewModelCache theViewModelCache)
         {
             if (theWorkspace == null)
                 throw new ArgumentNullException("theWorkspace");
@@ -41,11 +45,13 @@ namespace Workbench.Commands
 
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
+            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
 
             this.workspace = theWorkspace;
             this.titleBar = theTitleBar;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
+            this.viewModelCache = theViewModelCache;
         }
 
         /// <summary>
@@ -66,7 +72,8 @@ namespace Workbench.Commands
 
         private void CreateViewer(VariableVisualizerModel newVisualizerModel)
         {
-            var visualizerViewerViewModel = new VariableVisualizerViewerViewModel(newVisualizerModel);
+            var visualizerViewerViewModel = new VariableVisualizerViewerViewModel(newVisualizerModel,
+                                                                                  this.eventAggregator);
             this.workspace.AddViewer(visualizerViewerViewModel);
         }
 
@@ -74,7 +81,8 @@ namespace Workbench.Commands
         {
             var visualizerDesignViewModel = new VariableVisualizerDesignViewModel(newVisualizerModel,
                                                                                   this.eventAggregator,
-                                                                                  this.dataService);
+                                                                                  this.dataService,
+                                                                                  this.viewModelCache);
             this.workspace.AddDesigner(visualizerDesignViewModel);
         }
     }

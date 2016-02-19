@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -14,40 +13,25 @@ namespace Workbench.Services
         private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
         private readonly DisplayMapper displayMapper;
-        private readonly IWindowManager windowManager;
         private readonly IViewModelFactory viewModelFactory;
-        private readonly IEventAggregator eventAggregator;
-        private IDataService dataService;
 
         /// <summary>
         /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
-        public WorkspaceMapper(IWindowManager theWindowManager, 
-                               IViewModelFactory theViewModelFactory, 
-                               IEventAggregator theEventAggregator,
-                               IDataService theDataService)
+        public WorkspaceMapper(ModelMapper theModelMapper,
+                               SolutionMapper theSolutionMapper,
+                               DisplayMapper theDisplayMapper,
+                               IViewModelFactory theViewModelFactory)
         {
-            if (theWindowManager == null)
-                throw new ArgumentNullException("theWindowManager");
+            Contract.Requires<ArgumentNullException>(theModelMapper != null);
+            Contract.Requires<ArgumentNullException>(theSolutionMapper != null);
+            Contract.Requires<ArgumentNullException>(theDisplayMapper != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            if (theViewModelFactory == null)
-                throw new ArgumentNullException("theViewModelFactory");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
-
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-
-            var theCache = new ViewModelCache();
-            this.windowManager = theWindowManager;
+            this.modelMapper = theModelMapper;
+            this.displayMapper = theDisplayMapper;
+            this.solutionMapper = theSolutionMapper;
             this.viewModelFactory = theViewModelFactory;
-            this.eventAggregator = theEventAggregator;
-            this.dataService = theDataService;
-            this.modelMapper = new ModelMapper(theCache,
-                                               this.windowManager,
-                                               this.eventAggregator);
-            this.displayMapper = new DisplayMapper(this.eventAggregator, this.dataService);
-            this.solutionMapper = new SolutionMapper(theCache);
         }
 
         /// <summary>

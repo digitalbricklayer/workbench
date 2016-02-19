@@ -1,4 +1,3 @@
-using System;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
@@ -8,7 +7,7 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a model model into a view model.
     /// </summary>
-    internal class ModelMapper
+    public class ModelMapper
     {
         private readonly VariableMapper variableMapper;
         private readonly DomainMapper domainMapper;
@@ -16,25 +15,23 @@ namespace Workbench.Services
         private readonly IWindowManager windowManager;
         private readonly IEventAggregator eventAggregator;
 
-        internal ModelMapper(ViewModelCache theCache, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
+        public ModelMapper(VariableMapper theVariableMapper,
+                             ConstraintMapper theConstraintMapper,
+                             DomainMapper theDomainMapper,
+                             IWindowManager theWindowManager,
+                             IEventAggregator theEventAggregator)
         {
-            if (theWindowManager == null)
-                throw new ArgumentNullException("theWindowManager");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
-
+            this.variableMapper = theVariableMapper;
+            this.domainMapper = theDomainMapper;
+            this.constraintMapper = theConstraintMapper;
             this.windowManager = theWindowManager;
             this.eventAggregator = theEventAggregator;
-            this.variableMapper = new VariableMapper(theCache, this.eventAggregator);
-            this.domainMapper = new DomainMapper(theCache);
-            this.constraintMapper = new ConstraintMapper(theCache);
         }
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
-            var modelViewModel = new ModelViewModel(theModelModel, 
-                                                    this.windowManager, 
+            var modelViewModel = new ModelViewModel(theModelModel,
+                                                    this.windowManager,
                                                     this.eventAggregator);
 
             foreach (var domainModel in theModelModel.Domains)

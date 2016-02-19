@@ -8,11 +8,11 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a constraint model into a view model.
     /// </summary>
-    internal class ConstraintMapper
+    public class ConstraintMapper
     {
-        private readonly ViewModelCache cache;
+        private readonly IViewModelCache cache;
 
-        internal ConstraintMapper(ViewModelCache theCache)
+        public ConstraintMapper(IViewModelCache theCache)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");

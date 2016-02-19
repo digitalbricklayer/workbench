@@ -65,8 +65,7 @@ namespace Workbench.Core.Models
         /// <returns>Fluent interface context.</returns>
         public static WorkspaceContext Create(string theModelName)
         {
-            if (string.IsNullOrWhiteSpace(theModelName))
-                throw new ArgumentException("Model must have a valid name.", "theModelName");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theModelName));
             var newWorkspace = new WorkspaceModel();
             newWorkspace.Model.Name = theModelName;
             return new WorkspaceContext(newWorkspace);
@@ -87,6 +86,7 @@ namespace Workbench.Core.Models
         /// <param name="theSnapshot">The snapshot.</param>
         public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
         {
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.Solution.UpdateSolutionFrom(theSnapshot);
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
@@ -9,10 +10,16 @@ namespace Workbench.Services
         GraphicViewModel GetGraphicByIdentity(int graphicIdentity);
 
         /// <summary>
-        /// Get the variable with the identity.
+        /// Get the variable matching the identity.
         /// </summary>
         /// <param name="variableIdentity">Variable identity.</param>
-        /// <returns>Variable with the identity.</returns>
+        /// <returns>Variable matching the identity.</returns>
         VariableViewModel GetVariableByIdentity(int variableIdentity);
+
+        /// <summary>
+        /// Get all variable view models.
+        /// </summary>
+        /// <returns>All variable view models in the model.</returns>
+        IReadOnlyCollection<VariableViewModel> GetAllVariables();
     }
 }

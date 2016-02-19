@@ -9,9 +9,9 @@ namespace Workbench.Services
     /// </summary>
     internal class ValueMapper
     {
-        private readonly ViewModelCache cache;
+        private readonly IViewModelCache cache;
 
-        internal ValueMapper(ViewModelCache theCache)
+        internal ValueMapper(IViewModelCache theCache)
         {
             if (theCache == null)
                 throw new ArgumentNullException("theCache");

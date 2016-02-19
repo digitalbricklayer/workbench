@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
@@ -49,6 +50,15 @@ namespace Workbench.Services
         {
             Debug.Assert(variableIdentity != default(int));
             return this.variableMap[variableIdentity];
+        }
+
+        /// <summary>
+        /// Get all variable view models.
+        /// </summary>
+        /// <returns>All variable view models in the model.</returns>
+        public IReadOnlyCollection<VariableViewModel> GetAllVariables()
+        {
+            return this.variableMap.Values.ToList();
         }
     }
 }

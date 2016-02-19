@@ -8,12 +8,12 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a variable model into a view model.
     /// </summary>
-    internal class VariableMapper
+    public class VariableMapper
     {
-        private readonly ViewModelCache cache;
+        private readonly IViewModelCache cache;
         private readonly IEventAggregator eventAggregator;
 
-        internal VariableMapper(ViewModelCache theCache, IEventAggregator theEventAggregator)
+        public VariableMapper(IViewModelCache theCache, IEventAggregator theEventAggregator)
         {
             this.cache = theCache;
             this.eventAggregator = theEventAggregator;

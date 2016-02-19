@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics.Contracts;
 using Workbench.ViewModels;
 
 namespace Workbench.Messages
@@ -14,6 +15,7 @@ namespace Workbench.Messages
         /// <param name="theNewVariable">New variable.</param>
         public SingletonVariableAddedMessage(VariableViewModel theNewVariable)
         {
+            Contract.Requires<ArgumentNullException>(theNewVariable != null);
             NewVariable = theNewVariable;
         }
 
@@ -29,7 +31,7 @@ namespace Workbench.Messages
         {
             get
             {
-                Debug.Assert(this.NewVariable != null);
+                Contract.Assume(this.NewVariable != null);
                 return this.NewVariable.Name;
             }
         }

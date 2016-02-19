@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -13,7 +14,7 @@ namespace Workbench.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
+    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive, IWorkspace
     {
         private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
@@ -22,24 +23,23 @@ namespace Workbench.ViewModels
         private ModelViewModel model;
         private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelCache viewModelCache;
 
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
         /// </summary>
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,
-                                  IEventAggregator theEventAggregator)
+                                  IEventAggregator theEventAggregator,
+                                  IViewModelCache theViewModelCache)
         {
-            if (theDataService == null)
-                throw new ArgumentNullException("theDataService");
-
-            if (theWindowManager == null)
-                throw new ArgumentNullException("theWindowManager");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
+            Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
 
             this.eventAggregator = theEventAggregator;
+            this.viewModelCache = theViewModelCache;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, 
@@ -182,6 +182,7 @@ namespace Workbench.ViewModels
             var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                     this.eventAggregator);
             this.Model.AddSingletonVariable(newVariable);
+            this.viewModelCache.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
@@ -198,6 +199,7 @@ namespace Workbench.ViewModels
             var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             this.Model.AddAggregateVariable(newVariable);
+            this.viewModelCache.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
@@ -280,6 +282,24 @@ namespace Workbench.ViewModels
             this.Model.Reset();
             this.Viewer.Reset();
             this.IsDirty = true;
+        }
+
+        /// <summary>
+        /// Get the workspace.
+        /// </summary>
+        /// <returns>Workspace view model.</returns>
+        public WorkspaceViewModel GetWorkspace()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Get the model.
+        /// </summary>
+        /// <returns>Model view model.</returns>
+        public ModelViewModel GetModel()
+        {
+            return this.Model;
         }
 
         /// <summary>

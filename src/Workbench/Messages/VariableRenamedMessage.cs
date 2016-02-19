@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+using Workbench.ViewModels;
 
 namespace Workbench.Messages
 {
@@ -8,23 +10,28 @@ namespace Workbench.Messages
     public class VariableRenamedMessage
     {
         /// <summary>
-        /// Initialize a new variable renamed message with the old variable name and the new variable name.
+        /// Initialize a new variable renamed message with the old variable name and the 
+        /// variable that has been renamed.
         /// </summary>
         /// <param name="theOldName">Old variable name.</param>
-        /// <param name="theNewName">New variable name.</param>
-        public VariableRenamedMessage(string theOldName, string theNewName)
+        /// <param name="theVariable">The renamed variable.</param>
+        public VariableRenamedMessage(string theOldName, VariableViewModel theVariable)
         {
-            if (string.IsNullOrWhiteSpace(theOldName))
-                throw new ArgumentException("Invalid old name.", "theOldName");
-
-            if (string.IsNullOrWhiteSpace(theNewName))
-                throw new ArgumentException("Invalid new name.", "theNewName");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
+            Contract.Requires<ArgumentNullException>(theVariable != null);
 
             this.OldName = theOldName;
-            this.NewName = theNewName;
+            this.Renamed = theVariable;
         }
 
+        /// <summary>
+        /// Gets the old variable name.
+        /// </summary>
         public string OldName { get; private set; }
-        public string NewName { get; private set; }
+
+        /// <summary>
+        /// Gets the variable that was renamed.
+        /// </summary>
+        public VariableViewModel Renamed { get; private set; }
     }
 }

@@ -7,11 +7,11 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a domain model into a view model.
     /// </summary>
-    internal class DomainMapper
+    public class DomainMapper
     {
-        private readonly ViewModelCache cache;
+        private readonly IViewModelCache cache;
 
-        internal DomainMapper(ViewModelCache theCache)
+        public DomainMapper(IViewModelCache theCache)
         {
             this.cache = theCache;
         }

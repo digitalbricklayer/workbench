@@ -180,6 +180,7 @@
     <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
     <Compile Include="Messages\VariableDeletedMessage.cs" />
     <Compile Include="Messages\VariableRenamedMessage.cs" />
+    <Compile Include="Messages\VariableVisualizerBoundMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Services\ViewModelFactory.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
+    <Compile Include="ViewModels\IWorkspace.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\VariableVisualizerViewerViewModel.cs" />
