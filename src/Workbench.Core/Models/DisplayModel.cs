@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Solver;
 
@@ -40,8 +41,8 @@ namespace Workbench.Core.Models
         /// <param name="theVisualizer">New visualizer.</param>
         public void AddVisualizer(VariableVisualizerModel theVisualizer)
         {
-            if (theVisualizer == null)
-                throw new ArgumentNullException("theVisualizer");
+            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            theVisualizer.AssignIdentity();
             this.Visualizers.Add(theVisualizer);
         }
 
@@ -52,6 +53,7 @@ namespace Workbench.Core.Models
         /// <returns>Visualizer bound to the variable matching the variable name.</returns>
         public VariableVisualizerModel GetVisualizerFor(string theVariableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return (from aViewerViewModel in this.Visualizers
                     where aViewerViewModel.Binding.Name == theVariableName
                     select aViewerViewModel).FirstOrDefault();
@@ -63,6 +65,7 @@ namespace Workbench.Core.Models
         /// <param name="theSnapshot">The solution snapshot.</param>
         public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
         {
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
             foreach (var aVisualizer in this.Visualizers)
             {
                 var theSingletonValue = theSnapshot.GetSingletonVariableValueByName(aVisualizer.Binding.Name);

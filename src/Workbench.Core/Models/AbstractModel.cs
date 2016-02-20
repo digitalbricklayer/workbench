@@ -12,10 +12,6 @@ namespace Workbench.Core.Models
         private int id;
         private static int nextIdentity = 1;
 
-        protected AbstractModel()
-        {
-        }
-
         /// <summary>
         /// Gets the unique identifier for the model.
         /// </summary>

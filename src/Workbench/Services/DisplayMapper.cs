@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -37,14 +38,17 @@ namespace Workbench.Services
         {
             Contract.Requires<ArgumentNullException>(theDisplay != null);
 
+
             var newDesignerViewModel = new SolutionDesignerViewModel(theDisplay);
             foreach (var aVisualizer in theDisplay.Visualizers)
             {
+                Debug.Assert(aVisualizer.HasIdentity);
+
                 var newVisualizerViewModel = new VariableVisualizerDesignViewModel(aVisualizer,
                                                                                    this.eventAggregator,
                                                                                    this.dataService,
                                                                                    this.viewModelCache);
-                newDesignerViewModel.AddVisualizer(newVisualizerViewModel);
+                newDesignerViewModel.FixupVisualizer(newVisualizerViewModel);
             }
 
             return newDesignerViewModel;

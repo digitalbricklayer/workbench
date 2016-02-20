@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -45,7 +47,21 @@ namespace Workbench.ViewModels
         /// <param name="newVisualizer">New variable visualizer.</param>
         public void AddVisualizer(VariableVisualizerDesignViewModel newVisualizer)
         {
-            this.ActivateItem(newVisualizer);
+            this.Model.AddVisualizer(newVisualizer.Model);
+            this.FixupVisualizer(newVisualizer);
+        }
+
+        /// <summary>
+        /// Fixes up a visualizer view model into the design view model.
+        /// </summary>
+        /// <remarks>
+        /// Used when mapping the model to a view model.
+        /// </remarks>
+        /// <param name="newVisualizerViewModel">Visualizer design view model.</param>
+        internal void FixupVisualizer(VariableVisualizerDesignViewModel newVisualizerViewModel)
+        {
+            Contract.Requires<ArgumentNullException>(newVisualizerViewModel != null);
+            this.ActivateItem(newVisualizerViewModel);
         }
     }
 }

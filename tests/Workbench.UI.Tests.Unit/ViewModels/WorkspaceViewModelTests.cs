@@ -38,6 +38,14 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         }
 
         [Test]
+        public void AddVisualizerAssignsIdentity()
+        {
+            var sut = CreateSut();
+            var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
+            Assert.That(actualVisualizer.Model.HasIdentity, Is.True);
+        }
+
+        [Test]
         public void SolveModelWithVisualizerBindsValueToVisualizer()
         {
             var sut = CreateSut();
