@@ -33,17 +33,19 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void SolveModelWithVisualizerDisplaysSolution()
         {
             var sut = CreateSut();
-            var theVisualizer = new VariableVisualizerModel(new Point());
-            var newViewer = new VariableVisualizerViewerViewModel(theVisualizer, this.eventAggregator);
-            sut.AddViewer(newViewer);
-            var newDesigner = new VariableVisualizerDesignViewModel(theVisualizer,
-                                                                    this.eventAggregator,
-                                                                    this.dataService,
-                                                                    this.viewModelMock.Object);
-            sut.AddDesigner(newDesigner);
-            newDesigner.SelectedVariable = this.xVariable;
             sut.SolveModel();
             Assert.That(sut.SelectedDisplayMode, Is.EqualTo("Solution"));
+        }
+
+        [Test]
+        public void SolveModelWithVisualizerBindsValueToVisualizer()
+        {
+            var sut = CreateSut();
+            sut.SolveModel();
+            var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
+            Assert.That(actualVisualizer.Value.Value, Is.GreaterThan(1)
+                                                        .And
+                                                        .LessThanOrEqualTo(10));
         }
 
         private WorkspaceViewModel CreateSut()
@@ -58,6 +60,15 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             newWorkspace.AddConstraint("X", new Point());
             var theConstraint = newWorkspace.Model.GetConstraintByName("X");
             theConstraint.Expression.Text = "x > 1";
+            var theVisualizer = new VariableVisualizerModel(new Point());
+            var newViewer = new VariableVisualizerViewerViewModel(theVisualizer, this.eventAggregator);
+            newWorkspace.AddViewer(newViewer);
+            var newDesigner = new VariableVisualizerDesignViewModel(theVisualizer,
+                                                                    this.eventAggregator,
+                                                                    this.dataService,
+                                                                    this.viewModelMock.Object);
+            newWorkspace.AddDesigner(newDesigner);
+            newDesigner.SelectedVariable = this.xVariable;
 
             return newWorkspace;
         }

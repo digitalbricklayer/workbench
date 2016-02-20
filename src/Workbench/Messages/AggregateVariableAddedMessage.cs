@@ -13,7 +13,7 @@ namespace Workbench.Messages
         /// <param name="newVariable"></param>
         public AggregateVariableAddedMessage(AggregateVariableViewModel newVariable)
         {
-            Added = newVariable;
+            this.Added = newVariable;
         }
 
         /// <summary>
