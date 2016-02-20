@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive, IWorkspace
+    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
@@ -285,20 +285,12 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Get the workspace.
-        /// </summary>
-        /// <returns>Workspace view model.</returns>
-        public WorkspaceViewModel GetWorkspace()
-        {
-            return this;
-        }
-
-        /// <summary>
         /// Get the model.
         /// </summary>
         /// <returns>Model view model.</returns>
         public ModelViewModel GetModel()
         {
+            Contract.Ensures(this.Model != null);
             return this.Model;
         }
 
@@ -381,6 +373,13 @@ namespace Workbench.ViewModels
                     this.Model.DeleteConstraint(constraint);
                 }
             }
+        }
+
+        [ContractInvariantMethod]
+        private void WorkspaceInvariants()
+        {
+            Contract.Invariant(this.Model != null);
+            Contract.Invariant(this.Designer != null);
         }
     }
 }
