@@ -20,7 +20,7 @@ namespace Workbench.ViewModels
         private VariableViewModel selectedVariable;
         private readonly IEventAggregator eventAggregator;
         private readonly IDataService dataService;
-        private readonly IViewModelCache viewModelCache;
+        private readonly IViewModelService _viewModelService;
 
         /// <summary>
         /// Initialize the variable visualizer design view model with the 
@@ -29,22 +29,22 @@ namespace Workbench.ViewModels
         /// <param name="theVariableVisualizerModel">Visualizer model.</param>
         /// <param name="theEventAggregator">The event aggregator.</param>
         /// <param name="theDataService">Data service.</param>
-        /// <param name="theViewModelCache">The workspace.</param>
+        /// <param name="theViewModelService">The workspace.</param>
         public VariableVisualizerDesignViewModel(VariableVisualizerModel theVariableVisualizerModel,
                                                  IEventAggregator theEventAggregator,
                                                  IDataService theDataService,
-                                                 IViewModelCache theViewModelCache)
+                                                 IViewModelService theViewModelService)
             : base(theVariableVisualizerModel)
         {
             Contract.Requires<ArgumentNullException>(theVariableVisualizerModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.AvailableVariables = new BindableCollection<VariableViewModel>();
             this.Model = theVariableVisualizerModel;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
-            this.viewModelCache = theViewModelCache;
+            this._viewModelService = theViewModelService;
             if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
                 SelectVariableBinding();
             this.eventAggregator.Subscribe(this);
@@ -143,7 +143,7 @@ namespace Workbench.ViewModels
         private void PopulateAvailableVariables()
         {
             this.AvailableVariables.Clear();
-            var allVariables = this.viewModelCache.GetAllVariables();
+            var allVariables = this._viewModelService.GetAllVariables();
             foreach (var aVariable in allVariables)
             {
                 this.AvailableVariables.Add(aVariable);
@@ -152,7 +152,7 @@ namespace Workbench.ViewModels
 
         private void SelectVariableBinding()
         {
-            this.selectedVariable = this.viewModelCache.GetVariableByIdentity(this.Model.Binding.Id);
+            this.selectedVariable = this._viewModelService.GetVariableByIdentity(this.Model.Binding.Id);
         }
     }
 }

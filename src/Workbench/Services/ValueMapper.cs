@@ -9,13 +9,13 @@ namespace Workbench.Services
     /// </summary>
     internal class ValueMapper
     {
-        private readonly IViewModelCache cache;
+        private readonly IViewModelService cache;
 
-        internal ValueMapper(IViewModelCache theCache)
+        internal ValueMapper(IViewModelService theService)
         {
-            if (theCache == null)
-                throw new ArgumentNullException("theCache");
-            this.cache = theCache;
+            if (theService == null)
+                throw new ArgumentNullException("theService");
+            this.cache = theService;
         }
 
         /// <summary>

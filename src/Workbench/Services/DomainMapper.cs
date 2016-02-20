@@ -9,11 +9,11 @@ namespace Workbench.Services
     /// </summary>
     public class DomainMapper
     {
-        private readonly IViewModelCache cache;
+        private readonly IViewModelService cache;
 
-        public DomainMapper(IViewModelCache theCache)
+        public DomainMapper(IViewModelService theService)
         {
-            this.cache = theCache;
+            this.cache = theService;
         }
 
         internal DomainViewModel MapFrom(DomainModel theDomainModel)

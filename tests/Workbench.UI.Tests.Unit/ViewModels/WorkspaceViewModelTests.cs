@@ -17,7 +17,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private IDataService dataService;
         private Mock<IWindowManager> windowManagerMock;
         private IEventAggregator eventAggregator;
-        private Mock<IViewModelCache> viewModelMock;
+        private Mock<IViewModelService> viewModelMock;
         private VariableViewModel xVariable;
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.dataService = new DataService(CreateWorkspaceReaderWriterMock().Object);
             this.windowManagerMock = new Mock<IWindowManager>();
             this.eventAggregator = new EventAggregator();
-            this.viewModelMock = new Mock<IViewModelCache>();
+            this.viewModelMock = new Mock<IViewModelService>();
         }
 
         [Test]

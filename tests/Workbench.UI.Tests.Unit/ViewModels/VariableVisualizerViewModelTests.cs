@@ -17,7 +17,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IWindowManager> windowManagerMock;
         private Mock<IEventAggregator> eventAggregator;
         private VariableModel xVariable;
-        private Mock<IViewModelCache> viewModelCacheMock;
+        private Mock<IViewModelService> viewModelCacheMock;
 
         [SetUp]
         public void Initialize()
@@ -26,7 +26,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.dataServiceMock.Setup(_ => _.GetWorkspace()).Returns(new WorkspaceModel());
             this.eventAggregator = new Mock<IEventAggregator>();
             this.windowManagerMock = new Mock<IWindowManager>();
-            this.viewModelCacheMock = new Mock<IViewModelCache>();
+            this.viewModelCacheMock = new Mock<IViewModelService>();
             this.workspace = CreateWorkspaceViewModel();
             var xVariableViewModel = this.workspace.GetModel().GetVariableByName("x");
             this.xVariable = xVariableViewModel.Model;

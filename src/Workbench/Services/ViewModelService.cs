@@ -6,9 +6,9 @@ using Workbench.ViewModels;
 namespace Workbench.Services
 {
     /// <summary>
-    /// Cache view models used in the workspace.
+    /// Service responsible for cross cutting concerns across all view models.
     /// </summary>
-    public class ViewModelCache : IViewModelCache
+    public class ViewModelService : IViewModelService
     {
         private readonly Dictionary<int, GraphicViewModel> graphicMap;
         private readonly Dictionary<int, VariableViewModel> variableMap;
@@ -16,7 +16,7 @@ namespace Workbench.Services
         /// <summary>
         /// Initialize the view model cache with default values.
         /// </summary>
-        public ViewModelCache()
+        public ViewModelService()
         {
             this.graphicMap = new Dictionary<int, GraphicViewModel>();
             this.variableMap = new Dictionary<int, VariableViewModel>();

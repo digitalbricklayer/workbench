@@ -12,17 +12,17 @@ namespace Workbench.Services
     public class SolutionMapper
     {
         private readonly ValueMapper valueMapper;
-        private readonly IViewModelCache viewModelCache;
+        private readonly IViewModelService _viewModelService;
         private readonly IEventAggregator eventAggregator;
 
-        public SolutionMapper(IViewModelCache theCache, IEventAggregator theEventAggregator)
+        public SolutionMapper(IViewModelService theService, IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theCache != null);
+            Contract.Requires<ArgumentNullException>(theService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
-            this.viewModelCache = theCache;
+            this._viewModelService = theService;
             this.eventAggregator = theEventAggregator;
-            this.valueMapper = new ValueMapper(theCache);
+            this.valueMapper = new ValueMapper(theService);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Workbench.Services
                 var newViewer = new VariableVisualizerViewerViewModel(aVisualizer,
                                                                       this.eventAggregator);
                 if (aVisualizer.Binding != null)
-                    newViewer.Binding = this.viewModelCache.GetVariableByIdentity(aVisualizer.Binding.Id);
+                    newViewer.Binding = this._viewModelService.GetVariableByIdentity(aVisualizer.Binding.Id);
                 solutionViewModel.ActivateItem(newViewer);
             }
 

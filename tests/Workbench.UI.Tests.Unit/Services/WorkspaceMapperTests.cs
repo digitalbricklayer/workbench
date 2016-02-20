@@ -10,12 +10,12 @@ namespace Workbench.UI.Tests.Unit.Services
     [TestFixture]
     public class WorkspaceMapperTests
     {
-        private IViewModelCache viewModelCache;
+        private IViewModelService _viewModelService;
 
         [SetUp]
         public void Initialize()
         {
-            this.viewModelCache = new ViewModelCache();
+            this._viewModelService = new ViewModelService();
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Workbench.UI.Tests.Unit.Services
                 .Returns(new WorkspaceViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
-                                                this.viewModelCache));
+                                                this._viewModelService));
 
             return mock;
         }
@@ -74,12 +74,12 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             return new DisplayMapper(CreateEventAggregator(),
                                      CreateDataService(),
-                                     this.viewModelCache);
+                                     this._viewModelService);
         }
 
         private SolutionMapper CreateSolutionMapper()
         {
-            return new SolutionMapper(this.viewModelCache,
+            return new SolutionMapper(this._viewModelService,
                                       CreateEventAggregator());
         }
 
@@ -94,17 +94,17 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private DomainMapper CreateDomainMapper()
         {
-            return new DomainMapper(this.viewModelCache);
+            return new DomainMapper(this._viewModelService);
         }
 
         private ConstraintMapper CreateConstraintMapper()
         {
-            return new ConstraintMapper(this.viewModelCache);
+            return new ConstraintMapper(this._viewModelService);
         }
 
         private VariableMapper CreateVariableMapper()
         {
-            return new VariableMapper(this.viewModelCache,
+            return new VariableMapper(this._viewModelService,
                                       CreateEventAggregator());
         }
 

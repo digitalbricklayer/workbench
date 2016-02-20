@@ -230,7 +230,7 @@
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\DisplayMapper.cs" />
     <Compile Include="Services\IDataService.cs" />
-    <Compile Include="Services\IViewModelCache.cs" />
+    <Compile Include="Services\IViewModelService.cs" />
     <Compile Include="Services\IViewModelFactory.cs" />
     <Compile Include="Services\IWorkspaceReader.cs" />
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ViewModelCache.cs" />
+    <Compile Include="Services\ViewModelService.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />
     <Compile Include="Services\ModelMapper.cs" />

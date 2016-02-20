@@ -10,13 +10,13 @@ namespace Workbench.Services
     /// </summary>
     public class ConstraintMapper
     {
-        private readonly IViewModelCache cache;
+        private readonly IViewModelService cache;
 
-        public ConstraintMapper(IViewModelCache theCache)
+        public ConstraintMapper(IViewModelService theService)
         {
-            if (theCache == null)
-                throw new ArgumentNullException("theCache");
-            this.cache = theCache;
+            if (theService == null)
+                throw new ArgumentNullException("theService");
+            this.cache = theService;
         }
 
         internal ConstraintViewModel MapFrom(ConstraintModel theConstraintModel)

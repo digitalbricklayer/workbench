@@ -14,19 +14,19 @@ namespace Workbench.Services
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IDataService dataService;
-        private readonly IViewModelCache viewModelCache;
+        private readonly IViewModelService _viewModelService;
 
         public DisplayMapper(IEventAggregator theEventAggregator,
                              IDataService theDataService,
-                             IViewModelCache theViewModelCache)
+                             IViewModelService theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
-            this.viewModelCache = theViewModelCache;
+            this._viewModelService = theViewModelService;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Workbench.Services
                 var newVisualizerViewModel = new VariableVisualizerDesignViewModel(aVisualizer,
                                                                                    this.eventAggregator,
                                                                                    this.dataService,
-                                                                                   this.viewModelCache);
+                                                                                   this._viewModelService);
                 newDesignerViewModel.FixupVisualizer(newVisualizerViewModel);
             }
 

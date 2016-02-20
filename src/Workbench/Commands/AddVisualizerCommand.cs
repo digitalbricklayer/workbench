@@ -18,7 +18,7 @@ namespace Workbench.Commands
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelCache viewModelCache;
+        private readonly IViewModelService _viewModelService;
 
         /// <summary>
         /// Initialize an add visualizer command with a workspace and titlebar.
@@ -27,12 +27,12 @@ namespace Workbench.Commands
         /// <param name="theTitleBar">Title bar view model.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
         /// <param name="theDataService">Event aggregator.</param>
-        /// <param name="theViewModelCache">View model cache.</param>
+        /// <param name="theViewModelService">View model cache.</param>
         public AddVisualizerCommand(WorkspaceViewModel theWorkspace,
                                     TitleBarViewModel theTitleBar,
                                     IEventAggregator theEventAggregator,
                                     IDataService theDataService,
-                                    IViewModelCache theViewModelCache)
+                                    IViewModelService theViewModelService)
         {
             if (theWorkspace == null)
                 throw new ArgumentNullException("theWorkspace");
@@ -45,13 +45,13 @@ namespace Workbench.Commands
 
             if (theDataService == null)
                 throw new ArgumentNullException("theDataService");
-            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.workspace = theWorkspace;
             this.titleBar = theTitleBar;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
-            this.viewModelCache = theViewModelCache;
+            this._viewModelService = theViewModelService;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Workbench.Commands
             var visualizerDesignViewModel = new VariableVisualizerDesignViewModel(newVisualizerModel,
                                                                                   this.eventAggregator,
                                                                                   this.dataService,
-                                                                                  this.viewModelCache);
+                                                                                  this._viewModelService);
             this.workspace.AddDesigner(visualizerDesignViewModel);
         }
     }

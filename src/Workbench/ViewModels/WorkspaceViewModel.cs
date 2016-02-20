@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
         private ModelViewModel model;
         private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelCache viewModelCache;
+        private readonly IViewModelService _viewModelService;
 
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
@@ -31,15 +31,15 @@ namespace Workbench.ViewModels
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,
                                   IEventAggregator theEventAggregator,
-                                  IViewModelCache theViewModelCache)
+                                  IViewModelService theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theViewModelCache != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.eventAggregator = theEventAggregator;
-            this.viewModelCache = theViewModelCache;
+            this._viewModelService = theViewModelService;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, 
@@ -182,7 +182,7 @@ namespace Workbench.ViewModels
             var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                     this.eventAggregator);
             this.Model.AddSingletonVariable(newVariable);
-            this.viewModelCache.CacheVariable(newVariable);
+            this._viewModelService.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
@@ -199,7 +199,7 @@ namespace Workbench.ViewModels
             var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             this.Model.AddAggregateVariable(newVariable);
-            this.viewModelCache.CacheVariable(newVariable);
+            this._viewModelService.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;

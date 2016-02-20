@@ -10,12 +10,12 @@ namespace Workbench.Services
     /// </summary>
     public class VariableMapper
     {
-        private readonly IViewModelCache cache;
+        private readonly IViewModelService cache;
         private readonly IEventAggregator eventAggregator;
 
-        public VariableMapper(IViewModelCache theCache, IEventAggregator theEventAggregator)
+        public VariableMapper(IViewModelService theService, IEventAggregator theEventAggregator)
         {
-            this.cache = theCache;
+            this.cache = theService;
             this.eventAggregator = theEventAggregator;
         }
 

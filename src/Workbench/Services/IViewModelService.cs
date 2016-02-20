@@ -3,7 +3,10 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
-    public interface IViewModelCache
+    /// <summary>
+    /// Contract for the view model service.
+    /// </summary>
+    public interface IViewModelService
     {
         void CacheVariable(VariableViewModel variableViewModel);
         void CacheGraphic(GraphicViewModel graphicViewModel);
