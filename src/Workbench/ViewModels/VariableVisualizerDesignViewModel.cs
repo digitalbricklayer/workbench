@@ -152,7 +152,7 @@ namespace Workbench.ViewModels
 
         private void SelectVariableBinding()
         {
-            this.selectedVariable = this._viewModelService.GetVariableByIdentity(this.Model.Binding.Id);
+            this.selectedVariable = this._viewModelService.GetVariableByIdentity(this.Model.Binding.VariableId);
         }
     }
 }

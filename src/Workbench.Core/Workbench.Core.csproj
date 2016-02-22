@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ValueModel.cs" />
+    <Compile Include="Models\VariableVisualizerBindingModel.cs" />
     <Compile Include="Models\AggregateVariableReference.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />

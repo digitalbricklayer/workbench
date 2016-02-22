@@ -10,19 +10,19 @@ namespace Workbench.Core.Models
     [Serializable]
     public class VariableVisualizerModel : GraphicModel
     {
-        private VariableModel boundVariable;
+        private VariableVisualizerBindingModel boundVariable;
         private ValueModel value;
 
         /// <summary>
         /// Initialize the variable visualizer with the location and variable binding.
         /// </summary>
         /// <param name="newLocation">The graphic location.</param>
-        /// <param name="thetBinding">The variable binding.</param>
-        public VariableVisualizerModel(Point newLocation, VariableModel thetBinding)
+        /// <param name="theBinding">The variable binding.</param>
+        public VariableVisualizerModel(Point newLocation, VariableModel theBinding)
             : base("A visualizer", newLocation)
         {
-            Contract.Requires<ArgumentNullException>(thetBinding != null);
-            this.Binding = thetBinding;
+            Contract.Requires<ArgumentNullException>(theBinding != null);
+            this.Binding = new VariableVisualizerBindingModel(this, theBinding);
         }
 
         /// <summary>
@@ -32,12 +32,13 @@ namespace Workbench.Core.Models
         public VariableVisualizerModel(Point newLocation)
             : base("A visualizer", newLocation)
         {
+            this.Binding = new VariableVisualizerBindingModel(this);
         }
 
         /// <summary>
         /// Gets the visualizer binding.
         /// </summary>
-        public VariableModel Binding
+        public VariableVisualizerBindingModel Binding
         {
             get
             {
@@ -70,10 +71,12 @@ namespace Workbench.Core.Models
         /// Bind the visualizer to a variable.
         /// </summary>
         /// <param name="theVariable">Variable to bind.</param>
+        /// <remarks>
+        /// The variable may be null when binding to a non-existent variable.
+        /// </remarks>
         public void BindTo(VariableModel theVariable)
         {
-            Contract.Requires<ArgumentNullException>(theVariable != null);
-            this.Binding = theVariable;
+            this.Binding.BindTo(theVariable);
         }
     }
 }

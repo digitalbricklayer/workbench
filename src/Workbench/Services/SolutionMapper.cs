@@ -43,7 +43,7 @@ namespace Workbench.Services
                 var newViewer = new VariableVisualizerViewerViewModel(aVisualizer,
                                                                       this.eventAggregator);
                 if (aVisualizer.Binding != null)
-                    newViewer.Binding = this._viewModelService.GetVariableByIdentity(aVisualizer.Binding.Id);
+                    newViewer.Binding = this._viewModelService.GetVariableByIdentity(aVisualizer.Binding.VariableId);
                 solutionViewModel.ActivateItem(newViewer);
             }
 

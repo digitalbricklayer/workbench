@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.ViewModels;
 
@@ -24,20 +25,22 @@ namespace Workbench.Services
 
         public void CacheVariable(VariableViewModel variableViewModel)
         {
-            Debug.Assert(variableViewModel.Id != default(int));
+            Contract.Requires<ArgumentNullException>(variableViewModel != null);
+            Contract.Requires<ArgumentException>(variableViewModel.Id != default(int));
             this.CacheGraphic(variableViewModel);
             this.variableMap.Add(variableViewModel.Id, variableViewModel);
         }
 
         public void CacheGraphic(GraphicViewModel graphicViewModel)
         {
-            Debug.Assert(graphicViewModel.Id != default(int));
+            Contract.Requires<ArgumentNullException>(graphicViewModel != null);
+            Contract.Requires<ArgumentException>(graphicViewModel.Id != default(int));
             this.graphicMap.Add(graphicViewModel.Id, graphicViewModel);
         }
 
         public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
         {
-            Debug.Assert(graphicIdentity != default(int));
+            Contract.Requires<ArgumentException>(graphicIdentity != default(int));
             return this.graphicMap[graphicIdentity];
         }
 
@@ -48,7 +51,7 @@ namespace Workbench.Services
         /// <returns>Variable with the identity.</returns>
         public VariableViewModel GetVariableByIdentity(int variableIdentity)
         {
-            Debug.Assert(variableIdentity != default(int));
+            Contract.Requires<ArgumentException>(variableIdentity != default(int));
             return this.variableMap[variableIdentity];
         }
 
