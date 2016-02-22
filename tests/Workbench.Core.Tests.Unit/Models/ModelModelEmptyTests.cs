@@ -7,7 +7,7 @@ namespace Workbench.Core.Tests.Unit.Models
     public class ModelModelEmptyTests
     {
         [Test]
-        public void An_Empty_Model_Is_A_Valid_Model()
+        public void AnEmptyModelIsAValidModel()
         {
             var sut = MakeEmptyModel();
             var actualValidationResult = sut.Validate();
