@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
@@ -18,8 +18,8 @@ namespace Workbench.Services
         /// <param name="theReaderWriter">Persistence reader/writer.</param>
         public DataService(IWorkspaceReaderWriter theReaderWriter)
         {
-            if (theReaderWriter == null)
-                throw new ArgumentNullException("theReaderWriter");
+            Contract.Requires<ArgumentNullException>(theReaderWriter != null);
+
             this.readerWriter = theReaderWriter;
             this.currentWorkspace = this.GetWorkspace();
         }
@@ -30,8 +30,8 @@ namespace Workbench.Services
         /// <param name="file">Path to the file.</param>
         public WorkspaceModel Open(string file)
         {
-            if (string.IsNullOrWhiteSpace(file))
-                throw new ArgumentException("file");
+            Contract.Ensures(Contract.Result<WorkspaceModel>() != null);
+
             this.currentWorkspace = this.readerWriter.Read(file);
             return this.currentWorkspace;
         }
@@ -42,9 +42,8 @@ namespace Workbench.Services
         /// <param name="file">Path to the file.</param>
         public void Save(string file)
         {
-            if (string.IsNullOrWhiteSpace(file))
-                throw new ArgumentException("file");
-            Debug.Assert(this.currentWorkspace != null);
+            Contract.Assume(this.currentWorkspace != null);
+
             this.readerWriter.Write(file, this.currentWorkspace);
         }
 

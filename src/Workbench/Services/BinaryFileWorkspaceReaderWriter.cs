@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
@@ -14,10 +15,8 @@ namespace Workbench.Services
         public BinaryFileWorkspaceReaderWriter(IWorkspaceReader theReader,
                                                IWorkspaceWriter theWriter)
         {
-            if (theReader == null)
-                throw new ArgumentNullException("theReader");
-            if (theWriter == null)
-                throw new ArgumentNullException("theWriter");
+            Contract.Requires<ArgumentNullException>(theReader != null);
+            Contract.Requires<ArgumentNullException>(theWriter != null);
             this.reader = theReader;
             this.writer = theWriter;
         }

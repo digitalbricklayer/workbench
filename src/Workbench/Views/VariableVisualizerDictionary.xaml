@@ -102,7 +102,14 @@
                                    Text="{Binding Binding.Name}"/>
 
                         <ListBox x:Name="values"
-                                 ItemsSource="{Binding Value.Values}" />
+                                 ItemsSource="{Binding Value.Values}">
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel IsItemsHost="True"
+												Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+						</ListBox>
                     </StackPanel>
                 </Grid>
             </Grid>

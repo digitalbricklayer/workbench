@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Workbench.Core.Models;
 
@@ -16,8 +15,6 @@ namespace Workbench.Services
         /// <returns>Workspace model.</returns>
         public WorkspaceModel Read(string filename)
         {
-            if (string.IsNullOrWhiteSpace(filename))
-                throw new ArgumentException("filename");
             using (var fileStream = File.OpenRead(filename))
             {
                 var binaryFormatter = new BinaryFormatter();

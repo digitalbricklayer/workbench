@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
@@ -5,6 +6,7 @@ namespace Workbench.Services
     /// <summary>
     /// Contract for the data service.
     /// </summary>
+    [ContractClass(typeof(IDataServiceContract))]
     public interface IDataService
     {
         /// <summary>
@@ -31,5 +33,41 @@ namespace Workbench.Services
         /// <param name="variableName">Variable name.</param>
         /// <returns>Variable.</returns>
         VariableModel GetVariableByName(string variableName);
+    }
+
+    /// <summary>
+    /// Code contract for the IDataService interface.
+    /// </summary>
+    [ContractClassFor(typeof(IDataService))]
+    internal abstract class IDataServiceContract : IDataService
+    {
+        private IDataServiceContract()
+        {
+        }
+
+        public WorkspaceModel Open(string file)
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(file));
+            Contract.Ensures(Contract.Result<WorkspaceModel>() != null);
+            return default(WorkspaceModel);
+        }
+
+        public void Save(string file)
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(file));
+        }
+
+        public WorkspaceModel GetWorkspace()
+        {
+            Contract.Ensures(Contract.Result<WorkspaceModel>() != null);
+            return default(WorkspaceModel);
+        }
+
+        public VariableModel GetVariableByName(string variableName)
+        {
+            Contract.Requires(!string.IsNullOrWhiteSpace(variableName));
+            Contract.Ensures(Contract.Result<VariableModel>() != null);
+            return default(VariableModel);
+        }
     }
 }

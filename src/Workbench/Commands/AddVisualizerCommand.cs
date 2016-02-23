@@ -34,17 +34,10 @@ namespace Workbench.Commands
                                     IDataService theDataService,
                                     IViewModelService theViewModelService)
         {
-            if (theWorkspace == null)
-                throw new ArgumentNullException("theWorkspace");
-
-            if (theTitleBar == null)
-                throw new ArgumentNullException("theTitleBar");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
-
-            if (theDataService == null)
-                throw new ArgumentNullException("theDataService");
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theTitleBar != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.workspace = theWorkspace;

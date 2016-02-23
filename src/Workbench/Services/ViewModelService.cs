@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.ViewModels;
@@ -25,22 +24,17 @@ namespace Workbench.Services
 
         public void CacheVariable(VariableViewModel variableViewModel)
         {
-            Contract.Requires<ArgumentNullException>(variableViewModel != null);
-            Contract.Requires<ArgumentException>(variableViewModel.Id != default(int));
             this.CacheGraphic(variableViewModel);
             this.variableMap.Add(variableViewModel.Id, variableViewModel);
         }
 
         public void CacheGraphic(GraphicViewModel graphicViewModel)
         {
-            Contract.Requires<ArgumentNullException>(graphicViewModel != null);
-            Contract.Requires<ArgumentException>(graphicViewModel.Id != default(int));
             this.graphicMap.Add(graphicViewModel.Id, graphicViewModel);
         }
 
         public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
         {
-            Contract.Requires<ArgumentException>(graphicIdentity != default(int));
             return this.graphicMap[graphicIdentity];
         }
 
@@ -51,7 +45,6 @@ namespace Workbench.Services
         /// <returns>Variable with the identity.</returns>
         public VariableViewModel GetVariableByIdentity(int variableIdentity)
         {
-            Contract.Requires<ArgumentException>(variableIdentity != default(int));
             return this.variableMap[variableIdentity];
         }
 
@@ -61,6 +54,7 @@ namespace Workbench.Services
         /// <returns>All variable view models in the model.</returns>
         public IReadOnlyCollection<VariableViewModel> GetAllVariables()
         {
+            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableViewModel>>() != null);
             return this.variableMap.Values.ToList();
         }
     }
