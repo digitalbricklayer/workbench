@@ -102,9 +102,7 @@
                                    Text="{Binding Binding.Name}"/>
 
                         <ListBox x:Name="values"
-                                 ItemsSource="{Binding Values}" />
-                        <!--<TextBlock x:Name="valueText"
-                                   Text="{Binding Value.Value}"/>-->
+                                 ItemsSource="{Binding Value.Values}" />
                     </StackPanel>
                 </Grid>
             </Grid>
