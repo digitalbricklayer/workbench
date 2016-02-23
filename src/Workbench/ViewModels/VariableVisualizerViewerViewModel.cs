@@ -95,6 +95,7 @@ namespace Workbench.ViewModels
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
+            if (message.Variable.Id != this.Model.Binding.VariableId) return;
             this.Binding = message.Variable;
         }
     }
