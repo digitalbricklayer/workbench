@@ -20,6 +20,9 @@ namespace Workbench.Core.Solver
         public SolutionSnapshot(IEnumerable<ValueModel> theSingletonValues,
                                 IEnumerable<ValueModel> theAggregateValues)
         {
+            Contract.Requires<ArgumentNullException>(theSingletonValues != null);
+            Contract.Requires<ArgumentNullException>(theAggregateValues != null);
+
             this.singletonValues = new List<ValueModel>(theSingletonValues);
             this.aggregateValues = new List<ValueModel>(theAggregateValues);
         }
@@ -40,6 +43,7 @@ namespace Workbench.Core.Solver
         {
             get
             {
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<ValueModel>>() != null);
                 return this.singletonValues.ToList();
             }
         }
@@ -51,6 +55,7 @@ namespace Workbench.Core.Solver
         {
             get
             {
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<ValueModel>>() != null);
                 return this.aggregateValues.ToList();
             }
         }
