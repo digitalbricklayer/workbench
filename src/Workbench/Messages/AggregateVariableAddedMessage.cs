@@ -1,4 +1,6 @@
-﻿using Workbench.ViewModels;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Workbench.ViewModels;
 
 namespace Workbench.Messages
 {
@@ -13,6 +15,7 @@ namespace Workbench.Messages
         /// <param name="newVariable"></param>
         public AggregateVariableAddedMessage(AggregateVariableViewModel newVariable)
         {
+            Contract.Requires<ArgumentNullException>(newVariable != null);
             this.Added = newVariable;
         }
 
@@ -28,6 +31,7 @@ namespace Workbench.Messages
         {
             get
             {
+                Contract.Ensures(Contract.Result<string>() != null);
                 return this.Added.Name;
             }
         }

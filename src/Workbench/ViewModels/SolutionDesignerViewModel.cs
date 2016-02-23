@@ -17,6 +17,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolutionDesignerViewModel(DisplayModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             this.Model = theModel;
         }
 
@@ -28,6 +29,7 @@ namespace Workbench.ViewModels
             get { return this.model; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.model = value;
                 NotifyOfPropertyChange();
             }
@@ -38,7 +40,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public IObservableCollection<VariableVisualizerDesignViewModel> Visualizers
         {
-            get { return this.Items; }
+            get
+            {
+                return this.Items;
+            }
         }
 
         /// <summary>
@@ -47,6 +52,7 @@ namespace Workbench.ViewModels
         /// <param name="newVisualizer">New variable visualizer.</param>
         public void AddVisualizer(VariableVisualizerDesignViewModel newVisualizer)
         {
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
             this.Model.AddVisualizer(newVisualizer.Model);
             this.FixupVisualizer(newVisualizer);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -10,6 +11,8 @@ namespace Workbench.ViewModels
                                           IEventAggregator theEventAggregator)
             : base(theVariableModel, theEventAggregator)
         {
+            Contract.Requires<ArgumentNullException>(theVariableModel != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             this.Variables = new BindableCollection<VariableViewModel>();
             this.Model = theVariableModel;
         }

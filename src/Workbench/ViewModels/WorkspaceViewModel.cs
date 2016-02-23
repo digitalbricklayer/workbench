@@ -63,8 +63,7 @@ namespace Workbench.ViewModels
             get { return model; }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.model = value;
                 NotifyOfPropertyChange();
             }
@@ -78,8 +77,7 @@ namespace Workbench.ViewModels
             get { return this.viewer; }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.viewer = value;
                 NotifyOfPropertyChange();
             }
@@ -93,8 +91,7 @@ namespace Workbench.ViewModels
             get { return this.designer; }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.designer = value;
                 NotifyOfPropertyChange();
             }
@@ -111,6 +108,7 @@ namespace Workbench.ViewModels
             }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.selectedDisplayMode = value;
                 switch (this.selectedDisplayMode)
                 {
@@ -179,6 +177,8 @@ namespace Workbench.ViewModels
         /// <returns>New singleton variable view model.</returns>
         public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
+
             var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                     this.eventAggregator);
             this.Model.AddSingletonVariable(newVariable);
@@ -196,6 +196,8 @@ namespace Workbench.ViewModels
         /// <returns>New aggregate variable view model.</returns>
         public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
         {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
+
             var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             this.Model.AddAggregateVariable(newVariable);
@@ -213,6 +215,8 @@ namespace Workbench.ViewModels
         /// <returns>New domain view model.</returns>
         public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
         {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
+
             var newDomain = new DomainViewModel(new DomainModel(newDomainName, newDomainLocation, new DomainExpressionModel()));
             this.Model.AddDomain(newDomain);
             this.IsDirty = true;
@@ -228,6 +232,8 @@ namespace Workbench.ViewModels
         /// <returns>New constraint view model.</returns>
         public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
         {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
+
             var newConstraint = new ConstraintViewModel(new ConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
             this.Model.AddConstraint(newConstraint);
             this.IsDirty = true;
@@ -241,6 +247,8 @@ namespace Workbench.ViewModels
         /// <param name="newDesigner">Visualizer designer.</param>
         public void AddDesigner(VariableVisualizerDesignViewModel newDesigner)
         {
+            Contract.Requires<ArgumentNullException>(newDesigner != null);
+
             this.Designer.AddVisualizer(newDesigner);
             this.IsDirty = true;
         }
@@ -251,6 +259,8 @@ namespace Workbench.ViewModels
         /// <param name="newViewer">Variable viewer.</param>
         public void AddViewer(VariableVisualizerViewerViewModel newViewer)
         {
+            Contract.Requires<ArgumentNullException>(newViewer != null);
+
             this.Viewer.AddVisualizer(newViewer);
             this.IsDirty = true;
         }
@@ -270,6 +280,8 @@ namespace Workbench.ViewModels
         /// </summary>
         public void DeleteVariable(VariableViewModel variable)
         {
+            Contract.Requires<ArgumentNullException>(variable != null);
+
             this.Model.DeleteVariable(variable);
             this.IsDirty = true;
         }
@@ -290,7 +302,7 @@ namespace Workbench.ViewModels
         /// <returns>Model view model.</returns>
         public ModelViewModel GetModel()
         {
-            Contract.Ensures(this.Model != null);
+            Contract.Ensures(Contract.Result<ModelViewModel>() != null);
             return this.Model;
         }
 

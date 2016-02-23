@@ -41,6 +41,7 @@ namespace Workbench.ViewModels
             get { return this.model; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 base.Model = value;
                 this.model = value;
             }
@@ -57,6 +58,7 @@ namespace Workbench.ViewModels
             }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.boundTo = value;
                 NotifyOfPropertyChange();
             }
@@ -92,9 +94,6 @@ namespace Workbench.ViewModels
         /// <param name="message">The message.</param>
         public void Handle(VariableVisualizerBoundMessage message)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
-
             if (message.Variable.Id != this.Model.Binding.VariableId) return;
             this.Binding = message.Variable;
         }

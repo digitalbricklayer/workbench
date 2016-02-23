@@ -20,8 +20,7 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">The solution model.</param>
         public SolutionViewerViewModel(SolutionModel theSolution)
         {
-            if (theSolution == null)
-                throw new ArgumentNullException("theSolution");
+            Contract.Requires<ArgumentNullException>(theSolution != null);
 
             this.values = new BindableCollection<ValueModel>();
             this.Model = theSolution;
@@ -35,6 +34,7 @@ namespace Workbench.ViewModels
             get { return values; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.values = value;
                 NotifyOfPropertyChange();
             }
@@ -51,6 +51,7 @@ namespace Workbench.ViewModels
         /// <param name="theValues">Variable values.</param>
         public void BindTo(IEnumerable<ValueModel> theValues)
         {
+            Contract.Requires<ArgumentNullException>(theValues != null);
             this.Reset();
             foreach (var aValue in theValues)
             {
@@ -79,8 +80,7 @@ namespace Workbench.ViewModels
         /// <param name="newValueViewModel">New value.</param>
         public void AddValue(ValueModel newValueViewModel)
         {
-            if (newValueViewModel == null)
-                throw new ArgumentNullException("newValueViewModel");
+            Contract.Requires<ArgumentNullException>(newValueViewModel != null);
             this.Values.Add(newValueViewModel);
         }
 
@@ -90,8 +90,7 @@ namespace Workbench.ViewModels
         /// <param name="newVariableVisualizer">New visualizer.</param>
         public void AddVisualizer(VariableVisualizerViewerViewModel newVariableVisualizer)
         {
-            if (newVariableVisualizer == null)
-                throw new ArgumentNullException("newVariableVisualizer");
+            Contract.Requires<ArgumentNullException>(newVariableVisualizer != null);
             this.ActivateItem(newVariableVisualizer);
         }
 

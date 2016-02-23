@@ -25,14 +25,9 @@ namespace Workbench.ViewModels
                               IWindowManager theWindowManager, 
                               IEventAggregator theEventAggregator)
         {
-            if (theModel == null)
-                throw new ArgumentNullException("theModel");
-
-            if (theWindowManager == null)
-                throw new ArgumentNullException("theWindowManager");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             this.Model = theModel;
             this.windowManager = theWindowManager;
@@ -367,6 +362,15 @@ namespace Workbench.ViewModels
         {
             var errorsViewModel = CreateModelErrorsFrom(theModel);
             this.windowManager.ShowDialog(errorsViewModel);
+        }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.Model != null);
+            Contract.Invariant(this.Constraints != null);
+            Contract.Invariant(this.Variables != null);
+            Contract.Invariant(this.Domains != null);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -26,8 +27,7 @@ namespace Workbench.ViewModels
         /// <param name="theGraphicModel">Graphic model.</param>
         protected GraphicViewModel(GraphicModel theGraphicModel)
         {
-            if (theGraphicModel == null)
-                throw new ArgumentNullException("theGraphicModel");
+            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
             this.Model = theGraphicModel;
         }
 
@@ -144,6 +144,7 @@ namespace Workbench.ViewModels
         /// </summary>
         protected virtual void OnRename(string theOldName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
             // Intentionally left blank, override as necessary.
         }
     }

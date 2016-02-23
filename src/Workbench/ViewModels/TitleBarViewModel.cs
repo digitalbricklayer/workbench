@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.Contracts;
 using System.IO;
 using Caliburn.Micro;
 
@@ -11,6 +13,8 @@ namespace Workbench.ViewModels
         public TitleBarViewModel(IAppRuntime theAppRuntime,
                                  WorkspaceViewModel theWorkspaceViewModel)
         {
+            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
             this.appRuntime = theAppRuntime;
             this.Workspace = theWorkspaceViewModel;
 			this.UpdateTitle();
@@ -26,6 +30,7 @@ namespace Workbench.ViewModels
             get { return this.title; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.title = value;
                 NotifyOfPropertyChange();
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -18,8 +19,7 @@ namespace Workbench.ViewModels
         /// <param name="rawExpression">Raw expression text.</param>
         public DomainExpressionViewModel(string rawExpression)
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
             this.Model = new DomainExpressionModel();
         }
 

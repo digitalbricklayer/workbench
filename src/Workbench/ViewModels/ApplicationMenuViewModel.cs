@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -26,14 +27,10 @@ namespace Workbench.ViewModels
                                         IAppRuntime theAppRuntime,
                                         TitleBarViewModel theTitleBarViewModel)
         {
-            if (theDataService == null)
-                throw new ArgumentNullException("theDataService");
-            if (theWindowManager == null)
-                throw new ArgumentNullException("theWindowManager");
-            if (theWorkspaceMapper == null)
-                throw new ArgumentNullException("theWorkspaceMapper");
-            if (theAppRuntime == null)
-                throw new ArgumentNullException("theAppRuntime");
+            Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
+            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
+            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.dataService = theDataService;
             this.workspaceMapper = theWorkspaceMapper;

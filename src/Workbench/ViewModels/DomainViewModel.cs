@@ -1,4 +1,6 @@
-﻿using Workbench.Core.Models;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
@@ -12,6 +14,7 @@ namespace Workbench.ViewModels
         public DomainViewModel(DomainModel theDomainModel)
             : base(theDomainModel)
         {
+            Contract.Requires<ArgumentNullException>(theDomainModel != null);
             this.Model = theDomainModel;
             this.Expression = new DomainExpressionViewModel(theDomainModel.Expression);
         }

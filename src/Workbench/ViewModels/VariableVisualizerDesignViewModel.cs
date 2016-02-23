@@ -38,6 +38,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(theVariableVisualizerModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.AvailableVariables = new BindableCollection<VariableViewModel>();
@@ -58,6 +59,8 @@ namespace Workbench.ViewModels
             get { return this.model; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
+
                 base.Model = value;
                 this.model = value;
             }
@@ -71,6 +74,8 @@ namespace Workbench.ViewModels
             get { return availableVariables; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
+
                 availableVariables = value;
                 NotifyOfPropertyChange();
             }
@@ -84,6 +89,8 @@ namespace Workbench.ViewModels
             get { return this.selectedVariable; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
+
                 this.selectedVariable = value;
                 if (this.SelectedVariable != null)
                 {

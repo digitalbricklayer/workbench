@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -18,8 +19,7 @@ namespace Workbench.ViewModels
         /// <param name="theExpressionModel">Variable domain expression model.</param>
         public VariableDomainExpressionViewModel(VariableDomainExpressionModel theExpressionModel)
         {
-            if (theExpressionModel == null)
-                throw new ArgumentException("theExpressionModel");
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
             this.Model = theExpressionModel;
         }
 
@@ -29,6 +29,7 @@ namespace Workbench.ViewModels
         /// <param name="theRawExpressionModel">Raw variable domain expression.</param>
         public VariableDomainExpressionViewModel(string theRawExpressionModel)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theRawExpressionModel));
             this.Model = new VariableDomainExpressionModel(theRawExpressionModel);
         }
 
@@ -45,6 +46,7 @@ namespace Workbench.ViewModels
             get { return this.Model.Text; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 if (this.Model.Text == value) return;
                 this.Model.Text = value;
                 NotifyOfPropertyChange();

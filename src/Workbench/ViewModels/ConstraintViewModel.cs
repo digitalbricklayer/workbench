@@ -1,4 +1,6 @@
-﻿using Workbench.Core.Models;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
@@ -12,6 +14,7 @@ namespace Workbench.ViewModels
         public ConstraintViewModel(ConstraintModel theConstraintModel)
             : base(theConstraintModel)
         {
+            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
             this.Model = theConstraintModel;
             this.Expression = new ConstraintExpressionViewModel(this.Model.Expression);
         }

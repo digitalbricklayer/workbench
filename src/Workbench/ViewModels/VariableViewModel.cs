@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Messages;
@@ -22,11 +23,8 @@ namespace Workbench.ViewModels
         public VariableViewModel(VariableModel theVariableModel, IEventAggregator theEventAggregator)
             : base(theVariableModel)
         {
-            if (theVariableModel == null)
-                throw new ArgumentNullException("theVariableModel");
-
-            if (theEventAggregator == null)
-                throw new ArgumentNullException("theEventAggregator");
+            Contract.Requires<ArgumentNullException>(theVariableModel != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             this.Model = theVariableModel;
             this.DomainExpression = new VariableDomainExpressionViewModel(this.Model.DomainExpression);
@@ -44,6 +42,7 @@ namespace Workbench.ViewModels
             }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.domainExpression = value;
                 if (this.Model != null)
                     this.Model.DomainExpression = this.domainExpression.Model;
@@ -59,6 +58,7 @@ namespace Workbench.ViewModels
             get { return this.model; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 base.Model = value;
                 this.model = value;
             }

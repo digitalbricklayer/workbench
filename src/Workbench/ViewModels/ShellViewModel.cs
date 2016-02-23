@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the main window.
+    /// View model for the main window shell.
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>, IShell
     {
@@ -25,14 +26,10 @@ namespace Workbench.ViewModels
                               ApplicationMenuViewModel theApplicationMenuViewModel,
                               TitleBarViewModel theTitleBarViewModel)
         {
-            if (theAppRuntime == null)
-                throw new ArgumentNullException("theAppRuntime");
-            if (theWorkspaceViewModel == null)
-                throw new ArgumentNullException("theWorkspaceViewModel");
-            if (theApplicationMenuViewModel == null)
-                throw new ArgumentNullException("theApplicationMenuViewModel");
-            if (theTitleBarViewModel == null)
-                throw new ArgumentNullException("theTitleBarViewModel");
+            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
+            Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
+            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.appRuntime = theAppRuntime;
             this.Workspace = theWorkspaceViewModel;
@@ -50,6 +47,7 @@ namespace Workbench.ViewModels
             get { return this.applicationMenu; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.applicationMenu = value;
                 NotifyOfPropertyChange();
             }

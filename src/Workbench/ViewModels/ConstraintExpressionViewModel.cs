@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -18,8 +19,7 @@ namespace Workbench.ViewModels
         /// <param name="theExpressionModel">Constraint expression model.</param>
         public ConstraintExpressionViewModel(ConstraintExpressionModel theExpressionModel)
         {
-            if (theExpressionModel == null)
-                throw new ArgumentNullException("theExpressionModel");
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
             this.Model = theExpressionModel;
         }
 
