@@ -51,9 +51,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var sut = CreateSut();
             sut.SolveModel();
             var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
-            Assert.That(actualVisualizer.Value.Value, Is.GreaterThan(1)
-                                                        .And
-                                                        .LessThanOrEqualTo(10));
+            Assert.That(actualVisualizer.Value.GetValueAt(1), Is.GreaterThan(1)
+                                                                .And
+                                                                .LessThanOrEqualTo(10));
         }
 
         private WorkspaceViewModel CreateSut()

@@ -7,7 +7,7 @@ namespace Workbench.Core.Models
     /// Value(s) bound to a variable.
     /// </summary>
     [Serializable]
-    public class ValueModel : GraphicModel
+    public class ValueModel
     {
         private readonly List<int> values;
 
@@ -43,16 +43,16 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the values bound to the aggregate variable.
         /// </summary>
-        public IEnumerable<int> Values
+        public IReadOnlyCollection<int> Values
         {
             get
             {
-                return this.values;
+                return this.values.ToArray();
             }
         }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets or sets the first value.
         /// </summary>
         public int Value
         {

@@ -301,28 +301,9 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             this.Viewer.UnbindAll();
-            var newValues = new List<ValueViewModel>();
-            foreach (var value in theSolution.SingletonValues)
-            {
-                var variable = this.Model.GetVariableByName(value.VariableName);
-                var valueViewModel = new ValueViewModel(variable)
-                {
-                    Value = value.Value
-                };
-                newValues.Add(valueViewModel);
-            }
-            foreach (var aggregateValue in theSolution.AggregateValues)
-            {
-                foreach (var value in aggregateValue.Values)
-                {
-                    var aggregateViewModel = this.Model.GetVariableByName(aggregateValue.Variable.Name);
-                    var valueViewModel = new ValueViewModel(aggregateViewModel)
-                    {
-                        Value = value
-                    };
-                    newValues.Add(valueViewModel);
-                }
-            }
+            var newValues = new List<ValueModel>();
+            newValues.AddRange(theSolution.SingletonValues);
+            newValues.AddRange(theSolution.AggregateValues);
             this.Viewer.BindTo(newValues);
 
             if (!this.AvailableDisplayModes.Contains("Solution"))

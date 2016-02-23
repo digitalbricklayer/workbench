@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
     {
         private VariableViewModel boundTo;
         private VariableVisualizerModel model;
-        private ValueViewModel value;
+        private ValueModel value;
         private IEventAggregator eventAggregator;
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the variable value;
         /// </summary>
-        public ValueViewModel Value
+        public ValueModel Value
         {
             get
             {

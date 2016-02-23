@@ -101,8 +101,10 @@
                         <TextBlock x:Name="variableName"
                                    Text="{Binding Binding.Name}"/>
 
-                        <TextBlock x:Name="valueText"
-                                   Text="{Binding Value.Value}"/>
+                        <ListBox x:Name="values"
+                                 ItemsSource="{Binding Values}" />
+                        <!--<TextBlock x:Name="valueText"
+                                   Text="{Binding Value.Value}"/>-->
                     </StackPanel>
                 </Grid>
             </Grid>

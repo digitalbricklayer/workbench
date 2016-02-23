@@ -12,7 +12,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class SolutionViewerViewModel : Conductor<VariableVisualizerViewerViewModel>.Collection.AllActive
     {
-        private IObservableCollection<ValueViewModel> values;
+        private IObservableCollection<ValueModel> values;
 
         /// <summary>
         /// Initialize the solution with a solution model.
@@ -23,14 +23,14 @@ namespace Workbench.ViewModels
             if (theSolution == null)
                 throw new ArgumentNullException("theSolution");
 
-            this.values = new BindableCollection<ValueViewModel>();
+            this.values = new BindableCollection<ValueModel>();
             this.Model = theSolution;
         }
 
         /// <summary>
         /// Gets the values displayed in the solution.
         /// </summary>
-        public IObservableCollection<ValueViewModel> Values
+        public IObservableCollection<ValueModel> Values
         {
             get { return values; }
             set
@@ -43,13 +43,13 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the solution model.
         /// </summary>
-        public SolutionModel Model { get; set; }
+        public SolutionModel Model { get; private set; }
 
         /// <summary>
         /// Bind the values to the solution.
         /// </summary>
         /// <param name="theValues">Variable values.</param>
-        public void BindTo(IEnumerable<ValueViewModel> theValues)
+        public void BindTo(IEnumerable<ValueModel> theValues)
         {
             this.Reset();
             foreach (var aValue in theValues)
@@ -77,7 +77,7 @@ namespace Workbench.ViewModels
         /// Add a value.
         /// </summary>
         /// <param name="newValueViewModel">New value.</param>
-        public void AddValue(ValueViewModel newValueViewModel)
+        public void AddValue(ValueModel newValueViewModel)
         {
             if (newValueViewModel == null)
                 throw new ArgumentNullException("newValueViewModel");

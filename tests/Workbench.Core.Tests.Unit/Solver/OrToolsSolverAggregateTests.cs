@@ -33,7 +33,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             var actualResult = sut.Solve(MakeModel());
             var actualSnapshot = actualResult.Snapshot;
             var c = actualSnapshot.GetAggregateVariableValueByName("c");
-            Assert.That(c.Values, Has.Count.EqualTo(10));
+            Assert.That(c.Values.Count, Is.EqualTo(10));
         }
 
         [Test]
