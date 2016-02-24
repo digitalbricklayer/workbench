@@ -78,8 +78,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new ModelMapper(CreateVariableMapper(),
                                    CreateConstraintMapper(),
                                    CreateDomainMapper(),
-                                   this.windowManagerMock.Object,
-                                   this.eventAggregatorMock.Object);
+                                   this.viewModelFactoryMock.Object);
         }
 
         private DomainMapper CreateDomainMapper()
@@ -115,6 +114,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var mock = new Mock<IViewModelFactory>();
             mock.Setup(_ => _.CreateWorkspace())
                 .Returns(CreateWorkspaceViewModel);
+            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
+                .Returns((ModelModel model) => new ModelViewModel(model,
+                                                                  this.windowManagerMock.Object,
+                                                                  this.eventAggregatorMock.Object));
             return mock;
         }
 
@@ -123,7 +126,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new WorkspaceViewModel(this.dataServiceMock.Object,
                                           this.windowManagerMock.Object,
                                           this.eventAggregatorMock.Object,
-                                          this.viewModelService);
+                                          this.viewModelService,
+                                          this.viewModelFactoryMock.Object);
         }
     }
 }

@@ -1,4 +1,5 @@
-using Caliburn.Micro;
+using System;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -12,27 +13,27 @@ namespace Workbench.Services
         private readonly VariableMapper variableMapper;
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
-        private readonly IWindowManager windowManager;
-        private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelFactory viewModelFactory;
 
         public ModelMapper(VariableMapper theVariableMapper,
-                             ConstraintMapper theConstraintMapper,
-                             DomainMapper theDomainMapper,
-                             IWindowManager theWindowManager,
-                             IEventAggregator theEventAggregator)
+                           ConstraintMapper theConstraintMapper,
+                           DomainMapper theDomainMapper,
+                           IViewModelFactory theViewModelFactory)
         {
+            Contract.Requires<ArgumentNullException>(theVariableMapper != null);
+            Contract.Requires<ArgumentNullException>(theConstraintMapper != null);
+            Contract.Requires<ArgumentNullException>(theDomainMapper != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
+
             this.variableMapper = theVariableMapper;
             this.domainMapper = theDomainMapper;
             this.constraintMapper = theConstraintMapper;
-            this.windowManager = theWindowManager;
-            this.eventAggregator = theEventAggregator;
+            this.viewModelFactory = theViewModelFactory;
         }
 
         internal ModelViewModel MapFrom(ModelModel theModelModel)
         {
-            var modelViewModel = new ModelViewModel(theModelModel,
-                                                    this.windowManager,
-                                                    this.eventAggregator);
+            var modelViewModel = this.viewModelFactory.CreateModel(theModelModel);
 
             foreach (var domainModel in theModelModel.Domains)
             {

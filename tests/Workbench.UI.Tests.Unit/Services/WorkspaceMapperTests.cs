@@ -15,7 +15,9 @@ namespace Workbench.UI.Tests.Unit.Services
         [SetUp]
         public void Initialize()
         {
-            this.viewModelService = new ViewModelService(new ViewModelFactory());
+            var viewModelFactory = new ViewModelFactory(CreateEventAggregator(),
+                                                        CreateWindowManager());
+            this.viewModelService = new ViewModelService(viewModelFactory);
         }
 
         [Test]
@@ -65,7 +67,12 @@ namespace Workbench.UI.Tests.Unit.Services
                 .Returns(new WorkspaceViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
-                                                this.viewModelService));
+                                                this.viewModelService,
+                                                mock.Object));
+            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
+                .Returns((ModelModel model) => new ModelViewModel(model,
+                                                                  CreateWindowManager(),
+                                                                  CreateEventAggregator()));
 
             return mock;
         }
@@ -88,8 +95,7 @@ namespace Workbench.UI.Tests.Unit.Services
             return new ModelMapper(CreateVariableMapper(),
                                    CreateConstraintMapper(),
                                    CreateDomainMapper(),
-                                   CreateWindowManager(),
-                                   CreateEventAggregator());
+                                   CreateViewModelFactoryMock().Object);
         }
 
         private DomainMapper CreateDomainMapper()

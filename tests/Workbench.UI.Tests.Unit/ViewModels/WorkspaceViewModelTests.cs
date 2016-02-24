@@ -61,7 +61,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var newWorkspace = new WorkspaceViewModel(this.dataService,
                                                       this.windowManagerMock.Object,
                                                       this.eventAggregator,
-                                                      this.viewModelMock.Object);
+                                                      this.viewModelMock.Object,
+                                                      CreateViewModelFactoryMock().Object);
             newWorkspace.AddSingletonVariable("x", new Point());
             this.xVariable = newWorkspace.Model.GetVariableByName("x");
             this.xVariable.DomainExpression.Text = "1..2";
@@ -79,6 +80,18 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             newDesigner.SelectedVariable = this.xVariable;
 
             return newWorkspace;
+        }
+
+        private Mock<IViewModelFactory> CreateViewModelFactoryMock()
+        {
+            var mock = new Mock<IViewModelFactory>();
+            mock.Setup(_ => _.CreateWorkspace())
+                .Returns(null as WorkspaceViewModel);
+            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
+                .Returns((ModelModel model) => new ModelViewModel(model,
+                                                                  this.windowManagerMock.Object,
+                                                                  this.eventAggregator));
+            return mock;
         }
 
         private Mock<IWorkspaceReaderWriter> CreateWorkspaceReaderWriterMock()

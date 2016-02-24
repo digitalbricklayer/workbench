@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Workbench.Core.Models;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
@@ -17,6 +18,28 @@ namespace Workbench.Services
         /// Event fired when a new workspace view model is created.
         /// </summary>
 		event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+
+        /// <summary>
+        /// Create a new model view model.
+        /// </summary>
+        /// <returns>New model view model.</returns>
+        ModelViewModel CreateModel(ModelModel theModel);
+
+        /// <summary>
+        /// Event fired when a new model view model is created.
+        /// </summary>
+        event EventHandler<ModelCreatedArgs> ModelCreated;
+    }
+
+    public class ModelCreatedArgs
+    {
+        public ModelCreatedArgs(ModelViewModel theModel)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            this.NewModel = theModel;
+        }
+
+        public ModelViewModel NewModel { get; private set; }
     }
 
     public class WorkspaceCreatedArgs
@@ -43,5 +66,13 @@ namespace Workbench.Services
         }
 
         public event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+        public ModelViewModel CreateModel(ModelModel theModel)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Ensures(Contract.Result<ModelViewModel>() != null);
+            return default(ModelViewModel);
+        }
+
+        public event EventHandler<ModelCreatedArgs> ModelCreated;
     }
 }

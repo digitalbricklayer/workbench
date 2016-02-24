@@ -15,16 +15,20 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private WorkspaceViewModel workspace;
         private Mock<IDataService> dataServiceMock;
         private Mock<IWindowManager> windowManagerMock;
-        private Mock<IEventAggregator> eventAggregator;
+        private Mock<IEventAggregator> eventAggregatorMock;
         private VariableModel xVariable;
         private Mock<IViewModelService> viewModelCacheMock;
+        private Mock<IViewModelFactory> viewModelFactoryMock;
 
         [SetUp]
         public void Initialize()
         {
             this.dataServiceMock = new Mock<IDataService>();
-            this.dataServiceMock.Setup(_ => _.GetWorkspace()).Returns(new WorkspaceModel());
-            this.eventAggregator = new Mock<IEventAggregator>();
+            this.dataServiceMock.Setup(_ => _.GetWorkspace())
+                .Returns(new WorkspaceModel());
+            this.viewModelFactoryMock = CreateViewModelFactoryMock();
+
+            this.eventAggregatorMock = new Mock<IEventAggregator>();
             this.windowManagerMock = new Mock<IWindowManager>();
             this.viewModelCacheMock = new Mock<IViewModelService>();
             this.workspace = CreateWorkspaceViewModel();
@@ -48,7 +52,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var visualizerModel = new VariableVisualizerModel(new Point());
             visualizerModel.BindTo(this.xVariable);
             return new VariableVisualizerDesignViewModel(visualizerModel,
-                                                         this.eventAggregator.Object,
+                                                         this.eventAggregatorMock.Object,
                                                          this.dataServiceMock.Object,
                                                          this.viewModelCacheMock.Object);
         }
@@ -57,10 +61,23 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var x = new WorkspaceViewModel(this.dataServiceMock.Object,
                                            this.windowManagerMock.Object,
-                                           this.eventAggregator.Object,
-                                           this.viewModelCacheMock.Object);
+                                           this.eventAggregatorMock.Object,
+                                           this.viewModelCacheMock.Object,
+                                           this.viewModelFactoryMock.Object);
             x.AddSingletonVariable("x", new Point());
             return x;
+        }
+
+        private Mock<IViewModelFactory> CreateViewModelFactoryMock()
+        {
+            var mock = new Mock<IViewModelFactory>();
+            mock.Setup(_ => _.CreateWorkspace())
+                .Returns(CreateWorkspaceViewModel);
+            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
+                .Returns((ModelModel model) => new ModelViewModel(model,
+                                                                  this.windowManagerMock.Object,
+                                                                  this.eventAggregatorMock.Object));
+            return mock;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Workbench.ViewModels
         private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
+        private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
@@ -31,20 +32,21 @@ namespace Workbench.ViewModels
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,
                                   IEventAggregator theEventAggregator,
-                                  IViewModelService theViewModelService)
+                                  IViewModelService theViewModelService,
+                                  IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
+            this.viewModelFactory = theViewModelFactory;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
-            this.model = new ModelViewModel(this.WorkspaceModel.Model, 
-                                            theWindowManager, 
-                                            theEventAggregator);
+            this.model = this.viewModelFactory.CreateModel(this.WorkspaceModel.Model);
             this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
             this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Solution.Display);
             this.SelectedDisplayMode = "Model";
