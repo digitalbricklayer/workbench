@@ -76,7 +76,7 @@ namespace Workbench
             }
             set
             {
-                Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(value));
+                Contract.Requires<ArgumentNullException>(value != null);
                 _currentFileName = value;
             }
         }

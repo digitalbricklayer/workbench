@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.ViewModels;
@@ -8,16 +9,20 @@ namespace Workbench.Services
     /// <summary>
     /// Service responsible for cross cutting concerns across all view models.
     /// </summary>
-    public class ViewModelService : IViewModelService
+    public class ViewModelService : IViewModelService, IDisposable
     {
         private readonly Dictionary<int, GraphicViewModel> graphicMap;
         private readonly Dictionary<int, VariableViewModel> variableMap;
+		private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
         /// Initialize the view model cache with default values.
         /// </summary>
-        public ViewModelService()
+        public ViewModelService(IViewModelFactory theViewModelFactory)
         {
+			Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
+			this.viewModelFactory = theViewModelFactory;
+			this.viewModelFactory.WorkspaceCreated += OnWorkspaceCreated;
             this.graphicMap = new Dictionary<int, GraphicViewModel>();
             this.variableMap = new Dictionary<int, VariableViewModel>();
         }
@@ -57,5 +62,14 @@ namespace Workbench.Services
             Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableViewModel>>() != null);
             return this.variableMap.Values.ToList();
         }
+		
+		public void Dispose()
+		{
+			this.viewModelFactory.WorkspaceCreated -= OnWorkspaceCreated;
+		}
+		
+		private void OnWorkspaceCreated(Object sender, WorkspaceCreatedArgs e)
+		{
+		}
     }
 }

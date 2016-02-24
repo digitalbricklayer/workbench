@@ -8,16 +8,18 @@ using Workbench.ViewModels;
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
     /// <summary>
-    /// Fixture to test using an existing workspace model.
+    /// Fixture to test using a workspace view model created from 
+    /// an existing workspace model.
     /// </summary>
     [TestFixture]
-    public class WorkspaceViewModelOpenTests
+    public class WorkspaceViewModelCreatedFromModelTests
     {
         private Mock<IDataService> dataServiceMock;
         private Mock<IWindowManager> windowManagerMock;
         private Mock<IEventAggregator> eventAggregatorMock;
         private WorkspaceModel workspaceModel;
-        private IViewModelService _viewModelService;
+        private IViewModelService viewModelService;
+        private Mock<IViewModelFactory> viewModelFactoryMock;
 
         [SetUp]
         public void Initialize()
@@ -26,8 +28,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.dataServiceMock = CreateDataServiceMock();
             this.windowManagerMock = new Mock<IWindowManager>();
             this.eventAggregatorMock = new Mock<IEventAggregator>();
-            CreateViewModelFactoryMock();
-            this._viewModelService = new ViewModelService();
+            this.viewModelFactoryMock = CreateViewModelFactoryMock();
+            this.viewModelService = new ViewModelService(this.viewModelFactoryMock.Object);
         }
 
         [Test]
@@ -62,12 +64,12 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             return new DisplayMapper(CreateEventAggregatorMock().Object,
                                      CreateDataServiceMock().Object,
-                                     this._viewModelService);
+                                     this.viewModelService);
         }
 
         private SolutionMapper CreateSolutionMapper()
         {
-            return new SolutionMapper(this._viewModelService,
+            return new SolutionMapper(this.viewModelService,
                                       this.eventAggregatorMock.Object);
         }
 
@@ -82,17 +84,17 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private DomainMapper CreateDomainMapper()
         {
-            return new DomainMapper(this._viewModelService);
+            return new DomainMapper(this.viewModelService);
         }
 
         private ConstraintMapper CreateConstraintMapper()
         {
-            return new ConstraintMapper(this._viewModelService);
+            return new ConstraintMapper(this.viewModelService);
         }
 
         private VariableMapper CreateVariableMapper()
         {
-            return new VariableMapper(this._viewModelService, this.eventAggregatorMock.Object);
+            return new VariableMapper(this.viewModelService, this.eventAggregatorMock.Object);
         }
 
         private Mock<IEventAggregator> CreateEventAggregatorMock()
@@ -121,7 +123,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new WorkspaceViewModel(this.dataServiceMock.Object,
                                           this.windowManagerMock.Object,
                                           this.eventAggregatorMock.Object,
-                                          this._viewModelService);
+                                          this.viewModelService);
         }
     }
 }

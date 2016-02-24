@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -64,18 +64,19 @@ namespace Workbench.Core.Models
 
         public ModelModel GetModel()
         {
-            Debug.Assert(this.workspace != null);
+            Contract.Assume(this.workspace != null);
             return this.workspace.Model;
         }
 
         public DisplayModel GetDisplay()
         {
-            Debug.Assert(this.workspace != null);
+            Contract.Assume(this.workspace != null);
             return this.workspace.Solution.Display;
         }
 
         public WorkspaceModel Build()
         {
+            Contract.Ensures(Contract.Result<WorkspaceModel>() != null);
             return this.workspace;
         }
     }

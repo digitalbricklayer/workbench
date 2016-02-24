@@ -10,12 +10,12 @@ namespace Workbench.UI.Tests.Unit.Services
     [TestFixture]
     public class WorkspaceMapperTests
     {
-        private IViewModelService _viewModelService;
+        private IViewModelService viewModelService;
 
         [SetUp]
         public void Initialize()
         {
-            this._viewModelService = new ViewModelService();
+            this.viewModelService = new ViewModelService(new ViewModelFactory());
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Workbench.UI.Tests.Unit.Services
                 .Returns(new WorkspaceViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
-                                                this._viewModelService));
+                                                this.viewModelService));
 
             return mock;
         }
@@ -74,12 +74,12 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             return new DisplayMapper(CreateEventAggregator(),
                                      CreateDataService(),
-                                     this._viewModelService);
+                                     this.viewModelService);
         }
 
         private SolutionMapper CreateSolutionMapper()
         {
-            return new SolutionMapper(this._viewModelService,
+            return new SolutionMapper(this.viewModelService,
                                       CreateEventAggregator());
         }
 
@@ -94,17 +94,17 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private DomainMapper CreateDomainMapper()
         {
-            return new DomainMapper(this._viewModelService);
+            return new DomainMapper(this.viewModelService);
         }
 
         private ConstraintMapper CreateConstraintMapper()
         {
-            return new ConstraintMapper(this._viewModelService);
+            return new ConstraintMapper(this.viewModelService);
         }
 
         private VariableMapper CreateVariableMapper()
         {
-            return new VariableMapper(this._viewModelService,
+            return new VariableMapper(this.viewModelService,
                                       CreateEventAggregator());
         }
 

@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ViewModelFactoryTests.cs" />
     <Compile Include="Services\WorkspaceMapperTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="ViewModels\ModelViewModelTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
     <Compile Include="ViewModels\VariableVisualizerViewModelTests.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModelOpenTests.cs" />
+    <Compile Include="ViewModels\WorkspaceViewModelCreatedFromModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>

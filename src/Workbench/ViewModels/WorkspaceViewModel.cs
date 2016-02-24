@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
         private ModelViewModel model;
         private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelService _viewModelService;
+        private readonly IViewModelService viewModelService;
 
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
@@ -39,7 +39,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.eventAggregator = theEventAggregator;
-            this._viewModelService = theViewModelService;
+            this.viewModelService = theViewModelService;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             this.WorkspaceModel = theDataService.GetWorkspace();
             this.model = new ModelViewModel(this.WorkspaceModel.Model, 
@@ -182,7 +182,7 @@ namespace Workbench.ViewModels
             var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                     this.eventAggregator);
             this.Model.AddSingletonVariable(newVariable);
-            this._viewModelService.CacheVariable(newVariable);
+            this.viewModelService.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
@@ -201,7 +201,7 @@ namespace Workbench.ViewModels
             var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             this.Model.AddAggregateVariable(newVariable);
-            this._viewModelService.CacheVariable(newVariable);
+            this.viewModelService.CacheVariable(newVariable);
             this.IsDirty = true;
 
             return newVariable;
