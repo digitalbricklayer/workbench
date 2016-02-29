@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -27,8 +28,7 @@ namespace Workbench.Core.Models
         public ModelModel(string theName)
             : this()
         {
-            if (string.IsNullOrWhiteSpace(theName))
-                throw new ArgumentException("theName");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
             this.Name = theName;
         }
 
@@ -53,6 +53,7 @@ namespace Workbench.Core.Models
             get { return name; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 name = value;
                 OnPropertyChanged();
             }
@@ -66,6 +67,7 @@ namespace Workbench.Core.Models
             get { return variables; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 variables = value;
                 OnPropertyChanged();
             }
@@ -79,6 +81,7 @@ namespace Workbench.Core.Models
             get { return this.singletons; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.singletons = value;
                 OnPropertyChanged();
             }
@@ -92,6 +95,7 @@ namespace Workbench.Core.Models
             get { return aggregates; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 aggregates = value;
                 OnPropertyChanged();
             }
@@ -105,6 +109,7 @@ namespace Workbench.Core.Models
             get { return domains; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 domains = value;
                 OnPropertyChanged();
             }
@@ -118,6 +123,7 @@ namespace Workbench.Core.Models
             get { return constraints; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 constraints = value;
                 OnPropertyChanged();
             }
@@ -126,10 +132,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the model validation errors.
         /// </summary>
-        public IEnumerable<String> Errors
+        public IReadOnlyCollection<string> Errors
         {
             get
             {
+                Contract.Assume(this.errors != null);
                 return this.errors;
             }
         }
@@ -140,8 +147,7 @@ namespace Workbench.Core.Models
         /// <param name="newConstraint">New constraint.</param>
         public void AddConstraint(ConstraintModel newConstraint)
         {
-            if (newConstraint == null)
-                throw new ArgumentNullException("newConstraint");
+            Contract.Requires<ArgumentNullException>(newConstraint != null);
             newConstraint.AssignIdentity();
             this.Constraints.Add(newConstraint);
         }
@@ -152,8 +158,7 @@ namespace Workbench.Core.Models
         /// <param name="constraintToDelete">Constraint to delete.</param>
         public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
-            if (constraintToDelete == null)
-                throw new ArgumentNullException("constraintToDelete");
+            Contract.Requires<ArgumentNullException>(constraintToDelete != null);
             this.Constraints.Remove(constraintToDelete);
         }
 
@@ -163,8 +168,7 @@ namespace Workbench.Core.Models
         /// <param name="newVariable">New variable.</param>
         public void AddVariable(VariableModel newVariable)
         {
-            if (newVariable == null)
-                throw new ArgumentNullException("newVariable");
+            Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
             this.Variables.Add(newVariable);
             this.Singletons.Add(newVariable);
@@ -176,8 +180,7 @@ namespace Workbench.Core.Models
         /// <param name="newVariable">New aggregate variable.</param>
         public void AddVariable(AggregateVariableModel newVariable)
         {
-            if (newVariable == null)
-                throw new ArgumentNullException("newVariable");
+            Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
             this.Variables.Add(newVariable);
             this.Aggregates.Add(newVariable);
@@ -189,33 +192,28 @@ namespace Workbench.Core.Models
         /// <param name="variableToDelete">Variable to delete.</param>
         public void DeleteVariable(VariableModel variableToDelete)
         {
-            if (variableToDelete == null)
-                throw new ArgumentNullException("variableToDelete");
+            Contract.Requires<ArgumentNullException>(variableToDelete != null);
             this.Variables.Remove(variableToDelete);
         }
 
         public void AddDomain(DomainModel newDomain)
         {
-            if (newDomain == null)
-                throw new ArgumentNullException("newDomain");
+            Contract.Requires<ArgumentNullException>(newDomain != null);
             newDomain.AssignIdentity();
             this.Domains.Add(newDomain);
         }
 
         public void AddSharedDomain(DomainModel newDomain)
         {
-            if (newDomain == null)
-                throw new ArgumentNullException("newDomain");
-            if (string.IsNullOrWhiteSpace(newDomain.Name))
-                throw new ArgumentException("Shared domains must have a name.", "newDomain");
+            Contract.Requires<ArgumentNullException>(newDomain != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomain.Name));
             newDomain.AssignIdentity();
             this.Domains.Add(newDomain);
         }
 
         public void RemoveSharedDomain(DomainModel oldDomain)
         {
-            if (oldDomain == null)
-                throw new ArgumentNullException("oldDomain");
+            Contract.Requires<ArgumentNullException>(oldDomain != null);
             this.Domains.Add(oldDomain);
         }
 
@@ -225,8 +223,7 @@ namespace Workbench.Core.Models
         /// <param name="domainToDelete">Domain to delete.</param>
         public void DeleteDomain(DomainModel domainToDelete)
         {
-            if (domainToDelete == null)
-                throw new ArgumentNullException("domainToDelete");
+            Contract.Requires<ArgumentNullException>(domainToDelete != null);
             this.Domains.Remove(domainToDelete);
         }
 
@@ -237,8 +234,7 @@ namespace Workbench.Core.Models
         /// <returns>Variable model.</returns>
         public VariableModel GetVariableByName(string theVariableName)
         {
-            if (string.IsNullOrWhiteSpace(theVariableName))
-                throw new ArgumentNullException("theVariableName");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
         }
 
@@ -249,6 +245,7 @@ namespace Workbench.Core.Models
         /// <returns>True if the model is valid, False if it is not valid.</returns>
         public bool Validate()
         {
+            Contract.Assume(this.errors != null);
             this.errors.Clear();
             var expressionsValid = this.ValidateConstraints();
             if (!expressionsValid) return false;
@@ -262,8 +259,7 @@ namespace Workbench.Core.Models
         /// <returns>Shared domain matching the name.</returns>
         public DomainModel GetSharedDomainByName(string theSharedDomainName)
         {
-            if (string.IsNullOrWhiteSpace(theSharedDomainName))
-                throw new ArgumentException("theSharedDomainName");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
             return this.Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
         }
 

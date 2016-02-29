@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace Workbench.Core.Models
 {
@@ -17,8 +19,11 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValues">Values to bind to the model.</param>
-        public ValueModel(VariableModel theModel, IEnumerable<int> theValues)
+        public ValueModel(VariableModel theModel, IReadOnlyCollection<int> theValues)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theValues != null);
+            Contract.Requires<ArgumentException>(theValues.Any());
             this.Variable = theModel;
             this.values = new List<int>(theValues);
         }
@@ -31,6 +36,7 @@ namespace Workbench.Core.Models
         /// <param name="theValue">Value to bind to the model.</param>
         public ValueModel(VariableModel theModel, int theValue)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             this.Variable = theModel;
             this.values = new List<int> {theValue};
         }
@@ -47,6 +53,7 @@ namespace Workbench.Core.Models
         {
             get
             {
+                Contract.Assume(this.values != null);
                 return this.values.ToArray();
             }
         }
@@ -58,6 +65,7 @@ namespace Workbench.Core.Models
         {
             get
             {
+                Contract.Assume(this.values != null);
                 return this.GetValueAt(1);
                 
             }
@@ -74,6 +82,7 @@ namespace Workbench.Core.Models
         {
             get
             {
+                Contract.Assume(this.Variable != null);
                 return this.Variable.Name;
             }
         }
@@ -85,6 +94,7 @@ namespace Workbench.Core.Models
         /// <returns>Value at index.</returns>
         public int GetValueAt(int index)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(index > 0);
             return this.values[index - 1];
         }
     }

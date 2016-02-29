@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -17,6 +18,9 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string newVariableName, Point newVariableLocation, int aggregateSize, VariableDomainExpressionModel domainExpression)
             : base(newVariableName, newVariableLocation, domainExpression)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
+            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
+            Contract.Requires<ArgumentNullException>(domainExpression != null);
             this.DomainExpression = domainExpression;
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
@@ -29,6 +33,9 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string variableName, int aggregateSize, VariableDomainExpressionModel domainExpression)
             : base(variableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
+            Contract.Requires<ArgumentNullException>(domainExpression != null);
             this.DomainExpression = domainExpression;
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
@@ -41,6 +48,9 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string variableName, int aggregateSize, string theRawDomainExpression)
             : base(variableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
+            Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
@@ -53,8 +63,8 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
             : base(variableName)
         {
-            if (theDomainExpression == null)
-                throw new ArgumentNullException("theDomainExpression");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
             this.variables = new VariableModel[0];
             this.DomainExpression = theDomainExpression;
         }
@@ -62,6 +72,7 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string newVariableName, Point newVariableLocation)
             : this(newVariableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
             this.X = newVariableLocation.X;
             this.Y = newVariableLocation.Y;
         }
@@ -73,6 +84,7 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(string newName)
             : base(newName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newName));
             this.variables = new VariableModel[0];
             this.DomainExpression = new VariableDomainExpressionModel();
         }
@@ -111,6 +123,7 @@ namespace Workbench.Core.Models
         {
             get
             {
+                Contract.Assume(this.variables != null);
                 return this.variables.AsEnumerable();
             }
         }
@@ -122,6 +135,7 @@ namespace Workbench.Core.Models
         {
             get
             {
+                Contract.Assume(this.variables != null);
                 return this.variables.Length;
             }
         }
@@ -134,6 +148,7 @@ namespace Workbench.Core.Models
             get { return this.domainExpression; }
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.domainExpression = value;
                 base.DomainExpression = value;
                 if (this.Variables == null) return;
@@ -149,6 +164,7 @@ namespace Workbench.Core.Models
         /// <param name="newAggregateSize">New aggregate size.</param>
         public void Resize(int newAggregateSize)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(newAggregateSize >= 0);
             if (this.variables.Length == newAggregateSize) return;
             var originalAggregateSize = this.variables.Length;
             Array.Resize(ref this.variables, newAggregateSize);
@@ -165,8 +181,7 @@ namespace Workbench.Core.Models
         /// <returns>Variable at the index.</returns>
         public VariableModel GetVariableByIndex(int variableIndex)
         {
-            if (this.variables.Length < variableIndex)
-                throw new ArgumentOutOfRangeException("variableIndex");
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex <= this.Variables.Count());
             return this.variables[variableIndex-1];
         }
 
@@ -177,6 +192,8 @@ namespace Workbench.Core.Models
         /// <param name="newDomainExpression">New domain expression.</param>
         public void OverrideDomainTo(int variableIndex, VariableDomainExpressionModel newDomainExpression)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex <= this.Variables.Count());
+            Contract.Requires<ArgumentNullException>(newDomainExpression != null);
             var variableToOverride = this.GetVariableByIndex(variableIndex);
             if (!variableToOverride.DomainExpression.IsEmpty)
             {
@@ -193,6 +210,7 @@ namespace Workbench.Core.Models
         /// <returns>Variable.</returns>
         private VariableModel CreateNewVariableAt(int index)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
             return new VariableModel(this.GetVariableNameFor(index), this.DomainExpression);
         }
 
@@ -203,6 +221,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable name.</returns>
         private string GetVariableNameFor(int index)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(index > 0);
+            Contract.Assume(this.Name != null);
             return this.Name + index;
         }
     }
