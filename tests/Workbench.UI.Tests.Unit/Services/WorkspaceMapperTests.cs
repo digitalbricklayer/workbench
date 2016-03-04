@@ -63,16 +63,16 @@ namespace Workbench.UI.Tests.Unit.Services
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
+            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
+                .Returns((ModelModel model) => new ModelViewModel(model,
+                                                                  CreateWindowManager(),
+                                                                  CreateEventAggregator()));
             mock.Setup(_ => _.CreateWorkspace())
                 .Returns(new WorkspaceViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
                                                 this.viewModelService,
                                                 mock.Object));
-            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
-                .Returns((ModelModel model) => new ModelViewModel(model,
-                                                                  CreateWindowManager(),
-                                                                  CreateEventAggregator()));
 
             return mock;
         }

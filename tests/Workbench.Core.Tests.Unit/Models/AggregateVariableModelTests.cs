@@ -70,11 +70,10 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void ResizeAggregateWithZeroSetsNewSize()
+        public void ResizeAggregateWithZeroThrowsArgumentOutOfRangeException()
         {
             var sut = new AggregateVariableModel("x");
-            sut.Resize(0);
-            Assert.That(sut.AggregateCount, Is.EqualTo(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.Resize(0));
         }
 
         [Test]

@@ -85,8 +85,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateWorkspace())
-                .Returns(null as WorkspaceViewModel);
             mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
                 .Returns((ModelModel model) => new ModelViewModel(model,
                                                                   this.windowManagerMock.Object,

@@ -94,7 +94,7 @@ namespace Workbench.Core.Models
         /// <returns>Value at index.</returns>
         public int GetValueAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index > 0);
+            Contract.Requires<ArgumentOutOfRangeException>(index <= this.Values.Count);
             return this.values[index - 1];
         }
     }
