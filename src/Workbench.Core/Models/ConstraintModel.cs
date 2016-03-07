@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -20,8 +21,8 @@ namespace Workbench.Core.Models
         public ConstraintModel(string constraintName, Point location, ConstraintExpressionModel theExpression)
             : base(constraintName, location)
         {
-            if (theExpression == null)
-                throw new ArgumentNullException("theExpression");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
+            Contract.Requires<ArgumentNullException>(theExpression != null);
             this.Expression = theExpression;
         }
 
@@ -33,6 +34,8 @@ namespace Workbench.Core.Models
         public ConstraintModel(string constraintName, string rawExpression)
             : base(constraintName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
+            Contract.Requires<ArgumentNullException>(rawExpression != null);
             this.Expression = new ConstraintExpressionModel(rawExpression);
         }
 
@@ -43,8 +46,7 @@ namespace Workbench.Core.Models
         public ConstraintModel(string rawExpression)
             : this()
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
+            Contract.Requires<ArgumentNullException>(rawExpression != null);
             this.Expression = new ConstraintExpressionModel(rawExpression);
         }
 
@@ -55,6 +57,7 @@ namespace Workbench.Core.Models
         public ConstraintModel(ConstraintExpressionModel theExpression)
             : this()
         {
+            Contract.Requires<ArgumentNullException>(theExpression != null);
             this.Expression = theExpression;
         }
 
@@ -87,10 +90,9 @@ namespace Workbench.Core.Models
         /// <param name="expressionText">Raw constraint expression.</param>
         public static ConstraintModel ParseExpression(string constraintName, string expressionText)
         {
-            if (string.IsNullOrWhiteSpace(constraintName))
-                throw new ArgumentException("constraintName");
-            if (string.IsNullOrWhiteSpace(expressionText))
-                throw new ArgumentException("expressionText");
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionText));
+
             return new ConstraintModel(constraintName, expressionText);
         }
     }

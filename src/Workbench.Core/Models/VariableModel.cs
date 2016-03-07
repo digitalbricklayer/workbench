@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -19,6 +20,7 @@ namespace Workbench.Core.Models
         {
             if (newVariableExpression == null)
                 throw new ArgumentNullException("newVariableExpression");
+            Contract.EndContractBlock();
             this.DomainExpression = newVariableExpression;
         }
 
@@ -30,6 +32,7 @@ namespace Workbench.Core.Models
         {
             if (theDomainExpression == null)
                 throw new ArgumentNullException("theDomainExpression");
+            Contract.EndContractBlock();
             this.DomainExpression = theDomainExpression;
         }
 

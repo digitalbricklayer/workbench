@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 
@@ -19,6 +20,7 @@ namespace Workbench.Core.Models
         {
             if (theExpression == null)
                 throw new ArgumentNullException("theExpression");
+            Contract.EndContractBlock();
             this.expression = theExpression;
         }
 
@@ -27,6 +29,7 @@ namespace Workbench.Core.Models
         {
             if (theExpression == null)
                 throw new ArgumentNullException("theExpression");
+            Contract.EndContractBlock();
             this.expression = theExpression;
         }
 
@@ -39,6 +42,7 @@ namespace Workbench.Core.Models
         {
             if (theRange == null)
                 throw new ArgumentNullException("theRange");
+            Contract.EndContractBlock();
             this.values.AddRange(theRange);
         }
 
@@ -46,6 +50,7 @@ namespace Workbench.Core.Models
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
+            Contract.EndContractBlock();
             this.ParseExpression(rawExpression);
         }
 
@@ -94,6 +99,7 @@ namespace Workbench.Core.Models
         {
             if (string.IsNullOrWhiteSpace(rawExpression))
                 throw new ArgumentException("rawExpression");
+            Contract.EndContractBlock();
             this.Expression = new DomainExpressionModel(DomainGrammar.Parse(rawExpression));
             var theRange = Enumerable.Range(this.Expression.LowerBand, this.Expression.Size);
             this.values.AddRange(theRange);
