@@ -13,13 +13,13 @@
     <Name>Workbench.UI.Wix</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\src\Workbench\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\src\Workbench.UI\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;APPTITLE=Constraint Capers Workbench;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Constraint Capers Workbench</DefineConstants>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\src\Workbench\bin\x86\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\src\Workbench.UI\bin\x86\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <DefineConstants>APPTITLE=Constraint Capers Workbench;APPMANU=OPENXTRA Limited;APPUNINSTALLTITLE=Uninstall Constraint Capers Workbench</DefineConstants>
@@ -29,7 +29,7 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Workbench\Workbench.UI.csproj">
+    <ProjectReference Include="..\..\src\Workbench.UI\Workbench.UI.csproj">
       <Name>Workbench.UI</Name>
       <Project>{523d6d0b-595f-4c35-9f6c-c8baac322e2e}</Project>
       <Private>True</Private>
