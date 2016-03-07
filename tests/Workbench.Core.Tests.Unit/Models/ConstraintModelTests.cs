@@ -43,9 +43,9 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void Initialize_With_Empty_Expression_Throws_ArgumentException()
+        public void Initialize_With_Null_Expression_Throws_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new ConstraintModel(string.Empty));
+            Assert.Throws<ArgumentNullException>(() => new ConstraintModel((string)null));
         }
 
         [Test]

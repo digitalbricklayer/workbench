@@ -101,7 +101,7 @@
       <Project>{BDFDA6E8-2BB7-425E-AF10-47BCD2CC3DBC}</Project>
       <Name>Workbench.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Workbench\Workbench.UI.csproj">
+    <ProjectReference Include="..\..\src\Workbench.UI\Workbench.UI.csproj">
       <Project>{523d6d0b-595f-4c35-9f6c-c8baac322e2e}</Project>
       <Name>Workbench.UI</Name>
     </ProjectReference>
