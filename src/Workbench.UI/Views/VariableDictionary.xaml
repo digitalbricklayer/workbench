@@ -132,17 +132,17 @@
                     <!-- Right hand '>' -->
                     <Canvas Grid.Column="2">
                         <Line X1="0"
-                                  Y1="0"
-                                  X2="30"
-                                  Y2="30"
-                                  Stroke="Black"
-                                  StrokeThickness="2"/>
+                              Y1="0"
+                              X2="30"
+                              Y2="30"
+                              Stroke="Black"
+                              StrokeThickness="2"/>
                         <Line X1="30"
-                                  Y1="30"
-                                  X2="0"
-                                  Y2="60"
-                                  Stroke="Black"
-                                  StrokeThickness="2"/>
+                              Y1="30"
+                              X2="0"
+                              Y2="60"
+                              Stroke="Black"
+                              StrokeThickness="2"/>
                     </Canvas>
                 </Grid>
                 <controls:AdornedControl.AdornerContent>

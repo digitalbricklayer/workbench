@@ -3,7 +3,28 @@
                     xmlns:viewModels="clr-namespace:Workbench.ViewModels"
                     xmlns:controls="clr-namespace:Workbench.Controls">
 
+    <!-- The border brush for vizualizer. -->
+    <SolidColorBrush x:Key="visualizerBorderBrush"
+                     Color="Black" />
+
+    <!-- The fill brush for vizualizer. -->
+    <LinearGradientBrush x:Key="visualizerFillBrush"
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+        <GradientStop Color="White" Offset="0" />
+        <GradientStop Color="#7FC9FF" Offset="0.6" />
+    </LinearGradientBrush>
+
     <DataTemplate DataType="{x:Type viewModels:VariableVisualizerDesignViewModel}">
+        <Grid Height="60" MinWidth="60">
+            
+            <!-- This rectangle is the border for the visualizer. -->
+            <Rectangle Stroke="{StaticResource visualizerBorderBrush}"
+                       StrokeThickness="1.3"
+                       RadiusX="4"
+                       RadiusY="4"
+                       Fill="{StaticResource visualizerFillBrush}" />
+
         <!-- 
         An adorned control is used to enable the edit button when the user 
         hovers over the expression control.
@@ -13,41 +34,28 @@
                                  AdornerOffsetX="-12"
                                  AdornerOffsetY="8"
                                  IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
-            <Grid Width="120"
-                  Height="60">
 
-                <!-- This rectangle is the main visual for the node. -->
-                <Rectangle Stroke="Black"
-                           Fill="White"
-                           RadiusX="4"
-                           RadiusY="4" />
+            <Grid Margin="-8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="10" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                <!-- 
-                This grid contains the node's name and connectors.
-                The margin is negative so that the connectors overlap the body of the node and it's selection border.
-                -->
-                <Grid Margin="-8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <ComboBox x:Name="variableSelector"
+                          Height="20"
+                          Grid.Column="0"
+                          Grid.Row="0"
+                          DisplayMemberPath="Name"
+                          ItemsSource="{Binding AvailableVariables}"
+                          SelectedItem="{Binding SelectedVariable, Mode=TwoWay}" />
 
-                    <StackPanel Grid.Column="1"
-                                Grid.Row="1">
-                        <ComboBox x:Name="variableSelector"
-                                  DisplayMemberPath="Name"
-                                  ItemsSource="{Binding AvailableVariables}"
-                                  SelectedItem="{Binding SelectedVariable, Mode=TwoWay}"/>
+                <TextBlock x:Name="valueText"
+                           Grid.Column="0"
+                           Grid.Row="1" />
 
-                        <TextBlock x:Name="valueText" />
-                    </StackPanel>
-                </Grid>
             </Grid>
             <controls:AdornedControl.AdornerContent>
                 <!-- Just here because the app crashes if it isn't here... -->
@@ -59,70 +67,66 @@
                 </Canvas>
             </controls:AdornedControl.AdornerContent>
         </controls:AdornedControl>
+        </Grid>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:VariableVisualizerViewerViewModel}">
-        <!-- 
+        <Grid MinHeight="60" MinWidth="60">
+
+            <!-- This rectangle is the border for the visualizer. -->
+            <Rectangle Stroke="{StaticResource visualizerBorderBrush}"
+                       StrokeThickness="1.3"
+                       RadiusX="4"
+                       RadiusY="4"
+                       Fill="{StaticResource visualizerFillBrush}" />
+
+            <!-- 
         An adorned control is used to enable the edit button when the user 
         hovers over the expression control.
         -->
-        <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+            <controls:AdornedControl HorizontalAdornerPlacement="Outside"
                                  VerticalAdornerPlacement="Outside"
                                  AdornerOffsetX="-12"
                                  AdornerOffsetY="8"
                                  IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
-            <Grid Width="120"
-                  Height="60">
 
-                <!-- This rectangle is the main visual for the node. -->
-                <Rectangle Stroke="Black"
-                           Fill="White"
-                           RadiusX="4"
-                           RadiusY="4" />
-
-                <!-- 
-                This grid contains the node's name and connectors.
-                The margin is negative so that the connectors overlap the body of the node and it's selection border.
-                -->
                 <Grid Margin="-8">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" MinWidth="10" />
-                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Column="1"
-                                Grid.Row="1">
-                        <TextBlock x:Name="variableName"
-                                   Text="{Binding Binding.Name}"/>
+                    <TextBlock x:Name="variableName"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Text="{Binding Binding.Name}"/>
 
-                        <ListBox x:Name="values"
-                                 ItemsSource="{Binding Value.Values}">
-							<ListBox.ItemsPanel>
-								<ItemsPanelTemplate>
-									<StackPanel IsItemsHost="True"
-												Orientation="Horizontal" />
-								</ItemsPanelTemplate>
-							</ListBox.ItemsPanel>
-						</ListBox>
-                    </StackPanel>
+                    <ListBox x:Name="values"
+                             ItemsSource="{Binding Value.Values}"
+                             Grid.Column="0"
+                             Grid.Row="1">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel IsItemsHost="True"
+										    Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
                 </Grid>
-            </Grid>
-            <controls:AdornedControl.AdornerContent>
-                <!-- Just here because the app crashes if it isn't here... -->
-                <Canvas x:Name="viewerAdornerCanvas"
+                <controls:AdornedControl.AdornerContent>
+                    <!-- Just here because the app crashes if it isn't here... -->
+                    <Canvas x:Name="designerAdornerCanvas"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Width="30"
                         Height="30">
-                </Canvas>
-            </controls:AdornedControl.AdornerContent>
-        </controls:AdornedControl>
+                    </Canvas>
+                </controls:AdornedControl.AdornerContent>
+            </controls:AdornedControl>
+        </Grid>
     </DataTemplate>
-
 </ResourceDictionary>

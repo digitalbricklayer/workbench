@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Workbench.Controls;
-using Workbench.ViewModels;
 
 namespace Workbench.Views
 {
@@ -179,17 +178,6 @@ namespace Workbench.Views
             binding.Command = InvertSelectionCommand;
             binding.Executed += new ExecutedRoutedEventHandler(InvertSelection_Executed);
             CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
-        }
-
-        /// <summary>
-        /// Gets the model view model.
-        /// </summary>
-        public ModelViewModel ViewModel
-        {
-            get
-            {
-                return (ModelViewModel)this.DataContext;
-            }
         }
 
         /// <summary>
