@@ -114,7 +114,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
             return (from x in this.Items
-                    where x.Binding.Name == variableName
+                    where x.Binding != null && x.Binding.Name == variableName
                     select x).FirstOrDefault();
         }
     }

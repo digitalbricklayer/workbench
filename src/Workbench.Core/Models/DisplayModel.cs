@@ -68,6 +68,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             foreach (var aVisualizer in this.Visualizers)
             {
+                if (!aVisualizer.Binding.HasBinding) continue;
                 var theSingletonValue = theSnapshot.GetSingletonVariableValueByName(aVisualizer.Binding.Name);
                 if (theSingletonValue != null)
                     aVisualizer.Value = theSingletonValue;
