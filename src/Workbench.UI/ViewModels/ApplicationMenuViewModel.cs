@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Microsoft.Win32;
-using Workbench.Commands;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -38,6 +37,7 @@ namespace Workbench.ViewModels
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             this.CreateMenuCommands();
+            this.VisualizerMenu = new VisualizerMenuViewModel();
         }
 
         /// <summary>
@@ -143,9 +143,9 @@ namespace Workbench.ViewModels
         public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Solution|Add Visualizer command.
+        /// Gets the Visualizer menu.
         /// </summary>
-        public ICommand AddVisualizerCommand { get; private set; }
+        public VisualizerMenuViewModel VisualizerMenu { get; private set; }
 
         /// <summary>
         /// Handle the "File|New" menu item.
@@ -416,7 +416,6 @@ namespace Workbench.ViewModels
             this.AddDomainCommand = new CommandHandler(ModelAddDomainAction);
             this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
-            this.AddVisualizerCommand = IoC.Get<AddVisualizerCommand>();
         }
     }
 }
