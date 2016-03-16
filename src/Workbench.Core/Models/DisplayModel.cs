@@ -12,20 +12,20 @@ namespace Workbench.Core.Models
     [Serializable]
     public class DisplayModel : AbstractModel
     {
-        private ObservableCollection<VariableVisualizerModel> visualizers;
+        private ObservableCollection<VisualizerModel> visualizers;
 
         /// <summary>
         /// Initialize a display model with default values.
         /// </summary>
         public DisplayModel()
         {
-            this.Visualizers = new ObservableCollection<VariableVisualizerModel>();
+            this.Visualizers = new ObservableCollection<VisualizerModel>();
         }
 
         /// <summary>
         /// Gets or sets the visualizer collection.
         /// </summary>
-        public ObservableCollection<VariableVisualizerModel> Visualizers
+        public ObservableCollection<VisualizerModel> Visualizers
         {
             get { return this.visualizers; }
             set
@@ -39,7 +39,7 @@ namespace Workbench.Core.Models
         /// Add a new visualizer.
         /// </summary>
         /// <param name="theVisualizer">New visualizer.</param>
-        public void AddVisualizer(VariableVisualizerModel theVisualizer)
+        public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             theVisualizer.AssignIdentity();
@@ -51,7 +51,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Name of the variable.</param>
         /// <returns>Visualizer bound to the variable matching the variable name.</returns>
-        public VariableVisualizerModel GetVisualizerFor(string theVariableName)
+        public VisualizerModel GetVisualizerFor(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return (from aViewerViewModel in this.Visualizers

@@ -247,7 +247,7 @@ namespace Workbench.ViewModels
         /// Add a new designer to the solution designer.
         /// </summary>
         /// <param name="newDesigner">Visualizer designer.</param>
-        public void AddDesigner(VariableVisualizerDesignViewModel newDesigner)
+        public void AddDesigner(VisualizerDesignViewModel newDesigner)
         {
             Contract.Requires<ArgumentNullException>(newDesigner != null);
 
@@ -259,7 +259,7 @@ namespace Workbench.ViewModels
         /// Add a new viewer to the solution designer.
         /// </summary>
         /// <param name="newViewer">Variable viewer.</param>
-        public void AddViewer(VariableVisualizerViewerViewModel newViewer)
+        public void AddViewer(VisualizerViewerViewModel newViewer)
         {
             Contract.Requires<ArgumentNullException>(newViewer != null);
 

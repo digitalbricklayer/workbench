@@ -9,7 +9,7 @@ namespace Workbench.Core.Models
 	public class VariableVisualizerBindingModel : AbstractModel
 	{
 	    private VariableModel variable;
-	    private readonly VariableVisualizerModel visualizer;
+	    private readonly VisualizerModel visualizer;
 
         /// <summary>
         /// Initialize a variable visualizer binding with the visualizer and variable.
@@ -19,7 +19,7 @@ namespace Workbench.Core.Models
         /// </remarks>
         /// <param name="theVisualizer">Visualizer.</param>
         /// <param name="theVariable">Variable.</param>
-	    public VariableVisualizerBindingModel(VariableVisualizerModel theVisualizer,
+	    public VariableVisualizerBindingModel(VisualizerModel theVisualizer,
                                               VariableModel theVariable)
 		{
 			Contract.Requires<ArgumentNullException>(theVariable != null);
@@ -34,7 +34,7 @@ namespace Workbench.Core.Models
         /// The binding is not bound.
         /// </remarks>
         /// <param name="theVisualizer">Visualizer.</param>
-		public VariableVisualizerBindingModel(VariableVisualizerModel theVisualizer)
+		public VariableVisualizerBindingModel(VisualizerModel theVisualizer)
 		{
 			Contract.Requires<ArgumentNullException>(theVisualizer != null);
 			this.visualizer = theVisualizer;
@@ -56,7 +56,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the visualizer the binding is bound.
         /// </summary>
-	    public VariableVisualizerModel Visualizer
+	    public VisualizerModel Visualizer
 	    {
 	        get { return this.visualizer; }
 	    }

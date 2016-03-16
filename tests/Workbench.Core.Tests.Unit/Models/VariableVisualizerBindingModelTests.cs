@@ -23,6 +23,14 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
+        public void HasBindingWithNewlyBoudBindingReturnsTrue()
+        {
+            var sut = new VariableVisualizerBindingModel(this.visualizer);
+            sut.BindTo(new VariableModel("x"));
+            Assert.That(sut.HasBinding, Is.True);
+        }
+
+        [Test]
         public void HasBindingWithBoudBindingReturnsTrue()
         {
             var sut = new VariableVisualizerBindingModel(this.visualizer, new VariableModel("x"));

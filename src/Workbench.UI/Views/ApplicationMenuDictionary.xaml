@@ -75,7 +75,12 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Solution">
-                <MenuItem Header="Add Visualizer" Command="{Binding VisualizerMenu.AddVisualizerCommand}">
+                <MenuItem Header="Add Variable Visualizer" Command="{Binding VisualizerMenu.AddVariableVisualizerCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add Chessboard Visualizer" Command="{Binding VisualizerMenu.AddChessboardVisualizerCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>

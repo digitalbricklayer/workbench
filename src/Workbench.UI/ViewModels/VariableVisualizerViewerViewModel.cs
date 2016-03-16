@@ -9,12 +9,10 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the variable visualizer in viewer mode.
     /// </summary>
-    public sealed class VariableVisualizerViewerViewModel : GraphicViewModel,
-                                                            IHandle<VariableVisualizerBoundMessage>
+    public sealed class VariableVisualizerViewerViewModel : VisualizerViewerViewModel,
+                                                            IHandle<VisualizerBoundMessage>
     {
-        private VariableViewModel boundTo;
-        private VariableVisualizerModel model;
-        private ValueModel value;
+        private VisualizerModel model;
         private IEventAggregator eventAggregator;
 
         /// <summary>
@@ -22,7 +20,7 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="theVariableVisualizerModel">Visualizer model.</param>
         /// <param name="theEventAggregator">The event aggregator.</param>
-        public VariableVisualizerViewerViewModel(VariableVisualizerModel theVariableVisualizerModel,
+        public VariableVisualizerViewerViewModel(VisualizerModel theVariableVisualizerModel,
                                                  IEventAggregator theEventAggregator)
             : base(theVariableVisualizerModel)
         {
@@ -36,7 +34,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the variable model.
         /// </summary>
-        public new VariableVisualizerModel Model
+        public new VisualizerModel Model
         {
             get { return this.model; }
             set
@@ -48,51 +46,10 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the variable binding.
-        /// </summary>
-        public VariableViewModel Binding
-        {
-            get
-            {
-                return this.boundTo;
-            }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.boundTo = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the variable value;
-        /// </summary>
-        public ValueModel Value
-        {
-            get
-            {
-                return this.value;
-            }
-            set
-            {
-                this.value = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Unbind the value from viewer.
-        /// </summary>
-        public void Unbind()
-        {
-            this.Value = null;
-        }
-
-        /// <summary>
         /// Handles the variable visualizer bound message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Handle(VariableVisualizerBoundMessage message)
+        public void Handle(VisualizerBoundMessage message)
         {
             if (message.Variable.Id != this.Model.Binding.VariableId) return;
             this.Binding = message.Variable;

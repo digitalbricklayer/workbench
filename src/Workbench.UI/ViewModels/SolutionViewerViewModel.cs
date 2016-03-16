@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution viewer.
     /// </summary>
-    public sealed class SolutionViewerViewModel : Conductor<VariableVisualizerViewerViewModel>.Collection.AllActive
+    public sealed class SolutionViewerViewModel : Conductor<VisualizerViewerViewModel>.Collection.AllActive
     {
         private IObservableCollection<ValueModel> values;
 
@@ -88,7 +88,7 @@ namespace Workbench.ViewModels
         /// Add a new variable visualizer.
         /// </summary>
         /// <param name="newVariableVisualizer">New visualizer.</param>
-        public void AddVisualizer(VariableVisualizerViewerViewModel newVariableVisualizer)
+        public void AddVisualizer(VisualizerViewerViewModel newVariableVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVariableVisualizer != null);
             this.ActivateItem(newVariableVisualizer);
@@ -110,7 +110,7 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="variableName">Name of the variable.</param>
         /// <returns>Visualizer bound to the variable matching the variable name.</returns>
-        public VariableVisualizerViewerViewModel GetVisualizerFor(string variableName)
+        public VisualizerViewerViewModel GetVisualizerFor(string variableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
             return (from x in this.Items

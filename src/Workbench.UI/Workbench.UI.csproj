@@ -215,7 +215,8 @@
     <Compile Include="Bootstrapper\InfrastructureInstaller.cs" />
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="Commands\AddVisualizerCommand.cs" />
+    <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
+    <Compile Include="Commands\AddVariableVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
     <Compile Include="Messages\VariableDeletedMessage.cs" />
     <Compile Include="Messages\VariableRenamedMessage.cs" />
-    <Compile Include="Messages\VariableVisualizerBoundMessage.cs" />
+    <Compile Include="Messages\VisualizerBoundMessage.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
@@ -249,12 +250,16 @@
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardVisualizerDesignViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerDesignViewModel.cs" />
     <Compile Include="ViewModels\VariableVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableVisualizerDesignViewModel.cs" />
     <Compile Include="ViewModels\VisualizerMenuViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

@@ -14,12 +14,18 @@ namespace Workbench.ViewModels
         /// </summary>
         public VisualizerMenuViewModel()
         {
-            this.AddVisualizerCommand = IoC.Get<AddVisualizerCommand>();
+            this.AddVariableVisualizerCommand = IoC.Get<AddVariableVisualizerCommand>();
+            this.AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
         }
 
         /// <summary>
-        /// Gets the Solution|Add Visualizer command.
+        /// Gets the Solution|Add Variable Visualizer command.
         /// </summary>
-        public ICommand AddVisualizerCommand { get; private set; }
+        public ICommand AddVariableVisualizerCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Solution|Add Chessboard Visualizer command.
+        /// </summary>
+        public ICommand AddChessboardVisualizerCommand { get; private set; }
     }
 }

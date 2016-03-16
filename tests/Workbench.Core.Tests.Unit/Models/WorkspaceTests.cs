@@ -15,7 +15,7 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void Workspace_Is_Serializable()
+        public void WorkspaceIsSerializable()
         {
             var sut = WorkspaceModelFactory.Create();
             sut.Should().BeBinarySerializable();
