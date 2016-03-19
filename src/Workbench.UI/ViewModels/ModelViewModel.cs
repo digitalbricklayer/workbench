@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Core.Solver;
 using Workbench.Messages;
 
 namespace Workbench.ViewModels
@@ -152,22 +151,17 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Solve the model.
         /// </summary>
-        public SolveResult Solve()
+        public bool Validate()
         {
             var isModelValid = this.Model.Validate();
             if (!isModelValid)
             {
                 Trace.Assert(this.Model.Errors.Any());
-
                 this.DisplayErrorDialog(this.Model);
-                return SolveResult.InvalidModel;
+                return false;
             }
 
-            Trace.Assert(!this.Model.Errors.Any());
-
-            var solver = new OrToolsSolver();
-
-            return solver.Solve(this.Model);
+            return true;
         }
 
         /// <summary>
@@ -275,28 +269,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Create a model errros view model from a model.
-        /// </summary>
-        /// <param name="aModel">Model with errors.</param>
-        /// <returns>View model with all errors in the model.</returns>
-        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelModel aModel)
-        {
-            Trace.Assert(aModel.Errors.Any());
-
-            var errorsViewModel = new ModelErrorsViewModel();
-            foreach (var error in aModel.Errors)
-            {
-                var errorViewModel = new ModelErrorViewModel
-                {
-                    Message = error
-                };
-                errorsViewModel.Errors.Add(errorViewModel);
-            }
-
-            return errorsViewModel;
-        }
-
-        /// <summary>
         /// Add a new variable to the model model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable view model.</param>
@@ -362,6 +334,28 @@ namespace Workbench.ViewModels
         {
             var errorsViewModel = CreateModelErrorsFrom(theModel);
             this.windowManager.ShowDialog(errorsViewModel);
+        }
+
+        /// <summary>
+        /// Create a model errros view model from a model.
+        /// </summary>
+        /// <param name="aModel">Model with errors.</param>
+        /// <returns>View model with all errors in the model.</returns>
+        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelModel aModel)
+        {
+            Trace.Assert(aModel.Errors.Any());
+
+            var errorsViewModel = new ModelErrorsViewModel();
+            foreach (var error in aModel.Errors)
+            {
+                var errorViewModel = new ModelErrorViewModel
+                {
+                    Message = error
+                };
+                errorsViewModel.Errors.Add(errorViewModel);
+            }
+
+            return errorsViewModel;
         }
 
         [ContractInvariantMethod]

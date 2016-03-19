@@ -156,7 +156,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardConvert.cs" />
     <Compile Include="Models\ChessboardVisualizerModel.cs" />
+    <Compile Include="Models\ChessPieceModel.cs" />
+    <Compile Include="Models\ChessSquareModel.cs" />
+    <Compile Include="Models\PieceType.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Models\ValueModel.cs" />
     <Compile Include="Models\VariableVisualizerBindingModel.cs" />
     <Compile Include="Models\AggregateVariableReference.cs" />

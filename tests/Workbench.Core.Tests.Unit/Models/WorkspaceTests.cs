@@ -15,7 +15,7 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void WorkspaceIsSerializable()
+        public void WorkspaceModelIsSerializable()
         {
             var sut = WorkspaceModelFactory.Create();
             sut.Should().BeBinarySerializable();
@@ -26,10 +26,10 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             const string ExpectedModelName = "The expected model name";
             var sut = WorkspaceModel.Create(ExpectedModelName)
-                .AddSingleton("x", "1..10")
-                .WithConstraint("x > 1")
-                .WithVisualizerBindingTo("x")
-                .Build();
+                                    .AddSingleton("x", "1..10")
+                                    .WithConstraint("x > 1")
+                                    .WithVariableVisualizerBindingTo("x")
+                                    .Build();
             Assert.That(sut.Model.Name, Is.EqualTo(ExpectedModelName));
         }
     }

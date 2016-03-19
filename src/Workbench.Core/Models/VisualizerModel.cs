@@ -1,21 +1,40 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Windows;
 
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public class VisualizerModel : GraphicModel
+    public abstract class VisualizerModel : GraphicModel
     {
         private VariableVisualizerBindingModel boundVariable;
         private ValueModel value;
 
-        protected VisualizerModel(string graphicName, Point location, VariableModel theBoundVariable) : base(graphicName, location)
+        /// <summary>
+        /// Initialize a bound visualizer with a name, location and bound variable.
+        /// </summary>
+        /// <param name="graphicName">Visualizer name.</param>
+        /// <param name="location">Location.</param>
+        /// <param name="theBoundVariable">Bound variable.</param>
+        protected VisualizerModel(string graphicName,
+                                  Point location,
+                                  VariableModel theBoundVariable)
+            : base(graphicName, location)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
+            Contract.Requires<ArgumentNullException>(theBoundVariable != null);
             this.Binding = new VariableVisualizerBindingModel(this, theBoundVariable);
         }
 
-        protected VisualizerModel(string graphicName, Point location) : base(graphicName, location)
+        /// <summary>
+        /// Initialize an unbound visualizer with a name and location.
+        /// </summary>
+        /// <param name="graphicName">Visualizer name.</param>
+        /// <param name="location">Location.</param>
+        protected VisualizerModel(string graphicName, Point location)
+            : base(graphicName, location)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
             this.Binding = new VariableVisualizerBindingModel(this);
         }
 
@@ -58,9 +77,19 @@ namespace Workbench.Core.Models
         /// <remarks>
         /// The variable may be null when binding to a non-existent variable.
         /// </remarks>
-        public void BindTo(VariableModel theVariable)
+        public virtual void BindTo(VariableModel theVariable)
         {
             this.Binding.BindTo(theVariable);
+        }
+
+        /// <summary>
+        /// Hydrate the visualizer from the value.
+        /// </summary>
+        /// <param name="theValue">Value bound to a variable.</param>
+        public virtual void Hydrate(ValueModel theValue)
+        {
+            Contract.Requires<ArgumentNullException>(theValue != null);
+            this.Value = theValue;
         }
     }
 }

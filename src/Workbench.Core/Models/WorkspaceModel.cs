@@ -52,7 +52,7 @@ namespace Workbench.Core.Models
         /// Add the visualizer.
         /// </summary>
         /// <param name="theVisualizer">The visualizer to add.</param>
-        public void AddVisualizer(VariableVisualizerModel theVisualizer)
+        public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             this.Solution.AddVisualizer(theVisualizer);
@@ -88,6 +88,21 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.Solution.UpdateSolutionFrom(theSnapshot);
+        }
+
+        /// <summary>
+        /// Solve the model.
+        /// </summary>
+        /// <returns>Solve result.</returns>
+        public SolveResult Solve()
+        {
+            Contract.Requires(this.Model != null);
+            Contract.Ensures(Contract.Result<SolveResult>() != null);
+            var solveResult = this.Model.Solve();
+            if (solveResult.IsFailure) return solveResult;
+            this.UpdateSolutionFrom(solveResult.Snapshot);
+
+            return solveResult;
         }
     }
 }

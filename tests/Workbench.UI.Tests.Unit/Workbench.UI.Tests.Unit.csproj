@@ -96,8 +96,8 @@
     <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainViewModelTests.cs" />
-    <Compile Include="ViewModels\ModelViewModelEmptyTests.cs" />
-    <Compile Include="ViewModels\ModelViewModelTests.cs" />
+    <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />
+    <Compile Include="ViewModels\WorkspaceViewModelXTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
     <Compile Include="ViewModels\VariableVisualizerViewModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelCreatedFromModelTests.cs" />

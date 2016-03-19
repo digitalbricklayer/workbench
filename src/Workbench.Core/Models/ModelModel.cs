@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -321,6 +322,17 @@ namespace Workbench.Core.Models
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Solve the model.
+        /// </summary>
+        /// <returns>Solve result.</returns>
+        public SolveResult Solve()
+        {
+            Contract.Ensures(Contract.Result<SolveResult>() != null);
+            var solver = new OrToolsSolver();
+            return solver.Solve(this);
         }
     }
 }

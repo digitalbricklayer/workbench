@@ -108,7 +108,7 @@ namespace Workbench.Core.Solver
 
         private void ProcessSingletonVariables(ModelModel theModel, IntVarVector variables)
         {
-            foreach (var variable in theModel.Variables)
+            foreach (var variable in theModel.Singletons)
             {
                 var orVariable = this.ProcessVariable(variables, variable);
                 this.singletonVariableMap.Add(variable.Name,

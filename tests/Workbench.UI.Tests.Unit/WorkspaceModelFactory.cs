@@ -18,7 +18,7 @@ namespace Workbench.UI.Tests.Unit
                                  .AddAggregate("y", 10, "z")
                                  .WithConstraint("x > 1")
                                  .WithSharedDomain("z", "1..10")
-                                 .WithVisualizerBindingTo("x")
+                                 .WithVariableVisualizerBindingTo("x")
                                  .Build();
         }
     }

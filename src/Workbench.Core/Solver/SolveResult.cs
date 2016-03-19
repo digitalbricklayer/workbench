@@ -72,5 +72,16 @@ namespace Workbench.Core.Solver
                 return this.Status == SolveStatus.Success;
             }
         }
+
+        /// <summary>
+        /// Gets whether the result resolved the model successfully.
+        /// </summary>
+        public bool IsFailure
+        {
+            get
+            {
+                return this.Status != SolveStatus.Success;
+            }
+        }
     }
 }

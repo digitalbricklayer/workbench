@@ -46,6 +46,23 @@ namespace Workbench.Core.Tests.Unit.Solver
             Assert.That(c.GetValueAt(1), Is.InRange(1, 9));
         }
 
+        [Test]
+        public void SolveWithSimpleAggregateModelSolutionHasValidVariableCount()
+        {
+            // Arrange
+            var sut = new OrToolsSolver();
+
+            // Act
+            var actualResult = sut.Solve(MakeModel());
+
+            // Assert
+            var actualSnapshot = actualResult.Snapshot;
+            var singletonVariableCount = actualSnapshot.SingletonValues.Count;
+            var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
+            Assert.That(singletonVariableCount, Is.EqualTo(0));
+            Assert.That(aggregateVariableCount, Is.EqualTo(1));
+        }
+
         private static ModelModel MakeModel()
         {
             var workspace = WorkspaceModel.Create("An aggregate test")

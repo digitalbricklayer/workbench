@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
 
@@ -162,13 +163,16 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Solve the constraint model.
         /// </summary>
-        public void SolveModel()
+        public SolveResult SolveModel()
         {
-            var solveResult = this.Model.Solve();
-            if (!solveResult.IsSuccess) return;
-            this.WorkspaceModel.UpdateSolutionFrom(solveResult.Snapshot);
+            var isModelValid = this.Model.Validate();
+            if (!isModelValid) return SolveResult.InvalidModel;
+            var solveResult = this.WorkspaceModel.Solve();
+            if (!solveResult.IsSuccess) return SolveResult.Failed;
             this.DisplaySolution(this.WorkspaceModel.Solution);
             this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
+
+            return solveResult;
         }
 
         /// <summary>

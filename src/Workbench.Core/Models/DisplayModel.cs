@@ -71,12 +71,12 @@ namespace Workbench.Core.Models
                 if (!aVisualizer.Binding.HasBinding) continue;
                 var theSingletonValue = theSnapshot.GetSingletonVariableValueByName(aVisualizer.Binding.Name);
                 if (theSingletonValue != null)
-                    aVisualizer.Value = theSingletonValue;
+                    aVisualizer.Hydrate(theSingletonValue);
                 else
                 {
                     var theAggregateValue = theSnapshot.GetAggregateVariableValueByName(aVisualizer.Binding.Name);
                     if (theAggregateValue != null)
-                        aVisualizer.Value = theAggregateValue;
+                        aVisualizer.Hydrate(theAggregateValue);
                 }
             }
         }

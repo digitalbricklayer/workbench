@@ -155,7 +155,7 @@ namespace Workbench.Core.Models
         /// Add the visualizer.
         /// </summary>
         /// <param name="theVisualizer">The visualizer to add.</param>
-        public void AddVisualizer(VariableVisualizerModel theVisualizer)
+        public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             this.Display.AddVisualizer(theVisualizer);
