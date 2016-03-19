@@ -10,9 +10,8 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithNQueensModelReturnsStatusSuccess()
         {
-            var sut = CreateSolver();
-            var workspace = CreateWorkspace();
-            var actualResult = sut.Solve(workspace.Model);
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
@@ -32,11 +31,6 @@ namespace Workbench.Core.Tests.Unit.Solver
                                  .AddAggregate("board", 64, "0..1")
                                  .WithChessboardVisualizerBindingTo("board")
                                  .Build();
-        }
-
-        private OrToolsSolver CreateSolver()
-        {
-            return new OrToolsSolver();
         }
     }
 }

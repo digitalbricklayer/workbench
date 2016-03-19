@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace Workbench.Core
 {
-    static class BoardConvert
+    public static class BoardConvert
     {
         static readonly Dictionary<int, Point> lookupTable = new Dictionary<int, Point>
         {
