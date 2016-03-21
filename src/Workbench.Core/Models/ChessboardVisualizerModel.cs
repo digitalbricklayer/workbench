@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -57,10 +56,9 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theTypeOfPiece">Type of piece to search for.</param>
         /// <returns>Collection of matching squares.</returns>
-        public IReadOnlyCollection<ChessboardSquareModel> GetAllSquaresOccupiedBy(PieceType theTypeOfPiece)
+        public IReadOnlyCollection<ChessboardSquareModel> GetSquaresOccupiedBy(PieceType theTypeOfPiece)
         {
-            return this.chessboard.Pieces.Where(square => square.HasPiece && square.Piece.Type == theTypeOfPiece)
-                                         .ToList();
+            return this.chessboard.GetSquaresOccupiedBy(theTypeOfPiece);
         }
     }
 }
