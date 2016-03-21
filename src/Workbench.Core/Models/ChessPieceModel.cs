@@ -4,7 +4,7 @@ using System.Windows;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A piece on a chessboard.
+    /// An individual piece on a chessboard.
     /// </summary>
     [Serializable]
     public class ChessPieceModel : AbstractModel

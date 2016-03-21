@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
-namespace Workbench.Core.Tests.Unit.Solver
+namespace Workbench.Core.Tests.Unit
 {
     /// <summary>
     /// Test using the 4 Queens problem on a 4x4 chessboard.
@@ -27,8 +26,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             var sut = CreateWorkspace();
             sut.Solve();
             var chessboardVisualizer = (ChessboardVisualizerModel) sut.Solution.GetVisualizerFor("board");
-            var allQueenSquares = chessboardVisualizer.Pieces.Where(square => square.HasPiece && square.Piece.Type == PieceType.Queen)
-                                                             .ToList();
+            var allQueenSquares = chessboardVisualizer.GetAllSquaresOccupiedBy(PieceType.Queen);
             Assert.That(allQueenSquares, Has.Count.EqualTo(ExpectedQueens));
         }
 

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -10,7 +9,7 @@ namespace Workbench.Core.Models
     /// </summary>
     public class ChessboardVisualizerModel : VisualizerModel
     {
-        private ObservableCollection<ChessSquareModel> pieces;
+        private readonly ChessboardModel chessboard;
 
         /// <summary>
         /// Initialize the chessboard visualizer with a screen location.
@@ -19,21 +18,7 @@ namespace Workbench.Core.Models
         public ChessboardVisualizerModel(Point theLocation)
             : base("Chessboard", theLocation)
         {
-            this.pieces = new ObservableCollection<ChessSquareModel>();
-        }
-
-        /// <summary>
-        /// Gets or sets the chess pieces.
-        /// </summary>
-        public ObservableCollection<ChessSquareModel> Pieces
-        {
-            get { return this.pieces; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.pieces = value;
-                OnPropertyChanged();
-            }
+            this.chessboard = new ChessboardModel();
         }
 
         /// <summary>
@@ -54,17 +39,28 @@ namespace Workbench.Core.Models
                     var theQueen = ChessPieceModel.CreateFrom(squareLocation,
                                                               Player.White,
                                                               PieceType.Queen);
-                    var newPiece = ChessSquareModel.CreateWith(squareLocation, theQueen);
-                    this.Pieces.Add(newPiece);
+                    var newPiece = ChessboardSquareModel.CreateWith(squareLocation, theQueen);
+                    this.chessboard.Add(newPiece);
                 }
                 else
                 {
                     // An empty space on the board.
                     var squareLocation = BoardConvert.ToPoint(counter);
-                    var newPiece = ChessSquareModel.CreateEmpty(squareLocation);
-                    this.Pieces.Add(newPiece);
+                    var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
+                    this.chessboard.Add(newPiece);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get all squares occupied by the type of piece.
+        /// </summary>
+        /// <param name="theTypeOfPiece">Type of piece to search for.</param>
+        /// <returns>Collection of matching squares.</returns>
+        public IReadOnlyCollection<ChessboardSquareModel> GetAllSquaresOccupiedBy(PieceType theTypeOfPiece)
+        {
+            return this.chessboard.Pieces.Where(square => square.HasPiece && square.Piece.Type == theTypeOfPiece)
+                                         .ToList();
         }
     }
 }
