@@ -33,13 +33,24 @@ namespace Workbench.Core.Models
             get { return location; }
         }
 
+        /// <summary>
+        /// Gets whether the board square has a piece in it.
+        /// </summary>
+        public bool HasPiece
+        {
+            get
+            {
+                return this.Piece != null;
+            }
+        }
+
         public static ChessSquareModel CreateEmpty(Point theLocation)
         {
             return new ChessSquareModel(theLocation);
         }
 
         public static ChessSquareModel CreateWith(Point theLocation,
-                                           ChessPieceModel thePiece)
+                                                  ChessPieceModel thePiece)
         {
             return new ChessSquareModel(theLocation, thePiece);
         }
