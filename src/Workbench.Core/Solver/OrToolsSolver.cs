@@ -44,15 +44,16 @@ namespace Workbench.Core.Solver
             this.ProcessConstraints(theModel);
 
             // Search
-            var db = solver.MakePhase(variables,
-                                      Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
-                                      Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
+            var decisionBuilder = solver.MakePhase(variables,
+                                                   Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
+                                                   Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
             var collector = this.CreateCollector();
-            var solveResult = this.solver.Solve(db, collector);
+            var solveResult = this.solver.Solve(decisionBuilder, collector);
             if (!solveResult) return SolveResult.Failed;
 
             var theSolutionSnapshot = this.ExtractValuesFrom(collector);
-            return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
+            var solveDuration = TimeSpan.FromMilliseconds(this.solver.WallTime());
+            return new SolveResult(SolveStatus.Success, solveDuration, theSolutionSnapshot);
         }
 
         private void ProcessConstraints(ModelModel theModel)
