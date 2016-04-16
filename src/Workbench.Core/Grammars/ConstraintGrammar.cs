@@ -20,6 +20,7 @@ namespace Workbench.Core.Grammars
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
             var EQUALS = ToTerm("=", "equal");
             var NOT_EQUAL = ToTerm("<>", "not equal");
+            var NOT_EQUAL2 = ToTerm("!=", "not equal");
             var GREATER = ToTerm(">", "greater");
             var GREATER_EQUAL = ToTerm(">=", "greater or equal");
             var LESS = ToTerm("<", "less");
@@ -34,7 +35,7 @@ namespace Workbench.Core.Grammars
 
             var binaryOperators = new NonTerminal("binary operators", "operator");
             binaryOperators.Rule = EQUALS |
-                                   NOT_EQUAL |
+                                   NOT_EQUAL | NOT_EQUAL2 |
                                    LESS |
                                    LESS_EQUAL |
                                    GREATER |

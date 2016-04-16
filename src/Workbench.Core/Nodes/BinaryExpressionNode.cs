@@ -43,6 +43,7 @@ namespace Workbench.Core.Nodes
                 case "=":
                     return OperatorType.Equals;
 
+                case "!=":
                 case "<>":
                     return OperatorType.NotEqual;
 
