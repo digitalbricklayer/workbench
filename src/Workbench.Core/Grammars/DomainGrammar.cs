@@ -2,7 +2,6 @@
 using System.Linq;
 using Sprache;
 using Workbench.Core.Expressions;
-using Workbench.Core.Models;
 
 namespace Workbench.Core.Grammars
 {

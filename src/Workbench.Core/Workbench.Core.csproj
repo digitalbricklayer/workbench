@@ -201,6 +201,7 @@
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VariableVisualizerModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
+    <Compile Include="Nodes\AggregateVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />
     <Compile Include="Nodes\ConstraintExpressionBaseNode.cs" />
     <Compile Include="Nodes\ConstraintExpressionNode.cs" />
@@ -208,8 +209,10 @@
     <Compile Include="Nodes\LiteralNode.cs" />
     <Compile Include="Nodes\BinaryExpressionNode.cs" />
     <Compile Include="Nodes\OperatorType.cs" />
+    <Compile Include="Nodes\SingletonVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\SingletonVariableReferenceNode.cs" />
     <Compile Include="Nodes\SubscriptNode.cs" />
+    <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Parsers\ConstraintExpressionParseResult.cs" />

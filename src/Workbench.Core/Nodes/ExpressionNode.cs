@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using Irony.Ast;
 using Irony.Parsing;
@@ -35,6 +34,29 @@ namespace Workbench.Core.Nodes
         public bool IsVarable
         {
             get { return IsSingletonReference || IsAggregateReference; }
+        }
+
+        public bool IsExpression
+        {
+            get { return IsSingletonExpression || IsAggregateExpression; }
+        }
+
+        public bool IsSingletonExpression
+        {
+            get
+            {
+                var singletonExpression = InnerExpression as SingletonVariableReferenceExpressionNode;
+                return singletonExpression != null;
+            }
+        }
+
+        public bool IsAggregateExpression
+        {
+            get
+            {
+                var aggregateExpression = InnerExpression as AggregateVariableReferenceExpressionNode;
+                return aggregateExpression != null;
+            }
         }
 
         public override void Accept(IConstraintExpressionVisitor visitor)

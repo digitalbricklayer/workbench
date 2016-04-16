@@ -20,36 +20,8 @@ namespace Workbench.Core.Nodes
         {
             base.Init(context, treeNode);
             LeftExpression = (ExpressionNode) AddChild("Left", treeNode.ChildNodes[0]);
-            Operator = ParseOperatorFrom(treeNode.ChildNodes[1].FindTokenAndGetText());
+            Operator = OperatorTypeParser.ParseOperatorFrom(treeNode.ChildNodes[1].FindTokenAndGetText());
             RightExpression = (ExpressionNode) AddChild("Right", treeNode.ChildNodes[2]);
-        }
-
-        private static OperatorType ParseOperatorFrom(string operratorToken)
-        {
-            switch (operratorToken)
-            {
-                case "<":
-                    return OperatorType.Less;
-
-                case "<=":
-                    return OperatorType.LessThanOrEqual;
-
-                case ">":
-                    return OperatorType.Greater;
-
-                case ">=":
-                    return OperatorType.GreaterThanOrEqual;
-
-                case "=":
-                    return OperatorType.Equals;
-
-                case "!=":
-                case "<>":
-                    return OperatorType.NotEqual;
-
-                default:
-                    throw new NotImplementedException();
-            }
         }
     }
 }

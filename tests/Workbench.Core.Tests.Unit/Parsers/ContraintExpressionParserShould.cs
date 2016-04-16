@@ -4,7 +4,7 @@ using Workbench.Core.Parsers;
 namespace Workbench.Core.Tests.Unit.Parsers
 {
     [TestFixture]
-    public class ContraintExpressionInterpreterShould
+    public class ContraintExpressionParserShould
     {
         [Test]
         public void ParseWithEmptyStatementReturnsStatusSuccess()
@@ -39,11 +39,18 @@ namespace Workbench.Core.Tests.Unit.Parsers
         }
 
         [Test]
-        [Ignore("Expressions are not implemented yet.")]
-        public void ParseWithValidNotEqualToExpressionReturnsStutusSuccess()
+        public void ParseWithValidAggregateNotEqualToExpressionReturnsStutusSuccess()
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[1] + 1 <> x[1] + 1");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+        }
+
+        [Test]
+        public void ParseWithValidSingletonNotEqualToExpressionReturnsStutusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("x + 1 <> 1");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
         }
 
