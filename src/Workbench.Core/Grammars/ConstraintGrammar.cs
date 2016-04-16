@@ -14,6 +14,10 @@ namespace Workbench.Core.Grammars
         {
             LanguageFlags = LanguageFlags.CreateAst;
 
+            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
+            var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
+            var variableName = new RegexBasedTerminal("variable", @"\b[A-Za-z]\w*\b");
+            variableName.AstConfig.NodeType = typeof(VariableNameNode);
             var EQUALS = ToTerm("=", "equal");
             var NOT_EQUAL = ToTerm("<>", "not equal");
             var GREATER = ToTerm(">", "greater");
@@ -23,41 +27,31 @@ namespace Workbench.Core.Grammars
             var BRACKET_OPEN = ToTerm("[");
             var BRACKET_CLOSE = ToTerm("]");
 
-            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
-            var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
-            var variableName = new RegexBasedTerminal("variable", @"\b[A-Za-z]\w*\b");
-            variableName.AstConfig.NodeType = typeof (VariableNameNode);
             var aggregateVariableReference = new NonTerminal("aggregateVariableReference", typeof(AggregateVariableReferenceNode));
             aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscript + BRACKET_CLOSE;
             var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof(SingletonVariableReferenceNode));
             singletonVariableReference.Rule = variableName;
- 
-            var equal = new NonTerminal("equal", typeof(BinaryExpressionNode));
-            var notEqual = new NonTerminal("not equal", typeof(BinaryExpressionNode));
-            var greaterThan = new NonTerminal("greater", typeof(BinaryExpressionNode));
-            var greaterThanOrEqual = new NonTerminal("greater than or equal", typeof(BinaryExpressionNode));
-            var lessThan = new NonTerminal("less", typeof(BinaryExpressionNode));
-            var lessThanOrEqual = new NonTerminal("less than or equal", typeof(BinaryExpressionNode));
+
+            var binaryOperators = new NonTerminal("binary operators", "operator");
+            binaryOperators.Rule = EQUALS |
+                                   NOT_EQUAL |
+                                   LESS |
+                                   LESS_EQUAL |
+                                   GREATER |
+                                   GREATER_EQUAL;
             var expression = new NonTerminal("expression", typeof(ExpressionNode));
             expression.Rule = aggregateVariableReference |
                               singletonVariableReference |
                               literal;
 
-            equal.Rule = expression + EQUALS + expression;
-            notEqual.Rule = expression + NOT_EQUAL + expression;
-            greaterThan.Rule = expression + GREATER + expression;
-            greaterThanOrEqual.Rule = expression + GREATER_EQUAL + expression;
-            lessThan.Rule = expression + LESS + expression;
-            lessThanOrEqual.Rule = expression + LESS_EQUAL + expression;
+            var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
+            binaryExpression.Rule = expression + binaryOperators + expression;
 
             var constraintExpression = new NonTerminal("constraint expression", typeof(ConstraintExpressionNode));
-            constraintExpression.Rule = equal | 
-                                        notEqual | 
-                                        greaterThan | 
-                                        greaterThanOrEqual | 
-                                        lessThan | 
-                                        lessThanOrEqual;
+            constraintExpression.Rule = binaryExpression;
             this.Root = constraintExpression;
+
+            MarkTransient(binaryOperators);
         }
     }
 }
