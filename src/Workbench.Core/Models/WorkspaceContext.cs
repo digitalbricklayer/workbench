@@ -65,9 +65,16 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithConstraint(string theConstraintExpression)
+        public WorkspaceContext WithConstraintExpression(string theConstraintExpression)
         {
-            this.workspace.Model.AddConstraint(new ConstraintModel(theConstraintExpression));
+            this.workspace.Model.AddConstraint(new ExpressionConstraintModel(theConstraintExpression));
+            return this;
+        }
+
+        public WorkspaceContext WithConstraintAllDifferent(string variableName)
+        {
+            var variableToBindTo = this.workspace.Model.GetVariableByName(variableName);
+            this.workspace.Model.AddConstraint(new AllDifferentConstraintModel(variableToBindTo));
             return this;
         }
 

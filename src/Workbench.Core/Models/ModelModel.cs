@@ -122,11 +122,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public ObservableCollection<ConstraintModel> Constraints
         {
-            get { return constraints; }
+            get { return this.constraints; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                constraints = value;
+                this.constraints = value;
                 OnPropertyChanged();
             }
         }
@@ -158,7 +158,7 @@ namespace Workbench.Core.Models
         /// Delete the constraint from the model.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ConstraintModel constraintToDelete)
+        public void DeleteConstraint(ExpressionConstraintModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
             this.Constraints.Remove(constraintToDelete);
@@ -272,8 +272,10 @@ namespace Workbench.Core.Models
 
         private bool ValidateConstraint(ConstraintModel aConstraint)
         {
-            if (!ValidateConstraintExpression(aConstraint.Expression.Node.InnerExpression.LeftExpression)) return false;
-            if (!ValidateConstraintExpression(aConstraint.Expression.Node.InnerExpression.RightExpression)) return false;
+            var expressionConstraint = aConstraint as ExpressionConstraintModel;
+            if (expressionConstraint == null) return true;
+            if (!ValidateConstraintExpression(expressionConstraint.Expression.Node.InnerExpression.LeftExpression)) return false;
+            if (!ValidateConstraintExpression(expressionConstraint.Expression.Node.InnerExpression.RightExpression)) return false;
 
             return true;
         }

@@ -5,10 +5,10 @@ using Workbench.Core.Solver;
 namespace Workbench.Core.Tests.Unit.Solver
 {
     [TestFixture]
-    public class OrToolsSolverTests
+    public class OrToolsSolverAllDifferentTests
     {
         [Test]
-        public void Solve_With_Model_Returns_Status_Success()
+        public void SolveWithAllDifferentModelReturnsStatusSuccess()
         {
             // Arrange
             var sut = new OrToolsSolver();
@@ -21,7 +21,7 @@ namespace Workbench.Core.Tests.Unit.Solver
         }
 
         [Test]
-        public void Solve_With_Model_Satisfies_Constraint()
+        public void SolveWithAllDifferentModelSatisfiesConstraints()
         {
             // Arrange
             var sut = new OrToolsSolver();
@@ -31,15 +31,12 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            var z = actualSnapshot.GetAggregateVariableValueByName("z");
-            Assert.That(x.Value, Is.Not.EqualTo(y.Value));
-            Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
+            var x = actualSnapshot.GetAggregateVariableValueByName("x");
+            Assert.That(x.Values, Is.Unique);
         }
 
         [Test]
-        public void Solve_With_Model_Solution_Within_Domain()
+        public void SolveWithAllDifferentModelSolutionHasValidVariableCount()
         {
             // Arrange
             var sut = new OrToolsSolver();
@@ -49,20 +46,17 @@ namespace Workbench.Core.Tests.Unit.Solver
 
             // Assert
             var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            Assert.That(x.Value, Is.InRange(1, 9));
-            Assert.That(y.Value, Is.InRange(1, 9));
+            var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
+            Assert.That(actualSnapshot.SingletonValues, Is.Empty);
+            Assert.That(aggregateVariableCount, Is.EqualTo(1));
         }
 
         private static ModelModel MakeModel()
         {
             var workspace = WorkspaceModel.Create("A test")
-                                          .AddSingleton("x", "1..9")
-                                          .AddSingleton("y", "1..9")
-                                          .AddAggregate("z", 1, "1..9")
-                                          .WithConstraintExpression("x < y")
-                                          .WithConstraintExpression("y > z[1]")
+                                          .WithSharedDomain("a", "1..9")
+                                          .AddAggregate("x", 10, "1..10")
+                                          .WithConstraintAllDifferent("x")
                                           .Build();
 
             return workspace.Model;

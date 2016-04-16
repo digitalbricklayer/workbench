@@ -35,7 +35,7 @@ namespace Workbench.Core.Tests.Unit.Models
             var workspace = WorkspaceModel.Create("An invalid model")
                                           .AddSingleton("x", "1..9")
                                           .AddSingleton("y", "1..9")
-                                          .WithConstraint("x > z")
+                                          .WithConstraintExpression("x > z")
                                           .Build();
 
             return workspace.Model;
@@ -47,7 +47,7 @@ namespace Workbench.Core.Tests.Unit.Models
                                           .WithSharedDomain("a", "1..10")
                                           .AddSingleton("x", "b")
                                           .AddSingleton("y", "1..9")
-                                          .WithConstraint("x > y")
+                                          .WithConstraintExpression("x > y")
                                           .Build();
 
             return workspace.Model;

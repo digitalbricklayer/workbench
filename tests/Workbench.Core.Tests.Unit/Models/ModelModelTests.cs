@@ -27,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Models
             var workspace = WorkspaceModel.Create("A valid model")
                                           .AddSingleton("x", "1..9")
                                           .AddSingleton("y", "1..9")
-                                          .WithConstraint("x > y")
+                                          .WithConstraintExpression("x > y")
                                           .Build();
 
             return workspace.Model;

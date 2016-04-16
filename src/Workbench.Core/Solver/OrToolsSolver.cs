@@ -15,7 +15,7 @@ namespace Workbench.Core.Solver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private readonly Dictionary<string, Tuple<VariableModel, IntVar>> singletonVariableMap;
-        private readonly Dictionary<string, Tuple<AggregateVariableModel, List<IntVar>>> aggregateVariableMap;
+        private readonly Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> aggregateVariableMap;
         private ModelModel model;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Workbench.Core.Solver
         public OrToolsSolver()
         {
             this.singletonVariableMap = new Dictionary<string, Tuple<VariableModel, IntVar>>();
-            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, List<IntVar>>>();
+            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>>();
         }
 
         /// <summary>
@@ -61,35 +61,55 @@ namespace Workbench.Core.Solver
         {
             foreach (var constraint in theModel.Constraints)
             {
-                switch (constraint.Expression.OperatorType)
+                var expressionConstraint = constraint as ExpressionConstraintModel;
+                if (expressionConstraint == null)
                 {
-                    case OperatorType.Equals:
-                        this.HandleEqualsOperator(constraint);
-                        break;
-
-                    case OperatorType.NotEqual:
-                        this.HandleNotEqualOperator(constraint);
-                        break;
-
-                    case OperatorType.GreaterThanOrEqual:
-                        this.HandleGreaterThanOrEqualOperator(constraint);
-                        break;
-
-                    case OperatorType.LessThanOrEqual:
-                        this.HandleLessThanOrEqualOperator(constraint);
-                        break;
-
-                    case OperatorType.Greater:
-                        this.HandleGreaterOperator(constraint);
-                        break;
-
-                    case OperatorType.Less:
-                        this.HandleLessOperator(constraint);
-                        break;
-
-                    default:
-                        throw new NotImplementedException("Not sure how to represent this operator type.");
+                    HandleAllDifferentConstraint((AllDifferentConstraintModel) constraint);
                 }
+                else
+                {
+                    HandleExpressionConstraint(expressionConstraint);
+                }
+            }
+        }
+
+        private void HandleAllDifferentConstraint(AllDifferentConstraintModel allDifferentConstraint)
+        {
+            var x = GetVectorByName(allDifferentConstraint.Variable.Name);
+            var orAllDifferentConstraint = this.solver.MakeAllDifferent(x);
+            this.solver.Add(orAllDifferentConstraint);
+        }
+
+        private void HandleExpressionConstraint(ExpressionConstraintModel expressionConstraint)
+        {
+            switch (expressionConstraint.Expression.OperatorType)
+            {
+                case OperatorType.Equals:
+                    this.HandleEqualsOperator(expressionConstraint);
+                    break;
+
+                case OperatorType.NotEqual:
+                    this.HandleNotEqualOperator(expressionConstraint);
+                    break;
+
+                case OperatorType.GreaterThanOrEqual:
+                    this.HandleGreaterThanOrEqualOperator(expressionConstraint);
+                    break;
+
+                case OperatorType.LessThanOrEqual:
+                    this.HandleLessThanOrEqualOperator(expressionConstraint);
+                    break;
+
+                case OperatorType.Greater:
+                    this.HandleGreaterOperator(expressionConstraint);
+                    break;
+
+                case OperatorType.Less:
+                    this.HandleLessOperator(expressionConstraint);
+                    break;
+
+                default:
+                    throw new NotImplementedException("Not sure how to represent this operator type.");
             }
         }
 
@@ -105,7 +125,20 @@ namespace Workbench.Core.Solver
         private void ProcessAggregateVariables(ModelModel theModel, IntVarVector theVariables)
         {
             foreach (var aggregate in theModel.Aggregates)
-                this.ProcessAggregateVariable(theVariables, aggregate);
+            {
+                var band = this.GetVariableBand(aggregate);
+                var orVariableVector = this.solver.MakeIntVarArray(aggregate.AggregateCount,
+                                                                   band.Item1,
+                                                                   band.Item2,
+                                                                   aggregate.Name);
+                this.aggregateVariableMap.Add(aggregate.Name,
+                                              new Tuple<AggregateVariableModel, IntVarVector>(aggregate, orVariableVector));
+                foreach (var orVar in orVariableVector)
+                {
+                    theVariables.Add(orVar);
+                }
+
+            }
         }
 
         private void ProcessSingletonVariables(ModelModel theModel, IntVarVector variables)
@@ -118,6 +151,7 @@ namespace Workbench.Core.Solver
             }
         }
 
+#if false
         private void ProcessAggregateVariable(IntVarVector theVariables, AggregateVariableModel aggregate)
         {
             var orVariables = new List<IntVar>();
@@ -127,8 +161,9 @@ namespace Workbench.Core.Solver
                 orVariables.Add(orVariable);
             }
             this.aggregateVariableMap.Add(aggregate.Name,
-                                          new Tuple<AggregateVariableModel, List<IntVar>>(aggregate, orVariables));
+                                          new Tuple<AggregateVariableModel, IntVarVector>(aggregate, orVariables));
         }
+#endif
 
         private IntVar ProcessVariable(IntVarVector variables, VariableModel variable)
         {
@@ -156,7 +191,7 @@ namespace Workbench.Core.Solver
                                          sharedDomain.Expression.UpperBand);
         }
 
-        private void HandleEqualsOperator(ConstraintModel constraint)
+        private void HandleEqualsOperator(ExpressionConstraintModel constraint)
         {
             Constraint equalsConstraint;
             var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -173,7 +208,7 @@ namespace Workbench.Core.Solver
             this.solver.Add(equalsConstraint);
         }
 
-        private void HandleNotEqualOperator(ConstraintModel constraint)
+        private void HandleNotEqualOperator(ExpressionConstraintModel constraint)
         {
             Constraint notEqualConstraint;
             var lhsExpr = this.GetExpressionFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -195,7 +230,7 @@ namespace Workbench.Core.Solver
             this.solver.Add(notEqualConstraint);
         }
 
-        private void HandleLessOperator(ConstraintModel constraint)
+        private void HandleLessOperator(ExpressionConstraintModel constraint)
         {
             Constraint lessConstraint;
             var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -212,7 +247,7 @@ namespace Workbench.Core.Solver
             this.solver.Add(lessConstraint);
         }
 
-        private void HandleGreaterOperator(ConstraintModel constraint)
+        private void HandleGreaterOperator(ExpressionConstraintModel constraint)
         {
             Constraint greaterConstraint;
             var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -229,7 +264,7 @@ namespace Workbench.Core.Solver
             this.solver.Add(greaterConstraint);
         }
 
-        private void HandleLessThanOrEqualOperator(ConstraintModel constraint)
+        private void HandleLessThanOrEqualOperator(ExpressionConstraintModel constraint)
         {
             Constraint lessThanOrEqualConstraint;
             var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -246,7 +281,7 @@ namespace Workbench.Core.Solver
             this.solver.Add(lessThanOrEqualConstraint);
         }
 
-        private void HandleGreaterThanOrEqualOperator(ConstraintModel constraint)
+        private void HandleGreaterThanOrEqualOperator(ExpressionConstraintModel constraint)
         {
             Constraint greaterThanOrEqualConstraint;
             var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
@@ -378,6 +413,11 @@ namespace Workbench.Core.Solver
         private IntExpr GetVariableFrom(SingletonVariableReferenceExpressionNode singletonExpression)
         {
             return GetSingletonVariableByName(singletonExpression.VariableReference.VariableName);
+        }
+
+        private IntVarVector GetVectorByName(string aggregateName)
+        {
+            return this.aggregateVariableMap[aggregateName].Item2;
         }
     }
 }

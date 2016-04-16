@@ -67,8 +67,8 @@ namespace Workbench.Core.Tests.Unit.Solver
         {
             var workspace = WorkspaceModel.Create("An aggregate test")
                                           .AddAggregate("c", 10, "1..9")
-                                          .WithConstraint("c[1] < c[10]")
-                                          .WithConstraint("c[2] > c[9]")
+                                          .WithConstraintExpression("c[1] < c[10]")
+                                          .WithConstraintExpression("c[2] > c[9]")
                                           .Build();
 
             return workspace.Model;

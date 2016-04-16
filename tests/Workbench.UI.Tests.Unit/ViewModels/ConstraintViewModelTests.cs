@@ -11,21 +11,21 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void IsValid_With_Empty_Expression_Returns_False()
         {
-            var sut = new ConstraintViewModel(new ConstraintModel("X", string.Empty));
+            var sut = new ConstraintViewModel(new ExpressionConstraintModel("X", string.Empty));
             Assert.That(sut.IsValid, Is.False);
         }
 
         [Test]
         public void IsValid_With_Valid_Expression_Returns_True()
         {
-            var sut = new ConstraintViewModel(new ConstraintModel("X", "X < Y"));
+            var sut = new ConstraintViewModel(new ExpressionConstraintModel("X", "X < Y"));
             Assert.That(sut.IsValid, Is.True);
         }
 
         [Test]
         public void UpdateConstraintExpressionTextUpdatesExpressionModel()
         {
-            var sut = new ConstraintViewModel(new ConstraintModel());
+            var sut = new ConstraintViewModel(new ExpressionConstraintModel());
             sut.Expression.Text = "x > 1";
             var leftVariableReference = (SingletonVariableReferenceNode)sut.Expression.Model.Node.InnerExpression.LeftExpression.InnerExpression;
             Assert.That(leftVariableReference.VariableName, Is.EqualTo("x"));
@@ -34,7 +34,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void UpdateConstraintExpressionTextUpdatesConstraintModel()
         {
-            var sut = new ConstraintViewModel(new ConstraintModel());
+            var sut = new ConstraintViewModel(new ExpressionConstraintModel());
             sut.Expression.Text = "x > 1";
             var leftVariableReference = (SingletonVariableReferenceNode)sut.Model.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
             var leftVariableReference2 = (SingletonVariableReferenceNode)sut.Expression.Model.Node.InnerExpression.LeftExpression.InnerExpression;
