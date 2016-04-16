@@ -1,4 +1,6 @@
 using System;
+using Workbench.Core.Expressions;
+using Workbench.Core.Grammars;
 
 namespace Workbench.Core.Models
 {

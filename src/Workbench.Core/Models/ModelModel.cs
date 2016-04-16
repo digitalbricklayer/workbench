@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Workbench.Core.Nodes;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -271,27 +272,29 @@ namespace Workbench.Core.Models
 
         private bool ValidateConstraint(ConstraintModel aConstraint)
         {
-            if (!ValidateConstraintExpression(aConstraint.Expression.Left)) return false;
-            if (!ValidateConstraintExpression(aConstraint.Expression.Right)) return false;
+            if (!ValidateConstraintExpression(aConstraint.Expression.Node.InnerExpression.LeftExpression)) return false;
+            if (!ValidateConstraintExpression(aConstraint.Expression.Node.InnerExpression.RightExpression)) return false;
 
             return true;
         }
 
-        private bool ValidateConstraintExpression(Expression theExpression)
+        private bool ValidateConstraintExpression(ExpressionNode theExpression)
         {
-            if (theExpression.IsSingleton)
+            if (theExpression.IsSingletonReference)
             {
-                if (this.Variables.FirstOrDefault(x => x.Name == theExpression.Variable.Name) == null)
+                var singletonReference = (SingletonVariableReferenceNode) theExpression.InnerExpression;
+                if (this.Variables.FirstOrDefault(x => x.Name == singletonReference.VariableName) == null)
                 {
-                    this.errors.Add(string.Format("Missing singleton variable {0}", theExpression.Variable));
+                    this.errors.Add(string.Format("Missing singleton variable {0}", singletonReference.VariableName));
                     return false;
                 }
             }
-            else if (theExpression.IsAggregate)
+            else if (theExpression.IsAggregateReference)
             {
-                if (this.Aggregates.FirstOrDefault(x => x.Name == theExpression.AggregateReference.IdentifierName) == null)
+                var aggregateReference = (AggregateVariableReferenceNode)theExpression.InnerExpression;
+                if (this.Aggregates.FirstOrDefault(x => x.Name == aggregateReference.VariableName) == null)
                 {
-                    this.errors.Add(string.Format("Missing aggregate variable {0}", theExpression.AggregateReference.IdentifierName));
+                    this.errors.Add(string.Format("Missing aggregate variable {0}", aggregateReference.VariableName));
                     return false;
                 }
             }

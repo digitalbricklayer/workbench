@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Tests.Unit.Models
 {
@@ -18,7 +19,8 @@ namespace Workbench.Core.Tests.Unit.Models
         public void Initialize_With_Raw_Expression_Parses_Expected_Variable_Name_On_Left()
         {
             var sut = new ConstraintModel("x > 1");
-            Assert.That(sut.Expression.Left.Variable.Name, Is.EqualTo("x"));
+            var leftVariableReference = (SingletonVariableReferenceNode) sut.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
+            Assert.That(leftVariableReference.VariableName, Is.EqualTo("x"));
         }
 
         [Test]
@@ -32,14 +34,16 @@ namespace Workbench.Core.Tests.Unit.Models
         public void Initialize_With_Raw_Expression_Parses_Expected_Literal_On_Right()
         {
             var sut = new ConstraintModel("y <= 44");
-            Assert.That(sut.Expression.Right.Literal.Value, Is.EqualTo(44));
+            var rightLiteral = (LiteralNode)sut.Expression.Node.InnerExpression.RightExpression.InnerExpression;
+            Assert.That(rightLiteral.Value, Is.EqualTo(44));
         }
 
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Variable_Name_On_Right()
         {
             var sut = new ConstraintModel("y = x");
-            Assert.That(sut.Expression.Right.Variable.Name, Is.EqualTo("x"));
+            var rightVariableReference = (SingletonVariableReferenceNode)sut.Expression.Node.InnerExpression.RightExpression.InnerExpression;
+            Assert.That(rightVariableReference.VariableName, Is.EqualTo("x"));
         }
 
         [Test]
@@ -52,21 +56,24 @@ namespace Workbench.Core.Tests.Unit.Models
         public void InitializeWithRawExpressionParsesExpectedAggregateVariableNameOnLeft()
         {
             var sut = new ConstraintModel("xx[1] > 1");
-            Assert.That(sut.Expression.Left.AggregateReference.IdentifierName, Is.EqualTo("xx"));
+            var leftVariableReference = (AggregateVariableReferenceNode)sut.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
+            Assert.That(leftVariableReference.VariableName, Is.EqualTo("xx"));
         }
 
         [Test]
         public void InitializeWithRawExpressionParsesExpectedAggregateVariableSubscriptOnLeft()
         {
             var sut = new ConstraintModel("xx[1] > 1");
-            Assert.That(sut.Expression.Left.AggregateReference.Index, Is.EqualTo(1));
+            var leftVariableReference = (AggregateVariableReferenceNode)sut.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
+            Assert.That(leftVariableReference.Subscript, Is.EqualTo(1));
         }
 
         [Test]
         public void InitializeWithRawExpressionParsesExpectedAggregateVariableNameOnRight()
         {
             var sut = new ConstraintModel("x[1] > x[2]");
-            Assert.That(sut.Expression.Right.AggregateReference.IdentifierName, Is.EqualTo("x"));
+            var rightVariableReference = (AggregateVariableReferenceNode)sut.Expression.Node.InnerExpression.RightExpression.InnerExpression;
+            Assert.That(rightVariableReference.VariableName, Is.EqualTo("x"));
         }
     }
 }

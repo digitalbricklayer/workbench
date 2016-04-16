@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
@@ -158,16 +159,16 @@ namespace Workbench.Core.Solver
         private void HandleLessOperator(ConstraintModel constraint)
         {
             Constraint lessConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 lessConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
             }
             else
             {
                 lessConstraint = this.solver.MakeLess(lhsVariable,
-                                                    constraint.Expression.Right.Literal.Value);
+                                                      constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(lessConstraint);
         }
@@ -175,16 +176,16 @@ namespace Workbench.Core.Solver
         private void HandleGreaterOperator(ConstraintModel constraint)
         {
             Constraint greaterConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 greaterConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
             }
             else
             {
                 greaterConstraint = this.solver.MakeGreater(lhsVariable,
-                                                       constraint.Expression.Right.Literal.Value);
+                                                       constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(greaterConstraint);
         }
@@ -192,16 +193,16 @@ namespace Workbench.Core.Solver
         private void HandleNotEqualOperator(ConstraintModel constraint)
         {
             Constraint notEqualConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 notEqualConstraint = this.solver.MakeNonEquality(lhsVariable, rhsVariable);
             }
             else
             {
                 notEqualConstraint = this.solver.MakeNonEquality(lhsVariable,
-                                                           constraint.Expression.Right.Literal.Value);
+                                                           constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(notEqualConstraint);
         }
@@ -209,16 +210,16 @@ namespace Workbench.Core.Solver
         private void HandleLessThanOrEqualOperator(ConstraintModel constraint)
         {
             Constraint lessThanOrEqualConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable, rhsVariable);
             }
             else
             {
                 lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable,
-                    constraint.Expression.Right.Literal.Value);
+                    constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(lessThanOrEqualConstraint);
         }
@@ -226,16 +227,15 @@ namespace Workbench.Core.Solver
         private void HandleGreaterThanOrEqualOperator(ConstraintModel constraint)
         {
             Constraint greaterThanOrEqualConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
             }
             else
             {
-                greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable,
-                                                                              constraint.Expression.Right.Literal.Value);
+                greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(greaterThanOrEqualConstraint);
         }
@@ -243,16 +243,16 @@ namespace Workbench.Core.Solver
         private void HandleEqualsOperator(ConstraintModel constraint)
         {
             Constraint equalsConstraint;
-            var lhsVariable = this.GetVariableFrom(constraint.Expression.Left);
-            if (constraint.Expression.Right.IsVarable)
+            var lhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
+            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
             {
-                var rhsVariable = this.GetVariableFrom(constraint.Expression.Right);
+                var rhsVariable = this.GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
                 equalsConstraint = this.solver.MakeEquality(lhsVariable, rhsVariable);
             }
             else
             {
                 equalsConstraint = this.solver.MakeEquality(lhsVariable,
-                                                        constraint.Expression.Right.Literal.Value);
+                                                            constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
             }
             this.solver.Add(equalsConstraint);
         }
@@ -309,15 +309,19 @@ namespace Workbench.Core.Solver
             return orVariables[index-1];
         }
 
-        private IntVar GetVariableFrom(Expression theExpression)
+        private IntVar GetVariableFrom(ExpressionNode theExpression)
         {
             Debug.Assert(!theExpression.IsLiteral);
 
-            if (theExpression.IsSingleton)
-                return this.GetSingletonVariableByName(theExpression.Variable.Name);
+            if (theExpression.IsSingletonReference)
+            {
+                var singletonVariableReference = (SingletonVariableReferenceNode) theExpression.InnerExpression;
+                return this.GetSingletonVariableByName(singletonVariableReference.VariableName);
+            }
 
-            return this.GetAggregateVariableByName(theExpression.AggregateReference.IdentifierName,
-                                                   theExpression.AggregateReference.Index);
+            var aggregateVariableReference = (AggregateVariableReferenceNode) theExpression.InnerExpression;
+            return this.GetAggregateVariableByName(aggregateVariableReference.VariableName,
+                                                   aggregateVariableReference.Subscript);
         }
     }
 }

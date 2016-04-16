@@ -138,8 +138,17 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.OrTools">
+    <Reference Include="Google.OrTools, Version=1.0.3853.11235, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\or-tools.VisualStudio2013-32b\Google.OrTools.dll</HintPath>
+    </Reference>
+    <Reference Include="Irony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Irony.0.9.1\lib\net40\Irony.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Irony.Interpreter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Irony.Interpreter.0.9.1\lib\net40\Irony.Interpreter.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sprache, Version=2.0.0.51, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Sprache.2.0.0.51\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid+Xamarin.iOS10+MonoTouch\Sprache.dll</HintPath>
@@ -157,6 +166,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardConvert.cs" />
+    <Compile Include="ConstraintBuilderVisitor.cs" />
+    <Compile Include="ConstraintExpressionParser.cs" />
+    <Compile Include="Expressions\DomainExpressionUnit.cs" />
+    <Compile Include="Expressions\VariableDomainExpressionUnit.cs" />
+    <Compile Include="Grammars\ConstraintGrammar.cs" />
+    <Compile Include="Grammars\DomainGrammar.cs" />
+    <Compile Include="Grammars\VariableDomainGrammar.cs" />
+    <Compile Include="IConstraintExpressionVisitor.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
     <Compile Include="Models\ChessboardVisualizerModel.cs" />
     <Compile Include="Models\ChessPieceModel.cs" />
@@ -168,31 +185,35 @@
     <Compile Include="Models\AggregateVariableReference.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
-    <Compile Include="Models\ConstraintExpressionUnit.cs" />
     <Compile Include="Models\DisplayModel.cs" />
-    <Compile Include="Models\DomainExpressionUnit.cs" />
     <Compile Include="Models\SharedDomainReference.cs" />
-    <Compile Include="Models\VariableDomainExpressionUnit.cs" />
-    <Compile Include="Models\VariableDomainGrammar.cs" />
-    <Compile Include="Models\ConstraintGrammar.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
     <Compile Include="Models\DomainExpressionModel.cs" />
-    <Compile Include="Models\DomainGrammar.cs" />
     <Compile Include="Models\DomainModel.cs" />
-    <Compile Include="Models\Expression.cs" />
     <Compile Include="Models\GraphicModel.cs" />
-    <Compile Include="Models\Literal.cs" />
     <Compile Include="Models\AbstractModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />
     <Compile Include="Models\WorkspaceContext.cs" />
     <Compile Include="Models\ModelModel.cs" />
-    <Compile Include="Models\OperatorType.cs" />
     <Compile Include="Models\RangeExpression.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VariableVisualizerModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
+    <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />
+    <Compile Include="Nodes\ConstraintExpressionBaseNode.cs" />
+    <Compile Include="Nodes\ConstraintExpressionNode.cs" />
+    <Compile Include="Nodes\ExpressionNode.cs" />
+    <Compile Include="Nodes\LiteralNode.cs" />
+    <Compile Include="Nodes\BinaryExpressionNode.cs" />
+    <Compile Include="Nodes\OperatorType.cs" />
+    <Compile Include="Nodes\SingletonVariableReferenceNode.cs" />
+    <Compile Include="Nodes\SubscriptNode.cs" />
+    <Compile Include="Nodes\VariableNameNode.cs" />
+    <Compile Include="Parsers\ConstraintExpressionParser.cs" />
+    <Compile Include="Parsers\ConstraintExpressionParseResult.cs" />
+    <Compile Include="Parsers\ConstraintExpressionParseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />
     <Compile Include="Solver\SolutionSnapshot.cs" />
@@ -200,8 +221,11 @@
     <Compile Include="Solver\SolveStatus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

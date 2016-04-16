@@ -1,4 +1,6 @@
 ﻿using System;
+using Workbench.Core.Nodes;
+using Workbench.Core.Parsers;
 
 namespace Workbench.Core.Models
 {
@@ -9,13 +11,6 @@ namespace Workbench.Core.Models
     public class ConstraintExpressionModel : AbstractModel
     {
         private string text;
-
-        public ConstraintExpressionModel(ConstraintExpressionUnit theExpressionUnit)
-        {
-            if (theExpressionUnit == null)
-                throw new ArgumentNullException("theExpressionUnit");
-            this.Unit = theExpressionUnit;
-        }
 
         public ConstraintExpressionModel(string rawExpression)
         {
@@ -39,39 +34,22 @@ namespace Workbench.Core.Models
             set
             {
                 this.text = value;
-                if (!string.IsNullOrWhiteSpace(this.text))
-                   this.ParseUnit(value);
+                this.ParseUnit(value);
                 OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Gets the expression unit.
+        /// Gets the constraint expression root node.
         /// </summary>
-        public ConstraintExpressionUnit Unit { get; private set; }
-
-        /// <summary>
-        /// Gets the left hand side of the expression.
-        /// </summary>
-        public Expression Left
-        {
-            get { return this.Unit.Left; }
-        }
-
-        /// <summary>
-        /// Gets the right hand side expression.
-        /// </summary>
-        public Expression Right
-        {
-            get { return this.Unit.Right; }
-        }
+        public ConstraintExpressionNode Node { get; private set; }
 
         /// <summary>
         /// Gets the operator type of the expression.
         /// </summary>
         public OperatorType OperatorType
         {
-            get { return this.Unit.OperatorType; }
+            get { return this.Node.InnerExpression.Operator; }
         }
 
         /// <summary>
@@ -82,7 +60,7 @@ namespace Workbench.Core.Models
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Left, OperatorType, Right);
+            return string.Format("{0} {1} {2}", Node.InnerExpression.LeftExpression, OperatorType, Node.InnerExpression.RightExpression);
         }
 
         /// <summary>
@@ -92,9 +70,16 @@ namespace Workbench.Core.Models
         private void ParseUnit(string rawExpression)
         {
             if (!string.IsNullOrWhiteSpace(rawExpression))
-                this.Unit = ConstraintGrammar.Parse(rawExpression);
+            {
+                var interpreter = new ConstraintExpressionParser();
+                var parseResult = interpreter.Parse(rawExpression);
+                if (parseResult.Status == ConstraintExpressionParseStatus.Success)
+                    this.Node = parseResult.Root;
+            }
             else
-                this.Unit = null;
+            {
+                this.Node = null;
+            }
         }
     }
 }

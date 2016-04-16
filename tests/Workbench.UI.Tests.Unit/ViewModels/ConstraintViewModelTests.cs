@@ -1,6 +1,7 @@
 ﻿using Workbench.ViewModels;
 using NUnit.Framework;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
@@ -26,7 +27,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = new ConstraintViewModel(new ConstraintModel());
             sut.Expression.Text = "x > 1";
-            Assert.That(sut.Expression.Model.Left.Variable.Name, Is.EqualTo("x"));
+            var leftVariableReference = (SingletonVariableReferenceNode)sut.Expression.Model.Node.InnerExpression.LeftExpression.InnerExpression;
+            Assert.That(leftVariableReference.VariableName, Is.EqualTo("x"));
         }
 
         [Test]
@@ -34,7 +36,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = new ConstraintViewModel(new ConstraintModel());
             sut.Expression.Text = "x > 1";
-            Assert.That(sut.Model.Expression.Left.Variable.Name, Is.EqualTo(sut.Expression.Model.Left.Variable.Name));
+            var leftVariableReference = (SingletonVariableReferenceNode)sut.Model.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
+            var leftVariableReference2 = (SingletonVariableReferenceNode)sut.Expression.Model.Node.InnerExpression.LeftExpression.InnerExpression;
+            Assert.That(leftVariableReference.VariableName, Is.EqualTo(leftVariableReference2.VariableName));
         }
     }
 }

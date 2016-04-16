@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -125,11 +126,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variables in the aggregate.
         /// </summary>
-        public IEnumerable<VariableModel> Variables
+        public IReadOnlyCollection<VariableModel> Variables
         {
             get
             {
-                return this.variables.AsEnumerable();
+                if (this.variables == null) return null;
+                return new ReadOnlyCollection<VariableModel>(this.variables.ToList());
             }
         }
 
