@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using Irony.Ast;
 using Irony.Parsing;
 
@@ -17,7 +17,9 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            InnerExpression = (BinaryExpressionNode) AddChild("Inner", treeNode.ChildNodes[0]);
+            // Make sure the expression isn't empty
+            if (treeNode.ChildNodes.Any())
+                InnerExpression = (BinaryExpressionNode) AddChild("Inner", treeNode.ChildNodes[0]);
         }
     }
 }

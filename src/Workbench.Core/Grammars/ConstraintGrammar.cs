@@ -49,7 +49,7 @@ namespace Workbench.Core.Grammars
             binaryExpression.Rule = expression + binaryOperators + expression;
 
             var constraintExpression = new NonTerminal("constraint expression", typeof(ConstraintExpressionNode));
-            constraintExpression.Rule = binaryExpression;
+            constraintExpression.Rule = binaryExpression | Empty;
             this.Root = constraintExpression;
 
             MarkTransient(binaryOperators);

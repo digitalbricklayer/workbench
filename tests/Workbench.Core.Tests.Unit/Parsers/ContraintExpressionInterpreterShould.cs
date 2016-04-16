@@ -7,11 +7,19 @@ namespace Workbench.Core.Tests.Unit.Parsers
     public class ContraintExpressionInterpreterShould
     {
         [Test]
+        public void ParseWithEmptyStatementReturnsStatusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+        }
+
+        [Test]
         public void ParseWithValidGreaterThanExpressionReturnsStatusSuccess()
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x > 1");
-            Assert.That(expressionParseResult, Is.Not.Null);
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
         }
 
         [Test]
