@@ -13,7 +13,6 @@ namespace Workbench.Core.Tests.Unit
         private const int ExpectedQueens = 4;
 
         [Test]
-        [Ignore("Not implemented the needed constraints.")]
         public void SolveWithFourQueensModelReturnsStatusSuccess()
         {
             var sut = CreateWorkspace();
@@ -22,31 +21,32 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        [Ignore("Not implemented the needed constraints.")]
-        public void SolveWithChessboardVisualizerAssignsFourQueens()
+        public void SolveWithFourQueensModelSolutionContainsFourQueens()
         {
             var sut = CreateWorkspace();
-            sut.Solve();
-            var chessboardVisualizer = (ChessboardVisualizerModel) sut.Solution.GetVisualizerFor("board");
-            var allQueenSquares = chessboardVisualizer.GetSquaresOccupiedBy(PieceType.Queen);
-            Assert.That(allQueenSquares, Has.Count.EqualTo(ExpectedQueens));
+            var actualResult = sut.Solve();
+            var actualColumnValues = actualResult.Snapshot.GetAggregateVariableValueByName("cols").Values;
+            Assert.That(actualColumnValues, Is.Unique);
+            Assert.That(actualColumnValues, Is.All.GreaterThanOrEqualTo(1)
+                                                  .And
+                                                  .LessThanOrEqualTo(ExpectedQueens));
         }
 
         private static WorkspaceModel CreateWorkspace()
         {
             var workspace = WorkspaceModel.Create("4 Queens Model")
-                                          .AddAggregate("board", ExpectedQueens, $"1..{ExpectedQueens}")
-                                          .WithChessboardVisualizerBindingTo("board")
+                                          .AddAggregate("cols", ExpectedQueens, $"1..{ExpectedQueens}")
+                                          .WithConstraintAllDifferent("cols")
                                           .Build();
 
-            var count = (AggregateVariableModel) workspace.Model.GetVariableByName("board");
-            for (var i = 1; i <= count.AggregateCount; i++)
+            var columnsVariable = (AggregateVariableModel) workspace.Model.GetVariableByName("cols");
+            for (var i = 0; i < columnsVariable.AggregateCount; i++)
             {
-                for (var j = 1; j <= i; j++)
+                for (var j = 0; j < i; j++)
                 {
-//                    workspace.Model.AddConstraint(new ConstraintModel($"board[{i}] <> board[{j}]"));
-//                    workspace.Model.AddConstraint(new ConstraintModel($"board[{i}] + 1 != board[{j}] + 1"));
-//                    workspace.Model.AddConstraint(new ConstraintModel($"board[{i}] - 1 != board[{j}] - 1"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] != cols[{j+1}]"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] + {i+1} != cols[{j+1}] + {j+1}"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] - {i+1} != cols[{j+1}] - {j+1}"));
                 }
             }
 

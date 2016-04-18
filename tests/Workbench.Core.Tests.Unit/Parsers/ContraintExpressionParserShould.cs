@@ -26,7 +26,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidNotEqualExpressionReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x[1] <> 1");
+            var expressionParseResult = sut.Parse("x[1] != 1");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
         }
 

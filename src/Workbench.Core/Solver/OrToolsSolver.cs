@@ -365,7 +365,7 @@ namespace Workbench.Core.Solver
                 }
                 else
                 {
-                    var aggregateExpression = (SingletonVariableReferenceExpressionNode)theExpression.InnerExpression;
+                    var aggregateExpression = (AggregateVariableReferenceExpressionNode)theExpression.InnerExpression;
                     variableExpression = GetVariableFrom((AggregateVariableReferenceExpressionNode) theExpression.InnerExpression);
                     op = aggregateExpression.Operator;
                     literal = aggregateExpression.Literal;
