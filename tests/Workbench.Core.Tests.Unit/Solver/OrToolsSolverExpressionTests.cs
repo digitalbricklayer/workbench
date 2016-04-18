@@ -10,63 +10,55 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithExpressionModelReturnsStatusSuccess()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+            }
         }
 
         [Test]
         public void SolveWithExpressionModelSatisfiesConstraints()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            Assert.That(x.Value + 1, Is.Not.EqualTo(y.Value - 1));
+                var actualSnapshot = actualResult.Snapshot;
+                var x = actualSnapshot.GetSingletonVariableValueByName("x");
+                var y = actualSnapshot.GetSingletonVariableValueByName("y");
+                Assert.That(x.Value + 1, Is.Not.EqualTo(y.Value - 1));
+            }
         }
 
         [Test]
         public void SolveWithExpressionModelSolutionWithinDomain()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            Assert.That(x.Value, Is.InRange(1, 9));
-            Assert.That(y.Value, Is.InRange(1, 9));
+                var actualSnapshot = actualResult.Snapshot;
+                var x = actualSnapshot.GetSingletonVariableValueByName("x");
+                var y = actualSnapshot.GetSingletonVariableValueByName("y");
+                Assert.That(x.Value, Is.InRange(1, 9));
+                Assert.That(y.Value, Is.InRange(1, 9));
+            }
         }
 
         [Test]
         public void SolveWithSimpleModelSolutionHasValidVariableCount()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var singletonVariableCount = actualSnapshot.SingletonValues.Count;
-            Assert.That(singletonVariableCount, Is.EqualTo(3));
-            Assert.That(actualSnapshot.AggregateValues, Is.Empty);
+                var actualSnapshot = actualResult.Snapshot;
+                var singletonVariableCount = actualSnapshot.SingletonValues.Count;
+                Assert.That(singletonVariableCount, Is.EqualTo(3));
+                Assert.That(actualSnapshot.AggregateValues, Is.Empty);
+            }
         }
 
         private static ModelModel MakeModel()

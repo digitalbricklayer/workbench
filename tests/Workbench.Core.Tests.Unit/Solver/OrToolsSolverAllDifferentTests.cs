@@ -10,45 +10,39 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithAllDifferentModelReturnsStatusSuccess()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+            }
         }
 
         [Test]
         public void SolveWithAllDifferentModelSatisfiesConstraints()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetAggregateVariableValueByName("x");
-            Assert.That(x.Values, Is.Unique);
+                var actualSnapshot = actualResult.Snapshot;
+                var x = actualSnapshot.GetAggregateVariableValueByName("x");
+                Assert.That(x.Values, Is.Unique);
+            }
         }
 
         [Test]
         public void SolveWithAllDifferentModelSolutionHasValidVariableCount()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
-            Assert.That(actualSnapshot.SingletonValues, Is.Empty);
-            Assert.That(aggregateVariableCount, Is.EqualTo(1));
+                var actualSnapshot = actualResult.Snapshot;
+                var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
+                Assert.That(actualSnapshot.SingletonValues, Is.Empty);
+                Assert.That(aggregateVariableCount, Is.EqualTo(1));
+            }
         }
 
         private static ModelModel MakeModel()

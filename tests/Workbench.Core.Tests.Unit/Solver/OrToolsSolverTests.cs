@@ -10,49 +10,43 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void Solve_With_Model_Returns_Status_Success()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+            }
         }
 
         [Test]
         public void Solve_With_Model_Satisfies_Constraint()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            var z = actualSnapshot.GetAggregateVariableValueByName("z");
-            Assert.That(x.Value, Is.Not.EqualTo(y.Value));
-            Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
+                var actualSnapshot = actualResult.Snapshot;
+                var x = actualSnapshot.GetSingletonVariableValueByName("x");
+                var y = actualSnapshot.GetSingletonVariableValueByName("y");
+                var z = actualSnapshot.GetAggregateVariableValueByName("z");
+                Assert.That(x.Value, Is.Not.EqualTo(y.Value));
+                Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
+            }
         }
 
         [Test]
         public void Solve_With_Model_Solution_Within_Domain()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var x = actualSnapshot.GetSingletonVariableValueByName("x");
-            var y = actualSnapshot.GetSingletonVariableValueByName("y");
-            Assert.That(x.Value, Is.InRange(1, 9));
-            Assert.That(y.Value, Is.InRange(1, 9));
+                var actualSnapshot = actualResult.Snapshot;
+                var x = actualSnapshot.GetSingletonVariableValueByName("x");
+                var y = actualSnapshot.GetSingletonVariableValueByName("y");
+                Assert.That(x.Value, Is.InRange(1, 9));
+                Assert.That(y.Value, Is.InRange(1, 9));
+            }
         }
 
         private static ModelModel MakeModel()

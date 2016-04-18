@@ -10,57 +10,63 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithModelReturnsStatusSuccess()
         {
-            var sut = new OrToolsSolver();
-            var actualResult = sut.Solve(MakeModel());
-            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
+                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+            }
         }
 
         [Test]
         public void SolveWithModelSatisfiesConstraints()
         {
-            var sut = new OrToolsSolver();
-            var actualResult = sut.Solve(MakeModel());
-            var actualSnapshot = actualResult.Snapshot;
-            var c = actualSnapshot.GetAggregateVariableValueByName("c");
-            Assert.That(c.GetValueAt(1), Is.LessThan(c.GetValueAt(10)));
-            Assert.That(c.GetValueAt(2), Is.GreaterThan(c.GetValueAt(9)));
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
+                var actualSnapshot = actualResult.Snapshot;
+                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                Assert.That(c.GetValueAt(1), Is.LessThan(c.GetValueAt(10)));
+                Assert.That(c.GetValueAt(2), Is.GreaterThan(c.GetValueAt(9)));
+            }
         }
 
         [Test]
         public void SolveWithModelSatisfiesValueCount()
         {
-            var sut = new OrToolsSolver();
-            var actualResult = sut.Solve(MakeModel());
-            var actualSnapshot = actualResult.Snapshot;
-            var c = actualSnapshot.GetAggregateVariableValueByName("c");
-            Assert.That(c.Values.Count, Is.EqualTo(10));
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
+                var actualSnapshot = actualResult.Snapshot;
+                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                Assert.That(c.Values.Count, Is.EqualTo(10));
+            }
         }
 
         [Test]
         public void SolveWithModelCreatesValidSolution()
         {
-            var sut = new OrToolsSolver();
-            var actualResult = sut.Solve(MakeModel());
-            var actualSnapshot = actualResult.Snapshot;
-            var c = actualSnapshot.GetAggregateVariableValueByName("c");
-            Assert.That(c.GetValueAt(1), Is.InRange(1, 9));
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
+                var actualSnapshot = actualResult.Snapshot;
+                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                Assert.That(c.GetValueAt(1), Is.InRange(1, 9));
+            }
         }
 
         [Test]
         public void SolveWithSimpleAggregateModelSolutionHasValidVariableCount()
         {
-            // Arrange
-            var sut = new OrToolsSolver();
+            using (var sut = new OrToolsSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
 
-            // Act
-            var actualResult = sut.Solve(MakeModel());
-
-            // Assert
-            var actualSnapshot = actualResult.Snapshot;
-            var singletonVariableCount = actualSnapshot.SingletonValues.Count;
-            var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
-            Assert.That(singletonVariableCount, Is.EqualTo(0));
-            Assert.That(aggregateVariableCount, Is.EqualTo(1));
+                var actualSnapshot = actualResult.Snapshot;
+                var singletonVariableCount = actualSnapshot.SingletonValues.Count;
+                var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
+                Assert.That(singletonVariableCount, Is.EqualTo(0));
+                Assert.That(aggregateVariableCount, Is.EqualTo(1));
+            }
         }
 
         private static ModelModel MakeModel()

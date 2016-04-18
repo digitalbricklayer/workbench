@@ -336,8 +336,10 @@ namespace Workbench.Core.Models
         public SolveResult Solve()
         {
             Contract.Ensures(Contract.Result<SolveResult>() != null);
-            var solver = new OrToolsSolver();
-            return solver.Solve(this);
+            using (var solver = new OrToolsSolver())
+            {
+                return solver.Solve(this);
+            }
         }
     }
 }

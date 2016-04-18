@@ -11,7 +11,7 @@ namespace Workbench.Core.Solver
     /// <summary>
     /// Constraint solver implemented using Google or-tools library.
     /// </summary>
-    public class OrToolsSolver
+    public class OrToolsSolver : IDisposable
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private readonly Dictionary<string, Tuple<VariableModel, IntVar>> singletonVariableMap;
@@ -55,6 +55,15 @@ namespace Workbench.Core.Solver
             var theSolutionSnapshot = this.ExtractValuesFrom(collector);
             var solveDuration = TimeSpan.FromMilliseconds(this.solver.WallTime());
             return new SolveResult(SolveStatus.Success, solveDuration, theSolutionSnapshot);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.solver.Dispose();
+            this.solver = null;
         }
 
         private void ProcessConstraints(ModelModel theModel)
@@ -150,20 +159,6 @@ namespace Workbench.Core.Solver
                                               new Tuple<VariableModel, IntVar>(variable, orVariable));
             }
         }
-
-#if false
-        private void ProcessAggregateVariable(IntVarVector theVariables, AggregateVariableModel aggregate)
-        {
-            var orVariables = new List<IntVar>();
-            foreach (var variable in aggregate.Variables)
-            {
-                var orVariable = this.ProcessVariable(theVariables, variable);
-                orVariables.Add(orVariable);
-            }
-            this.aggregateVariableMap.Add(aggregate.Name,
-                                          new Tuple<AggregateVariableModel, IntVarVector>(aggregate, orVariables));
-        }
-#endif
 
         private IntVar ProcessVariable(IntVarVector variables, VariableModel variable)
         {
