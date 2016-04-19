@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardConverterTests.cs" />
-    <Compile Include="FourQueensTests.cs" />
+    <Compile Include="EightQueensTests.cs" />
     <Compile Include="Models\AggregateVariableModelTests.cs" />
     <Compile Include="Models\ExpressionConstraintModelTests.cs" />
     <Compile Include="Models\DomainModelTests.cs" />

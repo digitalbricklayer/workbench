@@ -21,32 +21,28 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Hydrate the visualizer from the value.
+        /// Hydrate the visualizer from a value.
         /// </summary>
         /// <param name="theValue">Value bound to a variable.</param>
         public override void Hydrate(ValueModel theValue)
         {
             base.Hydrate(theValue);
-            var counter = 0;
-            foreach (var aValue in theValue.Values)
+            for (var x = 1; x <= theValue.Values.Count; x++)
             {
-                counter++;
-                if (aValue == 1)
+                for (var y = 1; y <= theValue.Values.Count; y++)
                 {
-                    // A square with a queen
-                    var squareLocation = BoardConvert.ToPoint(counter);
-                    var theQueen = ChessPieceModel.CreateFrom(squareLocation,
-                                                              Player.White,
-                                                              PieceType.Queen);
-                    var newPiece = ChessboardSquareModel.CreateWith(squareLocation, theQueen);
-                    this.chessboard.Add(newPiece);
-                }
-                else
-                {
-                    // An empty space on the board.
-                    var squareLocation = BoardConvert.ToPoint(counter);
-                    var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
-                    this.chessboard.Add(newPiece);
+                    if (theValue.GetValueAt(x) == y)
+                    {
+                        // A square with a queen
+                        var squareLocation = new Point(x, y);
+                        var theQueen = ChessPieceModel.CreateFrom(squareLocation,
+                                                                  Player.White,
+                                                                  PieceType.Queen);
+                        var newSquare = ChessboardSquareModel.CreateWith(squareLocation, theQueen);
+                        this.chessboard.Add(newSquare);
+                        // Only one queen can be present on each row...
+                        break;
+                    }
                 }
             }
         }

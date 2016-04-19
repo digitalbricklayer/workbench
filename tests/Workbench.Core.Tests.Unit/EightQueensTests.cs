@@ -5,12 +5,12 @@ using Workbench.Core.Solver;
 namespace Workbench.Core.Tests.Unit
 {
     /// <summary>
-    /// Test using the 4 Queens problem on a 4x4 chessboard.
+    /// Test using the 8 Queens problem on a 8x8 chessboard.
     /// </summary>
     [TestFixture]
-    public class FourQueensTests
+    public class EightQueensTests
     {
-        private const int ExpectedQueens = 4;
+        private const int ExpectedQueens = 8;
 
         [Test]
         public void SolveWithFourQueensModelReturnsStatusSuccess()
@@ -32,11 +32,22 @@ namespace Workbench.Core.Tests.Unit
                                                   .LessThanOrEqualTo(ExpectedQueens));
         }
 
+        [Test]
+        public void SolveWithChessboardVisualizerAssignsFourQueens()
+        {
+            var sut = CreateWorkspace();
+            sut.Solve();
+            var chessboardVisualizer = (ChessboardVisualizerModel)sut.Solution.GetVisualizerFor("cols");
+            var allQueenSquares = chessboardVisualizer.GetSquaresOccupiedBy(PieceType.Queen);
+            Assert.That(allQueenSquares, Has.Count.EqualTo(ExpectedQueens));
+        }
+
         private static WorkspaceModel CreateWorkspace()
         {
-            var workspace = WorkspaceModel.Create("4 Queens Model")
+            var workspace = WorkspaceModel.Create($"{ExpectedQueens} Queens Model")
                                           .AddAggregate("cols", ExpectedQueens, $"1..{ExpectedQueens}")
                                           .WithConstraintAllDifferent("cols")
+                                          .WithChessboardVisualizerBindingTo("cols")
                                           .Build();
 
             var columnsVariable = (AggregateVariableModel) workspace.Model.GetVariableByName("cols");

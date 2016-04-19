@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Windows;
 
 namespace Workbench.Core.Models
 {
@@ -11,7 +12,9 @@ namespace Workbench.Core.Models
     /// </summary>
     public class ChessboardModel : AbstractModel
     {
+        private const int DefaultSize = 8;
         private ObservableCollection<ChessboardSquareModel> pieces;
+        private int size = DefaultSize;
 
         /// <summary>
         /// Initialize a chessboard with default values.
@@ -19,6 +22,20 @@ namespace Workbench.Core.Models
         public ChessboardModel()
         {
             this.pieces = new ObservableCollection<ChessboardSquareModel>();
+            InitializeBoard();
+        }
+
+        /// <summary>
+        /// Gets or sets the size of the chessboard.
+        /// </summary>
+        public int Size
+        {
+            get { return this.size; }
+            set
+            {
+                this.size = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -38,11 +55,14 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Add a piece the chessboard.
         /// </summary>
-        /// <param name="newPiece">New piece.</param>
-        public void Add(ChessboardSquareModel newPiece)
+        /// <param name="newSquare">New chess piece.</param>
+        public void Add(ChessboardSquareModel newSquare)
         {
-            Contract.Requires<ArgumentNullException>(newPiece != null);
-            this.Pieces.Add(newPiece);
+            Contract.Requires<ArgumentNullException>(newSquare != null);
+            Contract.Requires<ArgumentException>(newSquare.Piece.Type != PieceType.Empty);
+            // Convert a x, y coordinate into a one dimensional array index
+            var index = Convert.ToInt32(((newSquare.Location.X - 1) * Size) + (newSquare.Location.Y - 1));
+            Pieces[index] = newSquare;
         }
 
         /// <summary>
@@ -54,6 +74,20 @@ namespace Workbench.Core.Models
         {
             return this.Pieces.Where(square => square.HasPiece && square.Piece.Type == theTypeOfPiece)
                               .ToList();
+        }
+
+        private void InitializeBoard()
+        {
+            for (var col = 0; col < Size; col++)
+            {
+                for (var row = 0; row < Size; row++)
+                {
+                    // An empty space on the board.
+                    var squareLocation = new Point(col + 1, row + 1);
+                    var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
+                    this.Pieces.Add(newPiece);
+                }
+            }
         }
     }
 }
