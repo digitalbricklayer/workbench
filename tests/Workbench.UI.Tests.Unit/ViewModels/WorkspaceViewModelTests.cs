@@ -38,7 +38,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         }
 
         [Test]
-        public void AddVisualizerAssignsIdentity()
+        public void AddVariableVisualizerAssignsIdentity()
         {
             var sut = CreateSut();
             var actualVisualizer = sut.Viewer.GetVisualizerFor("x");

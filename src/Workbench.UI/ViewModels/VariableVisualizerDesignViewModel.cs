@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
                                                  IEventAggregator theEventAggregator,
                                                  IDataService theDataService,
                                                  IViewModelService theViewModelService)
-            : base(theVariableVisualizerModel)
+            : base(theVariableVisualizerModel, theEventAggregator, theDataService, theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theVariableVisualizerModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);

@@ -2,7 +2,9 @@
 using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Services;
 using Workbench.ViewModels;
 
 namespace Workbench.Commands
@@ -14,15 +16,27 @@ namespace Workbench.Commands
     {
         private readonly WorkspaceViewModel workspace;
         private readonly TitleBarViewModel titleBar;
+        private readonly IDataService dataService;
+        private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelService viewModelService;
 
         public AddChessboardVisualizerCommand(WorkspaceViewModel theWorkspace,
-                                              TitleBarViewModel theTitleBar)
+                                              TitleBarViewModel theTitleBar,
+                                              IEventAggregator theEventAggregator,
+                                              IDataService theDataService,
+                                              IViewModelService theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.workspace = theWorkspace;
             this.titleBar = theTitleBar;
+            this.eventAggregator = theEventAggregator;
+            this.dataService = theDataService;
+            this.viewModelService = theViewModelService;
         }
 
         /// <summary>
@@ -49,7 +63,10 @@ namespace Workbench.Commands
 
         private void CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
         {
-            var visualizerDesignViewModel = new ChessboardVisualizerDesignViewModel(newVisualizerModel);
+            var visualizerDesignViewModel = new ChessboardVisualizerDesignViewModel(newVisualizerModel,
+                                                                                    this.eventAggregator,
+                                                                                    this.dataService,
+                                                                                    this.viewModelService);
             this.workspace.AddDesigner(visualizerDesignViewModel);
         }
     }
