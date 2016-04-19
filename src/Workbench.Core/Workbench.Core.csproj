@@ -165,7 +165,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoardConvert.cs" />
     <Compile Include="ConstraintBuilderVisitor.cs" />
     <Compile Include="ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />
