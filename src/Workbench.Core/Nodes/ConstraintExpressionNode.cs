@@ -8,6 +8,11 @@ namespace Workbench.Core.Nodes
     {
         public BinaryExpressionNode InnerExpression { get; private set; }
 
+        /// <summary>
+        /// Gets whether the expression is empty.
+        /// </summary>
+        public bool IsEmpty => InnerExpression == null;
+
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);

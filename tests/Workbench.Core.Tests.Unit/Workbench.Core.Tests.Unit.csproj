@@ -92,6 +92,7 @@
     <Compile Include="Models\VariableModelTests.cs" />
     <Compile Include="Models\VariableVisualizerBindingModelTests.cs" />
     <Compile Include="Models\WorkspaceTests.cs" />
+    <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\OrToolsSolverAggregateTests.cs" />
