@@ -42,5 +42,29 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Validate the all different constraint.
+        /// </summary>
+        /// <returns>
+        /// Return true if the constraint is valid, return false if 
+        /// the constraint is not valid.
+        /// </returns>
+        public override bool Validate(ModelModel theModel)
+        {
+            return Validate(theModel, new ModelValidationContext());
+        }
+
+        /// <summary>
+        /// Validate the all different constraint.
+        /// </summary>
+        /// <returns>
+        /// Return true if the constraint is valid, return false if 
+        /// the constraint is not valid.
+        /// </returns>
+        public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
+        {
+            return this.variable != null;
+        }
     }
 }

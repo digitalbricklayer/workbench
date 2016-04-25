@@ -14,6 +14,7 @@ namespace Workbench.Core.Nodes
         {
             visitor.Visit(this);
             LeftExpression.Accept(visitor);
+            RightExpression.Accept(visitor);
         }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)

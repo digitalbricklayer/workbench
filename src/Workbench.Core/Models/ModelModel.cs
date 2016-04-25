@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Workbench.Core.Nodes;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -15,7 +13,6 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ModelModel : AbstractModel
     {
-        private readonly ObservableCollection<string> errors = new ObservableCollection<string>();
         private ObservableCollection<VariableModel> variables;
         private ObservableCollection<VariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
@@ -132,18 +129,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the model validation errors.
-        /// </summary>
-        public IReadOnlyCollection<string> Errors
-        {
-            get
-            {
-                Contract.Assume(this.errors != null);
-                return this.errors;
-            }
-        }
-
-        /// <summary>
         /// Add a new constraint to the model.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
@@ -241,17 +226,24 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Validate the model and ensure consistency between the domains and Variables.
-        /// <remarks>Populates errors into the <see cref="Errors"/> collection.</remarks>
+        /// Validate the model and ensure consistency between the domains and variables.
         /// </summary>
         /// <returns>True if the model is valid, False if it is not valid.</returns>
         public bool Validate()
         {
-            Contract.Assume(this.errors != null);
-            this.errors.Clear();
-            var expressionsValid = this.ValidateConstraints();
+            return Validate(new ModelValidationContext());
+        }
+
+        /// <summary>
+        /// Validate the model and ensure consistency between the domains and variables.
+        /// <remarks>Populates errors into the <see cref="ModelValidationContext"/> class.</remarks>
+        /// </summary>
+        /// <returns>True if the model is valid, False if it is not valid.</returns>
+        public bool Validate(ModelValidationContext validateContext)
+        {
+            var expressionsValid = ValidateConstraints(validateContext);
             if (!expressionsValid) return false;
-            return this.ValidateSharedDomains();
+            return this.ValidateSharedDomains(validateContext);
         }
 
         /// <summary>
@@ -265,52 +257,23 @@ namespace Workbench.Core.Models
             return this.Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
         }
 
-        private bool ValidateConstraints()
+        private bool ValidateConstraints(ModelValidationContext validateContext)
         {
-            return this.Constraints.All(ValidateConstraint);
+            return Constraints.All(aConstraint => ValidateConstraint(aConstraint, validateContext));
         }
 
-        private bool ValidateConstraint(ConstraintModel aConstraint)
+        private bool ValidateConstraint(ConstraintModel aConstraint, ModelValidationContext theContext)
         {
-            var expressionConstraint = aConstraint as ExpressionConstraintModel;
-            if (expressionConstraint == null) return true;
-            if (!ValidateConstraintExpression(expressionConstraint.Expression.Node.InnerExpression.LeftExpression)) return false;
-            if (!ValidateConstraintExpression(expressionConstraint.Expression.Node.InnerExpression.RightExpression)) return false;
-
-            return true;
+            return aConstraint.Validate(this, theContext);
         }
 
-        private bool ValidateConstraintExpression(ExpressionNode theExpression)
+        private bool ValidateSharedDomains(ModelValidationContext validateContext)
         {
-            if (theExpression.IsSingletonReference)
-            {
-                var singletonReference = (SingletonVariableReferenceNode) theExpression.InnerExpression;
-                if (this.Variables.FirstOrDefault(x => x.Name == singletonReference.VariableName) == null)
-                {
-                    this.errors.Add(string.Format("Missing singleton variable {0}", singletonReference.VariableName));
-                    return false;
-                }
-            }
-            else if (theExpression.IsAggregateReference)
-            {
-                var aggregateReference = (AggregateVariableReferenceNode)theExpression.InnerExpression;
-                if (this.Aggregates.FirstOrDefault(x => x.Name == aggregateReference.VariableName) == null)
-                {
-                    this.errors.Add(string.Format("Missing aggregate variable {0}", aggregateReference.VariableName));
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool ValidateSharedDomains()
-        {
-            foreach (var variable in this.Variables)
+            foreach (var variable in Variables)
             {
                 if (variable.DomainExpression == null)
                 {
-                    this.errors.Add("Missing domain");
+                    validateContext.AddError("Missing domain");
                     return false;
                 }
 
@@ -321,7 +284,7 @@ namespace Workbench.Core.Models
                 var sharedDomain = this.GetSharedDomainByName(variable.DomainExpression.DomainReference.DomainName);
                 if (sharedDomain == null)
                 {
-                    this.errors.Add(string.Format("Missing shared domain {0}", variable.DomainExpression.DomainReference.DomainName));
+                    validateContext.AddError($"Missing shared domain {variable.DomainExpression.DomainReference.DomainName}");
                     return false;
                 }
             }

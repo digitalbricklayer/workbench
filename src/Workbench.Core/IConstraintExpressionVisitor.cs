@@ -12,5 +12,7 @@ namespace Workbench.Core
         void Visit(ConstraintExpressionNode theNode);
         void Visit(LiteralNode theNode);
         void Visit(VariableNameNode theNode);
+        void Visit(SingletonVariableReferenceExpressionNode theNode);
+        void Visit(AggregateVariableReferenceExpressionNode theNode);
     }
 }

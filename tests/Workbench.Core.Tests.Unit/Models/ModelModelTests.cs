@@ -7,7 +7,7 @@ namespace Workbench.Core.Tests.Unit.Models
     public class ModelModelTests
     {
         [Test]
-        public void Validate_With_A_Valid_Model_Returns_True()
+        public void ValidateWithAValidModelReturnsTrue()
         {
             var sut = MakeValidModel();
             var actualValidationResult = sut.Validate();
@@ -15,11 +15,21 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void Validate_With_A_Valid_Model_Does_Not_Populate_Errors()
+        public void ValidateWithAValidModelDoesNotPopulateErrors()
         {
             var sut = MakeValidModel();
-            sut.Validate();
-            Assert.That(sut.Errors, Is.Empty);
+            var validationContext = new ModelValidationContext();
+            sut.Validate(validationContext);
+            Assert.That(validationContext.Errors, Is.Empty);
+        }
+
+        [Test]
+        public void ValidateWithAValidModelHasErrorsReturnsTrue()
+        {
+            var sut = MakeValidModel();
+            var validationContext = new ModelValidationContext();
+            sut.Validate(validationContext);
+            Assert.That(validationContext.HasErrors, Is.False);
         }
 
         private static ModelModel MakeValidModel()

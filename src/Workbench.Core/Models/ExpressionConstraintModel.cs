@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Windows;
 
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A constraint restricts the values that can be bound to a variable.
+    /// A constraint restricts the values that can be bound to a variable 
+    /// through an expression entered by the user of the program.
     /// </summary>
     [Serializable]
     public class ExpressionConstraintModel : ConstraintModel
@@ -75,10 +77,10 @@ namespace Workbench.Core.Models
         /// </summary>
         public ConstraintExpressionModel Expression
         {
-            get { return expression; }
+            get { return this.expression; }
             set
             {
-                expression = value;
+                this.expression = value;
                 OnPropertyChanged();
             }
         }
@@ -94,6 +96,58 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionText));
 
             return new ExpressionConstraintModel(constraintName, expressionText);
+        }
+
+        /// <summary>
+        /// Validate the constraint.
+        /// </summary>
+        /// <param name="theModel">Model to validate.</param>
+        /// <returns>
+        /// Return true if the constraint is valid, return false if 
+        /// the constraint is not valid.
+        /// </returns>
+        public override bool Validate(ModelModel theModel)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            return Validate(theModel, new ModelValidationContext());
+        }
+
+        /// <summary>
+        /// Validate the constraint.
+        /// </summary>
+        /// <param name="theModel">Model to validate.</param>
+        /// <param name="theContext">Validation context to capture the errors.</param>
+        /// <returns>
+        /// Return true if the constraint is valid, return false if 
+        /// the constraint is not valid.
+        /// </returns>
+        public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theContext != null);
+
+            var validatorVisitor = new ConstraintExpressionValidatorVisitor();
+            Expression.Node.Accept(validatorVisitor);
+
+            foreach (var singletonVariableReference in validatorVisitor.SingletonVariableReferences)
+            {
+                if (theModel.Variables.FirstOrDefault(_ => _.Name == singletonVariableReference.VariableName) == null)
+                {
+                    theContext.AddError($"Missing singleton variable {singletonVariableReference.VariableName}");
+                    return false;
+                }
+            }
+
+            foreach (var aggregateVariableReference in validatorVisitor.AggregateVariableReferences)
+            {
+                if (theModel.Aggregates.FirstOrDefault(_ => _.Name == aggregateVariableReference.VariableName) == null)
+                {
+                    theContext.AddError($"Missing aggregate variable {aggregateVariableReference.VariableName}");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -37,7 +37,8 @@ namespace Workbench.Core.Solver
 
             this.model = theModel;
 
-            if (!theModel.Validate()) return SolveResult.InvalidModel;
+            var validateContext = new ModelValidationContext();
+            if (!theModel.Validate(validateContext)) return SolveResult.InvalidModel;
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
 
@@ -62,6 +63,7 @@ namespace Workbench.Core.Solver
         /// </summary>
         public void Dispose()
         {
+            if (this.solver == null) return;
             this.solver.Dispose();
             this.solver = null;
         }

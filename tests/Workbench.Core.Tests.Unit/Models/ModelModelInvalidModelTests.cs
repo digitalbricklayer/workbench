@@ -7,7 +7,7 @@ namespace Workbench.Core.Tests.Unit.Models
     public class ModelModelInvalidModelTests
     {
         [Test]
-        public void Validate_With_An_Invalid_Model_Returns_False()
+        public void ValidateWithAnInvalidModelReturnsFalse()
         {
             var sut = MakeModelWithMissingVariable();
             var actualValidationResult = sut.Validate();
@@ -15,19 +15,41 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void Validate_With_A_Model_Missing_Variable_Populates_Errors()
+        public void ValidateWithAModelMissingVariablePopulatesErrors()
         {
             var sut = MakeModelWithMissingVariable();
-            sut.Validate();
-            Assert.That(sut.Errors, Is.Not.Empty);
+            var validationContext = new ModelValidationContext();
+            sut.Validate(validationContext);
+            Assert.That(validationContext.Errors, Is.Not.Empty);
         }
 
         [Test]
-        public void Validate_With_A_Model_Missing_Shared_Domain_Populates_Errors()
+        public void ValidateWithAModelMissingVariableHasErrrosIsTrue()
+        {
+            var sut = MakeModelWithMissingVariable();
+            var validationContext = new ModelValidationContext();
+            sut.Validate(validationContext);
+            Assert.That(validationContext.HasErrors, Is.True);
+        }
+
+        [Test]
+        public void ValidateWithAModelMissingSharedDomainPopulatesErrors()
         {
             var sut = MakeModelWithMissingSharedDomain();
+            var validationContext = new ModelValidationContext();
             sut.Validate();
-            Assert.That(sut.Errors, Is.Not.Empty);
+            sut.Validate(validationContext);
+            Assert.That(validationContext.Errors, Is.Not.Empty);
+        }
+
+        [Test]
+        public void ValidateWithAModelMissingSharedDomainHasErrorsIsTrue()
+        {
+            var sut = MakeModelWithMissingSharedDomain();
+            var validationContext = new ModelValidationContext();
+            sut.Validate();
+            sut.Validate(validationContext);
+            Assert.That(validationContext.HasErrors, Is.True);
         }
 
         private static ModelModel MakeModelWithMissingVariable()
@@ -43,7 +65,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeModelWithMissingSharedDomain()
         {
-            var workspace = WorkspaceModel.Create("An model missing shared domain")
+            var workspace = WorkspaceModel.Create("A model missing shared domain")
                                           .WithSharedDomain("a", "1..10")
                                           .AddSingleton("x", "b")
                                           .AddSingleton("y", "1..9")

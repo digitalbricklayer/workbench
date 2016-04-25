@@ -11,7 +11,8 @@ namespace Workbench.Core.Nodes
 
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Visit(this);
+            VariableReference.Accept(visitor);
         }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)

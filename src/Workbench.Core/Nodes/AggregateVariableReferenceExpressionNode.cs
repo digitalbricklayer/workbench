@@ -1,5 +1,4 @@
-﻿using System;
-using Irony.Ast;
+﻿using Irony.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
@@ -12,7 +11,8 @@ namespace Workbench.Core.Nodes
 
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Visit(this);
+            VariableReference.Accept(visitor);
         }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)

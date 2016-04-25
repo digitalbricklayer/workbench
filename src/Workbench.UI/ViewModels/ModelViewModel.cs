@@ -153,15 +153,13 @@ namespace Workbench.ViewModels
         /// </summary>
         public bool Validate()
         {
-            var isModelValid = this.Model.Validate();
-            if (!isModelValid)
-            {
-                Trace.Assert(this.Model.Errors.Any());
-                this.DisplayErrorDialog(this.Model);
-                return false;
-            }
+            var validationContext = new ModelValidationContext();
+            var isModelValid = Model.Validate(validationContext);
+            if (isModelValid) return true;
+            Contract.Assume(validationContext.HasErrors);
+            DisplayErrorDialog(validationContext);
 
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -329,24 +327,25 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Display a dialog box with a display of all of the model errors.
         /// </summary>
-        /// <param name="theModel">Model with errors to display.</param>
-        private void DisplayErrorDialog(ModelModel theModel)
+        /// <param name="theContext">Validation context.</param>
+        private void DisplayErrorDialog(ModelValidationContext theContext)
         {
-            var errorsViewModel = CreateModelErrorsFrom(theModel);
+            var errorsViewModel = CreateModelErrorsFrom(theContext);
             this.windowManager.ShowDialog(errorsViewModel);
         }
 
         /// <summary>
         /// Create a model errros view model from a model.
         /// </summary>
-        /// <param name="aModel">Model with errors.</param>
+        /// <param name="theContext">Validation context.</param>
         /// <returns>View model with all errors in the model.</returns>
-        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelModel aModel)
+        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelValidationContext theContext)
         {
-            Trace.Assert(aModel.Errors.Any());
+            Contract.Requires<ArgumentNullException>(theContext != null);
+            Contract.Requires<InvalidOperationException>(theContext.HasErrors);
 
             var errorsViewModel = new ModelErrorsViewModel();
-            foreach (var error in aModel.Errors)
+            foreach (var error in theContext.Errors)
             {
                 var errorViewModel = new ModelErrorViewModel
                 {

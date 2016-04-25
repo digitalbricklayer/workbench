@@ -165,7 +165,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstraintExpressionParser.cs" />
+    <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
+    <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />
     <Compile Include="Expressions\VariableDomainExpressionUnit.cs" />
     <Compile Include="Grammars\ConstraintGrammar.cs" />
@@ -214,7 +216,6 @@
     <Compile Include="Nodes\SubscriptNode.cs" />
     <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
-    <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Parsers\ConstraintExpressionParseResult.cs" />
     <Compile Include="Parsers\ConstraintExpressionParseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
