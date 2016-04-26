@@ -82,7 +82,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EightQueensTests.cs" />
+    <Compile Include="EightQueensSolverShould.cs" />
     <Compile Include="Models\AggregateVariableModelTests.cs" />
     <Compile Include="Models\ExpressionConstraintModelTests.cs" />
     <Compile Include="Models\DomainModelTests.cs" />

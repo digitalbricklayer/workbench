@@ -8,12 +8,12 @@ namespace Workbench.Core.Tests.Unit
     /// Test using the 8 Queens problem on a 8x8 chessboard.
     /// </summary>
     [TestFixture]
-    public class EightQueensTests
+    public class EightQueensSolverShould
     {
         private const int ExpectedQueens = 8;
 
         [Test]
-        public void SolveWithFourQueensModelReturnsStatusSuccess()
+        public void SolveWithEightQueensModelReturnsStatusSuccess()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
@@ -21,7 +21,7 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        public void SolveWithFourQueensModelSolutionContainsFourQueens()
+        public void SolveWithEightQueensModelSolutionContainsFourQueens()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
@@ -33,7 +33,7 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        public void SolveWithChessboardVisualizerAssignsFourQueens()
+        public void SolveWithChessboardVisualizerAssignsEightQueens()
         {
             var sut = CreateWorkspace();
             sut.Solve();
