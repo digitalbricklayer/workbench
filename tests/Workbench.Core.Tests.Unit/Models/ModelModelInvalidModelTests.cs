@@ -37,7 +37,6 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = MakeModelWithMissingSharedDomain();
             var validationContext = new ModelValidationContext();
-            sut.Validate();
             sut.Validate(validationContext);
             Assert.That(validationContext.Errors, Is.Not.Empty);
         }
@@ -47,7 +46,6 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = MakeModelWithMissingSharedDomain();
             var validationContext = new ModelValidationContext();
-            sut.Validate();
             sut.Validate(validationContext);
             Assert.That(validationContext.HasErrors, Is.True);
         }
