@@ -71,5 +71,10 @@ namespace Workbench.Core
         {
             // Nothing to do...
         }
+
+        public void Visit(SubscriptStatementNode theNode)
+        {
+            // Nothing to do...
+        }
     }
 }

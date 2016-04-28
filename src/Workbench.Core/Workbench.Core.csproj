@@ -167,6 +167,11 @@
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="Nodes\CounterDeclarationNode.cs" />
+    <Compile Include="Nodes\CounterReferenceNode.cs" />
+    <Compile Include="Nodes\ExpanderScopeNode.cs" />
+    <Compile Include="Nodes\ExpanderStatementNode.cs" />
+    <Compile Include="Nodes\SubscriptStatementNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />
     <Compile Include="Expressions\VariableDomainExpressionUnit.cs" />

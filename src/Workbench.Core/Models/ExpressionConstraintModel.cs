@@ -126,6 +126,8 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theContext != null);
 
+            if (Expression.Node == null) return false;
+
             var validatorVisitor = new ConstraintExpressionValidatorVisitor();
             Expression.Node.Accept(validatorVisitor);
 

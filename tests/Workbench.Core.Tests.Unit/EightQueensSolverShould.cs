@@ -47,17 +47,22 @@ namespace Workbench.Core.Tests.Unit
             var workspace = WorkspaceModel.Create($"{ExpectedQueens} Queens Model")
                                           .AddAggregate("cols", ExpectedQueens, $"1..{ExpectedQueens}")
                                           .WithConstraintAllDifferent("cols")
+#if false
+                                          .WithConstraintExpression("cols[i] != cols[j] | j in 1..i | i in 1..cols.size")
+                                          .WithConstraintExpression("cols[i] + i != cols[j] + j | j in 1..i | i in 1..cols.size")
+                                          .WithConstraintExpression("cols[i] - i} != cols[j] - j | j in 1..i | i in 1..cols.size")
+#endif
                                           .WithChessboardVisualizerBindingTo("cols")
                                           .Build();
 
-            var columnsVariable = (AggregateVariableModel) workspace.Model.GetVariableByName("cols");
+            var columnsVariable = (AggregateVariableModel)workspace.Model.GetVariableByName("cols");
             for (var i = 0; i < columnsVariable.AggregateCount; i++)
             {
                 for (var j = 0; j < i; j++)
                 {
-                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] != cols[{j+1}]"));
-                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] + {i+1} != cols[{j+1}] + {j+1}"));
-                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i+1}] - {i+1} != cols[{j+1}] - {j+1}"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i + 1}] != cols[{j + 1}]"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i + 1}] + {i + 1} != cols[{j + 1}] + {j + 1}"));
+                    workspace.Model.AddConstraint(new ExpressionConstraintModel($"cols[{i + 1}] - {i + 1} != cols[{j + 1}] - {j + 1}"));
                 }
             }
 

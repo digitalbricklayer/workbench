@@ -8,10 +8,7 @@ namespace Workbench.Core.Nodes
     {
         public ConstraintExpressionBaseNode InnerExpression { get; private set; }
 
-        public bool IsLiteral
-        {
-            get { return InnerExpression.IsConstant(); }
-        }
+        public bool IsLiteral => InnerExpression.IsConstant();
 
         public bool IsSingletonReference
         {
@@ -31,15 +28,9 @@ namespace Workbench.Core.Nodes
             }
         }
 
-        public bool IsVarable
-        {
-            get { return IsSingletonReference || IsAggregateReference; }
-        }
+        public bool IsVarable => IsSingletonReference || IsAggregateReference;
 
-        public bool IsExpression
-        {
-            get { return IsSingletonExpression || IsAggregateExpression; }
-        }
+        public bool IsExpression => IsSingletonExpression || IsAggregateExpression;
 
         public bool IsSingletonExpression
         {

@@ -14,5 +14,6 @@ namespace Workbench.Core
         void Visit(VariableNameNode theNode);
         void Visit(SingletonVariableReferenceExpressionNode theNode);
         void Visit(AggregateVariableReferenceExpressionNode theNode);
+        void Visit(SubscriptStatementNode theNode);
     }
 }

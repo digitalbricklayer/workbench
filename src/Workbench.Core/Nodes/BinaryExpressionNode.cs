@@ -1,4 +1,3 @@
-using System;
 using Irony.Ast;
 using Irony.Parsing;
 
@@ -10,6 +9,10 @@ namespace Workbench.Core.Nodes
         public ExpressionNode RightExpression { get; private set; }
         public OperatorType Operator { get; private set; }
 
+        /// <summary>
+        /// Accept a visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
