@@ -1,10 +1,26 @@
+using System;
+using Irony.Ast;
+using Irony.Parsing;
+
 namespace Workbench.Core.Nodes
 {
     public class CounterDeclarationNode : ConstraintExpressionBaseNode
     {
+        public string CounterName { get; private set; }
+
+        /// <summary>
+        /// Accept a visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Visit(this);
+        }
+
+        public override void Init(AstContext context, ParseTreeNode treeNode)
+        {
+            base.Init(context, treeNode);
+            CounterName = Convert.ToString(treeNode.Token.Value);
         }
     }
 }

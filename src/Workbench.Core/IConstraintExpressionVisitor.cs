@@ -15,5 +15,9 @@ namespace Workbench.Core
         void Visit(SingletonVariableReferenceExpressionNode theNode);
         void Visit(AggregateVariableReferenceExpressionNode theNode);
         void Visit(SubscriptStatementNode theNode);
+        void Visit(CounterDeclarationNode theNode);
+        void Visit(ExpanderStatementNode theNode);
+        void Visit(ExpanderScopeNode theNode);
+        void Visit(CounterReferenceNode theNode);
     }
 }

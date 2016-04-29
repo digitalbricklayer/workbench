@@ -76,5 +76,25 @@ namespace Workbench.Core
         {
             // Nothing to do...
         }
+
+        public void Visit(CounterDeclarationNode theNode)
+        {
+            // Nothing to do...
+        }
+
+        public void Visit(ExpanderStatementNode theNode)
+        {
+            // Nothing to do...
+        }
+
+        public void Visit(ExpanderScopeNode theNode)
+        {
+            // Nothing to do...
+        }
+
+        public void Visit(CounterReferenceNode theNode)
+        {
+            // Nothing to do...
+        }
     }
 }
