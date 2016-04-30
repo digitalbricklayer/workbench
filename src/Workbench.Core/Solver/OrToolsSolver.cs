@@ -13,6 +13,7 @@ namespace Workbench.Core.Solver
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private ModelConverter modelConverter;
+        private readonly OrToolsCache cache = new OrToolsCache();
 
         /// <summary>
         /// Solve the problem in the model.
@@ -27,11 +28,11 @@ namespace Workbench.Core.Solver
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
 
-            this.modelConverter = new ModelConverter(this.solver);
+            this.modelConverter = new ModelConverter(this.solver, this.cache);
             modelConverter.ConvertFrom(theModel);
 
             // Search
-            var decisionBuilder = solver.MakePhase(modelConverter.Variables,
+            var decisionBuilder = solver.MakePhase(cache.Variables,
                                                    Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
                                                    Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
             var collector = this.CreateCollector();
@@ -56,14 +57,14 @@ namespace Workbench.Core.Solver
         private SolutionSnapshot ExtractValuesFrom(SolutionCollector solutionCollector)
         {
             var theSnapshot = new SolutionSnapshot();
-            foreach (var variableTuple in this.modelConverter.SingletonVariableMap)
+            foreach (var variableTuple in this.cache.SingletonVariableMap)
             {
                 var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
                 var newValue = new ValueModel(variableTuple.Value.Item1, Convert.ToInt32(boundValue));
                 theSnapshot.AddSingletonValue(newValue);
             }
 
-            foreach (var aggregateTuple in this.modelConverter.AggregateVariableMap)
+            foreach (var aggregateTuple in this.cache.AggregateVariableMap)
             {
                 var newValues = new List<int>();
                 var orVariables = aggregateTuple.Value.Item2;
@@ -82,9 +83,9 @@ namespace Workbench.Core.Solver
         private SolutionCollector CreateCollector()
         {
             var collector = this.solver.MakeFirstSolutionCollector();
-            foreach (var variableTuple in this.modelConverter.SingletonVariableMap)
+            foreach (var variableTuple in this.cache.SingletonVariableMap)
                 collector.Add(variableTuple.Value.Item2);
-            foreach (var variableTuple in this.modelConverter.AggregateVariableMap)
+            foreach (var variableTuple in this.cache.AggregateVariableMap)
             {
                 var variablesInsideAggregate = variableTuple.Value.Item2;
                 foreach (var intVar in variablesInsideAggregate)

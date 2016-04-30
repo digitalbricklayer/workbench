@@ -224,7 +224,10 @@
     <Compile Include="Parsers\ConstraintExpressionParseResult.cs" />
     <Compile Include="Parsers\ConstraintExpressionParseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solver\ExpressionConstraintConverter.cs" />
     <Compile Include="Solver\ModelConverter.cs" />
+    <Compile Include="Solver\OrToolsCache.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />
     <Compile Include="Solver\SolutionSnapshot.cs" />
     <Compile Include="Solver\SolveResult.cs" />
