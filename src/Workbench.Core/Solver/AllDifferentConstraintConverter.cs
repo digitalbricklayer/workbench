@@ -22,7 +22,7 @@ namespace Workbench.Core.Solver
             this.cache = theCache;
         }
 
-        public void HandleAllDifferentConstraint(AllDifferentConstraintModel allDifferentConstraint)
+        public void ProcessConstraint(AllDifferentConstraintModel allDifferentConstraint)
         {
             Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
             var x = this.cache.GetVectorByName(allDifferentConstraint.Variable.Name);

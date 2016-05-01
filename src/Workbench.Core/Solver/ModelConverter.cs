@@ -50,11 +50,11 @@ namespace Workbench.Core.Solver
                 var expressionConstraint = constraint as ExpressionConstraintModel;
                 if (expressionConstraint == null)
                 {
-                    this.allDifferentConstraintConverter.HandleAllDifferentConstraint((AllDifferentConstraintModel)constraint);
+                    this.allDifferentConstraintConverter.ProcessConstraint((AllDifferentConstraintModel)constraint);
                 }
                 else
                 {
-                    this.expressionConstraintConverter.HandleExpressionConstraint(expressionConstraint);
+                    this.expressionConstraintConverter.ProcessConstraint(expressionConstraint);
                 }
             }
         }

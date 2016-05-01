@@ -24,144 +24,82 @@ namespace Workbench.Core.Solver
             this.cache = theCache;
         }
 
-        public void HandleExpressionConstraint(ExpressionConstraintModel expressionConstraint)
+        public void ProcessConstraint(ExpressionConstraintModel expressionConstraint)
         {
             Contract.Requires<ArgumentNullException>(expressionConstraint != null);
-            switch (expressionConstraint.Expression.OperatorType)
+            Constraint newConstraint;
+            var lhsExpr = GetExpressionFrom(expressionConstraint.Expression.Node.InnerExpression.LeftExpression);
+            if (expressionConstraint.Expression.Node.InnerExpression.RightExpression.IsExpression)
+            {
+                var rhsExpr = GetExpressionFrom(expressionConstraint.Expression.Node.InnerExpression.RightExpression);
+                newConstraint = CreateConstraintBy(expressionConstraint.Expression.OperatorType, lhsExpr, rhsExpr);
+            }
+            else if (expressionConstraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
+            {
+                var rhsVariable = GetVariableFrom(expressionConstraint.Expression.Node.InnerExpression.RightExpression);
+                newConstraint = CreateConstraintBy(expressionConstraint.Expression.OperatorType, lhsExpr, rhsVariable);
+            }
+            else
+            {
+                newConstraint = CreateConstraintBy(expressionConstraint.Expression.OperatorType,
+                                                   lhsExpr,
+                                                   expressionConstraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
+            }
+            this.solver.Add(newConstraint);
+        }
+
+        private Constraint CreateConstraintBy(OperatorType operatorType, IntExpr lhsExpr, IntExpr rhsExpr)
+        {
+            switch (operatorType)
             {
                 case OperatorType.Equals:
-                    HandleEqualsOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeEquality(lhsExpr, rhsExpr);
 
                 case OperatorType.NotEqual:
-                    HandleNotEqualOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeNonEquality(lhsExpr, rhsExpr);
 
                 case OperatorType.GreaterThanOrEqual:
-                    HandleGreaterThanOrEqualOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeGreaterOrEqual(lhsExpr, rhsExpr);
 
                 case OperatorType.LessThanOrEqual:
-                    HandleLessThanOrEqualOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeLessOrEqual(lhsExpr, rhsExpr);
 
                 case OperatorType.Greater:
-                    HandleGreaterOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeGreater(lhsExpr, rhsExpr);
 
                 case OperatorType.Less:
-                    HandleLessOperator(expressionConstraint);
-                    break;
+                    return this.solver.MakeLess(lhsExpr, rhsExpr);
 
                 default:
                     throw new NotImplementedException("Not sure how to represent this operator type.");
             }
         }
 
-        private void HandleEqualsOperator(ExpressionConstraintModel constraint)
+        private Constraint CreateConstraintBy(OperatorType operatorType, IntExpr lhsExpr, int rhs)
         {
-            Constraint equalsConstraint;
-            var lhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
+            switch (operatorType)
             {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                equalsConstraint = this.solver.MakeEquality(lhsVariable, rhsVariable);
-            }
-            else
-            {
-                equalsConstraint = this.solver.MakeEquality(lhsVariable,
-                                                            constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(equalsConstraint);
-        }
+                case OperatorType.Equals:
+                    return this.solver.MakeEquality(lhsExpr, rhs);
 
-        private void HandleNotEqualOperator(ExpressionConstraintModel constraint)
-        {
-            Constraint notEqualConstraint;
-            var lhsExpr = GetExpressionFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsExpression)
-            {
-                var rhsExpr = GetExpressionFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                notEqualConstraint = this.solver.MakeNonEquality(lhsExpr, rhsExpr);
-            }
-            else if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
-            {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                notEqualConstraint = this.solver.MakeNonEquality(lhsExpr, rhsVariable);
-            }
-            else
-            {
-                notEqualConstraint = this.solver.MakeNonEquality(lhsExpr,
-                                                                 constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(notEqualConstraint);
-        }
+                case OperatorType.NotEqual:
+                    return this.solver.MakeNonEquality(lhsExpr, rhs);
 
-        private void HandleLessOperator(ExpressionConstraintModel constraint)
-        {
-            Constraint lessConstraint;
-            var lhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
-            {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                lessConstraint = this.solver.MakeLess(lhsVariable, rhsVariable);
-            }
-            else
-            {
-                lessConstraint = this.solver.MakeLess(lhsVariable,
-                                                      constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(lessConstraint);
-        }
+                case OperatorType.GreaterThanOrEqual:
+                    return this.solver.MakeGreaterOrEqual(lhsExpr, rhs);
 
-        private void HandleGreaterOperator(ExpressionConstraintModel constraint)
-        {
-            Constraint greaterConstraint;
-            var lhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
-            {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                greaterConstraint = this.solver.MakeGreater(lhsVariable, rhsVariable);
-            }
-            else
-            {
-                greaterConstraint = this.solver.MakeGreater(lhsVariable,
-                                                            constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(greaterConstraint);
-        }
+                case OperatorType.LessThanOrEqual:
+                    return this.solver.MakeLessOrEqual(lhsExpr, rhs);
 
-        private void HandleLessThanOrEqualOperator(ExpressionConstraintModel constraint)
-        {
-            Constraint lessThanOrEqualConstraint;
-            var lhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
-            {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable, rhsVariable);
-            }
-            else
-            {
-                lessThanOrEqualConstraint = this.solver.MakeLessOrEqual(lhsVariable,
-                                                                        constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(lessThanOrEqualConstraint);
-        }
+                case OperatorType.Greater:
+                    return this.solver.MakeGreater(lhsExpr, rhs);
 
-        private void HandleGreaterThanOrEqualOperator(ExpressionConstraintModel constraint)
-        {
-            Constraint greaterThanOrEqualConstraint;
-            var lhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.LeftExpression);
-            if (constraint.Expression.Node.InnerExpression.RightExpression.IsVarable)
-            {
-                var rhsVariable = GetVariableFrom(constraint.Expression.Node.InnerExpression.RightExpression);
-                greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, rhsVariable);
+                case OperatorType.Less:
+                    return this.solver.MakeLess(lhsExpr, rhs);
+
+                default:
+                    throw new NotImplementedException("Not sure how to represent this operator type.");
             }
-            else
-            {
-                greaterThanOrEqualConstraint = this.solver.MakeGreaterOrEqual(lhsVariable, constraint.Expression.Node.InnerExpression.RightExpression.GetLiteral());
-            }
-            this.solver.Add(greaterThanOrEqualConstraint);
         }
 
         private IntExpr GetExpressionFrom(ExpressionNode theExpression)
