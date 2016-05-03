@@ -96,6 +96,7 @@
     <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solver\OrToolsSolverWithSingleLevelRepeaterShould.cs" />
     <Compile Include="Solver\OrToolsSolverAggregateTests.cs" />
     <Compile Include="Solver\OrToolsSolverAllDifferentTests.cs" />
     <Compile Include="Solver\OrToolsSolverExpressionTests.cs" />

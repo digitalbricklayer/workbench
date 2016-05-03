@@ -32,14 +32,14 @@ namespace Workbench.Core.Solver
             modelConverter.ConvertFrom(theModel);
 
             // Search
-            var decisionBuilder = solver.MakePhase(cache.Variables,
+            var decisionBuilder = solver.MakePhase(this.cache.Variables,
                                                    Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
                                                    Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
-            var collector = this.CreateCollector();
+            var collector = CreateCollector();
             var solveResult = this.solver.Solve(decisionBuilder, collector);
             if (!solveResult) return SolveResult.Failed;
 
-            var theSolutionSnapshot = this.ExtractValuesFrom(collector);
+            var theSolutionSnapshot = ExtractValuesFrom(collector);
             var solveDuration = TimeSpan.FromMilliseconds(this.solver.WallTime());
             return new SolveResult(SolveStatus.Success, solveDuration, theSolutionSnapshot);
         }

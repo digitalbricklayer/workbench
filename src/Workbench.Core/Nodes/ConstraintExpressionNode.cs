@@ -22,6 +22,11 @@ namespace Workbench.Core.Nodes
         /// </summary>
         public bool IsEmpty => InnerExpression == null;
 
+        /// <summary>
+        /// Get whether the constraint has an expander.
+        /// </summary>
+        public bool HasExpander => Expander != null;
+
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
