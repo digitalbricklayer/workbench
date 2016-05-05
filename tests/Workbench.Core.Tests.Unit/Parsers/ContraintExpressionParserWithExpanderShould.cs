@@ -7,10 +7,18 @@ namespace Workbench.Core.Tests.Unit.Parsers
     public class ContraintExpressionParserWithExpanderShould
     {
         [Test]
-        public void ParseWithSimpleExpanderExpressionReturnsStutusSuccess()
+        public void ParseWithSingleLevelExpanderExpressionReturnsStutusSuccess()
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] <> x[i] + 1 | i in 1..10");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+        }
+
+        [Test]
+        public void ParseWithMultiLevelExpanderExpressionReturnsStutusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..10");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
         }
 

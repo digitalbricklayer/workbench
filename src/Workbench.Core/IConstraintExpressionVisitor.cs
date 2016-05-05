@@ -19,5 +19,6 @@ namespace Workbench.Core
         void Visit(ExpanderStatementNode theNode);
         void Visit(ExpanderScopeNode theNode);
         void Visit(CounterReferenceNode theNode);
+        void Visit(MultiRepeaterStatementNode theNode);
     }
 }

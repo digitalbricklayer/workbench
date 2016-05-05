@@ -15,7 +15,7 @@ namespace Workbench.Core.Nodes
         /// The expander is an optional part of the constraint expression so 
         /// may be Null.
         /// </remarks>
-        public ExpanderStatementNode Expander { get; private set; }
+        public MultiRepeaterStatementNode Expander { get; private set; }
 
         /// <summary>
         /// Gets whether the expression is empty.
@@ -43,7 +43,7 @@ namespace Workbench.Core.Nodes
             if (treeNode.ChildNodes.Count < 2) return;
             var expanderChildNodes = treeNode.ChildNodes[1].ChildNodes;
             if (expanderChildNodes.Any())
-                Expander = (ExpanderStatementNode) AddChild("Expander", treeNode.ChildNodes[1]);
+                Expander = (MultiRepeaterStatementNode) AddChild("Expander", treeNode.ChildNodes[1]);
         }
     }
 }

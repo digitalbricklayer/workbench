@@ -171,6 +171,9 @@
     <Compile Include="Nodes\CounterReferenceNode.cs" />
     <Compile Include="Nodes\ExpanderScopeNode.cs" />
     <Compile Include="Nodes\ExpanderStatementNode.cs" />
+    <Compile Include="Nodes\MultiCounterDeclarationNode.cs" />
+    <Compile Include="Nodes\MultiRepeaterStatementNode.cs" />
+    <Compile Include="Nodes\MultiScopeDeclarationNode.cs" />
     <Compile Include="Nodes\SubscriptStatementNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />

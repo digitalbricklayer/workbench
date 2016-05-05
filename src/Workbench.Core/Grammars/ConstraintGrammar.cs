@@ -29,6 +29,8 @@ namespace Workbench.Core.Grammars
             var PLUS = ToTerm("+");
             var MINUS = ToTerm("-");
             var PIPE = ToTerm("|");
+            var COUNTER_SEPERATOR = ToTerm(",");
+            var RANGE_SEPERATOR = ToTerm(",");
 
             var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
             var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
@@ -69,14 +71,20 @@ namespace Workbench.Core.Grammars
             var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
             expanderScopeStatement.Rule = literal + ".." + literal;
 
-            var expanderStatement = new NonTerminal("expander statement", typeof(ExpanderStatementNode));
-            expanderStatement.Rule = PIPE + counterDeclaration + "in" + expanderScopeStatement | Empty;
+            var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
+            multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
+
+            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
+            multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
+
+            var multiExpanderStatement = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
+            multiExpanderStatement.Rule = PIPE + multiCounterDeclaration + "in" + multiExpanderScopeStatement | Empty;
 
             var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
             binaryExpression.Rule = expression + binaryOperators + expression;
 
             var constraintExpression = new NonTerminal("constraint expression", typeof(ConstraintExpressionNode));
-            constraintExpression.Rule = binaryExpression + expanderStatement | Empty;
+            constraintExpression.Rule = binaryExpression + multiExpanderStatement | Empty;
 
             this.Root = constraintExpression;
 

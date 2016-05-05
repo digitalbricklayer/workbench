@@ -96,5 +96,10 @@ namespace Workbench.Core
         {
             // Nothing to do...
         }
+
+        public void Visit(MultiRepeaterStatementNode theNode)
+        {
+            // Nothing to do...
+        }
     }
 }

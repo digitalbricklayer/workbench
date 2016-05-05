@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
-using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {

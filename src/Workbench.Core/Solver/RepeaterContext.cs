@@ -1,12 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
     internal class RepeaterContext
     {
-        private CounterContext counter;
+        private readonly IList<CounterContext> counters;
+        private bool firstIterationPassed;
 
         /// <summary>
         /// Initialize a repeater context from the constraint.
@@ -15,39 +20,86 @@ namespace Workbench.Core.Solver
         public RepeaterContext(ExpressionConstraintModel theConstraint)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
-            this.Constraint = theConstraint;
-            CreateCounterFrom(theConstraint);
+            Constraint = theConstraint;
+            this.counters = new List<CounterContext>();
+            if (!theConstraint.Expression.Node.HasExpander) return;
+            CreateCounterContextsFrom(theConstraint.Expression.Node.Expander);
         }
 
-        /// <summary>
-        /// Gets the counter contexts.
-        /// </summary>
-        /// <remarks>Will be null if no repeater is present.</remarks>
-        public CounterContext Counter => this.counter;
+        public IReadOnlyCollection<CounterContext> Counters
+        {
+            get { return new ReadOnlyCollection<CounterContext>(counters); }
+        }
 
         /// <summary>
         /// Gets whether there are any repeaters.
         /// </summary>
-        public bool HasRepeaters => Counter != null;
+        public bool HasRepeaters => Counters.Any();
 
         /// <summary>
         /// Gets the constraint.
         /// </summary>
         public ExpressionConstraintModel Constraint { get; private set; }
 
-        private void CreateCounterFrom(ExpressionConstraintModel theConstraint)
+        /// <summary>
+        /// Move to the next counter value.
+        /// </summary>
+        /// <returns>True if a new counter value is available. False if no new counter values are available.</returns>
+        public bool Next()
         {
-            if (!theConstraint.Expression.Node.HasExpander) return;
-            AddCounter(new CounterContext(theConstraint.Expression.Node.Expander.CounterDeclaration.CounterName,
-                                          new CounterRange(theConstraint.Expression.Node.Expander.ExpanderScope.Start.Value,
-                                                           theConstraint.Expression.Node.Expander.ExpanderScope.End.Value)));
+            if (!firstIterationPassed)
+            {
+                InitializeAllCounters();
+                firstIterationPassed = true;
+
+                return true;
+            }
+
+            // Get the right most counter and go to the next iteration...
+            for (var i = this.counters.Count - 1; i >= 0; i--)
+            {
+                var currentCounterStatus = this.counters[i].Next();
+                if (currentCounterStatus) return true;
+                
+                // Is there another counter...
+                if (i == 0)
+                    break;
+
+                // Try another counter...
+                var previousCounter = this.counters[i - 1];
+                var previousCounterStatus = previousCounter.Next();
+                if (previousCounterStatus)
+                {
+                    counters[i].Reset();
+                    counters[i].Next();
+                    return true;
+                }
+
+                break;
+            }
+
+            return false;
         }
 
-        private void AddCounter(CounterContext newCounterContext)
+        private void CreateCounterContextsFrom(MultiRepeaterStatementNode theRepeater)
         {
-            Contract.Requires<ArgumentNullException>(newCounterContext != null);
-            Contract.Assume(this.counter == null);
-            this.counter = newCounterContext;
+            for (var i = 0; i < theRepeater.CounterDeclarations.CounterDeclarations.Count; i++)
+            {
+                var currentCounterDeclaration = theRepeater.CounterDeclarations.CounterDeclarations.ElementAt(i);
+                var currentScopeDeclaration = theRepeater.ScopeDeclarations.ScopeDeclarations.ElementAt(i);
+                var newCounter = new CounterContext(currentCounterDeclaration.CounterName,
+                                                    new CounterRange(currentScopeDeclaration.Start.Value,
+                                                                     currentScopeDeclaration.End.Value));
+                this.counters.Add(newCounter);
+            }
+        }
+
+        private void InitializeAllCounters()
+        {
+            foreach (var aCounter in Counters)
+            {
+                aCounter.Next();
+            }
         }
     }
 }

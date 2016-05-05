@@ -36,12 +36,11 @@ namespace Workbench.Core.Solver
             else
             {
                 var expressionTemplateWoutExpanderText = StripExpanderFrom(theContext.Constraint.Expression.Text);
-                for (var i = theContext.Counter.Range.Low; i <= theContext.Counter.Range.High; i++)
+                while (theContext.Next())
                 {
-                    var expressionText = InsertCounterValueInto(expressionTemplateWoutExpanderText, theContext.Counter.CurrentValue);
-                    var x = new ConstraintExpressionParser().Parse(expressionText);
-                    ProcessSimpleConstraint(x.Root);
-                    theContext.Counter.Next();
+                    var expressionText = InsertCounterValuesInto(expressionTemplateWoutExpanderText);
+                    var expandedConstraintExpressionResult = new ConstraintExpressionParser().Parse(expressionText);
+                    ProcessSimpleConstraint(expandedConstraintExpressionResult.Root);
                 }
             }
         }
@@ -200,9 +199,23 @@ namespace Workbench.Core.Solver
             return raw.Trim();
         }
 
-        private string InsertCounterValueInto(string expressionTemplateText, int counterValue)
+        private string InsertCounterValuesInto(string expressionTemplateText)
         {
-            var counterName = this.context.Counter.CounterName;
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionTemplateText));
+
+            var accumulatingTemplateText = expressionTemplateText;
+            foreach (var aCounter in this.context.Counters)
+            {
+                accumulatingTemplateText = InsertCounterValueInto(accumulatingTemplateText,
+                                                                  aCounter.CounterName,
+                                                                  aCounter.CurrentValue);
+            }
+
+            return accumulatingTemplateText;
+        }
+
+        private string InsertCounterValueInto(string expressionTemplateText, string counterName, int counterValue)
+        {
             return expressionTemplateText.Replace(counterName, Convert.ToString(counterValue));
         }
     }
