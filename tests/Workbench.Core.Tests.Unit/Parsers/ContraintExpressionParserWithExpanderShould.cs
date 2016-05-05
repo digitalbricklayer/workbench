@@ -22,6 +22,14 @@ namespace Workbench.Core.Tests.Unit.Parsers
             Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
         }
 
+        [Test]
+        public void ParseWithMultiLevelExpanderUsingVariableExpressionReturnsStutusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..i");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+        }
+
         private static ConstraintExpressionParser CreateSut()
         {
             return new ConstraintExpressionParser();

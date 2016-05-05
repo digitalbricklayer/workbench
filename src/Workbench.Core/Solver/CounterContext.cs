@@ -39,7 +39,7 @@ namespace Workbench.Core.Solver
         /// the range has been reached.</returns>
         public bool Next()
         {
-            if (CurrentValue == Range.High) return false;
+            if (CurrentValue == Range.High.GetValue()) return false;
             CurrentValue++;
 
             return true;
@@ -50,7 +50,7 @@ namespace Workbench.Core.Solver
         /// </summary>
         public void Reset()
         {
-            CurrentValue = Range.Low - 1;
+            CurrentValue = Range.Low.GetValue() - 1;
         }
     }
 }

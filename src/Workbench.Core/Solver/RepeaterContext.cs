@@ -88,8 +88,8 @@ namespace Workbench.Core.Solver
                 var currentCounterDeclaration = theRepeater.CounterDeclarations.CounterDeclarations.ElementAt(i);
                 var currentScopeDeclaration = theRepeater.ScopeDeclarations.ScopeDeclarations.ElementAt(i);
                 var newCounter = new CounterContext(currentCounterDeclaration.CounterName,
-                                                    new CounterRange(currentScopeDeclaration.Start.Value,
-                                                                     currentScopeDeclaration.End.Value));
+                                                    new CounterRange(CreateValueSourceFrom(currentScopeDeclaration.Start),
+                                                                     CreateValueSourceFrom(currentScopeDeclaration.End)));
                 this.counters.Add(newCounter);
             }
         }
@@ -100,6 +100,18 @@ namespace Workbench.Core.Solver
             {
                 aCounter.Next();
             }
+        }
+
+        private ILimitValueSource CreateValueSourceFrom(ScopeLimitSatementNode limitNode)
+        {
+            Contract.Requires<ArgumentNullException>(limitNode != null);
+            if (limitNode.IsLiteral) return new LiteralLimitValueSource(limitNode.Literal);
+            if (limitNode.IsCounterReference)
+            {
+                var x = Counters.First(_ => _.CounterName == limitNode.CounterReference.CounterName);
+                return new CounterLimitValueSource(x);
+            }
+            throw new NotImplementedException("Only support literals and counters as scope limits.");
         }
     }
 }

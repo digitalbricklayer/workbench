@@ -68,8 +68,11 @@ namespace Workbench.Core.Grammars
             var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
 
+            var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
+            scopeLimitStatement.Rule = literal | counterReference;
+
             var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
-            expanderScopeStatement.Rule = literal + ".." + literal;
+            expanderScopeStatement.Rule = scopeLimitStatement + ".." + scopeLimitStatement;
 
             var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
             multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
