@@ -25,8 +25,8 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
                 var c = actualSnapshot.GetAggregateVariableValueByName("c");
-                Assert.That(c.GetValueAt(1), Is.LessThan(c.GetValueAt(10)));
-                Assert.That(c.GetValueAt(2), Is.GreaterThan(c.GetValueAt(9)));
+                Assert.That(c.GetValueAt(0), Is.LessThan(c.GetValueAt(9)));
+                Assert.That(c.GetValueAt(1), Is.GreaterThan(c.GetValueAt(8)));
             }
         }
 
@@ -50,7 +50,7 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
                 var c = actualSnapshot.GetAggregateVariableValueByName("c");
-                Assert.That(c.GetValueAt(1), Is.InRange(1, 9));
+                Assert.That(c.GetValueAt(0), Is.InRange(1, 9));
             }
         }
 
@@ -73,8 +73,8 @@ namespace Workbench.Core.Tests.Unit.Solver
         {
             var workspace = WorkspaceModel.Create("An aggregate test")
                                           .AddAggregate("c", 10, "1..9")
-                                          .WithConstraintExpression("c[1] < c[10]")
-                                          .WithConstraintExpression("c[2] > c[9]")
+                                          .WithConstraintExpression("c[0] < c[9]")
+                                          .WithConstraintExpression("c[1] > c[8]")
                                           .Build();
 
             return workspace.Model;

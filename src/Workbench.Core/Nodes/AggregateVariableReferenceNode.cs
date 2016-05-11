@@ -1,4 +1,3 @@
-using System.Diagnostics.Contracts;
 using Irony.Ast;
 using Irony.Parsing;
 
@@ -6,22 +5,14 @@ namespace Workbench.Core.Nodes
 {
     public class AggregateVariableReferenceNode : ConstraintExpressionBaseNode
     {
+        /// <summary>
+        /// Gets the aggregate variable name.
+        /// </summary>
         public string VariableName { get; private set; }
 
-#if true
         /// <summary>
-        /// This is obsolete but retain to keep the compiler happy...
+        /// Gets the subscript statement.
         /// </summary>
-        public int Subscript
-        {
-            get
-            {
-                Contract.Assume(SubscriptStatement.IsSubscript);
-                return SubscriptStatement.Subscript;
-            }
-        }
-#endif
-
         public SubscriptStatementNode SubscriptStatement { get; private set; }
 
         /// <summary>

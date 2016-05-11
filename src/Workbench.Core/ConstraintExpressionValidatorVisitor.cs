@@ -101,5 +101,10 @@ namespace Workbench.Core
         {
             // Nothing to do...
         }
+
+        public void Visit(InfixStatementNode theNode)
+        {
+            // Nothing to do...
+        }
     }
 }

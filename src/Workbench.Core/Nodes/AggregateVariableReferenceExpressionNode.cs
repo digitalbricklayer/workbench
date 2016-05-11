@@ -7,7 +7,7 @@ namespace Workbench.Core.Nodes
     {
         public AggregateVariableReferenceNode VariableReference { get; private set; }
         public VariableExpressionOperatorType Operator { get; private set; }
-        public LiteralNode Literal { get; private set; }
+        public InfixStatementNode InfixStatement { get; private set; }
 
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
@@ -20,7 +20,7 @@ namespace Workbench.Core.Nodes
             base.Init(context, treeNode);
             VariableReference = (AggregateVariableReferenceNode) AddChild("Variable Reference", treeNode.ChildNodes[0]);
             Operator = VariableExpressionOperatorParser.ParseFrom(treeNode.ChildNodes[1].FindTokenAndGetText());
-            Literal = (LiteralNode)AddChild("Literal", treeNode.ChildNodes[2]);
+            InfixStatement = (InfixStatementNode) AddChild("Infix Statement", treeNode.ChildNodes[2]);
         }
     }
 }

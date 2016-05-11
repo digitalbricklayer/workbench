@@ -39,6 +39,8 @@ namespace Workbench.Core.Grammars
             var counterReference = new RegexBasedTerminal("counter reference", CounterRegexPattern);
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
 
+            var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
+            infixStatement.Rule = literal | counterReference;
             var infixOperators = new NonTerminal("infix");
             infixOperators.Rule = PLUS | MINUS;
             var subscriptStatement = new NonTerminal("subscript statement", typeof(SubscriptStatementNode));
@@ -47,13 +49,13 @@ namespace Workbench.Core.Grammars
             aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE;
 
             var aggregateVariableReferenceExpression = new NonTerminal("aggregate expression", typeof(AggregateVariableReferenceExpressionNode));
-            aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperators + literal;
+            aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperators + infixStatement;
 
             var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof(SingletonVariableReferenceNode));
             singletonVariableReference.Rule = variableName;
 
             var singletonVariableReferenceExpression = new NonTerminal("singleton expression", typeof(SingletonVariableReferenceExpressionNode));
-            singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperators + literal;
+            singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperators + infixStatement;
 
             var binaryOperators = new NonTerminal("binary operators", "operator");
             binaryOperators.Rule = EQUALS |
@@ -71,8 +73,11 @@ namespace Workbench.Core.Grammars
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
             scopeLimitStatement.Rule = literal | counterReference;
 
+            var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
+            expanderCountStatement.Rule = literal | counterReference;
+
             var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
-            expanderScopeStatement.Rule = scopeLimitStatement + ".." + scopeLimitStatement;
+            expanderScopeStatement.Rule = scopeLimitStatement + ".." + scopeLimitStatement | expanderCountStatement;
 
             var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
             multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);

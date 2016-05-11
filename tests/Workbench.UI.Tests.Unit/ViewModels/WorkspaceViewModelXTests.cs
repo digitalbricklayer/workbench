@@ -73,7 +73,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             workspaceViewModel.Model.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableModel("y", 2, new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
             workspaceViewModel.Model.AddConstraint(new ConstraintViewModel(new ExpressionConstraintModel("x", "x > 1")));
             workspaceViewModel.Model.AddConstraint(new ConstraintViewModel(new ExpressionConstraintModel("aggregates must be different",
-                                                                                                         "y[1] <> y[2]")));
+                                                                                                         "y[0] <> y[1]")));
 
             return workspaceViewModel;
         }

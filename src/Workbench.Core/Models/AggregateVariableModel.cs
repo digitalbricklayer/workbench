@@ -42,7 +42,7 @@ namespace Workbench.Core.Models
             this.DomainExpression = theDomainExpression;
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i + 1);
+                this.variables[i] = this.CreateNewVariableAt(i);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Workbench.Core.Models
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i + 1);
+                this.variables[i] = this.CreateNewVariableAt(i);
         }
 
         /// <summary>
@@ -179,31 +179,32 @@ namespace Workbench.Core.Models
             var newAggregateCount = originalAggregateSize > newAggregateSize ? newAggregateSize : originalAggregateSize;
             // Fill the new array elements with a default variable model
             for (var i = newAggregateCount; i < newAggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i+1);
+                this.variables[i] = CreateNewVariableAt(i);
         }
 
         /// <summary>
         /// Get the variable at the one based index.
         /// </summary>
-        /// <param name="variableIndex">Variable index starts at one.</param>
+        /// <param name="variableIndex">Variable index starts at zero.</param>
         /// <returns>Variable at the index.</returns>
         public VariableModel GetVariableByIndex(int variableIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex <= this.Variables.Count());
-            return this.variables[variableIndex-1];
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count()
+                                                           && variableIndex >= 0);
+            return this.variables[variableIndex];
         }
 
         /// <summary>
         /// Overrides a variable domain expression to a new domain expression.
         /// </summary>
-        /// <param name="variableIndex">Variable index starts at one.</param>
+        /// <param name="variableIndex">Variable index starts at zero.</param>
         /// <param name="newDomainExpression">New domain expression.</param>
         public void OverrideDomainTo(int variableIndex, VariableDomainExpressionModel newDomainExpression)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex <= this.Variables.Count());
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < Variables.Count());
             Contract.Requires<ArgumentNullException>(newDomainExpression != null);
 
-            var variableToOverride = this.GetVariableByIndex(variableIndex);
+            var variableToOverride = GetVariableByIndex(variableIndex);
             if (!variableToOverride.DomainExpression.IsEmpty)
             {
                 if (!variableToOverride.DomainExpression.Intersects(newDomainExpression))
@@ -216,12 +217,12 @@ namespace Workbench.Core.Models
         /// Create a new variable.
         /// </summary>
         /// <param name="index">Index of the new variable.</param>
-        /// <returns>Variable.</returns>
+        /// <returns>A new variable.</returns>
         private VariableModel CreateNewVariableAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
+            Contract.Requires<ArgumentOutOfRangeException>(index < this.variables.Length);
 
-            return new VariableModel(this.GetVariableNameFor(index), this.DomainExpression);
+            return new VariableModel(GetVariableNameFor(index), DomainExpression);
         }
 
         /// <summary>
@@ -231,8 +232,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable name.</returns>
         private string GetVariableNameFor(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index > 0);
-            Contract.Assume(this.Name != null);
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+            Contract.Assume(Name != null);
 
             return this.Name + index;
         }

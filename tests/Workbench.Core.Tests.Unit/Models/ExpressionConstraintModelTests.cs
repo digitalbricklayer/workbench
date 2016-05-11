@@ -65,7 +65,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = new ExpressionConstraintModel("xx[1] > 1");
             var leftVariableReference = (AggregateVariableReferenceNode)sut.Expression.Node.InnerExpression.LeftExpression.InnerExpression;
-            Assert.That(leftVariableReference.Subscript, Is.EqualTo(1));
+            Assert.That(leftVariableReference.SubscriptStatement.Subscript, Is.EqualTo(1));
         }
 
         [Test]

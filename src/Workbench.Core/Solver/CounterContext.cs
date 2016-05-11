@@ -6,15 +6,14 @@ namespace Workbench.Core.Solver
     /// <summary>
     /// Tracks the value of a counter.
     /// </summary>
-    internal class CounterContext
+    internal class CounterContext : ICounterIterator
     {
-        public CounterContext(string theCounterName, CounterRange theRange)
+        public CounterContext(string theCounterName, ICounterIterator theCounter)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theCounterName));
-            Contract.Requires<ArgumentNullException>(theRange != null);
+            Contract.Requires<ArgumentNullException>(theCounter != null);
             CounterName = theCounterName;
-            Range = theRange;
-            Reset();
+            Counter = theCounter;
         }
 
         /// <summary>
@@ -23,14 +22,14 @@ namespace Workbench.Core.Solver
         public string CounterName { get; private set; }
 
         /// <summary>
-        /// Gets the counter's current value.
-        /// </summary>
-        public int CurrentValue { get; private set; }
-
-        /// <summary>
         /// Gets the counter range of values.
         /// </summary>
-        public CounterRange Range { get; private set; }
+        public ICounterIterator Counter { get; private set; }
+
+        /// <summary>
+        /// Gets the counter's current value.
+        /// </summary>
+        public int CurrentValue => Counter.CurrentValue;
 
         /// <summary>
         /// Advance the counter to the next value of the range.
@@ -39,18 +38,15 @@ namespace Workbench.Core.Solver
         /// the range has been reached.</returns>
         public bool Next()
         {
-            if (CurrentValue == Range.High.GetValue()) return false;
-            CurrentValue++;
-
-            return true;
+            return Counter.Next();
         }
 
         /// <summary>
-        /// Reset the current value to its initial position.
+        /// Reset the current value to its default position.
         /// </summary>
         public void Reset()
         {
-            CurrentValue = Range.Low.GetValue() - 1;
+            Counter.Reset();
         }
     }
 }

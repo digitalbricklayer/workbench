@@ -47,8 +47,8 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = new AggregateVariableModel("A test", 10, "1..10");
             sut.Resize(10);
-            sut.OverrideDomainTo(10, new VariableDomainExpressionModel("1..5"));
-            var actualVariable = sut.GetVariableByIndex(10);
+            sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
+            var actualVariable = sut.GetVariableByIndex(9);
             Assert.That(actualVariable.DomainExpression.Text, Is.EqualTo("1..5"));
         }
 
@@ -57,8 +57,8 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = new AggregateVariableModel("A test", 2, "1..10");
             sut.Resize(10);
-            sut.OverrideDomainTo(10, new VariableDomainExpressionModel("1..5"));
-            Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(10, new VariableDomainExpressionModel("8..11")));
+            sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
+            Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(9, new VariableDomainExpressionModel("8..11")));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = new AggregateVariableModel("A test", 1, "1..10");
             sut.Resize(10);
-            Assert.Throws<ArgumentOutOfRangeException>(() => sut.OverrideDomainTo(11, new VariableDomainExpressionModel("8..10")));
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.OverrideDomainTo(10, new VariableDomainExpressionModel("8..10")));
         }
 
         [Test]

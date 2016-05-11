@@ -48,12 +48,12 @@ namespace Workbench.Core.Solver
         public IntVar GetAggregateVariableByName(string theVariableName, int index)
         {
             var orVariables = this.aggregateVariableMap[theVariableName].Item2;
-            return orVariables[index - 1];
+            return orVariables[index];
         }
 
         public void AddVariable(IntVar orVar)
         {
-            this.Variables.Add(orVar);
+            Variables.Add(orVar);
         }
     }
 }

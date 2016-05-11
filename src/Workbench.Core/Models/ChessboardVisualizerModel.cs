@@ -31,7 +31,7 @@ namespace Workbench.Core.Models
             {
                 for (var y = 1; y <= theValue.Values.Count; y++)
                 {
-                    if (theValue.GetValueAt(x) == y)
+                    if (theValue.GetValueAt(x-1) == y)
                     {
                         // A square with a queen
                         var squareLocation = new Point(x, y);

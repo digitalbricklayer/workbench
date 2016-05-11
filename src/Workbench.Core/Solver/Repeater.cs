@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -32,7 +33,9 @@ namespace Workbench.Core.Solver
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
             if (!theContext.HasRepeaters)
+            {
                 ProcessSimpleConstraint(theContext.Constraint.Expression.Node);
+            }
             else
             {
                 var expressionTemplateWoutExpanderText = StripExpanderFrom(theContext.Constraint.Expression.Text);
@@ -134,29 +137,29 @@ namespace Workbench.Core.Solver
             {
                 IntExpr variableExpression;
                 VariableExpressionOperatorType op;
-                LiteralNode literal;
+                InfixStatementNode infixStatement;
                 if (theExpression.IsSingletonExpression)
                 {
                     var singletonExpression = (SingletonVariableReferenceExpressionNode)theExpression.InnerExpression;
                     variableExpression = GetVariableFrom((SingletonVariableReferenceExpressionNode)theExpression.InnerExpression);
                     op = singletonExpression.Operator;
-                    literal = singletonExpression.Literal;
+                    infixStatement = singletonExpression.InfixStatement;
                 }
                 else
                 {
                     var aggregateExpression = (AggregateVariableReferenceExpressionNode)theExpression.InnerExpression;
                     variableExpression = GetVariableFrom((AggregateVariableReferenceExpressionNode)theExpression.InnerExpression);
                     op = aggregateExpression.Operator;
-                    literal = aggregateExpression.Literal;
+                    infixStatement = aggregateExpression.InfixStatement;
                 }
 
                 switch (op)
                 {
                     case VariableExpressionOperatorType.Add:
-                        return this.solver.MakeSum(variableExpression, literal.Value);
+                        return this.solver.MakeSum(variableExpression, GetValueFrom(infixStatement));
 
                     case VariableExpressionOperatorType.Minus:
-                        return this.solver.MakeSum(variableExpression, -literal.Value);
+                        return this.solver.MakeSum(variableExpression, -GetValueFrom(infixStatement));
 
                     default:
                         throw new NotImplementedException();
@@ -179,12 +182,12 @@ namespace Workbench.Core.Solver
             }
 
             var aggregateVariableReference = (AggregateVariableReferenceNode)theExpression.InnerExpression;
-            return this.cache.GetAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.Subscript);
+            return this.cache.GetAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.SubscriptStatement.Subscript);
         }
 
         private IntExpr GetVariableFrom(AggregateVariableReferenceExpressionNode aggregateExpression)
         {
-            return this.cache.GetAggregateVariableByName(aggregateExpression.VariableReference.VariableName, aggregateExpression.VariableReference.Subscript);
+            return this.cache.GetAggregateVariableByName(aggregateExpression.VariableReference.VariableName, aggregateExpression.VariableReference.SubscriptStatement.Subscript);
         }
 
         private IntExpr GetVariableFrom(SingletonVariableReferenceExpressionNode singletonExpression)
@@ -217,6 +220,16 @@ namespace Workbench.Core.Solver
         private string InsertCounterValueInto(string expressionTemplateText, string counterName, int counterValue)
         {
             return expressionTemplateText.Replace(counterName, Convert.ToString(counterValue));
+        }
+
+        private int GetValueFrom(InfixStatementNode infixStatement)
+        {
+            Contract.Requires<ArgumentNullException>(infixStatement != null);
+            Contract.Requires<ArgumentException>(infixStatement.IsCounterReference ||
+                                                 infixStatement.IsLiteral);
+            if (infixStatement.IsLiteral) return infixStatement.Literal.Value;
+            var counter = context.Counters.First(_ => _.CounterName == infixStatement.CounterReference.CounterName);
+            return counter.CurrentValue;
         }
     }
 }

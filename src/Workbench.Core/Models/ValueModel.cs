@@ -66,7 +66,7 @@ namespace Workbench.Core.Models
             get
             {
                 Contract.Assume(this.values != null);
-                return this.GetValueAt(1);
+                return this.GetValueAt(0);
                 
             }
             set
@@ -94,8 +94,8 @@ namespace Workbench.Core.Models
         /// <returns>Value at index.</returns>
         public int GetValueAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index <= this.Values.Count);
-            return this.values[index - 1];
+            Contract.Requires<ArgumentOutOfRangeException>(index < this.Values.Count);
+            return this.values[index];
         }
     }
 }

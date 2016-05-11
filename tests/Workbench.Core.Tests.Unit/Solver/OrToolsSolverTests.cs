@@ -30,7 +30,7 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var y = actualSnapshot.GetSingletonVariableValueByName("y");
                 var z = actualSnapshot.GetAggregateVariableValueByName("z");
                 Assert.That(x.Value, Is.Not.EqualTo(y.Value));
-                Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(1)));
+                Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(0)));
             }
         }
 
@@ -56,7 +56,7 @@ namespace Workbench.Core.Tests.Unit.Solver
                                           .AddSingleton("y", "1..9")
                                           .AddAggregate("z", 1, "1..9")
                                           .WithConstraintExpression("x < y")
-                                          .WithConstraintExpression("y > z[1]")
+                                          .WithConstraintExpression("y > z[0]")
                                           .Build();
 
             return workspace.Model;
