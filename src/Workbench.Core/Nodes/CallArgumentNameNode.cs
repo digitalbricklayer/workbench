@@ -1,17 +1,13 @@
-using System;
+﻿using System;
 using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class VariableNameNode : ConstraintExpressionBaseNode
+    public class CallArgumentNameNode : AstNode
     {
         public string Name { get; private set; }
-
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

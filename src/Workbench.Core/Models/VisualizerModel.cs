@@ -23,7 +23,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
             Contract.Requires<ArgumentNullException>(theBoundVariable != null);
-            this.Binding = new VariableVisualizerBindingModel(this, theBoundVariable);
+            Binding = new VariableVisualizerBindingModel(this, theBoundVariable);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Workbench.Core.Models
             : base(graphicName, location)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
-            this.Binding = new VariableVisualizerBindingModel(this);
+            Binding = new VariableVisualizerBindingModel(this);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Workbench.Core.Models
         /// </remarks>
         public virtual void BindTo(VariableModel theVariable)
         {
-            this.Binding.BindTo(theVariable);
+            Binding.BindTo(theVariable);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Workbench.Core.Models
         public virtual void Hydrate(ValueModel theValue)
         {
             Contract.Requires<ArgumentNullException>(theValue != null);
-            this.Value = theValue;
+            Value = theValue;
         }
     }
 }

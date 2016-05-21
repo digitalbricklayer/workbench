@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse(string.Empty);
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -19,8 +19,8 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse(string.Empty);
-            var actualX = expressionParseResult.Root;
-            Assert.That(actualX.IsEmpty, Is.True);
+            var actualRootNode = expressionParseResult.Root;
+            Assert.That(actualRootNode.IsEmpty, Is.True);
         }
 
         private static ConstraintExpressionParser CreateSut()

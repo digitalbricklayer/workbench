@@ -25,8 +25,8 @@ namespace Workbench.Core.Nodes
             base.Init(context, treeNode);
             // The expander statement can be empty and still valid...
             if (!treeNode.ChildNodes.Any()) return;
-            CounterDeclarations = (MultiCounterDeclarationNode) AddChild("counter declarations", treeNode.ChildNodes[1]);
-            ScopeDeclarations = (MultiScopeDeclarationNode)AddChild("scope declarations", treeNode.ChildNodes[3]);
+            CounterDeclarations = (MultiCounterDeclarationNode) AddChild("counter declarations", treeNode.ChildNodes[0]);
+            ScopeDeclarations = (MultiScopeDeclarationNode)AddChild("scope declarations", treeNode.ChildNodes[2]);
         }
     }
 }

@@ -166,18 +166,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
+    <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
+    <Compile Include="Nodes\CallArgumentNameNode.cs" />
+    <Compile Include="Nodes\CallArgumentNode.cs" />
+    <Compile Include="Nodes\CallArgumentNumberValueNode.cs" />
+    <Compile Include="Nodes\CallArgumentStringValueNode.cs" />
+    <Compile Include="Nodes\CallArgumentValueNode.cs" />
+    <Compile Include="Nodes\CallStatementNode.cs" />
     <Compile Include="Nodes\CounterDeclarationNode.cs" />
     <Compile Include="Nodes\CounterReferenceNode.cs" />
     <Compile Include="Nodes\ExpanderCountNode.cs" />
     <Compile Include="Nodes\ExpanderScopeNode.cs" />
     <Compile Include="Nodes\ExpanderStatementNode.cs" />
+    <Compile Include="Nodes\IfStatementNode.cs" />
     <Compile Include="Nodes\InfixStatementNode.cs" />
+    <Compile Include="Nodes\CallArgumentNodeList.cs" />
     <Compile Include="Nodes\MultiCounterDeclarationNode.cs" />
     <Compile Include="Nodes\MultiRepeaterStatementNode.cs" />
     <Compile Include="Nodes\MultiScopeDeclarationNode.cs" />
     <Compile Include="Nodes\ScopeLimitSatementNode.cs" />
+    <Compile Include="Nodes\ScopeStatementNode.cs" />
+    <Compile Include="Nodes\StatementNode.cs" />
     <Compile Include="Nodes\SubscriptStatementNode.cs" />
+    <Compile Include="Nodes\VisualizerExpressionNode.cs" />
+    <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />
     <Compile Include="Expressions\VariableDomainExpressionUnit.cs" />
@@ -227,8 +241,9 @@
     <Compile Include="Nodes\SubscriptNode.cs" />
     <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
-    <Compile Include="Parsers\ConstraintExpressionParseResult.cs" />
-    <Compile Include="Parsers\ConstraintExpressionParseStatus.cs" />
+    <Compile Include="Parsers\ParseResult.cs" />
+    <Compile Include="Parsers\ParseStatus.cs" />
+    <Compile Include="Parsers\VisualizerBindingExpressionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\CounterContext.cs" />

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Irony.Ast;
 using Irony.Parsing;
-using Microsoft.Win32.SafeHandles;
 
 namespace Workbench.Core.Nodes
 {
@@ -25,7 +25,7 @@ namespace Workbench.Core.Nodes
 
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)

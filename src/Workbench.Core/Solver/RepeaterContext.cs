@@ -92,8 +92,8 @@ namespace Workbench.Core.Solver
                 else if (currentScopeDeclaration.IsScope)
                 {
                     newCounter = new CounterContext(currentCounterDeclaration.CounterName,
-                                                    new RangeIterator(CreateValueSourceFrom(currentScopeDeclaration.Start),
-                                                                     CreateValueSourceFrom(currentScopeDeclaration.End)));
+                                                    new RangeIterator(CreateValueSourceFrom(currentScopeDeclaration.Scope.Start),
+                                                                     CreateValueSourceFrom(currentScopeDeclaration.Scope.End)));
                 }
                 else
                 {

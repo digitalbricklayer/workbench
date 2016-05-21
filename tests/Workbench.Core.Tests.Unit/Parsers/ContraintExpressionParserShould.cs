@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x > 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[1] != 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("1 <> x[1]");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[1] + 1 <> x[1] + 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x + 1 <> 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         private static ConstraintExpressionParser CreateSut()

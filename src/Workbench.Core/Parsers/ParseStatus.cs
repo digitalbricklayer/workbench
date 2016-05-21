@@ -1,6 +1,6 @@
 ﻿namespace Workbench.Core.Parsers
 {
-    public enum ConstraintExpressionParseStatus
+    public enum ParseStatus
     {
         Failed,
         Success

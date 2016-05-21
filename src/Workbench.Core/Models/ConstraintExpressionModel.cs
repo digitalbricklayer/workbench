@@ -14,12 +14,12 @@ namespace Workbench.Core.Models
 
         public ConstraintExpressionModel(string rawExpression)
         {
-            this.Text = rawExpression;
+            Text = rawExpression;
         }
 
         public ConstraintExpressionModel()
         {
-            this.Text = string.Empty;
+            Text = string.Empty;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Workbench.Core.Models
             set
             {
                 this.text = value;
-                this.ParseUnit(value);
+                ParseUnit(value);
                 OnPropertyChanged();
             }
         }
@@ -47,10 +47,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the operator type of the expression.
         /// </summary>
-        public OperatorType OperatorType
-        {
-            get { return this.Node.InnerExpression.Operator; }
-        }
+        public OperatorType OperatorType => Node.InnerExpression.Operator;
 
         /// <summary>
         /// Returns a string that represents the constraint expression.
@@ -60,7 +57,7 @@ namespace Workbench.Core.Models
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Node.InnerExpression.LeftExpression, OperatorType, Node.InnerExpression.RightExpression);
+            return $"{Node.InnerExpression.LeftExpression} {OperatorType} {Node.InnerExpression.RightExpression}";
         }
 
         /// <summary>
@@ -73,12 +70,12 @@ namespace Workbench.Core.Models
             {
                 var interpreter = new ConstraintExpressionParser();
                 var parseResult = interpreter.Parse(rawExpression);
-                if (parseResult.Status == ConstraintExpressionParseStatus.Success)
-                    this.Node = parseResult.Root;
+                if (parseResult.Status == ParseStatus.Success)
+                    Node = parseResult.Root;
             }
             else
             {
-                this.Node = null;
+                Node = null;
             }
         }
     }

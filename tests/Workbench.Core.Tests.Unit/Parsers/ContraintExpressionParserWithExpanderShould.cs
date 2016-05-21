@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] <> x[i] + 1 | i in 1..10");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..10");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..i");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 10,i");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         {
             var sut = CreateSut();
             var expressionParseResult = sut.Parse("x[i] + i <> x[j] + j | i,j in 8,i");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ConstraintExpressionParseStatus.Success));
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
         private static ConstraintExpressionParser CreateSut()

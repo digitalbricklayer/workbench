@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Irony.Parsing;
 using Workbench.Core.Grammars;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Parsers
 {
-    public sealed class ConstraintExpressionParser
+    /// <summary>
+    /// Parser for the visualizer binding expression.
+    /// </summary>
+    public sealed class VisualizerBindingExpressionParser
     {
-        private readonly ConstraintGrammar grammar = new ConstraintGrammar();
+        private readonly VisualizerBindingGrammar grammar = new VisualizerBindingGrammar();
 
         /// <summary>
-        /// Parse a raw constraint expression.
+        /// Parse a raw visualizer binding expression.
         /// </summary>
-        /// <param name="rawExpression">Raw constraint expression.</param>
+        /// <param name="rawExpression">Raw visualizer binding expression.</param>
         /// <returns>Parse result.</returns>
-        public ParseResult<ConstraintExpressionNode> Parse(string rawExpression)
+        public ParseResult<VisualizerExpressionNode> Parse(string rawExpression)
         {
+            Contract.Requires<ArgumentNullException>(rawExpression != null);
+            Contract.Ensures(Contract.Result<ParseResult<VisualizerExpressionNode>>() != null);
             var language = new LanguageData(grammar);
             var parser = new Parser(language);
             var parseTree = parser.Parse(rawExpression);
@@ -24,17 +30,17 @@ namespace Workbench.Core.Parsers
             return CreateResultFrom(parseTree);
         }
 
-        private static ParseResult<ConstraintExpressionNode> CreateResultFrom(ParseTree parseTree)
+        private static ParseResult<VisualizerExpressionNode> CreateResultFrom(ParseTree parseTree)
         {
             switch (parseTree.Status)
             {
                 case ParseTreeStatus.Error:
-                    return new ParseResult<ConstraintExpressionNode>(ConvertStatusFrom(parseTree.Status),
-                                                                     new List<string>());
+                    return new ParseResult<VisualizerExpressionNode>(ConvertStatusFrom(parseTree.Status),
+                                                                                         new List<string>());
 
                 case ParseTreeStatus.Parsed:
-                    return new ParseResult<ConstraintExpressionNode>(ParseStatus.Success,
-                                                                     parseTree);
+                    return new ParseResult<VisualizerExpressionNode>(ParseStatus.Success,
+                                                                                         parseTree);
 
                 default:
                     throw new NotImplementedException();

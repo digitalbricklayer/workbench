@@ -24,7 +24,7 @@ namespace Workbench.Core.Models
 		{
 			Contract.Requires<ArgumentNullException>(theVariable != null);
 		    this.visualizer = theVisualizer;
-			this.Variable = theVariable;
+            Variable = theVariable;
 		}
 
         /// <summary>
@@ -56,21 +56,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the visualizer the binding is bound.
         /// </summary>
-	    public VisualizerModel Visualizer
-	    {
-	        get { return this.visualizer; }
-	    }
+	    public VisualizerModel Visualizer => this.visualizer;
 
         /// <summary>
         /// Gets whether the binding is bound to a variable.
         /// </summary>
-	    public bool HasBinding
-		{
-			get
-			{
-				return this.Variable != null;
-			}
-		}
+	    public bool HasBinding => Variable != null;
 
         /// <summary>
         /// Gets the variable name of the variable that the visualizer is bound.
@@ -79,9 +70,9 @@ namespace Workbench.Core.Models
 	    {
 	        get
 	        {
-	            if (this.Variable == null)
+	            if (Variable == null)
 	                return string.Empty;
-	            return this.Variable.Name;
+	            return Variable.Name;
 	        }
 	    }
 
@@ -92,8 +83,8 @@ namespace Workbench.Core.Models
         {
             get
             {
-                if (!this.HasBinding) return default(int);
-                return this.Variable.Id;
+                if (!HasBinding) return default(int);
+                return Variable.Id;
             }
         }
 
@@ -103,7 +94,7 @@ namespace Workbench.Core.Models
         /// <param name="theVariable">Variable to bind to the visualizer.</param>
         public void BindTo(VariableModel theVariable)
 		{
-			this.Variable = theVariable;
+            Variable = theVariable;
 		}
 	}
 }
