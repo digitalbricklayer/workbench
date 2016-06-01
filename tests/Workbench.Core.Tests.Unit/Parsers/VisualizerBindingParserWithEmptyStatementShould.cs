@@ -5,7 +5,7 @@ using Workbench.Core.Parsers;
 namespace Workbench.Core.Tests.Unit.Parsers
 {
     [TestFixture]
-    public class VisualizerBindingWithSimpleStatementParserShould
+    public class VisualizerBindingParserWithEmptyStatementShould
     {
         [Test]
         public void ParseWithEmptyStatementReturnsStatusSuccess()

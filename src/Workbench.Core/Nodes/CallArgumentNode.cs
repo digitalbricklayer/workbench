@@ -13,8 +13,7 @@ namespace Workbench.Core.Nodes
         {
             base.Init(context, treeNode);
             Name = (CallArgumentNameNode) AddChild("name", treeNode.ChildNodes[0]);
-            // child node at subscript 1 is the : keyword
-            Value = (CallArgumentValueNode) AddChild("end", treeNode.ChildNodes[2]);
+            Value = (CallArgumentValueNode) AddChild("value", treeNode.ChildNodes[1]);
         }
     }
 }

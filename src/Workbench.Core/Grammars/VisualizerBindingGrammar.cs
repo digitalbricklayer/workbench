@@ -17,7 +17,8 @@ namespace Workbench.Core.Grammars
         public VisualizerBindingGrammar()
             : base(caseSensitive: false)
         {
-            LanguageFlags = LanguageFlags.CreateAst;
+            LanguageFlags = LanguageFlags.CreateAst |
+                            LanguageFlags.NewLineBeforeEOF;
 
             var EQUALS = ToTerm("=", "equal");
             var NOT_EQUAL = ToTerm("<>", "not equal");
@@ -39,6 +40,7 @@ namespace Workbench.Core.Grammars
             var IF = ToTerm("if");
             var IF_CONDITION_TERMINATOR = ToTerm(":-");
 
+            // Terminals
             var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
             var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
             var variableName = new RegexBasedTerminal("variable", VariableRegexPattern);
@@ -47,7 +49,10 @@ namespace Workbench.Core.Grammars
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
             var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
             visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
+            var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
+            counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
 
+            // Non-terminals
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
             var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerExpressionNode));
@@ -90,7 +95,7 @@ namespace Workbench.Core.Grammars
             callArgumentList.Rule = MakePlusRule(callArgumentList, CALL_ARGUMENT_SEPERATOR, callArgument);
 
             var callStatement = new NonTerminal("call statement", typeof(CallStatementNode));
-            callStatement.Rule = visualizerNameReference + PARENTHESIS_OPEN + callArgumentList + PARENTHESIS_CLOSE;
+            callStatement.Rule = visualizerNameReference + PARENTHESIS_OPEN + callArgumentList + PARENTHESIS_CLOSE | Empty;
 
             var binaryOperators = new NonTerminal("binary operators", "operator");
             binaryOperators.Rule = EQUALS |
@@ -101,9 +106,6 @@ namespace Workbench.Core.Grammars
             expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
                               singletonVariableReference | singletonVariableReferenceExpression |
                               literal;
-
-            var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
-            counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
 
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
             scopeLimitStatement.Rule = literal | counterReference;
@@ -124,20 +126,25 @@ namespace Workbench.Core.Grammars
             multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
 
             var expanderStatementList = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
-            expanderStatementList.Rule = multiCounterDeclaration + ToTerm("in") + multiExpanderScopeStatement + ToTerm(":-") + ifStatement;
+            expanderStatementList.Rule = multiCounterDeclaration + ToTerm("in") + multiExpanderScopeStatement + ToTerm(":-") + ifStatement | Empty;
 
             var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
             binaryExpression.Rule = expression + binaryOperators + expression;
 
-            statement.Rule = ifStatement;
-            ifStatement.Rule = IF + binaryExpression + IF_CONDITION_TERMINATOR + callStatement;
+            statement.Rule = ifStatement | callStatement;
+            ifStatement.Rule = IF + binaryExpression + IF_CONDITION_TERMINATOR + callStatement | Empty;
 
-            bindingExpression.Rule = expanderStatementList /*| ifStatement | callStatement*/ | Empty;
+            bindingExpression.Rule = NewLine | 
+                                     expanderStatementList + NewLine /*| 
+                                     ifStatement + NewLine | 
+                                     callStatement + NewLine*/;
 
             Root = bindingExpression;
 
             MarkTransient(binaryOperators, infixOperators);
-//            MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
+            MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
+            MarkPunctuation(":-");
+            MarkPunctuation(IF, IF_CONDITION_TERMINATOR, CALL_ARGUMENT_VALUE_SEPERATOR);
 //            RegisterBracePair("(", ")");
         }
     }
