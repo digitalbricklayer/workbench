@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Irony.Ast;
-using Irony.Interpreter;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
@@ -24,11 +23,6 @@ namespace Workbench.Core.Nodes
             // A visualizer expression can be empty and still be perfectly valid...
             if (!treeNode.ChildNodes.Any()) return;
             InnerExpression = (MultiRepeaterStatementNode) AddChild("expression", treeNode.ChildNodes[0]);
-        }
-
-        protected override object DoEvaluate(ScriptThread thread)
-        {
-            return base.DoEvaluate(thread);
         }
     }
 }
