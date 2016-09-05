@@ -36,11 +36,11 @@ namespace Workbench.Core.Parsers
             {
                 case ParseTreeStatus.Error:
                     return new ParseResult<VisualizerExpressionNode>(ConvertStatusFrom(parseTree.Status),
-                                                                                         new List<string>());
+                                                                     new List<string>());
 
                 case ParseTreeStatus.Parsed:
                     return new ParseResult<VisualizerExpressionNode>(ParseStatus.Success,
-                                                                                         parseTree);
+                                                                     parseTree);
 
                 default:
                     throw new NotImplementedException();

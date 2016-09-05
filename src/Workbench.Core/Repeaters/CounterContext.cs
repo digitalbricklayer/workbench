@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     /// <summary>
     /// Tracks the value of a counter.

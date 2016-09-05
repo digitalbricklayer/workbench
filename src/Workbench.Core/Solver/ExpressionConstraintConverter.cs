@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
+using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Solver
 {

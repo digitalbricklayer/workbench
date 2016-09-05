@@ -6,8 +6,9 @@ using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
+using Workbench.Core.Solver;
 
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     /// <summary>
     /// Process a constraint repeater by expanding the expression the 

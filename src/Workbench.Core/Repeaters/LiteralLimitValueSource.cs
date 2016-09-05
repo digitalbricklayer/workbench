@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     /// <summary>
     /// Implementation of the limit value source for a literal.

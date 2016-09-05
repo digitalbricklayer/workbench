@@ -1,4 +1,4 @@
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     internal interface ICounterIterator
     {

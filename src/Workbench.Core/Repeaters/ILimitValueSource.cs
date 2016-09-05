@@ -1,4 +1,4 @@
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     /// <summary>
     /// Contract for getting a literal or counter value.

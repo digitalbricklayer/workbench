@@ -10,7 +10,7 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithRepeaterConstraintReturnsStatusSuccess()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = CreateSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
@@ -20,7 +20,7 @@ namespace Workbench.Core.Tests.Unit.Solver
         [Test]
         public void SolveWithRepeaterSatisfiesConstraints()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = CreateSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
@@ -28,6 +28,11 @@ namespace Workbench.Core.Tests.Unit.Solver
                 Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(2)));
                 Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(3)));
             }
+        }
+
+        private static OrToolsSolver CreateSolver()
+        {
+            return new OrToolsSolver();
         }
 
         private static ModelModel MakeModel()

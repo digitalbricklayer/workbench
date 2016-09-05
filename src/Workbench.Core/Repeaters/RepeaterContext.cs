@@ -6,7 +6,7 @@ using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Repeaters
 {
     internal class RepeaterContext
     {
