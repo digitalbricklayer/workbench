@@ -33,14 +33,11 @@ namespace Workbench.Core.Grammars
             var PARENTHESIS_CLOSE = ToTerm(")");
             var PLUS = ToTerm("+");
             var MINUS = ToTerm("-");
-#if false
-            var COUNTER_SEPERATOR = ToTerm(",");
-            var RANGE_SEPERATOR = ToTerm(",");
-            var EXPANDER_TERMINATOR = ToTerm(":");
-#endif
             var COMMA = ToTerm(",", "comma");
             var IF = ToTerm("if");
             var COLON = ToTerm(":", "colon");
+            var FOR = ToTerm("for");
+            var IN = ToTerm("in");
 
             // Terminals
             var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
@@ -79,7 +76,6 @@ namespace Workbench.Core.Grammars
             var callArgumentList = new NonTerminal("call argument list", typeof(CallArgumentNodeList));
             var callStatement = new NonTerminal("call statement", typeof(CallStatementNode));
             var expression = new NonTerminal("expression", typeof(ExpressionNode));
-#if false
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
             var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
             var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
@@ -87,7 +83,6 @@ namespace Workbench.Core.Grammars
             var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
             var expanderStatementList = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
             var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
-#endif
             var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
 
             // BNF rules
@@ -112,38 +107,34 @@ namespace Workbench.Core.Grammars
                               singletonVariableReference | singletonVariableReferenceExpression |
                               literal;
             binaryExpression.Rule = expression + binaryOperator + expression;
-#if false
             scopeLimitStatement.Rule = literal | counterReference;
             expanderCountStatement.Rule = literal | counterReference;
             scopeStatement.Rule = scopeLimitStatement + ToTerm("..") + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
-            multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
-            multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
-            expanderStatementList.Rule = multiCounterDeclaration + ToTerm("in") + multiExpanderScopeStatement + EXPANDER_TERMINATOR + statement;
-#endif
+            multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COMMA, counterDeclaration);
+            multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, COMMA, expanderScopeStatement);
+            expanderStatementList.Rule = FOR + multiCounterDeclaration + IN + multiExpanderScopeStatement + COLON + statement;
 
             ifStatement.Rule = IF + binaryExpression + COLON + callStatement;
             statement.Rule = ifStatement | callStatement;
 
             bindingExpression.Rule = NewLine |
-                                     statement + NewLine;
+                                     statement + NewLine |
+                                     expanderStatementList + NewLine;
                                      /*callStatement + NewLine |
-                                     ifStatement + NewLine |
-                                     expanderStatementList + NewLine*/;
+                                     ifStatement + NewLine |*/
 
             Root = bindingExpression;
 
-#if false
             // Operators precedence
             RegisterOperators(1, PLUS, MINUS);
-#endif
 
             // Punctuation and transient terms
-            MarkReservedWords("if");
+            MarkReservedWords("for", "if", "in");
             RegisterBracePair("(", ")");
             MarkTransient(binaryOperator, infixOperator);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
-            MarkPunctuation(IF, COLON/*, EXPANDER_TERMINATOR*/);
+            MarkPunctuation(FOR, IF, COLON/*, EXPANDER_TERMINATOR*/);
         }
     }
 }
