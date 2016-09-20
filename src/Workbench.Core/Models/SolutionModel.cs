@@ -26,9 +26,9 @@ namespace Workbench.Core.Models
             : this(theModel)
         {
             if (theValues == null)
-                throw new ArgumentNullException("theValues");
+                throw new ArgumentNullException(nameof(theValues));
             foreach (var valueModel in theValues)
-                this.SingletonValues.Add(valueModel);
+                SingletonValues.Add(valueModel);
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace Workbench.Core.Models
             : this(theModel)
         {
             if (theValues == null)
-                throw new ArgumentNullException("theValues");
+                throw new ArgumentNullException(nameof(theValues));
             foreach (var valueModel in theValues)
-                this.SingletonValues.Add(valueModel);
+                SingletonValues.Add(valueModel);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Workbench.Core.Models
         public SolutionModel(ModelModel theModel)
             : this()
         {
-            this.Model = theModel;
+            Model = theModel;
         }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionModel()
         {
-            this.Display = new DisplayModel();
-            this.SingletonValues = new ObservableCollection<ValueModel>();
-            this.AggregateValues = new ObservableCollection<ValueModel>();
+            Display = new DisplayModel();
+            SingletonValues = new ObservableCollection<ValueModel>();
+            AggregateValues = new ObservableCollection<ValueModel>();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Workbench.Core.Models
         public void AddSingletonValue(ValueModel theValue)
         {
             Contract.Requires<ArgumentNullException>(theValue != null);
-            this.SingletonValues.Add(theValue);
+            SingletonValues.Add(theValue);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Workbench.Core.Models
         public void AddAggregateValue(ValueModel theValue)
         {
             Contract.Requires<ArgumentNullException>(theValue != null);
-            this.AggregateValues.Add(theValue);
+            AggregateValues.Add(theValue);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Workbench.Core.Models
         public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return this.SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Workbench.Core.Models
         public ValueModel GetAggregateVariableValueByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return this.AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
         }
 
         /// <summary>
@@ -158,18 +158,18 @@ namespace Workbench.Core.Models
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
-            this.Display.AddVisualizer(theVisualizer);
+            Display.AddVisualizer(theVisualizer);
         }
 
         /// <summary>
         /// Get the visualizer bound to the variable matching the variable name.
         /// </summary>
-        /// <param name="theVariableName">Name of the variable.</param>
-        /// <returns>Visualizer bound to the variable matching the variable name.</returns>
-        public VisualizerModel GetVisualizerFor(string theVariableName)
+        /// <param name="theName">Name of the visualizer.</param>
+        /// <returns>Visualizer.</returns>
+        public VisualizerModel GetVisualizerFor(string theName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return this.Display.GetVisualizerFor(theVariableName);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            return Display.GetVisualizerBy(theName);
         }
 
         /// <summary>
@@ -179,16 +179,16 @@ namespace Workbench.Core.Models
         public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            this.Display.UpdateSolutionFrom(theSnapshot);
+            Display.UpdateFrom(theSnapshot);
 
             foreach (var aSingletonValue in theSnapshot.SingletonValues)
             {
-                this.AddSingletonValue(aSingletonValue);
+                AddSingletonValue(aSingletonValue);
             }
 
             foreach (var anAggregateValue in theSnapshot.AggregateValues)
             {
-                this.AddAggregateValue(anAggregateValue);
+                AddAggregateValue(anAggregateValue);
             }
         }
     }

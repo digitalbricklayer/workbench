@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Castle.Core.Internal;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -13,13 +14,15 @@ namespace Workbench.Core.Models
     public class DisplayModel : AbstractModel
     {
         private ObservableCollection<VisualizerModel> visualizers;
+        private ObservableCollection<VisualizerBindingExpressionModel> bindingExpressions;
 
         /// <summary>
         /// Initialize a display model with default values.
         /// </summary>
         public DisplayModel()
         {
-            this.Visualizers = new ObservableCollection<VisualizerModel>();
+            Visualizers = new ObservableCollection<VisualizerModel>();
+            Bindings = new ObservableCollection<VisualizerBindingExpressionModel>();
         }
 
         /// <summary>
@@ -36,6 +39,19 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Gets or sets the visualizer binding expression collection.
+        /// </summary>
+        public ObservableCollection<VisualizerBindingExpressionModel> Bindings
+        {
+            get { return this.bindingExpressions; }
+            set
+            {
+                this.bindingExpressions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Add a new visualizer.
         /// </summary>
         /// <param name="theVisualizer">New visualizer.</param>
@@ -43,19 +59,19 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             theVisualizer.AssignIdentity();
-            this.Visualizers.Add(theVisualizer);
+            Visualizers.Add(theVisualizer);
         }
 
         /// <summary>
-        /// Get the visualizer bound to the variable matching the variable name.
+        /// Get the visualizer bound by name.
         /// </summary>
-        /// <param name="theVariableName">Name of the variable.</param>
-        /// <returns>Visualizer bound to the variable matching the variable name.</returns>
-        public VisualizerModel GetVisualizerFor(string theVariableName)
+        /// <param name="theName">Visualizer name.</param>
+        /// <returns>Visualizer.</returns>
+        public VisualizerModel GetVisualizerBy(string theName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return (from aViewerViewModel in this.Visualizers
-                    where aViewerViewModel.Binding.Name == theVariableName
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            return (from aViewerViewModel in Visualizers
+                    where aViewerViewModel.Name == theName
                     select aViewerViewModel).FirstOrDefault();
         }
 
@@ -63,22 +79,10 @@ namespace Workbench.Core.Models
         /// Update the solution from a snapshot.
         /// </summary>
         /// <param name="theSnapshot">The solution snapshot.</param>
-        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        public void UpdateFrom(SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            foreach (var aVisualizer in this.Visualizers)
-            {
-                if (!aVisualizer.Binding.HasBinding) continue;
-                var theSingletonValue = theSnapshot.GetSingletonVariableValueByName(aVisualizer.Binding.Name);
-                if (theSingletonValue != null)
-                    aVisualizer.Hydrate(theSingletonValue);
-                else
-                {
-                    var theAggregateValue = theSnapshot.GetAggregateVariableValueByName(aVisualizer.Binding.Name);
-                    if (theAggregateValue != null)
-                        aVisualizer.Hydrate(theAggregateValue);
-                }
-            }
+            Visualizers.ForEach(aVisualizer => aVisualizer.UpdateFrom(theSnapshot));
         }
     }
 }

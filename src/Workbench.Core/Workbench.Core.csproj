@@ -171,8 +171,10 @@
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
+    <Compile Include="Models\CallArgument.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
+    <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Nodes\CallArgumentNameNode.cs" />
     <Compile Include="Nodes\CallArgumentNode.cs" />
     <Compile Include="Nodes\CallArgumentNumberValueNode.cs" />
@@ -194,7 +196,7 @@
     <Compile Include="Nodes\ScopeStatementNode.cs" />
     <Compile Include="Nodes\StatementNode.cs" />
     <Compile Include="Nodes\SubscriptStatementNode.cs" />
-    <Compile Include="Nodes\VisualizerExpressionNode.cs" />
+    <Compile Include="Nodes\VisualizerBindingExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Expressions\DomainExpressionUnit.cs" />

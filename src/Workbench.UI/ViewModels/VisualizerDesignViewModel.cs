@@ -65,7 +65,9 @@ namespace Workbench.ViewModels
                 if (this.SelectedVariable != null)
                 {
                     var variableToBindTo = this.dataService.GetVariableByName(this.SelectedVariable.Name);
-                    this.Model.BindTo(variableToBindTo);
+#if false
+                    Model.ExecuteWith(variableToBindTo);
+#endif
                 }
                 NotifyOfPropertyChange();
 
@@ -143,7 +145,9 @@ namespace Workbench.ViewModels
 
         protected void SelectVariableBinding()
         {
+#if false
             this.selectedVariable = this.viewModelService.GetVariableByIdentity(this.Model.Binding.VariableId);
+#endif
         }
     }
 }

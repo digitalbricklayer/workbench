@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -9,24 +11,73 @@ namespace Workbench.Core.Models
     public class ChessboardVisualizerModel : VisualizerModel
     {
         private readonly ChessboardModel chessboard;
+        private VisualizerBindingExpressionModel binding;
 
         /// <summary>
         /// Initialize the chessboard visualizer with a screen location.
         /// </summary>
+        /// <param name="theName">Name of the chessboard.</param>
         /// <param name="theLocation">Screen location.</param>
-        public ChessboardVisualizerModel(Point theLocation)
-            : base("Chessboard", theLocation)
+        /// <param name="rawBindingExpression">Raw binding expression.</param>
+        public ChessboardVisualizerModel(string theName, Point theLocation, string rawBindingExpression)
+            : base(theName, theLocation)
         {
             this.chessboard = new ChessboardModel();
+            Binding = new VisualizerBindingExpressionModel(this, rawBindingExpression);
         }
 
         /// <summary>
-        /// Hydrate the visualizer from a value.
+        /// Initialize the chessboard visualizer with a screen location.
         /// </summary>
-        /// <param name="theValue">Value bound to a variable.</param>
-        public override void Hydrate(ValueModel theValue)
+        /// <param name="theName">Name of the chessboard.</param>
+        /// <param name="theLocation">Screen location.</param>
+        public ChessboardVisualizerModel(string theName, Point theLocation)
+            : base(theName, theLocation)
         {
-            base.Hydrate(theValue);
+            this.chessboard = new ChessboardModel();
+            Binding = new VisualizerBindingExpressionModel(this);
+        }
+
+        /// <summary>
+        /// Gets the visualizer binding expression.
+        /// </summary>
+        public VisualizerBindingExpressionModel Binding
+        {
+            get { return this.binding; }
+            private set
+            {
+                this.binding = value;
+                OnPropertyChanged();
+            }
+        }
+
+#if true
+
+        /// <summary>
+        /// Update the visualizer from the solution.
+        /// </summary>
+        /// <param name="theSnapshot">Solution snapshot.</param>
+        public override void UpdateFrom(SolutionSnapshot theSnapshot)
+        {
+            Binding.ExecuteWith(theSnapshot);
+        }
+
+        /// <summary>
+        /// Update the chessboard visualizer with call arguments.
+        /// </summary>
+        /// <param name="theCall">Call arguments.</param>
+        public override void UpdateWith(VisualizerCall theCall)
+        {
+            throw new NotImplementedException();
+        }
+
+#if false
+    /// <summary>
+    /// ExecuteWith the visualizer from a value.
+    /// </summary>
+    /// <param name="theSnapshot">Solution snapshot.</param>
+        public override void UpdateFrom(SolutionSnapshot theSnapshot)
+        {
             for (var x = 1; x <= theValue.Values.Count; x++)
             {
                 for (var y = 1; y <= theValue.Values.Count; y++)
@@ -45,7 +96,9 @@ namespace Workbench.Core.Models
                     }
                 }
             }
-        }
+    }
+#endif
+#endif
 
         /// <summary>
         /// Get all squares occupied by the type of piece.

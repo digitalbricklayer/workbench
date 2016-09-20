@@ -18,7 +18,7 @@ namespace Workbench.Core.Models
         internal WorkspaceContext(WorkspaceModel theWorkspace)
         {
             if (theWorkspace == null)
-                throw new ArgumentNullException("theWorkspace");
+                throw new ArgumentNullException(nameof(theWorkspace));
             this.workspace = theWorkspace;
         }
 
@@ -71,9 +71,9 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithConstraintAllDifferent(string variableName)
+        public WorkspaceContext WithConstraintAllDifferent(string theVariableName)
         {
-            var variableToBindTo = this.workspace.Model.GetVariableByName(variableName);
+            var variableToBindTo = this.workspace.Model.GetVariableByName(theVariableName);
             this.workspace.Model.AddConstraint(new AllDifferentConstraintModel(variableToBindTo));
             return this;
         }
@@ -87,11 +87,11 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithChessboardVisualizerBindingTo(string variableName)
+        public WorkspaceContext WithChessboardVisualizerBindingTo(string theVisualizerName, string theBindingExpression)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            var theVisualizer = new ChessboardVisualizerModel(new Point());
-            theVisualizer.BindTo(this.workspace.Model.GetVariableByName(variableName));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
+            var theVisualizer = new ChessboardVisualizerModel(theVisualizerName, new Point(), theBindingExpression);
             this.workspace.AddVisualizer(theVisualizer);
             return this;
         }

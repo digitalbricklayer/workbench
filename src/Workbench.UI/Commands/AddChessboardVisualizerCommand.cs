@@ -49,16 +49,16 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            var newVisualizerModel = new ChessboardVisualizerModel(newVisualizerLocation);
-            this.CreateDesigner(newVisualizerModel);
-            this.CreateViewer(newVisualizerModel);
+            var newVisualizerModel = new ChessboardVisualizerModel("Chessboard", newVisualizerLocation);
+            CreateDesigner(newVisualizerModel);
+            CreateViewer(newVisualizerModel);
             this.titleBar.UpdateTitle();
         }
 
         private void CreateViewer(ChessboardVisualizerModel newVisualizerModel)
         {
             var visualizerViewerViewModel = new ChessboardVisualizerViewerViewModel(newVisualizerModel);
-            this.workspace.AddViewer(visualizerViewerViewModel);
+            workspace.AddViewer(visualizerViewerViewModel);
         }
 
         private void CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
@@ -67,7 +67,7 @@ namespace Workbench.Commands
                                                                                     this.eventAggregator,
                                                                                     this.dataService,
                                                                                     this.viewModelService);
-            this.workspace.AddDesigner(visualizerDesignViewModel);
+            workspace.AddDesigner(visualizerDesignViewModel);
         }
     }
 }

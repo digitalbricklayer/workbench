@@ -18,8 +18,8 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel()
         {
-            this.Model = new ModelModel();
-            this.Solution = new SolutionModel(this.Model);
+            Model = new ModelModel();
+            Solution = new SolutionModel(this.Model);
         }
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace Workbench.Core.Models
         /// </summary>
         public ModelModel Model
         {
-            get { return model; }
+            get { return this.model; }
             set
             {
-                model = value;
+                this.model = value;
                 OnPropertyChanged();
             }
         }
@@ -40,10 +40,10 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionModel Solution
         {
-            get { return solution; }
+            get { return this.solution; }
             set
             {
-                solution = value; 
+                this.solution = value; 
                 OnPropertyChanged();
             }
         }
@@ -55,7 +55,7 @@ namespace Workbench.Core.Models
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
-            this.Solution.AddVisualizer(theVisualizer);
+            Solution.AddVisualizer(theVisualizer);
         }
 
         /// <summary>
@@ -81,16 +81,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Update the solution from a snapshot.
-        /// </summary>
-        /// <param name="theSnapshot">The snapshot.</param>
-        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
-        {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            this.Solution.UpdateSolutionFrom(theSnapshot);
-        }
-
-        /// <summary>
         /// Solve the model.
         /// </summary>
         /// <returns>Solve result.</returns>
@@ -98,11 +88,21 @@ namespace Workbench.Core.Models
         {
             Contract.Requires(this.Model != null);
             Contract.Ensures(Contract.Result<SolveResult>() != null);
-            var solveResult = this.Model.Solve();
+            var solveResult = Model.Solve();
             if (solveResult.IsFailure) return solveResult;
-            this.UpdateSolutionFrom(solveResult.Snapshot);
+            UpdateSolutionFrom(solveResult.Snapshot);
 
             return solveResult;
+        }
+
+        /// <summary>
+        /// Update the solution from a snapshot.
+        /// </summary>
+        /// <param name="theSnapshot">The snapshot.</param>
+        private void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        {
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
+            Solution.UpdateSolutionFrom(theSnapshot);
         }
     }
 }

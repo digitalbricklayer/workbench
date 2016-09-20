@@ -64,7 +64,7 @@ namespace Workbench.Core.Models
 	    public bool HasBinding => Variable != null;
 
         /// <summary>
-        /// Gets the variable name of the variable that the visualizer is bound.
+        /// Gets the name of the variable that the visualizer is bound.
         /// </summary>
 	    public string Name
 	    {

@@ -5,12 +5,12 @@ using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class VisualizerExpressionNode : AstNode
+    public class VisualizerBindingExpressionNode : AstNode
     {
         /// <summary>
         /// Gets the inner repeater statement.
         /// </summary>
-        public MultiRepeaterStatementNode InnerExpression { get; private set; }
+        public AstNode InnerExpression { get; private set; }
 
         /// <summary>
         /// Gets whether the expression is empty.
@@ -22,7 +22,7 @@ namespace Workbench.Core.Nodes
             base.Init(context, treeNode);
             // A visualizer expression can be empty and still be perfectly valid...
             if (!treeNode.ChildNodes.Any()) return;
-            InnerExpression = (MultiRepeaterStatementNode) AddChild("expression", treeNode.ChildNodes[0]);
+            InnerExpression = AddChild("inner", treeNode.ChildNodes[0]);
         }
     }
 }

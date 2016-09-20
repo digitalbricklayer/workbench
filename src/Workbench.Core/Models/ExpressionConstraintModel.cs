@@ -108,7 +108,6 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             return Validate(theModel, new ModelValidationContext());
         }
 
@@ -123,7 +122,6 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theContext != null);
 
             if (Expression.Node == null) return false;

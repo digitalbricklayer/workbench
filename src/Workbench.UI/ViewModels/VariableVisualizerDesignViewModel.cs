@@ -35,8 +35,10 @@ namespace Workbench.ViewModels
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
             this.viewModelService = theViewModelService;
-            if (this.Model.Binding != null && !string.IsNullOrEmpty(this.Model.Binding.Name))
+#if false
+            if (this.Model.Binding != null && !string.IsNullOrEmpty(Model.Binding.Name))
                 SelectVariableBinding();
+#endif
             this.eventAggregator.Subscribe(this);
         }
     }

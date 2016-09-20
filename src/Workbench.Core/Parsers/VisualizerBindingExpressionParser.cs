@@ -19,10 +19,10 @@ namespace Workbench.Core.Parsers
         /// </summary>
         /// <param name="rawExpression">Raw visualizer binding expression.</param>
         /// <returns>Parse result.</returns>
-        public ParseResult<VisualizerExpressionNode> Parse(string rawExpression)
+        public ParseResult<VisualizerBindingExpressionNode> Parse(string rawExpression)
         {
             Contract.Requires<ArgumentNullException>(rawExpression != null);
-            Contract.Ensures(Contract.Result<ParseResult<VisualizerExpressionNode>>() != null);
+            Contract.Ensures(Contract.Result<ParseResult<VisualizerBindingExpressionNode>>() != null);
             var language = new LanguageData(grammar);
             var parser = new Parser(language);
             var parseTree = parser.Parse(rawExpression);
@@ -30,17 +30,17 @@ namespace Workbench.Core.Parsers
             return CreateResultFrom(parseTree);
         }
 
-        private static ParseResult<VisualizerExpressionNode> CreateResultFrom(ParseTree parseTree)
+        private static ParseResult<VisualizerBindingExpressionNode> CreateResultFrom(ParseTree parseTree)
         {
             switch (parseTree.Status)
             {
                 case ParseTreeStatus.Error:
-                    return new ParseResult<VisualizerExpressionNode>(ConvertStatusFrom(parseTree.Status),
-                                                                     new List<string>());
+                    return new ParseResult<VisualizerBindingExpressionNode>(ConvertStatusFrom(parseTree.Status),
+                                                                            new List<string>());
 
                 case ParseTreeStatus.Parsed:
-                    return new ParseResult<VisualizerExpressionNode>(ParseStatus.Success,
-                                                                     parseTree);
+                    return new ParseResult<VisualizerBindingExpressionNode>(ParseStatus.Success,
+                                                                            parseTree);
 
                 default:
                     throw new NotImplementedException();

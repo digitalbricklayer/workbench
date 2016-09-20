@@ -6,7 +6,7 @@ namespace Workbench.Core.Grammars
     /// <summary>
     /// Grammar for visualizer binding expressions.
     /// </summary>
-    [Language("Visualizer Binding", "0.1", "A grammar for binding a model solution into a visualizer.")]
+    [Language("Visualizer Binding", "0.1", "A grammar for binding a model solution to a visualizer.")]
     internal class VisualizerBindingGrammar : Grammar
     {
         private const string CounterRegexPattern = @"\b[A-Za-z]\w*\b";
@@ -33,119 +33,117 @@ namespace Workbench.Core.Grammars
             var PARENTHESIS_CLOSE = ToTerm(")");
             var PLUS = ToTerm("+");
             var MINUS = ToTerm("-");
+#if false
             var COUNTER_SEPERATOR = ToTerm(",");
             var RANGE_SEPERATOR = ToTerm(",");
-            var CALL_ARGUMENT_SEPERATOR = ToTerm(",");
-            var CALL_ARGUMENT_VALUE_SEPERATOR = ToTerm(":");
+            var EXPANDER_TERMINATOR = ToTerm(":");
+#endif
+            var COMMA = ToTerm(",", "comma");
             var IF = ToTerm("if");
-            var IF_CONDITION_TERMINATOR = ToTerm(":-");
+            var COLON = ToTerm(":", "colon");
 
             // Terminals
+            var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
+            visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
             var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
             var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
             var variableName = new RegexBasedTerminal("variable", VariableRegexPattern);
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
             var counterReference = new RegexBasedTerminal("counter reference", CounterRegexPattern);
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
-            var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
-            visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
             var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
+            var callArgumentNumberValue = new NumberLiteral("call argument value number",
+                                                            NumberOptions.IntOnly,
+                                                            typeof(CallArgumentNumberValueNode));
+            var callArgumentName = new RegexBasedTerminal("call argument name", VisualizerArgumentRegexPattern);
+            callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
+            var callArgumentStringValue = new RegexBasedTerminal("call argument value string", VisualizerArgumentRegexPattern);
+            callArgumentStringValue.AstConfig.NodeType = typeof(CallArgumentStringValueNode);
 
             // Non-terminals
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
-            var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerExpressionNode));
-
+            var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerBindingExpressionNode));
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
-            infixStatement.Rule = literal | counterReference;
-            var infixOperators = new NonTerminal("infix");
-            infixOperators.Rule = PLUS | MINUS;
+
+            var binaryOperator = new NonTerminal("binary operators", "operator");
+            var infixOperator = new NonTerminal("infix");
             var subscriptStatement = new NonTerminal("subscript statement", typeof(SubscriptStatementNode));
-            subscriptStatement.Rule = subscript | counterReference;
             var aggregateVariableReference = new NonTerminal("aggregateVariableReference", typeof(AggregateVariableReferenceNode));
-            aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE;
-
             var aggregateVariableReferenceExpression = new NonTerminal("aggregate expression", typeof(AggregateVariableReferenceExpressionNode));
-            aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperators + infixStatement;
-
             var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof(SingletonVariableReferenceNode));
-            singletonVariableReference.Rule = variableName;
-
             var singletonVariableReferenceExpression = new NonTerminal("singleton expression", typeof(SingletonVariableReferenceExpressionNode));
-            singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperators + infixStatement;
-
-            var callArgumentName = new RegexBasedTerminal("call argument name", VisualizerArgumentRegexPattern);
-            callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
-
-            var callArgumentStringValue = new RegexBasedTerminal("call argument value string", VisualizerArgumentRegexPattern);
-            callArgumentStringValue.AstConfig.NodeType = typeof(CallArgumentStringValueNode);
-
-            var callArgumentNumberValue = new NumberLiteral("call argument value number",
-                                                            NumberOptions.IntOnly,
-                                                            typeof(CallArgumentNumberValueNode));
-
             var callArgumentValue = new NonTerminal("call argument value", typeof(CallArgumentValueNode));
-            callArgumentValue.Rule = callArgumentNumberValue | callArgumentStringValue;
-
             var callArgument = new NonTerminal("call argument", typeof(CallArgumentNode));
-            callArgument.Rule = callArgumentName + CALL_ARGUMENT_VALUE_SEPERATOR + callArgumentValue;
-
             var callArgumentList = new NonTerminal("call argument list", typeof(CallArgumentNodeList));
-            callArgumentList.Rule = MakePlusRule(callArgumentList, CALL_ARGUMENT_SEPERATOR, callArgument);
-
             var callStatement = new NonTerminal("call statement", typeof(CallStatementNode));
-            callStatement.Rule = visualizerNameReference + PARENTHESIS_OPEN + callArgumentList + PARENTHESIS_CLOSE | Empty;
-
-            var binaryOperators = new NonTerminal("binary operators", "operator");
-            binaryOperators.Rule = EQUALS |
-                                   NOT_EQUAL | ALT_NOT_EQUAL |
-                                   LESS | LESS_EQUAL |
-                                   GREATER | GREATER_EQUAL;
             var expression = new NonTerminal("expression", typeof(ExpressionNode));
+#if false
+            var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
+            var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
+            var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
+            var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
+            var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
+            var expanderStatementList = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
+            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
+#endif
+            var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
+
+            // BNF rules
+            infixStatement.Rule = literal | counterReference;
+            infixOperator.Rule = PLUS | MINUS;
+            subscriptStatement.Rule = subscript | counterReference;
+            aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE;
+            aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperator + infixStatement;
+            singletonVariableReference.Rule = variableName;
+            singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperator + infixStatement;
+
+            callArgumentValue.Rule = callArgumentNumberValue | callArgumentStringValue;
+            callArgument.Rule = callArgumentName + COLON + callArgumentValue;
+            callArgumentList.Rule = MakePlusRule(callArgumentList, COMMA, callArgument);
+            callStatement.Rule = visualizerNameReference + PARENTHESIS_OPEN + callArgumentList + PARENTHESIS_CLOSE;
+
+            binaryOperator.Rule = EQUALS |
+                                  NOT_EQUAL | ALT_NOT_EQUAL |
+                                  LESS | LESS_EQUAL |
+                                  GREATER | GREATER_EQUAL;
             expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
                               singletonVariableReference | singletonVariableReferenceExpression |
                               literal;
-
-            var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
+            binaryExpression.Rule = expression + binaryOperator + expression;
+#if false
             scopeLimitStatement.Rule = literal | counterReference;
-
-            var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
             expanderCountStatement.Rule = literal | counterReference;
-
-            var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
             scopeStatement.Rule = scopeLimitStatement + ToTerm("..") + scopeLimitStatement;
-
-            var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
-
-            var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
             multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
-
-            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
             multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
+            expanderStatementList.Rule = multiCounterDeclaration + ToTerm("in") + multiExpanderScopeStatement + EXPANDER_TERMINATOR + statement;
+#endif
 
-            var expanderStatementList = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
-            expanderStatementList.Rule = multiCounterDeclaration + ToTerm("in") + multiExpanderScopeStatement + ToTerm(":-") + ifStatement | Empty;
-
-            var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
-            binaryExpression.Rule = expression + binaryOperators + expression;
-
+            ifStatement.Rule = IF + binaryExpression + COLON + callStatement;
             statement.Rule = ifStatement | callStatement;
-            ifStatement.Rule = IF + binaryExpression + IF_CONDITION_TERMINATOR + callStatement | Empty;
 
-            bindingExpression.Rule = NewLine | 
-                                     expanderStatementList + NewLine /*| 
-                                     ifStatement + NewLine | 
-                                     callStatement + NewLine*/;
+            bindingExpression.Rule = NewLine |
+                                     statement + NewLine;
+                                     /*callStatement + NewLine |
+                                     ifStatement + NewLine |
+                                     expanderStatementList + NewLine*/;
 
             Root = bindingExpression;
 
-            MarkTransient(binaryOperators, infixOperators);
+#if false
+            // Operators precedence
+            RegisterOperators(1, PLUS, MINUS);
+#endif
+
+            // Punctuation and transient terms
+            MarkReservedWords("if");
+            RegisterBracePair("(", ")");
+            MarkTransient(binaryOperator, infixOperator);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
-            MarkPunctuation(":-");
-            MarkPunctuation(IF, IF_CONDITION_TERMINATOR, CALL_ARGUMENT_VALUE_SEPERATOR);
-//            RegisterBracePair("(", ")");
+            MarkPunctuation(IF, COLON/*, EXPANDER_TERMINATOR*/);
         }
     }
 }

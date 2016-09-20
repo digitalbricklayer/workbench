@@ -51,7 +51,9 @@ namespace Workbench.ViewModels
         /// <param name="message">The message.</param>
         public void Handle(VisualizerBoundMessage message)
         {
+#if false
             if (message.Variable.Id != this.Model.Binding.VariableId) return;
+#endif
             this.Binding = message.Variable;
         }
     }
