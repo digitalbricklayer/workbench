@@ -121,8 +121,6 @@ namespace Workbench.Core.Grammars
             bindingExpression.Rule = NewLine |
                                      statement + NewLine |
                                      expanderStatementList + NewLine;
-                                     /*callStatement + NewLine |
-                                     ifStatement + NewLine |*/
 
             Root = bindingExpression;
 
@@ -134,7 +132,7 @@ namespace Workbench.Core.Grammars
             RegisterBracePair("(", ")");
             MarkTransient(binaryOperator, infixOperator);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
-            MarkPunctuation(FOR, IF, COLON/*, EXPANDER_TERMINATOR*/);
+            MarkPunctuation(FOR, IF, COLON);
         }
     }
 }
