@@ -22,8 +22,8 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Update the visualizer from the solution.
         /// </summary>
-        /// <param name="theSnapshot">Solution snapshot.</param>
-        public abstract void UpdateFrom(SolutionSnapshot theSnapshot);
+        /// <param name="theContext">Context to update the visualizer.</param>
+        public abstract void UpdateFrom(VisualizerUpdateContext theContext);
 
         /// <summary>
         /// Update a visualizer with call arguments.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
@@ -8,43 +8,29 @@ using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Repeaters
 {
-    internal class RepeaterContext
+    internal class VisualizerRepeaterContext
     {
         private readonly IList<CounterContext> counters;
         private bool firstIterationPassed;
+        private readonly ChessboardVisualizerModel visualizer;
 
-        /// <summary>
-        /// Initialize a repeater context from the constraint.
-        /// </summary>
-        /// <param name="theConstraint">Expression constraint.</param>
-        public RepeaterContext(ExpressionConstraintModel theConstraint)
+        public VisualizerRepeaterContext(ChessboardVisualizerModel theVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(theConstraint != null);
-            Constraint = theConstraint;
+            Contract.Requires<ArgumentNullException>(theVisualizer != null);
             this.counters = new List<CounterContext>();
-            if (!theConstraint.Expression.Node.HasExpander) return;
-            CreateCounterContextsFrom(theConstraint.Expression.Node.Expander);
+            this.visualizer = theVisualizer;
+            if (!theVisualizer.Binding.Node.HasExpander) return;
+            CreateCounterContextsFrom(theVisualizer.Binding.Node.Expander);
         }
 
-        public IReadOnlyCollection<CounterContext> Counters
-        {
-            get { return new ReadOnlyCollection<CounterContext>(counters); }
-        }
+        public ChessboardVisualizerModel Visualizer => this.visualizer;
 
-        /// <summary>
-        /// Gets whether there are any repeaters.
-        /// </summary>
-        public bool HasRepeaters => Counters.Any();
+        public VisualizerBindingExpressionModel Binding => this.visualizer.Binding;
 
-        /// <summary>
-        /// Gets the constraint.
-        /// </summary>
-        public ExpressionConstraintModel Constraint { get; private set; }
+        public bool HasRepeaters => this.counters.Any();
 
-        /// <summary>
-        /// Move to the next counter value set.
-        /// </summary>
-        /// <returns>True if a new counter value is available. False if no new counter values are available.</returns>
+        public IReadOnlyCollection<CounterContext> Counters => new ReadOnlyCollection<CounterContext>(counters);
+
         public bool Next()
         {
             if (!firstIterationPassed)
@@ -61,7 +47,7 @@ namespace Workbench.Core.Repeaters
                 if (currentCounterStatus)
                 {
                     // Found counter with remaining value, reset the rightmost counters...
-                    for (var j = i+1; j  < this.counters.Count; j++)
+                    for (var j = i + 1; j < this.counters.Count; j++)
                     {
                         this.counters[j].Reset();
                         this.counters[j].Next();
@@ -128,7 +114,7 @@ namespace Workbench.Core.Repeaters
                 if (i == 0) return;
 
                 // Move the immediately leftward value on one and then reset the current counter...
-                this.counters[i-1].Next();
+                this.counters[i - 1].Next();
                 this.counters[i].Reset();
                 this.counters[i].Next();
             }

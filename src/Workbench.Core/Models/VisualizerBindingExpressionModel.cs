@@ -2,7 +2,7 @@
 using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
-using Workbench.Core.Solver;
+using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Models
 {
@@ -17,6 +17,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theVisualizerModel != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
+            Visualizer = theVisualizerModel;
             Text = rawExpression;
         }
 
@@ -26,6 +27,14 @@ namespace Workbench.Core.Models
             Text = string.Empty;
         }
 
+        /// <summary>
+        /// Gets or sets the visualizer.
+        /// </summary>
+        public VisualizerModel Visualizer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the raw visualizer binding expression.
+        /// </summary>
         public string Text
         {
             get { return this.text; }
@@ -42,9 +51,16 @@ namespace Workbench.Core.Models
         /// </summary>
         public VisualizerBindingExpressionNode Node { get; private set; }
 
-        public void ExecuteWith(SolutionSnapshot theSnapshot)
+        /// <summary>
+        /// Execute the visualizer binding expression.
+        /// </summary>
+        /// <param name="theContext">Context for updating the visualizer.</param>
+        public void ExecuteWith(VisualizerUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
+            Contract.Requires<ArgumentNullException>(theContext != null);
+            if (Node == null) return;
+            var repeater = new VisualizerRepeater(theContext.Snapshot);
+            repeater.Process(repeater.CreateContextFrom((ChessboardVisualizerModel) theContext.Visualizer));
         }
 
         /// <summary>

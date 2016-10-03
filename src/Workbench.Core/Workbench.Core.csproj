@@ -175,6 +175,8 @@
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
+    <Compile Include="Models\VisualizerUpdateContext.cs" />
+    <Compile Include="Nodes\VisualizerBinaryExpressionNode.cs" />
     <Compile Include="Nodes\CallArgumentNameNode.cs" />
     <Compile Include="Nodes\CallArgumentNode.cs" />
     <Compile Include="Nodes\CallArgumentNumberValueNode.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Nodes\ExpanderCountNode.cs" />
     <Compile Include="Nodes\ExpanderScopeNode.cs" />
     <Compile Include="Nodes\ExpanderStatementNode.cs" />
+    <Compile Include="Nodes\VisualizerExpressionNode.cs" />
     <Compile Include="Nodes\IfStatementNode.cs" />
     <Compile Include="Nodes\InfixStatementNode.cs" />
     <Compile Include="Nodes\CallArgumentNodeList.cs" />
@@ -196,6 +199,8 @@
     <Compile Include="Nodes\ScopeStatementNode.cs" />
     <Compile Include="Nodes\StatementNode.cs" />
     <Compile Include="Nodes\SubscriptStatementNode.cs" />
+    <Compile Include="Nodes\ValueOffsetNode.cs" />
+    <Compile Include="Nodes\ValueReferenceStatementNode.cs" />
     <Compile Include="Nodes\VisualizerBindingExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
@@ -262,6 +267,8 @@
     <Compile Include="Repeaters\RangeIterator.cs" />
     <Compile Include="Repeaters\Repeater.cs" />
     <Compile Include="Repeaters\RepeaterContext.cs" />
+    <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
+    <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\ExpressionConstraintConverter.cs" />
     <Compile Include="Solver\ModelConverter.cs" />

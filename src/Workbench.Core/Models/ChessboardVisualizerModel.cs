@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -51,15 +50,13 @@ namespace Workbench.Core.Models
             }
         }
 
-#if true
-
         /// <summary>
         /// Update the visualizer from the solution.
         /// </summary>
-        /// <param name="theSnapshot">Solution snapshot.</param>
-        public override void UpdateFrom(SolutionSnapshot theSnapshot)
+        /// <param name="theContext">Context to update the visualizer.</param>
+        public override void UpdateFrom(VisualizerUpdateContext theContext)
         {
-            Binding.ExecuteWith(theSnapshot);
+            Binding.ExecuteWith(theContext);
         }
 
         /// <summary>
@@ -68,37 +65,53 @@ namespace Workbench.Core.Models
         /// <param name="theCall">Call arguments.</param>
         public override void UpdateWith(VisualizerCall theCall)
         {
-            throw new NotImplementedException();
+            var x = theCall.GetArgumentByName("x");
+            var y = theCall.GetArgumentByName("y");
+            var playerDescription = theCall.GetArgumentByName("side");
+            var pieceDescription = theCall.GetArgumentByName("piece");
+
+            this.chessboard.Add(new ChessboardSquareModel(new ChessPieceModel(new Point(ConvertLocationFrom(x), ConvertLocationFrom(y)),
+                                                          ConvertPlayerFrom(playerDescription),
+                                                          ConvertToPieceTypeFrom(pieceDescription))));
         }
 
-#if false
-    /// <summary>
-    /// ExecuteWith the visualizer from a value.
-    /// </summary>
-    /// <param name="theSnapshot">Solution snapshot.</param>
-        public override void UpdateFrom(SolutionSnapshot theSnapshot)
+        private int ConvertLocationFrom(string value)
         {
-            for (var x = 1; x <= theValue.Values.Count; x++)
+            int n;
+            bool isNumeric = int.TryParse(value, out n);
+
+            if (isNumeric) return n;
+            return default(int);
+        }
+
+        private Player ConvertPlayerFrom(string playerDescription)
+        {
+            var lowerCasePlayerDescription = playerDescription.ToLower();
+            switch (lowerCasePlayerDescription)
             {
-                for (var y = 1; y <= theValue.Values.Count; y++)
-                {
-                    if (theValue.GetValueAt(x-1) == y)
-                    {
-                        // A square with a queen
-                        var squareLocation = new Point(x, y);
-                        var theQueen = ChessPieceModel.CreateFrom(squareLocation,
-                                                                  Player.White,
-                                                                  PieceType.Queen);
-                        var newSquare = ChessboardSquareModel.CreateWith(squareLocation, theQueen);
-                        this.chessboard.Add(newSquare);
-                        // Only one queen can be present on each row...
-                        break;
-                    }
-                }
+                case "white":
+                    return Player.White;
+
+                case "black":
+                    return Player.Black;
+
+                default:
+                    throw new NotImplementedException();
             }
-    }
-#endif
-#endif
+        }
+
+        private PieceType ConvertToPieceTypeFrom(string pieceDescription)
+        {
+            var lowerCasePieceDescription = pieceDescription.ToLower();
+            switch (lowerCasePieceDescription)
+            {
+                case "queen":
+                    return PieceType.Queen;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
         /// <summary>
         /// Get all squares occupied by the type of piece.

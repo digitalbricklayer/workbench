@@ -229,7 +229,7 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentException>(infixStatement.IsCounterReference ||
                                                  infixStatement.IsLiteral);
             if (infixStatement.IsLiteral) return infixStatement.Literal.Value;
-            var counter = context.Counters.First(_ => _.CounterName == infixStatement.CounterReference.CounterName);
+            var counter = context.GetCounterContextByName(infixStatement.CounterReference.CounterName);
             return counter.CurrentValue;
         }
     }

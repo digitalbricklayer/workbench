@@ -18,7 +18,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithIfStatementAggregateReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var parseResult = sut.Parse("if cols[1] = 1: board(x:7,y:7,side:white,piece:queen)");
+            var parseResult = sut.Parse("if <cols,1> = 1: board(x:7,y:7,side:white,piece:queen)");
             Assert.That(parseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -26,7 +26,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithIfStatementSingletonReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var parseResult = sut.Parse("if cols = 1: board(x:7,y:7,side:white,piece:queen)");
+            var parseResult = sut.Parse("if <cols> = 1: board(x:7,y:7,side:white,piece:queen)");
             Assert.That(parseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -42,7 +42,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithSingleRepeaterIfStatementReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var parseResult = sut.Parse("for i in 1..8: if x[1] = 1: board(x:7,y:7,side:white,piece:queen)");
+            var parseResult = sut.Parse("for i in 1..8: if <x,1> = 1: board(x:7,y:7,side:white,piece:queen)");
             Assert.That(parseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -50,7 +50,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithMultiRepeaterStatementReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var parseResult = sut.Parse("for i,j in 1..8,1..8: if cols[i] = j: board(x:7,y:7,side:white,piece:queen)");
+            var parseResult = sut.Parse("for i,j in 1..8,1..8: if <cols,i> = j: board(x:7,y:7,side:white,piece:queen)");
             Assert.That(parseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 

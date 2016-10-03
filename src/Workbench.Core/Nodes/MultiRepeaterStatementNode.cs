@@ -8,6 +8,7 @@ namespace Workbench.Core.Nodes
     {
         public MultiScopeDeclarationNode ScopeDeclarations { get; private set; }
         public MultiCounterDeclarationNode CounterDeclarations { get; private set; }
+        public StatementNode Statement { get; private set; }
 
         /// <summary>
         /// Accept a visitor.
@@ -27,6 +28,10 @@ namespace Workbench.Core.Nodes
             if (!treeNode.ChildNodes.Any()) return;
             CounterDeclarations = (MultiCounterDeclarationNode) AddChild("counter declarations", treeNode.ChildNodes[0]);
             ScopeDeclarations = (MultiScopeDeclarationNode)AddChild("scope declarations", treeNode.ChildNodes[2]);
+            if (treeNode.ChildNodes.Count > 3)
+            {
+                Statement = (StatementNode) AddChild("statement", treeNode.ChildNodes[3]);
+            }
         }
     }
 }

@@ -82,12 +82,9 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Bind the visualizer to a variable from the snapshot.
         /// </summary>
-        /// <param name="theSnapshot">Solution snapshot.</param>
-        public override void UpdateFrom(SolutionSnapshot theSnapshot)
+        /// <param name="theContext">Context for updating a visualizer.</param>
+        public override void UpdateFrom(VisualizerUpdateContext theContext)
         {
-#if false
-            Binding.ExecuteWith(theVariable);
-#endif
         }
 
         /// <summary>

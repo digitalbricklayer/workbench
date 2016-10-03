@@ -53,16 +53,19 @@ namespace Workbench.Core.Grammars
             var callArgumentNumberValue = new NumberLiteral("call argument value number",
                                                             NumberOptions.IntOnly,
                                                             typeof(CallArgumentNumberValueNode));
-            var callArgumentName = new RegexBasedTerminal("call argument name", VisualizerArgumentRegexPattern);
-            callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
             var callArgumentStringValue = new RegexBasedTerminal("call argument value string", VisualizerArgumentRegexPattern);
             callArgumentStringValue.AstConfig.NodeType = typeof(CallArgumentStringValueNode);
+            var callArgumentName = new RegexBasedTerminal("call argument name", VisualizerArgumentRegexPattern);
+            callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
 
             // Non-terminals
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
             var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerBindingExpressionNode));
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
+
+            var valueReferenceStatement = new NonTerminal("binary expression", typeof(ValueReferenceStatementNode));
+            var valueOffset = new NonTerminal("offset", typeof(ValueOffsetNode));
 
             var binaryOperator = new NonTerminal("binary operators", "operator");
             var infixOperator = new NonTerminal("infix");
@@ -75,7 +78,7 @@ namespace Workbench.Core.Grammars
             var callArgument = new NonTerminal("call argument", typeof(CallArgumentNode));
             var callArgumentList = new NonTerminal("call argument list", typeof(CallArgumentNodeList));
             var callStatement = new NonTerminal("call statement", typeof(CallStatementNode));
-            var expression = new NonTerminal("expression", typeof(ExpressionNode));
+            var expression = new NonTerminal("expression", typeof(VisualizerExpressionNode));
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
             var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
             var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
@@ -83,7 +86,7 @@ namespace Workbench.Core.Grammars
             var multiCounterDeclaration = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
             var expanderStatementList = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
             var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
-            var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
+            var binaryExpression = new NonTerminal("binary expression", typeof(VisualizerBinaryExpressionNode));
 
             // BNF rules
             infixStatement.Rule = literal | counterReference;
@@ -94,6 +97,10 @@ namespace Workbench.Core.Grammars
             singletonVariableReference.Rule = variableName;
             singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperator + infixStatement;
 
+            valueOffset.Rule = literal | counterReference;
+            valueReferenceStatement.Rule = ToTerm("<") + variableName + COMMA + valueOffset + ToTerm(">") |
+                                           ToTerm("<") + variableName + ToTerm(">");
+
             callArgumentValue.Rule = callArgumentNumberValue | callArgumentStringValue;
             callArgument.Rule = callArgumentName + COLON + callArgumentValue;
             callArgumentList.Rule = MakePlusRule(callArgumentList, COMMA, callArgument);
@@ -103,9 +110,7 @@ namespace Workbench.Core.Grammars
                                   NOT_EQUAL | ALT_NOT_EQUAL |
                                   LESS | LESS_EQUAL |
                                   GREATER | GREATER_EQUAL;
-            expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
-                              singletonVariableReference | singletonVariableReferenceExpression |
-                              literal;
+            expression.Rule = valueReferenceStatement | literal | counterReference;
             binaryExpression.Rule = expression + binaryOperator + expression;
             scopeLimitStatement.Rule = literal | counterReference;
             expanderCountStatement.Rule = literal | counterReference;
@@ -124,15 +129,17 @@ namespace Workbench.Core.Grammars
 
             Root = bindingExpression;
 
-            // Operators precedence
+            // Operator precedence
             RegisterOperators(1, PLUS, MINUS);
 
             // Punctuation and transient terms
             MarkReservedWords("for", "if", "in");
             RegisterBracePair("(", ")");
+            RegisterBracePair("<", ">");
             MarkTransient(binaryOperator, infixOperator);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
-            MarkPunctuation(FOR, IF, COLON);
+            MarkPunctuation(FOR, IF, COLON, COMMA);
+            MarkPunctuation("<", ">");
         }
     }
 }

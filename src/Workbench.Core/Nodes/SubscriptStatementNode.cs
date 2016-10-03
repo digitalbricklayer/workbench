@@ -41,6 +41,8 @@ namespace Workbench.Core.Nodes
             }
         }
 
+        public CounterReferenceNode CounterReference => InnerExpression as CounterReferenceNode;
+
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

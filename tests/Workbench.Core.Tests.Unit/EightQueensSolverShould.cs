@@ -33,7 +33,6 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        [Ignore("")]
         public void SolveWithAttachedChessboardVisualizerAssignsEightQueens()
         {
             var sut = CreateWorkspace();
@@ -51,7 +50,7 @@ namespace Workbench.Core.Tests.Unit
                                           .WithConstraintExpression($"cols[i] <> cols[j] | i,j in {ExpectedQueens},i")
                                           .WithConstraintExpression($"cols[i] + i <> cols[j] + j | i,j in {ExpectedQueens},i")
                                           .WithConstraintExpression($"cols[i] - i <> cols[j] - j | i,j in {ExpectedQueens},i")
-                                          .WithChessboardVisualizerBindingTo("board", $"for x,y in 1..{ExpectedQueens},1..{ExpectedQueens}: if cols[x] = y: board(x,y,Queen,White)")
+                                          .WithChessboardVisualizerBindingTo("board", $"for x,y in 1..{ExpectedQueens},1..{ExpectedQueens}: if <cols,x> = y: board(x:x,y:y,side:white,piece:Queen)")
                                           .Build();
 
             return workspace;

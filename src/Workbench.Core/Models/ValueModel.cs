@@ -90,7 +90,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the value at the index.
         /// </summary>
-        /// <param name="index">Index starting at one.</param>
+        /// <param name="index">Index starting at zero.</param>
         /// <returns>Value at index.</returns>
         public int GetValueAt(int index)
         {

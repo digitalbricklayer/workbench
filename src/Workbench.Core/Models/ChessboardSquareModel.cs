@@ -13,9 +13,9 @@ namespace Workbench.Core.Models
         private readonly ChessPieceModel piece;
         private readonly Point location;
 
-        public ChessboardSquareModel(Point theLocation, ChessPieceModel thePiece)
+        public ChessboardSquareModel(ChessPieceModel thePiece)
         {
-            this.location = theLocation;
+            this.location = thePiece.Position;
             this.piece = thePiece;
         }
 
@@ -58,14 +58,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Create a chessboard square with a piece occupying it.
         /// </summary>
-        /// <param name="theLocation">Location on the board.</param>
         /// <param name="thePiece">Peice.</param>
         /// <returns>Board square with a piece occupying it.</returns>
-        public static ChessboardSquareModel CreateWith(Point theLocation,
-                                                       ChessPieceModel thePiece)
+        public static ChessboardSquareModel CreateWith(ChessPieceModel thePiece)
         {
             Contract.Requires<ArgumentNullException>(thePiece != null);
-            return new ChessboardSquareModel(theLocation, thePiece);
+            return new ChessboardSquareModel(thePiece);
         }
     }
 }
