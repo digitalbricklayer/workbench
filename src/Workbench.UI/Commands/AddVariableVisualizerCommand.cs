@@ -58,8 +58,8 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             var newVisualizerModel = new VariableVisualizerModel(newVisualizerLocation);
-            this.CreateDesigner(newVisualizerModel);
-            this.CreateViewer(newVisualizerModel);
+            CreateDesigner(newVisualizerModel);
+            CreateViewer(newVisualizerModel);
             this.titleBar.UpdateTitle();
         }
 

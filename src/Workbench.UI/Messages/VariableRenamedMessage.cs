@@ -20,8 +20,8 @@ namespace Workbench.Messages
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
             Contract.Requires<ArgumentNullException>(theVariable != null);
 
-            this.OldName = theOldName;
-            this.Renamed = theVariable;
+            OldName = theOldName;
+            Renamed = theVariable;
         }
 
         /// <summary>

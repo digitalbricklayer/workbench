@@ -17,8 +17,8 @@ namespace Workbench.Messages
         {
             Contract.Requires<ArgumentNullException>(theResult != null);
 
-            this.Result = theResult;
-            this.Snapshot = theResult.Snapshot;
+            Result = theResult;
+            Snapshot = theResult.Snapshot;
         }
 
         /// <summary>

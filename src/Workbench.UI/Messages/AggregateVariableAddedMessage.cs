@@ -16,7 +16,7 @@ namespace Workbench.Messages
         public AggregateVariableAddedMessage(AggregateVariableViewModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
-            this.Added = newVariable;
+            Added = newVariable;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Workbench.Messages
             get
             {
                 Contract.Ensures(Contract.Result<string>() != null);
-                return this.Added.Name;
+                return Added.Name;
             }
         }
     }

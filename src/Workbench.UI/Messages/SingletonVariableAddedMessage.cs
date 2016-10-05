@@ -31,8 +31,8 @@ namespace Workbench.Messages
         {
             get
             {
-                Contract.Assume(this.NewVariable != null);
-                return this.NewVariable.Name;
+                Contract.Assume(NewVariable != null);
+                return NewVariable.Name;
             }
         }
     }

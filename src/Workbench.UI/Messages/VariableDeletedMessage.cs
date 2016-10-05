@@ -10,22 +10,19 @@ namespace Workbench.Messages
     public class VariableDeletedMessage
     {
         /// <summary>
-        /// Initialize a variable deleted message with the name of the deleted variable.
+        /// Initialize a variable deleted message with the deleted variable.
         /// </summary>
         /// <param name="theDeletedVariable">The variable that has been deleted.</param>
         public VariableDeletedMessage(VariableViewModel theDeletedVariable)
         {
             Contract.Requires<ArgumentNullException>(theDeletedVariable != null);
-            this.Deleted = theDeletedVariable;
+            Deleted = theDeletedVariable;
         }
 
         /// <summary>
         /// Gets the name of the deleted variable.
         /// </summary>
-        public string VariableName
-        {
-            get { return this.Deleted.Name; }
-        }
+        public string VariableName => Deleted.Name;
 
         /// <summary>
         /// Gets the variable that has been deleted.
