@@ -7,10 +7,10 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class VisualizerDesignViewModel : GraphicViewModel,
-                                             IHandle<SingletonVariableAddedMessage>,
-                                             IHandle<AggregateVariableAddedMessage>,
-                                             IHandle<VariableDeletedMessage>
+    public abstract class VisualizerDesignViewModel : GraphicViewModel,
+                                                      IHandle<SingletonVariableAddedMessage>,
+                                                      IHandle<AggregateVariableAddedMessage>,
+                                                      IHandle<VariableDeletedMessage>
     {
         private IObservableCollection<VariableViewModel> availableVariables;
         private VariableViewModel selectedVariable;

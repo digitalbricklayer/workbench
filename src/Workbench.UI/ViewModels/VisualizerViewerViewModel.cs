@@ -4,12 +4,13 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class VisualizerViewerViewModel : GraphicViewModel
+    public abstract class VisualizerViewerViewModel : GraphicViewModel
     {
         private VariableViewModel boundTo;
         private ValueModel value;
 
-        protected VisualizerViewerViewModel(GraphicModel theGraphicModel) : base(theGraphicModel)
+        protected VisualizerViewerViewModel(GraphicModel theGraphicModel)
+            : base(theGraphicModel)
         {
         }
 
