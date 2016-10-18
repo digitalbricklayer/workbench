@@ -12,36 +12,38 @@ namespace Workbench.Core.Models
     /// anything other than an aggregate at the moment. Maybe later we could 
     /// implement the constraint for 2 or more singletons.
     /// </remarks>
-    public class AllDifferentConstraintModel : ConstraintModel
+    public sealed class AllDifferentConstraintModel : ConstraintModel
     {
-        private VariableModel variable;
-
-        public AllDifferentConstraintModel(string constraintName, Point location, VariableModel theVariable)
+        public AllDifferentConstraintModel(string constraintName, Point location, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(constraintName, location)
         {
-            Contract.Requires<ArgumentNullException>(theVariable != null);
-            Variable = theVariable;
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
+            Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(VariableModel theVariable)
+        /// <summary>
+        /// Initialize the all different constraint model with a name and location.
+        /// </summary>
+        /// <param name="constraintName">Constraint name.</param>
+        /// <param name="location">Constraint screen location.</param>
+        public AllDifferentConstraintModel(string constraintName, Point location)
+            : base(constraintName, location)
         {
-            Contract.Requires<ArgumentNullException>(theVariable != null);
-            Variable = theVariable;
+            Expression = new AllDifferentConstraintExpressionModel();
+        }
+
+        public AllDifferentConstraintModel(AllDifferentConstraintExpressionModel theExpressionModel)
+        {
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
+            Expression = theExpressionModel;
         }
 
         public AllDifferentConstraintModel()
         {
+            Expression = new AllDifferentConstraintExpressionModel();
         }
 
-        public VariableModel Variable
-        {
-            get { return this.variable; }
-            set
-            {
-                this.variable = value;
-                OnPropertyChanged();
-            }
-        }
+        public AllDifferentConstraintExpressionModel Expression { get; set; }
 
         /// <summary>
         /// Validate the all different constraint.
@@ -64,7 +66,7 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
-            return this.variable != null;
+            return !string.IsNullOrWhiteSpace(Expression.Text);
         }
     }
 }

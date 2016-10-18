@@ -231,16 +231,33 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Create a new constraint.
+        /// Create a new expression constraint.
         /// </summary>
         /// <param name="newConstraintName">New constraint name.</param>
         /// <param name="newLocation">New constraint location.</param>
         /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel AddConstraint(string newConstraintName, Point newLocation)
+        public ConstraintViewModel AddExpressionConstraint(string newConstraintName, Point newLocation)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
-            var newConstraint = new ConstraintViewModel(new ExpressionConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
+            var newConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
+            this.Model.AddConstraint(newConstraint);
+            this.IsDirty = true;
+
+            return newConstraint;
+        }
+
+        /// <summary>
+        /// Create a new all different constraint.
+        /// </summary>
+        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="newLocation">New constraint location.</param>
+        /// <returns>New constraint view model.</returns>
+        public ConstraintViewModel AddAllDifferentConstraint(string newConstraintName, Point newLocation)
+        {
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
+
+            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintModel(newConstraintName, newLocation));
             this.Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 

@@ -171,6 +171,7 @@
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
+    <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />

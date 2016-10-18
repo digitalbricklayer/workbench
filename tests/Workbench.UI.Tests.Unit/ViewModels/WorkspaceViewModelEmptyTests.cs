@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                           Mock.Of<IEventAggregator>());
             workspaceViewModel.Model.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
-            var constraintViewModel = new ConstraintViewModel(new ExpressionConstraintModel("x", string.Empty));
+            var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintModel("x", string.Empty));
             workspaceViewModel.Model.AddConstraint(constraintViewModel);
             constraintViewModel.Expression.Text = "x > 1";
 

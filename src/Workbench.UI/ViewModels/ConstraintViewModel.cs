@@ -1,44 +1,28 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for a constraint.
+    /// Base class for all constraint view models.
     /// </summary>
-    public class ConstraintViewModel : GraphicViewModel
+    public abstract class ConstraintViewModel : GraphicViewModel
     {
-        private ExpressionConstraintModel model;
+        private ConstraintModel model;
 
-        public ConstraintViewModel(ExpressionConstraintModel theConstraintModel)
+        protected ConstraintViewModel(ConstraintModel theConstraintModel)
             : base(theConstraintModel)
         {
-            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
-            this.Model = theConstraintModel;
-            this.Expression = new ConstraintExpressionViewModel(this.Model.Expression);
         }
-
-        /// <summary>
-        /// Gets or sets the constraint expression.
-        /// </summary>
-        public ConstraintExpressionViewModel Expression { get; private set; }
 
         /// <summary>
         /// Gets whether the expression is a valid expression.
         /// </summary>
-        public bool IsValid
-        {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(this.Expression.Text);
-            }
-        }
+        public abstract bool IsValid { get; }
 
         /// <summary>
         /// Gets or sets the constraint model.
         /// </summary>
-        public new ExpressionConstraintModel Model
+        public virtual new ConstraintModel Model
         {
             get { return this.model; }
             set

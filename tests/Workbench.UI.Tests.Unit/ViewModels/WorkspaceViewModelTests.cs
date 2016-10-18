@@ -66,8 +66,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             newWorkspace.AddSingletonVariable("x", new Point());
             this.xVariable = newWorkspace.Model.GetVariableByName("x");
             this.xVariable.DomainExpression.Text = "1..2";
-            newWorkspace.AddConstraint("X", new Point());
-            var theConstraint = newWorkspace.Model.GetConstraintByName("X");
+            newWorkspace.AddExpressionConstraint("X", new Point());
+            var theConstraint = (ExpressionConstraintViewModel) newWorkspace.Model.GetConstraintByName("X");
             theConstraint.Expression.Text = "x > 1";
             var theVisualizer = new VariableVisualizerModel(new Point());
             var newViewer = new VariableVisualizerViewerViewModel(theVisualizer, this.eventAggregator);

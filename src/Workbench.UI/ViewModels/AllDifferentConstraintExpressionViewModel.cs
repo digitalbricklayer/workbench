@@ -7,26 +7,22 @@ using Workbench.Core.Models;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// A constraint expression view model.
+    /// View model for the all different constraint expression editor.
     /// </summary>
-    public sealed class ConstraintExpressionViewModel : PropertyChangedBase
+    public sealed class AllDifferentConstraintExpressionViewModel : PropertyChangedBase
     {
         private bool isExpressionEditing;
 
-        /// <summary>
-        /// Initialize a constraint expression with an expression model.
-        /// </summary>
-        /// <param name="theExpressionModel">Constraint expression model.</param>
-        public ConstraintExpressionViewModel(ConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintExpressionViewModel(AllDifferentConstraintExpressionModel theExpressionModel)
         {
             Contract.Requires<ArgumentNullException>(theExpressionModel != null);
-            this.Model = theExpressionModel;
+            Model = theExpressionModel;
         }
 
         /// <summary>
-        /// Gets or sets the constraint expression model.
+        /// Gets or sets the all different constraint expression model.
         /// </summary>
-        public ConstraintExpressionModel Model { get; set; }
+        public AllDifferentConstraintExpressionModel Model { get; set; }
 
         /// <summary>
         /// Gets or sets the constraint expression text.

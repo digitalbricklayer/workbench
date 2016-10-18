@@ -123,9 +123,14 @@ namespace Workbench.ViewModels
         public ICommand AddAggregateVariableCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Model|Add Constraint command.
+        /// Gets the Model|Add Expression Constraint command.
         /// </summary>
-        public ICommand AddConstraintCommand { get; private set; }
+        public ICommand AddExpressionConstraintCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Model|Add All Different Constraint command.
+        /// </summary>
+        public ICommand AddAllDifferentConstraintCommand { get; private set; }
 
         /// <summary>
         /// Gets the Model|Add Domain command.
@@ -277,12 +282,22 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Create a new constraint.
+        /// Create a new expression constraint.
         /// </summary>
-        private void ModelAddConstraintAction()
+        private void ModelAddExpressionConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddConstraint("New Constraint", newConstraintLocation);
+            Workspace.AddExpressionConstraint("New Constraint", newConstraintLocation);
+            this.titleBar.UpdateTitle();
+        }
+
+        /// <summary>
+        /// Create a new expression constraint.
+        /// </summary>
+        private void ModelAddAllDifferentConstraintAction()
+        {
+            var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
+            Workspace.AddAllDifferentConstraint("New Constraint", newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -404,18 +419,19 @@ namespace Workbench.ViewModels
         /// </summary>
         private void CreateMenuCommands()
         {
-            this.NewCommand = new CommandHandler(FileNewAction);
-            this.OpenCommand = new CommandHandler(FileOpenAction);
-            this.SaveCommand = new CommandHandler(FileSaveAction);
-            this.SaveAsCommand = new CommandHandler(FileSaveAsAction);
-            this.ExitCommand = new CommandHandler(FileExitAction);
-            this.SolveCommand = new CommandHandler(ModelSolveAction);
-            this.AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction);
-            this.AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction);
-            this.AddConstraintCommand = new CommandHandler(ModelAddConstraintAction);
-            this.AddDomainCommand = new CommandHandler(ModelAddDomainAction);
-            this.DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
-            this.ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
+            NewCommand = new CommandHandler(FileNewAction);
+            OpenCommand = new CommandHandler(FileOpenAction);
+            SaveCommand = new CommandHandler(FileSaveAction);
+            SaveAsCommand = new CommandHandler(FileSaveAsAction);
+            ExitCommand = new CommandHandler(FileExitAction);
+            SolveCommand = new CommandHandler(ModelSolveAction);
+            AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction);
+            AddAggregateVariableCommand = new CommandHandler(ModelAddAggregateVariableAction);
+            AddExpressionConstraintCommand = new CommandHandler(ModelAddExpressionConstraintAction);
+            AddAllDifferentConstraintCommand = new CommandHandler(ModelAddAllDifferentConstraintAction);
+            AddDomainCommand = new CommandHandler(ModelAddDomainAction);
+            DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
+            ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
     }
 }

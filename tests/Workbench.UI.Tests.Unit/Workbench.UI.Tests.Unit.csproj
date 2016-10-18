@@ -105,7 +105,7 @@
     <Compile Include="Services\ViewModelFactoryTests.cs" />
     <Compile Include="Services\WorkspaceMapperTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
-    <Compile Include="ViewModels\ConstraintViewModelTests.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainViewModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />

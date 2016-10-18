@@ -143,7 +143,7 @@ namespace Workbench.Core.Models
         /// Delete the constraint from the model.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ExpressionConstraintModel constraintToDelete)
+        public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
             this.Constraints.Remove(constraintToDelete);

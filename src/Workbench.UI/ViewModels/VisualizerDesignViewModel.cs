@@ -19,13 +19,13 @@ namespace Workbench.ViewModels
         protected IViewModelService viewModelService;
         private VisualizerModel model;
 
-        protected VisualizerDesignViewModel(GraphicModel theGraphicModel,
+        protected VisualizerDesignViewModel(GraphicModel theConstraintModel,
                                             IEventAggregator theEventAggregator,
                                             IDataService theDataService,
                                             IViewModelService theViewModelService)
-            : base(theGraphicModel)
+            : base(theConstraintModel)
         {
-            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
+            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);

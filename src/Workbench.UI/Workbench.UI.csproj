@@ -245,9 +245,12 @@
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerDesignViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />

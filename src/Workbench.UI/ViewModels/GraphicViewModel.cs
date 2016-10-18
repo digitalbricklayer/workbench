@@ -24,11 +24,11 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a graphic with a data service.
         /// </summary>
-        /// <param name="theGraphicModel">Graphic model.</param>
-        protected GraphicViewModel(GraphicModel theGraphicModel)
+        /// <param name="theConstraintModel">Graphic model.</param>
+        protected GraphicViewModel(GraphicModel theConstraintModel)
         {
-            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
-            this.Model = theGraphicModel;
+            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
+            this.Model = theConstraintModel;
         }
 
         /// <summary>

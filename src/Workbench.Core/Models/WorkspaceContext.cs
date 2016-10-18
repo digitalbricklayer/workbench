@@ -71,10 +71,9 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithConstraintAllDifferent(string theVariableName)
+        public WorkspaceContext WithConstraintAllDifferent(string theExpression)
         {
-            var variableToBindTo = this.workspace.Model.GetVariableByName(theVariableName);
-            this.workspace.Model.AddConstraint(new AllDifferentConstraintModel(variableToBindTo));
+            this.workspace.Model.AddConstraint(new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression)));
             return this;
         }
 

@@ -51,7 +51,12 @@
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add Constraint" Command="{Binding AddConstraintCommand}">
+                <MenuItem Header="Add Expression Constraint" Command="{Binding AddExpressionConstraintCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add All Different Constraint" Command="{Binding AddAllDifferentConstraintCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>

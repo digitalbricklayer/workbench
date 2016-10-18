@@ -16,14 +16,14 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void HasBindingWithUnboudBindingReturnsFalse()
+        public void HasBindingWithUnboundBindingReturnsFalse()
         {
             var sut = new VariableVisualizerBindingModel(this.visualizer);
             Assert.That(sut.HasBinding, Is.False);
         }
 
         [Test]
-        public void HasBindingWithNewlyBoudBindingReturnsTrue()
+        public void HasBindingWithNewlyBoundBindingReturnsTrue()
         {
             var sut = new VariableVisualizerBindingModel(this.visualizer);
             sut.BindTo(new VariableModel("x"));
@@ -31,7 +31,7 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void HasBindingWithBoudBindingReturnsTrue()
+        public void HasBindingWithBoundBindingReturnsTrue()
         {
             var sut = new VariableVisualizerBindingModel(this.visualizer, new VariableModel("x"));
             Assert.That(sut.HasBinding, Is.True);

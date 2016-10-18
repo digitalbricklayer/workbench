@@ -23,7 +23,7 @@ namespace Workbench.Services
         {
             Debug.Assert(theConstraintModel.HasIdentity);
 
-            var constraintViewModel = new ConstraintViewModel((ExpressionConstraintModel) theConstraintModel);
+            var constraintViewModel = new ExpressionConstraintViewModel((ExpressionConstraintModel) theConstraintModel);
 
             this.cache.CacheGraphic(constraintViewModel);
 
