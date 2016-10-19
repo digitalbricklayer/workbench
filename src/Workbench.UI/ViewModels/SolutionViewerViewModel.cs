@@ -87,11 +87,11 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Add a new variable visualizer.
         /// </summary>
-        /// <param name="newVariableVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerViewerViewModel newVariableVisualizer)
+        /// <param name="newVisualizer">New visualizer.</param>
+        public void AddVisualizer(VisualizerViewerViewModel newVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(newVariableVisualizer != null);
-            this.ActivateItem(newVariableVisualizer);
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+            this.ActivateItem(newVisualizer);
         }
 
         /// <summary>

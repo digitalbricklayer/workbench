@@ -15,9 +15,7 @@ namespace Workbench.Bootstrapper
         /// <param name="kernel">The kernel.</param>
         public void Register(IKernelInternal kernel)
         {
-            kernel.Register(Component.For<AddVariableVisualizerCommand>()
-                                     .LifeStyle.Singleton,
-                            Component.For<AddChessboardVisualizerCommand>()
+            kernel.Register(Component.For<AddChessboardVisualizerCommand>()
                                      .LifeStyle.Singleton);
         }
     }

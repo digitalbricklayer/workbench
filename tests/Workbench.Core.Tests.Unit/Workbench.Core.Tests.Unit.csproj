@@ -90,7 +90,6 @@
     <Compile Include="Models\ModelModelInvalidModelTests.cs" />
     <Compile Include="Models\ModelModelTests.cs" />
     <Compile Include="Models\VariableModelTests.cs" />
-    <Compile Include="Models\VariableVisualizerBindingModelTests.cs" />
     <Compile Include="Models\WorkspaceTests.cs" />
     <Compile Include="Parsers\ContraintExpressionParserWithExpanderShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />

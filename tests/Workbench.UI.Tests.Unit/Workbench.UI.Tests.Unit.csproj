@@ -111,7 +111,6 @@
     <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelXTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />
-    <Compile Include="ViewModels\VariableVisualizerViewModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelCreatedFromModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />

@@ -29,7 +29,6 @@ namespace Workbench.Core.Tests.Unit.Models
             var sut = WorkspaceModel.Create(ExpectedModelName)
                                     .AddSingleton("x", "1..10")
                                     .WithConstraintExpression("x > 1")
-                                    .WithVariableVisualizerBindingTo("x")
                                     .Build();
             Assert.That(sut.Model.Name, Is.EqualTo(ExpectedModelName));
         }

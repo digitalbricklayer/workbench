@@ -212,7 +212,6 @@
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
-    <Compile Include="Commands\AddVariableVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
@@ -252,11 +251,10 @@
     <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
+    <Compile Include="ViewModels\IShellContract.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\VisualizerDesignViewModel.cs" />
-    <Compile Include="ViewModels\VariableVisualizerViewerViewModel.cs" />
-    <Compile Include="ViewModels\VariableVisualizerDesignViewModel.cs" />
     <Compile Include="ViewModels\VisualizerMenuViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
@@ -349,10 +347,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VariableDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\VariableVisualizerDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

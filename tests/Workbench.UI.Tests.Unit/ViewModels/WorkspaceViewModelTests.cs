@@ -37,25 +37,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             Assert.That(sut.SelectedDisplayMode, Is.EqualTo("Solution"));
         }
 
-        [Test]
-        public void AddVariableVisualizerAssignsIdentity()
-        {
-            var sut = CreateSut();
-            var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
-            Assert.That(actualVisualizer.Model.HasIdentity, Is.True);
-        }
-
-        [Test]
-        public void SolveModelWithVisualizerBindsValueToVisualizer()
-        {
-            var sut = CreateSut();
-            sut.SolveModel();
-            var actualVisualizer = sut.Viewer.GetVisualizerFor("x");
-            Assert.That(actualVisualizer.Value.GetValueAt(0), Is.GreaterThan(1)
-                                                                .And
-                                                                .LessThanOrEqualTo(10));
-        }
-
         private WorkspaceViewModel CreateSut()
         {
             var newWorkspace = new WorkspaceViewModel(this.dataService,
@@ -69,15 +50,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             newWorkspace.AddExpressionConstraint("X", new Point());
             var theConstraint = (ExpressionConstraintViewModel) newWorkspace.Model.GetConstraintByName("X");
             theConstraint.Expression.Text = "x > 1";
-            var theVisualizer = new VariableVisualizerModel(new Point());
-            var newViewer = new VariableVisualizerViewerViewModel(theVisualizer, this.eventAggregator);
-            newWorkspace.AddViewer(newViewer);
-            var newDesigner = new VariableVisualizerDesignViewModel(theVisualizer,
-                                                                    this.eventAggregator,
-                                                                    this.dataService,
-                                                                    this.viewModelMock.Object);
-            newWorkspace.AddDesigner(newDesigner);
-            newDesigner.SelectedVariable = this.xVariable;
 
             return newWorkspace;
         }

@@ -43,11 +43,13 @@ namespace Workbench.Services
             {
                 Debug.Assert(aVisualizer.HasIdentity);
 
+#if false
                 var newVisualizerViewModel = new VariableVisualizerDesignViewModel(aVisualizer,
                                                                                    this.eventAggregator,
                                                                                    this.dataService,
                                                                                    this._viewModelService);
                 newDesignerViewModel.FixupVisualizer(newVisualizerViewModel);
+#endif
             }
 
             return newDesignerViewModel;

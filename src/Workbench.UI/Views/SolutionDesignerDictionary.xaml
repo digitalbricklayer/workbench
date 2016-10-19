@@ -4,7 +4,7 @@
                     xmlns:controls="clr-namespace:Workbench.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="VariableVisualizerDictionary.xaml"/>
+        <!--<ResourceDictionary Source="VariableVisualizerDictionary.xaml"/>-->
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type viewModels:SolutionDesignerViewModel}">

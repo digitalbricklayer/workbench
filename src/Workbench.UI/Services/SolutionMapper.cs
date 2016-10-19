@@ -43,13 +43,13 @@ namespace Workbench.Services
 
             foreach (var aVisualizer in theSolutionModel.Display.Visualizers)
             {
+#if false
                var newViewer = new VariableVisualizerViewerViewModel(aVisualizer,
                                                                      this.eventAggregator);
-#if false
                 if (aVisualizer.Binding != null)
                     newViewer.Binding = this.viewModelService.GetVariableByIdentity(aVisualizer.Binding.VariableId);
-#endif
                 solutionViewModel.ActivateItem(newViewer);
+#endif
             }
 
             return solutionViewModel;

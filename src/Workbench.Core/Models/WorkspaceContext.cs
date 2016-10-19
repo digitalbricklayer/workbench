@@ -77,15 +77,6 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithVariableVisualizerBindingTo(string variableNameToBindTo)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableNameToBindTo));
-            var theVisualizer = new VariableVisualizerModel(new Point());
-            theVisualizer.BindTo(this.workspace.Model.GetVariableByName(variableNameToBindTo));
-            this.workspace.AddVisualizer(theVisualizer);
-            return this;
-        }
-
         public WorkspaceContext WithChessboardVisualizerBindingTo(string theVisualizerName, string theBindingExpression)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));

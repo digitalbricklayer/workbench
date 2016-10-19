@@ -220,7 +220,6 @@
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\ValueModel.cs" />
-    <Compile Include="Models\VariableVisualizerBindingModel.cs" />
     <Compile Include="Models\AggregateVariableReference.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
@@ -238,7 +237,6 @@
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
-    <Compile Include="Models\VariableVisualizerModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />
