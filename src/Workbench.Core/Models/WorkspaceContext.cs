@@ -77,12 +77,20 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithChessboardVisualizerBindingTo(string theVisualizerName, string theBindingExpression)
+        public WorkspaceContext WithChessboardVisualizer(string theVisualizerName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
-            var theVisualizer = new ChessboardVisualizerModel(theVisualizerName, new Point(), theBindingExpression);
+
+            var theVisualizer = new ChessboardVisualizerModel(theVisualizerName, new Point());
             this.workspace.AddVisualizer(theVisualizer);
+            return this;
+        }
+
+        public WorkspaceContext WithVisualizerBinding(string theBindingExpression)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
+
+            this.workspace.Solution.Display.Binding.Text = theBindingExpression;
             return this;
         }
 

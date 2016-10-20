@@ -63,7 +63,7 @@ namespace Workbench.ViewModels
         /// <remarks>
         /// Used when mapping the model to a view model.
         /// </remarks>
-        /// <param name="newVisualizerViewModel">Visualizer design view model.</param>
+        /// <param name="newVisualizerViewModel">Visualizers design view model.</param>
         internal void FixupVisualizer(VisualizerDesignViewModel newVisualizerViewModel)
         {
             Contract.Requires<ArgumentNullException>(newVisualizerViewModel != null);

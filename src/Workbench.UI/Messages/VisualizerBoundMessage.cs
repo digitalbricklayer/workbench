@@ -13,7 +13,7 @@ namespace Workbench.Messages
         /// <summary>
         /// Initialize the visualizer bound message with the visualizer and variable bound to the visualizer.
         /// </summary>
-        /// <param name="theVisualizer">Visualizer being bound to a variable.</param>
+        /// <param name="theVisualizer">Visualizers being bound to a variable.</param>
         /// <param name="theVariable">Variable bound to the visualizer. 
         /// May be null if the variable is being unbound from any variable.</param>
         public VisualizerBoundMessage(VisualizerModel theVisualizer, VariableViewModel theVariable)

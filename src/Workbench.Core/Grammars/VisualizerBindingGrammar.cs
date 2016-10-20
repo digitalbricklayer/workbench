@@ -6,7 +6,7 @@ namespace Workbench.Core.Grammars
     /// <summary>
     /// Grammar for visualizer binding expressions.
     /// </summary>
-    [Language("Visualizer Binding", "0.1", "A grammar for binding a model solution to a visualizer.")]
+    [Language("Visualizers Binding", "0.1", "A grammar for binding a model solution to a visualizer.")]
     internal class VisualizerBindingGrammar : Grammar
     {
         private const string CounterRegexPattern = @"\b[A-Za-z]\w*\b";

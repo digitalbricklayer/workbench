@@ -37,9 +37,9 @@ namespace Workbench.Core.Repeaters
             }
         }
 
-        public VisualizerRepeaterContext CreateContextFrom(ChessboardVisualizerModel theVisualizer)
+        public VisualizerRepeaterContext CreateContextFrom(VisualizerUpdateContext theContext)
         {
-            return new VisualizerRepeaterContext(theVisualizer);
+            return new VisualizerRepeaterContext(theContext);
         }
 
         private void ProcessStatement(StatementNode statementNode)
@@ -62,7 +62,7 @@ namespace Workbench.Core.Repeaters
         private void ProcessCallStatement(CallStatementNode theCallStatementNode)
         {
             Contract.Requires<ArgumentNullException>(theCallStatementNode != null);
-            var visualizer = this.context.Visualizer;
+            var visualizer = this.context.GetVisualizerByName(theCallStatementNode.VizualizerName.Name);
             var visualizerCall = CreateVisualizerCallFrom(theCallStatementNode);
             visualizer.UpdateWith(visualizerCall);
         }

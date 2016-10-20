@@ -148,7 +148,7 @@ namespace Workbench.ViewModels
         public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Visualizer menu.
+        /// Gets the Visualizers menu.
         /// </summary>
         public VisualizerMenuViewModel VisualizerMenu { get; private set; }
 

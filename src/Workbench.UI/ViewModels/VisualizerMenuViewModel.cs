@@ -5,7 +5,7 @@ using Workbench.Commands;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the Visualizer main menu.
+    /// View model for the Visualizers main menu.
     /// </summary>
     public class VisualizerMenuViewModel
     {
@@ -14,12 +14,18 @@ namespace Workbench.ViewModels
         /// </summary>
         public VisualizerMenuViewModel()
         {
-            this.AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
+            AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
+            EditSolutionCommand = IoC.Get<EditSolutionCommand>();
         }
 
         /// <summary>
-        /// Gets the Solution|Add Chessboard Visualizer command.
+        /// Gets the Solution|Add Chessboard Visualizers command.
         /// </summary>
         public ICommand AddChessboardVisualizerCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Solution|Edit command.
+        /// </summary>
+        public ICommand EditSolutionCommand { get; private set; }
     }
 }

@@ -5,25 +5,11 @@ using System.Windows;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// Visualizer for a chessboard.
+    /// Visualizers for a chessboard.
     /// </summary>
     public class ChessboardVisualizerModel : VisualizerModel
     {
         private readonly ChessboardModel chessboard;
-        private VisualizerBindingExpressionModel binding;
-
-        /// <summary>
-        /// Initialize the chessboard visualizer with a screen location.
-        /// </summary>
-        /// <param name="theName">Name of the chessboard.</param>
-        /// <param name="theLocation">Screen location.</param>
-        /// <param name="rawBindingExpression">Raw binding expression.</param>
-        public ChessboardVisualizerModel(string theName, Point theLocation, string rawBindingExpression)
-            : base(theName, theLocation)
-        {
-            this.chessboard = new ChessboardModel();
-            Binding = new VisualizerBindingExpressionModel(this, rawBindingExpression);
-        }
 
         /// <summary>
         /// Initialize the chessboard visualizer with a screen location.
@@ -34,29 +20,6 @@ namespace Workbench.Core.Models
             : base(theName, theLocation)
         {
             this.chessboard = new ChessboardModel();
-            Binding = new VisualizerBindingExpressionModel(this);
-        }
-
-        /// <summary>
-        /// Gets the visualizer binding expression.
-        /// </summary>
-        public VisualizerBindingExpressionModel Binding
-        {
-            get { return this.binding; }
-            private set
-            {
-                this.binding = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Update the visualizer from the solution.
-        /// </summary>
-        /// <param name="theContext">Context to update the visualizer.</param>
-        public override void UpdateFrom(VisualizerUpdateContext theContext)
-        {
-            Binding.ExecuteWith(theContext);
         }
 
         /// <summary>

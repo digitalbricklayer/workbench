@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Castle.Core.Internal;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -13,8 +12,8 @@ namespace Workbench.Core.Models
     [Serializable]
     public class DisplayModel : AbstractModel
     {
+        private VisualizerBindingExpressionModel binding;
         private ObservableCollection<VisualizerModel> visualizers;
-        private ObservableCollection<VisualizerBindingExpressionModel> bindingExpressions;
 
         /// <summary>
         /// Initialize a display model with default values.
@@ -22,7 +21,7 @@ namespace Workbench.Core.Models
         public DisplayModel()
         {
             Visualizers = new ObservableCollection<VisualizerModel>();
-            Bindings = new ObservableCollection<VisualizerBindingExpressionModel>();
+            Binding = new VisualizerBindingExpressionModel();
         }
 
         /// <summary>
@@ -39,14 +38,14 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the visualizer binding expression collection.
+        /// Gets the visualizer binding expression.
         /// </summary>
-        public ObservableCollection<VisualizerBindingExpressionModel> Bindings
+        public VisualizerBindingExpressionModel Binding
         {
-            get { return this.bindingExpressions; }
-            set
+            get { return this.binding; }
+            private set
             {
-                this.bindingExpressions = value;
+                this.binding = value;
                 OnPropertyChanged();
             }
         }
@@ -65,8 +64,8 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the visualizer bound by name.
         /// </summary>
-        /// <param name="theName">Visualizer name.</param>
-        /// <returns>Visualizer.</returns>
+        /// <param name="theName">Visualizers name.</param>
+        /// <returns>Visualizers.</returns>
         public VisualizerModel GetVisualizerBy(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
@@ -82,7 +81,7 @@ namespace Workbench.Core.Models
         public void UpdateFrom(SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            Visualizers.ForEach(aVisualizer => aVisualizer.UpdateFrom(new VisualizerUpdateContext(theSnapshot, aVisualizer)));
+            Binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot, this));
         }
     }
 }

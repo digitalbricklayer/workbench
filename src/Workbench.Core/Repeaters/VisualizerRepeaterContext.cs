@@ -12,20 +12,27 @@ namespace Workbench.Core.Repeaters
     {
         private readonly IList<CounterContext> counters;
         private bool firstIterationPassed;
+#if false
         private readonly ChessboardVisualizerModel visualizer;
+#endif
+        private readonly VisualizerUpdateContext context;
 
-        public VisualizerRepeaterContext(ChessboardVisualizerModel theVisualizer)
+        public VisualizerRepeaterContext(VisualizerUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            Contract.Requires<ArgumentNullException>(theContext != null);
             this.counters = new List<CounterContext>();
-            this.visualizer = theVisualizer;
-            if (!theVisualizer.Binding.Node.HasExpander) return;
-            CreateCounterContextsFrom(theVisualizer.Binding.Node.Expander);
+            this.context = theContext;
+            if (!Binding.Node.HasExpander) return;
+            CreateCounterContextsFrom(Binding.Node.Expander);
         }
 
+#if false
         public ChessboardVisualizerModel Visualizer => this.visualizer;
+#endif
 
-        public VisualizerBindingExpressionModel Binding => this.visualizer.Binding;
+        public DisplayModel Display => this.context.Display;
+
+        public VisualizerBindingExpressionModel Binding => this.context.Display.Binding;
 
         public bool HasRepeaters => this.counters.Any();
 
@@ -71,6 +78,16 @@ namespace Workbench.Core.Repeaters
         public CounterContext GetCounterContextByName(string counterName)
         {
             return Counters.First(_ => _.CounterName == counterName);
+        }
+
+        /// <summary>
+        /// Get a visualizer using the visualizer name.
+        /// </summary>
+        /// <param name="vizualizerName">Name of the visualizer.</param>
+        /// <returns>Visualizer matching the name.</returns>
+        public VisualizerModel GetVisualizerByName(string vizualizerName)
+        {
+            return Display.GetVisualizerBy(vizualizerName);
         }
 
         private void CreateCounterContextsFrom(MultiRepeaterStatementNode theRepeater)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
 using Workbench.Core.Repeaters;
@@ -13,24 +14,16 @@ namespace Workbench.Core.Models
     {
         private string text;
 
-        public VisualizerBindingExpressionModel(VisualizerModel theVisualizerModel, string rawExpression)
+        public VisualizerBindingExpressionModel(string rawExpression)
         {
-            Contract.Requires<ArgumentNullException>(theVisualizerModel != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
-            Visualizer = theVisualizerModel;
             Text = rawExpression;
         }
 
-        public VisualizerBindingExpressionModel(VisualizerModel theVisualizerModel)
+        public VisualizerBindingExpressionModel()
         {
-            Contract.Requires<ArgumentNullException>(theVisualizerModel != null);
             Text = string.Empty;
         }
-
-        /// <summary>
-        /// Gets or sets the visualizer.
-        /// </summary>
-        public VisualizerModel Visualizer { get; set; }
 
         /// <summary>
         /// Gets or sets the raw visualizer binding expression.
@@ -60,7 +53,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theContext != null);
             if (Node == null) return;
             var repeater = new VisualizerRepeater(theContext.Snapshot);
-            repeater.Process(repeater.CreateContextFrom((ChessboardVisualizerModel) theContext.Visualizer));
+            repeater.Process(repeater.CreateContextFrom(theContext));
         }
 
         /// <summary>

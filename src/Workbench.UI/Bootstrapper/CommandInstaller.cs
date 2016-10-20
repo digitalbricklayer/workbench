@@ -16,7 +16,9 @@ namespace Workbench.Bootstrapper
         public void Register(IKernelInternal kernel)
         {
             kernel.Register(Component.For<AddChessboardVisualizerCommand>()
-                                     .LifeStyle.Singleton);
+                                     .LifeStyle.Transient,
+                            Component.For<EditSolutionCommand>()
+                                     .LifeStyle.Transient);
         }
     }
 }

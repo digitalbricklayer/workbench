@@ -80,7 +80,13 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Solution">
-                <MenuItem Header="Add Chessboard Visualizer" Command="{Binding VisualizerMenu.AddChessboardVisualizerCommand}">
+                <MenuItem Header="Add Chessboard Visualizers" Command="{Binding VisualizerMenu.AddChessboardVisualizerCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Edit..." Command="{Binding VisualizerMenu.EditSolutionCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>

@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Windows;
-using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -11,7 +10,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize an unbound visualizer with a name and location.
         /// </summary>
-        /// <param name="graphicName">Visualizer name.</param>
+        /// <param name="graphicName">Visualizers name.</param>
         /// <param name="location">Location.</param>
         protected VisualizerModel(string graphicName, Point location)
             : base(graphicName, location)
@@ -19,11 +18,13 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
         }
 
-        /// <summary>
-        /// Update the visualizer from the solution.
-        /// </summary>
-        /// <param name="theContext">Context to update the visualizer.</param>
+#if false
+    /// <summary>
+    /// Update the visualizer from the solution.
+    /// </summary>
+    /// <param name="theContext">Context to update the visualizer.</param>
         public abstract void UpdateFrom(VisualizerUpdateContext theContext);
+#endif
 
         /// <summary>
         /// Update a visualizer with call arguments.
