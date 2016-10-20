@@ -20,12 +20,11 @@ namespace Workbench.ViewModels
         private readonly IObservableCollection<string> availableDisplayModes;
         private string selectedDisplayMode;
         private bool isDirty;
-        private SolutionViewerViewModel viewer;
         private ModelViewModel model;
-        private SolutionDesignerViewModel designer;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
         private readonly IViewModelFactory viewModelFactory;
+        private SolutionViewModel solution;
 
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
@@ -46,11 +45,11 @@ namespace Workbench.ViewModels
             this.viewModelService = theViewModelService;
             this.viewModelFactory = theViewModelFactory;
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
-            this.WorkspaceModel = theDataService.GetWorkspace();
+            WorkspaceModel = theDataService.GetWorkspace();
             this.model = this.viewModelFactory.CreateModel(this.WorkspaceModel.Model);
-            this.viewer = new SolutionViewerViewModel(this.WorkspaceModel.Solution);
-            this.designer = new SolutionDesignerViewModel(this.WorkspaceModel.Solution.Display);
-            this.SelectedDisplayMode = "Model";
+            Solution = new SolutionViewModel(new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
+                                             new SolutionViewerViewModel(WorkspaceModel.Solution));
+            SelectedDisplayMode = "Model";
         }
 
         /// <summary>
@@ -73,29 +72,15 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the solution viewer.
+        /// Gets or sets the workspace solution.
         /// </summary>
-        public SolutionViewerViewModel Viewer
+        public SolutionViewModel Solution
         {
-            get { return this.viewer; }
+            get { return this.solution; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.viewer = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the solution designer.
-        /// </summary>
-        public SolutionDesignerViewModel Designer
-        {
-            get { return this.designer; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.designer = value;
+                this.solution = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -116,15 +101,15 @@ namespace Workbench.ViewModels
                 switch (this.selectedDisplayMode)
                 {
                     case "Model":
-                        this.ChangeActiveItem(this.Model, closePrevious:false);
+                        ChangeActiveItem(this.Model, closePrevious:false);
                         break;
 
                     case "Solution":
-                        this.ChangeActiveItem(this.Viewer, closePrevious:false);
+                        ChangeActiveItem(Solution.Viewer, closePrevious:false);
                         break;
 
                     case "Designer":
-                        this.ChangeActiveItem(this.Designer, closePrevious: false);
+                        ChangeActiveItem(Solution.Designer, closePrevious: false);
                         break;
 
                     default:
@@ -165,11 +150,11 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolveResult SolveModel()
         {
-            var isModelValid = this.Model.Validate();
+            var isModelValid = Model.Validate();
             if (!isModelValid) return SolveResult.InvalidModel;
-            var solveResult = this.WorkspaceModel.Solve();
+            var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
-            this.DisplaySolution(this.WorkspaceModel.Solution);
+            DisplaySolution(this.WorkspaceModel.Solution);
             this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
 
             return solveResult;
@@ -187,9 +172,9 @@ namespace Workbench.ViewModels
 
             var newVariable = new VariableViewModel(new VariableModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                     this.eventAggregator);
-            this.Model.AddSingletonVariable(newVariable);
+            Model.AddSingletonVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);
-            this.IsDirty = true;
+            IsDirty = true;
 
             return newVariable;
         }
@@ -206,9 +191,9 @@ namespace Workbench.ViewModels
 
             var newVariable = new AggregateVariableViewModel(new AggregateVariableModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
-            this.Model.AddAggregateVariable(newVariable);
+            Model.AddAggregateVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);
-            this.IsDirty = true;
+            IsDirty = true;
 
             return newVariable;
         }
@@ -224,7 +209,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
 
             var newDomain = new DomainViewModel(new DomainModel(newDomainName, newDomainLocation, new DomainExpressionModel()));
-            this.Model.AddDomain(newDomain);
+            Model.AddDomain(newDomain);
             this.IsDirty = true;
 
             return newDomain;
@@ -241,7 +226,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
             var newConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
-            this.Model.AddConstraint(newConstraint);
+            Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 
             return newConstraint;
@@ -258,34 +243,22 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
             var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintModel(newConstraintName, newLocation));
-            this.Model.AddConstraint(newConstraint);
+            Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 
             return newConstraint;
         }
 
         /// <summary>
-        /// Add a new designer to the solution designer.
+        /// Add a new visualizer to the workspace.
         /// </summary>
-        /// <param name="newDesigner">Visualizer designer.</param>
-        public void AddDesigner(VisualizerDesignViewModel newDesigner)
+        /// <param name="newVisualizer">New visualizer.</param>
+        public void AddVisualizer(VisualizerViewModel newVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(newDesigner != null);
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
-            this.Designer.AddVisualizer(newDesigner);
-            this.IsDirty = true;
-        }
-
-        /// <summary>
-        /// Add a new viewer to the solution designer.
-        /// </summary>
-        /// <param name="newViewer">Variable viewer.</param>
-        public void AddViewer(VisualizerViewerViewModel newViewer)
-        {
-            Contract.Requires<ArgumentNullException>(newViewer != null);
-
-            this.Viewer.AddVisualizer(newViewer);
-            this.IsDirty = true;
+            Solution.AddVisualizer(newVisualizer);
+            IsDirty = true;
         }
 
         /// <summary>
@@ -293,9 +266,9 @@ namespace Workbench.ViewModels
         /// </summary>
         public void DeleteSelectedGraphics()
         {
-            this.DeleteSelectedVariables();
-            this.DeleteSelectedDomains();
-            this.DeleteConstraints();
+            DeleteSelectedVariables();
+            DeleteSelectedDomains();
+            DeleteConstraints();
         }
 
         /// <summary>
@@ -305,7 +278,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(variable != null);
 
-            this.Model.DeleteVariable(variable);
+            Model.DeleteVariable(variable);
             this.IsDirty = true;
         }
 
@@ -314,8 +287,8 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            this.Model.Reset();
-            this.Viewer.Reset();
+            Model.Reset();
+            Solution.Reset();
             this.IsDirty = true;
         }
 
@@ -326,7 +299,7 @@ namespace Workbench.ViewModels
         public ModelViewModel GetModel()
         {
             Contract.Ensures(Contract.Result<ModelViewModel>() != null);
-            return this.Model;
+            return Model;
         }
 
         /// <summary>
@@ -335,15 +308,15 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            this.Viewer.UnbindAll();
+            Solution.UnbindAll();
             var newValues = new List<ValueModel>();
             newValues.AddRange(theSolution.SingletonValues);
             newValues.AddRange(theSolution.AggregateValues);
-            this.Viewer.BindTo(newValues);
+            Solution.BindTo(newValues);
 
-            if (!this.AvailableDisplayModes.Contains("Solution"))
-                this.AvailableDisplayModes.Add("Solution");
-            this.SelectedDisplayMode = "Solution";
+            if (!AvailableDisplayModes.Contains("Solution"))
+                AvailableDisplayModes.Add("Solution");
+            SelectedDisplayMode = "Solution";
         }
 
         /// <summary>
@@ -352,13 +325,13 @@ namespace Workbench.ViewModels
         private void DeleteSelectedVariables()
         {
             // Take a copy of the variables list so we can delete domains while iterating.
-            var variablesCopy = this.Model.Variables.ToArray();
+            var variablesCopy = Model.Variables.ToArray();
 
             foreach (var variable in variablesCopy)
             {
                 if (variable.IsSelected)
                 {
-                    this.DeleteVariable(variable);
+                    DeleteVariable(variable);
                 }
             }
         }
@@ -366,13 +339,13 @@ namespace Workbench.ViewModels
         private void DeleteSelectedDomains()
         {
             // Take a copy of the domains list so we can delete domains while iterating.
-            var domainCopy = this.Model.Domains.ToArray();
+            var domainCopy = Model.Domains.ToArray();
 
             foreach (var domain in domainCopy)
             {
                 if (domain.IsSelected)
                 {
-                    this.Model.DeleteDomain(domain);
+                    Model.DeleteDomain(domain);
                 }
             }
         }
@@ -380,13 +353,13 @@ namespace Workbench.ViewModels
         private void DeleteConstraints()
         {
             // Take a copy of the domains list so we can delete domains while iterating.
-            var constraintsCopy = this.Model.Constraints.ToArray();
+            var constraintsCopy = Model.Constraints.ToArray();
 
             foreach (var constraint in constraintsCopy)
             {
                 if (constraint.IsSelected)
                 {
-                    this.Model.DeleteConstraint(constraint);
+                    Model.DeleteConstraint(constraint);
                 }
             }
         }
@@ -394,8 +367,8 @@ namespace Workbench.ViewModels
         [ContractInvariantMethod]
         private void WorkspaceInvariants()
         {
-            Contract.Invariant(this.Model != null);
-            Contract.Invariant(this.Designer != null);
+            Contract.Invariant(Model != null);
+            Contract.Invariant(Solution != null);
         }
     }
 }

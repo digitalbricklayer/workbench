@@ -13,7 +13,9 @@ namespace Workbench.ViewModels
                                                       IHandle<VariableDeletedMessage>
     {
         private IObservableCollection<VariableViewModel> availableVariables;
+#if false
         private VariableViewModel selectedVariable;
+#endif
         protected IEventAggregator eventAggregator;
         protected IDataService dataService;
         protected IViewModelService viewModelService;
@@ -51,6 +53,7 @@ namespace Workbench.ViewModels
             }
         }
 
+#if false
         /// <summary>
         /// Gets or sets the selected variable to bind to.
         /// </summary>
@@ -65,10 +68,8 @@ namespace Workbench.ViewModels
                 if (this.SelectedVariable != null)
                 {
                     var variableToBindTo = this.dataService.GetVariableByName(this.SelectedVariable.Name);
-#if false
                     Model.ExecuteWith(variableToBindTo);
-#endif
-                }
+    }
                 NotifyOfPropertyChange();
 
                 var newVariableBoundMessage 
@@ -76,6 +77,7 @@ namespace Workbench.ViewModels
                 this.eventAggregator.BeginPublishOnUIThread(newVariableBoundMessage);
             }
         }
+#endif
 
         /// <summary>
         /// Gets or sets the variable model.
@@ -117,8 +119,11 @@ namespace Workbench.ViewModels
         public void Handle(VariableDeletedMessage message)
         {
             this.AvailableVariables.Remove(message.Deleted);
+#if false
             if (this.SelectedVariable == message.Deleted)
                 this.SelectedVariable = null;
+
+#endif
         }
 
         /// <summary>

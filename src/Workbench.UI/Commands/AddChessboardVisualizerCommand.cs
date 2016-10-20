@@ -50,24 +50,22 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             var newVisualizerModel = new ChessboardVisualizerModel("Chessboard", newVisualizerLocation);
-            CreateDesigner(newVisualizerModel);
-            CreateViewer(newVisualizerModel);
+            this.workspace.AddVisualizer(CreateChessboardVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }
 
-        private void CreateViewer(ChessboardVisualizerModel newVisualizerModel)
+        private ChessboardVisualizerViewModel CreateChessboardVisualizer(ChessboardVisualizerModel newVisualizerModel)
         {
-            var visualizerViewerViewModel = new ChessboardVisualizerViewerViewModel(newVisualizerModel);
-            workspace.AddViewer(visualizerViewerViewModel);
+            return new ChessboardVisualizerViewModel(CreateDesigner(newVisualizerModel),
+                                                     new ChessboardVisualizerViewerViewModel(newVisualizerModel));
         }
 
-        private void CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
+        private ChessboardVisualizerDesignViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
         {
-            var visualizerDesignViewModel = new ChessboardVisualizerDesignViewModel(newVisualizerModel,
-                                                                                    this.eventAggregator,
-                                                                                    this.dataService,
-                                                                                    this.viewModelService);
-            workspace.AddDesigner(visualizerDesignViewModel);
+            return new ChessboardVisualizerDesignViewModel(newVisualizerModel,
+                                                           this.eventAggregator,
+                                                           this.dataService,
+                                                           this.viewModelService);
         }
     }
 }

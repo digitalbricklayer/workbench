@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -11,33 +11,54 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class SolutionViewModel : Conductor<GraphicViewModel>.Collection.AllActive
     {
+        private SolutionViewerViewModel viewer;
+        private SolutionDesignerViewModel designer;
+
         /// <summary>
         /// Initialize the solution with a solution model.
         /// </summary>
-        /// <param name="theSolution">The solution model.</param>
-        public SolutionViewModel(SolutionModel theSolution)
+        /// <param name="theDesigner">Solution designer.</param>
+        /// <param name="theViewer">Solutuion display.</param>
+        public SolutionViewModel(SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
         {
-            if (theSolution == null)
-                throw new ArgumentNullException("theSolution");
-            this.Values = new ObservableCollection<ValueViewModel>();
-            this.Model = new SolutionModel();
+            Contract.Requires<ArgumentNullException>(theDesigner != null);
+            Contract.Requires<ArgumentNullException>(theViewer != null);
+
+            Designer = theDesigner;
+            Viewer = theViewer;
+            Model = Viewer.Model;
         }
 
         /// <summary>
-        /// Initialize the solution with default values.
+        /// Gets or sets the solution designer.
         /// </summary>
-        public SolutionViewModel()
+        public SolutionDesignerViewModel Designer
         {
-            this.Values = new ObservableCollection<ValueViewModel>();
-            this.Model = new SolutionModel();
+            get
+            {
+                return this.designer;
+            }
+            set
+            {
+                this.designer = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         /// <summary>
-        /// Gets the values displayed in the solution.
+        /// Gets or sets the solution viewer.
         /// </summary>
-        public ObservableCollection<ValueViewModel> Values
+        public SolutionViewerViewModel Viewer
         {
-            get; private set;
+            get
+            {
+                return this.viewer;
+            }
+            set
+            {
+                this.viewer = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         /// <summary>
@@ -46,33 +67,33 @@ namespace Workbench.ViewModels
         public SolutionModel Model { get; set; }
 
         /// <summary>
-        /// Bind the values to the solution.
+        /// Add a new visualizer to the solution.
         /// </summary>
-        /// <param name="theValues">Values.</param>
-        public void BindTo(IEnumerable<ValueViewModel> theValues)
+        /// <param name="newVisualizer">New visualizer.</param>
+        public void AddVisualizer(VisualizerViewModel newVisualizer)
         {
-            this.Reset();
-            foreach (var value in theValues)
-                this.Values.Add(value);
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+
+            Designer.AddVisualizer(newVisualizer.Designer);
+            Viewer.AddVisualizer(newVisualizer.Viewer);
         }
 
         /// <summary>
-        /// Reset the contents of the solution.
+        /// Reset the solution.
         /// </summary>
         public void Reset()
         {
-            this.Values.Clear();
+            Viewer.Reset();
         }
 
-        /// <summary>
-        /// Add a value.
-        /// </summary>
-        /// <param name="newValueViewModel">New value.</param>
-        public void AddValue(ValueViewModel newValueViewModel)
+        public void UnbindAll()
         {
-            if (newValueViewModel == null)
-                throw new ArgumentNullException("newValueViewModel");
-            this.Values.Add(newValueViewModel);
+            Viewer.UnbindAll();
+        }
+
+        public void BindTo(List<ValueModel> newValues)
+        {
+            Viewer.BindTo(newValues);
         }
     }
 }
