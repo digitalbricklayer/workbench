@@ -60,9 +60,9 @@ namespace Workbench.Commands
                                                      new ChessboardVisualizerViewerViewModel(newVisualizerModel));
         }
 
-        private ChessboardVisualizerDesignViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
+        private ChessboardVisualizerDesignerViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
         {
-            return new ChessboardVisualizerDesignViewModel(newVisualizerModel,
+            return new ChessboardVisualizerDesignerViewModel(newVisualizerModel,
                                                            this.eventAggregator,
                                                            this.dataService,
                                                            this.viewModelService);

@@ -6,9 +6,9 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class ChessboardVisualizerDesignViewModel : VisualizerDesignViewModel
+    public class ChessboardVisualizerDesignerViewModel : VisualizerDesignerViewModel
     {
-        public ChessboardVisualizerDesignViewModel(ChessboardVisualizerModel theChessboardVisualizerModel,
+        public ChessboardVisualizerDesignerViewModel(ChessboardVisualizerModel theChessboardVisualizerModel,
                                                    IEventAggregator theEventAggregator,
                                                    IDataService theDataService,
                                                    IViewModelService theViewModelService)

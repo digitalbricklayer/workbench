@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution designer.
     /// </summary>
-    public sealed class SolutionDesignerViewModel : Conductor<VisualizerDesignViewModel>.Collection.AllActive
+    public sealed class SolutionDesignerViewModel : Conductor<VisualizerDesignerViewModel>.Collection.AllActive
     {
         private DisplayModel model;
 
@@ -38,7 +38,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variable visualizers.
         /// </summary>
-        public IObservableCollection<VisualizerDesignViewModel> Visualizers
+        public IObservableCollection<VisualizerDesignerViewModel> Visualizers
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Workbench.ViewModels
         /// Add a variable visualizer.
         /// </summary>
         /// <param name="newVisualizer">New variable visualizer.</param>
-        public void AddVisualizer(VisualizerDesignViewModel newVisualizer)
+        public void AddVisualizer(VisualizerDesignerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             this.Model.AddVisualizer(newVisualizer.Model);
@@ -64,7 +64,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="newVisualizerViewModel">Visualizers design view model.</param>
-        internal void FixupVisualizer(VisualizerDesignViewModel newVisualizerViewModel)
+        internal void FixupVisualizer(VisualizerDesignerViewModel newVisualizerViewModel)
         {
             Contract.Requires<ArgumentNullException>(newVisualizerViewModel != null);
             this.ActivateItem(newVisualizerViewModel);

@@ -2,15 +2,15 @@
 {
     public abstract class VisualizerViewModel
     {
-        private VisualizerDesignViewModel designer;
+        private VisualizerDesignerViewModel designer;
         private VisualizerViewerViewModel viewer;
 
-        public VisualizerDesignViewModel Designer
+        public VisualizerDesignerViewModel Designer
         {
             get { return this.designer; }
             set
             {
-                this.designer = (ChessboardVisualizerDesignViewModel)value;
+                this.designer = (ChessboardVisualizerDesignerViewModel)value;
             }
         }
 

@@ -5,7 +5,7 @@ namespace Workbench.ViewModels
 {
     public sealed class ChessboardVisualizerViewModel : VisualizerViewModel
     {
-        public ChessboardVisualizerViewModel(ChessboardVisualizerDesignViewModel theDesigner, ChessboardVisualizerViewerViewModel theViewer)
+        public ChessboardVisualizerViewModel(ChessboardVisualizerDesignerViewModel theDesigner, ChessboardVisualizerViewerViewModel theViewer)
         {
             Contract.Requires<ArgumentNullException>(theDesigner != null);
             Contract.Requires<ArgumentNullException>(theViewer != null);
