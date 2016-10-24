@@ -255,6 +255,7 @@
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
+    <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\VisualizerDesignViewModel.cs" />
@@ -297,6 +298,9 @@
       <DependentUpon>ModelErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GraphicView.cs" />
+    <Compile Include="Views\SolutionEditorView.xaml.cs">
+      <DependentUpon>SolutionEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfUtils.cs" />
     <Page Include="Controls\GraphicDisplayControl.xaml">
       <SubType>Designer</SubType>
@@ -347,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SolutionViewerDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,7 +17,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void AcceptButton()
         {
-            this.TryClose(true);
+            TryClose(true);
         }
     }
 }

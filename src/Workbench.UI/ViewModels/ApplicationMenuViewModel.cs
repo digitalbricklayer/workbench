@@ -37,7 +37,7 @@ namespace Workbench.ViewModels
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             this.CreateMenuCommands();
-            this.VisualizerMenu = new VisualizerMenuViewModel();
+            this.SolutionMenu = new VisualizerMenuViewModel();
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace Workbench.ViewModels
         public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Visualizers menu.
+        /// Gets the Solution menu.
         /// </summary>
-        public VisualizerMenuViewModel VisualizerMenu { get; private set; }
+        public VisualizerMenuViewModel SolutionMenu { get; private set; }
 
         /// <summary>
         /// Handle the "File|New" menu item.
