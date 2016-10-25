@@ -9,8 +9,8 @@ namespace Workbench.ViewModels
     {
         private ConstraintModel model;
 
-        protected ConstraintViewModel(ConstraintModel theConstraintModel)
-            : base(theConstraintModel)
+        protected ConstraintViewModel(ConstraintModel theGraphicModel)
+            : base(theGraphicModel)
         {
         }
 

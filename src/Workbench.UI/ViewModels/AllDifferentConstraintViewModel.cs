@@ -13,13 +13,13 @@ namespace Workbench.ViewModels
         private AllDifferentConstraintModel model;
         private AllDifferentConstraintExpressionViewModel expression;
 
-        public AllDifferentConstraintViewModel(AllDifferentConstraintModel theConstraintModel)
-            : base(theConstraintModel)
+        public AllDifferentConstraintViewModel(AllDifferentConstraintModel theGraphicModel)
+            : base(theGraphicModel)
         {
-            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
-            base.Model = theConstraintModel;
-            this.model = theConstraintModel;
-            Expression = new AllDifferentConstraintExpressionViewModel(theConstraintModel.Expression);
+            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
+            base.Model = theGraphicModel;
+            this.model = theGraphicModel;
+            Expression = new AllDifferentConstraintExpressionViewModel(theGraphicModel.Expression);
         }
 
         /// <summary>

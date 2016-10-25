@@ -7,6 +7,8 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VisualizerModel : GraphicModel
     {
+        private string title;
+
         /// <summary>
         /// Initialize an unbound visualizer with a name and location.
         /// </summary>
@@ -18,13 +20,14 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
         }
 
-#if false
-    /// <summary>
-    /// Update the visualizer from the solution.
-    /// </summary>
-    /// <param name="theContext">Context to update the visualizer.</param>
-        public abstract void UpdateFrom(VisualizerUpdateContext theContext);
-#endif
+        /// <summary>
+        /// Gets or sets the visualizer title.B
+        /// </summary>
+        public string Title
+        {
+            get { return this.title; }
+            set { this.title = value; }
+        }
 
         /// <summary>
         /// Update a visualizer with call arguments.

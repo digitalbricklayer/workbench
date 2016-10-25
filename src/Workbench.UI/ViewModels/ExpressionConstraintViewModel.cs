@@ -11,11 +11,11 @@ namespace Workbench.ViewModels
     {
         private ExpressionConstraintModel model;
 
-        public ExpressionConstraintViewModel(ExpressionConstraintModel theConstraintModel)
-            : base(theConstraintModel)
+        public ExpressionConstraintViewModel(ExpressionConstraintModel theGraphicModel)
+            : base(theGraphicModel)
         {
-            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
-            Model = theConstraintModel;
+            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
+            Model = theGraphicModel;
             Expression = new ConstraintExpressionViewModel(Model.Expression);
         }
 

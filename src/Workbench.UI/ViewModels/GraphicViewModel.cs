@@ -22,13 +22,13 @@ namespace Workbench.ViewModels
         private bool isNameEditing;
 
         /// <summary>
-        /// Initialize a graphic with a data service.
+        /// Initialize a graphic view model with a graphic model.
         /// </summary>
-        /// <param name="theConstraintModel">Graphic model.</param>
-        protected GraphicViewModel(GraphicModel theConstraintModel)
+        /// <param name="theGraphicModel">Graphic model.</param>
+        protected GraphicViewModel(GraphicModel theGraphicModel)
         {
-            Contract.Requires<ArgumentNullException>(theConstraintModel != null);
-            this.Model = theConstraintModel;
+            Contract.Requires<ArgumentNullException>(theGraphicModel != null);
+            Model = theGraphicModel;
         }
 
         /// <summary>
@@ -41,14 +41,13 @@ namespace Workbench.ViewModels
         /// </summary>
         public virtual string Name
         {
-            get { return this.Model.Name; }
+            get { return Model.Name; }
             set
             {
-                if (this.Model.Name == value) return;
                 var oldVariableName = this.Model.Name;
-                this.Model.Name = value;
+                Model.Name = value;
                 NotifyOfPropertyChange();
-                this.OnRename(oldVariableName);
+                OnRename(oldVariableName);
             }
         }
 
@@ -72,12 +71,12 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.Model.X;
+                return Model.X;
             }
             set
             {
-                if (this.Model.X.Equals(value)) return;
-                this.Model.X = value;
+                if (Model.X.Equals(value)) return;
+                Model.X = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -89,12 +88,12 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.Model.Y;
+                return Model.Y;
             }
             set
             {
-                if (this.Model.Y.Equals(value)) return;
-                this.Model.Y = value;
+                if (Model.Y.Equals(value)) return;
+                Model.Y = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -124,7 +123,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.Model.Id;
+                return Model.Id;
             }
         }
 
@@ -135,7 +134,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return new CommandHandler(() => this.IsNameEditing = true);
+                return new CommandHandler(() => IsNameEditing = true);
             }
         }
 

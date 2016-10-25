@@ -220,7 +220,7 @@ namespace Workbench.Core.Models
         /// <returns>A new variable.</returns>
         private VariableModel CreateNewVariableAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index < this.variables.Length);
+            Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
 
             return new VariableModel(GetVariableNameFor(index), DomainExpression);
         }

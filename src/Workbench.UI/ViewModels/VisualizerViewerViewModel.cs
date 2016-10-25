@@ -9,8 +9,8 @@ namespace Workbench.ViewModels
         private VariableViewModel boundTo;
         private ValueModel value;
 
-        protected VisualizerViewerViewModel(GraphicModel theConstraintModel)
-            : base(theConstraintModel)
+        protected VisualizerViewerViewModel(GraphicModel theGraphicModel)
+            : base(theGraphicModel)
         {
         }
 
