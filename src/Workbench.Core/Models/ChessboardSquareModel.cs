@@ -29,9 +29,27 @@ namespace Workbench.Core.Models
             get { return piece; }
         }
 
-        public Point Location
+        public Player Player
+        {
+            get
+            {
+                if (this.piece == null) return Player.White;
+                return this.piece.Player;
+            }
+        }
+
+        public Point Pos
         {
             get { return location; }
+        }
+
+        public PieceType Type
+        {
+            get
+            {
+                if (this.piece == null) return PieceType.Empty;
+                return this.piece.Type;
+            }
         }
 
         /// <summary>

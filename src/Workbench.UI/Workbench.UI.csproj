@@ -248,6 +248,7 @@
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerDesignerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />

@@ -61,7 +61,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newSquare != null);
             Contract.Requires<ArgumentException>(newSquare.Piece.Type != PieceType.Empty);
             // Convert a x, y coordinate into a one dimensional array index
-            var index = Convert.ToInt32(((newSquare.Location.X - 1) * Size) + (newSquare.Location.Y - 1));
+            var index = Convert.ToInt32(((newSquare.Pos.X) * Size) + (newSquare.Pos.Y));
             Pieces[index] = newSquare;
         }
 
@@ -83,7 +83,7 @@ namespace Workbench.Core.Models
                 for (var row = 0; row < Size; row++)
                 {
                     // An empty space on the board.
-                    var squareLocation = new Point(col + 1, row + 1);
+                    var squareLocation = new Point(col, row);
                     var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
                     this.Pieces.Add(newPiece);
                 }

@@ -139,6 +139,31 @@
         </Style.Triggers>
     </Style>
 
+    <DataTemplate DataType="{x:Type viewModels:ChessboardViewModel}">
+        <Viewbox>
+            <ItemsControl Name="ChessBoard" ItemsSource="{Binding Model.Pieces}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Width="8" Height="8" Background="{StaticResource Checkerboard}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="1" Height="1">
+                            <Image Width="0.8" Height="0.8" Style="{StaticResource ChessPieceStyle}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Canvas.Left" Value="{Binding Pos.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Pos.Y}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </Viewbox>
+    </DataTemplate>
+
     <!-- Chessboard visualizer in 'design' mode -->
     <DataTemplate DataType="{x:Type viewModels:ChessboardVisualizerDesignerViewModel}">
         <!-- 
@@ -243,32 +268,14 @@
                     </controls:AdornedControl.AdornerContent>
                 </controls:AdornedControl>
             </Grid>
-            
-            <Viewbox Height="200" Width="200" Grid.Row="1">
-                <ItemsControl Name="ChessBoard">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="8" Height="8" Background="{StaticResource Checkerboard}"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="1" Height="1">
-                                <Image Width="0.8" Height="0.8" Style="{StaticResource ChessPieceStyle}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left" Value="{Binding X}" />
-                            <Setter Property="Canvas.Top" Value="{Binding Y}" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </Viewbox>
+
+            <ContentPresenter x:Name="chessboard"
+                              Height="200" Width="200"
+                              Grid.Row="1"
+                              Content="{Binding Board}"/>
         </Grid>
     </DataTemplate>
-
+    
     <!-- Chessboard visualizer in 'view' mode -->
     <DataTemplate DataType="{x:Type viewModels:ChessboardVisualizerViewerViewModel}">
         <Grid>
@@ -282,32 +289,14 @@
                     <ColumnDefinition x:Name="TitleColumn" Width="*"/>
                     <ColumnDefinition x:Name="NameColumn" Width="50"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="DisplayName" Grid.Column="0"/>
+                <TextBlock x:Name="Title" Grid.Column="0"/>
                 <TextBlock x:Name="Name" Grid.Column="1"/>
             </Grid>
 
-            <Viewbox Height="200" Width="200" Grid.Row="1">
-                <ItemsControl Name="ChessBoard">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="8" Height="8" Background="{StaticResource Checkerboard}"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="1" Height="1">
-                                <Image Width="0.8" Height="0.8" Style="{StaticResource ChessPieceStyle}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Canvas.Left" Value="{Binding X}" />
-                            <Setter Property="Canvas.Top" Value="{Binding Y}" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </Viewbox>
+            <ContentPresenter x:Name="chessboard"
+                              Height="200" Width="200"
+                              Grid.Row="1"
+                              Content="{Binding Board}"/>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

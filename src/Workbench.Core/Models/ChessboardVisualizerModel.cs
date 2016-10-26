@@ -23,6 +23,17 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Gets the chessboard model.
+        /// </summary>
+        public ChessboardModel Model
+        {
+            get
+            {
+                return this.chessboard;
+            }
+        }
+
+        /// <summary>
         /// Update the chessboard visualizer with call arguments.
         /// </summary>
         /// <param name="theCall">Call arguments.</param>
