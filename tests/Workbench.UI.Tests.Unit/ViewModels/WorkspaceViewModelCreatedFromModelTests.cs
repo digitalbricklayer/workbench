@@ -31,25 +31,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.viewModelFactoryMock = CreateViewModelFactoryMock();
             this.viewModelService = new ViewModelService(this.viewModelFactoryMock.Object);
         }
-
+    
         [Test]
         public void SolveModelWithValidModelDisplaysSolution()
         {
             var sut = CreateSut();
             sut.SolveModel();
             Assert.That(sut.SelectedDisplayMode, Is.EqualTo("Solution"));
-        }
-
-        [Test]
-        [Ignore("Have broken the visualizer view models.")]
-        public void SolveModelWithValidModelVisualizerHasValue()
-        {
-            var sut = CreateSut();
-            sut.SolveModel();
-            var actualVisualizer = sut.Solution.Viewer.GetVisualizerFor("x");
-            Assert.That(actualVisualizer.Value.GetValueAt(0), Is.GreaterThan(1)
-                                                                .And
-                                                                .LessThanOrEqualTo(10));
         }
 
         private WorkspaceViewModel CreateSut()
