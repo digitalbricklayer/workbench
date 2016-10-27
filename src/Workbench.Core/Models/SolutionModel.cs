@@ -21,7 +21,7 @@ namespace Workbench.Core.Models
         /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">SingletonValues making up the model solution.</param>
+        /// <param name="theValues">Values making up the model solution.</param>
         public SolutionModel(ModelModel theModel, params ValueModel[] theValues)
             : this(theModel)
         {
@@ -35,7 +35,7 @@ namespace Workbench.Core.Models
         /// Initialize the solution with the model and the values.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">SingletonValues making up the model solution.</param>
+        /// <param name="theValues">Values making up the model solution.</param>
         public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theValues)
             : this(theModel)
         {

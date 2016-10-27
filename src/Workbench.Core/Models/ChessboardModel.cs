@@ -61,7 +61,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newSquare != null);
             Contract.Requires<ArgumentException>(newSquare.Piece.Type != PieceType.Empty);
             // Convert a x, y coordinate into a one dimensional array index
-            var index = Convert.ToInt32(((newSquare.Pos.X) * Size) + (newSquare.Pos.Y));
+            var index = Convert.ToInt32(((newSquare.Pos.X - 1) * Size) + (newSquare.Pos.Y - 1));
             Pieces[index] = newSquare;
         }
 
@@ -72,20 +72,20 @@ namespace Workbench.Core.Models
         /// <returns>Collection of matching squares.</returns>
         public IReadOnlyCollection<ChessboardSquareModel> GetSquaresOccupiedBy(PieceType theTypeOfPiece)
         {
-            return this.Pieces.Where(square => square.HasPiece && square.Piece.Type == theTypeOfPiece)
+            return this.Pieces.Where(square => square.Piece.Type == theTypeOfPiece)
                               .ToList();
         }
 
         private void InitializeBoard()
         {
-            for (var col = 0; col < Size; col++)
+            for (var col = 1; col <= Size; col++)
             {
-                for (var row = 0; row < Size; row++)
+                for (var row = 1; row <= Size; row++)
                 {
                     // An empty space on the board.
                     var squareLocation = new Point(col, row);
                     var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
-                    this.Pieces.Add(newPiece);
+                    Pieces.Add(newPiece);
                 }
             }
         }

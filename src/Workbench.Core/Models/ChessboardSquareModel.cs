@@ -5,7 +5,7 @@ using System.Windows;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// An individual chessboard square.
+    /// A chessboard square.
     /// </summary>
     [Serializable]
     public class ChessboardSquareModel : AbstractModel
@@ -13,15 +13,24 @@ namespace Workbench.Core.Models
         private readonly ChessPieceModel piece;
         private readonly Point location;
 
+        /// <summary>
+        /// Initialize a square occupied by the piece.
+        /// </summary>
+        /// <param name="thePiece">Piece to occupy the square.</param>
         public ChessboardSquareModel(ChessPieceModel thePiece)
         {
             this.location = thePiece.Position;
             this.piece = thePiece;
         }
 
+        /// <summary>
+        /// Initialize an empty square.
+        /// </summary>
+        /// <param name="theLocation"></param>
         public ChessboardSquareModel(Point theLocation)
         {
             this.location = theLocation;
+            this.piece = new ChessPieceModel(theLocation, Player.White, PieceType.Empty);
         }
 
         public ChessPieceModel Piece
@@ -33,21 +42,30 @@ namespace Workbench.Core.Models
         {
             get
             {
-                if (this.piece == null) return Player.White;
                 return this.piece.Player;
             }
         }
 
+        /// <summary>
+        /// Gets the position using a one based index.
+        /// </summary>
         public Point Pos
         {
             get { return location; }
+        }
+
+        /// <summary>
+        /// Gets the position in using a zero based index.
+        /// </summary>
+        public Point Pos2
+        {
+            get { return new Point(location.X - 1, location.Y - 1); }
         }
 
         public PieceType Type
         {
             get
             {
-                if (this.piece == null) return PieceType.Empty;
                 return this.piece.Type;
             }
         }
@@ -59,7 +77,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return this.Piece != null;
+                return Piece.Type != PieceType.Empty;
             }
         }
 

@@ -156,8 +156,8 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
                     <Style>
-                        <Setter Property="Canvas.Left" Value="{Binding Pos.X}" />
-                        <Setter Property="Canvas.Top" Value="{Binding Pos.Y}" />
+                        <Setter Property="Canvas.Left" Value="{Binding Pos2.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Pos2.Y}" />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
