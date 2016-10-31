@@ -192,13 +192,9 @@
                     <controls:EditableTextBlock x:Name="titleEditor"
                                                 Text="{Binding Path=Title, Mode=TwoWay}"
                                                 IsInEditMode="{Binding IsTitleEditing, Mode=TwoWay}"
-                                                HorizontalAlignment="Center"
+                                                HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Center"
-                                                TextAlignment="Left"
-                                                FontFamily="Courier New"
-                                                FontSize="36"
-                                                MinWidth="40"
-                                                MinHeight="50"/>
+                                                TextAlignment="Left"/>
 
                     <controls:AdornedControl.AdornerContent>
                         <!-- 
@@ -236,12 +232,7 @@
                                                 Text="{Binding Path=Name, Mode=TwoWay}"
                                                 IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
                                                 HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                TextAlignment="Left"
-                                                FontFamily="Courier New"
-                                                FontSize="36"
-                                                MinWidth="40"
-                                                MinHeight="50"/>
+                                                TextAlignment="Right"/>
 
                     <controls:AdornedControl.AdornerContent>
                         <!-- 
