@@ -9,6 +9,7 @@ namespace Workbench.ViewModels
         public ChessboardVisualizerViewerViewModel(ChessboardVisualizerModel theChessboardVisualizerModel) 
             : base(theChessboardVisualizerModel)
         {
+            Model = theChessboardVisualizerModel;
             Board = new ChessboardViewModel(theChessboardVisualizerModel.Model);
         }
 

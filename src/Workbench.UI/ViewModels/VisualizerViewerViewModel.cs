@@ -6,8 +6,7 @@ namespace Workbench.ViewModels
 {
     public abstract class VisualizerViewerViewModel : GraphicViewModel
     {
-        private VariableViewModel boundTo;
-        private ValueModel value;
+        private VisualizerModel model;
 
         protected VisualizerViewerViewModel(GraphicModel theGraphicModel)
             : base(theGraphicModel)
@@ -15,44 +14,31 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the variable binding.
+        /// Gets or sets the designer model.
         /// </summary>
-        public VariableViewModel Binding
+        public new VisualizerModel Model
         {
-            get
-            {
-                return this.boundTo;
-            }
+            get { return this.model; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.boundTo = value;
-                NotifyOfPropertyChange();
+
+                base.Model = value;
+                this.model = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the variable value;
+        /// Gets or sets the graphic title.
         /// </summary>
-        public ValueModel Value
+        public virtual string Title
         {
-            get
-            {
-                return this.value;
-            }
+            get { return Model.Title; }
             set
             {
-                this.value = value;
+                Model.Title = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Unbind the value from viewer.
-        /// </summary>
-        public void Unbind()
-        {
-            this.Value = null;
         }
     }
 }

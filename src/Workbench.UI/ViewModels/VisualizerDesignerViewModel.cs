@@ -36,7 +36,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the variable model.
+        /// Gets or sets the designer model.
         /// </summary>
         public new VisualizerModel Model
         {
@@ -51,7 +51,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the graphic name.
+        /// Gets or sets the graphic title.
         /// </summary>
         public virtual string Title
         {

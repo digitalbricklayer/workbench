@@ -55,9 +55,6 @@ namespace Workbench.ViewModels
             this.Reset();
             foreach (var aValue in theValues)
             {
-                var theVisualizer = this.GetVisualizerFor(aValue.VariableName);
-                if (theVisualizer != null)
-                    theVisualizer.Value = aValue;
                 this.Values.Add(aValue);
             }
         }
@@ -67,10 +64,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            foreach (var aVisualizer in this.Items)
-            {
-                aVisualizer.Unbind();
-            }
             this.Values.Clear();
         }
 
@@ -99,10 +92,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void UnbindAll()
         {
-            foreach (var aViewer in this.Items)
-            {
-                aViewer.Unbind();
-            }
         }
 
         /// <summary>
@@ -113,8 +102,7 @@ namespace Workbench.ViewModels
         public VisualizerViewerViewModel GetVisualizerFor(string variableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            return (from x in this.Items
-                    where x.Binding != null && x.Binding.Name == variableName
+            return (from x in Items
                     select x).FirstOrDefault();
         }
     }
