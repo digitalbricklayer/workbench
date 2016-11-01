@@ -166,6 +166,7 @@
 
     <!-- Chessboard visualizer in 'design' mode -->
     <DataTemplate DataType="{x:Type viewModels:ChessboardVisualizerDesignerViewModel}">
+        <Border BorderBrush="Black" BorderThickness="2">
         <!-- 
         An adorned control is used to enable the edit button when the user 
         hovers over the expression control.
@@ -221,43 +222,44 @@
                     </controls:AdornedControl.AdornerContent>
                 </controls:AdornedControl>
 
-                <controls:AdornedControl HorizontalAdornerPlacement="Outside"
-                                            VerticalAdornerPlacement="Outside"
-                                            AdornerOffsetX="-12"
-                                            AdornerOffsetY="8"
-                                            Grid.Column="1"
-                                            IsMouseOverShowEnabled="true">
+                <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1 0 0 0">
+                    <controls:AdornedControl HorizontalAdornerPlacement="Outside"
+                                                    VerticalAdornerPlacement="Outside"
+                                                    AdornerOffsetX="-12"
+                                                    AdornerOffsetY="8"
+                                                    IsMouseOverShowEnabled="true">
 
-                    <controls:EditableTextBlock x:Name="nameEditor"
-                                                Text="{Binding Path=Name, Mode=TwoWay}"
-                                                IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                                                HorizontalAlignment="Right"
-                                                TextAlignment="Right"/>
+                        <controls:EditableTextBlock x:Name="nameEditor"
+                                                    Text="{Binding Path=Name, Mode=TwoWay}"
+                                                    IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                                                    HorizontalAlignment="Stretch"
+                                                    TextAlignment="Left"/>
 
-                    <controls:AdornedControl.AdornerContent>
-                        <!-- 
-                        This is the adorner that pops up when the user hovers the mouse over the domain name.
-                        It displays a button that the user can click to edit the domain name.
-                        -->
-                        <Canvas x:Name="nameAdornerCanvas"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Width="30"
-                                Height="30">
-                            <Line X1="0" Y1="30" X2="15" Y2="15" Stroke="Black" StrokeThickness="1"/>
-                            <Button x:Name="editNameButton"
-                                    Canvas.Left="10"
-                                    Canvas.Top="0"
-                                    Width="20"
-                                    Height="20"
-                                    Cursor="Hand"
-                                    Focusable="False"
-                                    Command="{Binding EditNameCommand}"
-                                    CommandParameter="{Binding}"
-                                    Template="{StaticResource editButtonTemplate}"/>
-                        </Canvas>
-                    </controls:AdornedControl.AdornerContent>
-                </controls:AdornedControl>
+                        <controls:AdornedControl.AdornerContent>
+                            <!-- 
+                            This is the adorner that pops up when the user hovers the mouse over the domain name.
+                            It displays a button that the user can click to edit the domain name.
+                            -->
+                            <Canvas x:Name="nameAdornerCanvas"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Width="30"
+                                    Height="30">
+                                <Line X1="0" Y1="30" X2="15" Y2="15" Stroke="Black" StrokeThickness="1"/>
+                                <Button x:Name="editNameButton"
+                                        Canvas.Left="10"
+                                        Canvas.Top="0"
+                                        Width="20"
+                                        Height="20"
+                                        Cursor="Hand"
+                                        Focusable="False"
+                                        Command="{Binding EditNameCommand}"
+                                        CommandParameter="{Binding}"
+                                        Template="{StaticResource editButtonTemplate}"/>
+                            </Canvas>
+                        </controls:AdornedControl.AdornerContent>
+                    </controls:AdornedControl>
+                </Border>
             </Grid>
 
             <ContentPresenter x:Name="chessboard"
@@ -265,6 +267,7 @@
                               Grid.Row="1"
                               Content="{Binding Board}"/>
         </Grid>
+        </Border>
     </DataTemplate>
     
     <!-- Chessboard visualizer in 'view' mode -->
