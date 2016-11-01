@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -92,18 +91,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void UnbindAll()
         {
-        }
-
-        /// <summary>
-        /// Get the visualizer bound to the variable matching the variable name.
-        /// </summary>
-        /// <param name="variableName">Name of the variable.</param>
-        /// <returns>Visualizers bound to the variable matching the variable name.</returns>
-        public VisualizerViewerViewModel GetVisualizerFor(string variableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            return (from x in Items
-                    select x).FirstOrDefault();
         }
     }
 }
