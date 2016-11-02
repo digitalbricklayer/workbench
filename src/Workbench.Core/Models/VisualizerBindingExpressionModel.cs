@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
 using Workbench.Core.Repeaters;
@@ -10,9 +9,16 @@ namespace Workbench.Core.Models
     /// <summary>
     /// Expression for binding a visualizer with data from the solution.
     /// </summary>
+    [Serializable]
     public class VisualizerBindingExpressionModel : AbstractModel
     {
         private string text;
+
+        /// <summary>
+        /// Visualizer binding expression AST tree.
+        /// </summary>
+        [NonSerialized]
+        private VisualizerBindingExpressionNode node;
 
         public VisualizerBindingExpressionModel(string rawExpression)
         {
@@ -42,7 +48,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the visualizer binding expression root node.
         /// </summary>
-        public VisualizerBindingExpressionNode Node { get; private set; }
+        public VisualizerBindingExpressionNode Node
+        {
+            get { return node; }
+            private set { node = value; }
+        }
 
         /// <summary>
         /// Execute the visualizer binding expression.

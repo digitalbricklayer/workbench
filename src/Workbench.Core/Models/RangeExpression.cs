@@ -1,5 +1,8 @@
+using System;
+
 namespace Workbench.Core.Models
 {
+    [Serializable]
     public class RangeExpression
     {
         public RangeExpression(int upperBand, int lowerBand)
@@ -10,7 +13,6 @@ namespace Workbench.Core.Models
 
         public RangeExpression()
         {
-            
         }
 
         public int UpperBand { get; private set; }

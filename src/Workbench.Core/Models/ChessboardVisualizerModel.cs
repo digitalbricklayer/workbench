@@ -7,6 +7,7 @@ namespace Workbench.Core.Models
     /// <summary>
     /// Visualizers for a chessboard.
     /// </summary>
+    [Serializable]
     public class ChessboardVisualizerModel : VisualizerModel
     {
         private readonly ChessboardModel chessboard;

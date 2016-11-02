@@ -1,10 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Workbench.Core.Models
 {
     /// <summary>
     /// Base class for all constraint types.
     /// </summary>
+    [Serializable]
     public abstract class ConstraintModel : GraphicModel
     {
         /// <summary>

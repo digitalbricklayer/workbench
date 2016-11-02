@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Workbench.Core.Models
 {
+    [Serializable]
     public class VisualizerCall
     {
         private readonly IList<CallArgument> arguments;

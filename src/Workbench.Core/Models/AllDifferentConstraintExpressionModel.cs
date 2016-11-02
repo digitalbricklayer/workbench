@@ -7,6 +7,7 @@ namespace Workbench.Core.Models
     /// All different constraint expression model contains which variable is to 
     /// be constrained by the all different constraint.
     /// </summary>
+    [Serializable]
     public class AllDifferentConstraintExpressionModel : AbstractModel
     {
         private string text;

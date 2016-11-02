@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             sut.Solve();
-            var chessboardVisualizer = (ChessboardVisualizerModel)sut.Solution.GetVisualizerFor("board");
+            var chessboardVisualizer = (ChessboardVisualizerModel)sut.Solution.GetVisualizerBy("board");
             var allQueenSquares = chessboardVisualizer.GetSquaresOccupiedBy(PieceType.Queen);
             Assert.That(allQueenSquares, Has.Count.EqualTo(ExpectedQueens));
         }

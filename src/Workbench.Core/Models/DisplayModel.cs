@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -62,7 +62,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the visualizer bound by name.
+        /// Get the visualizer by name.
         /// </summary>
         /// <param name="theName">Visualizers name.</param>
         /// <returns>Visualizers.</returns>

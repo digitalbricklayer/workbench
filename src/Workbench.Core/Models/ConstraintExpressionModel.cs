@@ -13,6 +13,12 @@ namespace Workbench.Core.Models
     {
         private string text;
 
+        /// <summary>
+        /// Constraint expression AST tree.
+        /// </summary>
+        [NonSerialized]
+        private ConstraintExpressionNode node;
+
         public ConstraintExpressionModel(string rawExpression)
         {
             Contract.Requires<ArgumentNullException>(rawExpression != null);
@@ -44,7 +50,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the constraint expression root node.
         /// </summary>
-        public ConstraintExpressionNode Node { get; private set; }
+        public ConstraintExpressionNode Node
+        {
+            get { return node; }
+            private set { node = value; }
+        }
 
         /// <summary>
         /// Gets the operator type of the expression.

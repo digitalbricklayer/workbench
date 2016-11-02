@@ -162,11 +162,11 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the visualizer bound to the variable matching the variable name.
+        /// Get the visualizer with the matching name.
         /// </summary>
         /// <param name="theName">Name of the visualizer.</param>
-        /// <returns>Visualizers.</returns>
-        public VisualizerModel GetVisualizerFor(string theName)
+        /// <returns>Visualizer matching the name.</returns>
+        public VisualizerModel GetVisualizerBy(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
             return Display.GetVisualizerBy(theName);

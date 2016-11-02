@@ -8,14 +8,14 @@ namespace Workbench.Core.Tests.Unit.Models
     public class WorkspaceTests
     {
         [Test]
-        public void Create_Workspace_With_Blank_Name_Returns_Model_With_Blank_Name()
+        public void CreateWorkspaceWithBlankNameReturnsModelWithBlankName()
         {
             var sut = WorkspaceModelFactory.Create();
             Assert.That(sut.Model.Name, Is.Empty);
         }
 
         [Test]
-        [Ignore("Broken the persistence mechanism whilst implementing new constraint parser.")]
+        [Ignore("Serialization seems to work, but this test fails. Not sure why.")]
         public void WorkspaceModelIsSerializable()
         {
             var sut = WorkspaceModelFactory.Create();

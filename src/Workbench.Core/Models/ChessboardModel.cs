@@ -10,6 +10,7 @@ namespace Workbench.Core.Models
     /// <summary>
     /// A chessboard model.
     /// </summary>
+    [Serializable]
     public class ChessboardModel : AbstractModel
     {
         private const int DefaultSize = 8;

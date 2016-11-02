@@ -12,6 +12,7 @@ namespace Workbench.Core.Models
     /// anything other than an aggregate at the moment. Maybe later we could 
     /// implement the constraint for 2 or more singletons.
     /// </remarks>
+    [Serializable]
     public sealed class AllDifferentConstraintModel : ConstraintModel
     {
         public AllDifferentConstraintModel(string constraintName, Point location, AllDifferentConstraintExpressionModel theExpressionModel)

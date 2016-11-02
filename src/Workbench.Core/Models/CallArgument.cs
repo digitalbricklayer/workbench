@@ -1,5 +1,8 @@
+using System;
+
 namespace Workbench.Core.Models
 {
+    [Serializable]
     public class CallArgument
     {
         public CallArgument(string name, string value)
