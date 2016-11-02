@@ -15,14 +15,6 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        [Ignore("Serialization seems to work, but this test fails. Not sure why.")]
-        public void WorkspaceModelIsSerializable()
-        {
-            var sut = WorkspaceModelFactory.Create();
-            sut.Should().BeBinarySerializable();
-        }
-
-        [Test]
         public void Create_Workspace_With_Name_Returns_Model_With_Expected_Name()
         {
             const string ExpectedModelName = "The expected model name";
