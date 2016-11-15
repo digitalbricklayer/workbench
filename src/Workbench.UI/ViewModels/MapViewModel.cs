@@ -14,10 +14,21 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             this.model = theModel;
-            if (!this.model.HasBackgroundImage)
+        }
+
+        /// <summary>
+        /// Gets or sets the map background image path.
+        /// </summary>
+        public string BackgroundImagePath
+        {
+            get
             {
-                // Load a default background
-                this.model.BackgroundImagePath = DefaultBackgroundImagePath;
+                return this.model.HasBackgroundImage ? this.model.BackgroundImagePath : DefaultBackgroundImagePath;
+            }
+            set
+            {
+                this.model.BackgroundImagePath = value;
+                NotifyOfPropertyChange();
             }
         }
 
