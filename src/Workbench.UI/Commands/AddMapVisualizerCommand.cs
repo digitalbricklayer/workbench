@@ -12,7 +12,7 @@ namespace Workbench.Commands
     /// <summary>
     /// Add a new chessboard visualizer to the solution designer.
     /// </summary>
-    public class AddChessboardVisualizerCommand : CommandBase
+    public class AddMapVisualizerCommand : CommandBase
     {
         private readonly WorkspaceViewModel workspace;
         private readonly TitleBarViewModel titleBar;
@@ -20,7 +20,7 @@ namespace Workbench.Commands
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
 
-        public AddChessboardVisualizerCommand(WorkspaceViewModel theWorkspace,
+        public AddMapVisualizerCommand(WorkspaceViewModel theWorkspace,
                                               TitleBarViewModel theTitleBar,
                                               IEventAggregator theEventAggregator,
                                               IDataService theDataService,
@@ -49,23 +49,23 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            var newVisualizerModel = new ChessboardVisualizerModel("Chessboard", newVisualizerLocation);
-            this.workspace.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));
+            var newVisualizerModel = new MapVisualizerModel("Map", newVisualizerLocation);
+            this.workspace.AddMapVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }
 
-        private ChessboardVisualizerViewModel CreateChessboardVisualizer(ChessboardVisualizerModel newVisualizerModel)
+        private MapVisualizerViewModel CreateMapVisualizer(MapVisualizerModel newVisualizerModel)
         {
-            return new ChessboardVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                                     new ChessboardVisualizerViewerViewModel(newVisualizerModel));
+            return new MapVisualizerViewModel(CreateDesigner(newVisualizerModel),
+                                              new MapVisualizerViewerViewModel(newVisualizerModel));
         }
 
-        private ChessboardVisualizerDesignerViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
+        private MapVisualizerDesignerViewModel CreateDesigner(MapVisualizerModel newVisualizerModel)
         {
-            return new ChessboardVisualizerDesignerViewModel(newVisualizerModel,
-                                                           this.eventAggregator,
-                                                           this.dataService,
-                                                           this.viewModelService);
+            return new MapVisualizerDesignerViewModel(newVisualizerModel,
+                                                      this.eventAggregator,
+                                                      this.dataService,
+                                                      this.viewModelService);
         }
     }
 }

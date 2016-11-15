@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ChessboardVisualizerDictionary.xaml"/>
+        <ResourceDictionary Source="MapVisualizerDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type viewModels:SolutionDesignerViewModel}">

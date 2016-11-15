@@ -5,28 +5,28 @@
     <DataTemplate DataType="{x:Type viewModels:ApplicationMenuViewModel}">
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}">
+                <MenuItem Header="New" Command="{Binding FileMenu.NewCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}">
+                <MenuItem Header="Open" Command="{Binding FileMenu.OpenCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}">
+                <MenuItem Header="Save" Command="{Binding FileMenu.SaveCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}">
+                <MenuItem Header="Save As..." Command="{Binding FileMenu.SaveAsCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}">
+                <MenuItem Header="Exit" Command="{Binding FileMenu.ExitCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
@@ -35,45 +35,45 @@
             <MenuItem Header="Edit">
             </MenuItem>
             <MenuItem Header="Model">
-                <MenuItem Header="Solve..." Command="{Binding SolveCommand}">
+                <MenuItem Header="Solve..." Command="{Binding ModelMenu.SolveCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Add Singleton Variable" Command="{Binding AddSingletonVariableCommand}">
+                <MenuItem Header="Add Singleton Variable" Command="{Binding ModelMenu.AddSingletonVariableCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add Aggregate Variable" Command="{Binding AddAggregateVariableCommand}">
+                <MenuItem Header="Add Aggregate Variable" Command="{Binding ModelMenu.AddAggregateVariableCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add Expression Constraint" Command="{Binding AddExpressionConstraintCommand}">
+                <MenuItem Header="Add Expression Constraint" Command="{Binding ModelMenu.AddExpressionConstraintCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add All Different Constraint" Command="{Binding AddAllDifferentConstraintCommand}">
+                <MenuItem Header="Add All Different Constraint" Command="{Binding ModelMenu.AddAllDifferentConstraintCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Add Domain" Command="{Binding AddDomainCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="../Images/Transparent.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Delete" Command="{Binding DeleteCommand}">
+                <MenuItem Header="Add Domain" Command="{Binding ModelMenu.AddDomainCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Resize Aggregate" Command="{Binding ResizeCommand}">
+                <MenuItem Header="Delete" Command="{Binding ModelMenu.DeleteCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Resize Aggregate" Command="{Binding ModelMenu.ResizeCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png" />
                     </MenuItem.Icon>
@@ -86,7 +86,17 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Add Chessboard Visualizers" Command="{Binding SolutionMenu.AddChessboardVisualizerCommand}">
+                <MenuItem Header="Add Chessboard" Command="{Binding SolutionMenu.AddChessboardVisualizerCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Add Map" Command="{Binding SolutionMenu.AddMapVisualizerCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Transparent.png"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Edit Map" Command="{Binding SolutionMenu.EditMapVisualizerCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>

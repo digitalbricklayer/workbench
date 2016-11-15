@@ -5,7 +5,7 @@ using System.Windows;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// Visualizers for a chessboard.
+    /// Visualizer for a chessboard.
     /// </summary>
     [Serializable]
     public class ChessboardVisualizerModel : VisualizerModel

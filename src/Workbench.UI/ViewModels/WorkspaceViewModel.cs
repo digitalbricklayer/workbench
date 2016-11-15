@@ -47,7 +47,7 @@ namespace Workbench.ViewModels
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             WorkspaceModel = theDataService.GetWorkspace();
             this.model = this.viewModelFactory.CreateModel(this.WorkspaceModel.Model);
-            Solution = new SolutionViewModel(new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
+            Solution = new SolutionViewModel(this, new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
                                              new SolutionViewerViewModel(WorkspaceModel.Solution));
             SelectedDisplayMode = "Model";
         }
@@ -250,14 +250,26 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new visualizer to the workspace.
+        /// Add a new chessboard visualizer to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerViewModel newVisualizer)
+        /// <param name="newVisualizer">New chessboard visualizer.</param>
+        public void AddChessboardVisualizer(ChessboardVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
-            Solution.AddVisualizer(newVisualizer);
+            Solution.AddChessboardVisualizer(newVisualizer);
+            IsDirty = true;
+        }
+
+        /// <summary>
+        /// Add a new map visualizer to the workspace.
+        /// </summary>
+        /// <param name="newVisualizer">New map visualizer.</param>
+        public void AddMapVisualizer(MapVisualizerViewModel newVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+
+            Solution.AddMapVisualizer(newVisualizer);
             IsDirty = true;
         }
 

@@ -18,6 +18,10 @@ namespace Workbench.Bootstrapper
             kernel.Register(Component.For<AddChessboardVisualizerCommand>()
                                      .LifeStyle.Transient,
                             Component.For<EditSolutionCommand>()
+                                     .LifeStyle.Transient,
+                            Component.For<AddMapVisualizerCommand>()
+                                     .LifeStyle.Transient,
+                            Component.For<EditMapCommand>()
                                      .LifeStyle.Transient);
         }
     }

@@ -189,10 +189,10 @@ namespace Workbench.ViewModels
         /// Get all selected aggregate variables.
         /// </summary>
         /// <returns>All selected variables.</returns>
-        public List<VariableViewModel> GetSelectedAggregateVariables()
+        public IList<VariableViewModel> GetSelectedAggregateVariables()
         {
-            return this.Variables.Where(_ => _.IsSelected && _.IsAggregate)
-                                 .ToList();
+            return Variables.Where(_ => _.IsSelected && _.IsAggregate)
+                            .ToList();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Workbench.ViewModels
         internal void FixupSingletonVariable(VariableViewModel variableViewModel)
         {
             if (variableViewModel == null)
-                throw new ArgumentNullException("variableViewModel");
+                throw new ArgumentNullException(nameof(variableViewModel));
             this.ActivateItem(variableViewModel);
             this.Variables.Add(variableViewModel);
         }

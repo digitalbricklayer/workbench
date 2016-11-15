@@ -43,7 +43,8 @@ namespace Workbench.Services
         {
             var workspaceViewModel = this.viewModelFactory.CreateWorkspace();
             workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
-            workspaceViewModel.Solution = new SolutionViewModel(this.displayMapper.MapFrom(theWorkspaceModel.Solution.Display),
+            workspaceViewModel.Solution = new SolutionViewModel(workspaceViewModel,
+                                                                this.displayMapper.MapFrom(theWorkspaceModel.Solution.Display),
                                                                 this.solutionMapper.MapFrom(theWorkspaceModel.Solution));
 
             return workspaceViewModel;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -9,21 +10,29 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution.
     /// </summary>
-    public sealed class SolutionViewModel : Conductor<GraphicViewModel>.Collection.AllActive
+    public sealed class SolutionViewModel : Conductor<VisualizerViewModel>.Collection.AllActive
     {
         private SolutionViewerViewModel viewer;
         private SolutionDesignerViewModel designer;
+        private readonly WorkspaceViewModel workspace;
+        private SolutionDesignerViewModel solutionDesigner;
+        private SolutionViewerViewModel solutionViewer;
 
         /// <summary>
-        /// Initialize the solution with a solution model.
+        /// Initialize the solution with the workspace, a solution designer and solution viewer.
         /// </summary>
+        /// <param name="theWorkspace">Workspace.</param>
         /// <param name="theDesigner">Solution designer.</param>
         /// <param name="theViewer">Solutuion display.</param>
-        public SolutionViewModel(SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
+        public SolutionViewModel(WorkspaceViewModel theWorkspace, SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
         {
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
             Contract.Requires<ArgumentNullException>(theDesigner != null);
             Contract.Requires<ArgumentNullException>(theViewer != null);
 
+            ChessboardVisualizers = new List<ChessboardVisualizerViewModel>();
+            MapVisualizers = new List<MapVisualizerViewModel>();
+            this.workspace = theWorkspace;
             Designer = theDesigner;
             Viewer = theViewer;
             Model = Viewer.Model;
@@ -67,19 +76,39 @@ namespace Workbench.ViewModels
         public SolutionModel Model { get; set; }
 
         /// <summary>
-        /// Add a new visualizer to the solution.
+        /// Gets all chessboard visualizers.
         /// </summary>
-        /// <param name="newVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerViewModel newVisualizer)
+        public IList<ChessboardVisualizerViewModel> ChessboardVisualizers { get; private set; }
+
+        /// <summary>
+        /// Gets all map visualizers.
+        /// </summary>
+        public IList<MapVisualizerViewModel> MapVisualizers { get; private set; }
+
+        /// <summary>
+        /// Add a new chessboard visualizer to the workspace.
+        /// </summary>
+        /// <param name="newVisualizer">New chessboard visualizer.</param>
+        public void AddChessboardVisualizer(ChessboardVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
-
-            Designer.AddVisualizer(newVisualizer.Designer);
-            Viewer.AddVisualizer(newVisualizer.Viewer);
+            AddVisualizer(newVisualizer);
+            ChessboardVisualizers.Add(newVisualizer);
         }
 
         /// <summary>
-        /// Reset the solution.
+        /// Add a new map visualizer to the workspace.
+        /// </summary>
+        /// <param name="newVisualizer">New map visualizer.</param>
+        public void AddMapVisualizer(MapVisualizerViewModel newVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+            AddVisualizer(newVisualizer);
+            MapVisualizers.Add(newVisualizer);
+        }
+
+        /// <summary>
+        /// Reset the current solution.
         /// </summary>
         public void Reset()
         {
@@ -94,6 +123,31 @@ namespace Workbench.ViewModels
         public void BindTo(List<ValueModel> newValues)
         {
             Viewer.BindTo(newValues);
+        }
+
+        public IReadOnlyCollection<MapVisualizerViewModel> GetSelectedMapVisualizers()
+        {
+            if (this.workspace.SelectedDisplayMode == "Designer")
+            {
+                return MapVisualizers.Where(_ => _.Designer.IsSelected)
+                                     .ToList();
+            }
+
+            return MapVisualizers.Where(_ => _.Viewer.IsSelected)
+                                 .ToList();
+        }
+
+        /// <summary>
+        /// Add a new visualizer to the solution.
+        /// </summary>
+        /// <param name="newVisualizer">New visualizer.</param>
+        private void AddVisualizer(VisualizerViewModel newVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+
+            Designer.AddVisualizer(newVisualizer.Designer);
+            Viewer.AddVisualizer(newVisualizer.Viewer);
+            ActivateItem(newVisualizer);
         }
     }
 }

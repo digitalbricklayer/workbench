@@ -22,17 +22,17 @@
     <Window.InputBindings>
         <!-- Bind input to commands. -->
         <KeyBinding Key="Delete"
-			        Command="{Binding ApplicationMenu.DeleteCommand}" />
+			        Command="{Binding ApplicationMenu.ModelMenu.DeleteCommand}" />
     </Window.InputBindings>
 
     <Window.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Create Singleton Variable"
-					  Command="{Binding ApplicationMenu.AddSingletonVariableCommand}"
+					  Command="{Binding ApplicationMenu.ModelMenu.AddSingletonVariableCommand}"
 					  ToolTip="Create a new variable" />
 
             <MenuItem Header="Create Aggregate Variable"
-					  Command="{Binding ApplicationMenu.AddAggregateVariableCommand}"
+					  Command="{Binding ApplicationMenu.ModelMenu.AddAggregateVariableCommand}"
 					  ToolTip="Create a new variable" />
         </ContextMenu>
     </Window.ContextMenu>

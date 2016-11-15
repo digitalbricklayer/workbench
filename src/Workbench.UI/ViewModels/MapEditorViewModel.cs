@@ -2,19 +2,19 @@ using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
-    public class SolutionEditorViewModel : Screen
+    public class MapEditorViewModel : Screen
     {
-        private string bindingExpression;
+        private string backgroundImagePath;
 
         /// <summary>
-        /// Gets or sets the visualizer binding expression.
+        /// Gets or sets the background image path.
         /// </summary>
-        public string BindingExpression
+        public string BackgroundImagePath
         {
-            get { return this.bindingExpression; }
+            get { return this.backgroundImagePath; }
             set
             {
-                this.bindingExpression = value;
+                this.backgroundImagePath = value;
                 NotifyOfPropertyChange();
             }
         }

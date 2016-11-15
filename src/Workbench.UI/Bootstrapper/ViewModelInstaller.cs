@@ -21,6 +21,12 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<ApplicationMenuViewModel>()
                                      .LifeStyle.Singleton,
+                            Component.For<FileMenuViewModel>()
+                                     .LifeStyle.Singleton,
+                            Component.For<ModelMenuViewModel>()
+                                     .LifeStyle.Singleton,
+                            Component.For<SolutionMenuViewModel>()
+                                     .LifeStyle.Singleton,
                             Component.For<TitleBarViewModel>()
                                      .LifeStyle.Singleton);
         }
