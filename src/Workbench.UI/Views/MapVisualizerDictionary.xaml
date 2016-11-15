@@ -6,7 +6,7 @@
     <!-- Map control -->
     <DataTemplate DataType="{x:Type viewModels:MapViewModel}">
         <Image x:Name="image"
-               Source="{Binding BackgroundImage}"/>
+               Source="{Binding Map.BackgroundImagePath}"/>
     </DataTemplate>
 
     <!-- Map visualizer in 'design' mode -->
