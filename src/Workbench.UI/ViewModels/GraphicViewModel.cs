@@ -109,7 +109,6 @@ namespace Workbench.ViewModels
             }
             set
             {
-                if (this.isSelected == value) return;
                 // Selection state is not tracked by the model.
                 this.isSelected = value;
                 NotifyOfPropertyChange();
