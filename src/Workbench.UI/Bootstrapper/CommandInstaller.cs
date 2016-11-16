@@ -21,7 +21,7 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Transient,
                             Component.For<AddMapVisualizerCommand>()
                                      .LifeStyle.Transient,
-                            Component.For<EditMapCommand>()
+                            Component.For<EditGridCommand>()
                                      .LifeStyle.Transient);
         }
     }

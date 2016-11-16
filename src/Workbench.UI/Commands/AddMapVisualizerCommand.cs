@@ -49,20 +49,20 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            var newVisualizerModel = new MapVisualizerModel("Map", newVisualizerLocation);
+            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation);
             this.workspace.AddMapVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }
 
-        private MapVisualizerViewModel CreateMapVisualizer(MapVisualizerModel newVisualizerModel)
+        private GridVisualizerViewModel CreateMapVisualizer(GridVisualizerModel newVisualizerModel)
         {
-            return new MapVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                              new MapVisualizerViewerViewModel(newVisualizerModel));
+            return new GridVisualizerViewModel(CreateDesigner(newVisualizerModel),
+                                              new GridVisualizerViewerViewModel(newVisualizerModel));
         }
 
-        private MapVisualizerDesignerViewModel CreateDesigner(MapVisualizerModel newVisualizerModel)
+        private GridVisualizerDesignerViewModel CreateDesigner(GridVisualizerModel newVisualizerModel)
         {
-            return new MapVisualizerDesignerViewModel(newVisualizerModel,
+            return new GridVisualizerDesignerViewModel(newVisualizerModel,
                                                       this.eventAggregator,
                                                       this.dataService,
                                                       this.viewModelService);

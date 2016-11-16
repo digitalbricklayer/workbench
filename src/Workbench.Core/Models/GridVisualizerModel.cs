@@ -4,28 +4,28 @@ using System.Windows;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// Visualizer for a map.
+    /// Visualizer for a grid.
     /// </summary>
     [Serializable]
-    public class MapVisualizerModel : VisualizerModel
+    public class GridVisualizerModel : VisualizerModel
     {
-        private readonly MapModel model;
+        private readonly GridModel model;
 
         /// <summary>
-        /// Initialize a map visualizer with a name and location.
+        /// Initialize a grid visualizer with a name and location.
         /// </summary>
-        /// <param name="mapName">Map name.</param>
-        /// <param name="location">Map location.</param>
-        public MapVisualizerModel(string mapName, Point location)
-            : base(mapName, location)
+        /// <param name="gridName">Grid name.</param>
+        /// <param name="location">Grid location.</param>
+        public GridVisualizerModel(string gridName, Point location)
+            : base(gridName, location)
         {
-            this.model = new MapModel();
+            this.model = new GridModel();
         }
 
         /// <summary>
         /// Gets the map model.
         /// </summary>
-        public MapModel Model
+        public GridModel Model
         {
             get { return this.model; }
         }

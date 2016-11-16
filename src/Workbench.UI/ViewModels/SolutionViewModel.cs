@@ -31,7 +31,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewer != null);
 
             ChessboardVisualizers = new List<ChessboardVisualizerViewModel>();
-            MapVisualizers = new List<MapVisualizerViewModel>();
+            MapVisualizers = new List<GridVisualizerViewModel>();
             this.workspace = theWorkspace;
             Designer = theDesigner;
             Viewer = theViewer;
@@ -83,7 +83,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all map visualizers.
         /// </summary>
-        public IList<MapVisualizerViewModel> MapVisualizers { get; private set; }
+        public IList<GridVisualizerViewModel> MapVisualizers { get; private set; }
 
         /// <summary>
         /// Add a new chessboard visualizer to the workspace.
@@ -100,7 +100,7 @@ namespace Workbench.ViewModels
         /// Add a new map visualizer to the workspace.
         /// </summary>
         /// <param name="newVisualizer">New map visualizer.</param>
-        public void AddMapVisualizer(MapVisualizerViewModel newVisualizer)
+        public void AddMapVisualizer(GridVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             AddVisualizer(newVisualizer);
@@ -125,7 +125,7 @@ namespace Workbench.ViewModels
             Viewer.BindTo(newValues);
         }
 
-        public IReadOnlyCollection<MapVisualizerViewModel> GetSelectedMapVisualizers()
+        public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedMapVisualizers()
         {
             if (this.workspace.SelectedDisplayMode == "Designer")
             {

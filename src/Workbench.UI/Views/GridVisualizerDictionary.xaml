@@ -3,14 +3,14 @@
                     xmlns:viewModels="clr-namespace:Workbench.ViewModels"
                     xmlns:controls="clr-namespace:Workbench.Controls">
 
-    <!-- Map control -->
-    <DataTemplate DataType="{x:Type viewModels:MapViewModel}">
-        <Image x:Name="image"
-               Source="{Binding Map.BackgroundImagePath}"/>
+    <!-- Grid control -->
+    <DataTemplate DataType="{x:Type viewModels:GridViewModel}">
+        <!--<Image x:Name="image"
+               Source="{Binding Grid.BackgroundImagePath}"/>-->
     </DataTemplate>
 
-    <!-- Map visualizer in 'design' mode -->
-    <DataTemplate DataType="{x:Type viewModels:MapVisualizerDesignerViewModel}">
+    <!-- Grid visualizer in 'design' mode -->
+    <DataTemplate DataType="{x:Type viewModels:GridVisualizerDesignerViewModel}">
         <Border BorderBrush="Black" BorderThickness="2">
         <!-- 
         An adorned control is used to enable the edit button when the user 
@@ -110,13 +110,13 @@
             <ContentPresenter x:Name="map"
                               Height="200" Width="200"
                               Grid.Row="1"
-                              Content="{Binding Map}"/>
+                              Content="{Binding Grid}"/>
         </Grid>
         </Border>
     </DataTemplate>
     
-    <!-- Map visualizer in 'view' mode -->
-    <DataTemplate DataType="{x:Type viewModels:MapVisualizerViewerViewModel}">
+    <!-- Grid visualizer in 'view' mode -->
+    <DataTemplate DataType="{x:Type viewModels:GridVisualizerViewerViewModel}">
         <!-- Border around the entire viewer -->
         <Border BorderBrush="Black" BorderThickness="2">
             <Grid>
@@ -142,8 +142,9 @@
                 <ContentPresenter x:Name="map"
                                   Height="200" Width="200"
                                   Grid.Row="1"
-                                  Content="{Binding Map}"/>
+                                  Content="{Binding Grid}"/>
             </Grid>
         </Border>
     </DataTemplate>
+
 </ResourceDictionary>

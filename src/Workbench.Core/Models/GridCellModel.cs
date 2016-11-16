@@ -8,7 +8,7 @@ namespace Workbench.Core.Models
     /// An individual region on a map.
     /// </summary>
     [Serializable]
-    public class MapRegionModel : AbstractModel
+    public class GridCellModel : AbstractModel
     {
         private System.Drawing.Color backgroundColor;
         private string name;
@@ -19,7 +19,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theName">Region name.</param>
         /// <param name="theColor">Region color</param>
-        public MapRegionModel(string theName, System.Drawing.Color theColor)
+        public GridCellModel(string theName, System.Drawing.Color theColor)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
             Name = theName;
@@ -30,7 +30,7 @@ namespace Workbench.Core.Models
         /// Initialize the region with a name.
         /// </summary>
         /// <param name="theName">Region name.</param>
-        public MapRegionModel(string theName)
+        public GridCellModel(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
             Name = theName;
@@ -40,7 +40,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize the region with default values.
         /// </summary>
-        public MapRegionModel()
+        public GridCellModel()
         {
             BackgroundColor = System.Drawing.Color.White;
             Name = String.Empty;

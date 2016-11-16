@@ -16,7 +16,7 @@ namespace Workbench.ViewModels
         {
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddMapVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
-            EditMapVisualizerCommand = IoC.Get<EditMapCommand>();
+            EditMapVisualizerCommand = IoC.Get<EditGridCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
         }
 

@@ -175,9 +175,9 @@
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
-    <Compile Include="Models\MapModel.cs" />
-    <Compile Include="Models\MapRegionModel.cs" />
-    <Compile Include="Models\MapVisualizerModel.cs" />
+    <Compile Include="Models\GridModel.cs" />
+    <Compile Include="Models\GridCellModel.cs" />
+    <Compile Include="Models\GridVisualizerModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />

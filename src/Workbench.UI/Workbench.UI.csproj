@@ -214,7 +214,7 @@
     <Compile Include="Commands\AddMapVisualizerCommand.cs" />
     <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
-    <Compile Include="Commands\EditMapCommand.cs" />
+    <Compile Include="Commands\EditGridCommand.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />
@@ -259,10 +259,10 @@
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
     <Compile Include="ViewModels\MapEditorViewModel.cs" />
-    <Compile Include="ViewModels\MapViewModel.cs" />
-    <Compile Include="ViewModels\MapVisualizerDesignerViewModel.cs" />
-    <Compile Include="ViewModels\MapVisualizerViewerViewModel.cs" />
-    <Compile Include="ViewModels\MapVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\GridViewModel.cs" />
+    <Compile Include="ViewModels\GridVisualizerDesignerViewModel.cs" />
+    <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\GridVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
@@ -323,7 +323,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MapVisualizerDictionary.xaml">
+    <Page Include="Views\GridVisualizerDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

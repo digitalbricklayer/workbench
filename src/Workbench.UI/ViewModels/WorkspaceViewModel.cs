@@ -265,7 +265,7 @@ namespace Workbench.ViewModels
         /// Add a new map visualizer to the workspace.
         /// </summary>
         /// <param name="newVisualizer">New map visualizer.</param>
-        public void AddMapVisualizer(MapVisualizerViewModel newVisualizer)
+        public void AddMapVisualizer(GridVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 

@@ -6,12 +6,12 @@ using Workbench.ViewModels;
 
 namespace Workbench.Commands
 {
-    public class EditMapCommand : CommandBase
+    public class EditGridCommand : CommandBase
     {
         private readonly IWindowManager windowManager;
         private readonly WorkspaceViewModel workspace;
 
-        public EditMapCommand(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
+        public EditGridCommand(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
@@ -25,13 +25,13 @@ namespace Workbench.Commands
             var selectedMapVisualizers = this.workspace.Solution.GetSelectedMapVisualizers();
             if (!selectedMapVisualizers.Any()) return;
             var mapEditorViewModel = new MapEditorViewModel();
-            mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
+            //mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
             var showDialogResult = this.windowManager.ShowDialog(mapEditorViewModel);
             if (showDialogResult.HasValue && showDialogResult.Value)
             {
                 foreach (var mapVisualizer in selectedMapVisualizers)
                 {
-                    mapVisualizer.Model.Model.BackgroundImagePath = mapEditorViewModel.BackgroundImagePath;
+//                    mapVisualizer.Model.Model.BackgroundImagePath = mapEditorViewModel.BackgroundImagePath;
                 }
             }
         }

@@ -6,11 +6,11 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class MapVisualizerDesignerViewModel : VisualizerDesignerViewModel
+    public class GridVisualizerDesignerViewModel : VisualizerDesignerViewModel
     {
-        private MapViewModel map;
+        private GridViewModel _grid;
 
-        public MapVisualizerDesignerViewModel(MapVisualizerModel theMapModel,
+        public GridVisualizerDesignerViewModel(GridVisualizerModel theMapModel,
                                               IEventAggregator theEventAggregator,
                                               IDataService theDataService,
                                               IViewModelService theViewModelService)
@@ -22,18 +22,18 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             Model = theMapModel;
-            Map = new MapViewModel(theMapModel.Model);
+            Grid = new GridViewModel(theMapModel.Model);
         }
 
         /// <summary>
         /// Gets or sets the map view model.
         /// </summary>
-        public MapViewModel Map
+        public GridViewModel Grid
         {
-            get { return this.map; }
+            get { return this._grid; }
             set
             {
-                this.map = value;
+                this._grid = value;
                 NotifyOfPropertyChange();
             }
         }

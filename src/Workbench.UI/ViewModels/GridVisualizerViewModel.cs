@@ -4,10 +4,10 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class MapVisualizerViewModel : VisualizerViewModel
+    public class GridVisualizerViewModel : VisualizerViewModel
     {
-        public MapVisualizerViewModel(MapVisualizerDesignerViewModel theDesigner,
-                                      MapVisualizerViewerViewModel theViewer)
+        public GridVisualizerViewModel(GridVisualizerDesignerViewModel theDesigner,
+                                       GridVisualizerViewerViewModel theViewer)
         {
             Contract.Requires<ArgumentNullException>(theDesigner != null);
             Contract.Requires<ArgumentNullException>(theViewer != null);
@@ -16,6 +16,6 @@ namespace Workbench.ViewModels
             Model = theViewer.MapModel;
         }
 
-        public MapVisualizerModel Model { get; private set; }
+        public GridVisualizerModel Model { get; private set; }
     }
 }
