@@ -1,61 +1,60 @@
 using System;
 using System.Diagnostics.Contracts;
-using System.Windows.Media;
+using System.Drawing;
 
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// An individual region on a map.
+    /// An individual cell in a row on a grid.
     /// </summary>
     [Serializable]
     public class GridCellModel : AbstractModel
     {
-        private System.Drawing.Color backgroundColor;
-        private string name;
-        private PointCollection boundary;
+        private Color backgroundColor;
+        private string text;
 
         /// <summary>
-        /// Initialize the region with a name and color.
+        /// Initialize the cell with text and color.
         /// </summary>
-        /// <param name="theName">Region name.</param>
+        /// <param name="theText">Region name.</param>
         /// <param name="theColor">Region color</param>
-        public GridCellModel(string theName, System.Drawing.Color theColor)
+        public GridCellModel(string theText, Color theColor)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            Name = theName;
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theText));
+            Text = theText;
             BackgroundColor = theColor;
         }
 
         /// <summary>
-        /// Initialize the region with a name.
+        /// Initialize the cell with text.
         /// </summary>
-        /// <param name="theName">Region name.</param>
-        public GridCellModel(string theName)
+        /// <param name="theText">Row text.</param>
+        public GridCellModel(string theText)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            Name = theName;
-            BackgroundColor = System.Drawing.Color.White;
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theText));
+            Text = theText;
+            BackgroundColor = Color.White;
         }
 
         /// <summary>
-        /// Initialize the region with default values.
+        /// Initialize the cell with default values.
         /// </summary>
         public GridCellModel()
         {
-            BackgroundColor = System.Drawing.Color.White;
-            Name = String.Empty;
+            BackgroundColor = Color.White;
+            Text = string.Empty;
         }
 
         /// <summary>
-        /// Gets or sets the region name.
+        /// Gets or sets the row text.
         /// </summary>
-        public string Name
+        public string Text
         {
-            get { return this.name; }
+            get { return this.text; }
             set
             {
                 Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(value));
-                this.name = value;
+                this.text = value;
                 OnPropertyChanged();
             }
         }
@@ -63,22 +62,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the color of the region on the map.
         /// </summary>
-        public System.Drawing.Color BackgroundColor
+        public Color BackgroundColor
         {
             get { return this.backgroundColor; }
             set
             {
                 this.backgroundColor = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public PointCollection Boundary
-        {
-            get { return this.boundary; }
-            set
-            {
-                this.boundary = value;
                 OnPropertyChanged();
             }
         }

@@ -15,15 +15,15 @@ namespace Workbench.ViewModels
         public SolutionMenuViewModel()
         {
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
-            AddMapVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
-            EditMapVisualizerCommand = IoC.Get<EditGridCommand>();
+            AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
+            EditGridVisualizerCommand = IoC.Get<EditGridCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
         }
 
         /// <summary>
         /// Gets the Solution|Add Map command
         /// </summary>
-        public ICommand AddMapVisualizerCommand { get; private set; }
+        public ICommand AddGridVisualizerCommand { get; private set; }
 
         /// <summary>
         /// Gets the Solution|Add Chessboard command.
@@ -38,6 +38,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Solution|Edit Map command
         /// </summary>
-        public ICommand EditMapVisualizerCommand { get; private set; }
+        public ICommand EditGridVisualizerCommand { get; private set; }
     }
 }

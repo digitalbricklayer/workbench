@@ -5,8 +5,12 @@
 
     <!-- Grid control -->
     <DataTemplate DataType="{x:Type viewModels:GridViewModel}">
-        <!--<Image x:Name="image"
-               Source="{Binding Grid.BackgroundImagePath}"/>-->
+        <DataGrid x:Name="gridControl">
+            <DataGrid.Columns >
+                
+            </DataGrid.Columns>
+            
+        </DataGrid>
     </DataTemplate>
 
     <!-- Grid visualizer in 'design' mode -->
