@@ -94,6 +94,47 @@ namespace Workbench.Core.Models
             return this;
         }
 
+        public WorkspaceContext WithGridVisualizer(GridVisualizerModel theVisualizer)
+        {
+            Contract.Requires<ArgumentException>(theVisualizer != null);
+
+            this.workspace.AddVisualizer(theVisualizer);
+            return this;
+        }
+
+        public WorkspaceContext WithGridVisualizer(string theVisualizerName, params string[] columnNames)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
+
+            var theVisualizer = new GridVisualizerModel(theVisualizerName, new Point());
+            foreach (var columnName in columnNames)
+            {
+                theVisualizer.AddColumn(new GridColumnModel(columnName));
+            }
+            this.workspace.AddVisualizer(theVisualizer);
+            return this;
+        }
+
+        public WorkspaceContext WithGridVisualizer(string theVisualizerName, string[] columnNames, GridRowModel[] rows)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
+            Contract.Requires<ArgumentNullException>(columnNames != null);
+            Contract.Requires<ArgumentNullException>(rows != null);
+
+            var theVisualizer = new GridVisualizerModel(theVisualizerName, new Point());
+            foreach (var columnName in columnNames)
+            {
+                theVisualizer.AddColumn(new GridColumnModel(columnName));
+            }
+            foreach (var row in rows)
+            {
+                theVisualizer.AddRow(row);
+            }
+            this.workspace.AddVisualizer(theVisualizer);
+
+            return this;
+        }
+
         public ModelModel GetModel()
         {
             Contract.Assume(this.workspace != null);

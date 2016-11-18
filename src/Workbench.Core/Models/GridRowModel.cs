@@ -12,6 +12,19 @@ namespace Workbench.Core.Models
         private ObservableCollection<GridCellModel> cells;
 
         /// <summary>
+        /// Initialize a row with cell data.
+        /// </summary>
+        /// <param name="cellData">Cell data.</param>
+        public GridRowModel(params string[] cellData)
+            : this()
+        {
+            foreach (var cellContent in cellData)
+            {
+                this.cells.Add(new GridCellModel(cellContent));
+            }
+        }
+
+        /// <summary>
         /// Initialize a row with default values.
         /// </summary>
         public GridRowModel()

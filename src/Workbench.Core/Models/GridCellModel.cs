@@ -31,8 +31,8 @@ namespace Workbench.Core.Models
         /// <param name="theText">Row text.</param>
         public GridCellModel(string theText)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theText));
-            Text = theText;
+            Contract.Requires<ArgumentNullException>(theText != null);
+            this.text = theText;
             BackgroundColor = Color.White;
         }
 

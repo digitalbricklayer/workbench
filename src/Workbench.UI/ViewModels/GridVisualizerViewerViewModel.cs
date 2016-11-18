@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
             : base(newVisualizerModel)
         {
             Model = newVisualizerModel;
-            Grid = new GridViewModel(newVisualizerModel.Model);
+            Grid = new GridViewModel(newVisualizerModel.Grid);
             MapModel = newVisualizerModel;
         }
 

@@ -22,7 +22,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             Model = theMapModel;
-            Grid = new GridViewModel(theMapModel.Model);
+            Grid = new GridViewModel(theMapModel.Grid);
         }
 
         /// <summary>

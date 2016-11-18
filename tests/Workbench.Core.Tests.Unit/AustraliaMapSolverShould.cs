@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Windows;
+using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
@@ -12,11 +13,22 @@ namespace Workbench.Core.Tests.Unit
     public class AustraliaMapSolverShould
     {
         [Test]
-        public void SolveWithAustraliaMapModelReturnsStatusSuccess()
+        public void SolveWithMapModelReturnsStatusSuccess()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
+        }
+
+        [Test]
+        public void SolveWithGridVisualizerAssignsEightQueens()
+        {
+            var sut = CreateWorkspace();
+            sut.Solve();
+            var gridVisualizer = (GridVisualizerModel)sut.Solution.GetVisualizerBy("states");
+            var colorColumn = gridVisualizer.GetColumnByName("Color");
+            var colorCells = colorColumn.GetCells();
+            Assert.That(colorCells, Has.Count.EqualTo(7));
         }
 
         private static WorkspaceModel CreateWorkspace()
@@ -38,9 +50,21 @@ namespace Workbench.Core.Tests.Unit
                                           .WithConstraintExpression("nsw <> sa")
                                           .WithConstraintExpression("nsw <> v")
                                           .WithConstraintExpression("sa <> v")
+                                          .WithGridVisualizer(CreateGrid())
                                           .Build();
 
             return workspace;
+        }
+
+        private static GridVisualizerModel CreateGrid()
+        {
+          return new GridVisualizerModel("states", new Point(), new[] { "Name", "Color" }, new[] { new GridRowModel("WA", ""),
+                                                                                                   new GridRowModel("NT", ""),
+                                                                                                   new GridRowModel("SA", ""),
+                                                                                                   new GridRowModel("Q", ""),
+                                                                                                   new GridRowModel("NSW", ""),
+                                                                                                   new GridRowModel("V", ""),
+                                                                                                   new GridRowModel("T", "") });
         }
     }
 }
