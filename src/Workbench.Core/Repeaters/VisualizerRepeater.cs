@@ -22,17 +22,28 @@ namespace Workbench.Core.Repeaters
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
-            var repeaterStatement = (MultiRepeaterStatementNode)theContext.Binding.Node.InnerExpression;
-            var statementNode = repeaterStatement.Statement;
-            if (!this.context.HasRepeaters)
+            if (theContext.Binding.Node.InnerExpression is MultiRepeaterStatementNode)
             {
-                ProcessStatement(statementNode);
+                var repeaterStatement = (MultiRepeaterStatementNode)theContext.Binding.Node.InnerExpression;
+                var statementNode = repeaterStatement.Statement;
+                if (!this.context.HasRepeaters)
+                {
+                    ProcessStatement(statementNode);
+                }
+                else
+                {
+                    while (this.context.Next())
+                    {
+                        ProcessStatement(statementNode);
+                    }
+                }
             }
             else
             {
-                while (this.context.Next())
+                var statementListNode = (StatementListNode) theContext.Binding.Node.InnerExpression;
+                foreach (var x in statementListNode.Statements)
                 {
-                    ProcessStatement(statementNode);
+                    ProcessStatement(x);
                 }
             }
         }

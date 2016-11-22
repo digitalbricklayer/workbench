@@ -9,7 +9,8 @@ namespace Workbench.Core.Nodes
     {
         public AstNode InnerExpression { get; private set; }
 
-        public bool IsLiteral => InnerExpression.IsConstant();
+        public bool IsLiteral => InnerExpression is LiteralNode;
+//        public bool IsLiteral => InnerExpression.IsConstant();
 
         public bool IsExpression => IsValueReferenceExpression || IsCounterReferenceExpression;
 
@@ -19,8 +20,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var x = (CounterReferenceNode) InnerExpression;
-                return x != null;
+                return InnerExpression is CounterReferenceNode;
             }
         }
 

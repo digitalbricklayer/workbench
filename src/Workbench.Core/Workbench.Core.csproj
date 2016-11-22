@@ -184,6 +184,7 @@
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
+    <Compile Include="Nodes\StatementListNode.cs" />
     <Compile Include="Nodes\VisualizerBinaryExpressionNode.cs" />
     <Compile Include="Nodes\CallArgumentNameNode.cs" />
     <Compile Include="Nodes\CallArgumentNode.cs" />
@@ -199,8 +200,8 @@
     <Compile Include="Nodes\VisualizerExpressionNode.cs" />
     <Compile Include="Nodes\IfStatementNode.cs" />
     <Compile Include="Nodes\InfixStatementNode.cs" />
-    <Compile Include="Nodes\CallArgumentNodeList.cs" />
-    <Compile Include="Nodes\MultiCounterDeclarationNode.cs" />
+    <Compile Include="Nodes\CallArgumentListNode.cs" />
+    <Compile Include="Nodes\CounterDeclarationListNode.cs" />
     <Compile Include="Nodes\MultiRepeaterStatementNode.cs" />
     <Compile Include="Nodes\MultiScopeDeclarationNode.cs" />
     <Compile Include="Nodes\ScopeLimitSatementNode.cs" />

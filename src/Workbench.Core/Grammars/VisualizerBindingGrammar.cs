@@ -6,7 +6,7 @@ namespace Workbench.Core.Grammars
     /// <summary>
     /// Grammar for visualizer binding expressions.
     /// </summary>
-    [Language("Visualizers Binding", "0.1", "A grammar for binding a model solution to a visualizer.")]
+    [Language("Visualizer Binding Expression", "0.1", "A grammar for binding a model solution to a visualizer.")]
     internal class VisualizerBindingGrammar : Grammar
     {
         private const string CounterRegexPattern = @"\b[A-Za-z]\w*\b";
@@ -58,6 +58,7 @@ namespace Workbench.Core.Grammars
             // Non-terminals
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
+            var statementList = new NonTerminal("statement list", typeof(Workbench.Core.Nodes.StatementListNode));
             var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerBindingExpressionNode));
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
 
@@ -68,16 +69,16 @@ namespace Workbench.Core.Grammars
             var infixOperator = new NonTerminal("infix");
             var callArgumentValue = new NonTerminal("call argument value", typeof(CallArgumentValueNode));
             var callArgument = new NonTerminal("call argument", typeof(CallArgumentNode));
-            var callArgumentList = new NonTerminal("call argument list", typeof(CallArgumentNodeList));
+            var callArgumentList = new NonTerminal("call argument list", typeof(CallArgumentListNode));
             var callStatement = new NonTerminal("call statement", typeof(CallStatementNode));
             var expression = new NonTerminal("expression", typeof(VisualizerExpressionNode));
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
             var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
             var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
             var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
-            var counterDeclarationList = new NonTerminal("counters", typeof(MultiCounterDeclarationNode));
+            var counterDeclarationList = new NonTerminal("counters", typeof(CounterDeclarationListNode));
             var expanderStatement = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
-            var expanderScopeStatementList = new NonTerminal("scopes", typeof(MultiScopeDeclarationNode));
+            var expanderScopeStatementList = new NonTerminal("scopes", typeof(ScopeDeclarationListNode));
             var binaryExpression = new NonTerminal("binary expression", typeof(VisualizerBinaryExpressionNode));
 
             // BNF rules
@@ -85,6 +86,7 @@ namespace Workbench.Core.Grammars
             infixOperator.Rule = PLUS | MINUS;
 
             valueOffset.Rule = literal | counterReference;
+            // A value reference can either reference a singleton or an aggregate
             valueReferenceStatement.Rule = ToTerm("<") + variableName + COMMA + valueOffset + ToTerm(">") |
                                            ToTerm("<") + variableName + ToTerm(">");
 
@@ -109,9 +111,10 @@ namespace Workbench.Core.Grammars
 
             ifStatement.Rule = IF + binaryExpression + COLON + callStatement;
             statement.Rule = ifStatement | callStatement;
+            statementList.Rule = MakePlusRule(statementList, COMMA, statement);
 
             bindingExpression.Rule = NewLine |
-                                     statement + NewLine |
+                                     statementList + NewLine |
                                      expanderStatement + NewLine;
 
             Root = bindingExpression;
@@ -129,4 +132,8 @@ namespace Workbench.Core.Grammars
             MarkPunctuation("<", ">");
         }
     }
+}
+
+namespace Workbench.Core.Nodes
+{
 }

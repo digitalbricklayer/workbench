@@ -6,8 +6,8 @@ namespace Workbench.Core.Nodes
 {
     public class MultiRepeaterStatementNode : ConstraintExpressionBaseNode
     {
-        public MultiScopeDeclarationNode ScopeDeclarations { get; private set; }
-        public MultiCounterDeclarationNode CounterDeclarations { get; private set; }
+        public ScopeDeclarationListNode ScopeDeclarations { get; private set; }
+        public CounterDeclarationListNode CounterDeclarations { get; private set; }
         public StatementNode Statement { get; private set; }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace Workbench.Core.Nodes
             base.Init(context, treeNode);
             // The expander statement can be empty and still valid...
             if (!treeNode.ChildNodes.Any()) return;
-            CounterDeclarations = (MultiCounterDeclarationNode) AddChild("counter declarations", treeNode.ChildNodes[0]);
-            ScopeDeclarations = (MultiScopeDeclarationNode)AddChild("scope declarations", treeNode.ChildNodes[2]);
+            CounterDeclarations = (CounterDeclarationListNode) AddChild("counter declarations", treeNode.ChildNodes[0]);
+            ScopeDeclarations = (ScopeDeclarationListNode)AddChild("scope declarations", treeNode.ChildNodes[2]);
             if (treeNode.ChildNodes.Count > 3)
             {
                 Statement = (StatementNode) AddChild("statement", treeNode.ChildNodes[3]);

@@ -12,6 +12,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class GridModel : AbstractModel
     {
+        private int columnCount, rowCount;
         private ObservableCollection<GridRowModel> rows;
         private ObservableCollection<GridColumnModel> columns;
 
@@ -27,10 +28,12 @@ namespace Workbench.Core.Models
             {
                 AddColumn(new GridColumnModel(columnName));
             }
+            this.columnCount = columnNames.Length;
             foreach (var row in theRows)
             {
                 AddRow(row);
             }
+            this.rowCount = theRows.Length;
         }
 
         /// <summary>
@@ -43,30 +46,28 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the grid rows.
+        /// Gets the grid rows.
         /// </summary>
         public ObservableCollection<GridRowModel> Rows
         {
             get { return this.rows; }
-            set
+            private set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 this.rows = value;
-                OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Gets or sets the grid columns.
+        /// Gets the grid columns.
         /// </summary>
         public ObservableCollection<GridColumnModel> Columns
         {
             get { return this.columns; }
-            set
+            private set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 this.columns = value;
-                OnPropertyChanged();
             }
         }
 
@@ -120,6 +121,18 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
             return this.columns.FirstOrDefault(_ => _.Name == columnName);
+        }
+
+        /// <summary>
+        /// Get the row by x, y co-ordinate.
+        /// </summary>
+        /// <param name="rowIndex">One based row index.</param>
+        /// <param name="columnIndex">One based column index.</param>
+        /// <returns>Cell matching the column and row indexes.</returns>
+        public GridCellModel GetCellBy(int rowIndex, int columnIndex)
+        {
+            var row = this.rows[rowIndex - 1];
+            return row.Cells[columnIndex - 1];
         }
     }
 }

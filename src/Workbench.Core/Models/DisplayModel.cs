@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Castle.Core.Internal;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -12,7 +14,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class DisplayModel : AbstractModel
     {
-        private VisualizerBindingExpressionModel binding;
+        private readonly IList<VisualizerBindingExpressionModel> bindings;
         private ObservableCollection<VisualizerModel> visualizers;
 
         /// <summary>
@@ -21,7 +23,7 @@ namespace Workbench.Core.Models
         public DisplayModel()
         {
             Visualizers = new ObservableCollection<VisualizerModel>();
-            Binding = new VisualizerBindingExpressionModel();
+            this.bindings = new List<VisualizerBindingExpressionModel>();
         }
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace Workbench.Core.Models
         public ObservableCollection<VisualizerModel> Visualizers
         {
             get { return this.visualizers; }
-            set
+            private set
             {
                 this.visualizers = value;
                 OnPropertyChanged();
@@ -40,14 +42,9 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the visualizer binding expression.
         /// </summary>
-        public VisualizerBindingExpressionModel Binding
+        public IReadOnlyCollection<VisualizerBindingExpressionModel> Bindings
         {
-            get { return this.binding; }
-            private set
-            {
-                this.binding = value;
-                OnPropertyChanged();
-            }
+            get { return new ReadOnlyCollection<VisualizerBindingExpressionModel>(this.bindings); }
         }
 
         /// <summary>
@@ -81,7 +78,17 @@ namespace Workbench.Core.Models
         public void UpdateFrom(SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            Binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot, this));
+            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot, this, binding)));
+        }
+
+        /// <summary>
+        /// Add a new visualizer binding expression.
+        /// </summary>
+        /// <param name="newBindingExpression">New visualizer binding expression.</param>
+        public void AddBindingEpxression(VisualizerBindingExpressionModel newBindingExpression)
+        {
+            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
+            this.bindings.Add(newBindingExpression);
         }
     }
 }

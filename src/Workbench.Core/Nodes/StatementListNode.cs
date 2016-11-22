@@ -6,20 +6,20 @@ using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class CallArgumentNodeList : AstNode
+    public class StatementListNode : AstNode
     {
-        private readonly IList<CallArgumentNode> callArguments;
+        private readonly IList<StatementNode> statements;
 
-        public CallArgumentNodeList()
+        public StatementListNode()
         {
-            this.callArguments = new List<CallArgumentNode>();
+            this.statements = new List<StatementNode>();
         }
 
-        public IReadOnlyCollection<CallArgumentNode> Arguments
+        public IReadOnlyCollection<StatementNode> Statements
         {
             get
             {
-                return new ReadOnlyCollection<CallArgumentNode>(this.callArguments);
+                return new ReadOnlyCollection<StatementNode>(this.statements);
             }
         }
 
@@ -28,8 +28,8 @@ namespace Workbench.Core.Nodes
             base.Init(context, treeNode);
             foreach (var node in treeNode.ChildNodes)
             {
-                var newArgument = (CallArgumentNode) AddChild("arguments", node);
-                this.callArguments.Add(newArgument);
+                var newStatement = (StatementNode)AddChild("statement", node);
+                this.statements.Add(newStatement);
             }
         }
     }

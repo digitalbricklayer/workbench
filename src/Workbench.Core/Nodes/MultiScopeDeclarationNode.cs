@@ -5,11 +5,11 @@ using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class MultiScopeDeclarationNode : ConstraintExpressionBaseNode
+    public class ScopeDeclarationListNode : ConstraintExpressionBaseNode
     {
         private readonly IList<ExpanderScopeNode> scopeDeclarations;
 
-        public MultiScopeDeclarationNode()
+        public ScopeDeclarationListNode()
         {
             this.scopeDeclarations = new List<ExpanderScopeNode>();
         }

@@ -96,6 +96,16 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Add a new visualizer binding expression.
+        /// </summary>
+        /// <param name="newBindingExpression">New visualizer binding expression.</param>
+        public void AddSolutionBinding(VisualizerBindingExpressionModel newBindingExpression)
+        {
+            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
+            Solution.AddBindingExpression(newBindingExpression);
+        }
+
+        /// <summary>
         /// Update the solution from a snapshot.
         /// </summary>
         /// <param name="theSnapshot">The snapshot.</param>

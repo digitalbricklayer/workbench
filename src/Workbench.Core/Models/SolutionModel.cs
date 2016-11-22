@@ -191,5 +191,15 @@ namespace Workbench.Core.Models
                 AddAggregateValue(anAggregateValue);
             }
         }
+
+        /// <summary>
+        /// Add a new visualizer binding expression.
+        /// </summary>
+        /// <param name="newBindingExpression">New visualizer binding expression.</param>
+        public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
+        {
+            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
+            Display.AddBindingEpxression(newBindingExpression);
+        }
     }
 }

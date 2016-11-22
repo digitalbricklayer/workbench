@@ -82,10 +82,10 @@ namespace Workbench.Core.Grammars
             var expanderScopeStatement = new NonTerminal("expander scope", typeof (ExpanderScopeNode));
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
 
-            var multiCounterDeclaration = new NonTerminal("counters", typeof (MultiCounterDeclarationNode));
+            var multiCounterDeclaration = new NonTerminal("counters", typeof (CounterDeclarationListNode));
             multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
 
-            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof (MultiScopeDeclarationNode));
+            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof (ScopeDeclarationListNode));
             multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
 
             var multiExpanderStatement = new NonTerminal("multi-expander", typeof (MultiRepeaterStatementNode));

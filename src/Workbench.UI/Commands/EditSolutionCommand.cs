@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Caliburn.Micro;
 using Workbench.ViewModels;
 
@@ -21,12 +22,13 @@ namespace Workbench.Commands
 
         public override void Execute(object parameter)
         {
+            // TODO: This is broken, dialog needs to be able add, delete and edit multiple bindings...
             var solutionEditorViewModel = new SolutionEditorViewModel();
-            solutionEditorViewModel.BindingExpression = this.solution.Model.Display.Binding.Text;
+            solutionEditorViewModel.BindingExpression = this.solution.Model.Display.Bindings.First().Text;
             var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.HasValue && showDialogResult.Value)
             {
-                this.solution.Model.Display.Binding.Text = solutionEditorViewModel.BindingExpression;
+                this.solution.Model.Display.Bindings.First().Text = solutionEditorViewModel.BindingExpression;
             }
         }
     }

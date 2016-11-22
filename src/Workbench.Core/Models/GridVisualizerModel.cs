@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Windows;
+using System.Drawing;
+using Point = System.Windows.Point;
 
 namespace Workbench.Core.Models
 {
@@ -46,11 +47,33 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Update a visualizer with call arguments.
+        /// Update the grid visualizer with call arguments.
         /// </summary>
         /// <param name="theCall">Call arguments.</param>
         public override void UpdateWith(VisualizerCall theCall)
         {
+            var rowIndex = theCall.GetArgumentByName("row");
+            var columnIndex = theCall.GetArgumentByName("column");
+            var backgroundColor = theCall.GetArgumentByName("BackgroundColor");
+            var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
+                                              Convert.ToInt32(columnIndex));
+            switch (backgroundColor)
+            {
+                case "red":
+                    theCell.BackgroundColor = Color.Red;
+                    break;
+
+                case "green":
+                    theCell.BackgroundColor = Color.Green;
+                    break;
+
+                case "blue":
+                    theCell.BackgroundColor = Color.Blue;
+                    break;
+
+                default:
+                    throw new NotImplementedException("Color not implemented.");
+            }
         }
 
         /// <summary>
@@ -90,6 +113,7 @@ namespace Workbench.Core.Models
         /// <returns>Returns the column with a name matching columnName.</returns>
         public GridColumnModel GetColumnByName(string columnName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
             return Grid.GetColumnByName(columnName);
         }
     }

@@ -12,9 +12,6 @@ namespace Workbench.Core.Repeaters
     {
         private readonly IList<CounterContext> counters;
         private bool firstIterationPassed;
-#if false
-        private readonly ChessboardVisualizerModel visualizer;
-#endif
         private readonly VisualizerUpdateContext context;
 
         public VisualizerRepeaterContext(VisualizerUpdateContext theContext)
@@ -26,13 +23,9 @@ namespace Workbench.Core.Repeaters
             CreateCounterContextsFrom(Binding.Node.Expander);
         }
 
-#if false
-        public ChessboardVisualizerModel Visualizer => this.visualizer;
-#endif
-
         public DisplayModel Display => this.context.Display;
 
-        public VisualizerBindingExpressionModel Binding => this.context.Display.Binding;
+        public VisualizerBindingExpressionModel Binding => this.context.Binding;
 
         public bool HasRepeaters => this.counters.Any();
 

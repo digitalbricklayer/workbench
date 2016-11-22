@@ -90,7 +90,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
 
-            this.workspace.Solution.Display.Binding.Text = theBindingExpression;
+            this.workspace.AddSolutionBinding(new VisualizerBindingExpressionModel(theBindingExpression));
             return this;
         }
 

@@ -6,11 +6,11 @@ using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class MultiCounterDeclarationNode : ConstraintExpressionBaseNode
+    public class CounterDeclarationListNode : ConstraintExpressionBaseNode
     {
         private readonly IList<CounterDeclarationNode> counterDeclarations;
 
-        public MultiCounterDeclarationNode()
+        public CounterDeclarationListNode()
         {
             this.counterDeclarations = new List<CounterDeclarationNode>();
         }
