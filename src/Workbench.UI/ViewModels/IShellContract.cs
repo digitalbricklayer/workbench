@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// Code contract for the IShell interface.
+    /// Code contract for the <see cref="Workspace.ViewModels.IShell"/> interface.
     /// </summary>
     [ContractClassFor(typeof(IShell))]
     internal abstract class IShellContract : IShell

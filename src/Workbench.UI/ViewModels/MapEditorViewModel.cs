@@ -2,7 +2,7 @@ using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
-    public class MapEditorViewModel : Screen
+    public class GridEditorViewModel : Screen
     {
         private string backgroundImagePath;
 

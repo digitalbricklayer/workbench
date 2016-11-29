@@ -90,5 +90,15 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             this.bindings.Add(newBindingExpression);
         }
+
+        /// <summary>
+        /// Get the visualizer binding expression matching the id.
+        /// </summary>
+        /// <param name="id">Id of the visualizer to be found.</param>
+        /// <returns>Visualizer binding expression matching the id or null if not found.</returns>
+        public VisualizerBindingExpressionModel GetVisualizerBindingById(int id)
+        {
+            return Bindings.FirstOrDefault(binding => binding.Id == id);
+        }
     }
 }

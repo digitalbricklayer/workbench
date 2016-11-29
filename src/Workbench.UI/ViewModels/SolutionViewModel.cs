@@ -15,8 +15,6 @@ namespace Workbench.ViewModels
         private SolutionViewerViewModel viewer;
         private SolutionDesignerViewModel designer;
         private readonly WorkspaceViewModel workspace;
-        private SolutionDesignerViewModel solutionDesigner;
-        private SolutionViewerViewModel solutionViewer;
 
         /// <summary>
         /// Initialize the solution with the workspace, a solution designer and solution viewer.
@@ -31,7 +29,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewer != null);
 
             ChessboardVisualizers = new List<ChessboardVisualizerViewModel>();
-            MapVisualizers = new List<GridVisualizerViewModel>();
+            GridVisualizers = new List<GridVisualizerViewModel>();
             this.workspace = theWorkspace;
             Designer = theDesigner;
             Viewer = theViewer;
@@ -83,7 +81,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all map visualizers.
         /// </summary>
-        public IList<GridVisualizerViewModel> MapVisualizers { get; private set; }
+        public IList<GridVisualizerViewModel> GridVisualizers { get; private set; }
 
         /// <summary>
         /// Add a new chessboard visualizer to the workspace.
@@ -104,7 +102,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             AddVisualizer(newVisualizer);
-            MapVisualizers.Add(newVisualizer);
+            GridVisualizers.Add(newVisualizer);
         }
 
         /// <summary>
@@ -125,15 +123,19 @@ namespace Workbench.ViewModels
             Viewer.BindTo(newValues);
         }
 
-        public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedMapVisualizers()
+        /// <summary>
+        /// Get all selected grid visualizers.
+        /// </summary>
+        /// <returns>Collection of selected grid visualizers.</returns>
+        public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedGridVisualizers()
         {
             if (this.workspace.SelectedDisplayMode == "Designer")
             {
-                return MapVisualizers.Where(_ => _.Designer.IsSelected)
+                return GridVisualizers.Where(_ => _.Designer.IsSelected)
                                      .ToList();
             }
 
-            return MapVisualizers.Where(_ => _.Viewer.IsSelected)
+            return GridVisualizers.Where(_ => _.Viewer.IsSelected)
                                  .ToList();
         }
 

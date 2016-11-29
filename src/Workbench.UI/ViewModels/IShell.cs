@@ -6,7 +6,7 @@ namespace Workbench.ViewModels
     public interface IShell
     {
         /// <summary>
-        /// Gets or sets the workspace view model.
+        /// Gets or sets the workspace.
         /// </summary>
         WorkspaceViewModel Workspace { get; set; }
     }

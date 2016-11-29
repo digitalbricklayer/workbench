@@ -22,9 +22,9 @@ namespace Workbench.Commands
 
         public override void Execute(object parameter)
         {
-            var selectedMapVisualizers = this.workspace.Solution.GetSelectedMapVisualizers();
+            var selectedMapVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
             if (!selectedMapVisualizers.Any()) return;
-            var mapEditorViewModel = new MapEditorViewModel();
+            var mapEditorViewModel = new GridEditorViewModel();
             //mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
             var showDialogResult = this.windowManager.ShowDialog(mapEditorViewModel);
             if (showDialogResult.HasValue && showDialogResult.Value)
