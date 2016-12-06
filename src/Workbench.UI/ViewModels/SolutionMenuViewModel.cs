@@ -28,7 +28,6 @@ namespace Workbench.ViewModels
             this.windowManager = theWindowManager;
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
-            EditGridVisualizerCommand = new CommandHandler(EditGridHandler, _ => CanEditGridExecute);
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
             AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanAddColumnExecute);
         }
@@ -90,23 +89,6 @@ namespace Workbench.ViewModels
             {
                 selectedMapVisualizer.AddColumn(new GridColumnModel(columnNameEditor.ColumnName));
             }
-        }
-
-        private void EditGridHandler()
-        {
-            var selectedMapVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
-            if (!selectedMapVisualizers.Any()) return;
-            var mapEditorViewModel = new GridEditorViewModel();
-            //mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
-            var showDialogResult = this.windowManager.ShowDialog(mapEditorViewModel);
-            if (showDialogResult.GetValueOrDefault())
-            {
-                foreach (var mapVisualizer in selectedMapVisualizers)
-                {
-//                    mapVisualizer.Model.Model.BackgroundImagePath = mapEditorViewModel.BackgroundImagePath;
-                }
-            }
-
         }
     }
 }
