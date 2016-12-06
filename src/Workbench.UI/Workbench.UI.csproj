@@ -214,7 +214,6 @@
     <Compile Include="Commands\AddMapVisualizerCommand.cs" />
     <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
-    <Compile Include="Commands\EditGridCommand.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="Controls\AdornedControl.cs" />
     <Compile Include="Controls\AdornerEventArgs.cs" />

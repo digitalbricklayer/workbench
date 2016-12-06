@@ -28,9 +28,9 @@ namespace Workbench.ViewModels
             this.windowManager = theWindowManager;
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
-            EditGridVisualizerCommand = IoC.Get<EditGridCommand>();
+            EditGridVisualizerCommand = new CommandHandler(EditGridHandler, _ => CanEditGridExecute);
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
-            AddColumnCommand = new CommandHandler(AddColumnHandler);
+            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanAddColumnExecute);
         }
 
         /// <summary>
@@ -58,6 +58,27 @@ namespace Workbench.ViewModels
         /// </summary>
         public ICommand EditGridVisualizerCommand { get; private set; }
 
+        /// <summary>
+        /// Gets whether the "Solution|Add Column" menu item can be executed.
+        /// </summary>
+        public bool CanAddColumnExecute
+        {
+            get { return IsGridVisualizerSelected(); }
+        }
+
+        /// <summary>
+        /// Gets whether the "Solution|Edit Grid" menu item can be executed.
+        /// </summary>
+        public bool CanEditGridExecute
+        {
+            get { return IsGridVisualizerSelected(); }
+        }
+
+        private bool IsGridVisualizerSelected()
+        {
+            return this.workspace.Solution.GetSelectedGridVisualizers().Any();
+        }
+
         private void AddColumnHandler()
         {
             var selectedMapVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
@@ -69,6 +90,23 @@ namespace Workbench.ViewModels
             {
                 selectedMapVisualizer.AddColumn(new GridColumnModel(columnNameEditor.ColumnName));
             }
+        }
+
+        private void EditGridHandler()
+        {
+            var selectedMapVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
+            if (!selectedMapVisualizers.Any()) return;
+            var mapEditorViewModel = new GridEditorViewModel();
+            //mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
+            var showDialogResult = this.windowManager.ShowDialog(mapEditorViewModel);
+            if (showDialogResult.GetValueOrDefault())
+            {
+                foreach (var mapVisualizer in selectedMapVisualizers)
+                {
+//                    mapVisualizer.Model.Model.BackgroundImagePath = mapEditorViewModel.BackgroundImagePath;
+                }
+            }
+
         }
     }
 }
