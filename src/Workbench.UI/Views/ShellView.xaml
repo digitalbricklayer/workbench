@@ -38,11 +38,9 @@
     </Window.ContextMenu>
 
     <DockPanel LastChildFill="True">
-        <ContentPresenter x:Name="applicationMenu"
-                          Content="{Binding ApplicationMenu}"
+        <ContentPresenter Content="{Binding ApplicationMenu}"
                           DockPanel.Dock="Top"/>
 
-        <ContentPresenter x:Name="workspaceView"
-                          Content="{Binding Workspace}"/>
+        <ContentPresenter Content="{Binding Workspace}"/>
     </DockPanel>
 </Window>
