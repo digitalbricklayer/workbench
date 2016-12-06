@@ -254,6 +254,7 @@
     <Compile Include="ViewModels\ChessboardVisualizerDesignerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\ColumnNameEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
@@ -272,6 +273,10 @@
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewModel.cs" />
+    <Compile Include="Views\ColumnNameEditorView.xaml.cs">
+      <DependentUpon>ColumnNameEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataGridColumnsBehavior.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -318,6 +323,10 @@
     <Page Include="Controls\GraphicDisplayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColumnNameEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ApplicationMenuDictionary.xaml">
       <SubType>Designer</SubType>

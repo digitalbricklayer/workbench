@@ -1,23 +1,23 @@
-﻿using Caliburn.Micro;
+using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the aggregate variable resize dialog box.
+    /// View model for the column name editor dialog box.
     /// </summary>
-    public sealed class AggregateVariableResizeViewModel : Screen
+    public class ColumnNameEditorViewModel : Screen
     {
-        private int size;
+        private string columnName;
 
         /// <summary>
-        /// Gets or sets the aggregate variable size.
+        /// Gets or sets the column name.
         /// </summary>
-        public int Size
+        public string ColumnName
         {
-            get { return this.size; }
+            get { return this.columnName; }
             set
             {
-                this.size = value;
+                this.columnName = value;
                 NotifyOfPropertyChange();
             }
         }

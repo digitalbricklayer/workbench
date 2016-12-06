@@ -27,7 +27,7 @@ namespace Workbench.Commands
             var mapEditorViewModel = new GridEditorViewModel();
             //mapEditorViewModel.BackgroundImagePath = selectedMapVisualizers.First().Model.Model.BackgroundImagePath;
             var showDialogResult = this.windowManager.ShowDialog(mapEditorViewModel);
-            if (showDialogResult.HasValue && showDialogResult.Value)
+            if (showDialogResult.GetValueOrDefault())
             {
                 foreach (var mapVisualizer in selectedMapVisualizers)
                 {

@@ -27,7 +27,7 @@ namespace Workbench.Commands
             var solutionEditorViewModel = new SolutionEditorViewModel();
             solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.solution.Model.Display.Bindings);
             var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
-            if (showDialogResult.HasValue && showDialogResult.Value)
+            if (showDialogResult.GetValueOrDefault())
             {
                 UpdateBindingsFrom(solutionEditorViewModel.BindingExpressions);
             }

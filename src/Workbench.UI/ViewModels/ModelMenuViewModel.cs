@@ -188,7 +188,7 @@ namespace Workbench.ViewModels
             var resizeViewModel = new AggregateVariableResizeViewModel();
             var showDialogResult = this.windowManager.ShowDialog(resizeViewModel);
 
-            if (showDialogResult.HasValue && showDialogResult.Value)
+            if (showDialogResult.GetValueOrDefault())
             {
                 foreach (var variableViewModel in selectedVariables)
                 {

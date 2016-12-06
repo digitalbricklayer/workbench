@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
 {
     public class GridVisualizerDesignerViewModel : VisualizerDesignerViewModel
     {
-        private GridViewModel _grid;
+        private GridViewModel grid;
 
         public GridVisualizerDesignerViewModel(GridVisualizerModel theMapModel,
                                               IEventAggregator theEventAggregator,
@@ -30,12 +30,18 @@ namespace Workbench.ViewModels
         /// </summary>
         public GridViewModel Grid
         {
-            get { return this._grid; }
+            get { return this.grid; }
             set
             {
-                this._grid = value;
+                this.grid = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public void AddColumn(GridColumnModel newColumn)
+        {
+            Contract.Requires<ArgumentNullException>(newColumn != null);
+            Grid.AddColumn(newColumn);
         }
     }
 }
