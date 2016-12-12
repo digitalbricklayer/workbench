@@ -315,6 +315,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Change the selected display to the new selected display.
+        /// </summary>
+        /// <param name="newSelectedDisplayMode">Name of the new display mode.</param>
+        public void ChangeSelectedDisplayTo(string newSelectedDisplayMode)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newSelectedDisplayMode));
+            Contract.Requires<ArgumentOutOfRangeException>(AvailableDisplayModes.Contains(newSelectedDisplayMode));
+            SelectedDisplayMode = newSelectedDisplayMode;
+        }
+
+        /// <summary>
         /// Display the solution.
         /// </summary>
         /// <param name="theSolution">A valid solution.</param>
