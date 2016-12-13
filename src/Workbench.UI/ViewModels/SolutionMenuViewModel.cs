@@ -29,7 +29,8 @@ namespace Workbench.ViewModels
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
-            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanAddColumnExecute);
+            EditGridVisualizerCommand = new CommandHandler(EditGridHandler, _ => CanEditGridExecute);
+            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditGridExecute);
         }
 
         /// <summary>
@@ -58,36 +59,38 @@ namespace Workbench.ViewModels
         public ICommand EditGridVisualizerCommand { get; private set; }
 
         /// <summary>
-        /// Gets whether the "Solution|Add Column" menu item can be executed.
-        /// </summary>
-        public bool CanAddColumnExecute
-        {
-            get { return IsGridVisualizerSelected(); }
-        }
-
-        /// <summary>
         /// Gets whether the "Solution|Edit Grid" menu item can be executed.
         /// </summary>
         public bool CanEditGridExecute
         {
-            get { return IsGridVisualizerSelected(); }
-        }
-
-        private bool IsGridVisualizerSelected()
-        {
-            return this.workspace.Solution.GetSelectedGridVisualizers().Any();
+            get { return this.workspace.Solution.GetSelectedGridVisualizers().Any(); }
         }
 
         private void AddColumnHandler()
         {
-            var selectedMapVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
-            if (!selectedMapVisualizers.Any()) return;
-            var selectedMapVisualizer = selectedMapVisualizers.First();
+            var selectedGridVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
+            if (!selectedGridVisualizers.Any()) return;
+            var selectedGridVisualizer = selectedGridVisualizers.First();
             var columnNameEditor = new ColumnNameEditorViewModel();
             var result = this.windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
             {
-                selectedMapVisualizer.AddColumn(new GridColumnModel(columnNameEditor.ColumnName));
+                selectedGridVisualizer.AddColumn(new GridColumnModel(columnNameEditor.ColumnName));
+            }
+        }
+
+        private void EditGridHandler()
+        {
+            var selectedGridVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
+            if (!selectedGridVisualizers.Any()) return;
+            var selectedGridVisualizer = selectedGridVisualizers.First();
+            var gridEditor = new GridEditorViewModel();
+            gridEditor.Columns = selectedGridVisualizer.Model.Grid.Columns.Count;
+            gridEditor.Rows = selectedGridVisualizer.Model.Grid.Rows.Count;
+            var result = this.windowManager.ShowDialog(gridEditor);
+            if (result.GetValueOrDefault())
+            {
+                selectedGridVisualizer.Resize(gridEditor.Columns, gridEditor.Rows);
             }
         }
     }

@@ -2,12 +2,9 @@
 
 namespace Workbench.Views
 {
-    /// <summary>
-    /// Interaction logic for MapEditorWindow.xaml
-    /// </summary>
-    public partial class MapEditorView : Window
+    public partial class GridEditorView : Window
     {
-        public MapEditorView()
+        public GridEditorView()
         {
             InitializeComponent();
         }

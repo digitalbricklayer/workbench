@@ -228,6 +228,7 @@
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
     <Compile Include="IAppRuntime.cs" />
+    <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
     <Compile Include="Messages\ModelSolvedMessage.cs" />
     <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\GridEditorViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
@@ -258,7 +260,6 @@
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
-    <Compile Include="ViewModels\MapEditorViewModel.cs" />
     <Compile Include="ViewModels\GridViewModel.cs" />
     <Compile Include="ViewModels\GridVisualizerDesignerViewModel.cs" />
     <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />

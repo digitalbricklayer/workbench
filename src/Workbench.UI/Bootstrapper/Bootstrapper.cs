@@ -5,12 +5,18 @@ using System.Windows;
 using Caliburn.Micro;
 using Castle.Windsor;
 using Workbench.ViewModels;
+using Workbench.Loggers;
 
 namespace Workbench.Bootstrapper
 {
     public class Bootstrapper : BootstrapperBase
     {
         private WindsorContainer container;
+
+        static Bootstrapper()
+        {
+            LogManager.GetLog = type => new DebugLogger(type);
+        }
 
         /// <summary>
         /// Initialize a new bootstrapper with default values.

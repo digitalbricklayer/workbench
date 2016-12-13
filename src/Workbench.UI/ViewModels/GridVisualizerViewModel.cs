@@ -30,5 +30,15 @@ namespace Workbench.ViewModels
             Model.AddColumn(newColumn);
             GridDesigner.AddColumn(newColumn);
         }
+
+        /// <summary>
+        /// Resize the size of the grid.
+        /// </summary>
+        /// <param name="columns">Number of columns.</param>
+        /// <param name="rows">Number of rows.</param>
+        public void Resize(int columns, int rows)
+        {
+            GridDesigner.Resize(columns, rows);
+        }
     }
 }

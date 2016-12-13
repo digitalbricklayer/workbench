@@ -134,5 +134,29 @@ namespace Workbench.Core.Models
             var row = this.rows[rowIndex - 1];
             return row.Cells[columnIndex - 1];
         }
+
+        /// <summary>
+        /// Resize the grid.
+        /// </summary>
+        /// <param name="newColumnCount">Number of columns.</param>
+        /// <param name="newRowCount">Number of rows.</param>
+        public void Resize(int newColumnCount, int newRowCount)
+        {
+            if (newColumnCount > this.columnCount)
+            {
+                for (var i = this.columnCount; i < newColumnCount; i++)
+                {
+                    AddColumn(new GridColumnModel(Convert.ToString(i)));
+                }
+            }
+
+            if (newRowCount > this.rowCount)
+            {
+                for (var i = this.rowCount; i < newRowCount; i++)
+                {
+                    AddRow(new GridRowModel());
+                }
+            }
+        }
     }
 }

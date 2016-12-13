@@ -48,6 +48,18 @@ namespace Workbench.ViewModels
             Columns.Add(CreateDataGridColumnFrom(newColumn));
         }
 
+        public void Resize(int newColumnCount, int newRowCount)
+        {
+            if (newColumnCount > Grid.Columns.Count)
+            {
+                for (var i = Grid.Columns.Count; i < newColumnCount; i++)
+                {
+                    AddColumn(new GridColumnModel(Convert.ToString(i)));
+                }
+            }
+            Grid.Resize(newColumnCount, newRowCount);
+        }
+
         private DataGridColumn CreateDataGridColumnFrom(GridColumnModel newColumn)
         {
             var newDataGridColumn = new DataGridTextColumn();

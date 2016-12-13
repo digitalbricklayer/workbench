@@ -43,5 +43,10 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newColumn != null);
             Grid.AddColumn(newColumn);
         }
+
+        public void Resize(int columns, int rows)
+        {
+            Grid.Resize(columns, rows);
+        }
     }
 }
