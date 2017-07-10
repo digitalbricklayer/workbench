@@ -5,8 +5,8 @@ The program idea is outlined in [The strange case of the missing application](ht
 
 Plainly a big barrier to any kind of constraint satisfaction project is going to be the fact that they are [NP-hard](http://en.wikipedia.org/wiki/NP-hard) problems. In other words, they tend to be *very* hard to solve quickly. I'm kind of working on the assumption that Moore's Law is going to rescue me. All of those hundreds or thousands of CPU cores we are supposed to be getting over the next decade or so should help. Quantum computers should help a lot too. So, I am just going to assume that, at some point in the future, the hardware will be there to solve even very complex constraint satisfaction problems in a reasonable amount of time.
 
-##Project manifesto
-1. **Technical level** - the user of the software should require a technical level at or below that of an average spreadsheet user;
+## Project manifesto
+* **Technical level** - the user of the software should require a technical level at or below that of an average spreadsheet user;
 * **Build a playground** - the user should have a constraint workbench in which they are able to model various types of constraint problems and then able to solve them in an interactive manner and present the results;
 * **Solution display** - should be configurable, taking a technical model and displaying the resulting solution in a manner that makes sense to the user;
 * **No programming** - absolutely no programming. There are plenty of development environments available, there is no need to build yet another one here;
@@ -18,5 +18,5 @@ Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [Networ
 
 Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
 
-##License
+## License
 Constraint Capers Workbench is [licensed under a BSD license](LICENSE.md).
