@@ -58,7 +58,7 @@ namespace Workbench.Core.Grammars
             // Non-terminals
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
-            var statementList = new NonTerminal("statement list", typeof(Workbench.Core.Nodes.StatementListNode));
+            var statementList = new NonTerminal("statement list", typeof(StatementListNode));
             var bindingExpression = new NonTerminal("binding expression", typeof(VisualizerBindingExpressionNode));
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
 
@@ -132,8 +132,4 @@ namespace Workbench.Core.Grammars
             MarkPunctuation("<", ">");
         }
     }
-}
-
-namespace Workbench.Core.Nodes
-{
 }

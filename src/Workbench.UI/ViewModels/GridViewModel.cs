@@ -11,11 +11,13 @@ namespace Workbench.ViewModels
     {
         private readonly GridModel model;
         private ObservableCollection<DataGridColumn> columns;
+        private ObservableCollection<DataGridRow> rows;
 
         public GridViewModel(GridModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             this.columns = new ObservableCollection<DataGridColumn>();
+            this.rows = new ObservableCollection<DataGridRow>();
             this.model = theModel;
             PopulateGridColumns();
         }
@@ -41,11 +43,31 @@ namespace Workbench.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the grid rows.
+        /// </summary>
+        public ObservableCollection<DataGridRow> Rows
+        {
+            get { return this.rows; }
+            set
+            {
+                this.rows = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public void AddColumn(GridColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
             Grid.AddColumn(newColumn);
             Columns.Add(CreateDataGridColumnFrom(newColumn));
+        }
+
+        public void AddRow(GridRowModel newRow)
+        {
+            Contract.Requires<ArgumentNullException>(newRow != null);
+            Grid.AddRow(newRow);
+            Rows.Add(CreateDataGridRowFrom(newRow));
         }
 
         public void Resize(int newColumnCount, int newRowCount)
@@ -65,6 +87,11 @@ namespace Workbench.ViewModels
             var newDataGridColumn = new DataGridTextColumn();
             newDataGridColumn.Header = newColumn.Name;
             return newDataGridColumn;
+        }
+
+        private DataGridRow CreateDataGridRowFrom(GridRowModel newRow)
+        {
+            return new DataGridRow();
         }
 
         private void PopulateGridColumns()

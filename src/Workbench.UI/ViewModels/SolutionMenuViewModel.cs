@@ -29,7 +29,7 @@ namespace Workbench.ViewModels
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
-            EditGridVisualizerCommand = new CommandHandler(EditGridHandler, _ => CanEditGridExecute);
+            AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditGridExecute);
             AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditGridExecute);
         }
 
@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Solution|Edit Map command
         /// </summary>
-        public ICommand EditGridVisualizerCommand { get; private set; }
+        public ICommand AddRowCommand { get; private set; }
 
         /// <summary>
         /// Gets whether the "Solution|Edit Grid" menu item can be executed.
@@ -79,19 +79,12 @@ namespace Workbench.ViewModels
             }
         }
 
-        private void EditGridHandler()
+        private void AddRowHandler()
         {
             var selectedGridVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
-            var gridEditor = new GridEditorViewModel();
-            gridEditor.Columns = selectedGridVisualizer.Model.Grid.Columns.Count;
-            gridEditor.Rows = selectedGridVisualizer.Model.Grid.Rows.Count;
-            var result = this.windowManager.ShowDialog(gridEditor);
-            if (result.GetValueOrDefault())
-            {
-                selectedGridVisualizer.Resize(gridEditor.Columns, gridEditor.Rows);
-            }
+            selectedGridVisualizer.AddRow(new GridRowModel());
         }
     }
 }

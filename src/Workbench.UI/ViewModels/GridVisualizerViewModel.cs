@@ -32,6 +32,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Add a new row to the grid visualizer.
+        /// </summary>
+        /// <param name="newRow">New row.</param>
+        public void AddRow(GridRowModel newRow)
+        {
+            Contract.Requires<ArgumentNullException>(newRow != null);
+            Model.AddRow(newRow);
+            GridDesigner.AddRow(newRow);
+        }
+
+        /// <summary>
         /// Resize the size of the grid.
         /// </summary>
         /// <param name="columns">Number of columns.</param>

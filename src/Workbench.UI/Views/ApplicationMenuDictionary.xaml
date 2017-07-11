@@ -101,7 +101,7 @@
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Edit Grid..." Command="{Binding SolutionMenu.EditGridVisualizerCommand}">
+                <MenuItem Header="Add Row" Command="{Binding SolutionMenu.AddRowCommand}">
                     <MenuItem.Icon>
                         <Image Source="../Images/Transparent.png"  />
                     </MenuItem.Icon>
