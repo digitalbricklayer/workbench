@@ -46,12 +46,14 @@ namespace Workbench.ViewModels
 
         public void Resize(int columns, int rows)
         {
+            Contract.Assume(Grid != null);
             Grid.Resize(columns, rows);
         }
 
         public void AddRow(GridRowModel newRow)
         {
             Contract.Requires<ArgumentNullException>(newRow != null);
+            Contract.Assume(Grid != null);
             Grid.AddRow(newRow);
         }
     }

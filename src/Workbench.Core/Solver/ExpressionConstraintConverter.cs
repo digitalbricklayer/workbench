@@ -27,6 +27,10 @@ namespace Workbench.Core.Solver
             this.cache = theCache;
         }
 
+        /// <summary>
+        /// Map the expression constraint model into the or-tools solver.
+        /// </summary>
+        /// <param name="constraint">Expression constraint model.</param>
         public void ProcessConstraint(ExpressionConstraintModel constraint)
         {
             Contract.Requires<ArgumentNullException>(constraint != null);

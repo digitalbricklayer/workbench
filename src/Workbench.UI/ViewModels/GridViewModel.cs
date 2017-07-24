@@ -63,11 +63,11 @@ namespace Workbench.ViewModels
             Columns.Add(CreateDataGridColumnFrom(newColumn));
         }
 
-        public void AddRow(GridRowModel newRow)
+        public void AddRow(GridRowModel theNewRow)
         {
-            Contract.Requires<ArgumentNullException>(newRow != null);
-            Grid.AddRow(newRow);
-            Rows.Add(CreateDataGridRowFrom(newRow));
+            Contract.Requires<ArgumentNullException>(theNewRow != null);
+            Grid.AddRow(theNewRow);
+            Rows.Add(CreateDataGridRowFrom(theNewRow));
         }
 
         public void Resize(int newColumnCount, int newRowCount)
@@ -89,7 +89,7 @@ namespace Workbench.ViewModels
             return newDataGridColumn;
         }
 
-        private DataGridRow CreateDataGridRowFrom(GridRowModel newRow)
+        private DataGridRow CreateDataGridRowFrom(GridRowModel theNewRow)
         {
             return new DataGridRow();
         }

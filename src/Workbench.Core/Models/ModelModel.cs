@@ -28,7 +28,7 @@ namespace Workbench.Core.Models
             : this()
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            this.Name = theName;
+            Name = theName;
         }
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace Workbench.Core.Models
         /// </summary>
         public ModelModel()
         {
-            this.Name = string.Empty;
-            this.Variables = new ObservableCollection<VariableModel>();
-            this.Singletons = new ObservableCollection<VariableModel>();
-            this.Aggregates = new ObservableCollection<AggregateVariableModel>();
-            this.Domains = new ObservableCollection<DomainModel>();
-            this.Constraints = new ObservableCollection<ConstraintModel>();
+            Name = string.Empty;
+            Variables = new ObservableCollection<VariableModel>();
+            Singletons = new ObservableCollection<VariableModel>();
+            Aggregates = new ObservableCollection<AggregateVariableModel>();
+            Domains = new ObservableCollection<DomainModel>();
+            Constraints = new ObservableCollection<ConstraintModel>();
         }
 
         /// <summary>
@@ -49,11 +49,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public string Name
         {
-            get { return name; }
+            get { return this.name; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                name = value;
+                this.name = value;
                 OnPropertyChanged();
             }
         }
@@ -63,11 +63,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public ObservableCollection<VariableModel> Variables
         {
-            get { return variables; }
+            get { return this.variables; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                variables = value;
+                this.variables = value;
                 OnPropertyChanged();
             }
         }
@@ -91,11 +91,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public ObservableCollection<AggregateVariableModel> Aggregates
         {
-            get { return aggregates; }
+            get { return this.aggregates; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                aggregates = value;
+                this.aggregates = value;
                 OnPropertyChanged();
             }
         }
@@ -105,11 +105,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public ObservableCollection<DomainModel> Domains
         {
-            get { return domains; }
+            get { return this.domains; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                domains = value;
+                this.domains = value;
                 OnPropertyChanged();
             }
         }
@@ -146,7 +146,7 @@ namespace Workbench.Core.Models
         public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
-            this.Constraints.Remove(constraintToDelete);
+            Constraints.Remove(constraintToDelete);
         }
 
         /// <summary>
@@ -157,8 +157,8 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
-            this.Variables.Add(newVariable);
-            this.Singletons.Add(newVariable);
+            Variables.Add(newVariable);
+            Singletons.Add(newVariable);
         }
 
         /// <summary>
@@ -169,8 +169,8 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
-            this.Variables.Add(newVariable);
-            this.Aggregates.Add(newVariable);
+            Variables.Add(newVariable);
+            Aggregates.Add(newVariable);
         }
 
         /// <summary>
@@ -180,14 +180,14 @@ namespace Workbench.Core.Models
         public void DeleteVariable(VariableModel variableToDelete)
         {
             Contract.Requires<ArgumentNullException>(variableToDelete != null);
-            this.Variables.Remove(variableToDelete);
+            Variables.Remove(variableToDelete);
         }
 
         public void AddDomain(DomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
             newDomain.AssignIdentity();
-            this.Domains.Add(newDomain);
+            Domains.Add(newDomain);
         }
 
         public void AddSharedDomain(DomainModel newDomain)
@@ -195,13 +195,13 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newDomain != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomain.Name));
             newDomain.AssignIdentity();
-            this.Domains.Add(newDomain);
+            Domains.Add(newDomain);
         }
 
         public void RemoveSharedDomain(DomainModel oldDomain)
         {
             Contract.Requires<ArgumentNullException>(oldDomain != null);
-            this.Domains.Add(oldDomain);
+            Domains.Add(oldDomain);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Workbench.Core.Models
         public void DeleteDomain(DomainModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
-            this.Domains.Remove(domainToDelete);
+            Domains.Remove(domainToDelete);
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Workbench.Core.Models
         public VariableModel GetVariableByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return this.Variables.FirstOrDefault(variable => variable.Name == theVariableName);
+            return Variables.FirstOrDefault(variable => variable.Name == theVariableName);
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Workbench.Core.Models
         {
             var expressionsValid = ValidateConstraints(validateContext);
             if (!expressionsValid) return false;
-            return this.ValidateSharedDomains(validateContext);
+            return ValidateSharedDomains(validateContext);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Workbench.Core.Models
         public DomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
-            return this.Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
+            return Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
         }
 
         private bool ValidateConstraints(ModelValidationContext validateContext)
