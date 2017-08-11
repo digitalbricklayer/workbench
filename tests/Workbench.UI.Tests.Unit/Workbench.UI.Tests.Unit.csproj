@@ -108,6 +108,7 @@
     <Compile Include="ViewModels\ExpressionConstraintViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainViewModelTests.cs" />
+    <Compile Include="ViewModels\GridViewModelTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelXTests.cs" />
     <Compile Include="ViewModels\VariableViewModelTests.cs" />

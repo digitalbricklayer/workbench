@@ -12,7 +12,7 @@ namespace Workbench.Commands
     /// <summary>
     /// Add a new chessboard visualizer to the solution designer.
     /// </summary>
-    public class AddMapVisualizerCommand : CommandBase
+    public class AddGridVisualizerCommand : CommandBase
     {
         private readonly WorkspaceViewModel workspace;
         private readonly TitleBarViewModel titleBar;
@@ -20,11 +20,11 @@ namespace Workbench.Commands
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
 
-        public AddMapVisualizerCommand(WorkspaceViewModel theWorkspace,
-                                              TitleBarViewModel theTitleBar,
-                                              IEventAggregator theEventAggregator,
-                                              IDataService theDataService,
-                                              IViewModelService theViewModelService)
+        public AddGridVisualizerCommand(WorkspaceViewModel theWorkspace,
+                                       TitleBarViewModel theTitleBar,
+                                       IEventAggregator theEventAggregator,
+                                       IDataService theDataService,
+                                       IViewModelService theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
@@ -50,7 +50,7 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workspace.ChangeSelectedDisplayTo("Designer");
-            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation);
+            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation, new[] { "X", "Y" }, new[] { new GridRowModel(), new GridRowModel() });
             this.workspace.AddMapVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }

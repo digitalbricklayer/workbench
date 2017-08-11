@@ -27,7 +27,7 @@ namespace Workbench.ViewModels
             this.workspace = theWorkspace;
             this.windowManager = theWindowManager;
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
-            AddGridVisualizerCommand = IoC.Get<AddMapVisualizerCommand>();
+            AddGridVisualizerCommand = IoC.Get<AddGridVisualizerCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
             AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditGridExecute);
             AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditGridExecute);

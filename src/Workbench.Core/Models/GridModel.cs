@@ -41,8 +41,8 @@ namespace Workbench.Core.Models
         /// </summary>
         public GridModel()
         {
-            this.rows = new ObservableCollection<GridRowModel>();
-            this.columns = new ObservableCollection<GridColumnModel>();
+            Rows = new ObservableCollection<GridRowModel>();
+            Columns = new ObservableCollection<GridColumnModel>();
         }
 
         /// <summary>
@@ -157,6 +157,11 @@ namespace Workbench.Core.Models
                     AddRow(new GridRowModel());
                 }
             }
+        }
+
+        public GridRowModel GetRowAt(int rowIndex)
+        {
+            return this.Rows[rowIndex];
         }
     }
 }

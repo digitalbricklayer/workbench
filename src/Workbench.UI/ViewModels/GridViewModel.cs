@@ -1,7 +1,6 @@
 using System;
-using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics.Contracts;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -10,16 +9,17 @@ namespace Workbench.ViewModels
     public class GridViewModel : Screen
     {
         private readonly GridModel model;
-        private ObservableCollection<DataGridColumn> columns;
-        private ObservableCollection<DataGridRow> rows;
+        private DataTable dataTable;
 
         public GridViewModel(GridModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            this.columns = new ObservableCollection<DataGridColumn>();
-            this.rows = new ObservableCollection<DataGridRow>();
+            this.dataTable = new DataTable();
             this.model = theModel;
             PopulateGridColumns();
+            PopulateGridRows();
+            Contract.Assume(!this.dataTable.HasErrors);
+            this.dataTable.AcceptChanges();
         }
 
         /// <summary>
@@ -31,27 +31,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the grid columns.
+        /// Gets or sets the data table for the grid.
         /// </summary>
-        public ObservableCollection<DataGridColumn> Columns
+        public DataTable Table
         {
-            get { return this.columns; }
-            set
+            get
             {
-                this.columns = value;
-                NotifyOfPropertyChange();
+                return this.dataTable;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the grid rows.
-        /// </summary>
-        public ObservableCollection<DataGridRow> Rows
-        {
-            get { return this.rows; }
             set
             {
-                this.rows = value;
+                this.dataTable = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -60,14 +50,19 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
             Grid.AddColumn(newColumn);
-            Columns.Add(CreateDataGridColumnFrom(newColumn));
+            AddColumnToTable(newColumn);
         }
 
         public void AddRow(GridRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
             Grid.AddRow(theNewRow);
-            Rows.Add(CreateDataGridRowFrom(theNewRow));
+            AddRowToTable(theNewRow);
+        }
+
+        public GridRowModel GetRowAt(int rowIndex)
+        {
+            return Grid.GetRowAt(rowIndex);
         }
 
         public void Resize(int newColumnCount, int newRowCount)
@@ -82,24 +77,36 @@ namespace Workbench.ViewModels
             Grid.Resize(newColumnCount, newRowCount);
         }
 
-        private DataGridColumn CreateDataGridColumnFrom(GridColumnModel newColumn)
-        {
-            var newDataGridColumn = new DataGridTextColumn();
-            newDataGridColumn.Header = newColumn.Name;
-            return newDataGridColumn;
-        }
-
-        private DataGridRow CreateDataGridRowFrom(GridRowModel theNewRow)
-        {
-            return new DataGridRow();
-        }
-
         private void PopulateGridColumns()
         {
             foreach (var column in Grid.Columns)
             {
-                AddColumn(column);
+                AddColumnToTable(column);
             }
+        }
+
+        private void PopulateGridRows()
+        {
+            foreach (var row in Grid.Rows)
+            {
+                AddRowToTable(row);
+            }
+        }
+
+        private void AddColumnToTable(GridColumnModel newColumn)
+        {
+            this.dataTable.Columns.Add(newColumn.Name);
+        }
+
+        private void AddRowToTable(GridRowModel theRowModel)
+        {
+            var newRow = this.dataTable.NewRow();
+            foreach (var column in Grid.Columns)
+            {
+                foreach (var row in theRowModel.Cells)
+                    newRow[column.Name] = row.Text;
+            }
+            this.dataTable.Rows.Add(newRow);
         }
     }
 }

@@ -5,12 +5,12 @@ using System.Windows.Controls;
 
 namespace Workbench.Views
 {
-    public class DataGridColumnsBehavior
+    public class DataGridColumnBehavior
     {
         public static readonly DependencyProperty BindableColumnsProperty =
             DependencyProperty.RegisterAttached("BindableColumns",
                                                 typeof(ObservableCollection<DataGridColumn>),
-                                                typeof(DataGridColumnsBehavior),
+                                                typeof(DataGridColumnBehavior),
                                                 new UIPropertyMetadata(null, BindableColumnsPropertyChanged));
 
         private static void BindableColumnsPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
@@ -61,10 +61,12 @@ namespace Workbench.Views
                 }
             };
         }
+
         public static void SetBindableColumns(DependencyObject element, ObservableCollection<DataGridColumn> value)
         {
             element.SetValue(BindableColumnsProperty, value);
         }
+
         public static ObservableCollection<DataGridColumn> GetBindableColumns(DependencyObject element)
         {
             return (ObservableCollection<DataGridColumn>)element.GetValue(BindableColumnsProperty);
