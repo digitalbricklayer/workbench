@@ -53,7 +53,7 @@ namespace Workbench.Core.Models
             get { return this.text; }
             set
             {
-                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(value));
+                Contract.Requires<ArgumentNullException>(value != null);
                 this.text = value;
                 OnPropertyChanged();
             }

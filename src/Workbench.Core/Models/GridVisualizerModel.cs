@@ -28,6 +28,19 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Initialize a grid visualizer with a name, location and grid model.
+        /// </summary>
+        /// <param name="gridName">Grid name.</param>
+        /// <param name="location">Grid location.</param>
+        /// <param name="gridModel">Grid model.</param>
+        public GridVisualizerModel(string gridName, Point location, GridModel gridModel)
+            : base(gridName, location)
+        {
+            Contract.Requires<ArgumentNullException>(gridModel != null);
+            this.grid = gridModel;
+        }
+
+        /// <summary>
         /// Initialize a grid visualizer with a name and location.
         /// </summary>
         /// <param name="gridName">Grid name.</param>

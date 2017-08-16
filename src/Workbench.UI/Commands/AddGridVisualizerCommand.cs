@@ -50,7 +50,7 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workspace.ChangeSelectedDisplayTo("Designer");
-            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation, new[] { "X", "Y" }, new[] { new GridRowModel(), new GridRowModel() });
+            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation, GridModel.Default);
             this.workspace.AddMapVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }

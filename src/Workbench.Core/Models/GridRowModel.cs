@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         {
             foreach (var cellContent in cellData)
             {
-                this.cells.Add(new GridCellModel(cellContent));
+                AddCell(new GridCellModel(cellContent));
             }
         }
 
@@ -43,6 +43,11 @@ namespace Workbench.Core.Models
                 this.cells = value;
                 OnPropertyChanged();
             }
+        }
+
+        public void AddCell(GridCellModel newCell)
+        {
+            this.cells.Add(newCell);
         }
     }
 }

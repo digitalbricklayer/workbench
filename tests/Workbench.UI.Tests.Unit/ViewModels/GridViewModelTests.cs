@@ -24,5 +24,14 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var actualRow = sut.GetRowAt(1);
             Assert.That(actualRow.Cells[2].Text, Is.EqualTo("6"));
         }
+
+        [Test]
+        public void GetRowDataFromDefaultGridReturnsExpectedValue()
+        {
+            var sut = new GridViewModel(GridModel.Default);
+
+            var actualRow = sut.GetRowAt(1);
+            Assert.That(actualRow.Cells[1].Text, Is.Empty);
+        }
     }
 }

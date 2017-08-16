@@ -72,6 +72,17 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Gets the grid as it is displayed when newly created.
+        /// </summary>
+        public static GridModel Default
+        {
+            get
+            {
+                return new GridModel(new[] { "X", "Y" }, new[] { new GridRowModel(), new GridRowModel() });
+            }
+        }
+
+        /// <summary>
         /// Add a row to the grid.
         /// </summary>
         /// <param name="theRow">The new row.</param>
@@ -89,6 +100,10 @@ namespace Workbench.Core.Models
                 var theColumn = this.columns[i];
                 theColumn.AddCell(cell);
                 i++;
+            }
+            for (var z = 0; z < Columns.Count; z++)
+            {
+                theRow.AddCell(new GridCellModel());
             }
         }
 
