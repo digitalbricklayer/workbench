@@ -6,12 +6,14 @@
     <!-- Grid control -->
     <DataTemplate DataType="{x:Type viewModels:GridViewModel}">
         <DataGrid x:Name="gridControl"
+                  CanUserAddRows="false"
+                  CurrentCell="{Binding SelectedCell, Mode=OneWayToSource}"
+                  CurrentItem="{Binding SelectedItem, Mode=OneWayToSource}"
+                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}"
+                  CurrentColumn="{Binding SelectedColumn, Mode=OneWayToSource}"
                   ItemsSource="{Binding Table}">
         </DataGrid>
     </DataTemplate>
-
-    <!-- views:DataGridColumnBehavior.BindableColumns="{Binding Columns}"
-         views:DataGridRowBehavior.BindableRows="{Binding Rows}"-->
 
     <!-- Grid visualizer in 'design' mode -->
     <DataTemplate DataType="{x:Type viewModels:GridVisualizerDesignerViewModel}">

@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Diagnostics.Contracts;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -10,11 +11,15 @@ namespace Workbench.ViewModels
     {
         private readonly GridModel model;
         private DataTable dataTable;
+        private DataGridCellInfo selectedCell;
+        private object selectedItem;
+        private int? selectedIndex;
+        private object selectedColumn;
 
         public GridViewModel(GridModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            this.dataTable = new DataTable();
+            this.dataTable = CreateDataTable();
             this.model = theModel;
             PopulateGridColumns();
             PopulateGridRows();
@@ -42,6 +47,46 @@ namespace Workbench.ViewModels
             set
             {
                 this.dataTable = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public DataGridCellInfo SelectedCell
+        {
+            get { return this.selectedCell; }
+            set
+            {
+                this.selectedCell = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public object SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                this.selectedItem = value;
+                NotifyOfPropertyChange();
+            }
+    }
+
+        public int? SelectedIndex
+        {
+            get { return selectedIndex; }
+            set
+            {
+                selectedIndex = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public object SelectedColumn
+        {
+            get { return selectedColumn; }
+            set
+            {
+                this.selectedColumn = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -107,6 +152,37 @@ namespace Workbench.ViewModels
                     newRow[column.Name] = row.Text;
             }
             this.dataTable.Rows.Add(newRow);
+        }
+
+        private DataTable CreateDataTable()
+        {
+            var newTable = new DataTable();
+            newTable.RowChanged += OnRowChanged;
+            newTable.ColumnChanged += OnColumnChanged;
+            return newTable;
+        }
+
+        private void OnColumnChanged(object sender, DataColumnChangeEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Update the grid model when the grid control is changed.
+        /// </summary>
+        /// <param name="sender">Data grid.</param>
+        /// <param name="args">Row change event arguments.</param>
+        private void OnRowChanged(object sender, DataRowChangeEventArgs args)
+        {
+            // Row may change before a row is selected
+            if (SelectedIndex == null && SelectedIndex != -1) return;
+
+            switch (args.Action)
+            {
+                case DataRowAction.Add:
+                case DataRowAction.Change:
+                    var selectedRow = Grid.GetRowAt(SelectedIndex.Value);
+                    break;
+            }
         }
     }
 }

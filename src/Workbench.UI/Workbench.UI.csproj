@@ -275,8 +275,6 @@
     <Compile Include="Views\ColumnNameEditorView.xaml.cs">
       <DependentUpon>ColumnNameEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DataGridColumnsBehavior.cs" />
-    <Compile Include="Views\DataGridRowBehavior.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>

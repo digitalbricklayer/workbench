@@ -136,6 +136,16 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Get row at the row index.
+        /// </summary>
+        /// <param name="rowIndex">Row index.</param>
+        /// <returns>Row at the row index.</returns>
+        public GridRowModel GetRowAt(int rowIndex)
+        {
+            return Rows[rowIndex];
+        }
+
+        /// <summary>
         /// Resize the grid.
         /// </summary>
         /// <param name="newColumnCount">Number of columns.</param>
@@ -157,11 +167,6 @@ namespace Workbench.Core.Models
                     AddRow(new GridRowModel());
                 }
             }
-        }
-
-        public GridRowModel GetRowAt(int rowIndex)
-        {
-            return this.Rows[rowIndex];
         }
     }
 }
