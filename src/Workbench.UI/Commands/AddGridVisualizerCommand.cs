@@ -58,7 +58,7 @@ namespace Workbench.Commands
         private GridVisualizerViewModel CreateMapVisualizer(GridVisualizerModel newVisualizerModel)
         {
             return new GridVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                              new GridVisualizerViewerViewModel(newVisualizerModel));
+                                               new GridVisualizerViewerViewModel(newVisualizerModel));
         }
 
         private GridVisualizerDesignerViewModel CreateDesigner(GridVisualizerModel newVisualizerModel)

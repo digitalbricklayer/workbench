@@ -174,7 +174,7 @@ namespace Workbench.ViewModels
         private void OnRowChanged(object sender, DataRowChangeEventArgs args)
         {
             // Row may change before a row is selected
-            if (SelectedIndex == null && SelectedIndex != -1) return;
+            if (SelectedIndex == null || SelectedIndex.Value == -1) return;
 
             switch (args.Action)
             {
