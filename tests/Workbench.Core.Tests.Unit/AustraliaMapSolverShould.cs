@@ -22,13 +22,13 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        public void SolveWithGridVisualizerAssignsEightQueens()
+        public void SolveWithGridVisualizerAssignsColorsWithinContraints()
         {
             var sut = CreateWorkspace();
             sut.Solve();
             var gridVisualizer = (GridVisualizerModel)sut.Solution.GetVisualizerBy("states");
-            var colorColumn = gridVisualizer.GetColumnByName("Color");
-            var colorCells = colorColumn.GetCells();
+            var colorColumnData = gridVisualizer.GetColumnDataByName("Color");
+            var colorCells = colorColumnData.GetCells();
             Assert.That(colorCells, Has.Count.EqualTo(7), "There should be 7 cells in the color column corresponding to the 7 Australian states.");
             var waColor = colorCells.ElementAt(0);
             var ntColor = colorCells.ElementAt(1);
@@ -69,13 +69,13 @@ namespace Workbench.Core.Tests.Unit
 
         private static GridVisualizerModel CreateGrid()
         {
-          return new GridVisualizerModel("states", new Point(), new[] { "Name", "Color" }, new[] { new GridRowModel("WA", ""),
-                                                                                                   new GridRowModel("NT", ""),
-                                                                                                   new GridRowModel("SA", ""),
-                                                                                                   new GridRowModel("Q", ""),
-                                                                                                   new GridRowModel("NSW", ""),
-                                                                                                   new GridRowModel("V", ""),
-                                                                                                   new GridRowModel("T", "") });
+            return new GridVisualizerModel("states", new Point(), new[] { "Name", "Color" }, new[] { new GridRowModel("WA", ""),
+                                                                                                    new GridRowModel("NT", ""),
+                                                                                                    new GridRowModel("SA", ""),
+                                                                                                    new GridRowModel("Q", ""),
+                                                                                                    new GridRowModel("NSW", ""),
+                                                                                                    new GridRowModel("V", ""),
+                                                                                                    new GridRowModel("T", "") });
         }
     }
 }

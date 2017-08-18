@@ -176,6 +176,7 @@
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
     <Compile Include="Models\GridCellModel.cs" />
+    <Compile Include="Models\GridColumnData.cs" />
     <Compile Include="Models\GridColumnModel.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\GridRowModel.cs" />

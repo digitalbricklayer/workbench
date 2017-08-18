@@ -12,7 +12,7 @@ namespace Workbench.Core.Models
     public class GridColumnModel : AbstractModel
     {
         private string name;
-        private readonly IList<GridCellModel> cells;
+        private int index;
 
         /// <summary>
         /// Initialize a grid column with a column name.
@@ -21,7 +21,6 @@ namespace Workbench.Core.Models
         public GridColumnModel(string theColumnName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theColumnName));
-            this.cells = new List<GridCellModel>();
             Name = theColumnName;
         }
 
@@ -39,23 +38,16 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a cell to the column.
+        /// Gets or sets the grid column index.
         /// </summary>
-        /// <param name="newCell">New cell.</param>
-        public void AddCell(GridCellModel newCell)
+        public int Index
         {
-            Contract.Requires<ArgumentNullException>(newCell != null);
-            this.cells.Add(newCell);
-        }
-
-        /// <summary>
-        /// Get all cells in the column.
-        /// </summary>
-        /// <returns>All cells in the column.</returns>
-        public IReadOnlyCollection<GridCellModel> GetCells()
-        {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<GridCellModel>>() != null);
-            return new ReadOnlyCollection<GridCellModel>(this.cells);
+            get { return this.index; }
+            internal set
+            {
+                this.index = value;
+                OnPropertyChanged();
+            }
         }
     }
 }

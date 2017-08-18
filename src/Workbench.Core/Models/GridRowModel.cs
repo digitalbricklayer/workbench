@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Workbench.Core.Models
 {
@@ -48,6 +50,25 @@ namespace Workbench.Core.Models
         public void AddCell(GridCellModel newCell)
         {
             this.cells.Add(newCell);
+        }
+
+        public IReadOnlyCollection<GridCellModel> GetCells()
+        {
+            return new ReadOnlyCollection<GridCellModel>(this.cells);
+        }
+
+        public IReadOnlyCollection<object> GetCellContent()
+        {
+            var accumulator = Cells.Select(aCell => aCell.Text)
+                                   .Cast<object>()
+                                   .ToList();
+
+            return accumulator.AsReadOnly();
+        }
+
+        public GridCellModel GetCellAt(int index)
+        {
+            return this.cells[index];
         }
     }
 }

@@ -129,5 +129,11 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
             return Grid.GetColumnByName(columnName);
         }
+
+        public GridColumnData GetColumnDataByName(string columnName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            return Grid.GetColumnDataByName(columnName);
+        }
     }
 }

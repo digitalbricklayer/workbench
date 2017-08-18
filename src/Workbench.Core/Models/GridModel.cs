@@ -90,6 +90,10 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theRow != null);
             Rows.Add(theRow);
+
+#if false
+//            if (theRow.GetCells().Count == Columns.Count) return;
+
             var i = 0;
             /*
              * Cells are stored inside the row in the same order as the 
@@ -105,6 +109,13 @@ namespace Workbench.Core.Models
             {
                 theRow.AddCell(new GridCellModel());
             }
+#else
+            if (theRow.Cells.Count == Columns.Count) return;
+            for (var z = 0; z < Columns.Count; z++)
+            {
+                theRow.AddCell(new GridCellModel());
+            }
+#endif
         }
 
         /// <summary>
@@ -114,6 +125,11 @@ namespace Workbench.Core.Models
         public void AddColumn(GridColumnModel theColumn)
         {
             Contract.Requires<ArgumentNullException>(theColumn != null);
+            theColumn.Index = Columns.Count + 1;
+            foreach (var row in Rows)
+            {
+                row.AddCell(new GridCellModel());
+            }
             Columns.Add(theColumn);
         }
 
@@ -136,6 +152,18 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
             return this.columns.FirstOrDefault(_ => _.Name == columnName);
+        }
+
+        /// <summary>
+        /// Get the column data by name.
+        /// </summary>
+        /// <param name="columnName">Column name.</param>
+        /// <returns>Returns the column with a name matching columnName.</returns>
+        public GridColumnData GetColumnDataByName(string columnName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            var theColumn = GetColumnByName(columnName);
+            return new GridColumnData(theColumn, GetCellsByColumn(theColumn));
         }
 
         /// <summary>
@@ -182,6 +210,18 @@ namespace Workbench.Core.Models
                     AddRow(new GridRowModel());
                 }
             }
+        }
+
+        private IEnumerable<GridCellModel> GetCellsByColumn(GridColumnModel theColumn)
+        {
+            var accumulator = new List<GridCellModel>();
+            foreach (var row in Rows)
+            {
+                var x = row.GetCellAt(theColumn.Index - 1);
+                accumulator.Add(x);
+            }
+
+            return accumulator;
         }
     }
 }
