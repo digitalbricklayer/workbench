@@ -90,32 +90,11 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theRow != null);
             Rows.Add(theRow);
-
-#if false
-//            if (theRow.GetCells().Count == Columns.Count) return;
-
-            var i = 0;
-            /*
-             * Cells are stored inside the row in the same order as the 
-             * columns appear in the grid.
-             */
-            foreach (var cell in theRow.Cells)
-            {
-                var theColumn = this.columns[i];
-                theColumn.AddCell(cell);
-                i++;
-            }
-            for (var z = 0; z < Columns.Count; z++)
-            {
-                theRow.AddCell(new GridCellModel());
-            }
-#else
             if (theRow.Cells.Count == Columns.Count) return;
             for (var z = 0; z < Columns.Count; z++)
             {
                 theRow.AddCell(new GridCellModel());
             }
-#endif
         }
 
         /// <summary>
