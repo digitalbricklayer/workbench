@@ -19,12 +19,10 @@ namespace Workbench.ViewModels
         public GridViewModel(GridModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            this.dataTable = CreateDataTable();
             this.model = theModel;
-            PopulateGridColumns();
-            PopulateGridRows();
-            Contract.Assume(!this.dataTable.HasErrors);
+            this.dataTable = CreateDataTable();
             this.dataTable.AcceptChanges();
+            Contract.Assert(!this.dataTable.HasErrors);
         }
 
         /// <summary>
@@ -95,14 +93,14 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
             Grid.AddColumn(newColumn);
-            AddColumnToTable(newColumn);
+            Table = CreateDataTable();
         }
 
         public void AddRow(GridRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
             Grid.AddRow(theNewRow);
-            AddRowToTable(theNewRow);
+            AddRowToTable(this.dataTable, theNewRow);
         }
 
         public GridRowModel GetRowAt(int rowIndex)
@@ -122,43 +120,50 @@ namespace Workbench.ViewModels
             Grid.Resize(newColumnCount, newRowCount);
         }
 
-        private void PopulateGridColumns()
+        private void PopulateGridColumns(DataTable newTable)
         {
             foreach (var column in Grid.Columns)
             {
-                AddColumnToTable(column);
+                AddColumnToTable(newTable, column);
             }
         }
 
-        private void PopulateGridRows()
+        private void PopulateGridRows(DataTable newTable)
         {
             foreach (var row in Grid.Rows)
             {
-                AddRowToTable(row);
+                AddRowToTable(newTable, row);
             }
         }
 
-        private void AddColumnToTable(GridColumnModel newColumn)
+        private void AddColumnToTable(DataTable newTable, GridColumnModel newColumn)
         {
-            this.dataTable.Columns.Add(newColumn.Name);
+            var newTableColumn = new DataColumn(newColumn.Name, typeof(string));
+            newTableColumn.DefaultValue = string.Empty;
+            newTable.Columns.Add(newTableColumn);
+            newTable.AcceptChanges();
+            Contract.Assert(!newTable.HasErrors);
         }
 
-        private void AddRowToTable(GridRowModel theRowModel)
+        private void AddRowToTable(DataTable newTable, GridRowModel theRowModel)
         {
-            var newRow = this.dataTable.NewRow();
+            var newRow = newTable.NewRow();
             foreach (var column in Grid.Columns)
             {
                 foreach (var row in theRowModel.Cells)
                     newRow[column.Name] = row.Text;
             }
-            this.dataTable.Rows.Add(newRow);
+            newTable.Rows.Add(newRow);
+            newTable.AcceptChanges();
         }
 
         private DataTable CreateDataTable()
         {
             var newTable = new DataTable();
-            newTable.RowChanged += OnRowChanged;
-            newTable.ColumnChanged += OnColumnChanged;
+//            newTable.RowChanged += OnRowChanged;
+//            newTable.ColumnChanged += OnColumnChanged;
+            PopulateGridColumns(newTable);
+            PopulateGridRows(newTable);
             return newTable;
         }
 

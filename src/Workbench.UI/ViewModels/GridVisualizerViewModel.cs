@@ -27,7 +27,6 @@ namespace Workbench.ViewModels
         public void AddColumn(GridColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            Model.AddColumn(newColumn);
             GridDesigner.AddColumn(newColumn);
         }
 
@@ -38,7 +37,6 @@ namespace Workbench.ViewModels
         public void AddRow(GridRowModel newRow)
         {
             Contract.Requires<ArgumentNullException>(newRow != null);
-            Model.AddRow(newRow);
             GridDesigner.AddRow(newRow);
         }
 
