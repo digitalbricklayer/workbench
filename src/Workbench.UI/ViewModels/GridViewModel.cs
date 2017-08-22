@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using System.Diagnostics.Contracts;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -11,8 +10,6 @@ namespace Workbench.ViewModels
     {
         private readonly GridModel model;
         private DataTable dataTable;
-        private DataGridCellInfo selectedCell;
-        private object selectedItem;
         private int? selectedIndex;
         private object selectedColumn;
 
@@ -48,26 +45,6 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
-
-        public DataGridCellInfo SelectedCell
-        {
-            get { return this.selectedCell; }
-            set
-            {
-                this.selectedCell = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public object SelectedItem
-        {
-            get { return selectedItem; }
-            set
-            {
-                this.selectedItem = value;
-                NotifyOfPropertyChange();
-            }
-    }
 
         public int? SelectedIndex
         {
@@ -160,15 +137,10 @@ namespace Workbench.ViewModels
         private DataTable CreateDataTable()
         {
             var newTable = new DataTable();
-//            newTable.RowChanged += OnRowChanged;
-//            newTable.ColumnChanged += OnColumnChanged;
+            newTable.RowChanged += OnRowChanged;
             PopulateGridColumns(newTable);
             PopulateGridRows(newTable);
             return newTable;
-        }
-
-        private void OnColumnChanged(object sender, DataColumnChangeEventArgs e)
-        {
         }
 
         /// <summary>
@@ -183,9 +155,10 @@ namespace Workbench.ViewModels
 
             switch (args.Action)
             {
-                case DataRowAction.Add:
                 case DataRowAction.Change:
+                    // Keep the model in sync with changes to the grid control
                     var selectedRow = Grid.GetRowAt(SelectedIndex.Value);
+                    selectedRow.UpdateCellsFrom(args.Row.ItemArray);
                     break;
             }
         }

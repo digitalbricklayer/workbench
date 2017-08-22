@@ -8,8 +8,6 @@
         <DataGrid x:Name="gridControl"
                   CanUserAddRows="false"
                   CanUserSortColumns="False"
-                  CurrentCell="{Binding SelectedCell, Mode=OneWayToSource}"
-                  CurrentItem="{Binding SelectedItem, Mode=OneWayToSource}"
                   SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}"
                   CurrentColumn="{Binding SelectedColumn, Mode=OneWayToSource}"
                   ItemsSource="{Binding Table}">

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -69,6 +70,15 @@ namespace Workbench.Core.Models
         public GridCellModel GetCellAt(int index)
         {
             return this.cells[index];
+        }
+
+        public void UpdateCellsFrom(object[] rowItems)
+        {
+            var i = 0;
+            foreach (var item in rowItems)
+            {
+                this.cells[i++].Text = Convert.ToString(item);
+            }
         }
     }
 }
