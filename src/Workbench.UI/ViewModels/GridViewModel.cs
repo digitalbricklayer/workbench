@@ -18,7 +18,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theModel != null);
             this.model = theModel;
             this.dataTable = CreateDataTable();
-            this.dataTable.AcceptChanges();
             Contract.Assert(!this.dataTable.HasErrors);
         }
 
@@ -125,11 +124,9 @@ namespace Workbench.ViewModels
         private void AddRowToTable(DataTable newTable, GridRowModel theRowModel)
         {
             var newRow = newTable.NewRow();
-            foreach (var column in Grid.Columns)
-            {
-                foreach (var row in theRowModel.Cells)
-                    newRow[column.Name] = row.Text;
-            }
+            var i = 0;
+            foreach (var row in theRowModel.Cells)
+                newRow[i++] = row.Text;
             newTable.Rows.Add(newRow);
             newTable.AcceptChanges();
         }
@@ -140,6 +137,7 @@ namespace Workbench.ViewModels
             newTable.RowChanged += OnRowChanged;
             PopulateGridColumns(newTable);
             PopulateGridRows(newTable);
+            newTable.AcceptChanges();
             return newTable;
         }
 
