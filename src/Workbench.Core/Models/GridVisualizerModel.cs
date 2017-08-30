@@ -67,25 +67,52 @@ namespace Workbench.Core.Models
         {
             var rowIndex = theCall.GetArgumentByName("row");
             var columnIndex = theCall.GetArgumentByName("column");
-            var backgroundColor = theCall.GetArgumentByName("BackgroundColor");
-            var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
-                                              Convert.ToInt32(columnIndex));
-            switch (backgroundColor)
+            foreach (var callArgument in theCall.Arguments)
             {
-                case "red":
-                    theCell.BackgroundColor = Color.Red;
-                    break;
+                switch (callArgument.Name)
+                {
+                    case "BackgroundColor":
+                    {
+                        var backgroundColor = theCall.GetArgumentByName("BackgroundColor");
+                        var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
+                                                          Convert.ToInt32(columnIndex));
+                        switch (backgroundColor)
+                        {
+                            case "red":
+                                theCell.BackgroundColor = Color.Red;
+                                break;
 
-                case "green":
-                    theCell.BackgroundColor = Color.Green;
-                    break;
+                            case "green":
+                                theCell.BackgroundColor = Color.Green;
+                                break;
 
-                case "blue":
-                    theCell.BackgroundColor = Color.Blue;
-                    break;
+                            case "blue":
+                                theCell.BackgroundColor = Color.Blue;
+                                break;
 
-                default:
-                    throw new NotImplementedException("Color not implemented.");
+                            default:
+                                throw new NotImplementedException("Color not implemented.");
+                        }
+                        
+                    }
+                        break;
+
+                    case "Text":
+                    {
+                        var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
+                                                          Convert.ToInt32(columnIndex));
+                        theCell.Text = Convert.ToString(callArgument.Value);
+                    }
+                        break;
+
+                    case "row":
+                    case "column":
+                        // No need to handle seperately, they are accessed directly by name.
+                        break;
+
+                    default:
+                        throw new NotImplementedException("Unknown argument name.");
+                }
             }
         }
 
