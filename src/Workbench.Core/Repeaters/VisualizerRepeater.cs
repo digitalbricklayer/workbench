@@ -124,34 +124,7 @@ namespace Workbench.Core.Repeaters
             if (theExpression.IsLiteral) return theExpression.GetLiteral();
             if (theExpression.IsValueReferenceExpression)
             {
-                var valueReferenceExpression = theExpression.ValueReference;
-                if (valueReferenceExpression.IsSingletonValue)
-                {
-                    var singletonVariableName = valueReferenceExpression.VariableName;
-                    var singletonValue = this.snapshot.GetSingletonVariableValueByName(singletonVariableName.Name);
-                    return singletonValue.Value;
-                }
-                else if (valueReferenceExpression.IsAggregateValue)
-                {
-                    var aggregateVariableName = valueReferenceExpression.VariableName;
-                    var aggregateVariableOffset = valueReferenceExpression.ValueOffset;
-                    int offsetValue;
-                    if (aggregateVariableOffset.IsLiteral)
-                        offsetValue = aggregateVariableOffset.Literal.Value;
-                    else
-                    {
-                        Contract.Assert(aggregateVariableOffset.IsCounterReference);
-                        var counterReference = aggregateVariableOffset.Counter;
-                        var counterContext = this.context.GetCounterContextByName(counterReference.CounterName);
-                        offsetValue = counterContext.CurrentValue;
-                    }
-                    var aggregateValue = this.snapshot.GetAggregateVariableValueByName(aggregateVariableName.Name);
-                    return aggregateValue.GetValueAt(offsetValue - 1);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                return EvaluateValueReferenceExpression(theExpression.ValueReference);
             }
             else if (theExpression.IsCounterReferenceExpression)
             {
@@ -165,13 +138,44 @@ namespace Workbench.Core.Repeaters
             }
         }
 
+        private int EvaluateValueReferenceExpression(ValueReferenceStatementNode theValueReferenceExpression)
+        {
+            if (theValueReferenceExpression.IsSingletonValue)
+            {
+                var singletonVariableName = theValueReferenceExpression.VariableName;
+                var singletonValue = this.snapshot.GetSingletonVariableValueByName(singletonVariableName.Name);
+                return singletonValue.Value;
+            }
+            else if (theValueReferenceExpression.IsAggregateValue)
+            {
+                var aggregateVariableName = theValueReferenceExpression.VariableName;
+                var aggregateVariableOffset = theValueReferenceExpression.ValueOffset;
+                int offsetValue;
+                if (aggregateVariableOffset.IsLiteral)
+                    offsetValue = aggregateVariableOffset.Literal.Value;
+                else
+                {
+                    Contract.Assert(aggregateVariableOffset.IsCounterReference);
+                    var counterReference = aggregateVariableOffset.Counter;
+                    var counterContext = this.context.GetCounterContextByName(counterReference.CounterName);
+                    offsetValue = counterContext.CurrentValue;
+                }
+                var aggregateValue = this.snapshot.GetAggregateVariableValueByName(aggregateVariableName.Name);
+                return aggregateValue.GetValueAt(offsetValue - 1);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         private VisualizerCall CreateVisualizerCallFrom(CallStatementNode theCallStatementNode)
         {
             var arguments = new List<CallArgument>();
             foreach (var anArgument in theCallStatementNode.Arguments.Arguments)
             {
-                var x = ConvertToValueFrom(anArgument);
-                arguments.Add(new CallArgument(anArgument.Name.Name, x));
+                var value = ConvertToValueFrom(anArgument);
+                arguments.Add(new CallArgument(anArgument.Name.Name, value));
             }
             return new VisualizerCall(arguments);
         }
@@ -185,6 +189,11 @@ namespace Workbench.Core.Repeaters
             {
                 var counterReference = this.context.GetCounterContextByName(theArgument.Value.GetValue());
                 return Convert.ToString(counterReference.CurrentValue);
+            }
+            else if (theArgument.Value.Inner is ValueReferenceStatementNode)
+            {
+                var valueReferenceNode = (ValueReferenceStatementNode) theArgument.Value.Inner;
+                return Convert.ToString(EvaluateValueReferenceExpression(valueReferenceNode));
             }
             else
             {

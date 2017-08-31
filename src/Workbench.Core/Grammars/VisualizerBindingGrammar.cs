@@ -90,7 +90,7 @@ namespace Workbench.Core.Grammars
             valueReferenceStatement.Rule = ToTerm("<") + variableName + COMMA + valueOffset + ToTerm(">") |
                                            ToTerm("<") + variableName + ToTerm(">");
 
-            callArgumentValue.Rule = callArgumentNumberValue | callArgumentStringValue;
+            callArgumentValue.Rule =  valueReferenceStatement | callArgumentNumberValue | callArgumentStringValue;
             callArgument.Rule = callArgumentName + COLON + callArgumentValue;
             callArgumentList.Rule = MakePlusRule(callArgumentList, COMMA, callArgument);
             callStatement.Rule = visualizerNameReference + PARENTHESIS_OPEN + callArgumentList + PARENTHESIS_CLOSE;
