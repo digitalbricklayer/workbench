@@ -85,6 +85,7 @@
     <Compile Include="EightQueensSolverShould.cs" />
     <Compile Include="AustraliaMapSolverShould.cs" />
     <Compile Include="Models\AggregateVariableModelTests.cs" />
+    <Compile Include="Models\DisplayModelShould.cs" />
     <Compile Include="Models\ExpressionConstraintModelTests.cs" />
     <Compile Include="Models\DomainModelTests.cs" />
     <Compile Include="Models\GridModelTests.cs" />

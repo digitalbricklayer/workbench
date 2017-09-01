@@ -88,6 +88,7 @@ namespace Workbench.Core.Models
         public void AddBindingEpxression(VisualizerBindingExpressionModel newBindingExpression)
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
+            newBindingExpression.AssignIdentity();
             this.bindings.Add(newBindingExpression);
         }
 
