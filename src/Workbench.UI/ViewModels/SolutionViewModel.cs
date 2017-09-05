@@ -131,12 +131,12 @@ namespace Workbench.ViewModels
         {
             if (this.workspace.SelectedDisplayMode == "Designer")
             {
-                return GridVisualizers.Where(_ => _.Designer.IsSelected)
-                                     .ToList();
+                return GridVisualizers.Where(gridVisualizer => gridVisualizer.Designer.IsSelected)
+                                      .ToList();
             }
 
-            return GridVisualizers.Where(_ => _.Viewer.IsSelected)
-                                 .ToList();
+            return GridVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
+                                  .ToList();
         }
 
         /// <summary>

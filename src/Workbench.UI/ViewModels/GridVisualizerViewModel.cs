@@ -13,7 +13,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewer != null);
             Designer = GridDesigner = theDesigner;
             Viewer = theViewer;
-            Model = theViewer.MapModel;
+            Model = theViewer.GridModel;
         }
 
         public GridVisualizerModel Model { get; private set; }

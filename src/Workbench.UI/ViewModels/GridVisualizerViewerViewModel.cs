@@ -4,26 +4,34 @@ namespace Workbench.ViewModels
 {
     public class GridVisualizerViewerViewModel : VisualizerViewerViewModel
     {
-        private GridViewModel _grid;
+        private GridViewModel grid;
 
         public GridVisualizerViewerViewModel(GridVisualizerModel newVisualizerModel)
             : base(newVisualizerModel)
         {
             Model = newVisualizerModel;
             Grid = new GridViewModel(newVisualizerModel.Grid);
-            MapModel = newVisualizerModel;
+            GridModel = newVisualizerModel;
         }
 
         public GridViewModel Grid
         {
-            get { return this._grid; }
+            get { return this.grid; }
             set
             {
-                this._grid = value;
+                this.grid = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public GridVisualizerModel MapModel { get; private set; }
+        public GridVisualizerModel GridModel { get; private set; }
+
+        /// <inheritDoc/>
+        public override void Update()
+        {
+            base.Update();
+            // Pick up all changes made to the grid by the grid editor
+            Grid = new GridViewModel(GridModel.Grid);
+        }
     }
 }

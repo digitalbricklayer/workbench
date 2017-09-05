@@ -10,19 +10,19 @@ namespace Workbench.ViewModels
     {
         private GridViewModel grid;
 
-        public GridVisualizerDesignerViewModel(GridVisualizerModel theMapModel,
-                                              IEventAggregator theEventAggregator,
-                                              IDataService theDataService,
-                                              IViewModelService theViewModelService)
-            : base(theMapModel, theEventAggregator, theDataService, theViewModelService)
+        public GridVisualizerDesignerViewModel(GridVisualizerModel theGridModel,
+                                               IEventAggregator theEventAggregator,
+                                               IDataService theDataService,
+                                               IViewModelService theViewModelService)
+            : base(theGridModel, theEventAggregator, theDataService, theViewModelService)
         {
-            Contract.Requires<ArgumentNullException>(theMapModel != null);
+            Contract.Requires<ArgumentNullException>(theGridModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
-            Model = theMapModel;
-            Grid = new GridViewModel(theMapModel.Grid);
+            Model = theGridModel;
+            Grid = new GridViewModel(theGridModel.Grid);
         }
 
         /// <summary>

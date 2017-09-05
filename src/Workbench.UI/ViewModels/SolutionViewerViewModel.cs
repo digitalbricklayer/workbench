@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
+using Castle.Core.Internal;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -22,7 +23,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theSolution != null);
 
             this.values = new BindableCollection<ValueModel>();
-            this.Model = theSolution;
+            Model = theSolution;
         }
 
         /// <summary>
@@ -51,10 +52,11 @@ namespace Workbench.ViewModels
         public void BindTo(IEnumerable<ValueModel> theValues)
         {
             Contract.Requires<ArgumentNullException>(theValues != null);
-            this.Reset();
+            Items.ForEach(viewer => viewer.Update());
+            Reset();
             foreach (var aValue in theValues)
             {
-                this.Values.Add(aValue);
+                Values.Add(aValue);
             }
         }
 
@@ -63,7 +65,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            this.Values.Clear();
+            Values.Clear();
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace Workbench.ViewModels
         public void AddValue(ValueModel newValueViewModel)
         {
             Contract.Requires<ArgumentNullException>(newValueViewModel != null);
-            this.Values.Add(newValueViewModel);
+            Values.Add(newValueViewModel);
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace Workbench.ViewModels
         public void AddVisualizer(VisualizerViewerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
-            this.ActivateItem(newVisualizer);
+            ActivateItem(newVisualizer);
         }
 
         /// <summary>

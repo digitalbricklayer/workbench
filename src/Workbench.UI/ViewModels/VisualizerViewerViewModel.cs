@@ -40,5 +40,13 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        /// <summary>
+        /// Update the viewer prior to being displayed in the solution space.
+        /// </summary>
+        public virtual void Update()
+        {
+            // Default implementation...
+        }
     }
 }
