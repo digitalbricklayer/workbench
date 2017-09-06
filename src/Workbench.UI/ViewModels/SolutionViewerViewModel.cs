@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Castle.Core.Internal;
@@ -46,18 +45,15 @@ namespace Workbench.ViewModels
         public SolutionModel Model { get; private set; }
 
         /// <summary>
-        /// Bind the values to the solution.
+        /// Bind the solution model to the solution view model.
         /// </summary>
-        /// <param name="theValues">Variable values.</param>
-        public void BindTo(IEnumerable<ValueModel> theValues)
+        /// <param name="theSolution">Solution model.</param>
+        public void BindTo(SolutionModel theSolution)
         {
-            Contract.Requires<ArgumentNullException>(theValues != null);
+            Contract.Requires<ArgumentNullException>(theSolution != null);
             Items.ForEach(viewer => viewer.Update());
             Reset();
-            foreach (var aValue in theValues)
-            {
-                Values.Add(aValue);
-            }
+            Model = theSolution;
         }
 
         /// <summary>

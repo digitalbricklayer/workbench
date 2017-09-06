@@ -31,25 +31,14 @@ namespace Workbench.Services
         internal SolutionViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
             var solutionViewModel = new SolutionViewerViewModel(theSolutionModel);
-            foreach (var valueModel in theSolutionModel.SingletonValues)
+            foreach (var valueModel in theSolutionModel.Snapshot.SingletonValues)
             {
                 solutionViewModel.AddValue(valueModel);
             }
 
-            foreach (var anAggregateValue in theSolutionModel.AggregateValues)
+            foreach (var anAggregateValue in theSolutionModel.Snapshot.AggregateValues)
             {
                 solutionViewModel.AddValue(anAggregateValue);
-            }
-
-            foreach (var aVisualizer in theSolutionModel.Display.Visualizers)
-            {
-#if false
-               var newViewer = new VariableVisualizerViewerViewModel(aVisualizer,
-                                                                     this.eventAggregator);
-                if (aVisualizer.Binding != null)
-                    newViewer.Binding = this.viewModelService.GetVariableByIdentity(aVisualizer.Binding.VariableId);
-                solutionViewModel.ActivateItem(newViewer);
-#endif
             }
 
             return solutionViewModel;

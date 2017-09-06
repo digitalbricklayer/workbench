@@ -39,19 +39,6 @@ namespace Workbench.Services
             Contract.Requires<ArgumentNullException>(theDisplay != null);
 
             var newDesignerViewModel = new SolutionDesignerViewModel(theDisplay);
-            foreach (var aVisualizer in theDisplay.Visualizers)
-            {
-                Debug.Assert(aVisualizer.HasIdentity);
-
-#if false
-                var newVisualizerViewModel = new VariableVisualizerDesignViewModel(aVisualizer,
-                                                                                   this.eventAggregator,
-                                                                                   this.dataService,
-                                                                                   this._viewModelService);
-                newDesignerViewModel.FixupVisualizer(newVisualizerViewModel);
-#endif
-            }
-
             return newDesignerViewModel;
         }
     }

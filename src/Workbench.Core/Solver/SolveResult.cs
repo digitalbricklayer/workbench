@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Workbench.Core.Models;
 
 namespace Workbench.Core.Solver
 {

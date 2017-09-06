@@ -75,10 +75,10 @@ namespace Workbench.Core.Models
         /// Update the solution from a snapshot.
         /// </summary>
         /// <param name="theSnapshot">Solution snapshot.</param>
-        public void UpdateFrom(SolutionSnapshot theSnapshot)
+        public void UpdateFrom(SolveResult theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot, this, binding)));
+            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot.Snapshot, this, binding)));
         }
 
         /// <summary>

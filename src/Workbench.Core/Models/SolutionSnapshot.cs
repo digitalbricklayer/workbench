@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Workbench.Core.Models;
 
-namespace Workbench.Core.Solver
+namespace Workbench.Core.Models
 {
     /// <summary>
     /// One solution to the model.
     /// </summary>
+    [Serializable]
     public sealed class SolutionSnapshot
     {
         private readonly List<ValueModel> singletonValues;

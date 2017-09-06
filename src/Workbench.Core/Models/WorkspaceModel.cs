@@ -86,11 +86,11 @@ namespace Workbench.Core.Models
         /// <returns>Solve result.</returns>
         public SolveResult Solve()
         {
-            Contract.Requires(this.Model != null);
             Contract.Ensures(Contract.Result<SolveResult>() != null);
+            Contract.Assume(Model != null);
             var solveResult = Model.Solve();
             if (solveResult.IsFailure) return solveResult;
-            UpdateSolutionFrom(solveResult.Snapshot);
+            UpdateSolutionFrom(solveResult);
 
             return solveResult;
         }
@@ -108,11 +108,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Update the solution from a snapshot.
         /// </summary>
-        /// <param name="theSnapshot">The snapshot.</param>
-        private void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        /// <param name="theSolveResult">The model solution.</param>
+        private void UpdateSolutionFrom(SolveResult theSolveResult)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            Solution.UpdateSolutionFrom(theSnapshot);
+            Contract.Requires<ArgumentNullException>(theSolveResult != null);
+            Solution.UpdateSolutionFrom(theSolveResult);
         }
     }
 }

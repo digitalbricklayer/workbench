@@ -47,7 +47,8 @@ namespace Workbench.ViewModels
             this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
             WorkspaceModel = theDataService.GetWorkspace();
             this.model = this.viewModelFactory.CreateModel(this.WorkspaceModel.Model);
-            Solution = new SolutionViewModel(this, new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
+            Solution = new SolutionViewModel(this,
+                                             new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
                                              new SolutionViewerViewModel(WorkspaceModel.Solution));
             SelectedDisplayMode = "Model";
         }
@@ -332,10 +333,7 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             Solution.Reset();
-            var newValues = new List<ValueModel>();
-            newValues.AddRange(theSolution.SingletonValues);
-            newValues.AddRange(theSolution.AggregateValues);
-            Solution.BindTo(newValues);
+            Solution.BindTo(theSolution);
 
             if (!AvailableDisplayModes.Contains("Solution"))
                 AvailableDisplayModes.Add("Solution");

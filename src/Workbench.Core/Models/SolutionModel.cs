@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -14,36 +11,7 @@ namespace Workbench.Core.Models
     public class SolutionModel : AbstractModel
     {
         private DisplayModel display;
-        private ObservableCollection<ValueModel> singletonValues;
-        private ObservableCollection<ValueModel> aggregateValues;
-
-        /// <summary>
-        /// Initialize the solution with the model and the values.
-        /// </summary>
-        /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">Values making up the model solution.</param>
-        public SolutionModel(ModelModel theModel, params ValueModel[] theValues)
-            : this(theModel)
-        {
-            if (theValues == null)
-                throw new ArgumentNullException(nameof(theValues));
-            foreach (var valueModel in theValues)
-                SingletonValues.Add(valueModel);
-        }
-
-        /// <summary>
-        /// Initialize the solution with the model and the values.
-        /// </summary>
-        /// <param name="theModel">Model that the solution is supposed to solve.</param>
-        /// <param name="theValues">Values making up the model solution.</param>
-        public SolutionModel(ModelModel theModel, IEnumerable<ValueModel> theValues)
-            : this(theModel)
-        {
-            if (theValues == null)
-                throw new ArgumentNullException(nameof(theValues));
-            foreach (var valueModel in theValues)
-                SingletonValues.Add(valueModel);
-        }
+        private SolutionSnapshot snapshot;
 
         /// <summary>
         /// Initialize the solution with the model.
@@ -53,6 +21,7 @@ namespace Workbench.Core.Models
             : this()
         {
             Model = theModel;
+            Snapshot = new SolutionSnapshot();
         }
 
         /// <summary>
@@ -61,8 +30,7 @@ namespace Workbench.Core.Models
         public SolutionModel()
         {
             Display = new DisplayModel();
-            SingletonValues = new ObservableCollection<ValueModel>();
-            AggregateValues = new ObservableCollection<ValueModel>();
+            Snapshot = new SolutionSnapshot();
         }
 
         /// <summary>
@@ -70,36 +38,23 @@ namespace Workbench.Core.Models
         /// </summary>
         public DisplayModel Display
         {
-            get { return display; }
+            get { return this.display; }
             set
             {
-                display = value;
+                this.display = value;
                 OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Gets and sets the values in the solution.
+        /// Gets or sets the solution snapshot.
         /// </summary>
-        public ObservableCollection<ValueModel> SingletonValues
+        public SolutionSnapshot Snapshot
         {
-            get { return singletonValues; }
+            get { return this.snapshot; }
             set
             {
-                singletonValues = value; 
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets and sets the aggregate values in the solution.
-        /// </summary>
-        public ObservableCollection<ValueModel> AggregateValues
-        {
-            get { return aggregateValues; }
-            set
-            {
-                aggregateValues = value; 
+                this.snapshot = value;
                 OnPropertyChanged();
             }
         }
@@ -110,26 +65,6 @@ namespace Workbench.Core.Models
         public ModelModel Model { get; private set; }
 
         /// <summary>
-        /// Add a value to the solution.
-        /// </summary>
-        /// <param name="theValue">New value.</param>
-        public void AddSingletonValue(ValueModel theValue)
-        {
-            Contract.Requires<ArgumentNullException>(theValue != null);
-            SingletonValues.Add(theValue);
-        }
-
-        /// <summary>
-        /// Add a value to the solution.
-        /// </summary>
-        /// <param name="theValue">New value.</param>
-        public void AddAggregateValue(ValueModel theValue)
-        {
-            Contract.Requires<ArgumentNullException>(theValue != null);
-            AggregateValues.Add(theValue);
-        }
-
-        /// <summary>
         /// Get the value matching the name.
         /// </summary>
         /// <param name="theVariableName">Name of the variable to find.</param>
@@ -137,7 +72,7 @@ namespace Workbench.Core.Models
         public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return SingletonValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return Snapshot.GetSingletonVariableValueByName(theVariableName);
         }
 
         /// <summary>
@@ -148,7 +83,7 @@ namespace Workbench.Core.Models
         public ValueModel GetAggregateVariableValueByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return AggregateValues.FirstOrDefault(x => x.Variable.Name == theVariableName);
+            return Snapshot.GetAggregateVariableValueByName(theVariableName);
         }
 
         /// <summary>
@@ -175,21 +110,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Update the solution from a snapshot.
         /// </summary>
-        /// <param name="theSnapshot">Solution snapshot.</param>
-        public void UpdateSolutionFrom(SolutionSnapshot theSnapshot)
+        /// <param name="theSolveResult">Solution snapshot.</param>
+        public void UpdateSolutionFrom(SolveResult theSolveResult)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            Display.UpdateFrom(theSnapshot);
-
-            foreach (var aSingletonValue in theSnapshot.SingletonValues)
-            {
-                AddSingletonValue(aSingletonValue);
-            }
-
-            foreach (var anAggregateValue in theSnapshot.AggregateValues)
-            {
-                AddAggregateValue(anAggregateValue);
-            }
+            Contract.Requires<ArgumentNullException>(theSolveResult != null);
+            Display.UpdateFrom(theSolveResult);
+            Snapshot = theSolveResult.Snapshot;
         }
 
         /// <summary>

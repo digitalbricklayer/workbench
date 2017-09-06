@@ -113,9 +113,9 @@ namespace Workbench.ViewModels
             Viewer.Reset();
         }
 
-        public void BindTo(List<ValueModel> newValues)
+        public void BindTo(SolutionModel theSolution)
         {
-            Viewer.BindTo(newValues);
+            Viewer.BindTo(theSolution);
         }
 
         /// <summary>

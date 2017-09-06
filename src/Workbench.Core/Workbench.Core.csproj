@@ -182,6 +182,7 @@
     <Compile Include="Models\GridRowModel.cs" />
     <Compile Include="Models\GridVisualizerModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="Models\SolutionSnapshot.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
@@ -282,7 +283,6 @@
     <Compile Include="Solver\ModelConverter.cs" />
     <Compile Include="Solver\OrToolsCache.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />
-    <Compile Include="Solver\SolutionSnapshot.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
   </ItemGroup>
