@@ -41,7 +41,8 @@ namespace Workbench.Core.Solver
 
             var theSolutionSnapshot = ExtractValuesFrom(collector);
             var solveDuration = TimeSpan.FromMilliseconds(this.solver.WallTime());
-            return new SolveResult(SolveStatus.Success, solveDuration, theSolutionSnapshot);
+            theSolutionSnapshot.Duration = solveDuration;
+            return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
         }
 
         /// <summary>

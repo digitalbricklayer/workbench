@@ -13,19 +13,7 @@ namespace Workbench.Core.Models
     {
         private readonly List<ValueModel> singletonValues;
         private readonly List<ValueModel> aggregateValues;
-
-        /// <summary>
-        /// Initialize a solution snapshot with variable values.
-        /// </summary>
-        public SolutionSnapshot(IEnumerable<ValueModel> theSingletonValues,
-                                IEnumerable<ValueModel> theAggregateValues)
-        {
-            Contract.Requires<ArgumentNullException>(theSingletonValues != null);
-            Contract.Requires<ArgumentNullException>(theAggregateValues != null);
-
-            this.singletonValues = new List<ValueModel>(theSingletonValues);
-            this.aggregateValues = new List<ValueModel>(theAggregateValues);
-        }
+        private TimeSpan duration;
 
         /// <summary>
         /// Initialize a solution snapshot with default values.
@@ -58,6 +46,15 @@ namespace Workbench.Core.Models
                 Contract.Ensures(Contract.Result<IReadOnlyCollection<ValueModel>>() != null);
                 return this.aggregateValues.ToList();
             }
+        }
+
+        /// <summary>
+        /// Gets the time taken to solve the model.
+        /// </summary>
+        public TimeSpan Duration
+        {
+            get { return this.duration; }
+            set { this.duration = value; }
         }
 
         /// <summary>
