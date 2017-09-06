@@ -79,7 +79,7 @@ namespace Workbench.ViewModels
         public IList<ChessboardVisualizerViewModel> ChessboardVisualizers { get; private set; }
 
         /// <summary>
-        /// Gets all map visualizers.
+        /// Gets all grid visualizers.
         /// </summary>
         public IList<GridVisualizerViewModel> GridVisualizers { get; private set; }
 
@@ -95,10 +95,10 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new map visualizer to the workspace.
+        /// Add a new grid visualizer to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New map visualizer.</param>
-        public void AddMapVisualizer(GridVisualizerViewModel newVisualizer)
+        /// <param name="newVisualizer">New grid visualizer.</param>
+        public void AddGridVisualizer(GridVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             AddVisualizer(newVisualizer);
