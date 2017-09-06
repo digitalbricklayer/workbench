@@ -87,12 +87,5 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             ActivateItem(newVisualizer);
         }
-
-        /// <summary>
-        /// Unbind all viewers from their existing values.
-        /// </summary>
-        public void UnbindAll()
-        {
-        }
     }
 }

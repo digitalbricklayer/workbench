@@ -331,7 +331,7 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            Solution.UnbindAll();
+            Solution.Reset();
             var newValues = new List<ValueModel>();
             newValues.AddRange(theSolution.SingletonValues);
             newValues.AddRange(theSolution.AggregateValues);

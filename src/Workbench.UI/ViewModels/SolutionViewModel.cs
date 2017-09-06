@@ -113,11 +113,6 @@ namespace Workbench.ViewModels
             Viewer.Reset();
         }
 
-        public void UnbindAll()
-        {
-            Viewer.UnbindAll();
-        }
-
         public void BindTo(List<ValueModel> newValues)
         {
             Viewer.BindTo(newValues);
