@@ -40,8 +40,7 @@ namespace Workbench.Core.Solver
             if (!solveResult) return SolveResult.Failed;
 
             var theSolutionSnapshot = ExtractValuesFrom(collector);
-            var solveDuration = TimeSpan.FromMilliseconds(this.solver.WallTime());
-            theSolutionSnapshot.Duration = solveDuration;
+            theSolutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
             return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
         }
 

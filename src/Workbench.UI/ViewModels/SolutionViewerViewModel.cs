@@ -51,9 +51,9 @@ namespace Workbench.ViewModels
         public void BindTo(SolutionModel theSolution)
         {
             Contract.Requires<ArgumentNullException>(theSolution != null);
-            Items.ForEach(viewer => viewer.Update());
             Reset();
             Model = theSolution;
+            Items.ForEach(viewer => viewer.Update());
         }
 
         /// <summary>
