@@ -176,8 +176,8 @@
             </controls:AdornedControl>
 
             <ContentPresenter x:Name="expressionEditor"
-                                  Grid.Column="1"
-                                  Content="{Binding DomainExpression}"/>
+                              Grid.Column="1"
+                              Content="{Binding DomainExpression}"/>
         </Grid>
     </DataTemplate>
 

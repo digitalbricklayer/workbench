@@ -264,8 +264,10 @@
     <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\GridVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
+    <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
+    <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\VisualizerDesignerViewModel.cs" />

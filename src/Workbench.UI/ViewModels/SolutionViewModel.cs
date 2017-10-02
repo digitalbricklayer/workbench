@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution.
     /// </summary>
-    public sealed class SolutionViewModel : Conductor<VisualizerViewModel>.Collection.AllActive
+    public sealed class SolutionViewModel : Conductor<IScreen>.Collection.AllActive
     {
         private SolutionViewerViewModel viewer;
         private SolutionDesignerViewModel designer;

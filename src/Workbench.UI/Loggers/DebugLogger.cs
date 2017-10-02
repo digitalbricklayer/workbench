@@ -28,9 +28,9 @@ namespace Workbench.Loggers
             Debug.WriteLine(CreateLogMessage(format, args), "WARN");
         }
 
-        private string CreateLogMessage(string format, params object[] args)
+        private static string CreateLogMessage(string format, params object[] args)
         {
-            return string.Format("[{0}] {1}", DateTime.Now.ToString("o"), string.Format(format, args));
+            return $"[{DateTime.Now.ToString("o")}] {string.Format(format, args)}";
         }
     }
 }

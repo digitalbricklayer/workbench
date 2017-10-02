@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 
 namespace Workbench.Core.Models
 {
@@ -67,7 +68,6 @@ namespace Workbench.Core.Models
             {
                 Contract.Assume(this.values != null);
                 return this.GetValueAt(0);
-                
             }
             set
             {
@@ -84,6 +84,24 @@ namespace Workbench.Core.Models
             {
                 Contract.Assume(this.Variable != null);
                 return this.Variable.Name;
+            }
+        }
+
+        /// <summary>
+        /// Gets a text representation of the value.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                var textBuilder = new StringBuilder();
+                textBuilder.Append(VariableName);
+                foreach (var value in Values)
+                {
+                    textBuilder.Append(" " + value);
+                }
+
+                return textBuilder.ToString();
             }
         }
 

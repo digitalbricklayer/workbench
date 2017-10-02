@@ -1,57 +1,25 @@
-﻿using System;
+using System;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
+using Castle.Core.Internal;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the solution viewer.
+    /// View model for the solution viewer panel.
     /// </summary>
-    public sealed class SolutionViewerViewModel : Conductor<IScreen>.Collection.AllActive
+    public sealed class SolutionViewerPanelViewModel : Conductor<VisualizerViewerViewModel>.Collection.AllActive
     {
-        private SnapshotViewerViewModel snapshot;
-        private SolutionViewerPanelViewModel viewer;
-
         /// <summary>
         /// Initialize the solution viewer with a solution model.
         /// </summary>
         /// <param name="theSolution">The solution model.</param>
-        public SolutionViewerViewModel(SolutionModel theSolution)
+        public SolutionViewerPanelViewModel(SolutionModel theSolution)
         {
             Contract.Requires<ArgumentNullException>(theSolution != null);
 
             Model = theSolution;
-            Snapshot = new SnapshotViewerViewModel();
-            ActivateItem(Snapshot);
-            Viewer = new SolutionViewerPanelViewModel(theSolution);
-            ActivateItem(Viewer);
-        }
-
-        /// <summary>
-        /// Gets or sets the solution view panel view model.
-        /// </summary>
-        public SolutionViewerPanelViewModel Viewer
-        {
-            get { return this.viewer; }
-            set
-            {
-                this.viewer = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the solution snapshot view model.
-        /// </summary>
-        public SnapshotViewerViewModel Snapshot
-        {
-            get { return this.snapshot; }
-            set
-            {
-                this.snapshot = value;
-                NotifyOfPropertyChange();
-            }
         }
 
         /// <summary>
@@ -68,8 +36,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theSolution != null);
             Reset();
             Model = theSolution;
-            Viewer.BindTo(theSolution);
-            Snapshot.BindTo(theSolution);
+            Items.ForEach(viewer => viewer.Update());
         }
 
         /// <summary>
@@ -77,7 +44,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            Snapshot.Reset();
         }
 
         /// <summary>
@@ -87,7 +53,6 @@ namespace Workbench.ViewModels
         public void AddValue(ValueModel newValueViewModel)
         {
             Contract.Requires<ArgumentNullException>(newValueViewModel != null);
-            Snapshot.AddValue(newValueViewModel);
         }
 
         /// <summary>
@@ -97,7 +62,7 @@ namespace Workbench.ViewModels
         public void AddVisualizer(VisualizerViewerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
-            Viewer.AddVisualizer(newVisualizer);
+            ActivateItem(newVisualizer);
         }
     }
 }

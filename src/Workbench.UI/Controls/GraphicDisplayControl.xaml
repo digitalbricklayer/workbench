@@ -12,8 +12,8 @@
     Focusable is set to False because it is only the solution view that should be focusable.
     -->
     <ScrollViewer x:Name="contentViewer"
-                      HorizontalScrollBarVisibility="Auto"
-                      Focusable="False">
+                  HorizontalScrollBarVisibility="Auto"
+                  Focusable="False">
 
         <!--
         We need to nest the solution view inside an AdornerDecorator so that adorners 
