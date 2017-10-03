@@ -205,12 +205,23 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newDomainExpression != null);
 
             var variableToOverride = GetVariableByIndex(variableIndex);
+#if false
             if (!variableToOverride.DomainExpression.IsEmpty)
             {
                 if (!variableToOverride.DomainExpression.Intersects(newDomainExpression))
                     throw new ArgumentException("newDomainExpression");
             }
+#endif
             variableToOverride.DomainExpression = newDomainExpression;
+        }
+
+        /// <summary>
+        /// Get the size of the variable.
+        /// </summary>
+        /// <returns>Size of the variable.</returns>
+        public override long GetSize()
+        {
+            return AggregateCount;
         }
 
         /// <summary>

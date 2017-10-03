@@ -45,7 +45,7 @@ namespace Workbench.Core.Tests.Unit
         private static WorkspaceModel CreateWorkspace()
         {
             var workspace = WorkspaceModel.Create($"{ExpectedQueens} Queens Model")
-                                          .AddAggregate("cols", ExpectedQueens, $"1..{ExpectedQueens}")
+                                          .AddAggregate("cols", ExpectedQueens, "1..size(cols)")
                                           .WithConstraintAllDifferent("cols")
                                           .WithConstraintExpression($"cols[i] <> cols[j] | i,j in {ExpectedQueens},i")
                                           .WithConstraintExpression($"cols[i] + i <> cols[j] + j | i,j in {ExpectedQueens},i")

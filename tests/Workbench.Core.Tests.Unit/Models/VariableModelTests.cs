@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Tests.Unit.Models
 {
@@ -24,21 +25,21 @@ namespace Workbench.Core.Tests.Unit.Models
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
             var sut = new VariableModel("x", "   A    ");
-            Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
+            Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
             var sut = new VariableModel("x", "A");
-            Assert.That(sut.DomainExpression.DomainReference.DomainName, Is.EqualTo("A"));
+            Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
             var sut = new VariableModel("x", "1..10");
-            Assert.That(sut.DomainExpression.InlineDomain.Size, Is.EqualTo(10));
+            Assert.That(sut.DomainExpression.InlineDomain, Is.InstanceOf<DomainExpressionNode>());
         }
     }
 }

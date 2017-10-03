@@ -50,7 +50,6 @@
             <Component Id="DynaAppDependencies" Guid="EBB0BEDC-99EF-4F4F-9979-50383A91DD1D" Directory="INSTALLDIR">
               <File Id="DynaAppConfiguration" Source="$(var.APPPATH)\ConstraintWorkbench.exe.config" Checksum="yes"/>
               <File Id="Google.OrTools" Source="$(var.APPPATH)\Google.OrTools.dll" Checksum="yes"/>
-              <File Id="Sprache" Source="$(var.APPPATH)\Sprache.dll" Checksum="yes"/>
               <File Id="Caliburn.Micro" Source="$(var.APPPATH)\Caliburn.Micro.dll" Checksum="yes"/>
               <File Id="Caliburn.Micro.Platform" Source="$(var.APPPATH)\Caliburn.Micro.Platform.dll" Checksum="yes"/>
               <File Id="Castle.Core" Source="$(var.APPPATH)\Castle.Core.dll" Checksum="yes"/>

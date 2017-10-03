@@ -281,10 +281,10 @@ namespace Workbench.Core.Models
                 if (variable.DomainExpression.DomainReference == null)
                     continue;
 
-                var sharedDomain = this.GetSharedDomainByName(variable.DomainExpression.DomainReference.DomainName);
+                var sharedDomain = this.GetSharedDomainByName(variable.DomainExpression.DomainReference.DomainName.Name);
                 if (sharedDomain == null)
                 {
-                    validateContext.AddError($"Missing shared domain {variable.DomainExpression.DomainReference.DomainName}");
+                    validateContext.AddError($"Missing shared domain {variable.DomainExpression.DomainReference.DomainName.Name}");
                     return false;
                 }
             }

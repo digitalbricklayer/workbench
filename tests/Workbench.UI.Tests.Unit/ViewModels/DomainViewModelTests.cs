@@ -27,7 +27,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = new DomainViewModel(new DomainModel());
             sut.Expression.Text = "1..10";
-            Assert.That(sut.Expression.Model.Size, Is.EqualTo(10));
+            Assert.That(sut.Expression.Model.Node, Is.Not.Null);
         }
     }
 }

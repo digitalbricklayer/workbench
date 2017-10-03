@@ -108,15 +108,34 @@ namespace Workbench.Core.Solver
 
             if (theVariable.DomainExpression.InlineDomain != null)
             {
-                var inlineDomain = theVariable.DomainExpression.InlineDomain;
-                return new Tuple<long, long>(inlineDomain.LowerBand,
-                                             inlineDomain.UpperBand);
+                return EvaluateInlineDomainExpression(theVariable);
             }
 
-            var sharedDomainName = theVariable.DomainExpression.DomainReference.DomainName;
-            var sharedDomain = this.model.GetSharedDomainByName(sharedDomainName);
-            return new Tuple<long, long>(sharedDomain.Expression.LowerBand,
-                                         sharedDomain.Expression.UpperBand);
+            return EvaluateSharedDomainExpression(theVariable);
+        }
+
+        /// <summary>
+        /// The domain is specified by a domain expression inline with the variable
+        /// </summary>
+        /// <param name="theVariable">Variable with domain expression.</param>
+        /// <returns>Tuple with upper and lower band.</returns>
+        private Tuple<long, long> EvaluateInlineDomainExpression(VariableModel theVariable)
+        {
+            var inlineDomain = theVariable.DomainExpression.InlineDomain;
+            var evaluatorContext = new DomainExpressionEvaluatorContext(inlineDomain, this.model);
+            return DomainExpressionEvaluator.Evaluate(evaluatorContext);
+        }
+
+        ///<summary>
+        /// The domain is specified in a shared domain seperately and the
+        /// inline expression references the shared domain
+        ///</summary>
+        /// <param name="theVariable">Variable with domain expression.</param>
+        /// <returns>Tuple with upper and lower band.</returns>
+        private Tuple<long, long> EvaluateSharedDomainExpression(VariableModel theVariable)
+        {
+            var evaluatorContext = new SharedDomainExpressionEvaluatorContext(theVariable.DomainExpression.Node, this.model);
+            return SharedDomainExpressionEvaluator.Evaluate(evaluatorContext);
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
-using Workbench.Core.Expressions;
-using Workbench.Core.Grammars;
+using Workbench.Core.Nodes;
+using Workbench.Core.Parsers;
 
 namespace Workbench.Core.Models
 {
@@ -13,19 +13,24 @@ namespace Workbench.Core.Models
     {
         private string text;
 
+        [NonSerialized]
+        private VariableDomainExpressionNode node;
+
         /// <summary>
         /// Initialize a variable domain expression with raw expression text.
         /// </summary>
         public VariableDomainExpressionModel(string rawExpression)
         {
-            this.Text = rawExpression;
+            Text = rawExpression;
         }
 
-        public VariableDomainExpressionModel(VariableDomainExpressionUnit theVariableDomainUnit)
+        /// <summary>
+        /// Initialize a variable domain expression with a domain expression unit.
+        /// </summary>
+        /// <param name="theDomainExpressionUnit">Domain expression unit.</param>
+        public VariableDomainExpressionModel(VariableDomainExpressionNode theDomainExpressionUnit)
         {
-            if (theVariableDomainUnit == null)
-                throw new ArgumentNullException("theVariableDomainUnit");
-            this.Unit = theVariableDomainUnit;
+            Node = theDomainExpressionUnit;
         }
 
         /// <summary>
@@ -33,13 +38,14 @@ namespace Workbench.Core.Models
         /// </summary>
         public VariableDomainExpressionModel()
         {
-            this.Text = string.Empty;
+            Text = string.Empty;
         }
 
-        /// <summary>
-        /// Gets the variable domain expression unit.
-        /// </summary>
-        public VariableDomainExpressionUnit Unit { get; private set; }
+        public VariableDomainExpressionNode Node
+        {
+            get { return this.node; }
+            private set { this.node = value; }
+        }
 
         /// <summary>
         /// Gets or sets the variable domain expression text.
@@ -50,27 +56,27 @@ namespace Workbench.Core.Models
             set
             {
                 this.text = value;
-                this.ParseUnit(value);
+                ParseUnit(this.text);
                 OnPropertyChanged();
             }
         }
 
-        public SharedDomainReference DomainReference
+        public SharedDomainReferenceNode DomainReference
         {
             get
             {
-                if (this.Unit != null)
-                    return this.Unit.DomainReference;
+                if (Node != null)
+                    return Node.DomainReference;
                 return null;
             }
         }
 
-        public DomainExpressionModel InlineDomain
+        public DomainExpressionNode InlineDomain
         { 
             get
             {
-                if (this.Unit != null)
-                    return this.Unit.InlineDomain;
+                if (Node != null)
+                    return Node.InlineDomain;
                 return null;
             }
         }
@@ -82,20 +88,8 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return this.InlineDomain == null && this.DomainReference == null;
+                return InlineDomain == null && DomainReference == null;
             }
-        }
-
-        /// <summary>
-        /// Does the comparitor intersect with the domain.
-        /// </summary>
-        /// <param name="comparitor">Comparitor domain.</param>
-        /// <returns>True if the comparitor does intersect, False 
-        /// if the comparitor does not intersect.</returns>
-        public bool Intersects(VariableDomainExpressionModel comparitor)
-        {
-            return comparitor.InlineDomain.UpperBand <= this.InlineDomain.UpperBand &&
-                   comparitor.InlineDomain.LowerBand >= this.InlineDomain.LowerBand;
         }
 
         /// <summary>
@@ -105,9 +99,20 @@ namespace Workbench.Core.Models
         private void ParseUnit(string rawExpression)
         {
             if (!string.IsNullOrWhiteSpace(rawExpression))
-                this.Unit = VariableDomainGrammar.Parse(rawExpression);
+            {
+                var variableDomainExpressionParser = new VariableDomainExpressionParser();
+                var result = variableDomainExpressionParser.Parse(rawExpression);
+                if (result.Status == ParseStatus.Success)
+                    Node = result.Root;
+                else
+                {
+                    Node = null;
+                }
+            }
             else
-                this.Unit = null;
+            {
+                Node = null;
+            }
         }
     }
 }

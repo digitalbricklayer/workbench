@@ -19,9 +19,9 @@ namespace Workbench.Core.Models
             : base(variableName, newLocation)
         {
             if (newVariableExpression == null)
-                throw new ArgumentNullException("newVariableExpression");
+                throw new ArgumentNullException(nameof(newVariableExpression));
             Contract.EndContractBlock();
-            this.DomainExpression = newVariableExpression;
+            DomainExpression = newVariableExpression;
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace Workbench.Core.Models
             : base(variableName)
         {
             if (theDomainExpression == null)
-                throw new ArgumentNullException("theDomainExpression");
+                throw new ArgumentNullException(nameof(theDomainExpression));
             Contract.EndContractBlock();
-            this.DomainExpression = theDomainExpression;
+            DomainExpression = theDomainExpression;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Workbench.Core.Models
         public VariableModel(string variableName, string theRawDomainExpression)
             : base(variableName)
         {
-            this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
+            DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Workbench.Core.Models
         public VariableModel(string variableName)
             : base(variableName)
         {
-            this.DomainExpression = new VariableDomainExpressionModel();
+            DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Workbench.Core.Models
         public VariableModel()
             : base("New variable")
         {
-            this.DomainExpression = new VariableDomainExpressionModel();
+            DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>
@@ -84,7 +84,16 @@ namespace Workbench.Core.Models
         /// </returns>
         public override string ToString()
         {
-            return this.Name;
+            return Name;
+        }
+
+        /// <summary>
+        /// Get the size of the variable.
+        /// </summary>
+        /// <returns>Size of the variable.</returns>
+        public virtual long GetSize()
+        {
+            return 1;
         }
     }
 }

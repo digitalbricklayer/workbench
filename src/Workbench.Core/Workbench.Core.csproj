@@ -155,10 +155,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="Sprache, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sprache.2.1.0\lib\net40\Sprache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -172,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
+    <Compile Include="Grammars\DomainGrammarIrony.cs" />
+    <Compile Include="Grammars\VariableDomainGrammarIrony.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
@@ -186,7 +184,18 @@
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
+    <Compile Include="Nodes\BandExpressionNode.cs" />
+    <Compile Include="Nodes\DomainExpressionNode.cs" />
+    <Compile Include="Nodes\DomainNameNode.cs" />
+    <Compile Include="Nodes\FunctionArgumentListNode.cs" />
+    <Compile Include="Nodes\FunctionCallArgumentNode.cs" />
+    <Compile Include="Nodes\FunctionCallArgumentStringLiteralNode.cs" />
+    <Compile Include="Nodes\FunctionCallXNode.cs" />
+    <Compile Include="Nodes\FunctionNameNode.cs" />
+    <Compile Include="Nodes\NumberLiteralNode.cs" />
+    <Compile Include="Nodes\SharedDomainReferenceNode.cs" />
     <Compile Include="Nodes\StatementListNode.cs" />
+    <Compile Include="Nodes\VariableDomainExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerBinaryExpressionNode.cs" />
     <Compile Include="Nodes\CallArgumentNameNode.cs" />
     <Compile Include="Nodes\CallArgumentNode.cs" />
@@ -215,11 +224,7 @@
     <Compile Include="Nodes\VisualizerBindingExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
-    <Compile Include="Expressions\DomainExpressionUnit.cs" />
-    <Compile Include="Expressions\VariableDomainExpressionUnit.cs" />
     <Compile Include="Grammars\ConstraintGrammar.cs" />
-    <Compile Include="Grammars\DomainGrammar.cs" />
-    <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="IConstraintExpressionVisitor.cs" />
     <Compile Include="Models\AllDifferentConstraintModel.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
@@ -261,6 +266,8 @@
     <Compile Include="Nodes\SubscriptNode.cs" />
     <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
+    <Compile Include="Parsers\VariableDomainExpressionParser.cs" />
+    <Compile Include="Parsers\DomainExpressionParser.cs" />
     <Compile Include="Parsers\ParseResult.cs" />
     <Compile Include="Parsers\ParseStatus.cs" />
     <Compile Include="Parsers\VisualizerBindingExpressionParser.cs" />
@@ -279,10 +286,14 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solver\DomainExpressionEvaluator.cs" />
+    <Compile Include="Solver\DomainExpressionEvaluatorContext.cs" />
     <Compile Include="Solver\ExpressionConstraintConverter.cs" />
     <Compile Include="Solver\ModelConverter.cs" />
     <Compile Include="Solver\OrToolsCache.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />
+    <Compile Include="Solver\SharedDomainExpressionEvaluator.cs" />
+    <Compile Include="Solver\SharedDomainExpressionEvaluatorContext.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
   </ItemGroup>

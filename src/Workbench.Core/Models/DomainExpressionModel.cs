@@ -1,6 +1,6 @@
 ﻿using System;
-using Workbench.Core.Expressions;
-using Workbench.Core.Grammars;
+using Workbench.Core.Nodes;
+using Workbench.Core.Parsers;
 
 namespace Workbench.Core.Models
 {
@@ -12,13 +12,16 @@ namespace Workbench.Core.Models
     {
         private string text;
 
+        [NonSerialized]
+        private DomainExpressionNode node;
+
         /// <summary>
         /// Initialize a domain expression with a domain expression unit.
         /// </summary>
         /// <param name="theDomainExpressionUnit">Domain expression unit.</param>
-        public DomainExpressionModel(DomainExpressionUnit theDomainExpressionUnit)
+        public DomainExpressionModel(DomainExpressionNode theDomainExpressionUnit)
         {
-            this.Unit = theDomainExpressionUnit;
+            Node = theDomainExpressionUnit;
         }
 
         /// <summary>
@@ -26,7 +29,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public DomainExpressionModel(string rawDomainExpression)
         {
-            this.Text = rawDomainExpression;
+            Text = rawDomainExpression;
         }
 
         /// <summary>
@@ -34,7 +37,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public DomainExpressionModel()
         {
-            this.Text = string.Empty;
+            Text = string.Empty;
         }
 
         /// <summary>
@@ -46,38 +49,15 @@ namespace Workbench.Core.Models
             set
             {
                 this.text = value;
-                this.ParseUnit(value);
+                ParseUnit(value);
                 OnPropertyChanged();
             }
         }
 
-        public DomainExpressionUnit Unit { get; private set; }
-
-        public int UpperBand
+        public DomainExpressionNode Node
         {
-            get
-            {
-                return this.Unit.UpperBand;
-            }
-        }
-
-        public int LowerBand
-        {
-            get
-            {
-                return this.Unit.LowerBand;
-            }
-        }
-
-        /// <summary>
-        /// Gets the size of the range.
-        /// </summary>
-        public int Size
-        {
-            get
-            {
-                return this.Unit.Size;
-            }
+            get { return this.node; }
+            private set { this.node = value; }
         }
 
         /// <summary>
@@ -87,9 +67,20 @@ namespace Workbench.Core.Models
         private void ParseUnit(string rawExpression)
         {
             if (!string.IsNullOrWhiteSpace(rawExpression))
-                this.Unit = DomainGrammar.Parse(rawExpression);
+            {
+                var domainExpressionParser = new DomainExpressionParser();
+                var result = domainExpressionParser.Parse(rawExpression);
+                if (result.Status == ParseStatus.Success)
+                    Node = result.Root;
+                else
+                {
+                    Node = null;
+                }
+            }
             else
-                this.Unit = null;
+            {
+                Node = null;
+            }
         }
     }
 }

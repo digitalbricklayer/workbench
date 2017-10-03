@@ -27,7 +27,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateVariable();
             sut.DomainExpression.Text = "x";
-            Assert.That(sut.DomainExpression.Model.DomainReference.DomainName, Is.EqualTo("x"));
+            Assert.That(sut.DomainExpression.Model.DomainReference.DomainName.Name, Is.EqualTo("x"));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateVariable();
             sut.DomainExpression.Text = "1..10";
-            Assert.That(sut.DomainExpression.Model.InlineDomain.Size, Is.EqualTo(10));
+            Assert.That(sut.DomainExpression.Model.InlineDomain, Is.Not.Null);
         }
 
         private VariableViewModel CreateVariable()

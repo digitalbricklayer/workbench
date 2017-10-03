@@ -100,7 +100,7 @@ namespace Workbench.Core.Grammars
             Root = constraintExpression;
 
             MarkTransient(binaryOperators, infixOperators);
-            MarkPunctuation("|");
+            MarkPunctuation(PIPE);
         }
     }
 }
