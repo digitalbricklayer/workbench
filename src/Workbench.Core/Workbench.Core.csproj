@@ -168,8 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
-    <Compile Include="Grammars\DomainGrammarIrony.cs" />
-    <Compile Include="Grammars\VariableDomainGrammarIrony.cs" />
+    <Compile Include="Grammars\DomainGrammar.cs" />
+    <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
