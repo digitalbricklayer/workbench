@@ -8,7 +8,7 @@ namespace Workbench.Core.Parsers
 {
     public class VariableDomainExpressionParser
     {
-        private readonly VariableDomainGrammarIrony grammar = new VariableDomainGrammarIrony();
+        private readonly VariableDomainGrammar grammar = new VariableDomainGrammar();
 
         /// <summary>
         /// Parse a raw variable domain expression.

@@ -8,7 +8,7 @@ namespace Workbench.Core.Parsers
 {
     public class DomainExpressionParser
     {
-        private readonly DomainGrammarIrony grammar = new DomainGrammarIrony();
+        private readonly DomainGrammar grammar = new DomainGrammar();
 
         /// <summary>
         /// Parse a raw domain expression.

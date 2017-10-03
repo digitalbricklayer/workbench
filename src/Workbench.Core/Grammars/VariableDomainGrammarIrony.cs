@@ -7,13 +7,13 @@ namespace Workbench.Core.Grammars
     /// Grammar for variable inline domain expressions.
     /// </summary>
     [Language("Variable Domain Expression Grammar", "0.1", "A grammar for variable inline domain expressions.")]
-    internal class VariableDomainGrammarIrony : Grammar
+    internal class VariableDomainGrammar : Grammar
     {
         private const string FunctionNamePattern = @"\b[A-Za-z]\w*\b";
         private const string FunctionArgumentStringLiteralPattern = @"\b[A-Za-z]\w*\b";
         private const string VariableRegexPattern = @"\b[A-Za-z]\w*\b";
 
-        public VariableDomainGrammarIrony()
+        public VariableDomainGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |

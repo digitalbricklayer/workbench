@@ -7,12 +7,12 @@ namespace Workbench.Core.Grammars
     /// Grammar for shared domain expressions.
     /// </summary>
     [Language("Domain Expression Grammar", "0.1", "A grammar for shared domain expressions.")]
-    internal class DomainGrammarIrony : Grammar
+    internal class DomainGrammar : Grammar
     {
         private const string FunctionNamePattern = @"\b[A-Za-z]\w*\b";
         private const string FunctionArgumentStringLiteralPattern = @"\b[A-Za-z]\w*\b";
 
-        public DomainGrammarIrony()
+        public DomainGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |
