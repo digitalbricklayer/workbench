@@ -36,7 +36,7 @@ namespace Workbench.Core.Grammars
             // Non-terminals
             var domainExpression = new NonTerminal("domainExpression", typeof (DomainExpressionNode));
             var bandExpression = new NonTerminal("expression", typeof (BandExpressionNode));
-            var functionCall = new NonTerminal("function call", typeof (FunctionCallXNode));
+            var functionCall = new NonTerminal("function call", typeof (FunctionInvocationNode));
             var functionCallArgumentList = new NonTerminal("function call arguments", typeof (FunctionArgumentListNode));
             var functionCallArgument = new NonTerminal("function argument", typeof (FunctionCallArgumentNode));
             var sharedDomainReference = new NonTerminal("shared domain reference", typeof(SharedDomainReferenceNode));

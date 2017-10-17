@@ -27,7 +27,7 @@ namespace Workbench.Core.Solver
                 return numberLiteral.Value;
             }
 
-            var functionCall = theExpression.Inner as FunctionCallXNode;
+            var functionCall = theExpression.Inner as FunctionInvocationNode;
             if (functionCall != null)
             {
                 return EvaluateSizeFunction(functionCall);
@@ -36,9 +36,9 @@ namespace Workbench.Core.Solver
             throw new NotImplementedException("Unknown band expression node.");
         }
 
-        private static long EvaluateSizeFunction(FunctionCallXNode functionCall)
+        private static long EvaluateSizeFunction(FunctionInvocationNode functionCall)
         {
-            Debug.Assert(functionCall.FunctionName.Name == "size");
+            Debug.Assert(functionCall.FunctionName == "size");
 
             var variableName = functionCall.ArgumentList.Arguments.First().Value.Value;
             var theVariable = Context.Model.GetVariableByName(variableName);

@@ -36,6 +36,7 @@ namespace Workbench.Core.Grammars
             var COLON = ToTerm(":", "colon");
             var FOR = ToTerm("for");
             var IN = ToTerm("in");
+            var RANGE = ToTerm("..", "range");
 
             // Terminals
             var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
@@ -103,7 +104,7 @@ namespace Workbench.Core.Grammars
             binaryExpression.Rule = expression + binaryOperator + expression;
             scopeLimitStatement.Rule = literal | counterReference;
             expanderCountStatement.Rule = literal | counterReference;
-            scopeStatement.Rule = scopeLimitStatement + ToTerm("..") + scopeLimitStatement;
+            scopeStatement.Rule = scopeLimitStatement + RANGE + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
             counterDeclarationList.Rule = MakePlusRule(counterDeclarationList, COMMA, counterDeclaration);
             expanderScopeStatementList.Rule = MakePlusRule(expanderScopeStatementList, COMMA, expanderScopeStatement);
@@ -128,7 +129,7 @@ namespace Workbench.Core.Grammars
             RegisterBracePair("<", ">");
             MarkTransient(binaryOperator, infixOperator);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
-            MarkPunctuation(FOR, IF, COLON, COMMA);
+            MarkPunctuation(FOR, IF, COLON, COMMA, RANGE);
             MarkPunctuation("<", ">");
         }
     }

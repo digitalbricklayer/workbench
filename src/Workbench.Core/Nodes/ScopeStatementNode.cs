@@ -17,8 +17,7 @@ namespace Workbench.Core.Nodes
         {
             base.Init(context, treeNode);
             Start = (ScopeLimitSatementNode) AddChild("start", treeNode.ChildNodes[0]);
-            // child node at subscript 1 is the .. keyword
-            End = (ScopeLimitSatementNode) AddChild("end", treeNode.ChildNodes[2]);
+            End = (ScopeLimitSatementNode) AddChild("end", treeNode.ChildNodes[1]);
         }
     }
 }

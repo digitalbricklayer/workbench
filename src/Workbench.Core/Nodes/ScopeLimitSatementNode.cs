@@ -52,7 +52,7 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            // Can be either a literal or a counter reference...
+            // Can be either a literal, a counter reference or function call...
             InnerExpression = (ConstraintExpressionBaseNode) AddChild("Inner", treeNode.ChildNodes[0]);
         }
     }

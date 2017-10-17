@@ -40,12 +40,12 @@ namespace Workbench.Core.Solver
                 return numberLiteral.Value;
             }
 
-            var functionCall = theExpression.Inner as FunctionCallXNode;
+            var functionCall = theExpression.Inner as FunctionInvocationNode;
             if (functionCall != null)
             {
-                Debug.Assert(functionCall.FunctionName.Name == "size");
+                Debug.Assert(functionCall.FunctionName == "size");
 
-                var variableName = functionCall.FunctionName.Name;
+                var variableName = functionCall.FunctionName;
                 var theVariable = Context.Model.GetVariableByName(variableName);
                 return theVariable.GetSize();
             }

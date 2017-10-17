@@ -24,9 +24,7 @@ namespace Workbench.Core.Grammars
             var CLOSE_ARG = ToTerm(")");
 
             // Terminals
-            var numberLiteral = new NumberLiteral("number literal",
-                                                  NumberOptions.IntOnly,
-                                                  typeof(NumberLiteralNode));
+            var numberLiteral = new NumberLiteral("number literal", NumberOptions.IntOnly, typeof(NumberLiteralNode));
             var functionCallArgumentStringLiteral = new RegexBasedTerminal("function call argument string literal", FunctionArgumentStringLiteralPattern);
             functionCallArgumentStringLiteral.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
             var functionName = new RegexBasedTerminal("function name", FunctionNamePattern);
@@ -35,14 +33,14 @@ namespace Workbench.Core.Grammars
             // Non-terminals
             var domainExpression = new NonTerminal("domainExpression", typeof(DomainExpressionNode));
             var bandExpression = new NonTerminal("expression", typeof(BandExpressionNode));
-            var functionCall = new NonTerminal("function call", typeof(FunctionCallXNode));
+            var functionCall = new NonTerminal("function call", typeof(FunctionInvocationNode));
             var functionCallArgumentList = new NonTerminal("function call arguments", typeof(FunctionArgumentListNode));
             var functionCallArgument = new NonTerminal("function argument", typeof(FunctionCallArgumentNode));
 
             // BNF rules
             functionCallArgument.Rule = numberLiteral | functionCallArgumentStringLiteral;
             functionCall.Rule = functionName + OPEN_ARG + functionCallArgumentList + CLOSE_ARG;
-            functionCallArgumentList.Rule = MakePlusRule(functionCallArgumentList, FUNCTION_CALL_ARGUMENT_SEPERATOR, functionCallArgument);
+            functionCallArgumentList.Rule = MakeStarRule(functionCallArgumentList, FUNCTION_CALL_ARGUMENT_SEPERATOR, functionCallArgument);
             bandExpression.Rule = numberLiteral | functionCall;
             domainExpression.Rule = bandExpression + RANGE + bandExpression;
 

@@ -9,13 +9,15 @@ namespace Workbench.Core.Grammars
     [Language("Constraint Expression", "0.1", "A grammar for expressing constraints.")]
     internal class ConstraintGrammar : Grammar
     {
-        private const string CounterRegexPattern = @"\b[A-Za-z]\w*\b";
-        private const string VariableRegexPattern = @"\b[A-Za-z]\w*\b";
+        private const string CounterNameRegexPattern = @"^\b[A-Za-z]\w*\b";
+        private const string VariableNameRegexPattern = @"\b[A-Za-z]\w*\b";
+        private const string FunctionArgumentStringLiteralPattern = @"^\$\b[A-Za-z]\w*\b";
 
         public ConstraintGrammar()
             : base(caseSensitive: false)
         {
-            LanguageFlags = LanguageFlags.CreateAst;
+            LanguageFlags = LanguageFlags.CreateAst |
+                            LanguageFlags.NewLineBeforeEOF;
 
             var EQUALS = ToTerm("=", "equal");
             var NOT_EQUAL = ToTerm("<>", "not equal");
@@ -28,79 +30,102 @@ namespace Workbench.Core.Grammars
             var BRACKET_CLOSE = ToTerm("]");
             var PLUS = ToTerm("+");
             var MINUS = ToTerm("-");
-            var PIPE = ToTerm("|");
-            var COUNTER_SEPERATOR = ToTerm(",");
-            var RANGE_SEPERATOR = ToTerm(",");
+            var PIPE = ToTerm("|", "pipe");
+            var COMMA = ToTerm(",", "seperator");
+            var OPEN_ARG = ToTerm("(", "function call open args");
+            var CLOSE_ARG = ToTerm(")", "function call close args");
+            var SIZE_FUNC = ToTerm("size", "size function");
+            var RANGE = ToTerm("..", "range");
+            var IN = ToTerm("in");
 
-            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof (LiteralNode));
-            var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof (SubscriptNode));
-            var variableName = new RegexBasedTerminal("variable", VariableRegexPattern);
-            variableName.AstConfig.NodeType = typeof (VariableNameNode);
-            var counterReference = new RegexBasedTerminal("counter reference", CounterRegexPattern);
-            counterReference.AstConfig.NodeType = typeof (CounterReferenceNode);
+            // Terminals
+            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
+            var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
+            var variableName = new IdentifierTerminal("variable");
+            variableName.AstConfig.NodeType = typeof(VariableNameNode);
+            var counterReference = new IdentifierTerminal("counter reference");
+            counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
+            var counterDeclaration = new IdentifierTerminal("counter declaration");
+            counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
+#if false
+            var functionCallArgumentStringLiteral = new RegexBasedTerminal("function call argument string literal", FunctionArgumentStringLiteralPattern);
+            functionCallArgumentStringLiteral.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+#else
+            var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
+            variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+            variableReference.AddPrefix("$", IdOptions.NameIncludesPrefix);
+#endif
 
-            var infixStatement = new NonTerminal("infix statement", typeof (InfixStatementNode));
-            infixStatement.Rule = literal | counterReference;
+            // Non-terminals
+            var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
             var infixOperators = new NonTerminal("infix");
+            var subscriptStatement = new NonTerminal("subscript statement", typeof(SubscriptStatementNode));
+            var aggregateVariableReference = new NonTerminal("aggregateVariableReference", typeof(AggregateVariableReferenceNode));
+            var aggregateVariableReferenceExpression = new NonTerminal("aggregate expression", typeof(AggregateVariableReferenceExpressionNode));
+            var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof(SingletonVariableReferenceNode));
+            var singletonVariableReferenceExpression = new NonTerminal("singleton expression", typeof(SingletonVariableReferenceExpressionNode));
+            var binaryOperators = new NonTerminal("binary operators", "operator");
+            var expression = new NonTerminal("expression", typeof(ExpressionNode));
+            var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
+            var expanderCountStatement = new NonTerminal("expander counter", typeof(ExpanderCountNode));
+            var scopeStatement = new NonTerminal("scope", typeof(ScopeStatementNode));
+            var expanderScopeStatement = new NonTerminal("expander scope", typeof(ExpanderScopeNode));
+            var multiCounterDeclaration = new NonTerminal("counters", typeof(CounterDeclarationListNode));
+            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof(ScopeDeclarationListNode));
+            var multiExpanderStatement = new NonTerminal("multi-expander", typeof(MultiRepeaterStatementNode));
+            var binaryExpression = new NonTerminal("binary expression", typeof(BinaryExpressionNode));
+            var constraintExpression = new NonTerminal("constraint expression", typeof(ConstraintExpressionNode));
+            var functionName = new NonTerminal("function name", typeof(FunctionNameNode));
+            var functionInvocation = new NonTerminal("function call", typeof(FunctionInvocationNode));
+            var functionArgumentList = new NonTerminal("function arguments", typeof(FunctionArgumentListNode));
+            var functionArgument = new NonTerminal("function argument", typeof(FunctionCallArgumentNode));
+
+            // BNF rules
+            functionName.Rule = SIZE_FUNC;
+            functionArgument.Rule = variableReference;
+            functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
+            functionInvocation.Rule = functionName + OPEN_ARG + functionArgumentList + CLOSE_ARG;
+
+            infixStatement.Rule = literal | counterReference;
             infixOperators.Rule = PLUS | MINUS;
-            var subscriptStatement = new NonTerminal("subscript statement", typeof (SubscriptStatementNode));
             subscriptStatement.Rule = subscript | counterReference;
-            var aggregateVariableReference = new NonTerminal("aggregateVariableReference", typeof (AggregateVariableReferenceNode));
             aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE;
-
-            var aggregateVariableReferenceExpression = new NonTerminal("aggregate expression", typeof (AggregateVariableReferenceExpressionNode));
             aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperators + infixStatement;
-
-            var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof (SingletonVariableReferenceNode));
             singletonVariableReference.Rule = variableName;
-
-            var singletonVariableReferenceExpression = new NonTerminal("singleton expression", typeof (SingletonVariableReferenceExpressionNode));
             singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperators + infixStatement;
 
-            var binaryOperators = new NonTerminal("binary operators", "operator");
             binaryOperators.Rule = EQUALS |
                                    NOT_EQUAL | ALT_NOT_EQUAL |
                                    LESS | LESS_EQUAL |
                                    GREATER | GREATER_EQUAL;
-            var expression = new NonTerminal("expression", typeof (ExpressionNode));
             expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
                               singletonVariableReference | singletonVariableReferenceExpression |
                               literal;
 
-            var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
-            counterDeclaration.AstConfig.NodeType = typeof (CounterDeclarationNode);
-
-            var scopeLimitStatement = new NonTerminal("scope limit statement", typeof (ScopeLimitSatementNode));
-            scopeLimitStatement.Rule = literal | counterReference;
-
-            var expanderCountStatement = new NonTerminal("expander counter", typeof (ExpanderCountNode));
-            expanderCountStatement.Rule = literal | counterReference;
-
-            var scopeStatement = new NonTerminal("scope", typeof (ScopeStatementNode));
-            scopeStatement.Rule = scopeLimitStatement + ".." + scopeLimitStatement;
-
-            var expanderScopeStatement = new NonTerminal("expander scope", typeof (ExpanderScopeNode));
+            expanderCountStatement.Rule = functionInvocation | literal | counterReference;
+            scopeLimitStatement.Rule = functionInvocation | literal | counterReference;
+            scopeStatement.Rule = scopeLimitStatement + RANGE + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
 
-            var multiCounterDeclaration = new NonTerminal("counters", typeof (CounterDeclarationListNode));
-            multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COUNTER_SEPERATOR, counterDeclaration);
+            multiCounterDeclaration.Rule = MakePlusRule(multiCounterDeclaration, COMMA, counterDeclaration);
+            multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, COMMA, expanderScopeStatement);
+            multiExpanderStatement.Rule = PIPE + multiCounterDeclaration + IN + multiExpanderScopeStatement;
 
-            var multiExpanderScopeStatement = new NonTerminal("scopes", typeof (ScopeDeclarationListNode));
-            multiExpanderScopeStatement.Rule = MakePlusRule(multiExpanderScopeStatement, RANGE_SEPERATOR, expanderScopeStatement);
-
-            var multiExpanderStatement = new NonTerminal("multi-expander", typeof (MultiRepeaterStatementNode));
-            multiExpanderStatement.Rule = PIPE + multiCounterDeclaration + "in" + multiExpanderScopeStatement | Empty;
-
-            var binaryExpression = new NonTerminal("binary expression", typeof (BinaryExpressionNode));
             binaryExpression.Rule = expression + binaryOperators + expression;
 
-            var constraintExpression = new NonTerminal("constraint expression", typeof (ConstraintExpressionNode));
-            constraintExpression.Rule = binaryExpression + multiExpanderStatement | Empty;
+            constraintExpression.Rule = binaryExpression |
+                                        binaryExpression + multiExpanderStatement |
+                                        Empty;
 
             Root = constraintExpression;
 
-            MarkTransient(binaryOperators, infixOperators);
-            MarkPunctuation(PIPE);
+            MarkTransient(binaryOperators, infixOperators, functionName);
+            MarkPunctuation(PIPE, RANGE);
+            MarkPunctuation(COMMA);
+            MarkPunctuation(OPEN_ARG, CLOSE_ARG);
+
+            RegisterBracePair("(", ")");
+            MarkReservedWords("in");
         }
     }
 }

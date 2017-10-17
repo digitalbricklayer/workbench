@@ -30,7 +30,7 @@ namespace Workbench.Core.Tests.Unit.Models
         public void ParseExpressionWithSizeFunctionCall()
         {
             var sut = new DomainExpressionModel("1..size(x)");
-            Assert.That(sut.Node.RightExpression.Inner, Is.InstanceOf(typeof(FunctionCallXNode)));
+            Assert.That(sut.Node.RightExpression.Inner, Is.InstanceOf(typeof(FunctionInvocationNode)));
         }
     }
 }
