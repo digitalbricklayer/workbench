@@ -190,7 +190,7 @@
     <Compile Include="Nodes\FunctionArgumentListNode.cs" />
     <Compile Include="Nodes\FunctionCallArgumentNode.cs" />
     <Compile Include="Nodes\FunctionCallArgumentStringLiteralNode.cs" />
-    <Compile Include="Nodes\FunctionCallXNode.cs" />
+    <Compile Include="Nodes\FunctionInvocationNode.cs" />
     <Compile Include="Nodes\FunctionNameNode.cs" />
     <Compile Include="Nodes\NumberLiteralNode.cs" />
     <Compile Include="Nodes\SharedDomainReferenceNode.cs" />
@@ -272,6 +272,8 @@
     <Compile Include="Parsers\ParseStatus.cs" />
     <Compile Include="Parsers\VisualizerBindingExpressionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repeaters\FunctionInvocationContext.cs" />
+    <Compile Include="Repeaters\FunctionInvocationValueSource.cs" />
     <Compile Include="Repeaters\CounterReader.cs" />
     <Compile Include="Repeaters\CounterContext.cs" />
     <Compile Include="Repeaters\CounterLimitValueSource.cs" />

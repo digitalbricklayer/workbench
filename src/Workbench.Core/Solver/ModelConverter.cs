@@ -15,8 +15,8 @@ namespace Workbench.Core.Solver
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
         private ModelModel model;
         private readonly OrToolsCache cache;
-        private readonly AllDifferentConstraintConverter allDifferentConstraintConverter;
-        private readonly ExpressionConstraintConverter expressionConstraintConverter;
+        private AllDifferentConstraintConverter allDifferentConstraintConverter;
+        private ExpressionConstraintConverter expressionConstraintConverter;
 
         /// <summary>
         /// Initialize the model converter with a Google or-tools solver.
@@ -27,8 +27,6 @@ namespace Workbench.Core.Solver
             Contract.Requires<ArgumentNullException>(theSolver != null);
             this.solver = theSolver;
             this.cache = theCache;
-            this.allDifferentConstraintConverter = new AllDifferentConstraintConverter(theSolver, theCache);
-            this.expressionConstraintConverter = new ExpressionConstraintConverter(theSolver, theCache);
         }
 
         /// <summary>
@@ -45,6 +43,7 @@ namespace Workbench.Core.Solver
 
         private void ProcessConstraints(ModelModel theModel)
         {
+            this.allDifferentConstraintConverter = new AllDifferentConstraintConverter(this.solver, this.cache, this.model);
             foreach (var constraint in theModel.Constraints)
             {
                 var expressionConstraint = constraint as ExpressionConstraintModel;
@@ -61,6 +60,7 @@ namespace Workbench.Core.Solver
 
         private void ProcessVariables(ModelModel theModel)
         {
+            this.expressionConstraintConverter = new ExpressionConstraintConverter(this.solver, this.cache, this.model);
             ProcessSingletonVariables(theModel);
             ProcessAggregateVariables(theModel);
         }

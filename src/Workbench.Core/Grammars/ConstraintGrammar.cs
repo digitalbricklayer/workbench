@@ -9,10 +9,6 @@ namespace Workbench.Core.Grammars
     [Language("Constraint Expression", "0.1", "A grammar for expressing constraints.")]
     internal class ConstraintGrammar : Grammar
     {
-        private const string CounterNameRegexPattern = @"^\b[A-Za-z]\w*\b";
-        private const string VariableNameRegexPattern = @"\b[A-Za-z]\w*\b";
-        private const string FunctionArgumentStringLiteralPattern = @"^\$\b[A-Za-z]\w*\b";
-
         public ConstraintGrammar()
             : base(caseSensitive: false)
         {
@@ -47,14 +43,9 @@ namespace Workbench.Core.Grammars
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
             var counterDeclaration = new IdentifierTerminal("counter declaration");
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
-#if false
-            var functionCallArgumentStringLiteral = new RegexBasedTerminal("function call argument string literal", FunctionArgumentStringLiteralPattern);
-            functionCallArgumentStringLiteral.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
-#else
             var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
             variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
-            variableReference.AddPrefix("$", IdOptions.NameIncludesPrefix);
-#endif
+            variableReference.AddPrefix("$", IdOptions.None);
 
             // Non-terminals
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));

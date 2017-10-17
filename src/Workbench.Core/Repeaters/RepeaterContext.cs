@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Repeaters
 {
@@ -17,15 +18,21 @@ namespace Workbench.Core.Repeaters
         /// Initialize a repeater context from the constraint.
         /// </summary>
         /// <param name="theConstraint">Expression constraint.</param>
-        public RepeaterContext(ExpressionConstraintModel theConstraint)
+        /// <param name="theModel">Model</param>
+        /// 
+        public RepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
             Constraint = theConstraint;
+            Model = theModel;
             this.counters = new List<CounterContext>();
             if (!theConstraint.Expression.Node.HasExpander) return;
             CreateCounterContextsFrom(theConstraint.Expression.Node.Expander);
         }
 
+        /// <summary>
+        /// Gets the counters.
+        /// </summary>
         public IReadOnlyCollection<CounterContext> Counters
         {
             get { return new ReadOnlyCollection<CounterContext>(counters); }
@@ -40,6 +47,11 @@ namespace Workbench.Core.Repeaters
         /// Gets the constraint.
         /// </summary>
         public ExpressionConstraintModel Constraint { get; private set; }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public ModelModel Model { get; private set; }
 
         /// <summary>
         /// Move to the next counter value set.
@@ -140,18 +152,23 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentException>(limitNode.IsLiteral || limitNode.IsCounterReference);
 
             if (limitNode.IsLiteral) return new LiteralLimitValueSource(limitNode.Literal);
-            var x = Counters.First(_ => _.CounterName == limitNode.CounterReference.CounterName);
-            return new CounterLimitValueSource(x);
+            var theCounter = Counters.First(counter => counter.CounterName == limitNode.CounterReference.CounterName);
+            return new CounterLimitValueSource(theCounter);
         }
 
         private ILimitValueSource CreateValueSourceFrom(ExpanderCountNode countNode)
         {
             Contract.Requires<ArgumentNullException>(countNode != null);
-            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference);
+            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
 
             if (countNode.IsLiteral) return new LiteralLimitValueSource(countNode.Literal);
-            var x = Counters.First(_ => _.CounterName == countNode.CounterReference.CounterName);
-            return new CounterLimitValueSource(x);
+            if (countNode.IsFunctionInvocation)
+            {
+                var functionInvocationContext = new FunctionInvocationContext(countNode.FunctionInvocation, Model);
+                return new FunctionInvocationValueSource(functionInvocationContext);
+            }
+            var theCounter = Counters.First(counter => counter.CounterName == countNode.CounterReference.CounterName);
+            return new CounterLimitValueSource(theCounter);
         }
     }
 }

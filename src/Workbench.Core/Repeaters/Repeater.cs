@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -19,14 +18,15 @@ namespace Workbench.Core.Repeaters
         private RepeaterContext context;
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
+        private readonly ModelModel model;
 
-        public Repeater(Google.OrTools.ConstraintSolver.Solver theSolver,
-                        OrToolsCache theCache)
+        public Repeater(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
             this.solver = theSolver;
             this.cache = theCache;
+            this.model = theModel;
         }
 
         public void Process(RepeaterContext theContext)
@@ -51,7 +51,7 @@ namespace Workbench.Core.Repeaters
 
         public RepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
         {
-            return new RepeaterContext(constraint);
+            return new RepeaterContext(constraint, this.model);
         }
 
         private void ProcessSimpleConstraint(ConstraintExpressionNode constraintExpressionNode)
