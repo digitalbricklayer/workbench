@@ -5,7 +5,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
-using Workbench.Core.Solver;
 
 namespace Workbench.Core.Repeaters
 {
@@ -19,7 +18,6 @@ namespace Workbench.Core.Repeaters
         /// </summary>
         /// <param name="theConstraint">Expression constraint.</param>
         /// <param name="theModel">Model</param>
-        /// 
         public RepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
@@ -115,7 +113,7 @@ namespace Workbench.Core.Repeaters
                 {
                     newCounter = new CounterContext(currentCounterDeclaration.CounterName,
                                                     new RangeIterator(CreateValueSourceFrom(currentScopeDeclaration.Scope.Start),
-                                                                     CreateValueSourceFrom(currentScopeDeclaration.Scope.End)));
+                                                                      CreateValueSourceFrom(currentScopeDeclaration.Scope.End)));
                 }
                 else
                 {

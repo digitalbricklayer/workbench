@@ -19,6 +19,7 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.counters = new List<CounterContext>();
             this.context = theContext;
+            Model = theContext.Model;
             if (!Binding.Node.HasExpander) return;
             CreateCounterContextsFrom(Binding.Node.Expander);
         }
@@ -30,6 +31,11 @@ namespace Workbench.Core.Repeaters
         public bool HasRepeaters => this.counters.Any();
 
         public IReadOnlyCollection<CounterContext> Counters => new ReadOnlyCollection<CounterContext>(counters);
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public ModelModel Model { get; private set; }
 
         public bool Next()
         {
@@ -133,21 +139,31 @@ namespace Workbench.Core.Repeaters
         private ILimitValueSource CreateValueSourceFrom(ScopeLimitSatementNode limitNode)
         {
             Contract.Requires<ArgumentNullException>(limitNode != null);
-            Contract.Requires<ArgumentException>(limitNode.IsLiteral || limitNode.IsCounterReference);
+            Contract.Requires<ArgumentException>(limitNode.IsLiteral || limitNode.IsCounterReference || limitNode.IsFunctionInvocation);
 
             if (limitNode.IsLiteral) return new LiteralLimitValueSource(limitNode.Literal);
-            var x = Counters.First(_ => _.CounterName == limitNode.CounterReference.CounterName);
-            return new CounterLimitValueSource(x);
+            if (limitNode.IsFunctionInvocation)
+            {
+                var functionInvocationContext = new FunctionInvocationContext(limitNode.FunctionInvocation, Model);
+                return new FunctionInvocationValueSource(functionInvocationContext);
+            }
+            var theCounter = Counters.First(counter => counter.CounterName == limitNode.CounterReference.CounterName);
+            return new CounterLimitValueSource(theCounter);
         }
 
         private ILimitValueSource CreateValueSourceFrom(ExpanderCountNode countNode)
         {
             Contract.Requires<ArgumentNullException>(countNode != null);
-            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference);
+            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
 
             if (countNode.IsLiteral) return new LiteralLimitValueSource(countNode.Literal);
-            var x = Counters.First(_ => _.CounterName == countNode.CounterReference.CounterName);
-            return new CounterLimitValueSource(x);
+            if (countNode.IsFunctionInvocation)
+            {
+                var functionInvocationContext = new FunctionInvocationContext(countNode.FunctionInvocation, Model);
+                return new FunctionInvocationValueSource(functionInvocationContext);
+            }
+            var theCounter = Counters.First(counter => counter.CounterName == countNode.CounterReference.CounterName);
+            return new CounterLimitValueSource(theCounter);
         }
     }
 }

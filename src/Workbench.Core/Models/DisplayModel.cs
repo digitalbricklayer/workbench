@@ -16,14 +16,19 @@ namespace Workbench.Core.Models
     {
         private readonly IList<VisualizerBindingExpressionModel> bindings;
         private ObservableCollection<VisualizerModel> visualizers;
+        private readonly ModelModel model;
 
         /// <summary>
         /// Initialize a display model with default values.
         /// </summary>
-        public DisplayModel()
+        /// <param name="theModel"></param>
+        public DisplayModel(ModelModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
             Visualizers = new ObservableCollection<VisualizerModel>();
             this.bindings = new List<VisualizerBindingExpressionModel>();
+            this.model = theModel;
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace Workbench.Core.Models
         public void UpdateFrom(SolveResult theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot.Snapshot, this, binding)));
+            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot.Snapshot, this, binding, this.model)));
         }
 
         /// <summary>

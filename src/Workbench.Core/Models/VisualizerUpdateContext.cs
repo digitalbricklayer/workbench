@@ -1,12 +1,11 @@
 using System;
 using System.Diagnostics.Contracts;
-using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
     public class VisualizerUpdateContext
     {
-        public VisualizerUpdateContext(SolutionSnapshot theSnapshot, DisplayModel theDisplay, VisualizerBindingExpressionModel theBinding)
+        public VisualizerUpdateContext(SolutionSnapshot theSnapshot, DisplayModel theDisplay, VisualizerBindingExpressionModel theBinding, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             Contract.Requires<ArgumentNullException>(theDisplay != null);
@@ -15,10 +14,12 @@ namespace Workbench.Core.Models
             Snapshot = theSnapshot;
             Display = theDisplay;
             Binding = theBinding;
+            Model = theModel;
         }
 
         public SolutionSnapshot Snapshot { get; }
         public DisplayModel Display { get; }
         public VisualizerBindingExpressionModel Binding { get; }
+        public ModelModel Model { get; }
     }
 }

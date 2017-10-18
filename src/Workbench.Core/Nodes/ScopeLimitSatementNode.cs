@@ -44,6 +44,24 @@ namespace Workbench.Core.Nodes
             }
         }
 
+        public bool IsFunctionInvocation
+        {
+            get
+            {
+                var functionInvocation = InnerExpression as FunctionInvocationNode;
+                return functionInvocation != null;
+            }
+        }
+
+        public FunctionInvocationNode FunctionInvocation
+        {
+            get
+            {
+                Contract.Assume(IsFunctionInvocation);
+                return (FunctionInvocationNode)InnerExpression;
+            }
+        }
+
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new System.NotImplementedException();

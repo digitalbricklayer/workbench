@@ -18,18 +18,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         public SolutionModel(ModelModel theModel)
-            : this()
         {
             Model = theModel;
             Snapshot = new SolutionSnapshot();
-        }
-
-        /// <summary>
-        /// Initialize the solution with default values.
-        /// </summary>
-        public SolutionModel()
-        {
-            Display = new DisplayModel();
+            Display = new DisplayModel(Model);
             Snapshot = new SolutionSnapshot();
         }
 

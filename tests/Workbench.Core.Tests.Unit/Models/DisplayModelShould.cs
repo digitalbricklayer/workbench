@@ -17,7 +17,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private DisplayModel CreateDisplayModel()
         {
-            return new DisplayModel();
+            return new DisplayModel(new ModelModel());
         }
     }
 }
