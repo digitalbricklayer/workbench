@@ -32,6 +32,7 @@ namespace Workbench.Core.Grammars
             var FOR = ToTerm("for");
             var IN = ToTerm("in");
             var RANGE = ToTerm("..", "range");
+            var SIZE_FUNC = ToTerm("size", "size function");
 
             // Terminals
             var visualizerNameReference = new IdentifierTerminal("visualizer reference");
@@ -48,8 +49,19 @@ namespace Workbench.Core.Grammars
             callArgumentStringValue.AstConfig.NodeType = typeof(CallArgumentStringValueNode);
             var callArgumentName = new IdentifierTerminal("call argument name");
             callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
+            var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
+            variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+            var functionName = new NonTerminal("function name", typeof(FunctionNameNode));
+            var functionInvocation = new NonTerminal("function call", typeof(FunctionInvocationNode));
+            var functionArgumentList = new NonTerminal("function arguments", typeof(FunctionArgumentListNode));
+            var functionArgument = new NonTerminal("function argument", typeof(FunctionCallArgumentNode));
 
             // Non-terminals
+            functionName.Rule = SIZE_FUNC;
+            functionArgument.Rule = variableReference;
+            functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
+            functionInvocation.Rule = functionName + PARENTHESIS_OPEN + functionArgumentList + PARENTHESIS_CLOSE;
+
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
             var statementList = new NonTerminal("statement list", typeof(StatementListNode));
@@ -95,8 +107,8 @@ namespace Workbench.Core.Grammars
                                   GREATER | GREATER_EQUAL;
             expression.Rule = valueReferenceStatement | literal | counterReference;
             binaryExpression.Rule = expression + binaryOperator + expression;
-            scopeLimitStatement.Rule = literal | counterReference;
-            expanderCountStatement.Rule = literal | counterReference;
+            scopeLimitStatement.Rule = literal | counterReference | functionInvocation;
+            expanderCountStatement.Rule = literal | counterReference | functionInvocation;
             scopeStatement.Rule = scopeLimitStatement + RANGE + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
             counterDeclarationList.Rule = MakePlusRule(counterDeclarationList, COMMA, counterDeclaration);
@@ -120,7 +132,7 @@ namespace Workbench.Core.Grammars
             MarkReservedWords("for", "if", "in");
             RegisterBracePair("(", ")");
             RegisterBracePair("<", ">");
-            MarkTransient(binaryOperator, infixOperator);
+            MarkTransient(binaryOperator, infixOperator, functionName);
             MarkPunctuation(PARENTHESIS_OPEN, PARENTHESIS_CLOSE);
             MarkPunctuation(FOR, IF, COLON, COMMA, RANGE);
             MarkPunctuation("<", ">");

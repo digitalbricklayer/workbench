@@ -50,7 +50,7 @@ namespace Workbench.Core.Tests.Unit
                                           .WithConstraintExpression("cols[i] <> cols[j] | i,j in size(cols),i")
                                           .WithConstraintExpression("cols[i] + i <> cols[j] + j | i,j in size(cols),i")
                                           .WithConstraintExpression("cols[i] - i <> cols[j] - j | i,j in size(cols),i")
-                                          .WithVisualizerBinding($"for x,y in 1..{ExpectedQueens},1..{ExpectedQueens}: if <cols,x> = y: board(x:x,y:y,side:white,piece:Queen)")
+                                          .WithVisualizerBinding("for x,y in 1..size(cols),1..size(cols): if <cols,x> = y: board(x:x,y:y,side:white,piece:Queen)")
                                           .WithChessboardVisualizer("board")
                                           .Build();
 
