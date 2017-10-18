@@ -34,7 +34,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithMultiLevelExpanderUsingSizeFunctionExpressionReturnsStutusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..size($x)");
+            var expressionParseResult = sut.Parse("x[i] <> x[j] | i,j in 1..10,1..size(x)");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -58,7 +58,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithMultiLevelExpanderUsingSizeFunctionReturnsStutusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x[i] + i <> x[j] + j | i,j in size($x),i");
+            var expressionParseResult = sut.Parse("x[i] + i <> x[j] + j | i,j in size(x),i");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 

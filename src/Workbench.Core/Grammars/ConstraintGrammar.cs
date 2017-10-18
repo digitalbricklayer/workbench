@@ -45,7 +45,6 @@ namespace Workbench.Core.Grammars
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
             var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
             variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
-            variableReference.AddPrefix("$", IdOptions.None);
 
             // Non-terminals
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
