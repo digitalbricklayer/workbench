@@ -51,16 +51,12 @@ namespace Workbench.Core.Grammars
             callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
             var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
             variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+
+            // Non-terminals
             var functionName = new NonTerminal("function name", typeof(FunctionNameNode));
             var functionInvocation = new NonTerminal("function call", typeof(FunctionInvocationNode));
             var functionArgumentList = new NonTerminal("function arguments", typeof(FunctionArgumentListNode));
             var functionArgument = new NonTerminal("function argument", typeof(FunctionCallArgumentNode));
-
-            // Non-terminals
-            functionName.Rule = SIZE_FUNC;
-            functionArgument.Rule = variableReference;
-            functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
-            functionInvocation.Rule = functionName + PARENTHESIS_OPEN + functionArgumentList + PARENTHESIS_CLOSE;
 
             var ifStatement = new NonTerminal("if", typeof(IfStatementNode));
             var statement = new NonTerminal("statement", typeof(StatementNode));
@@ -88,6 +84,11 @@ namespace Workbench.Core.Grammars
             var binaryExpression = new NonTerminal("binary expression", typeof(VisualizerBinaryExpressionNode));
 
             // BNF rules
+            functionName.Rule = SIZE_FUNC;
+            functionArgument.Rule = variableReference;
+            functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
+            functionInvocation.Rule = functionName + PARENTHESIS_OPEN + functionArgumentList + PARENTHESIS_CLOSE;
+
             infixStatement.Rule = literal | counterReference;
             infixOperator.Rule = PLUS | MINUS;
 
