@@ -9,9 +9,6 @@ namespace Workbench.Core.Grammars
     [Language("Domain Expression Grammar", "0.1", "A grammar for shared domain expressions.")]
     internal class DomainGrammar : Grammar
     {
-        private const string FunctionNamePattern = @"\b[A-Za-z]\w*\b";
-        private const string FunctionArgumentStringLiteralPattern = @"\b[A-Za-z]\w*\b";
-
         public DomainGrammar()
             : base(caseSensitive: false)
         {
@@ -25,9 +22,9 @@ namespace Workbench.Core.Grammars
 
             // Terminals
             var numberLiteral = new NumberLiteral("number literal", NumberOptions.IntOnly, typeof(NumberLiteralNode));
-            var functionCallArgumentStringLiteral = new RegexBasedTerminal("function call argument string literal", FunctionArgumentStringLiteralPattern);
+            var functionCallArgumentStringLiteral = new IdentifierTerminal("function call argument string literal");
             functionCallArgumentStringLiteral.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
-            var functionName = new RegexBasedTerminal("function name", FunctionNamePattern);
+            var functionName = new IdentifierTerminal("function name");
             functionName.AstConfig.NodeType = typeof(FunctionNameNode);
 
             // Non-terminals

@@ -9,11 +9,6 @@ namespace Workbench.Core.Grammars
     [Language("Visualizer Binding Expression", "0.1", "A grammar for binding a model solution to a visualizer.")]
     internal class VisualizerBindingGrammar : Grammar
     {
-        private const string CounterRegexPattern = @"\b[A-Za-z]\w*\b";
-        private const string VariableRegexPattern = @"\b[A-Za-z]\w*\b";
-        private const string VisualizerNameRegexPattern = @"\b[A-Za-z]\w*\b";
-        private const string VisualizerArgumentRegexPattern = @"\b[A-Za-z]\w*\b";
-
         public VisualizerBindingGrammar()
             : base(caseSensitive: false)
         {
@@ -39,21 +34,19 @@ namespace Workbench.Core.Grammars
             var RANGE = ToTerm("..", "range");
 
             // Terminals
-            var visualizerNameReference = new RegexBasedTerminal("visualizer reference", VisualizerNameRegexPattern);
+            var visualizerNameReference = new IdentifierTerminal("visualizer reference");
             visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
             var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
-            var variableName = new RegexBasedTerminal("variable", VariableRegexPattern);
+            var variableName = new IdentifierTerminal("variable");
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
-            var counterReference = new RegexBasedTerminal("counter reference", CounterRegexPattern);
+            var counterReference = new IdentifierTerminal("counter reference");
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
-            var counterDeclaration = new RegexBasedTerminal("counter declaration", CounterRegexPattern);
+            var counterDeclaration = new IdentifierTerminal("counter declaration");
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
-            var callArgumentNumberValue = new NumberLiteral("call argument value number",
-                                                            NumberOptions.IntOnly,
-                                                            typeof(CallArgumentNumberValueNode));
-            var callArgumentStringValue = new RegexBasedTerminal("call argument value string", VisualizerArgumentRegexPattern);
+            var callArgumentNumberValue = new NumberLiteral("call argument value number", NumberOptions.IntOnly, typeof(CallArgumentNumberValueNode));
+            var callArgumentStringValue = new IdentifierTerminal("call argument value string");
             callArgumentStringValue.AstConfig.NodeType = typeof(CallArgumentStringValueNode);
-            var callArgumentName = new RegexBasedTerminal("call argument name", VisualizerArgumentRegexPattern);
+            var callArgumentName = new IdentifierTerminal("call argument name");
             callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
 
             // Non-terminals
