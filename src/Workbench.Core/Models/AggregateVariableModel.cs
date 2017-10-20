@@ -189,8 +189,7 @@ namespace Workbench.Core.Models
         /// <returns>Variable at the index.</returns>
         public VariableModel GetVariableByIndex(int variableIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count()
-                                                           && variableIndex >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count() && variableIndex >= 0);
             return this.variables[variableIndex];
         }
 
@@ -205,13 +204,6 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newDomainExpression != null);
 
             var variableToOverride = GetVariableByIndex(variableIndex);
-#if false
-            if (!variableToOverride.DomainExpression.IsEmpty)
-            {
-                if (!variableToOverride.DomainExpression.Intersects(newDomainExpression))
-                    throw new ArgumentException("newDomainExpression");
-            }
-#endif
             variableToOverride.DomainExpression = newDomainExpression;
         }
 
