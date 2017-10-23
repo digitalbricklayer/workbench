@@ -285,8 +285,8 @@
     <Compile Include="Repeaters\ILimitValueSource.cs" />
     <Compile Include="Repeaters\LiteralLimitValueSource.cs" />
     <Compile Include="Repeaters\RangeIterator.cs" />
-    <Compile Include="Repeaters\Repeater.cs" />
-    <Compile Include="Repeaters\RepeaterContext.cs" />
+    <Compile Include="Repeaters\ConstraintRepeater.cs" />
+    <Compile Include="Repeaters\ConstraintRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />

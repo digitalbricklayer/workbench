@@ -37,7 +37,7 @@ namespace Workbench.Core.Solver
         public void ProcessConstraint(ExpressionConstraintModel constraint)
         {
             Contract.Requires<ArgumentNullException>(constraint != null);
-            var repeater = new Repeater(this.solver, this.cache, this.model);
+            var repeater = new ConstraintRepeater(this.solver, this.cache, this.model);
             repeater.Process(repeater.CreateContextFrom(constraint));
         }
     }
