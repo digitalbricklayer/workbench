@@ -67,13 +67,15 @@ namespace Workbench.Core.Models
 
         public WorkspaceContext WithConstraintExpression(string theConstraintExpression)
         {
-            this.workspace.Model.AddConstraint(new ExpressionConstraintModel(theConstraintExpression));
+            var theConstraintModel = new ExpressionConstraintModel(theConstraintExpression);
+            this.workspace.Model.AddConstraint(new ExpressionConstraintGraphicModel("Constraint 1", new Point(0, 0), theConstraintModel));
             return this;
         }
 
         public WorkspaceContext WithConstraintAllDifferent(string theExpression)
         {
-            this.workspace.Model.AddConstraint(new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression)));
+            var newConstraintModel = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
+            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel("All different", new Point(0, 0), newConstraintModel));
             return this;
         }
 

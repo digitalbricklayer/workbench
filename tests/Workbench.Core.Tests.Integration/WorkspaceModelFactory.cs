@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Integration
             modelModel.AddVariable(x);
             var y = new AggregateVariableModel("y", 10, new VariableDomainExpressionModel("1..9"));
             modelModel.AddVariable(y);
-            var constraint = new ExpressionConstraintModel("X", "x > 1");
+            var constraint = new ExpressionConstraintGraphicModel("X", "x > 1");
             modelModel.AddConstraint(constraint);
             var domain = new DomainModel("z", "1..10");
             modelModel.AddDomain(domain);

@@ -7,9 +7,9 @@ namespace Workbench.ViewModels
     /// </summary>
     public abstract class ConstraintViewModel : GraphicViewModel
     {
-        private ConstraintModel model;
+        private ConstraintGraphicModel model;
 
-        protected ConstraintViewModel(ConstraintModel theGraphicModel)
+        protected ConstraintViewModel(ConstraintGraphicModel theGraphicModel)
             : base(theGraphicModel)
         {
         }
@@ -22,7 +22,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the constraint model.
         /// </summary>
-        public virtual new ConstraintModel Model
+        public virtual new ConstraintGraphicModel Model
         {
             get { return this.model; }
             set

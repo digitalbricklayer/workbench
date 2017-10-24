@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
-using System.Windows;
 
 namespace Workbench.Core.Models
 {
@@ -13,29 +11,10 @@ namespace Workbench.Core.Models
     /// implement the constraint for 2 or more singletons.
     /// </remarks>
     [Serializable]
-    public sealed class AllDifferentConstraintModel : ConstraintModel
+    public class AllDifferentConstraintModel : ConstraintModel
     {
-        public AllDifferentConstraintModel(string constraintName, Point location, AllDifferentConstraintExpressionModel theExpressionModel)
-            : base(constraintName, location)
-        {
-            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
-            Expression = theExpressionModel;
-        }
-
-        /// <summary>
-        /// Initialize the all different constraint model with a name and location.
-        /// </summary>
-        /// <param name="constraintName">Constraint name.</param>
-        /// <param name="location">Constraint screen location.</param>
-        public AllDifferentConstraintModel(string constraintName, Point location)
-            : base(constraintName, location)
-        {
-            Expression = new AllDifferentConstraintExpressionModel();
-        }
-
         public AllDifferentConstraintModel(AllDifferentConstraintExpressionModel theExpressionModel)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
             Expression = theExpressionModel;
         }
 
@@ -44,6 +23,9 @@ namespace Workbench.Core.Models
             Expression = new AllDifferentConstraintExpressionModel();
         }
 
+        /// <summary>
+        /// Gets or sets the expression model.
+        /// </summary>
         public AllDifferentConstraintExpressionModel Expression { get; set; }
 
         /// <summary>

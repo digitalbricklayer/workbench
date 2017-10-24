@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeWithName()
         {
-            var sut = new ExpressionConstraintModel("y", "");
+            var sut = new ExpressionConstraintGraphicModel("y", "");
             Assert.That(sut.Name, Is.EqualTo("y"));
         }
 

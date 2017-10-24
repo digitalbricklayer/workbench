@@ -226,7 +226,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
-            var newConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintModel(newConstraintName, newLocation, new ConstraintExpressionModel()));
+            var newConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(newConstraintName, newLocation, new ExpressionConstraintModel()));
             Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 
@@ -243,7 +243,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
-            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintModel(newConstraintName, newLocation));
+            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newConstraintName, newLocation));
             Model.AddConstraint(newConstraint);
             this.IsDirty = true;
 

@@ -10,10 +10,10 @@ namespace Workbench.ViewModels
     public class AllDifferentConstraintViewModel : ConstraintViewModel
     {
         private VariableViewModel variable;
-        private AllDifferentConstraintModel model;
+        private AllDifferentConstraintGraphicModel model;
         private AllDifferentConstraintExpressionViewModel expression;
 
-        public AllDifferentConstraintViewModel(AllDifferentConstraintModel theGraphicModel)
+        public AllDifferentConstraintViewModel(AllDifferentConstraintGraphicModel theGraphicModel)
             : base(theGraphicModel)
         {
             Contract.Requires<ArgumentNullException>(theGraphicModel != null);
@@ -46,13 +46,13 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the all different constraint model.
         /// </summary>
-        public override ConstraintModel Model
+        public override ConstraintGraphicModel Model
         {
             get { return this.model; }
             set
             {
                 base.Model = value;
-                this.model = (AllDifferentConstraintModel) value;
+                this.model = (AllDifferentConstraintGraphicModel) value;
             }
         }
 

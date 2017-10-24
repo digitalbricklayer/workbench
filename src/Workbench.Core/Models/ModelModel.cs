@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<VariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
         private ObservableCollection<DomainModel> domains;
-        private ObservableCollection<ConstraintModel> constraints;
+        private ObservableCollection<ConstraintGraphicModel> constraints;
         private string name;
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Workbench.Core.Models
             Singletons = new ObservableCollection<VariableModel>();
             Aggregates = new ObservableCollection<AggregateVariableModel>();
             Domains = new ObservableCollection<DomainModel>();
-            Constraints = new ObservableCollection<ConstraintModel>();
+            Constraints = new ObservableCollection<ConstraintGraphicModel>();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the constraints.
         /// </summary>
-        public ObservableCollection<ConstraintModel> Constraints
+        public ObservableCollection<ConstraintGraphicModel> Constraints
         {
             get { return this.constraints; }
             set
@@ -132,7 +132,7 @@ namespace Workbench.Core.Models
         /// Add a new constraint to the model.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
-        public void AddConstraint(ConstraintModel newConstraint)
+        public void AddConstraint(ConstraintGraphicModel newConstraint)
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
             newConstraint.AssignIdentity();
@@ -143,7 +143,7 @@ namespace Workbench.Core.Models
         /// Delete the constraint from the model.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ConstraintModel constraintToDelete)
+        public void DeleteConstraint(ConstraintGraphicModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
             Constraints.Remove(constraintToDelete);
@@ -262,7 +262,7 @@ namespace Workbench.Core.Models
             return Constraints.All(aConstraint => ValidateConstraint(aConstraint, validateContext));
         }
 
-        private bool ValidateConstraint(ConstraintModel aConstraint, ModelValidationContext theContext)
+        private bool ValidateConstraint(ConstraintGraphicModel aConstraint, ModelValidationContext theContext)
         {
             return aConstraint.Validate(this, theContext);
         }

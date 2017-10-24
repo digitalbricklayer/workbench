@@ -46,10 +46,10 @@ namespace Workbench.Core.Solver
             this.allDifferentConstraintConverter = new AllDifferentConstraintConverter(this.solver, this.cache, this.model);
             foreach (var constraint in theModel.Constraints)
             {
-                var expressionConstraint = constraint as ExpressionConstraintModel;
+                var expressionConstraint = constraint as ExpressionConstraintGraphicModel;
                 if (expressionConstraint == null)
                 {
-                    this.allDifferentConstraintConverter.ProcessConstraint((AllDifferentConstraintModel)constraint);
+                    this.allDifferentConstraintConverter.ProcessConstraint((AllDifferentConstraintGraphicModel)constraint);
                 }
                 else
                 {

@@ -9,9 +9,9 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ExpressionConstraintViewModel : ConstraintViewModel
     {
-        private ExpressionConstraintModel model;
+        private ExpressionConstraintGraphicModel model;
 
-        public ExpressionConstraintViewModel(ExpressionConstraintModel theGraphicModel)
+        public ExpressionConstraintViewModel(ExpressionConstraintGraphicModel theGraphicModel)
             : base(theGraphicModel)
         {
             Contract.Requires<ArgumentNullException>(theGraphicModel != null);
@@ -38,7 +38,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the constraint model.
         /// </summary>
-        public new ExpressionConstraintModel Model
+        public new ExpressionConstraintGraphicModel Model
         {
             get { return this.model; }
             set
