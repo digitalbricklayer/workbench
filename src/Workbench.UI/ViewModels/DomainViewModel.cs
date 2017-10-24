@@ -9,9 +9,9 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class DomainViewModel : GraphicViewModel
     {
-        private DomainModel model;
+        private DomainGraphicModel model;
 
-        public DomainViewModel(DomainModel theDomainModel)
+        public DomainViewModel(DomainGraphicModel theDomainModel)
             : base(theDomainModel)
         {
             Contract.Requires<ArgumentNullException>(theDomainModel != null);
@@ -38,7 +38,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the domain model.
         /// </summary>
-        public new DomainModel Model
+        public new DomainGraphicModel Model
         {
             get { return this.model; }
             set

@@ -16,7 +16,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<VariableModel> variables;
         private ObservableCollection<VariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
-        private ObservableCollection<DomainModel> domains;
+        private ObservableCollection<DomainGraphicModel> domains;
         private ObservableCollection<ConstraintGraphicModel> constraints;
         private string name;
 
@@ -40,7 +40,7 @@ namespace Workbench.Core.Models
             Variables = new ObservableCollection<VariableModel>();
             Singletons = new ObservableCollection<VariableModel>();
             Aggregates = new ObservableCollection<AggregateVariableModel>();
-            Domains = new ObservableCollection<DomainModel>();
+            Domains = new ObservableCollection<DomainGraphicModel>();
             Constraints = new ObservableCollection<ConstraintGraphicModel>();
         }
 
@@ -103,7 +103,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public ObservableCollection<DomainModel> Domains
+        public ObservableCollection<DomainGraphicModel> Domains
         {
             get { return this.domains; }
             set
@@ -183,14 +183,14 @@ namespace Workbench.Core.Models
             Variables.Remove(variableToDelete);
         }
 
-        public void AddDomain(DomainModel newDomain)
+        public void AddDomain(DomainGraphicModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
             newDomain.AssignIdentity();
             Domains.Add(newDomain);
         }
 
-        public void AddSharedDomain(DomainModel newDomain)
+        public void AddSharedDomain(DomainGraphicModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomain.Name));
@@ -198,7 +198,7 @@ namespace Workbench.Core.Models
             Domains.Add(newDomain);
         }
 
-        public void RemoveSharedDomain(DomainModel oldDomain)
+        public void RemoveSharedDomain(DomainGraphicModel oldDomain)
         {
             Contract.Requires<ArgumentNullException>(oldDomain != null);
             Domains.Add(oldDomain);
@@ -208,7 +208,7 @@ namespace Workbench.Core.Models
         /// Delete the domain from the model.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainModel domainToDelete)
+        public void DeleteDomain(DomainGraphicModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
             Domains.Remove(domainToDelete);
@@ -251,7 +251,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theSharedDomainName">Shared domain name.</param>
         /// <returns>Shared domain matching the name.</returns>
-        public DomainModel GetSharedDomainByName(string theSharedDomainName)
+        public DomainGraphicModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
             return Domains.FirstOrDefault(x => x.Name == theSharedDomainName);

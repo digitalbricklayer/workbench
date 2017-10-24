@@ -209,7 +209,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
 
-            var newDomain = new DomainViewModel(new DomainModel(newDomainName, newDomainLocation, new DomainExpressionModel()));
+            var newDomain = new DomainViewModel(new DomainGraphicModel(newDomainName, newDomainLocation, new DomainModel()));
             Model.AddDomain(newDomain);
             this.IsDirty = true;
 

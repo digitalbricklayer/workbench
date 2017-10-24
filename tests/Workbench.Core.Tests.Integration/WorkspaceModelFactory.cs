@@ -31,7 +31,7 @@ namespace Workbench.UI.Tests.Integration
             modelModel.AddVariable(y);
             var constraint = new ExpressionConstraintGraphicModel("X", "x > 1");
             modelModel.AddConstraint(constraint);
-            var domain = new DomainModel("z", "1..10");
+            var domain = new DomainGraphicModel("z", "1..10");
             modelModel.AddDomain(domain);
 
             return modelModel;

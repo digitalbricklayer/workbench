@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Windows;
 
 namespace Workbench.Core.Models
 {
-    /// <summary>
-    /// A domain contains the possible values that a variable can be bound to.
-    /// </summary>
     [Serializable]
-    public class DomainModel : GraphicModel
+    public class DomainModel : AbstractModel
     {
         private DomainExpressionModel expression;
 
-        public DomainModel(string domainName, Point location, DomainExpressionModel theExpression)
-            : base(domainName, location)
+        public DomainModel(DomainExpressionModel theExpression)
         {
             if (theExpression == null)
                 throw new ArgumentNullException(nameof(theExpression));
@@ -21,30 +16,12 @@ namespace Workbench.Core.Models
             this.expression = theExpression;
         }
 
-        public DomainModel(string domainName, DomainExpressionModel theExpression)
-            : base(domainName)
+        public DomainModel(string rawDomainExpression)
+            : this(new DomainExpressionModel(rawDomainExpression))
         {
-            if (theExpression == null)
-                throw new ArgumentNullException(nameof(theExpression));
-            Contract.EndContractBlock();
-            this.expression = theExpression;
-        }
-
-        public DomainModel(string domainName, string rawDomainExpression)
-            : this(domainName, new DomainExpressionModel(rawDomainExpression))
-        {
-        }
-
-        public DomainModel(string rawExpression)
-        {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            Contract.EndContractBlock();
-            ParseExpression(rawExpression);
         }
 
         public DomainModel()
-            : base("New domain")
         {
             Expression = new DomainExpressionModel();
         }
@@ -54,7 +31,7 @@ namespace Workbench.Core.Models
             get { return this.expression; }
             set
             {
-                this.expression = value; 
+                this.expression = value;
                 OnPropertyChanged();
             }
         }

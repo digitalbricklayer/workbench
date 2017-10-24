@@ -16,7 +16,7 @@ namespace Workbench.Services
             this.cache = theService;
         }
 
-        internal DomainViewModel MapFrom(DomainModel theDomainModel)
+        internal DomainViewModel MapFrom(DomainGraphicModel theDomainModel)
         {
             Debug.Assert(theDomainModel.HasIdentity);
 

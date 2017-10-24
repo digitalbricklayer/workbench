@@ -53,13 +53,13 @@ namespace Workbench.Core.Models
 
         public WorkspaceContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
-            var newDomain = new DomainModel(newDomainName, new Point(1, 1),  new DomainExpressionModel(newDomainExpression));
+            var newDomain = new DomainGraphicModel(newDomainName, new Point(1, 1),  new DomainModel(newDomainExpression));
             this.workspace.Model.AddSharedDomain(newDomain);
 
             return this;
         }
 
-        public WorkspaceContext WithSharedDomain(DomainModel theDomainExpression)
+        public WorkspaceContext WithSharedDomain(DomainGraphicModel theDomainExpression)
         {
             this.workspace.Model.AddSharedDomain(theDomainExpression);
             return this;

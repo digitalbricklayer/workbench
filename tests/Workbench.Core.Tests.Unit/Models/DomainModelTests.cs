@@ -12,14 +12,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Upper_Band()
         {
-            var sut = new DomainModel("A domain", new Point(0, 0), new DomainExpressionModel("    1..9     "));
+            var sut = new DomainGraphicModel("A domain", new Point(0, 0), new DomainModel("    1..9     "));
             Assert.That(sut.Expression.Node.LeftExpression, Is.InstanceOf<BandExpressionNode>());
         }
 
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Lower_Band()
         {
-            var sut = new DomainModel("    1..9     ");
+            var sut = new DomainGraphicModel("    1..9     ");
             Assert.That(sut.Expression.Node.RightExpression, Is.InstanceOf<BandExpressionNode>());
         }
     }

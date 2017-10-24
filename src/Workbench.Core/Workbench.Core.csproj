@@ -177,6 +177,7 @@
     <Compile Include="Models\AllDifferentConstraintModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
+    <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\ExpressionConstraintModel.cs" />
     <Compile Include="Models\GridCellModel.cs" />
     <Compile Include="Models\GridColumnData.cs" />
@@ -247,7 +248,7 @@
     <Compile Include="Models\SharedDomainReference.cs" />
     <Compile Include="Models\ExpressionConstraintGraphicModel.cs" />
     <Compile Include="Models\DomainExpressionModel.cs" />
-    <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\DomainGraphicModel.cs" />
     <Compile Include="Models\GraphicModel.cs" />
     <Compile Include="Models\AbstractModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />
