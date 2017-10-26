@@ -25,8 +25,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                             CreateEventAggregator(),
                                                             CreateViewModelService(),
                                                             CreateViewModelFactory());
-            var variableViewModel = new VariableViewModel(new VariableGraphicModel("x"),
-                                                          Mock.Of<IEventAggregator>());
+            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel("x"),
+                                                                   Mock.Of<IEventAggregator>());
             workspaceViewModel.Model.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
             var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", string.Empty));

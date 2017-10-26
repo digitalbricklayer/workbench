@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for a variable.
     /// </summary>
-    public class VariableViewModel : GraphicViewModel
+    public abstract class VariableViewModel : GraphicViewModel
     {
         private VariableGraphicModel model;
         protected readonly IEventAggregator eventAggregator;

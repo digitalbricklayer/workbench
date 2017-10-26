@@ -30,7 +30,7 @@ namespace Workbench.Core.Models
         /// <returns>Workspace context.</returns>
         public WorkspaceContext AddSingleton(string theVariableName, string theDomainExpression)
         {
-            var newVariable = new VariableGraphicModel(theVariableName, theDomainExpression);
+            var newVariable = new SingletonVariableGraphicModel(theVariableName, theDomainExpression);
             this.workspace.Model.AddVariable(newVariable);
 
             return this;

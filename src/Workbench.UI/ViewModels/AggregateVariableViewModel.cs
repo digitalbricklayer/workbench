@@ -116,8 +116,8 @@ namespace Workbench.ViewModels
         {
             for (var i = 0; i < variablesToIncreaseBy; i++)
             {
-                var newVariable = new VariableViewModel(new VariableGraphicModel(),
-                                                        this.eventAggregator);
+                var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(),
+                                                                 this.eventAggregator);
                 newVariable.DomainExpression = this.DomainExpression;
                 this.Variables.Add(newVariable);
             }

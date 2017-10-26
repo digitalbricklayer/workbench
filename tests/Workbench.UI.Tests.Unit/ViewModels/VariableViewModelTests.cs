@@ -40,8 +40,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private VariableViewModel CreateVariable()
         {
-            return new VariableViewModel(new VariableGraphicModel("X"),
-                                         this.eventAggregatorMock.Object);
+            return new SingletonVariableViewModel(new SingletonVariableGraphicModel("X"),
+                                                  this.eventAggregatorMock.Object);
         }
     }
 }

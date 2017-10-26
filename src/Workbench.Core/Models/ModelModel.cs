@@ -14,7 +14,7 @@ namespace Workbench.Core.Models
     public class ModelModel : AbstractModel
     {
         private ObservableCollection<VariableGraphicModel> variables;
-        private ObservableCollection<VariableGraphicModel> singletons;
+        private ObservableCollection<SingletonVariableGraphicModel> singletons;
         private ObservableCollection<AggregateVariableGraphicModel> aggregates;
         private ObservableCollection<DomainGraphicModel> domains;
         private ObservableCollection<ConstraintGraphicModel> constraints;
@@ -38,7 +38,7 @@ namespace Workbench.Core.Models
         {
             Name = string.Empty;
             Variables = new ObservableCollection<VariableGraphicModel>();
-            Singletons = new ObservableCollection<VariableGraphicModel>();
+            Singletons = new ObservableCollection<SingletonVariableGraphicModel>();
             Aggregates = new ObservableCollection<AggregateVariableGraphicModel>();
             Domains = new ObservableCollection<DomainGraphicModel>();
             Constraints = new ObservableCollection<ConstraintGraphicModel>();
@@ -75,7 +75,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the singleton variable collection.
         /// </summary>
-        public ObservableCollection<VariableGraphicModel> Singletons
+        public ObservableCollection<SingletonVariableGraphicModel> Singletons
         {
             get { return this.singletons; }
             set
@@ -153,7 +153,7 @@ namespace Workbench.Core.Models
         /// Add a new variable to the model.
         /// </summary>
         /// <param name="newVariable">New variable.</param>
-        public void AddVariable(VariableGraphicModel newVariable)
+        public void AddVariable(SingletonVariableGraphicModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();

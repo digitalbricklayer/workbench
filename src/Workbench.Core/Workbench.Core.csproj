@@ -187,6 +187,8 @@
     <Compile Include="Models\GridRowModel.cs" />
     <Compile Include="Models\GridVisualizerModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="Models\SingletonVariableGraphicModel.cs" />
+    <Compile Include="Models\SingletonVariableModel.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />

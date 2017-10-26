@@ -19,12 +19,11 @@ namespace Workbench.Services
             this.eventAggregator = theEventAggregator;
         }
 
-        internal VariableViewModel MapFrom(VariableGraphicModel theVariableModel)
+        internal VariableViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-            var variableViewModel = new VariableViewModel(theVariableModel,
-                                                          this.eventAggregator);
+            var variableViewModel = new SingletonVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);
 
@@ -35,8 +34,7 @@ namespace Workbench.Services
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-            var variableViewModel = new AggregateVariableViewModel(theVariableModel,
-                                                                   this.eventAggregator);
+            var variableViewModel = new AggregateVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);
 

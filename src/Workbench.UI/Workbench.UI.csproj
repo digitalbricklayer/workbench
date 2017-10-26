@@ -261,6 +261,7 @@
     <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\GridVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />

@@ -171,8 +171,8 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new VariableViewModel(new VariableGraphicModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
-                                                    this.eventAggregator);
+            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
+                                                             this.eventAggregator);
             Model.AddSingletonVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;

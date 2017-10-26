@@ -60,7 +60,7 @@ namespace Workbench.ViewModels
         /// Add a new singleton variable to the model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable.</param>
-        public void AddSingletonVariable(VariableViewModel newVariableViewModel)
+        public void AddSingletonVariable(SingletonVariableViewModel newVariableViewModel)
         {
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
@@ -270,10 +270,10 @@ namespace Workbench.ViewModels
         /// Add a new variable to the model model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddSingletonVariableToModel(VariableViewModel newVariableViewModel)
+        private void AddSingletonVariableToModel(SingletonVariableViewModel newVariableViewModel)
         {
             Debug.Assert(newVariableViewModel.Model != null);
-            this.Model.AddVariable(newVariableViewModel.Model);
+            this.Model.AddVariable((SingletonVariableGraphicModel) newVariableViewModel.Model);
         }
 
         /// <summary>

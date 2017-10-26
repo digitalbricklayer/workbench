@@ -8,59 +8,59 @@ namespace Workbench.Core.Models
     /// A variable graphic.
     /// </summary>
     [Serializable]
-    public class VariableGraphicModel : GraphicModel
+    public abstract class VariableGraphicModel : GraphicModel
     {
         private VariableModel variable;
 
         /// <summary>
         /// Initializes a variable with a variable name, location and domain expression.
         /// </summary>
-        public VariableGraphicModel(string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
+        protected VariableGraphicModel(string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
             : base(variableName, newLocation)
         {
             if (newVariableExpression == null)
                 throw new ArgumentNullException(nameof(newVariableExpression));
             Contract.EndContractBlock();
-            this.variable = new VariableModel(variableName, newVariableExpression);
+            this.variable = new SingletonVariableModel(variableName, newVariableExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableGraphicModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+        protected VariableGraphicModel(string variableName, VariableDomainExpressionModel theDomainExpression)
             : base(variableName)
         {
             if (theDomainExpression == null)
                 throw new ArgumentNullException(nameof(theDomainExpression));
             Contract.EndContractBlock();
-            this.variable = new VariableModel(variableName, theDomainExpression);
+            this.variable = new SingletonVariableModel(variableName, theDomainExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableGraphicModel(string variableName, string theRawDomainExpression)
+        protected VariableGraphicModel(string variableName, string theRawDomainExpression)
             : base(variableName)
         {
-            this.variable = new VariableModel(variableName, theRawDomainExpression);
+            this.variable = new SingletonVariableModel(variableName, theRawDomainExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        public VariableGraphicModel(string variableName)
+        protected VariableGraphicModel(string variableName)
             : base(variableName)
         {
-            this.variable = new VariableModel(variableName);
+            this.variable = new SingletonVariableModel(variableName);
         }
 
         /// <summary>
         /// Initializes a variable with default values.
         /// </summary>
-        public VariableGraphicModel()
+        protected VariableGraphicModel()
             : base("New variable")
         {
-            this.variable = new VariableModel();
+            this.variable = new SingletonVariableModel();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Workbench.Core.Models
         /// <returns>Size of the variable.</returns>
         public virtual long GetSize()
         {
-            return 1;
+            return Variable.GetSize();
         }
     }
 }

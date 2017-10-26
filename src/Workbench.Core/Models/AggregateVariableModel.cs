@@ -202,7 +202,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
 
-            return new VariableGraphicModel(GetVariableNameFor(index), DomainExpression);
+            return new SingletonVariableGraphicModel(GetVariableNameFor(index), DomainExpression);
         }
 
         /// <summary>
