@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValues">Values to bind to the model.</param>
-        public ValueModel(VariableModel theModel, IReadOnlyCollection<int> theValues)
+        public ValueModel(VariableGraphicModel theModel, IReadOnlyCollection<int> theValues)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theValues != null);
@@ -35,7 +35,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValue">Value to bind to the model.</param>
-        public ValueModel(VariableModel theModel, int theValue)
+        public ValueModel(VariableGraphicModel theModel, int theValue)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             this.Variable = theModel;
@@ -45,7 +45,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variable associated with the values.
         /// </summary>
-        public VariableModel Variable { get; private set; }
+        public VariableGraphicModel Variable { get; private set; }
 
         /// <summary>
         /// Gets the values bound to the aggregate variable.

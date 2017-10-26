@@ -11,26 +11,26 @@ namespace Workbench.Core.Solver
     /// </summary>
     class OrToolsCache
     {
-        private readonly Dictionary<string, Tuple<VariableModel, IntVar>> singletonVariableMap;
-        private readonly Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> aggregateVariableMap;
+        private readonly Dictionary<string, Tuple<VariableGraphicModel, IntVar>> singletonVariableMap;
+        private readonly Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> aggregateVariableMap;
 
         public OrToolsCache()
         {
-            this.singletonVariableMap = new Dictionary<string, Tuple<VariableModel, IntVar>>();
-            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>>();
+            this.singletonVariableMap = new Dictionary<string, Tuple<VariableGraphicModel, IntVar>>();
+            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>>();
             this.Variables = new IntVarVector();
         }
 
-        public Dictionary<string, Tuple<VariableModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
-        public Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
+        public Dictionary<string, Tuple<VariableGraphicModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
+        public Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
         public IntVarVector Variables { get; private set; }
 
-        public void AddAggregate(string name, Tuple<AggregateVariableModel, IntVarVector> tuple)
+        public void AddAggregate(string name, Tuple<AggregateVariableGraphicModel, IntVarVector> tuple)
         {
             this.aggregateVariableMap.Add(name, tuple);
         }
 
-        public void AddSingleton(string name, Tuple<VariableModel, IntVar> tuple)
+        public void AddSingleton(string name, Tuple<VariableGraphicModel, IntVar> tuple)
         {
             this.singletonVariableMap.Add(name, tuple);
         }

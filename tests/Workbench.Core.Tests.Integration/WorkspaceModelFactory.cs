@@ -25,9 +25,9 @@ namespace Workbench.UI.Tests.Integration
         private static ModelModel CreateModel()
         {
             modelModel = new ModelModel();
-            var x = new VariableModel("x", "z");
+            var x = new VariableGraphicModel("x", "z");
             modelModel.AddVariable(x);
-            var y = new AggregateVariableModel("y", 10, new VariableDomainExpressionModel("1..9"));
+            var y = new AggregateVariableGraphicModel("y", 10, new VariableDomainExpressionModel("1..9"));
             modelModel.AddVariable(y);
             var constraint = new ExpressionConstraintGraphicModel("X", "x > 1");
             modelModel.AddConstraint(constraint);
@@ -40,7 +40,7 @@ namespace Workbench.UI.Tests.Integration
         private static SolutionModel CreateSolution()
         {
             var solutionModel = new SolutionModel(modelModel);
-            var x = new VariableModel("x");
+            var x = new VariableGraphicModel("x");
             var valueOfX = new ValueModel(x, 1);
             solutionModel.Snapshot.AddSingletonValue(valueOfX);
             return solutionModel;

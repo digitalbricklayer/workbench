@@ -10,35 +10,35 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeVariableWithValidNameSetsExpectedNameInVariable()
         {
-            var sut = new VariableModel("x");
+            var sut = new VariableGraphicModel("x");
             Assert.That(sut.Name, Is.EqualTo("x"));
         }
 
         [Test]
         public void InitializeVariableWithEmptyExpressionWoutWhitespace()
         {
-            var sut = new VariableModel("x", "");
+            var sut = new VariableGraphicModel("x", "");
             Assert.That(sut.DomainExpression.IsEmpty, Is.True);
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
-            var sut = new VariableModel("x", "   A    ");
+            var sut = new VariableGraphicModel("x", "   A    ");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
-            var sut = new VariableModel("x", "A");
+            var sut = new VariableGraphicModel("x", "A");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
-            var sut = new VariableModel("x", "1..10");
+            var sut = new VariableGraphicModel("x", "1..10");
             Assert.That(sut.DomainExpression.InlineDomain, Is.InstanceOf<DomainExpressionNode>());
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
@@ -13,36 +12,20 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AggregateVariableModel : VariableModel
     {
-        private VariableModel[] variables;
+        private VariableGraphicModel[] variables;
         private VariableDomainExpressionModel domainExpression;
 
-        public AggregateVariableModel(string newVariableName, Point newVariableLocation, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
-            : base(newVariableName, newVariableLocation, theDomainExpression)
+        public AggregateVariableModel(string newVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
+            : base(newVariableName, theDomainExpression)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
             this.DomainExpression = theDomainExpression;
-            this.variables = new VariableModel[aggregateSize];
+            this.variables = new VariableGraphicModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
                 this.variables[i] = this.CreateNewVariableAt(i + 1);
-        }
-
-        /// <summary>
-        /// Initializes an aggregate variable with a name, a size and domain expression.
-        /// </summary>
-        public AggregateVariableModel(string theVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
-            : base(theVariableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-
-            this.DomainExpression = theDomainExpression;
-            this.variables = new VariableModel[aggregateSize];
-            for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i);
         }
 
         /// <summary>
@@ -56,7 +39,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
 
             this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
-            this.variables = new VariableModel[aggregateSize];
+            this.variables = new VariableGraphicModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
                 this.variables[i] = this.CreateNewVariableAt(i);
         }
@@ -70,17 +53,8 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
-            this.variables = new VariableModel[0];
+            this.variables = new VariableGraphicModel[0];
             this.DomainExpression = theDomainExpression;
-        }
-
-        public AggregateVariableModel(string newVariableName, Point newVariableLocation)
-            : this(newVariableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
-
-            this.X = newVariableLocation.X;
-            this.Y = newVariableLocation.Y;
         }
 
         /// <summary>
@@ -92,7 +66,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newName));
 
-            this.variables = new VariableModel[0];
+            this.variables = new VariableGraphicModel[0];
             this.DomainExpression = new VariableDomainExpressionModel();
         }
 
@@ -101,7 +75,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public AggregateVariableModel()
         {
-            this.variables = new VariableModel[0];
+            this.variables = new VariableGraphicModel[0];
             this.DomainExpression = new VariableDomainExpressionModel();
         }
 
@@ -114,10 +88,13 @@ namespace Workbench.Core.Models
             set
             {
                 base.Name = value;
-                for (var i = 1; i <= this.Variables.Count(); i++)
+                if (this.variables != null)
                 {
-                    var variable = this.variables[i-1];
-                    variable.Name = this.GetVariableNameFor(i);
+                    for (var i = 1; i <= Variables.Count(); i++)
+                    {
+                        var variable = this.variables[i - 1];
+                        variable.Name = this.GetVariableNameFor(i);
+                    }
                 }
                 OnPropertyChanged();
             }
@@ -126,12 +103,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variables in the aggregate.
         /// </summary>
-        public IReadOnlyCollection<VariableModel> Variables
+        public IReadOnlyCollection<VariableGraphicModel> Variables
         {
             get
             {
                 if (this.variables == null) return null;
-                return new ReadOnlyCollection<VariableModel>(this.variables.ToList());
+                return new ReadOnlyCollection<VariableGraphicModel>(this.variables.ToList());
             }
         }
 
@@ -187,7 +164,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="variableIndex">Variable index starts at zero.</param>
         /// <returns>Variable at the index.</returns>
-        public VariableModel GetVariableByIndex(int variableIndex)
+        public VariableGraphicModel GetVariableByIndex(int variableIndex)
         {
             Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count() && variableIndex >= 0);
             return this.variables[variableIndex];
@@ -221,11 +198,11 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="index">Index of the new variable.</param>
         /// <returns>A new variable.</returns>
-        private VariableModel CreateNewVariableAt(int index)
+        private VariableGraphicModel CreateNewVariableAt(int index)
         {
             Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
 
-            return new VariableModel(GetVariableNameFor(index), DomainExpression);
+            return new VariableGraphicModel(GetVariableNameFor(index), DomainExpression);
         }
 
         /// <summary>

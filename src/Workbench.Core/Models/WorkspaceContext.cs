@@ -30,7 +30,7 @@ namespace Workbench.Core.Models
         /// <returns>Workspace context.</returns>
         public WorkspaceContext AddSingleton(string theVariableName, string theDomainExpression)
         {
-            var newVariable = new VariableModel(theVariableName, theDomainExpression);
+            var newVariable = new VariableGraphicModel(theVariableName, theDomainExpression);
             this.workspace.Model.AddVariable(newVariable);
 
             return this;
@@ -45,7 +45,7 @@ namespace Workbench.Core.Models
         /// <returns>Workspace context.</returns>
         public WorkspaceContext AddAggregate(string newAggregateName, int aggregateSize, string newDomainExpression)
         {
-            var newVariable = new AggregateVariableModel(newAggregateName, aggregateSize, newDomainExpression);
+            var newVariable = new AggregateVariableGraphicModel(newAggregateName, aggregateSize, newDomainExpression);
             this.workspace.Model.AddVariable(newVariable);
 
             return this;

@@ -13,9 +13,9 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ModelModel : AbstractModel
     {
-        private ObservableCollection<VariableModel> variables;
-        private ObservableCollection<VariableModel> singletons;
-        private ObservableCollection<AggregateVariableModel> aggregates;
+        private ObservableCollection<VariableGraphicModel> variables;
+        private ObservableCollection<VariableGraphicModel> singletons;
+        private ObservableCollection<AggregateVariableGraphicModel> aggregates;
         private ObservableCollection<DomainGraphicModel> domains;
         private ObservableCollection<ConstraintGraphicModel> constraints;
         private string name;
@@ -37,9 +37,9 @@ namespace Workbench.Core.Models
         public ModelModel()
         {
             Name = string.Empty;
-            Variables = new ObservableCollection<VariableModel>();
-            Singletons = new ObservableCollection<VariableModel>();
-            Aggregates = new ObservableCollection<AggregateVariableModel>();
+            Variables = new ObservableCollection<VariableGraphicModel>();
+            Singletons = new ObservableCollection<VariableGraphicModel>();
+            Aggregates = new ObservableCollection<AggregateVariableGraphicModel>();
             Domains = new ObservableCollection<DomainGraphicModel>();
             Constraints = new ObservableCollection<ConstraintGraphicModel>();
         }
@@ -61,7 +61,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets and sets the variables.
         /// </summary>
-        public ObservableCollection<VariableModel> Variables
+        public ObservableCollection<VariableGraphicModel> Variables
         {
             get { return this.variables; }
             set
@@ -75,7 +75,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the singleton variable collection.
         /// </summary>
-        public ObservableCollection<VariableModel> Singletons
+        public ObservableCollection<VariableGraphicModel> Singletons
         {
             get { return this.singletons; }
             set
@@ -89,7 +89,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets and sets the aggregate variables.
         /// </summary>
-        public ObservableCollection<AggregateVariableModel> Aggregates
+        public ObservableCollection<AggregateVariableGraphicModel> Aggregates
         {
             get { return this.aggregates; }
             set
@@ -153,7 +153,7 @@ namespace Workbench.Core.Models
         /// Add a new variable to the model.
         /// </summary>
         /// <param name="newVariable">New variable.</param>
-        public void AddVariable(VariableModel newVariable)
+        public void AddVariable(VariableGraphicModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
@@ -165,7 +165,7 @@ namespace Workbench.Core.Models
         /// Add a new aggregate variable to the model.
         /// </summary>
         /// <param name="newVariable">New aggregate variable.</param>
-        public void AddVariable(AggregateVariableModel newVariable)
+        public void AddVariable(AggregateVariableGraphicModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             newVariable.AssignIdentity();
@@ -177,7 +177,7 @@ namespace Workbench.Core.Models
         /// Delete the variable from the model.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
-        public void DeleteVariable(VariableModel variableToDelete)
+        public void DeleteVariable(VariableGraphicModel variableToDelete)
         {
             Contract.Requires<ArgumentNullException>(variableToDelete != null);
             Variables.Remove(variableToDelete);
@@ -219,7 +219,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">The variable name.</param>
         /// <returns>Variable model.</returns>
-        public VariableModel GetVariableByName(string theVariableName)
+        public VariableGraphicModel GetVariableByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return Variables.FirstOrDefault(variable => variable.Name == theVariableName);

@@ -173,6 +173,7 @@
     <Compile Include="Grammars\DomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
+    <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\AllDifferentConstraintModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\GridVisualizerModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
+    <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
@@ -242,7 +244,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\ValueModel.cs" />
     <Compile Include="Models\AggregateVariableReference.cs" />
-    <Compile Include="Models\AggregateVariableModel.cs" />
+    <Compile Include="Models\AggregateVariableGraphicModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
     <Compile Include="Models\SharedDomainReference.cs" />
@@ -257,7 +259,7 @@
     <Compile Include="Models\RangeExpression.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
-    <Compile Include="Models\VariableModel.cs" />
+    <Compile Include="Models\VariableGraphicModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />

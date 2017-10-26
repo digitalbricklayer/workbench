@@ -11,7 +11,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public class VariableViewModel : GraphicViewModel
     {
-        private VariableModel model;
+        private VariableGraphicModel model;
         protected readonly IEventAggregator eventAggregator;
         protected VariableDomainExpressionViewModel domainExpression;
 
@@ -20,7 +20,7 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="theVariableModel">Variable model.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
-        public VariableViewModel(VariableModel theVariableModel, IEventAggregator theEventAggregator)
+        public VariableViewModel(VariableGraphicModel theVariableModel, IEventAggregator theEventAggregator)
             : base(theVariableModel)
         {
             Contract.Requires<ArgumentNullException>(theVariableModel != null);
@@ -53,7 +53,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the variable model.
         /// </summary>
-        public new VariableModel Model
+        public new VariableGraphicModel Model
         {
             get { return this.model; }
             set
