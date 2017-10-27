@@ -6,12 +6,28 @@ namespace Workbench.Core.Solver
 {
     internal class SharedDomainExpressionEvaluator
     {
-        internal static SharedDomainExpressionEvaluatorContext Context { get; private set; }
+        private SharedDomainExpressionEvaluatorContext context;
+
+        private SharedDomainExpressionEvaluator(SharedDomainExpressionEvaluatorContext context)
+        {
+            Context = context;
+        }
+
+        internal SharedDomainExpressionEvaluatorContext Context
+        {
+            get { return this.context; }
+            private set { this.context = value; }
+        }
 
         public static Tuple<long, long> Evaluate(SharedDomainExpressionEvaluatorContext theContext)
         {
-            Context = theContext;
-            var theDomainExpression = theContext.DomainExpression;
+            var evaluator = new SharedDomainExpressionEvaluator(theContext);
+            return evaluator.Evaluate();
+        }
+
+        private Tuple<long, long> Evaluate()
+        {
+            var theDomainExpression = Context.DomainExpression;
 
             if (theDomainExpression.InlineDomain != null)
             {
@@ -24,7 +40,7 @@ namespace Workbench.Core.Solver
             {
                 var sharedDomainName = theDomainExpression.DomainReference.DomainName;
                 var sharedDomainModel = Context.Model.GetSharedDomainByName(sharedDomainName.Name);
-                
+
                 var evaluatorContext = new DomainExpressionEvaluatorContext(sharedDomainModel.Expression.Node, Context.Model);
                 return DomainExpressionEvaluator.Evaluate(evaluatorContext);
             }
@@ -32,7 +48,7 @@ namespace Workbench.Core.Solver
             throw new NotImplementedException("Unknown variable domain expression.");
         }
 
-        private static long EvaluateBand(BandExpressionNode theExpression)
+        private long EvaluateBand(BandExpressionNode theExpression)
         {
             var numberLiteral = theExpression.Inner as NumberLiteralNode;
             if (numberLiteral != null)

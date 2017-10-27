@@ -7,28 +7,36 @@ namespace Workbench.Core.Solver
 {
     internal class DomainExpressionEvaluator
     {
-        internal static DomainExpressionEvaluatorContext Context { get; private set; }
+        internal DomainExpressionEvaluatorContext Context { get; private set; }
+
+        private DomainExpressionEvaluator(DomainExpressionEvaluatorContext theContext)
+        {
+            Context = theContext;
+        }
 
         public static Tuple<long, long> Evaluate(DomainExpressionEvaluatorContext theContext)
         {
-            Context = theContext;
-            var theDomainExpression = theContext.DomainExpression;
+            var evaluator = new DomainExpressionEvaluator(theContext);
+            return evaluator.Evaluate();
+        }
+
+        public Tuple<long, long> Evaluate()
+        {
+            var theDomainExpression = Context.DomainExpression;
 
             var lhsBand = EvaluateBand(theDomainExpression.LeftExpression);
             var rhsBand = EvaluateBand(theDomainExpression.RightExpression);
             return new Tuple<long, long>(lhsBand, rhsBand);
         }
 
-        private static long EvaluateBand(BandExpressionNode theExpression)
+        private long EvaluateBand(BandExpressionNode theExpression)
         {
-            var numberLiteral = theExpression.Inner as NumberLiteralNode;
-            if (numberLiteral != null)
+            if (theExpression.Inner is NumberLiteralNode numberLiteral)
             {
                 return numberLiteral.Value;
             }
 
-            var functionCall = theExpression.Inner as FunctionInvocationNode;
-            if (functionCall != null)
+            if (theExpression.Inner is FunctionInvocationNode functionCall)
             {
                 return EvaluateSizeFunction(functionCall);
             }
@@ -36,7 +44,7 @@ namespace Workbench.Core.Solver
             throw new NotImplementedException("Unknown band expression node.");
         }
 
-        private static long EvaluateSizeFunction(FunctionInvocationNode functionCall)
+        private long EvaluateSizeFunction(FunctionInvocationNode functionCall)
         {
             Debug.Assert(functionCall.FunctionName == "size");
 
