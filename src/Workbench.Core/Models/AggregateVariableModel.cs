@@ -12,6 +12,11 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AggregateVariableModel : VariableModel
     {
+        /// <summary>
+        /// Default size of the aggregate.
+        /// </summary>
+        public const int DefaultSize = 1;
+
         private VariableGraphicModel[] variables;
         private VariableDomainExpressionModel domainExpression;
 
@@ -19,13 +24,13 @@ namespace Workbench.Core.Models
             : base(newVariableName, theDomainExpression)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= DefaultSize);
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
-            this.DomainExpression = theDomainExpression;
+            DomainExpression = theDomainExpression;
             this.variables = new VariableGraphicModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i + 1);
+                this.variables[i] = CreateNewVariableAt(i + 1);
         }
 
         /// <summary>
@@ -35,26 +40,21 @@ namespace Workbench.Core.Models
             : base(variableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= DefaultSize);
             Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
 
-            this.DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
+            DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
             this.variables = new VariableGraphicModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
-                this.variables[i] = this.CreateNewVariableAt(i);
+                this.variables[i] = CreateNewVariableAt(i);
         }
 
         /// <summary>
         /// Initializes an aggregate variable with a name and domain expression.
         /// </summary>
         public AggregateVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(variableName)
+            : this(variableName, DefaultSize, theDomainExpression)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-
-            this.variables = new VariableGraphicModel[0];
-            this.DomainExpression = theDomainExpression;
         }
 
         /// <summary>
@@ -62,21 +62,8 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="newName">New variable name.</param>
         public AggregateVariableModel(string newName)
-            : base(newName)
+            : this(newName, DefaultSize, new VariableDomainExpressionModel())
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newName));
-
-            this.variables = new VariableGraphicModel[0];
-            this.DomainExpression = new VariableDomainExpressionModel();
-        }
-
-        /// <summary>
-        /// Initialize an aggregate variable with default values.
-        /// </summary>
-        public AggregateVariableModel()
-        {
-            this.variables = new VariableGraphicModel[0];
-            this.DomainExpression = new VariableDomainExpressionModel();
         }
 
         /// <summary>

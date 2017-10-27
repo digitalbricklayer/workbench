@@ -81,15 +81,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initialize an aggregate variable with default values.
-        /// </summary>
-        public AggregateVariableGraphicModel()
-        {
-            this.variable = new AggregateVariableModel();
-        }
-
-#if true
-        /// <summary>
         /// Gets the aggregate variable model.
         /// </summary>
         public override VariableModel Variable
@@ -104,7 +95,6 @@ namespace Workbench.Core.Models
                 base.Variable = value;
             }
         }
-#endif
 
         /// <summary>
         /// Gets the variables in the aggregate.
