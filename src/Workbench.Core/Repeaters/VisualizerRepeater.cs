@@ -182,17 +182,15 @@ namespace Workbench.Core.Repeaters
 
         private string ConvertToValueFrom(CallArgumentNode theArgument)
         {
-            int n;
-            bool isNumeric = int.TryParse(theArgument.Value.GetValue(), out n);
+            bool isNumeric = int.TryParse(theArgument.Value.GetValue(), out int n);
             if (isNumeric) return theArgument.Value.GetValue();
             if (theArgument.Name.Name == "x" || theArgument.Name.Name == "y")
             {
                 var counterReference = this.context.GetCounterContextByName(theArgument.Value.GetValue());
                 return Convert.ToString(counterReference.CurrentValue);
             }
-            else if (theArgument.Value.Inner is ValueReferenceStatementNode)
+            else if (theArgument.Value.Inner is ValueReferenceStatementNode valueReferenceNode)
             {
-                var valueReferenceNode = (ValueReferenceStatementNode) theArgument.Value.Inner;
                 return Convert.ToString(EvaluateValueReferenceExpression(valueReferenceNode));
             }
             else
