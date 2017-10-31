@@ -248,7 +248,6 @@
     <Compile Include="Models\AggregateVariableGraphicModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
-    <Compile Include="Models\SharedDomainReference.cs" />
     <Compile Include="Models\ExpressionConstraintGraphicModel.cs" />
     <Compile Include="Models\DomainExpressionModel.cs" />
     <Compile Include="Models\DomainGraphicModel.cs" />
