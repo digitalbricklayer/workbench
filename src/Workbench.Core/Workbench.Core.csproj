@@ -245,7 +245,6 @@
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\ValueModel.cs" />
-    <Compile Include="Models\AggregateVariableReferenceModel.cs" />
     <Compile Include="Models\AggregateVariableGraphicModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
