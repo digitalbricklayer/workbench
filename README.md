@@ -26,6 +26,8 @@ You can also create a solution. When I say a solution I don't mean just a set of
 
 ![n-queens solution](https://techteapot.com/wp-content/uploads/2016/10/workbench-solution-nqueens-768x761.png)
 
+The most egregious failing of the project manifesto to date is the breach of the *no programming* rule. There plainly is quite a lot of what looks suspiciously like programming in the various languages included in the project. The most obvious being the visualizer binding language. I have a few ideas how I can reduce the level of programming in the visualizer bindings but I doubt I can remove it altogether.
+
 Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else. The project is currently just a prototype. It may well never be anything beyond that.
 
 ## License
