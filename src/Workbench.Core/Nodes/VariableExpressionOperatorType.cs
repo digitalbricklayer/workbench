@@ -10,7 +10,7 @@
                     return VariableExpressionOperatorType.Add;
 
                 case "-":
-                    return VariableExpressionOperatorType.Minus;
+                    return VariableExpressionOperatorType.Subtract;
 
                 default:
                     throw new System.NotImplementedException();
@@ -24,6 +24,6 @@
     public enum VariableExpressionOperatorType
     {
         Add,
-        Minus
+        Subtract
     }
 }

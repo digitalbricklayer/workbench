@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
 {
@@ -9,17 +10,20 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VariableModel : AbstractModel
     {
+        private ModelModel model;
         private VariableDomainExpressionModel domainExpression;
         private string name;
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+        public VariableModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
+            Model = theModel;
             this.name = variableName;
             DomainExpression = theDomainExpression;
         }
@@ -27,11 +31,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableModel(string variableName, string theRawDomainExpression)
+        public VariableModel(ModelModel theModel, string variableName, string theRawDomainExpression)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
             Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
 
+            Model = theModel;
             this.name = variableName;
             DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
         }
@@ -39,10 +45,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        public VariableModel(string variableName)
+        public VariableModel(ModelModel theModel, string variableName)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
 
+            Model = theModel;
             this.name = variableName;
             DomainExpression = new VariableDomainExpressionModel();
         }
@@ -50,8 +58,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with default values.
         /// </summary>
-        public VariableModel()
+        public VariableModel(ModelModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
+            Model = theModel;
             this.name = "New variable";
             DomainExpression = new VariableDomainExpressionModel();
         }
@@ -87,6 +98,20 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Get the model that the variable is assigned.
+        /// </summary>
+        public ModelModel Model
+        {
+            get { return this.model; }
+            internal set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.model = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Returns a string that represents the variable.
         /// </summary>
         /// <returns>
@@ -101,9 +126,15 @@ namespace Workbench.Core.Models
         /// Get the size of the variable.
         /// </summary>
         /// <returns>Size of the variable.</returns>
-        public virtual long GetSize()
+        public abstract long GetSize();
+
+        /// <summary>
+        /// Get the variable domain band.
+        /// </summary>
+        /// <returns>Tuple with the high, low value.</returns>
+        public virtual DomainRange GetVariableBand()
         {
-            return 1;
+            return VariableBandEvaluator.GetVariableBand(this);
         }
     }
 }

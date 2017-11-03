@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
@@ -14,19 +15,19 @@ namespace Workbench.Core.Solver
             Context = theContext;
         }
 
-        public static Tuple<long, long> Evaluate(DomainExpressionEvaluatorContext theContext)
+        public static DomainRange Evaluate(DomainExpressionEvaluatorContext theContext)
         {
             var evaluator = new DomainExpressionEvaluator(theContext);
             return evaluator.Evaluate();
         }
 
-        public Tuple<long, long> Evaluate()
+        public DomainRange Evaluate()
         {
             var theDomainExpression = Context.DomainExpression;
 
             var lhsBand = EvaluateBand(theDomainExpression.LeftExpression);
             var rhsBand = EvaluateBand(theDomainExpression.RightExpression);
-            return new Tuple<long, long>(lhsBand, rhsBand);
+            return new DomainRange(lhsBand, rhsBand);
         }
 
         private long EvaluateBand(BandExpressionNode theExpression)

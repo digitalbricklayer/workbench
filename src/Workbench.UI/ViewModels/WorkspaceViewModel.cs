@@ -171,7 +171,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
+            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(Model.Model, newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             Model.AddSingletonVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);
@@ -190,7 +190,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new AggregateVariableViewModel(new AggregateVariableGraphicModel(newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
+            var newVariable = new AggregateVariableViewModel(new AggregateVariableGraphicModel(Model.Model, newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
                                                              this.eventAggregator);
             Model.AddAggregateVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);

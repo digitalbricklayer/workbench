@@ -25,7 +25,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                             CreateEventAggregator(),
                                                             CreateViewModelService(),
                                                             CreateViewModelFactory());
-            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel("x"),
+            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(workspaceViewModel.Model.Model, "x"),
                                                                    Mock.Of<IEventAggregator>());
             workspaceViewModel.Model.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";

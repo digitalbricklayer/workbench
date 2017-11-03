@@ -9,39 +9,40 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name, location and domain expression.
         /// </summary>
-        public SingletonVariableGraphicModel(string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
-            : base(variableName, newLocation, newVariableExpression)
+        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
+            : base(theModel, variableName, newLocation, newVariableExpression)
         {
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableGraphicModel(string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(variableName, theDomainExpression)
+        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(theModel, variableName, theDomainExpression)
         {
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableGraphicModel(string variableName, string theRawDomainExpression)
-            : base(variableName, theRawDomainExpression)
+        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, string theRawDomainExpression)
+            : base(theModel, variableName, theRawDomainExpression)
         {
         }
 
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        public SingletonVariableGraphicModel(string variableName)
-            : base(variableName)
+        public SingletonVariableGraphicModel(ModelModel theModel, string variableName)
+            : base(theModel, variableName)
         {
         }
 
         /// <summary>
         /// Initializes a variable with default values.
         /// </summary>
-        public SingletonVariableGraphicModel()
+        public SingletonVariableGraphicModel(ModelModel theModel)
+            : base(theModel)
         {
         }
     }

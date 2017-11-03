@@ -7,6 +7,22 @@ namespace Workbench.Core.Tests.Unit.Models
     public class ModelModelTests
     {
         [Test]
+        public void AddSingletonVariableToModelVariableAddedToCorrectModel()
+        {
+            var sut = MakeValidModel();
+            var xGraphic = sut.GetVariableByName("x");
+            Assert.That(xGraphic.Variable.Model, Is.SameAs(sut));
+        }
+
+        [Test]
+        public void AddAggregateVariableToModelVariableAddedToCorrectModel()
+        {
+            var sut = MakeValidModel();
+            var xGraphic = sut.GetVariableByName("y");
+            Assert.That(xGraphic.Variable.Model, Is.SameAs(sut));
+        }
+
+        [Test]
         public void ValidateWithAValidModelReturnsTrue()
         {
             var sut = MakeValidModel();
@@ -36,7 +52,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var workspace = WorkspaceModel.Create("A valid model")
                                           .AddSingleton("x", "1..9")
-                                          .AddSingleton("y", "1..9")
+                                          .AddAggregate("y", 10, "1..9")
                                           .WithConstraintExpression("x > y")
                                           .Build();
 

@@ -69,10 +69,10 @@ namespace Workbench.Core.Solver
         {
             foreach (var aggregate in theModel.Aggregates)
             {
-                var band = this.GetVariableBand(aggregate);
+                var band = VariableBandEvaluator.GetVariableBand(aggregate.Variable);
                 var orVariableVector = this.solver.MakeIntVarArray(aggregate.AggregateCount,
-                                                                   band.Item1,
-                                                                   band.Item2,
+                                                                   band.Lower,
+                                                                   band.Upper,
                                                                    aggregate.Name);
                 this.cache.AddAggregate(aggregate.Name,
                                         new Tuple<AggregateVariableGraphicModel, IntVarVector>(aggregate, orVariableVector));
@@ -95,47 +95,11 @@ namespace Workbench.Core.Solver
 
         private IntVar ProcessVariable(VariableGraphicModel variable)
         {
-            var band = GetVariableBand(variable);
-            var orVariable = solver.MakeIntVar(band.Item1, band.Item2, variable.Name);
+            var band = VariableBandEvaluator.GetVariableBand(variable.Variable);
+            var orVariable = solver.MakeIntVar(band.Lower, band.Upper, variable.Name);
             this.cache.AddVariable(orVariable);
 
             return orVariable;
-        }
-
-        private Tuple<long, long> GetVariableBand(VariableGraphicModel theVariable)
-        {
-            Debug.Assert(!theVariable.DomainExpression.IsEmpty);
-
-            if (theVariable.DomainExpression.InlineDomain != null)
-            {
-                return EvaluateInlineDomainExpression(theVariable);
-            }
-
-            return EvaluateSharedDomainExpression(theVariable);
-        }
-
-        /// <summary>
-        /// The domain is specified by a domain expression inline with the variable
-        /// </summary>
-        /// <param name="theVariable">Variable with domain expression.</param>
-        /// <returns>Tuple with upper and lower band.</returns>
-        private Tuple<long, long> EvaluateInlineDomainExpression(VariableGraphicModel theVariable)
-        {
-            var inlineDomain = theVariable.DomainExpression.InlineDomain;
-            var evaluatorContext = new DomainExpressionEvaluatorContext(inlineDomain, this.model);
-            return DomainExpressionEvaluator.Evaluate(evaluatorContext);
-        }
-
-        ///<summary>
-        /// The domain is specified in a shared domain seperately and the
-        /// inline expression references the shared domain
-        ///</summary>
-        /// <param name="theVariable">Variable with domain expression.</param>
-        /// <returns>Tuple with upper and lower band.</returns>
-        private Tuple<long, long> EvaluateSharedDomainExpression(VariableGraphicModel theVariable)
-        {
-            var evaluatorContext = new SharedDomainExpressionEvaluatorContext(theVariable.DomainExpression.Node, this.model);
-            return SharedDomainExpressionEvaluator.Evaluate(evaluatorContext);
         }
     }
 }

@@ -15,52 +15,52 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name, location and domain expression.
         /// </summary>
-        protected VariableGraphicModel(string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
+        protected VariableGraphicModel(ModelModel theModel, string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
             : base(variableName, newLocation)
         {
             if (newVariableExpression == null)
                 throw new ArgumentNullException(nameof(newVariableExpression));
             Contract.EndContractBlock();
-            this.variable = new SingletonVariableModel(variableName, newVariableExpression);
+            this.variable = new SingletonVariableModel(theModel, variableName, newVariableExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        protected VariableGraphicModel(string variableName, VariableDomainExpressionModel theDomainExpression)
+        protected VariableGraphicModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
             : base(variableName)
         {
             if (theDomainExpression == null)
                 throw new ArgumentNullException(nameof(theDomainExpression));
             Contract.EndContractBlock();
-            this.variable = new SingletonVariableModel(variableName, theDomainExpression);
+            this.variable = new SingletonVariableModel(theModel, variableName, theDomainExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        protected VariableGraphicModel(string variableName, string theRawDomainExpression)
+        protected VariableGraphicModel(ModelModel theModel, string variableName, string theRawDomainExpression)
             : base(variableName)
         {
-            this.variable = new SingletonVariableModel(variableName, theRawDomainExpression);
+            this.variable = new SingletonVariableModel(theModel, variableName, theRawDomainExpression);
         }
 
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        protected VariableGraphicModel(string variableName)
+        protected VariableGraphicModel(ModelModel theModel, string variableName)
             : base(variableName)
         {
-            this.variable = new SingletonVariableModel(variableName);
+            this.variable = new SingletonVariableModel(theModel, variableName);
         }
 
         /// <summary>
         /// Initializes a variable with default values.
         /// </summary>
-        protected VariableGraphicModel()
+        protected VariableGraphicModel(ModelModel theModel)
             : base("New variable")
         {
-            this.variable = new SingletonVariableModel();
+            this.variable = new SingletonVariableModel(theModel);
         }
 
         /// <summary>

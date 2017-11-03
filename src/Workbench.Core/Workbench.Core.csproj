@@ -298,6 +298,7 @@
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\DomainExpressionEvaluator.cs" />
     <Compile Include="Solver\DomainExpressionEvaluatorContext.cs" />
+    <Compile Include="Solver\DomainRange.cs" />
     <Compile Include="Solver\ExpressionConstraintConverter.cs" />
     <Compile Include="Solver\ModelConverter.cs" />
     <Compile Include="Solver\OrToolsCache.cs" />
@@ -306,6 +307,9 @@
     <Compile Include="Solver\SharedDomainExpressionEvaluatorContext.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
+    <Compile Include="Solver\VariableBandEvaluator.cs" />
+    <Compile Include="Solver\VariableDomainExpressionEvaluator.cs" />
+    <Compile Include="Solver\VariableDomainExpressionEvaluatorContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

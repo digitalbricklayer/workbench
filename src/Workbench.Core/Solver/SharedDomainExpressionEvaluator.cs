@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
@@ -19,13 +20,13 @@ namespace Workbench.Core.Solver
             private set { this.context = value; }
         }
 
-        public static Tuple<long, long> Evaluate(SharedDomainExpressionEvaluatorContext theContext)
+        public static DomainRange Evaluate(SharedDomainExpressionEvaluatorContext theContext)
         {
             var evaluator = new SharedDomainExpressionEvaluator(theContext);
             return evaluator.Evaluate();
         }
 
-        private Tuple<long, long> Evaluate()
+        private DomainRange Evaluate()
         {
             var theDomainExpression = Context.DomainExpression;
 
@@ -33,7 +34,7 @@ namespace Workbench.Core.Solver
             {
                 var lhsBand = EvaluateBand(theDomainExpression.InlineDomain.LeftExpression);
                 var rhsBand = EvaluateBand(theDomainExpression.InlineDomain.RightExpression);
-                return new Tuple<long, long>(lhsBand, rhsBand);
+                return new DomainRange(lhsBand, rhsBand);
             }
 
             if (theDomainExpression.DomainReference != null)

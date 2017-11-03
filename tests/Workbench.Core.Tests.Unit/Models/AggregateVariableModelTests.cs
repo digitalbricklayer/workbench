@@ -10,42 +10,42 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeAggregateWithValidNameSetsExpectedNameInVariable()
         {
-            var sut = new AggregateVariableGraphicModel("x");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x");
             Assert.That(sut.Name, Is.EqualTo("x"));
         }
 
         [Test]
         public void InitializeVariableWithEmptyExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel("x", 5, "");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 5, "");
             Assert.That(sut.DomainExpression.IsEmpty, Is.True);
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel("x", 2, "   A    ");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 2, "   A    ");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel("x", 1, "A");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 1, "A");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel("x", 10, "1..10");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 10, "1..10");
             Assert.That(sut.DomainExpression.InlineDomain, Is.Not.Null);
         }
 
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueInsideAggregateDomain()
         {
-            var sut = new AggregateVariableGraphicModel("A test", 10, "1..10");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "A test", 10, "1..10");
             sut.Resize(10);
             sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
             var actualVariable = sut.GetVariableByIndex(9);
@@ -53,10 +53,11 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        [Ignore("Need to add validation. But probably not this way")]
         public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomain()
         {
-            var sut = new AggregateVariableGraphicModel("A test", 2, "1..10");
+            var theModel = new ModelModel();
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "A test", 2, "1..10");
+            theModel.AddVariable(sut);
             sut.Resize(10);
             sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
             Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(9, new VariableDomainExpressionModel("8..11")));
@@ -65,7 +66,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomainX()
         {
-            var sut = new AggregateVariableGraphicModel("A test", 1, "1..10");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "A test", 1, "1..10");
             sut.Resize(10);
             Assert.Throws<ArgumentOutOfRangeException>(() => sut.OverrideDomainTo(10, new VariableDomainExpressionModel("8..10")));
         }
@@ -73,14 +74,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateWithZeroThrowsArgumentOutOfRangeException()
         {
-            var sut = new AggregateVariableGraphicModel("x");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x");
             Assert.Throws<ArgumentOutOfRangeException>(() => sut.Resize(0));
         }
 
         [Test]
         public void ResizeAggregateWithTenSetsNewSize()
         {
-            var sut = new AggregateVariableGraphicModel("x");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x");
             sut.Resize(10);
             Assert.That(sut.AggregateCount, Is.EqualTo(10));
         }
@@ -88,7 +89,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateToGreaterSIzeAllVariablesNotNull()
         {
-            var sut = new AggregateVariableGraphicModel("x");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x");
             sut.Resize(10);
             Assert.That(sut.Variables, Is.All.InstanceOf<VariableGraphicModel>());
         }
@@ -96,7 +97,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateToSmallerSizeAllVariablesNotNull()
         {
-            var sut = new AggregateVariableGraphicModel("x");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x");
             sut.Resize(10);
             sut.Resize(5);
             Assert.That(sut.Variables, Is.All.InstanceOf<VariableGraphicModel>());

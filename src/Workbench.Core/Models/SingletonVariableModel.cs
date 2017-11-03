@@ -3,39 +3,40 @@
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A singleton variable can hold a single value constrained by a constraint.
+    /// A singleton variable can hold a single value constrained by zero or more constraints.
     /// </summary>
     [Serializable]
     public class SingletonVariableModel : VariableModel
     {
         /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
+        /// Initialize a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableModel(string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(variableName, theDomainExpression)
+        public SingletonVariableModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(theModel, variableName, theDomainExpression)
         {
         }
 
         /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
+        /// Initialize a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableModel(string variableName, string theRawDomainExpression)
-            : base(variableName, theRawDomainExpression)
+        public SingletonVariableModel(ModelModel theModel, string variableName, string theRawDomainExpression)
+            : base(theModel, variableName, theRawDomainExpression)
         {
         }
 
         /// <summary>
-        /// Initializes a variable with a variable name.
+        /// Initialize a variable with a variable name.
         /// </summary>
-        public SingletonVariableModel(string variableName)
-            : base(variableName)
+        public SingletonVariableModel(ModelModel theModel, string variableName)
+            : base(theModel, variableName)
         {
         }
 
         /// <summary>
-        /// Initializes a variable with default values.
+        /// Initialize a variable with default values.
         /// </summary>
-        public SingletonVariableModel()
+        public SingletonVariableModel(ModelModel theModel)
+            : base(theModel, "A singleton")
         {
         }
 

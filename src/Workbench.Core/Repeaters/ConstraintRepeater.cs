@@ -159,7 +159,7 @@ namespace Workbench.Core.Repeaters
                     case VariableExpressionOperatorType.Add:
                         return this.solver.MakeSum(variableExpression, GetValueFrom(infixStatement));
 
-                    case VariableExpressionOperatorType.Minus:
+                    case VariableExpressionOperatorType.Subtract:
                         return this.solver.MakeSum(variableExpression, -GetValueFrom(infixStatement));
 
                     default:

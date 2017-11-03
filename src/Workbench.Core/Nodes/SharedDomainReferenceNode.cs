@@ -11,7 +11,7 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            DomainName = (DomainNameNode) AddChild("variable name", treeNode.ChildNodes[0]);
+            DomainName = (DomainNameNode) AddChild("domain name", treeNode.ChildNodes[0]);
         }
     }
 }
