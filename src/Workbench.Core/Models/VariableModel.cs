@@ -132,7 +132,7 @@ namespace Workbench.Core.Models
         /// Get the variable domain band.
         /// </summary>
         /// <returns>Tuple with the high, low value.</returns>
-        public virtual DomainRange GetVariableBand()
+        public virtual DomainValue GetVariableBand()
         {
             return VariableBandEvaluator.GetVariableBand(this);
         }

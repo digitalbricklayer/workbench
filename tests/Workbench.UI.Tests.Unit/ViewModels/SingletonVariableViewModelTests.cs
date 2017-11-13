@@ -26,7 +26,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void UpdateVariableDomainExpressionWithDomainReferenceUpdatesModel()
         {
             var sut = CreateVariable();
-            sut.DomainExpression.Text = "x";
+            sut.DomainExpression.Text = "$x";
             Assert.That(sut.DomainExpression.Model.DomainReference.DomainName.Name, Is.EqualTo("x"));
         }
 

@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
-using Workbench.Core.Grammars;
 
 namespace Workbench.Core.Nodes
 {

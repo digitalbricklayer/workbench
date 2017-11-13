@@ -13,16 +13,7 @@ namespace Workbench.Core.Models
         private string text;
 
         [NonSerialized]
-        private DomainExpressionNode node;
-
-        /// <summary>
-        /// Initialize a domain expression with a domain expression unit.
-        /// </summary>
-        /// <param name="theDomainExpressionUnit">Domain expression unit.</param>
-        public DomainExpressionModel(DomainExpressionNode theDomainExpressionUnit)
-        {
-            Node = theDomainExpressionUnit;
-        }
+        private SharedDomainExpressionNode node;
 
         /// <summary>
         /// Initialize a domain expression with a raw domain expression text.
@@ -54,7 +45,7 @@ namespace Workbench.Core.Models
             }
         }
 
-        public DomainExpressionNode Node
+        public SharedDomainExpressionNode Node
         {
             get { return this.node; }
             private set { this.node = value; }
@@ -68,7 +59,7 @@ namespace Workbench.Core.Models
         {
             if (!string.IsNullOrWhiteSpace(rawExpression))
             {
-                var domainExpressionParser = new DomainExpressionParser();
+                var domainExpressionParser = new SharedDomainExpressionParser();
                 var result = domainExpressionParser.Parse(rawExpression);
                 if (result.Status == ParseStatus.Success)
                     Node = result.Root;

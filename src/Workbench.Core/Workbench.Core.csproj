@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
-    <Compile Include="Grammars\DomainGrammar.cs" />
+    <Compile Include="Grammars\SharedDomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
@@ -195,14 +195,19 @@
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
     <Compile Include="Nodes\BandExpressionNode.cs" />
-    <Compile Include="Nodes\DomainExpressionNode.cs" />
+    <Compile Include="Nodes\SharedDomainExpressionNode.cs" />
     <Compile Include="Nodes\DomainNameNode.cs" />
     <Compile Include="Nodes\FunctionArgumentListNode.cs" />
     <Compile Include="Nodes\FunctionCallArgumentNode.cs" />
     <Compile Include="Nodes\FunctionCallArgumentStringLiteralNode.cs" />
     <Compile Include="Nodes\FunctionInvocationNode.cs" />
     <Compile Include="Nodes\FunctionNameNode.cs" />
+    <Compile Include="Nodes\ItemNameNode.cs" />
+    <Compile Include="Nodes\ItemNode.cs" />
+    <Compile Include="Nodes\ItemsListNode.cs" />
+    <Compile Include="Nodes\ListDomainExpressionNode.cs" />
     <Compile Include="Nodes\NumberLiteralNode.cs" />
+    <Compile Include="Nodes\RangeDomainExpressionNode.cs" />
     <Compile Include="Nodes\SharedDomainReferenceNode.cs" />
     <Compile Include="Nodes\StatementListNode.cs" />
     <Compile Include="Nodes\VariableDomainExpressionNode.cs" />
@@ -275,7 +280,7 @@
     <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
     <Compile Include="Parsers\VariableDomainExpressionParser.cs" />
-    <Compile Include="Parsers\DomainExpressionParser.cs" />
+    <Compile Include="Parsers\SharedDomainExpressionParser.cs" />
     <Compile Include="Parsers\ParseResult.cs" />
     <Compile Include="Parsers\ParseStatus.cs" />
     <Compile Include="Parsers\VisualizerBindingExpressionParser.cs" />
@@ -296,10 +301,13 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solver\Range.cs" />
     <Compile Include="Solver\DomainExpressionEvaluator.cs" />
     <Compile Include="Solver\DomainExpressionEvaluatorContext.cs" />
-    <Compile Include="Solver\DomainRange.cs" />
+    <Compile Include="Solver\RangeDomainValue.cs" />
+    <Compile Include="Solver\DomainValue.cs" />
     <Compile Include="Solver\ExpressionConstraintConverter.cs" />
+    <Compile Include="Solver\ListDomainValue.cs" />
     <Compile Include="Solver\ModelConverter.cs" />
     <Compile Include="Solver\OrToolsCache.cs" />
     <Compile Include="Solver\OrToolsSolver.cs" />

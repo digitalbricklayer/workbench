@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
@@ -69,10 +68,11 @@ namespace Workbench.Core.Solver
         {
             foreach (var aggregate in theModel.Aggregates)
             {
-                var band = VariableBandEvaluator.GetVariableBand(aggregate.Variable);
+                var theVariableBand = VariableBandEvaluator.GetVariableBand(aggregate.Variable);
+                var theVariableRange = theVariableBand.GetRange();
                 var orVariableVector = this.solver.MakeIntVarArray(aggregate.AggregateCount,
-                                                                   band.Lower,
-                                                                   band.Upper,
+                                                                   theVariableRange.Lower,
+                                                                   theVariableRange.Upper,
                                                                    aggregate.Name);
                 this.cache.AddAggregate(aggregate.Name,
                                         new Tuple<AggregateVariableGraphicModel, IntVarVector>(aggregate, orVariableVector));
@@ -88,15 +88,15 @@ namespace Workbench.Core.Solver
             foreach (var variable in theModel.Singletons)
             {
                 var orVariable = ProcessVariable(variable);
-                this.cache.AddSingleton(variable.Name,
-                                        new Tuple<VariableGraphicModel, IntVar>(variable, orVariable));
+                this.cache.AddSingleton(variable.Name, new Tuple<VariableGraphicModel, IntVar>(variable, orVariable));
             }
         }
 
         private IntVar ProcessVariable(VariableGraphicModel variable)
         {
-            var band = VariableBandEvaluator.GetVariableBand(variable.Variable);
-            var orVariable = solver.MakeIntVar(band.Lower, band.Upper, variable.Name);
+            var theVariableBand = VariableBandEvaluator.GetVariableBand(variable.Variable);
+            var theVariableRange = theVariableBand.GetRange();
+            var orVariable = solver.MakeIntVar(theVariableRange.Lower, theVariableRange.Upper, variable.Name);
             this.cache.AddVariable(orVariable);
 
             return orVariable;

@@ -25,7 +25,6 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="graphicName">Name for the graphic.</param>
         protected GraphicModel(string graphicName)
-            : this()
         {
             this.name = graphicName;
         }

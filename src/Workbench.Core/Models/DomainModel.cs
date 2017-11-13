@@ -8,24 +8,34 @@ namespace Workbench.Core.Models
     {
         private DomainExpressionModel expression;
 
+        /// <summary>
+        /// Initialize a domain with a domain expression.
+        /// </summary>
         public DomainModel(DomainExpressionModel theExpression)
         {
-            if (theExpression == null)
-                throw new ArgumentNullException(nameof(theExpression));
-            Contract.EndContractBlock();
+            Contract.Requires<ArgumentNullException>(theExpression != null);
             this.expression = theExpression;
         }
 
+        /// <summary>
+        /// Initialize a domain with a domain expression.
+        /// </summary>
         public DomainModel(string rawDomainExpression)
             : this(new DomainExpressionModel(rawDomainExpression))
         {
         }
 
+        /// <summary>
+        /// Initialize a domain with default values.
+        /// </summary>
         public DomainModel()
         {
             Expression = new DomainExpressionModel();
         }
 
+        /// <summary>
+        /// Gets or sets the domain expression.
+        /// </summary>
         public DomainExpressionModel Expression
         {
             get { return this.expression; }
@@ -42,9 +52,7 @@ namespace Workbench.Core.Models
         /// <param name="rawExpression">Raw domain expression.</param>
         public void ParseExpression(string rawExpression)
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            Contract.EndContractBlock();
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
             Expression = new DomainExpressionModel(rawExpression);
         }
     }

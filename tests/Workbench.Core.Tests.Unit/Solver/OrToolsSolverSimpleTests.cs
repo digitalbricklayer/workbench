@@ -66,9 +66,9 @@ namespace Workbench.Core.Tests.Unit.Solver
         {
             var workspace = WorkspaceModel.Create("A test")
                                           .WithSharedDomain("a", "1..9")
-                                          .AddSingleton("x", "a")
-                                          .AddSingleton("y", "a")
-                                          .AddSingleton("z", "a")
+                                          .AddSingleton("x", "$a")
+                                          .AddSingleton("y", "$a")
+                                          .AddSingleton("z", "$a")
                                           .WithConstraintExpression("x != y")
                                           .WithConstraintExpression("x <= y")
                                           .WithConstraintExpression("y = z")

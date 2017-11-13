@@ -39,6 +39,8 @@ namespace Workbench.Core.Models
             get { return this.visualizers; }
             private set
             {
+				Contract.Requires<ArgumentNullException>(value != null);
+
                 this.visualizers = value;
                 OnPropertyChanged();
             }
@@ -59,6 +61,7 @@ namespace Workbench.Core.Models
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
+
             theVisualizer.AssignIdentity();
             Visualizers.Add(theVisualizer);
         }

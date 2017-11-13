@@ -30,7 +30,7 @@ namespace Workbench.Core.Parsers
             {
                 case ParseTreeStatus.Error:
                     return new ParseResult<VariableDomainExpressionNode>(ConvertStatusFrom(parseTree.Status),
-                                                                 new List<string>());
+                                                                             new List<string>());
 
                 case ParseTreeStatus.Parsed:
                     return new ParseResult<VariableDomainExpressionNode>(ParseStatus.Success, parseTree);

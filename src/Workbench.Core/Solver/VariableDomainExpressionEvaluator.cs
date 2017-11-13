@@ -1,23 +1,27 @@
 using System;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
     internal static class VariableDomainExpressionEvaluator
     {
-        internal static DomainRange Evaluate(VariableDomainExpressionEvaluatorContext theContext)
+        internal static DomainValue Evaluate(VariableDomainExpressionEvaluatorContext theContext)
         {
+            Contract.Requires<ArgumentNullException>(theContext != null);
+
             var theDomainExpression = theContext.DomainExpression;
 
             switch (theDomainExpression.Inner)
             {
                 case SharedDomainReferenceNode domainReferenceNode:
-                    var x = new SharedDomainExpressionEvaluatorContext(theDomainExpression, theContext.Model);
-                    return SharedDomainExpressionEvaluator.Evaluate(x);
+                    return DomainExpressionEvaluator.Evaluate(domainReferenceNode, theContext.Model);
 
-                case DomainExpressionNode domainExpressionNode:
-                    var y = new DomainExpressionEvaluatorContext(domainExpressionNode, theContext.Model);
-                    return DomainExpressionEvaluator.Evaluate(y);
+                case RangeDomainExpressionNode rangeExpressionNode:
+                    return DomainExpressionEvaluator.Evaluate(rangeExpressionNode, theContext.Model);
+
+                case ListDomainExpressionNode listDomainExpressionNode:
+                    return DomainExpressionEvaluator.Evaluate(listDomainExpressionNode);
 
                 default:
                     throw new NotImplementedException("Unknown variable domain expression.");

@@ -66,17 +66,17 @@ namespace Workbench.Core.Models
             get
             {
                 if (Node != null)
-                    return Node.DomainReference;
+                    return Node.Inner as SharedDomainReferenceNode;
                 return null;
             }
         }
 
-        public DomainExpressionNode InlineDomain
+        public RangeDomainExpressionNode InlineDomain
         { 
             get
             {
                 if (Node != null)
-                    return Node.InlineDomain;
+                    return Node.Inner as RangeDomainExpressionNode;
                 return null;
             }
         }

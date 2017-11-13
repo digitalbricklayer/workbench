@@ -24,14 +24,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 2, "   A    ");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 2, "   $A    ");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 1, "A");
+            var sut = new AggregateVariableGraphicModel(new ModelModel(), "x", 1, "$A");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 

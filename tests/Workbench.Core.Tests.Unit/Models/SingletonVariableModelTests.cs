@@ -24,14 +24,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
-            var sut = new SingletonVariableGraphicModel(new ModelModel(), "x", "   A    ");
+            var sut = new SingletonVariableGraphicModel(new ModelModel(), "x", "   $A    ");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
-            var sut = new SingletonVariableGraphicModel(new ModelModel(), "x", "A");
+            var sut = new SingletonVariableGraphicModel(new ModelModel(), "x", "$A");
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
@@ -39,7 +39,7 @@ namespace Workbench.Core.Tests.Unit.Models
         public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
             var sut = new SingletonVariableGraphicModel(new ModelModel(), "x", "1..10");
-            Assert.That(sut.DomainExpression.InlineDomain, Is.InstanceOf<DomainExpressionNode>());
+            Assert.That(sut.DomainExpression.InlineDomain, Is.InstanceOf<RangeDomainExpressionNode>());
         }
     }
 }

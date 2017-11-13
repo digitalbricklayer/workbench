@@ -1,13 +1,13 @@
-﻿using Irony.Ast;
+using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
     /// <summary>
-    /// Root node for the variable domain expression.
+    /// Root node for the shared domain domain expression.
     /// </summary>
-    public class VariableDomainExpressionNode : AstNode
+    public class SharedDomainExpressionNode : AstNode
     {
         public AstNode Inner { get; private set; }
 

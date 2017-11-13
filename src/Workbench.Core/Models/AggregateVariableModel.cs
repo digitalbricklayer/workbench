@@ -221,7 +221,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theDomainExpression">Domain expression.</param>
         /// <returns>Domain range.</returns>
-        private DomainRange GetRangeFrom(VariableDomainExpressionModel theDomainExpression)
+        private DomainValue GetRangeFrom(VariableDomainExpressionModel theDomainExpression)
         {
             var evaluatorContext = new VariableDomainExpressionEvaluatorContext(theDomainExpression.Node, Model);
             return VariableDomainExpressionEvaluator.Evaluate(evaluatorContext);

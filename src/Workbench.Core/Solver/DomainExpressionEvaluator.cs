@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -8,29 +9,54 @@ namespace Workbench.Core.Solver
 {
     internal class DomainExpressionEvaluator
     {
-        internal DomainExpressionEvaluatorContext Context { get; private set; }
-
-        private DomainExpressionEvaluator(DomainExpressionEvaluatorContext theContext)
+        public static DomainValue Evaluate(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
         {
-            Context = theContext;
+            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
+            var evaluator = new DomainExpressionEvaluator();
+            return evaluator.EvaluateNode(theExpressionNode, theModel);
         }
 
-        public static DomainRange Evaluate(DomainExpressionEvaluatorContext theContext)
+        public static DomainValue Evaluate(ListDomainExpressionNode theExpressionNode)
         {
-            var evaluator = new DomainExpressionEvaluator(theContext);
-            return evaluator.Evaluate();
+            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
+
+            var evaluator = new DomainExpressionEvaluator();
+            return evaluator.EvaluateNode(theExpressionNode);
         }
 
-        public DomainRange Evaluate()
+        public static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
         {
-            var theDomainExpression = Context.DomainExpression;
+            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
+            Contract.Requires<ArgumentNullException>(theModel != null);
 
-            var lhsBand = EvaluateBand(theDomainExpression.LeftExpression);
-            var rhsBand = EvaluateBand(theDomainExpression.RightExpression);
-            return new DomainRange(lhsBand, rhsBand);
+            var evaluator = new DomainExpressionEvaluator();
+            return evaluator.EvaluateReference(theExpressionNode, theModel);
         }
 
-        private long EvaluateBand(BandExpressionNode theExpression)
+        private DomainValue EvaluateNode(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
+        {
+            var lhsBand = EvaluateBand(theExpressionNode.LeftExpression, theModel);
+            var rhsBand = EvaluateBand(theExpressionNode.RightExpression, theModel);
+            return new RangeDomainValue(lhsBand, rhsBand);
+        }
+
+        private DomainValue EvaluateNode(ListDomainExpressionNode theExpressionNode)
+        {
+            return null;
+        }
+
+        private DomainValue EvaluateReference(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
+        {
+            var sharedDomainName = theExpressionNode.DomainName;
+            var sharedDomainModel = theModel.GetSharedDomainByName(sharedDomainName.Name);
+
+            var evaluatorContext = new SharedDomainExpressionEvaluatorContext(sharedDomainModel.Expression.Node, theModel);
+            return SharedDomainExpressionEvaluator.Evaluate(evaluatorContext);
+        }
+
+        private long EvaluateBand(BandExpressionNode theExpression, ModelModel theModel)
         {
             if (theExpression.Inner is NumberLiteralNode numberLiteral)
             {
@@ -39,18 +65,18 @@ namespace Workbench.Core.Solver
 
             if (theExpression.Inner is FunctionInvocationNode functionCall)
             {
-                return EvaluateSizeFunction(functionCall);
+                return EvaluateSizeFunction(functionCall, theModel);
             }
 
             throw new NotImplementedException("Unknown band expression node.");
         }
 
-        private long EvaluateSizeFunction(FunctionInvocationNode functionCall)
+        private long EvaluateSizeFunction(FunctionInvocationNode functionCall, ModelModel theModel)
         {
             Debug.Assert(functionCall.FunctionName == "size");
 
             var variableName = functionCall.ArgumentList.Arguments.First().Value.Value;
-            var theVariable = Context.Model.GetVariableByName(variableName);
+            var theVariable = theModel.GetVariableByName(variableName);
             return theVariable.GetSize();
         }
     }

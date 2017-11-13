@@ -7,10 +7,10 @@ namespace Workbench.Core.Solver
 {
     internal class DomainExpressionEvaluatorContext
     {
-        internal DomainExpressionNode DomainExpression { get; private set; }
+        internal VariableDomainExpressionNode DomainExpression { get; private set; }
         internal ModelModel Model { get; private set; }
 
-        internal DomainExpressionEvaluatorContext(DomainExpressionNode theDomainExpression, ModelModel theModel)
+        internal DomainExpressionEvaluatorContext(VariableDomainExpressionNode theDomainExpression, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
             Contract.Requires<ArgumentNullException>(theModel != null);

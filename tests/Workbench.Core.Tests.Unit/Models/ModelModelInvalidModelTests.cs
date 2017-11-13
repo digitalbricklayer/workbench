@@ -65,7 +65,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var workspace = WorkspaceModel.Create("A model missing shared domain")
                                           .WithSharedDomain("a", "1..10")
-                                          .AddSingleton("x", "b")
+                                          .AddSingleton("x", "$b")
                                           .AddSingleton("y", "1..9")
                                           .WithConstraintExpression("x > y")
                                           .Build();

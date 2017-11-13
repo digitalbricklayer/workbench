@@ -1,73 +1,43 @@
 using System;
-using System.Diagnostics;
-using Workbench.Core.Models;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
     internal class SharedDomainExpressionEvaluator
     {
-        private SharedDomainExpressionEvaluatorContext context;
-
         private SharedDomainExpressionEvaluator(SharedDomainExpressionEvaluatorContext context)
         {
+            Contract.Requires<ArgumentNullException>(context != null);
+
             Context = context;
         }
 
-        internal SharedDomainExpressionEvaluatorContext Context
-        {
-            get { return this.context; }
-            private set { this.context = value; }
-        }
+        internal SharedDomainExpressionEvaluatorContext Context { get; private set; }
 
-        public static DomainRange Evaluate(SharedDomainExpressionEvaluatorContext theContext)
+        public static DomainValue Evaluate(SharedDomainExpressionEvaluatorContext theContext)
         {
+            Contract.Requires<ArgumentNullException>(theContext != null);
+
             var evaluator = new SharedDomainExpressionEvaluator(theContext);
             return evaluator.Evaluate();
         }
 
-        private DomainRange Evaluate()
+        private DomainValue Evaluate()
         {
             var theDomainExpression = Context.DomainExpression;
 
-            if (theDomainExpression.InlineDomain != null)
+            switch (theDomainExpression.Inner)
             {
-                var lhsBand = EvaluateBand(theDomainExpression.InlineDomain.LeftExpression);
-                var rhsBand = EvaluateBand(theDomainExpression.InlineDomain.RightExpression);
-                return new DomainRange(lhsBand, rhsBand);
+                case RangeDomainExpressionNode rangeDomainExpressionNode:
+                    return DomainExpressionEvaluator.Evaluate(rangeDomainExpressionNode, Context.Model);
+
+                case ListDomainExpressionNode listDomainExpressionNode:
+                    return DomainExpressionEvaluator.Evaluate(listDomainExpressionNode);
+
+                default:
+                    throw new NotImplementedException("Unknown domain expression.");
             }
-
-            if (theDomainExpression.DomainReference != null)
-            {
-                var sharedDomainName = theDomainExpression.DomainReference.DomainName;
-                var sharedDomainModel = Context.Model.GetSharedDomainByName(sharedDomainName.Name);
-
-                var evaluatorContext = new DomainExpressionEvaluatorContext(sharedDomainModel.Expression.Node, Context.Model);
-                return DomainExpressionEvaluator.Evaluate(evaluatorContext);
-            }
-
-            throw new NotImplementedException("Unknown variable domain expression.");
-        }
-
-        private long EvaluateBand(BandExpressionNode theExpression)
-        {
-            var numberLiteral = theExpression.Inner as NumberLiteralNode;
-            if (numberLiteral != null)
-            {
-                return numberLiteral.Value;
-            }
-
-            var functionCall = theExpression.Inner as FunctionInvocationNode;
-            if (functionCall != null)
-            {
-                Debug.Assert(functionCall.FunctionName == "size");
-
-                var variableName = functionCall.FunctionName;
-                var theVariable = Context.Model.GetVariableByName(variableName);
-                return theVariable.GetSize();
-            }
-
-            throw new NotImplementedException("Unknown band expression node.");
         }
     }
 }

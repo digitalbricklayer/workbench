@@ -2,6 +2,7 @@ using System;
 using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
+using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Nodes
 {
@@ -12,7 +13,9 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            Name = Convert.ToString(treeNode.Token.Value);
+            var nameWithPrefix = Convert.ToString(treeNode.Token.Value);
+            Contract.Assert(nameWithPrefix[0] == '$');
+            Name = nameWithPrefix.Substring(1);
         }
     }
 }
