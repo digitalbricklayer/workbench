@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -44,7 +45,12 @@ namespace Workbench.Core.Solver
 
         private DomainValue EvaluateNode(ListDomainExpressionNode theExpressionNode)
         {
-            return null;
+            var valueList = new List<string>();
+            foreach (var itemNameNode in theExpressionNode.Items.Values)
+            {
+                valueList.Add(itemNameNode.Value);
+            }
+            return new ListDomainValue(valueList);
         }
 
         private DomainValue EvaluateReference(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)

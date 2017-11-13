@@ -8,21 +8,21 @@
         /// <summary>
         /// Initialize a range with an upper and lower band.
         /// </summary>
-        /// <param name="upperBand">Upper band.</param>
         /// <param name="lowerBand">Lower band.</param>
-        public Range(long upperBand, long lowerBand)
+        /// <param name="upperBand">Upper band.</param>
+        public Range(long lowerBand, long upperBand)
         {
             Upper = upperBand;
             Lower = lowerBand;
         }
 
         /// <summary>
-        /// Gets the lower band.
+        /// Gets the lower range.
         /// </summary>
         public long Lower { get; private set; }
 
         /// <summary>
-        /// Gets the upper band.
+        /// Gets the upper range.
         /// </summary>
         public long Upper { get; private set; }
     }

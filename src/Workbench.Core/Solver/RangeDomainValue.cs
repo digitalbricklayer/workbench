@@ -31,7 +31,7 @@ namespace Workbench.Core.Solver
 
         public override Range GetRange()
         {
-            return new Range(Upper, Lower);
+            return new Range(Lower, Upper);
         }
 
         /// <summary>

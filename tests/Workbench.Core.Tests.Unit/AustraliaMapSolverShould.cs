@@ -38,7 +38,7 @@ namespace Workbench.Core.Tests.Unit
         private static WorkspaceModel CreateWorkspace()
         {
             var workspace = WorkspaceModel.Create("Australia Map Coloring Model")
-                                          .WithSharedDomain("colors", "1..3")
+                                          .WithSharedDomain("colors", "red, green, blue")
                                           .AddSingleton("wa", "$colors")
                                           .AddSingleton("nt", "$colors")
                                           .AddSingleton("sa", "$colors")
