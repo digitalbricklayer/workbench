@@ -47,7 +47,7 @@ namespace Workbench.Core.Grammars
             functionCallArgumentList.Rule = MakeStarRule(functionCallArgumentList, COMMA, functionCallArgument);
             bandExpression.Rule = numberLiteral | functionCall;
             rangeDomainExpression.Rule = bandExpression + RANGE + bandExpression;
-            domainExpression.Rule = rangeDomainExpression | listDomainExpression;
+            domainExpression.Rule = NewLine | rangeDomainExpression | listDomainExpression;
 
             Root = domainExpression;
 

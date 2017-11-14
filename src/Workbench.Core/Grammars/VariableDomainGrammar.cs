@@ -52,7 +52,7 @@ namespace Workbench.Core.Grammars
             bandExpression.Rule = numberLiteral | functionCall;
             rangeDomainExpression.Rule = bandExpression + RANGE + bandExpression;
             sharedDomainReference.Rule = domainName;
-            domainExpression.Rule = rangeDomainExpression | sharedDomainReference| listDomainExpression;
+            domainExpression.Rule = NewLine | rangeDomainExpression | sharedDomainReference| listDomainExpression;
 
             Root = domainExpression;
 
