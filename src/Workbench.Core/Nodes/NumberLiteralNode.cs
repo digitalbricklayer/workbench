@@ -10,7 +10,7 @@ namespace Workbench.Core.Nodes
         /// <summary>
         /// Gets the number literal value.
         /// </summary>
-        public int Value { get; set; }
+        public int Value { get; private set; }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

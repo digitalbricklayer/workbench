@@ -64,17 +64,20 @@ namespace Workbench.Core.Solver
 
         private long EvaluateBand(BandExpressionNode theExpression, ModelModel theModel)
         {
-            if (theExpression.Inner is NumberLiteralNode numberLiteral)
+            switch (theExpression.Inner)
             {
-                return numberLiteral.Value;
-            }
+                case NumberLiteralNode numberLiteral:
+                    return numberLiteral.Value;
 
-            if (theExpression.Inner is FunctionInvocationNode functionCall)
-            {
-                return EvaluateSizeFunction(functionCall, theModel);
-            }
+                case FunctionInvocationNode functionCall:
+                    return EvaluateSizeFunction(functionCall, theModel);
 
-            throw new NotImplementedException("Unknown band expression node.");
+                case CharacterLiteralNode characterLiteral:
+                    return characterLiteral.Value - 'a' + 1;
+
+                default:
+                    throw new NotImplementedException("Unknown band expression node.");
+            }
         }
 
         private long EvaluateSizeFunction(FunctionInvocationNode functionCall, ModelModel theModel)

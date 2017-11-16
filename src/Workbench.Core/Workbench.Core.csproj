@@ -195,6 +195,7 @@
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
     <Compile Include="Nodes\BandExpressionNode.cs" />
+    <Compile Include="Nodes\CharacterLiteralNode.cs" />
     <Compile Include="Nodes\SharedDomainExpressionNode.cs" />
     <Compile Include="Nodes\DomainNameNode.cs" />
     <Compile Include="Nodes\FunctionArgumentListNode.cs" />

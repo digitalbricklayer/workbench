@@ -24,5 +24,23 @@ namespace Workbench.Core.Tests.Unit.Models
             var rangeExpressionNode = (RangeDomainExpressionNode) sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.RightExpression, Is.InstanceOf<BandExpressionNode>());
         }
+
+        [Test]
+        public void Initialize_With_Character_Range_Parses_Expected_Lower_Band()
+        {
+            var sut = new DomainGraphicModel("    'a'..'z'     ");
+            var rangeExpressionNode = (RangeDomainExpressionNode)sut.Expression.Node.Inner;
+            Assert.That(rangeExpressionNode.RightExpression, Is.InstanceOf<BandExpressionNode>());
+        }
+
+        [Test]
+        public void Initialize_With_List_Expression_Parses_Expected_Inner()
+        {
+            var sut = new DomainGraphicModel("rita, sue, bob");
+            var rangeExpressionNode = (ListDomainExpressionNode)sut.Expression.Node.Inner;
+            Assert.That(rangeExpressionNode.Items.Values, Is.All.Not.Null);
+            Assert.That(rangeExpressionNode.Items.Values, Is.All.InstanceOf<ItemNameNode>());
+            Assert.That(rangeExpressionNode.Items.Values, Has.Count.EqualTo(3));
+        }
     }
 }

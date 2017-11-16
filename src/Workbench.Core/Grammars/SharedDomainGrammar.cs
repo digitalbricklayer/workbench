@@ -22,6 +22,8 @@ namespace Workbench.Core.Grammars
 
             // Terminals
             var numberLiteral = new NumberLiteral("number literal", NumberOptions.IntOnly, typeof(NumberLiteralNode));
+            var characterLiteral = new StringLiteral("character literal", "'", StringOptions.IsChar);
+            characterLiteral.AstConfig.NodeType = typeof(CharacterLiteralNode);
             var itemName = new IdentifierTerminal("string literal", IdOptions.IsNotKeyword);
             itemName.AstConfig.NodeType = typeof(ItemNameNode);
             var functionCallArgumentStringLiteral = new IdentifierTerminal("function call argument string literal");
@@ -45,7 +47,7 @@ namespace Workbench.Core.Grammars
             functionCallArgument.Rule = numberLiteral | functionCallArgumentStringLiteral;
             functionCall.Rule = functionName + OPEN_ARG + functionCallArgumentList + CLOSE_ARG;
             functionCallArgumentList.Rule = MakeStarRule(functionCallArgumentList, COMMA, functionCallArgument);
-            bandExpression.Rule = numberLiteral | functionCall;
+            bandExpression.Rule = numberLiteral | functionCall | characterLiteral;
             rangeDomainExpression.Rule = bandExpression + RANGE + bandExpression;
             domainExpression.Rule = NewLine | rangeDomainExpression | listDomainExpression;
 
