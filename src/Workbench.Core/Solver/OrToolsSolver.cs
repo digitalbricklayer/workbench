@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
@@ -12,8 +11,8 @@ namespace Workbench.Core.Solver
     public class OrToolsSolver : IDisposable
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
-        private ModelConverter modelConverter;
-        private readonly OrToolsCache cache = new OrToolsCache();
+        private readonly OrToolsCache orToolsCache = new OrToolsCache();
+        private readonly ValueMapper valueMapper = new ValueMapper();
 
         /// <summary>
         /// Solve the problem in the model.
@@ -28,18 +27,19 @@ namespace Workbench.Core.Solver
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
 
-            this.modelConverter = new ModelConverter(this.solver, this.cache);
+            var modelConverter = new ModelConverter(this.solver, this.orToolsCache, this.valueMapper);
             modelConverter.ConvertFrom(theModel);
 
             // Search
-            var decisionBuilder = solver.MakePhase(this.cache.Variables,
+            var decisionBuilder = solver.MakePhase(this.orToolsCache.Variables,
                                                    Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
                                                    Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
             var collector = CreateCollector();
             var solveResult = this.solver.Solve(decisionBuilder, collector);
             if (!solveResult) return SolveResult.Failed;
 
-            var theSolutionSnapshot = ExtractValuesFrom(collector);
+            var snapshotExtractor = new SnapshotExtractor(this.orToolsCache, this.valueMapper);
+            var theSolutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
             theSolutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
             return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
         }
@@ -54,38 +54,12 @@ namespace Workbench.Core.Solver
             this.solver = null;
         }
 
-        private SolutionSnapshot ExtractValuesFrom(SolutionCollector solutionCollector)
-        {
-            var theSnapshot = new SolutionSnapshot();
-            foreach (var variableTuple in this.cache.SingletonVariableMap)
-            {
-                var boundValue = solutionCollector.Value(0, variableTuple.Value.Item2);
-                var newValue = new ValueModel(variableTuple.Value.Item1, Convert.ToInt32(boundValue));
-                theSnapshot.AddSingletonValue(newValue);
-            }
-
-            foreach (var aggregateTuple in this.cache.AggregateVariableMap)
-            {
-                var newValues = new List<int>();
-                var orVariables = aggregateTuple.Value.Item2;
-                foreach (var orVariable in orVariables)
-                {
-                    var boundValue = solutionCollector.Value(0, orVariable);
-                    newValues.Add(Convert.ToInt32(boundValue));
-                }
-                var newValue = new ValueModel(aggregateTuple.Value.Item1, newValues);
-                theSnapshot.AddAggregateValue(newValue);
-            }
-
-            return theSnapshot;
-        }
-
         private SolutionCollector CreateCollector()
         {
             var collector = this.solver.MakeFirstSolutionCollector();
-            foreach (var variableTuple in this.cache.SingletonVariableMap)
+            foreach (var variableTuple in this.orToolsCache.SingletonVariableMap)
                 collector.Add(variableTuple.Value.Item2);
-            foreach (var variableTuple in this.cache.AggregateVariableMap)
+            foreach (var variableTuple in this.orToolsCache.AggregateVariableMap)
             {
                 var variablesInsideAggregate = variableTuple.Value.Item2;
                 foreach (var intVar in variablesInsideAggregate)

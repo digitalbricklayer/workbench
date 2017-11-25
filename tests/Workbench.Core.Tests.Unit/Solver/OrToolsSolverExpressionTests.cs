@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
@@ -28,7 +29,7 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualSnapshot = actualResult.Snapshot;
                 var x = actualSnapshot.GetSingletonVariableValueByName("x");
                 var y = actualSnapshot.GetSingletonVariableValueByName("y");
-                Assert.That(x.Value + 1, Is.Not.EqualTo(y.Value - 1));
+                Assert.That(x.GetValueAsInt() + 1, Is.Not.EqualTo(y.GetValueAsInt() - 1));
             }
         }
 

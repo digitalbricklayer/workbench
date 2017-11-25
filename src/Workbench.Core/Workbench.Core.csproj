@@ -190,6 +190,7 @@
     <Compile Include="Models\SingletonVariableGraphicModel.cs" />
     <Compile Include="Models\SingletonVariableModel.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
+    <Compile Include="Models\ValueBinding.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solver\ConstraintConverter.cs" />
     <Compile Include="Solver\Range.cs" />
     <Compile Include="Solver\DomainExpressionEvaluator.cs" />
     <Compile Include="Solver\DomainExpressionEvaluatorContext.cs" />
@@ -314,9 +316,12 @@
     <Compile Include="Solver\OrToolsSolver.cs" />
     <Compile Include="Solver\SharedDomainExpressionEvaluator.cs" />
     <Compile Include="Solver\SharedDomainExpressionEvaluatorContext.cs" />
+    <Compile Include="Solver\SnapshotExtractor.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
+    <Compile Include="Solver\ValueConverter.cs" />
     <Compile Include="Solver\VariableBandEvaluator.cs" />
+    <Compile Include="Solver\VariableConverter.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluator.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluatorContext.cs" />
   </ItemGroup>

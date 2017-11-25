@@ -15,7 +15,7 @@ namespace Workbench.Core.Solver
 
         internal SharedDomainExpressionEvaluatorContext Context { get; private set; }
 
-        public static DomainValue Evaluate(SharedDomainExpressionEvaluatorContext theContext)
+        internal static DomainValue Evaluate(SharedDomainExpressionEvaluatorContext theContext)
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
 

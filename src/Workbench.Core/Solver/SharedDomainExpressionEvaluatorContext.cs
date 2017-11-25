@@ -10,7 +10,7 @@ namespace Workbench.Core.Solver
         public SharedDomainExpressionNode DomainExpression { get; private set; }
         public ModelModel Model { get; private set; }
 
-        public SharedDomainExpressionEvaluatorContext(SharedDomainExpressionNode theExpressionNode, ModelModel theModel)
+        internal SharedDomainExpressionEvaluatorContext(SharedDomainExpressionNode theExpressionNode, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
             Contract.Requires<ArgumentNullException>(theModel != null);

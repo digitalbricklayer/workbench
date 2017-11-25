@@ -41,7 +41,7 @@ namespace Workbench.UI.Tests.Integration
         {
             var solutionModel = new SolutionModel(modelModel);
             var x = new SingletonVariableGraphicModel(modelModel, "x");
-            var valueOfX = new ValueModel(x, 1);
+            var valueOfX = new ValueModel(x, new ValueBinding(1, 1));
             solutionModel.Snapshot.AddSingletonValue(valueOfX);
             return solutionModel;
         }

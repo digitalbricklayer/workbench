@@ -91,34 +91,36 @@ namespace Workbench.Core.Repeaters
         {
             Contract.Requires<ArgumentNullException>(binaryExpressionNode != null);
             var leftValue = EvaluateExpression(binaryExpressionNode.LeftExpression);
+            var leftNumber = Convert.ToInt32(leftValue);
             var rightValue = EvaluateExpression(binaryExpressionNode.RightExpression);
+            var rightNumber = Convert.ToInt32(rightValue);
 
             switch (binaryExpressionNode.Operator)
             {
                 case OperatorType.Equals:
-                    return leftValue == rightValue;
+                    return leftNumber == rightNumber;
 
                 case OperatorType.NotEqual:
-                    return leftValue != rightValue;
+                    return leftNumber != rightNumber;
 
                 case OperatorType.Greater:
-                    return leftValue > rightValue;
+                    return leftNumber > rightNumber;
 
                 case OperatorType.GreaterThanOrEqual:
-                    return leftValue >= rightValue;
+                    return leftNumber >= rightNumber;
 
                 case OperatorType.Less:
-                    return leftValue < rightValue;
+                    return leftNumber < rightNumber;
 
                 case OperatorType.LessThanOrEqual:
-                    return leftValue <= rightValue;
+                    return leftNumber <= rightNumber;
 
                 default:
                     throw new NotImplementedException("Unknown operator.");
             }
         }
 
-        private int EvaluateExpression(VisualizerExpressionNode theExpression)
+        private object EvaluateExpression(VisualizerExpressionNode theExpression)
         {
             Contract.Requires<ArgumentNullException>(theExpression != null);
             if (theExpression.IsLiteral) return theExpression.GetLiteral();
@@ -138,7 +140,7 @@ namespace Workbench.Core.Repeaters
             }
         }
 
-        private int EvaluateValueReferenceExpression(ValueReferenceStatementNode theValueReferenceExpression)
+        private object EvaluateValueReferenceExpression(ValueReferenceStatementNode theValueReferenceExpression)
         {
             if (theValueReferenceExpression.IsSingletonValue)
             {
@@ -161,7 +163,7 @@ namespace Workbench.Core.Repeaters
                     offsetValue = counterContext.CurrentValue;
                 }
                 var aggregateValue = this.snapshot.GetAggregateVariableValueByName(aggregateVariableName.Name);
-                return aggregateValue.GetValueAt(offsetValue - 1);
+                return aggregateValue.GetValueAt(offsetValue - 1).Model;
             }
             else
             {

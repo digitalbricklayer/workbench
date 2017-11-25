@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
@@ -12,25 +13,18 @@ namespace Workbench.Core.Solver
     public class ListDomainValue : DomainValue
     {
         private IList<string> values;
+        private ListDomainExpressionNode expressionNode;
 
         /// <summary>
         /// Initialize a domain range with a list of values.
         /// </summary>
         /// <param name="low">Low band.</param>
         /// <param name="high">High band.</param>
-        internal ListDomainValue(IEnumerable<string> theList)
+        internal ListDomainValue(IEnumerable<string> theList, ListDomainExpressionNode theNode)
+            : base(theNode)
         {
             this.values = new List<string>(theList);
-        }
-
-        /// <summary>
-        /// Initialize a domain range with a list of values.
-        /// </summary>
-        /// <param name="low">Low band.</param>
-        /// <param name="high">High band.</param>
-        internal ListDomainValue(params string[] theList)
-        {
-            this.values = new List<string>(theList);
+            this.expressionNode = theNode;
         }
 
         /// <summary>
@@ -62,6 +56,12 @@ namespace Workbench.Core.Solver
 #else
             return false;
 #endif
+        }
+
+        internal override object MapFrom(long solverValue)
+        {
+            Contract.Assume(solverValue <= this.values.Count);
+            return this.values[Convert.ToInt32(solverValue) - 1];
         }
     }
 }

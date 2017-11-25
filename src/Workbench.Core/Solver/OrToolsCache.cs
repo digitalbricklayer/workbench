@@ -7,51 +7,51 @@ namespace Workbench.Core.Solver
 {
     /// <summary>
     /// Cache references between items in Google or-tools and their 
-    /// equivalents in the Model.
+    /// equivalents in the model.
     /// </summary>
-    class OrToolsCache
+    internal class OrToolsCache
     {
-        private readonly Dictionary<string, Tuple<VariableGraphicModel, IntVar>> singletonVariableMap;
+        private readonly Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>> singletonVariableMap;
         private readonly Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> aggregateVariableMap;
 
-        public OrToolsCache()
+        internal OrToolsCache()
         {
-            this.singletonVariableMap = new Dictionary<string, Tuple<VariableGraphicModel, IntVar>>();
+            this.singletonVariableMap = new Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>>();
             this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>>();
             this.Variables = new IntVarVector();
         }
 
-        public Dictionary<string, Tuple<VariableGraphicModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
-        public Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
-        public IntVarVector Variables { get; private set; }
+        internal Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
+        internal Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
+        internal IntVarVector Variables { get; private set; }
 
-        public void AddAggregate(string name, Tuple<AggregateVariableGraphicModel, IntVarVector> tuple)
+        internal void AddAggregate(string name, Tuple<AggregateVariableGraphicModel, IntVarVector> tuple)
         {
             this.aggregateVariableMap.Add(name, tuple);
         }
 
-        public void AddSingleton(string name, Tuple<VariableGraphicModel, IntVar> tuple)
+        internal void AddSingleton(string name, Tuple<SingletonVariableGraphicModel, IntVar> tuple)
         {
             this.singletonVariableMap.Add(name, tuple);
         }
 
-        public IntVarVector GetVectorByName(string aggregateName)
+        internal IntVarVector GetVectorByName(string aggregateName)
         {
             return this.aggregateVariableMap[aggregateName].Item2;
         }
 
-        public IntVar GetSingletonVariableByName(string theVariableName)
+        internal IntVar GetSingletonVariableByName(string theVariableName)
         {
             return this.singletonVariableMap[theVariableName].Item2;
         }
 
-        public IntVar GetAggregateVariableByName(string theVariableName, int index)
+        internal IntVar GetAggregateVariableByName(string theVariableName, int index)
         {
             var orVariables = this.aggregateVariableMap[theVariableName].Item2;
             return orVariables[index];
         }
 
-        public void AddVariable(IntVar orVar)
+        internal void AddVariable(IntVar orVar)
         {
             Variables.Add(orVar);
         }

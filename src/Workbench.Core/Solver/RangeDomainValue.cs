@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
@@ -8,15 +9,19 @@ namespace Workbench.Core.Solver
     /// </summary>
     public class RangeDomainValue : DomainValue
     {
+        private RangeDomainExpressionNode expressionNode;
+
         /// <summary>
         /// Initialize a domain range with a low and high band.
         /// </summary>
         /// <param name="low">Low band.</param>
         /// <param name="high">High band.</param>
-        internal RangeDomainValue(long low, long high)
+        internal RangeDomainValue(long low, long high, RangeDomainExpressionNode theNode)
+            : base(theNode)
         {
             Lower = low;
             Upper = high;
+            this.expressionNode = theNode;
         }
 
         /// <summary>
@@ -45,6 +50,41 @@ namespace Workbench.Core.Solver
 
             var otherModel = (RangeDomainValue) theDomainValue;
             return otherModel.Upper <= Upper && otherModel.Lower >= Lower;
+        }
+
+        /// <summary>
+        /// Map from the solver value to the model value.
+        /// </summary>
+        /// <param name="solverValue">Solver value.</param>
+        /// <returns>Model value.</returns>
+        internal override object MapFrom(long solverValue)
+        {
+            if (IsNumberLiteralExpression())
+            {
+                return Lower + (solverValue - 1);
+            }
+            else if (IsCharacterLiteralExpression())
+            {
+                var leftCharacterNode = this.expressionNode.LeftExpression.Inner as CharacterLiteralNode;
+                var rightCharacterNode = this.expressionNode.RightExpression.Inner as CharacterLiteralNode;
+                var lowerCharacterLimit = leftCharacterNode.Value;
+                var upperCharacterLimit = rightCharacterNode.Value;
+                return Convert.ToChar(lowerCharacterLimit + (solverValue - 1));
+            }
+            else
+            {
+                throw new NotImplementedException("Unknown range expression.");
+            }
+        }
+
+        private bool IsCharacterLiteralExpression()
+        {
+            return this.expressionNode.LeftExpression.Inner is CharacterLiteralNode;
+        }
+
+        private bool IsNumberLiteralExpression()
+        {
+            return this.expressionNode.LeftExpression.Inner is NumberLiteralNode;
         }
     }
 }

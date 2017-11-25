@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
@@ -8,9 +7,18 @@ using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
-    internal class DomainExpressionEvaluator
+    /// <summary>
+    /// Evaluator for domain expressions.
+    /// </summary>
+    internal sealed class DomainExpressionEvaluator
     {
-        public static DomainValue Evaluate(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
+        /// <summary>
+        /// Evaluate a range domain expression.
+        /// </summary>
+        /// <param name="theExpressionNode">The range expression node.</param>
+        /// <param name="theModel">The model.</param>
+        /// <returns>Domain value.</returns>
+        internal static DomainValue Evaluate(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -19,7 +27,12 @@ namespace Workbench.Core.Solver
             return evaluator.EvaluateNode(theExpressionNode, theModel);
         }
 
-        public static DomainValue Evaluate(ListDomainExpressionNode theExpressionNode)
+        /// <summary>
+        /// Evaluate a list domain expression.
+        /// </summary>
+        /// <param name="theExpressionNode">List domain expression node.</param>
+        /// <returns>Domain value.</returns>
+        internal static DomainValue Evaluate(ListDomainExpressionNode theExpressionNode)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
 
@@ -27,7 +40,13 @@ namespace Workbench.Core.Solver
             return evaluator.EvaluateNode(theExpressionNode);
         }
 
-        public static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
+        /// <summary>
+        /// Evaluate a shared domain reference.
+        /// </summary>
+        /// <param name="theExpressionNode">Shared domain reference node.</param>
+        /// <param name="theModel">The model.</param>
+        /// <returns>Domain value.</returns>
+        internal static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -40,7 +59,7 @@ namespace Workbench.Core.Solver
         {
             var lhsBand = EvaluateBand(theExpressionNode.LeftExpression, theModel);
             var rhsBand = EvaluateBand(theExpressionNode.RightExpression, theModel);
-            return new RangeDomainValue(lhsBand, rhsBand);
+            return new RangeDomainValue(lhsBand, rhsBand, theExpressionNode);
         }
 
         private DomainValue EvaluateNode(ListDomainExpressionNode theExpressionNode)
@@ -50,7 +69,7 @@ namespace Workbench.Core.Solver
             {
                 valueList.Add(itemNameNode.Value);
             }
-            return new ListDomainValue(valueList);
+            return new ListDomainValue(valueList, theExpressionNode);
         }
 
         private DomainValue EvaluateReference(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
@@ -82,7 +101,7 @@ namespace Workbench.Core.Solver
 
         private long EvaluateSizeFunction(FunctionInvocationNode functionCall, ModelModel theModel)
         {
-            Debug.Assert(functionCall.FunctionName == "size");
+            Contract.Assert(functionCall.FunctionName == "size");
 
             var variableName = functionCall.ArgumentList.Arguments.First().Value.Value;
             var theVariable = theModel.GetVariableByName(variableName);

@@ -9,7 +9,7 @@ namespace Workbench.Core.Solver
     /// Convert the expression constraint model representation into a representation usable 
     /// by the or-tools solver.
     /// </summary>
-    class ExpressionConstraintConverter
+    internal class ExpressionConstraintConverter
     {
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
@@ -21,7 +21,7 @@ namespace Workbench.Core.Solver
         /// <param name="theSolver">Google or-tools solver instance.</param>
         /// <param name="theCache">Cache mapping between the model and Google or-tools solver.</param>
         /// <param name="theModel">Model</param>
-        public ExpressionConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
+        internal ExpressionConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
@@ -34,7 +34,7 @@ namespace Workbench.Core.Solver
         /// Map the expression constraint model into the or-tools solver.
         /// </summary>
         /// <param name="constraint">Expression constraint model.</param>
-        public void ProcessConstraint(ExpressionConstraintGraphicModel constraint)
+        internal void ProcessConstraint(ExpressionConstraintGraphicModel constraint)
         {
             Contract.Requires<ArgumentNullException>(constraint != null);
             var repeater = new ConstraintRepeater(this.solver, this.cache, this.model);

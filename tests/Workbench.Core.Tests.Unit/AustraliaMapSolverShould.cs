@@ -22,6 +22,15 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
+        public void SolveWithMapModelReturnsValidSnapshot()
+        {
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
+            var waValue = actualResult.Snapshot.GetSingletonVariableValueByName("wa");
+            Assert.That(waValue.Value, Is.TypeOf<string>());
+        }
+
+        [Test]
         public void SolveWithGridVisualizerAssignsColorsWithinContraints()
         {
             var sut = CreateWorkspace();

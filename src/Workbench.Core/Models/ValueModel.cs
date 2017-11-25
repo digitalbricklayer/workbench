@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ValueModel
     {
-        private readonly List<int> values;
+        private readonly List<ValueBinding> values;
 
         /// <summary>
         /// Initialize the value model with the variable and 
@@ -20,13 +21,22 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValues">Values to bind to the model.</param>
-        public ValueModel(VariableGraphicModel theModel, IReadOnlyCollection<int> theValues)
+        public ValueModel(VariableGraphicModel theModel, IReadOnlyCollection<ValueBinding> theValues)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theValues != null);
             Contract.Requires<ArgumentException>(theValues.Any());
-            this.Variable = theModel;
-            this.values = new List<int>(theValues);
+            Variable = theModel;
+            this.values = new List<ValueBinding>(theValues);
+        }
+
+        /// <summary>
+        /// Return the value as an integer.
+        /// </summary>
+        /// <returns>Value as an integer.</returns>
+        public int GetValueAsInt()
+        {
+            return Convert.ToInt32(Value);
         }
 
         /// <summary>
@@ -35,11 +45,11 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValue">Value to bind to the model.</param>
-        public ValueModel(VariableGraphicModel theModel, int theValue)
+        public ValueModel(VariableGraphicModel theModel, ValueBinding theValue)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            this.Variable = theModel;
-            this.values = new List<int> {theValue};
+            Variable = theModel;
+            this.values = new List<ValueBinding> {theValue};
         }
 
         /// <summary>
@@ -48,30 +58,43 @@ namespace Workbench.Core.Models
         public VariableGraphicModel Variable { get; private set; }
 
         /// <summary>
-        /// Gets the values bound to the aggregate variable.
+        /// Gets the bindings bound to the variable.
         /// </summary>
-        public IReadOnlyCollection<int> Values
+        public IReadOnlyCollection<ValueBinding> Bindings
         {
             get
             {
                 Contract.Assume(this.values != null);
-                return this.values.ToArray();
+                return new ReadOnlyCollection<ValueBinding>(this.values);
+            }
+        }
+
+        /// <summary>
+        /// Gets the model values bound to the variable.
+        /// </summary>
+        public IReadOnlyCollection<object> Values
+        {
+            get
+            {
+                Contract.Assume(this.values != null);
+                var theValues = new List<object>();
+                foreach (var valueBinding in this.values)
+                {
+                    theValues.Add(valueBinding.Model);
+                }
+                return new ReadOnlyCollection<object>(theValues);
             }
         }
 
         /// <summary>
         /// Gets or sets the first value.
         /// </summary>
-        public int Value
+        public object Value
         {
             get
             {
                 Contract.Assume(this.values != null);
-                return this.GetValueAt(0);
-            }
-            set
-            {
-                this.values[0] = value;
+                return GetValueAt(0).Model;
             }
         }
 
@@ -82,8 +105,8 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(this.Variable != null);
-                return this.Variable.Name;
+                Contract.Assume(Variable != null);
+                return Variable.Name;
             }
         }
 
@@ -110,9 +133,9 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="index">Index starting at zero.</param>
         /// <returns>Value at index.</returns>
-        public int GetValueAt(int index)
+        public ValueBinding GetValueAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index < this.Values.Count);
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
             return this.values[index];
         }
     }

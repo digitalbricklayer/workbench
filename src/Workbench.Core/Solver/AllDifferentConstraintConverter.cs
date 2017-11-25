@@ -8,7 +8,7 @@ namespace Workbench.Core.Solver
     /// Convert the all different constraint model representation into a representation usable 
     /// by the or-tools solver.
     /// </summary>
-    class AllDifferentConstraintConverter
+    internal class AllDifferentConstraintConverter
     {
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
@@ -20,7 +20,7 @@ namespace Workbench.Core.Solver
         /// <param name="theSolver">Google or-tools solver instance.</param>
         /// <param name="theCache">Cache mapping between the model and Google or-tools solver.</param>
         /// <param name="theModel">Model.</param>
-        public AllDifferentConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
+        internal AllDifferentConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
@@ -33,7 +33,7 @@ namespace Workbench.Core.Solver
         /// Map the all different constraint model into the or-tools solver.
         /// </summary>
         /// <param name="allDifferentConstraint">All different constraint model.</param>
-        public void ProcessConstraint(AllDifferentConstraintGraphicModel allDifferentConstraint)
+        internal void ProcessConstraint(AllDifferentConstraintGraphicModel allDifferentConstraint)
         {
             Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
             var theVector = this.cache.GetVectorByName(allDifferentConstraint.Expression.Text);
