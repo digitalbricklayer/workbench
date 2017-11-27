@@ -9,7 +9,7 @@ namespace Workbench.Core.Grammars
     [Language("Shared Domain Expression Grammar", "0.1", "A grammar for shared domain expressions.")]
     internal class SharedDomainGrammar : Grammar
     {
-        public SharedDomainGrammar()
+        internal SharedDomainGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |

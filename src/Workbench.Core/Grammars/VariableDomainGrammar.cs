@@ -9,7 +9,7 @@ namespace Workbench.Core.Grammars
     [Language("Variable Domain Expression Grammar", "0.1", "A grammar for variable inline domain expressions.")]
     internal class VariableDomainGrammar : Grammar
     {
-        public VariableDomainGrammar()
+        internal VariableDomainGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |

@@ -90,7 +90,7 @@ namespace Workbench.Core.Models
             Contract.Assume(Model != null);
             var solveResult = Model.Solve();
             if (solveResult.IsFailure) return solveResult;
-            UpdateSolutionFrom(solveResult);
+            Solution.UpdateSolutionFrom(solveResult);
 
             return solveResult;
         }
@@ -103,16 +103,6 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             Solution.AddBindingExpression(newBindingExpression);
-        }
-
-        /// <summary>
-        /// Update the solution from a snapshot.
-        /// </summary>
-        /// <param name="theSolveResult">The model solution.</param>
-        private void UpdateSolutionFrom(SolveResult theSolveResult)
-        {
-            Contract.Requires<ArgumentNullException>(theSolveResult != null);
-            Solution.UpdateSolutionFrom(theSolveResult);
         }
     }
 }

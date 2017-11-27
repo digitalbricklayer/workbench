@@ -9,7 +9,7 @@ namespace Workbench.Core.Grammars
     [Language("Visualizer Binding Expression", "0.1", "A grammar for binding a model solution to a visualizer.")]
     internal class VisualizerBindingGrammar : Grammar
     {
-        public VisualizerBindingGrammar()
+        internal VisualizerBindingGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |

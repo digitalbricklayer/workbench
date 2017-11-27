@@ -9,7 +9,7 @@ namespace Workbench.Core.Grammars
     [Language("Constraint Expression", "0.1", "A grammar for expressing constraints.")]
     internal class ConstraintGrammar : Grammar
     {
-        public ConstraintGrammar()
+        internal ConstraintGrammar()
             : base(caseSensitive: false)
         {
             LanguageFlags = LanguageFlags.CreateAst |
