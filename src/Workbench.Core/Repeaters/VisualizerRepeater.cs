@@ -163,7 +163,7 @@ namespace Workbench.Core.Repeaters
                     offsetValue = counterContext.CurrentValue;
                 }
                 var aggregateValue = this.snapshot.GetAggregateVariableValueByName(aggregateVariableName.Name);
-                return aggregateValue.GetValueAt(offsetValue - 1).Model;
+                return aggregateValue.GetValueAt(offsetValue - 1);
             }
             else
             {

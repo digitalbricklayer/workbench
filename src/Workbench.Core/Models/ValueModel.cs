@@ -94,7 +94,7 @@ namespace Workbench.Core.Models
             get
             {
                 Contract.Assume(this.values != null);
-                return GetValueAt(0).Model;
+                return GetValueAt(0);
             }
         }
 
@@ -133,9 +133,23 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="index">Index starting at zero.</param>
         /// <returns>Value at index.</returns>
-        public ValueBinding GetValueAt(int index)
+        public object GetValueAt(int index)
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
+
+            var theValue = this.values[index];
+            return theValue.Model;
+        }
+
+        /// <summary>
+        /// Get the value at the index.
+        /// </summary>
+        /// <param name="index">Index starting at zero.</param>
+        /// <returns>Value at index.</returns>
+        public ValueBinding GetBindingAt(int index)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
+
             return this.values[index];
         }
     }

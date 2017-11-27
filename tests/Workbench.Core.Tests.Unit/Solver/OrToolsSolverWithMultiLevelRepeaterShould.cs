@@ -25,8 +25,8 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
                 var x = actualSnapshot.GetAggregateVariableValueByName("x");
-                Assert.That(x.GetValueAt(1).Model, Is.EqualTo(x.GetValueAt(2).Model));
-                Assert.That(x.GetValueAt(1).Model, Is.EqualTo(x.GetValueAt(3).Model));
+                Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(2)));
+                Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(3)));
             }
         }
 

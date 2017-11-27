@@ -25,8 +25,8 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
                 var c = actualSnapshot.GetAggregateVariableValueByName("c");
-                Assert.That(c.GetValueAt(0).Model, Is.LessThan(c.GetValueAt(9).Model));
-                Assert.That(c.GetValueAt(1).Model, Is.GreaterThan(c.GetValueAt(8).Model));
+                Assert.That(c.GetValueAt(0), Is.LessThan(c.GetValueAt(9)));
+                Assert.That(c.GetValueAt(1), Is.GreaterThan(c.GetValueAt(8)));
             }
         }
 
@@ -50,7 +50,7 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
                 var c = actualSnapshot.GetAggregateVariableValueByName("c");
-                Assert.That(c.GetValueAt(0).Model, Is.InRange(1, 9));
+                Assert.That(c.GetValueAt(0), Is.InRange(1, 9));
             }
         }
 
