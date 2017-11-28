@@ -25,10 +25,12 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var aValue = actualResult.Snapshot.GetAggregateVariableValueByName("a");
-            var actualSolverValues = aValue.Bindings.Select(_ => _.Solver).ToList();
-            var actualModelValues = aValue.Bindings.Select(_ => _.Model).ToList();
+            var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
+													.ToList();
+            var actualModelValues = aValue.Bindings.Select(_ => _.Model)
+												   .ToList();
             Assert.That(aValue.Values, Is.Unique);
-            Assert.That(aValue.Value, Is.TypeOf<char>());
+            Assert.That(aValue.Values, Is.All.TypeOf<char>());
             Assert.That(actualSolverValues, Is.All.InRange(1, 26));
             Assert.That(actualModelValues, Is.All.InRange('a', 'z')
                                                  .Using(new CharacterRangeComparer()));
@@ -40,7 +42,7 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var bValue = actualResult.Snapshot.GetSingletonVariableValueByName("b");
-            var bValueBinding = bValue.Bindings.First();
+            var bValueBinding = bValue.GetBindingAt(0);
             Assert.That(bValueBinding.Solver, Is.InRange(1, 26));
             Assert.That(bValueBinding.Model, Is.InRange('a', 'z')
                                                .Using(new CharacterRangeComparer()));
@@ -56,7 +58,7 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var cValue = actualResult.Snapshot.GetSingletonVariableValueByName("c");
-            var cValueBinding = cValue.Bindings.First();
+            var cValueBinding = cValue.GetBindingAt(0);
             Assert.That(cValueBinding.Solver, Is.InRange(1, 26));
             Assert.That(cValueBinding.Model, Is.InRange(1, 26));
             Assert.That(cValueBinding.Solver, Is.EqualTo(cValueBinding.Model));
