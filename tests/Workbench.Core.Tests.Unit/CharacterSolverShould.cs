@@ -48,32 +48,13 @@ namespace Workbench.Core.Tests.Unit
                                                .Using(new CharacterRangeComparer()));
         }
 
-        /// <summary>
-        /// For a value binding for a number range, the model and solver values 
-        /// should be the same.
-        /// </summary>
-        [Test]
-        public void SolveWithCharacterModelReturnsValidListModelBinding()
-        {
-            var sut = CreateWorkspace();
-            var actualResult = sut.Solve();
-            var cValue = actualResult.Snapshot.GetSingletonVariableValueByName("c");
-            var cValueBinding = cValue.GetBindingAt(0);
-            Assert.That(cValueBinding.Solver, Is.InRange(1, 3));
-            Assert.That(cValueBinding.Model, Is.InstanceOf<string>());
-            Assert.That(cValueBinding.Model, Is.EqualTo("moon"));
-        }
-
         private static WorkspaceModel CreateWorkspace()
         {
-            var workspace = WorkspaceModel.Create("A made up test")
+            var workspace = WorkspaceModel.Create("A made up character range test")
                                           .AddAggregate("a", 26, "'a'..'z'")
                                           .AddSingleton("b", "'a'..'z'")
-                                          .AddSingleton("c", "sun, moon, sky")
                                           .WithConstraintAllDifferent("a")
                                           .WithConstraintExpression("$b <> 'a'")
-                                          .WithConstraintExpression("$c <> sun")
-                                          .WithConstraintExpression("$c <> sky")
                                           .Build();
 
             return workspace;

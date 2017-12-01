@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterRangeComparer.cs" />
+    <Compile Include="ListSolverShould.cs" />
     <Compile Include="CharacterSolverShould.cs" />
     <Compile Include="EightQueensSolverShould.cs" />
     <Compile Include="AustraliaMapSolverShould.cs" />
