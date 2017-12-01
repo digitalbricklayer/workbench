@@ -20,7 +20,7 @@ namespace Workbench.Core.Solver
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
 
-            this.constraintConverter = new ConstraintConverter(theSolver, theCache);
+            this.constraintConverter = new ConstraintConverter(theSolver, theCache, valueMapper);
             this.variableConverter = new VariableConverter(theSolver, theCache, valueMapper);
         }
 

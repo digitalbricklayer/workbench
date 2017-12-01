@@ -1,19 +1,22 @@
 ﻿using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class SingletonVariableReferenceExpressionNode : ConstraintExpressionBaseNode
+    public class SingletonVariableReferenceExpressionNode : AstNode
     {
         public SingletonVariableReferenceNode VariableReference { get; private set; }
         public VariableExpressionOperatorType Operator { get; private set; }
         public InfixStatementNode InfixStatement { get; private set; }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
             VariableReference.Accept(visitor);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

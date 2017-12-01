@@ -35,16 +35,21 @@ namespace Workbench.Core.Grammars
             var IN = ToTerm("in");
 
             // Terminals
-            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
+            var numberLiteral = new NumberLiteral("integer literal", NumberOptions.IntOnly, typeof(IntegerLiteralNode));
+            var characterLiteral = new StringLiteral("character literal", "'", StringOptions.IsChar);
+            characterLiteral.AstConfig.NodeType = typeof(CharacterLiteralNode);
             var subscript = new NumberLiteral("subscript", NumberOptions.IntOnly, typeof(SubscriptNode));
-            var variableName = new IdentifierTerminal("variable");
+            var variableName = new IdentifierTerminal("variable name");
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
+            variableName.AddPrefix("$", IdOptions.IsNotKeyword);
             var counterReference = new IdentifierTerminal("counter reference");
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
             var counterDeclaration = new IdentifierTerminal("counter declaration");
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
             var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
             variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+            var itemName = new IdentifierTerminal("string literal", IdOptions.IsNotKeyword);
+            itemName.AstConfig.NodeType = typeof(ItemNameNode);
 
             // Non-terminals
             var infixStatement = new NonTerminal("infix statement", typeof(InfixStatementNode));
@@ -76,7 +81,7 @@ namespace Workbench.Core.Grammars
             functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
             functionInvocation.Rule = functionName + OPEN_ARG + functionArgumentList + CLOSE_ARG;
 
-            infixStatement.Rule = literal | counterReference;
+            infixStatement.Rule = numberLiteral | counterReference;
             infixOperators.Rule = PLUS | MINUS;
             subscriptStatement.Rule = subscript | counterReference;
             aggregateVariableReference.Rule = variableName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE;
@@ -90,10 +95,12 @@ namespace Workbench.Core.Grammars
                                    GREATER | GREATER_EQUAL;
             expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
                               singletonVariableReference | singletonVariableReferenceExpression |
-                              literal;
+                              numberLiteral |
+                              characterLiteral |
+                              itemName;
 
-            expanderCountStatement.Rule = functionInvocation | literal | counterReference;
-            scopeLimitStatement.Rule = functionInvocation | literal | counterReference;
+            expanderCountStatement.Rule = functionInvocation | numberLiteral | counterReference;
+            scopeLimitStatement.Rule = functionInvocation | numberLiteral | counterReference;
             scopeStatement.Rule = scopeLimitStatement + RANGE + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
 

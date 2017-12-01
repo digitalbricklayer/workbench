@@ -69,9 +69,9 @@ namespace Workbench.Core.Tests.Unit.Solver
                                           .AddSingleton("x", "$a")
                                           .AddSingleton("y", "$a")
                                           .AddSingleton("z", "$a")
-                                          .WithConstraintExpression("x + 1 != y - 1")
-                                          .WithConstraintExpression("x <= y")
-                                          .WithConstraintExpression("y = z")
+                                          .WithConstraintExpression("$x + 1 != $y - 1")
+                                          .WithConstraintExpression("$x <= $y")
+                                          .WithConstraintExpression("$y = $z")
                                           .Build();
 
             return workspace.Model;

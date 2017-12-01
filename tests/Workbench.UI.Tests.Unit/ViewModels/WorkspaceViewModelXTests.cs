@@ -71,9 +71,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                             this.viewModelFactoryMock.Object);
             workspaceViewModel.Model.AddSingletonVariable(new SingletonVariableViewModel(new SingletonVariableGraphicModel(workspaceViewModel.Model.Model, "x", new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
             workspaceViewModel.Model.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableGraphicModel(workspaceViewModel.Model.Model, "y", 2, new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
-            workspaceViewModel.Model.AddConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", "x > 1")));
+            workspaceViewModel.Model.AddConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", "$x > 1")));
             workspaceViewModel.Model.AddConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("aggregates must be different",
-                                                                                                                   "y[0] <> y[1]")));
+                                                                                                                   "$y[0] <> $y[1]")));
 
             return workspaceViewModel;
         }

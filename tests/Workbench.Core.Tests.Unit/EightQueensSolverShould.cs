@@ -47,9 +47,9 @@ namespace Workbench.Core.Tests.Unit
             var workspace = WorkspaceModel.Create($"{ExpectedQueens} Queens Model")
                                           .AddAggregate("cols", ExpectedQueens, "1..size(cols)")
                                           .WithConstraintAllDifferent("cols")
-                                          .WithConstraintExpression("cols[i] <> cols[j] | i,j in size(cols),i")
-                                          .WithConstraintExpression("cols[i] + i <> cols[j] + j | i,j in size(cols),i")
-                                          .WithConstraintExpression("cols[i] - i <> cols[j] - j | i,j in size(cols),i")
+                                          .WithConstraintExpression("$cols[i] <> $cols[j] | i,j in size(cols),i")
+                                          .WithConstraintExpression("$cols[i] + i <> $cols[j] + j | i,j in size(cols),i")
+                                          .WithConstraintExpression("$cols[i] - i <> $cols[j] - j | i,j in size(cols),i")
                                           .WithVisualizerBinding("for x,y in 1..size(cols),1..size(cols): if <cols,x> = y: board(x:x,y:y,side:white,piece:Queen)")
                                           .WithChessboardVisualizer("board")
                                           .Build();

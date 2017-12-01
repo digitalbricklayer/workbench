@@ -52,7 +52,7 @@ namespace Workbench.Core
             // Nothing to do...
         }
 
-        public void Visit(LiteralNode theNode)
+        public void Visit(IntegerLiteralNode theNode)
         {
             // Nothing to do...
         }

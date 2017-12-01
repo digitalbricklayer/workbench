@@ -15,7 +15,7 @@ namespace Workbench.Core.Repeaters
         /// Initialize the literal value source with a literal node.
         /// </summary>
         /// <param name="theNode">Literal literalValue.</param>
-        public LiteralLimitValueSource(LiteralNode theNode)
+        public LiteralLimitValueSource(IntegerLiteralNode theNode)
         {
             Contract.Requires<ArgumentNullException>(theNode != null);
             this.literalValue = theNode.Value;

@@ -1,17 +1,20 @@
 ﻿using System.Diagnostics.Contracts;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class SubscriptStatementNode : ConstraintExpressionBaseNode
+    public class SubscriptStatementNode : AstNode
     {
-        public ConstraintExpressionBaseNode InnerExpression { get; private set; }
+        public AstNode InnerExpression { get; private set; }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
+#endif
 
         public bool IsSubscript
         {
@@ -46,7 +49,7 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            InnerExpression = (ConstraintExpressionBaseNode) AddChild("Inner", treeNode.ChildNodes[0]);
+            InnerExpression = AddChild("Inner", treeNode.ChildNodes[0]);
         }
     }
 }

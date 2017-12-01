@@ -2,10 +2,11 @@
 using System.Collections.ObjectModel;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class ScopeDeclarationListNode : ConstraintExpressionBaseNode
+    public class ScopeDeclarationListNode : AstNode
     {
         private readonly IList<ExpanderScopeNode> scopeDeclarations;
 
@@ -21,10 +22,13 @@ namespace Workbench.Core.Nodes
                 return new ReadOnlyCollection<ExpanderScopeNode>(this.scopeDeclarations);
             }
         }
+
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new System.NotImplementedException();
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

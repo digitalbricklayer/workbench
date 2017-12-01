@@ -1,17 +1,18 @@
 using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class InfixStatementNode : ConstraintExpressionBaseNode
+    public class InfixStatementNode : AstNode
     {
-        public ConstraintExpressionBaseNode InnerExpression { get; private set; }
+        public AstNode InnerExpression { get; private set; }
 
         public bool IsLiteral
         {
             get
             {
-                var literal = InnerExpression as LiteralNode;
+                var literal = InnerExpression as IntegerLiteralNode;
                 return literal != null;
             }
         }
@@ -25,11 +26,11 @@ namespace Workbench.Core.Nodes
             }
         }
 
-        public LiteralNode Literal
+        public IntegerLiteralNode Literal
         {
             get
             {
-                var literalNode = (LiteralNode) InnerExpression;
+                var literalNode = (IntegerLiteralNode) InnerExpression;
                 return literalNode;
             }
         }
@@ -43,6 +44,7 @@ namespace Workbench.Core.Nodes
             }
         }
 
+#if false
         /// <summary>
         /// Accept a visitor.
         /// </summary>
@@ -51,11 +53,12 @@ namespace Workbench.Core.Nodes
         {
             visitor.Visit(this);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            InnerExpression = (ConstraintExpressionBaseNode)AddChild("Inner", treeNode.ChildNodes[0]);
+            InnerExpression = AddChild("Inner", treeNode.ChildNodes[0]);
         }
     }
 }

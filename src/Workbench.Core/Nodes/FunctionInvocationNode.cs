@@ -1,10 +1,11 @@
 ﻿using System;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class FunctionInvocationNode : ConstraintExpressionBaseNode
+    public class FunctionInvocationNode : AstNode
     {
         public string FunctionName { get; private set; }
         public FunctionArgumentListNode ArgumentList { get; private set; }
@@ -16,9 +17,11 @@ namespace Workbench.Core.Nodes
             ArgumentList = (FunctionArgumentListNode) AddChild("arguments", treeNode.ChildNodes[1]);
         }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new NotImplementedException();
         }
+#endif
     }
 }

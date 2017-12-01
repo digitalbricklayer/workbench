@@ -31,7 +31,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             variableViewModel.DomainExpression.Text = "1..10";
             var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", string.Empty));
             workspaceViewModel.Model.AddConstraint(constraintViewModel);
-            constraintViewModel.Expression.Text = "x > 1";
+            constraintViewModel.Expression.Text = "$x > 1";
 
             return workspaceViewModel;
         }

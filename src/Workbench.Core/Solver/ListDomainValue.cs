@@ -12,7 +12,7 @@ namespace Workbench.Core.Solver
     /// </summary>
     public class ListDomainValue : DomainValue
     {
-        private IList<string> values;
+        private List<string> values;
         private ListDomainExpressionNode expressionNode;
 
         /// <summary>
@@ -58,10 +58,26 @@ namespace Workbench.Core.Solver
 #endif
         }
 
+        /// <summary>
+        /// Map from the solver value to the model value.
+        /// </summary>
+        /// <param name="solverValue">Solver value.</param>
+        /// <returns>Model value.</returns>
         internal override object MapFrom(long solverValue)
         {
             Contract.Assume(solverValue <= this.values.Count);
             return this.values[Convert.ToInt32(solverValue) - 1];
+        }
+
+        /// <summary>
+        /// Map from the model value to the solver value.
+        /// </summary>
+        /// <param name="modelValue">Model value.</param>
+        /// <returns>Solver value.</returns>
+        internal override int MapTo(object modelValue)
+        {
+            var zeroBasedIndexOfModelValue = this.values.IndexOf(Convert.ToString(modelValue));
+            return zeroBasedIndexOfModelValue + 1;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Workbench.UI.Tests.Unit
             return WorkspaceModel.Create()
                                  .AddSingleton("x", "1..10")
                                  .AddAggregate("y", 10, "$z")
-                                 .WithConstraintExpression("x > 1")
+                                 .WithConstraintExpression("$x > 1")
                                  .WithSharedDomain("z", "1..10")
                                  .Build();
         }

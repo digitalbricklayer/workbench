@@ -77,6 +77,31 @@ namespace Workbench.Core.Solver
             }
         }
 
+        /// <summary>
+        /// Map from the model value to the solver value.
+        /// </summary>
+        /// <param name="modelValue">Model value.</param>
+        /// <returns>Solver value.</returns>
+        internal override int MapTo(object modelValue)
+        {
+            if (IsNumberLiteralExpression())
+            {
+                // Model value and the solver value are the same
+                return Convert.ToInt32(modelValue);
+            }
+            else if (IsCharacterLiteralExpression())
+            {
+                var leftCharacterNode = this.expressionNode.LeftExpression.Inner as CharacterLiteralNode;
+                var rightCharacterNode = this.expressionNode.RightExpression.Inner as CharacterLiteralNode;
+                var lowerCharacterLimit = leftCharacterNode.Value;
+                return (Convert.ToChar(modelValue) - lowerCharacterLimit) + 1;
+            }
+            else
+            {
+                throw new NotImplementedException("Unknown range expression.");
+            }
+        }
+
         private bool IsCharacterLiteralExpression()
         {
             return this.expressionNode.LeftExpression.Inner is CharacterLiteralNode;

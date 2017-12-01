@@ -10,7 +10,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidGreaterThanExpressionReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x > 1");
+            var expressionParseResult = sut.Parse("$x > 1");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -18,7 +18,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidNotEqualExpressionReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x[1] != 1");
+            var expressionParseResult = sut.Parse("$x[1] != 1");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -26,7 +26,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidBackwardsNotEqualExpressionReturnsStatusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("1 <> x[1]");
+            var expressionParseResult = sut.Parse("1 <> $x[1]");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -34,7 +34,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidAggregateNotEqualToExpressionReturnsStutusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x[1] + 1 <> x[1] + 1");
+            var expressionParseResult = sut.Parse("$x[1] + 1 <> $x[1] + 1");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
@@ -42,7 +42,23 @@ namespace Workbench.Core.Tests.Unit.Parsers
         public void ParseWithValidSingletonNotEqualToExpressionReturnsStutusSuccess()
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("x + 1 <> 1");
+            var expressionParseResult = sut.Parse("$x + 1 <> 1");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
+        }
+
+        [Test]
+        public void ParseWithValidCharacterLiteralNotEqualToExpressionReturnsStutusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("$x <> 'a'");
+            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
+        }
+
+        [Test]
+        public void ParseWithValidItemNameNotEqualToExpressionReturnsStutusSuccess()
+        {
+            var sut = CreateSut();
+            var expressionParseResult = sut.Parse("$x <> john");
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 

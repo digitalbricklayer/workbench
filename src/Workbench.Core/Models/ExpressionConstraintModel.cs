@@ -64,6 +64,7 @@ namespace Workbench.Core.Models
 
             if (Expression.Node == null) return false;
 
+#if false
             var validatorVisitor = new ConstraintExpressionValidatorVisitor();
             Expression.Node.Accept(validatorVisitor);
 
@@ -86,6 +87,9 @@ namespace Workbench.Core.Models
             }
 
             return true;
+#else
+            return true;
+#endif
         }
     }
 }

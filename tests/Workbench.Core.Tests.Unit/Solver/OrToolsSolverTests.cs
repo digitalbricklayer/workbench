@@ -55,8 +55,8 @@ namespace Workbench.Core.Tests.Unit.Solver
                                           .AddSingleton("x", "1..9")
                                           .AddSingleton("y", "1..9")
                                           .AddAggregate("z", 1, "1..9")
-                                          .WithConstraintExpression("x < y")
-                                          .WithConstraintExpression("y > z[0]")
+                                          .WithConstraintExpression("$x < $y")
+                                          .WithConstraintExpression("$y > $z[0]")
                                           .Build();
 
             return workspace.Model;

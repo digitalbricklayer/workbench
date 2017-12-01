@@ -1,6 +1,7 @@
 ﻿using Irony.Interpreter.Ast;
 using System;
 using System.Diagnostics.Contracts;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
@@ -44,5 +45,12 @@ namespace Workbench.Core.Solver
         /// <param name="solverValue">Solver value.</param>
         /// <returns>Model value.</returns>
         internal abstract object MapFrom(long solverValue);
+
+        /// <summary>
+        /// Map from the model value to the solver value.
+        /// </summary>
+        /// <param name="modelValue">Model value.</param>
+        /// <returns>Solver value.</returns>
+        internal abstract int MapTo(object modelValue);
     }
 }

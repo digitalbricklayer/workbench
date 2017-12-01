@@ -319,7 +319,7 @@
     <Compile Include="Solver\SnapshotExtractor.cs" />
     <Compile Include="Solver\SolveResult.cs" />
     <Compile Include="Solver\SolveStatus.cs" />
-    <Compile Include="Solver\ValueConverter.cs" />
+    <Compile Include="Solver\ValueMapper.cs" />
     <Compile Include="Solver\VariableBandEvaluator.cs" />
     <Compile Include="Solver\VariableConverter.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluator.cs" />

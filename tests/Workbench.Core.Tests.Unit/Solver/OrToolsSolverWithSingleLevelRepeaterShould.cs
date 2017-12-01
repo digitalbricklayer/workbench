@@ -39,7 +39,7 @@ namespace Workbench.Core.Tests.Unit.Solver
         {
             var workspace = WorkspaceModel.Create("A simple repeater test")
                                           .AddAggregate("x", 10, "1..10")
-                                          .WithConstraintExpression("x[0] <> x[i] | i in 1..9")
+                                          .WithConstraintExpression("$x[0] <> $x[i] | i in 1..9")
                                           .Build();
 
             return workspace.Model;

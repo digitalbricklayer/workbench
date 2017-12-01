@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class ConstraintExpressionNode : ConstraintExpressionBaseNode
+    public class ConstraintExpressionNode : AstNode
     {
         public BinaryExpressionNode InnerExpression { get; private set; }
 
@@ -27,11 +28,13 @@ namespace Workbench.Core.Nodes
         /// </summary>
         public bool HasExpander => Expander != null;
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
             InnerExpression.Accept(visitor);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

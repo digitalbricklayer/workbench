@@ -10,7 +10,7 @@ namespace Workbench.Core
         void Visit(SubscriptNode subscriptNode);
         void Visit(ExpressionNode theNode);
         void Visit(ConstraintExpressionNode theNode);
-        void Visit(LiteralNode theNode);
+        void Visit(IntegerLiteralNode theNode);
         void Visit(VariableNameNode theNode);
         void Visit(SingletonVariableReferenceExpressionNode theNode);
         void Visit(AggregateVariableReferenceExpressionNode theNode);

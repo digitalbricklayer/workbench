@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class CounterDeclarationListNode : ConstraintExpressionBaseNode
+    public class CounterDeclarationListNode : AstNode
     {
         private readonly IList<CounterDeclarationNode> counterDeclarations;
 
@@ -23,10 +24,12 @@ namespace Workbench.Core.Nodes
             }
         }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new NotImplementedException();
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

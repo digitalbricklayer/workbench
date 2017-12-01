@@ -1,12 +1,13 @@
 using System.Diagnostics;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class ExpressionNode : ConstraintExpressionBaseNode
+    public class ExpressionNode : AstNode
     {
-        public ConstraintExpressionBaseNode InnerExpression { get; private set; }
+        public AstNode InnerExpression { get; private set; }
 
         public bool IsLiteral => InnerExpression.IsConstant();
 
@@ -50,22 +51,24 @@ namespace Workbench.Core.Nodes
             }
         }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
             InnerExpression.Accept(visitor);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
-            InnerExpression = (ConstraintExpressionBaseNode) AddChild("Inner", treeNode.ChildNodes[0]);
+            InnerExpression = AddChild("Inner", treeNode.ChildNodes[0]);
         }
 
         public int GetLiteral()
         {
             Debug.Assert(!IsVarable);
-            var literalNode = InnerExpression as LiteralNode;
+            var literalNode = InnerExpression as IntegerLiteralNode;
             Debug.Assert(literalNode != null);
             return literalNode.Value;
         }

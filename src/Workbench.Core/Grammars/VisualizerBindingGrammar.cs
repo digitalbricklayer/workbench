@@ -15,6 +15,7 @@ namespace Workbench.Core.Grammars
             LanguageFlags = LanguageFlags.CreateAst |
                             LanguageFlags.NewLineBeforeEOF;
 
+            // Terms
             var EQUALS = ToTerm("=", "equal");
             var NOT_EQUAL = ToTerm("<>", "not equal");
             var ALT_NOT_EQUAL = ToTerm("!=", "alternative not equal");
@@ -37,7 +38,7 @@ namespace Workbench.Core.Grammars
             // Terminals
             var visualizerNameReference = new IdentifierTerminal("visualizer reference");
             visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
-            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(LiteralNode));
+            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(IntegerLiteralNode));
             var variableName = new IdentifierTerminal("variable");
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
             var counterReference = new IdentifierTerminal("counter reference");

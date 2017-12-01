@@ -49,7 +49,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.xVariable.DomainExpression.Text = "1..2";
             newWorkspace.AddExpressionConstraint("X", new Point());
             var theConstraint = (ExpressionConstraintViewModel) newWorkspace.Model.GetConstraintByName("X");
-            theConstraint.Expression.Text = "x > 1";
+            theConstraint.Expression.Text = "$x > 1";
 
             return newWorkspace;
         }

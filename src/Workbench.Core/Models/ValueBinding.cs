@@ -6,6 +6,9 @@ namespace Workbench.Core.Models
     /// <summary>
     /// Binding between a model value and the underlying value used by the solver.
     /// </summary>
+	/// <remarks>
+	/// When the value is for an integer domain, the model and solver values will be the same.
+	/// </remarks>
     [Serializable]
     public sealed class ValueBinding
     {

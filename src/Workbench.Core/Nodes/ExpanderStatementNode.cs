@@ -1,20 +1,23 @@
 using System.Linq;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class ExpanderStatementNode : ConstraintExpressionBaseNode
+    public class ExpanderStatementNode : AstNode
     {
         public CounterDeclarationNode CounterDeclaration { get; private set; }
         public ExpanderScopeNode ExpanderScope { get; private set; }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
             CounterDeclaration.Accept(visitor);
             ExpanderScope.Accept(visitor);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

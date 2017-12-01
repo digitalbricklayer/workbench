@@ -88,7 +88,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return InlineDomain == null && DomainReference == null;
+                return string.IsNullOrWhiteSpace(Text);
             }
         }
 

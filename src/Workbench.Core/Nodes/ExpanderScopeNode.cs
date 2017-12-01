@@ -1,19 +1,22 @@
 using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class ExpanderScopeNode : ConstraintExpressionBaseNode
+    public class ExpanderScopeNode : AstNode
     {
         public ScopeStatementNode Scope { get; private set; }
         public ExpanderCountNode Count { get; private set; }
         public bool IsCount => Count != null;
         public bool IsScope => Scope != null;
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

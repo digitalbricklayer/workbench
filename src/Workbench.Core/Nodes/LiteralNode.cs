@@ -1,17 +1,20 @@
 ﻿using System;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class LiteralNode : ConstraintExpressionBaseNode
+    public class IntegerLiteralNode : AstNode
     {
         public int Value { get; private set; }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

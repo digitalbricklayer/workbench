@@ -1,13 +1,15 @@
 using System;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class CounterDeclarationNode : ConstraintExpressionBaseNode
+    public class CounterDeclarationNode : AstNode
     {
         public string CounterName { get; private set; }
 
+#if false
         /// <summary>
         /// Accept a visitor.
         /// </summary>
@@ -16,6 +18,7 @@ namespace Workbench.Core.Nodes
         {
             visitor.Visit(this);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

@@ -1,14 +1,16 @@
 using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class BinaryExpressionNode : ConstraintExpressionBaseNode
+    public class BinaryExpressionNode : AstNode
     {
         public ExpressionNode LeftExpression { get; private set; }
         public ExpressionNode RightExpression { get; private set; }
         public OperatorType Operator { get; private set; }
 
+#if false
         /// <summary>
         /// Accept a visitor.
         /// </summary>
@@ -19,6 +21,7 @@ namespace Workbench.Core.Nodes
             LeftExpression.Accept(visitor);
             RightExpression.Accept(visitor);
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

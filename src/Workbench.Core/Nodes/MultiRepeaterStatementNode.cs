@@ -1,15 +1,17 @@
 ﻿using System.Linq;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class MultiRepeaterStatementNode : ConstraintExpressionBaseNode
+    public class MultiRepeaterStatementNode : AstNode
     {
         public ScopeDeclarationListNode ScopeDeclarations { get; private set; }
         public CounterDeclarationListNode CounterDeclarations { get; private set; }
         public StatementNode Statement { get; private set; }
 
+#if false
         /// <summary>
         /// Accept a visitor.
         /// </summary>
@@ -20,6 +22,7 @@ namespace Workbench.Core.Nodes
             CounterDeclarations.Accept(visitor);
             ScopeDeclarations.Accept(visitor);
         }
+#endif
         
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

@@ -12,15 +12,19 @@ namespace Workbench.Core.Solver
     {
         private Dictionary<string, DomainValue> valueVariableDictionary = new Dictionary<string, DomainValue>();
 
-        internal DomainValue GetDomainValueFor(SingletonVariableGraphicModel theVariable)
+        internal DomainValue GetDomainValueFor(VariableGraphicModel theVariable)
         {
+            Contract.Requires<ArgumentNullException>(theVariable != null);
+
             return this.valueVariableDictionary[theVariable.Name];
         }
 
+#if false
         internal DomainValue GetDomainValueFor(AggregateVariableGraphicModel theVariable)
         {
             return this.valueVariableDictionary[theVariable.Name];
         }
+#endif
 
         internal void AddVariableDomainValue(SingletonVariableGraphicModel theSingleton, DomainValue theVariableBand)
         {

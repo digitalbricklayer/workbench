@@ -19,17 +19,22 @@ namespace Workbench.Core.Repeaters
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
         private readonly ModelModel model;
+        private readonly ValueMapper valueMapper;
 
-        public ConstraintRepeater(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
+        internal ConstraintRepeater(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel, ValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theValueMapper != null);
+
             this.solver = theSolver;
             this.cache = theCache;
             this.model = theModel;
+            this.valueMapper = theValueMapper;
         }
 
-        public void Process(ConstraintRepeaterContext theContext)
+        internal void Process(ConstraintRepeaterContext theContext)
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
@@ -49,7 +54,7 @@ namespace Workbench.Core.Repeaters
             }
         }
 
-        public ConstraintRepeaterContext CreateContextFrom(ExpressionConstraintGraphicModel constraint)
+        internal ConstraintRepeaterContext CreateContextFrom(ExpressionConstraintGraphicModel constraint)
         {
             return new ConstraintRepeaterContext(constraint, this.model);
         }
@@ -57,6 +62,7 @@ namespace Workbench.Core.Repeaters
         private void ProcessSimpleConstraint(ConstraintExpressionNode constraintExpressionNode)
         {
             Contract.Requires<ArgumentNullException>(constraintExpressionNode != null);
+
             Constraint newConstraint;
             var lhsExpr = GetExpressionFrom(constraintExpressionNode.InnerExpression.LeftExpression);
             if (constraintExpressionNode.InnerExpression.RightExpression.IsExpression)
@@ -69,11 +75,33 @@ namespace Workbench.Core.Repeaters
                 var rhsVariable = GetVariableFrom(constraintExpressionNode.InnerExpression.RightExpression);
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, rhsVariable);
             }
-            else
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is IntegerLiteralNode)
             {
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator,
                                                    lhsExpr,
                                                    constraintExpressionNode.InnerExpression.RightExpression.GetLiteral());
+            }
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is ItemNameNode)
+            {
+                var lhsVariableName = GetVariableNameFrom(constraintExpressionNode.InnerExpression.LeftExpression);
+                var lhsVariable = this.model.GetVariableByName(lhsVariableName);
+                var range = this.valueMapper.GetDomainValueFor(lhsVariable);
+                var modelValue = GetModelValueFrom(constraintExpressionNode.InnerExpression.RightExpression.InnerExpression as ItemNameNode);
+                var solverValue = range.MapTo(modelValue);
+                newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, solverValue);
+            }
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is CharacterLiteralNode)
+            {
+                var lhsVariableName = GetVariableNameFrom(constraintExpressionNode.InnerExpression.LeftExpression);
+                var lhsVariable = this.model.GetVariableByName(lhsVariableName);
+                var range = this.valueMapper.GetDomainValueFor(lhsVariable);
+                var modelValue = GetModelValueFrom(constraintExpressionNode.InnerExpression.RightExpression.InnerExpression as CharacterLiteralNode);
+                var solverValue = range.MapTo(modelValue);
+                newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, solverValue);
+            }
+            else
+            {
+                throw new NotImplementedException("Unknown constraint expression.");
             }
             this.solver.Add(newConstraint);
         }
@@ -231,6 +259,31 @@ namespace Workbench.Core.Repeaters
             if (infixStatement.IsLiteral) return infixStatement.Literal.Value;
             var counter = context.GetCounterContextByName(infixStatement.CounterReference.CounterName);
             return counter.CurrentValue;
+        }
+
+        private object GetModelValueFrom(ItemNameNode theItemNameNode)
+        {
+            return theItemNameNode.Value;
+        }
+
+        private object GetModelValueFrom(CharacterLiteralNode theCharacterLiteralNode)
+        {
+            return theCharacterLiteralNode.Value;
+        }
+
+        private string GetVariableNameFrom(ExpressionNode lhsExpression)
+        {
+            switch (lhsExpression.InnerExpression)
+            {
+                case SingletonVariableReferenceNode singletonVariableReferenceNode:
+                    return singletonVariableReferenceNode.VariableName;
+
+                case AggregateVariableReferenceExpressionNode aggregateVariableReferenceNode:
+                    return aggregateVariableReferenceNode.VariableReference.VariableName;
+
+                default:
+                    throw new NotImplementedException("Unknown variable reference.");
+            }
         }
     }
 }

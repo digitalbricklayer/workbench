@@ -1,17 +1,20 @@
 using Irony.Ast;
+using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
 namespace Workbench.Core.Nodes
 {
-    public class ScopeStatementNode : ConstraintExpressionBaseNode
+    public class ScopeStatementNode : AstNode
     {
         public ScopeLimitSatementNode Start { get; private set; }
         public ScopeLimitSatementNode End { get; private set; }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new System.NotImplementedException();
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

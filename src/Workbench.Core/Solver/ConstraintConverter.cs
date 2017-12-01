@@ -11,18 +11,20 @@ namespace Workbench.Core.Solver
     {
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
         private readonly OrToolsCache cache;
+        private readonly ValueMapper valueMapper;
 
         /// <summary>
         /// Initialize the constraint converter with a Google or-tools solver and a or-tools cache.
         /// </summary>
-        internal ConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver,
-                                OrToolsCache theCache)
+        internal ConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
+            Contract.Requires<ArgumentNullException>(theValueMapper != null);
 
             this.solver = theSolver;
             this.cache = theCache;
+            this.valueMapper = theValueMapper;
         }
 
         /// <summary>
@@ -38,7 +40,7 @@ namespace Workbench.Core.Solver
                 switch (constraint)
                 {
                     case ExpressionConstraintGraphicModel expressionConstraint:
-                        var expressionConstraintConverter = new ExpressionConstraintConverter(this.solver, this.cache, theModel);
+                        var expressionConstraintConverter = new ExpressionConstraintConverter(this.solver, this.cache, theModel, this.valueMapper);
                         expressionConstraintConverter.ProcessConstraint(expressionConstraint);
                         break;
 

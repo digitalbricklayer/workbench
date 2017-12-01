@@ -3,6 +3,7 @@ using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
+#if false
     /// <summary>
     /// Base for all constraint expression nodes.
     /// </summary>
@@ -14,4 +15,5 @@ namespace Workbench.Core.Nodes
         /// <param name="visitor">The visitor.</param>
         public abstract void Accept(IConstraintExpressionVisitor visitor);
     }
+#endif
 }

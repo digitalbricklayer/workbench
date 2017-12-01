@@ -1,19 +1,20 @@
 using System.Diagnostics.Contracts;
 using Irony.Ast;
 using Irony.Parsing;
+using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class ExpanderCountNode : ConstraintExpressionBaseNode
+    public class ExpanderCountNode : AstNode
     {
-        public ConstraintExpressionBaseNode InnerExpression { get; private set; }
+        public AstNode InnerExpression { get; private set; }
 
-        public LiteralNode Literal
+        public IntegerLiteralNode Literal
         {
             get
             {
                 Contract.Assume(IsLiteral);
-                return (LiteralNode)InnerExpression;
+                return (IntegerLiteralNode) InnerExpression;
             }
         }
 
@@ -30,7 +31,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var literal = InnerExpression as LiteralNode;
+                var literal = InnerExpression as IntegerLiteralNode;
                 return literal != null;
             }
         }
@@ -62,16 +63,18 @@ namespace Workbench.Core.Nodes
             }
         }
 
+#if false
         public override void Accept(IConstraintExpressionVisitor visitor)
         {
             throw new System.NotImplementedException();
         }
+#endif
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
             // Can be either a literal or a counter reference...
-            InnerExpression = (ConstraintExpressionBaseNode)AddChild("Inner", treeNode.ChildNodes[0]);
+            InnerExpression = AddChild("Inner", treeNode.ChildNodes[0]);
         }
     }
 }
