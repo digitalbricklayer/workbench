@@ -41,6 +41,7 @@ namespace Workbench.Core.Tests.Unit
             Assert.That(colorCells, Has.Count.EqualTo(7), "There should be 7 cells in the color column corresponding to the 7 Australian states.");
             var waColor = colorCells.ElementAt(0);
             var ntColor = colorCells.ElementAt(1);
+            Assert.That(waColor.Text, Is.Not.Empty);
             Assert.That(waColor.Text, Is.Not.EqualTo(ntColor.Text), "WA and NT are adjacent states and should therefore not share the same color.");
         }
 
