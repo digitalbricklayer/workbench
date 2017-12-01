@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
@@ -11,18 +12,15 @@ namespace Workbench.Core.Tests.Unit
     public class ListSolverShould
     {
         [Test]
-        public void SolveWithCharacterModelReturnsStatusSuccess()
+        public void SolveWithListModelReturnsStatusSuccess()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
-        /// <summary>
-        /// For a value binding for a list range.
-        /// </summary>
         [Test]
-        public void SolveWithCharacterModelReturnsValidListModelBinding()
+        public void SolveWithListModelReturnsValidSingletonValueBinding()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
@@ -33,10 +31,27 @@ namespace Workbench.Core.Tests.Unit
             Assert.That(cValueBinding.Model, Is.EqualTo("moon"));
         }
 
+        [Test]
+        public void SolveWithListModelReturnsValidAggregateValueBinding()
+        {
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
+            var aValue = actualResult.Snapshot.GetAggregateVariableValueByName("a");
+            var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
+                                                    .ToArray();
+            var actualModelValues = aValue.Bindings.Select(_ => _.Model)
+                                                   .ToArray();
+            Assert.That(aValue.Values, Is.Unique);
+            Assert.That(aValue.Values, Is.All.TypeOf<string>());
+            Assert.That(actualSolverValues, Is.All.InRange(1, 3));
+        }
+
         private static WorkspaceModel CreateWorkspace()
         {
             var workspace = WorkspaceModel.Create("A contrived list test")
+                                          .AddAggregate("a", 3, "bob, jim, kate")
                                           .AddSingleton("c", "sun, moon, sky")
+                                          .WithConstraintAllDifferent("a")
                                           .WithConstraintExpression("$c <> sun")
                                           .WithConstraintExpression("$c <> sky")
                                           .Build();
