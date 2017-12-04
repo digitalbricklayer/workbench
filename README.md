@@ -37,7 +37,7 @@ Please do not use this project for anything other than experimentation. I make n
 
 ## Authors
 
-+ Jack Hughes - Initial work - (digitalbricklayer)[https://github.com/digitalbricklayer]
++ Jack Hughes - Initial work - [digitalbricklayer](https://github.com/digitalbricklayer)
 
 ## License
 Constraint Capers Workbench is [licensed under a BSD license](LICENSE.md).
