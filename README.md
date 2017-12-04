@@ -12,10 +12,6 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 * **No programming** - absolutely no programming. There are plenty of development environments available, there is no need to build yet another one here;
 * **Optimisation** - The user should be able to optimise the solution interactively.
 
-Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [NetworkView: A WPF custom control for visualizing and editing networks, graphs and flow-charts](http://www.codeproject.com/Articles/182683/NetworkView-A-WPF-custom-control-for-visualizing-a) upon which the prototype of the model display is based.
-
-Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
-
 ## Current State
 
 The image below is a picture of the model used to solve the n-queens problem produced by version 0.4. As you can see the application supports aggregate variables, expression and all different constraints and domains.
@@ -29,6 +25,12 @@ You can also create a solution. When I say a solution I don't mean just a set of
 The most egregious failing of the project manifesto to date is the breach of the *no programming* rule. There plainly is quite a lot of what looks suspiciously like programming in the various languages included in the project. The most obvious being the visualizer binding language. I have a few ideas how I can reduce the level of programming in the visualizer bindings but I doubt I can remove it altogether.
 
 Please do not use this project for anything other than experimentation. I make no guarantees about backward compatibility or indeed anything else. The project is currently just a prototype. It may well never be anything beyond that.
+
+## Acknowledgements
+
+Many thanks to [Ashley Davies](http://www.codecapers.com.au) for writing [NetworkView: A WPF custom control for visualizing and editing networks, graphs and flow-charts](http://www.codeproject.com/Articles/182683/NetworkView-A-WPF-custom-control-for-visualizing-a) upon which the prototype of the model display is based.
+
+Thanks also to [David Hopkins](http://semlabs.co.uk/) for the edit icon used in the program. The original can be found [here](http://findicons.com/icon/180721/pencil_small?id=378530).
 
 ## License
 Constraint Capers Workbench is [licensed under a BSD license](LICENSE.md).
