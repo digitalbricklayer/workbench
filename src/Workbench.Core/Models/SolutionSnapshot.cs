@@ -18,6 +18,16 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a solution snapshot with default values.
         /// </summary>
+        public SolutionSnapshot(IEnumerable<ValueModel> theSingletonValues, IEnumerable<ValueModel> theAggregateValues, TimeSpan theDuration)
+        {
+            this.singletonValues = new List<ValueModel>(theSingletonValues);
+            this.aggregateValues = new List<ValueModel>(theAggregateValues);
+	    this.duration = theDuration;
+        }
+
+        /// <summary>
+        /// Initialize a solution snapshot with default values.
+        /// </summary>
         public SolutionSnapshot()
         {
             this.singletonValues = new List<ValueModel>();
@@ -54,14 +64,14 @@ namespace Workbench.Core.Models
         public TimeSpan Duration
         {
             get { return this.duration; }
-            set { this.duration = value; }
+            internal set { this.duration = value; }
         }
 
         /// <summary>
         /// Add a singleton variable value to the snapshot.
         /// </summary>
         /// <param name="newSingletonValue">Singleton value.</param>
-        public void AddSingletonValue(ValueModel newSingletonValue)
+        internal void AddSingletonValue(ValueModel newSingletonValue)
         {
             Contract.Requires<ArgumentNullException>(newSingletonValue != null);
             this.singletonValues.Add(newSingletonValue);
@@ -71,7 +81,7 @@ namespace Workbench.Core.Models
         /// Add an aggregate variable value to the snapshot.
         /// </summary>
         /// <param name="newAggregateValue">Aggregate value.</param>
-        public void AddAggregateValue(ValueModel newAggregateValue)
+        internal void AddAggregateValue(ValueModel newAggregateValue)
         {
             Contract.Requires<ArgumentNullException>(newAggregateValue != null);
             this.aggregateValues.Add(newAggregateValue);
