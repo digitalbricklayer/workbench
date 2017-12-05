@@ -1,19 +1,27 @@
-﻿using Workbench.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Workbench.Core.Models;
 
 namespace Workbench.UI.Tests.Integration
 {
     /// <summary>
     /// Factory for building workspace models.
     /// </summary>
-    internal class WorkspaceModelFactory
+    internal sealed class WorkspaceModelFactory
     {
-        private static ModelModel modelModel;
+        private ModelModel modelModel;
 
         /// <summary>
         /// Create a simple workspace model.
         /// </summary>
         /// <returns>A simple workspace model.</returns>
         internal static WorkspaceModel Create()
+        {
+            return new WorkspaceModelFactory().CreateWorkspace();
+        }
+
+        private WorkspaceModel CreateWorkspace()
         {
             return new WorkspaceModel
             {
@@ -22,7 +30,7 @@ namespace Workbench.UI.Tests.Integration
             };
         }
 
-        private static ModelModel CreateModel()
+        private ModelModel CreateModel()
         {
             modelModel = new ModelModel();
             var x = new SingletonVariableGraphicModel(modelModel, "x", "z");
@@ -37,12 +45,13 @@ namespace Workbench.UI.Tests.Integration
             return modelModel;
         }
 
-        private static SolutionModel CreateSolution()
+        private SolutionModel CreateSolution()
         {
-            var solutionModel = new SolutionModel(modelModel);
             var x = new SingletonVariableGraphicModel(modelModel, "x");
             var valueOfX = new ValueModel(x, new ValueBinding(1, 1));
-            solutionModel.Snapshot.AddSingletonValue(valueOfX);
+            var snapshot = new SolutionSnapshot(Enumerable.Empty<ValueModel>(), new List<ValueModel> { valueOfX }, TimeSpan.Zero);
+            var solutionModel = new SolutionModel(modelModel, snapshot);
+
             return solutionModel;
         }
     }

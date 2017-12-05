@@ -49,16 +49,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add the visualizer.
-        /// </summary>
-        /// <param name="theVisualizer">The visualizer to add.</param>
-        public void AddVisualizer(VisualizerModel theVisualizer)
-        {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
-            Solution.AddVisualizer(theVisualizer);
-        }
-
-        /// <summary>
         /// Create a new workspace.
         /// </summary>
         /// <param name="theModelName">Name for the model.</param>
@@ -103,6 +93,16 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             Solution.AddBindingExpression(newBindingExpression);
+        }
+
+        /// <summary>
+        /// Add the visualizer.
+        /// </summary>
+        /// <param name="theVisualizer">The visualizer to add.</param>
+        internal void AddVisualizer(VisualizerModel theVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            Solution.AddVisualizer(theVisualizer);
         }
     }
 }

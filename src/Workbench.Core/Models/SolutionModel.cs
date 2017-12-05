@@ -17,8 +17,25 @@ namespace Workbench.Core.Models
         /// Initialize the solution with the model.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
+        public SolutionModel(ModelModel theModel, SolutionSnapshot theSnapshot)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theSnapshot != null);
+
+            Model = theModel;
+            Snapshot = theSnapshot;
+            Display = new DisplayModel(Model);
+            Snapshot = new SolutionSnapshot();
+        }
+
+        /// <summary>
+        /// Initialize the solution with the model.
+        /// </summary>
+        /// <param name="theModel">Model that the solution is supposed to solve.</param>
         public SolutionModel(ModelModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
             Model = theModel;
             Snapshot = new SolutionSnapshot();
             Display = new DisplayModel(Model);

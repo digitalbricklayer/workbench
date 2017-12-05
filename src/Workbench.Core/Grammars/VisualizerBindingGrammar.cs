@@ -94,7 +94,7 @@ namespace Workbench.Core.Grammars
             infixOperator.Rule = PLUS | MINUS;
 
             valueOffset.Rule = literal | counterReference;
-            // A value reference can either reference a singleton or an aggregate
+            // A value reference can either reference a singleton or one element of an aggregate
             valueReferenceStatement.Rule = ToTerm("<") + variableName + COMMA + valueOffset + ToTerm(">") |
                                            ToTerm("<") + variableName + ToTerm(">");
 
