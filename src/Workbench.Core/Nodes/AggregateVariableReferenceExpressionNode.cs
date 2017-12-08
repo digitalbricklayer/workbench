@@ -10,14 +10,6 @@ namespace Workbench.Core.Nodes
         public VariableExpressionOperatorType Operator { get; private set; }
         public InfixStatementNode InfixStatement { get; private set; }
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-            VariableReference.Accept(visitor);
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

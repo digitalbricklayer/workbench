@@ -16,12 +16,5 @@ namespace Workbench.Core.Nodes
             FunctionName = Convert.ToString(treeNode.ChildNodes[0].Token.Value);
             ArgumentList = (FunctionArgumentListNode) AddChild("arguments", treeNode.ChildNodes[1]);
         }
-
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            throw new NotImplementedException();
-        }
-#endif
     }
 }

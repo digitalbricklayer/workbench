@@ -64,9 +64,8 @@ namespace Workbench.Core.Models
 
             if (Expression.Node == null) return false;
 
-#if false
             var validatorVisitor = new ConstraintExpressionValidatorVisitor();
-            Expression.Node.Accept(validatorVisitor);
+            Expression.Node.AcceptVisitor(validatorVisitor);
 
             foreach (var singletonVariableReference in validatorVisitor.SingletonVariableReferences)
             {
@@ -87,9 +86,6 @@ namespace Workbench.Core.Models
             }
 
             return true;
-#else
-            return true;
-#endif
         }
     }
 }

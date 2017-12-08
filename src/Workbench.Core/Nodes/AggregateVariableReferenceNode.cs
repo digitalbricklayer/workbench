@@ -16,18 +16,6 @@ namespace Workbench.Core.Nodes
         /// </summary>
         public SubscriptStatementNode SubscriptStatement { get; private set; }
 
-#if false
-        /// <summary>
-        /// Accept a visitor.
-        /// </summary>
-        /// <param name="visitor">The visitor.</param>
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-            SubscriptStatement.Accept(visitor);
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

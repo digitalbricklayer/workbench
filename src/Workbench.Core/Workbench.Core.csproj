@@ -242,7 +242,6 @@
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Grammars\ConstraintGrammar.cs" />
-    <Compile Include="IConstraintExpressionVisitor.cs" />
     <Compile Include="Models\AllDifferentConstraintGraphicModel.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
     <Compile Include="Models\ChessboardVisualizerModel.cs" />
@@ -270,7 +269,6 @@
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />
-    <Compile Include="Nodes\ConstraintExpressionBaseNode.cs" />
     <Compile Include="Nodes\ConstraintExpressionNode.cs" />
     <Compile Include="Nodes\ExpressionNode.cs" />
     <Compile Include="Nodes\LiteralNode.cs" />

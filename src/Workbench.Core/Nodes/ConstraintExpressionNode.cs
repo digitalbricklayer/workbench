@@ -28,14 +28,6 @@ namespace Workbench.Core.Nodes
         /// </summary>
         public bool HasExpander => Expander != null;
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-            InnerExpression.Accept(visitor);
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

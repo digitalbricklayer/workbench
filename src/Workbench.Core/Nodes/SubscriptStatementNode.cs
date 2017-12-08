@@ -9,13 +9,6 @@ namespace Workbench.Core.Nodes
     {
         public AstNode InnerExpression { get; private set; }
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-#endif
-
         public bool IsSubscript
         {
             get

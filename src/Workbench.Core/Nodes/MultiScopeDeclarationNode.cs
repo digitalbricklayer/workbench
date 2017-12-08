@@ -23,13 +23,6 @@ namespace Workbench.Core.Nodes
             }
         }
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            throw new System.NotImplementedException();
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Irony.Interpreter.Ast;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core
@@ -7,7 +8,7 @@ namespace Workbench.Core
     /// Visitor to record information used when validating the constraint 
     /// expression from the abstract syntax tree.
     /// </summary>
-    public class ConstraintExpressionValidatorVisitor : IConstraintExpressionVisitor
+    public class ConstraintExpressionValidatorVisitor : IAstVisitor
     {
         private readonly List<SingletonVariableReferenceNode> singletonVariableReferences;
         private readonly List<AggregateVariableReferenceNode> aggregateVariableReferences;
@@ -22,89 +23,22 @@ namespace Workbench.Core
 
         public IReadOnlyCollection<AggregateVariableReferenceNode> AggregateVariableReferences => this.aggregateVariableReferences;
 
-        public void Visit(AggregateVariableReferenceNode theNode)
+        public void BeginVisit(IVisitableNode node)
         {
-            this.aggregateVariableReferences.Add(theNode);
+            switch (node)
+            {
+                case AggregateVariableReferenceNode aggregateVariableReferenceNode:
+                    this.aggregateVariableReferences.Add(aggregateVariableReferenceNode);
+                    break;
+
+                case SingletonVariableReferenceNode singletonVariableReferenceNode:
+                    this.singletonVariableReferences.Add(singletonVariableReferenceNode);
+                    break;
+            }
         }
 
-        public void Visit(SingletonVariableReferenceNode theNode)
+        public void EndVisit(IVisitableNode node)
         {
-            this.singletonVariableReferences.Add(theNode);
-        }
-
-        public void Visit(BinaryExpressionNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(SubscriptNode subscriptNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(ExpressionNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(ConstraintExpressionNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(IntegerLiteralNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(VariableNameNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(SingletonVariableReferenceExpressionNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(AggregateVariableReferenceExpressionNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(SubscriptStatementNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(CounterDeclarationNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(ExpanderStatementNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(ExpanderScopeNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(CounterReferenceNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(MultiRepeaterStatementNode theNode)
-        {
-            // Nothing to do...
-        }
-
-        public void Visit(InfixStatementNode theNode)
-        {
-            // Nothing to do...
         }
     }
 }

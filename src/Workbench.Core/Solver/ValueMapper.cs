@@ -19,13 +19,6 @@ namespace Workbench.Core.Solver
             return this.valueVariableDictionary[theVariable.Name];
         }
 
-#if false
-        internal DomainValue GetDomainValueFor(AggregateVariableGraphicModel theVariable)
-        {
-            return this.valueVariableDictionary[theVariable.Name];
-        }
-#endif
-
         internal void AddVariableDomainValue(SingletonVariableGraphicModel theSingleton, DomainValue theVariableBand)
         {
             Contract.Requires<ArgumentNullException>(theSingleton != null);

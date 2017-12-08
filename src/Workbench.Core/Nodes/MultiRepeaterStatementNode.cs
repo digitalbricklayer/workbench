@@ -10,19 +10,6 @@ namespace Workbench.Core.Nodes
         public ScopeDeclarationListNode ScopeDeclarations { get; private set; }
         public CounterDeclarationListNode CounterDeclarations { get; private set; }
         public StatementNode Statement { get; private set; }
-
-#if false
-        /// <summary>
-        /// Accept a visitor.
-        /// </summary>
-        /// <param name="visitor">The visitor.</param>
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-            CounterDeclarations.Accept(visitor);
-            ScopeDeclarations.Accept(visitor);
-        }
-#endif
         
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {

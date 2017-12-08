@@ -9,13 +9,6 @@ namespace Workbench.Core.Nodes
         public ScopeLimitSatementNode Start { get; private set; }
         public ScopeLimitSatementNode End { get; private set; }
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            throw new System.NotImplementedException();
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

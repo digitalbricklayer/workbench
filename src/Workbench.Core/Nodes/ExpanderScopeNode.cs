@@ -11,13 +11,6 @@ namespace Workbench.Core.Nodes
         public bool IsCount => Count != null;
         public bool IsScope => Scope != null;
 
-#if false
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);

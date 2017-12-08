@@ -10,19 +10,6 @@ namespace Workbench.Core.Nodes
         public ExpressionNode RightExpression { get; private set; }
         public OperatorType Operator { get; private set; }
 
-#if false
-        /// <summary>
-        /// Accept a visitor.
-        /// </summary>
-        /// <param name="visitor">The visitor.</param>
-        public override void Accept(IConstraintExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-            LeftExpression.Accept(visitor);
-            RightExpression.Accept(visitor);
-        }
-#endif
-
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
