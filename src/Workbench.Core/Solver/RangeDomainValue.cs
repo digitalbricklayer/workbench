@@ -61,7 +61,7 @@ namespace Workbench.Core.Solver
         {
             if (IsNumberLiteralExpression())
             {
-                return Lower + (solverValue - 1);
+                return Convert.ToInt32(Lower + (solverValue - 1));
             }
             else if (IsCharacterLiteralExpression())
             {

@@ -38,11 +38,14 @@ namespace Workbench.Core.Grammars
             // Terminals
             var visualizerNameReference = new IdentifierTerminal("visualizer reference");
             visualizerNameReference.AstConfig.NodeType = typeof(VisualizerNameReferenceNode);
-            var literal = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(IntegerLiteralNode));
+            var numberLiteral = new NumberLiteral("literal", NumberOptions.IntOnly, typeof(IntegerLiteralNode));
+            var characterLiteral = new StringLiteral("character literal", "'", StringOptions.IsChar);
+            characterLiteral.AstConfig.NodeType = typeof(CharacterLiteralNode);
             var variableName = new IdentifierTerminal("variable");
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
             var counterReference = new IdentifierTerminal("counter reference");
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
+            counterReference.AddPrefix("%", IdOptions.IsNotKeyword);
             var counterDeclaration = new IdentifierTerminal("counter declaration");
             counterDeclaration.AstConfig.NodeType = typeof(CounterDeclarationNode);
             var callArgumentNumberValue = new NumberLiteral("call argument value number", NumberOptions.IntOnly, typeof(CallArgumentNumberValueNode));
@@ -52,6 +55,8 @@ namespace Workbench.Core.Grammars
             callArgumentName.AstConfig.NodeType = typeof(CallArgumentNameNode);
             var variableReference = new IdentifierTerminal("variable reference", IdOptions.IsNotKeyword);
             variableReference.AstConfig.NodeType = typeof(FunctionCallArgumentStringLiteralNode);
+            var itemName = new IdentifierTerminal("string literal", IdOptions.IsNotKeyword);
+            itemName.AstConfig.NodeType = typeof(ItemNameNode);
 
             // Non-terminals
             var functionName = new NonTerminal("function name", typeof(FunctionNameNode));
@@ -90,10 +95,10 @@ namespace Workbench.Core.Grammars
             functionArgumentList.Rule = MakePlusRule(functionArgumentList, COMMA, functionArgument);
             functionInvocation.Rule = functionName + PARENTHESIS_OPEN + functionArgumentList + PARENTHESIS_CLOSE;
 
-            infixStatement.Rule = literal | counterReference;
+            infixStatement.Rule = numberLiteral | counterReference;
             infixOperator.Rule = PLUS | MINUS;
 
-            valueOffset.Rule = literal | counterReference;
+            valueOffset.Rule = numberLiteral | counterReference;
             // A value reference can either reference a singleton or one element of an aggregate
             valueReferenceStatement.Rule = ToTerm("<") + variableName + COMMA + valueOffset + ToTerm(">") |
                                            ToTerm("<") + variableName + ToTerm(">");
@@ -107,10 +112,15 @@ namespace Workbench.Core.Grammars
                                   NOT_EQUAL | ALT_NOT_EQUAL |
                                   LESS | LESS_EQUAL |
                                   GREATER | GREATER_EQUAL;
-            expression.Rule = valueReferenceStatement | literal | counterReference;
+
+            expression.Rule = valueReferenceStatement |
+                              numberLiteral |
+                              characterLiteral |
+                              itemName |
+                              counterReference;
             binaryExpression.Rule = expression + binaryOperator + expression;
-            scopeLimitStatement.Rule = literal | counterReference | functionInvocation;
-            expanderCountStatement.Rule = literal | counterReference | functionInvocation;
+            scopeLimitStatement.Rule = numberLiteral | counterReference | functionInvocation;
+            expanderCountStatement.Rule = numberLiteral | counterReference | functionInvocation;
             scopeStatement.Rule = scopeLimitStatement + RANGE + scopeLimitStatement;
             expanderScopeStatement.Rule = scopeStatement | expanderCountStatement;
             counterDeclarationList.Rule = MakePlusRule(counterDeclarationList, COMMA, counterDeclaration);

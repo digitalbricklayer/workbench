@@ -90,53 +90,37 @@ namespace Workbench.Core.Repeaters
         private bool EvaluateIfStatementCondition(VisualizerBinaryExpressionNode binaryExpressionNode)
         {
             Contract.Requires<ArgumentNullException>(binaryExpressionNode != null);
+
             var leftValue = EvaluateExpression(binaryExpressionNode.LeftExpression);
-            var leftNumber = Convert.ToInt32(leftValue);
             var rightValue = EvaluateExpression(binaryExpressionNode.RightExpression);
-            var rightNumber = Convert.ToInt32(rightValue);
 
-            switch (binaryExpressionNode.Operator)
-            {
-                case OperatorType.Equals:
-                    return leftNumber == rightNumber;
-
-                case OperatorType.NotEqual:
-                    return leftNumber != rightNumber;
-
-                case OperatorType.Greater:
-                    return leftNumber > rightNumber;
-
-                case OperatorType.GreaterThanOrEqual:
-                    return leftNumber >= rightNumber;
-
-                case OperatorType.Less:
-                    return leftNumber < rightNumber;
-
-                case OperatorType.LessThanOrEqual:
-                    return leftNumber <= rightNumber;
-
-                default:
-                    throw new NotImplementedException("Unknown operator.");
-            }
+            return EvaluateBinaryExpression(binaryExpressionNode.Operator, leftValue, rightValue);
         }
 
         private object EvaluateExpression(VisualizerExpressionNode theExpression)
         {
             Contract.Requires<ArgumentNullException>(theExpression != null);
-            if (theExpression.IsLiteral) return theExpression.GetLiteral();
-            if (theExpression.IsValueReferenceExpression)
+
+            switch (theExpression.InnerExpression)
             {
-                return EvaluateValueReferenceExpression(theExpression.ValueReference);
-            }
-            else if (theExpression.IsCounterReferenceExpression)
-            {
-                var counterReference = theExpression.CounterReference;
-                var counterContext = this.context.GetCounterContextByName(counterReference.CounterName);
-                return counterContext.CurrentValue;
-            }
-            else
-            {
-                throw new NotImplementedException();
+                case NumberLiteralNode numberLiteralNode:
+                    return numberLiteralNode.Value;
+
+                case ValueReferenceStatementNode valueReferenceStatementNode:
+                    return EvaluateValueReferenceExpression(theExpression.ValueReference);
+
+                case CounterReferenceNode counterReferenceNode:
+                    var counterContext = this.context.GetCounterContextByName(counterReferenceNode.CounterName);
+                    return counterContext.CurrentValue;
+
+                case ItemNameNode itemNameNode:
+                    return itemNameNode.Value;
+
+                case CharacterLiteralNode characterLiteralNode:
+                    return characterLiteralNode.Value;
+
+                default:
+                    throw new NotImplementedException("Unknown visualizer expression");
             }
         }
 
@@ -198,6 +182,99 @@ namespace Workbench.Core.Repeaters
             else
             {
                 return theArgument.Value.GetValue();
+            }
+        }
+
+        private bool EvaluateBinaryExpression(OperatorType theOperator, object leftValue, object rightValue)
+        {
+            switch (leftValue)
+            {
+                case int number:
+                    return EvaluateNumberBinaryExpression(theOperator, Convert.ToInt32(leftValue), rightValue);
+
+                case char c:
+                    return EvaluateCharBinaryExpression(theOperator, Convert.ToChar(leftValue), rightValue);
+
+                case string s:
+                    return EvaluateStringBinaryExpression(theOperator, Convert.ToString(leftValue), rightValue);
+
+                default:
+                    throw new NotImplementedException("Unknown value type.");
+            }
+        }
+
+        private bool EvaluateStringBinaryExpression(OperatorType theOperator, string leftString, object rightValue)
+        {
+            var rightString = rightValue.ToString();
+
+            switch (theOperator)
+            {
+                case OperatorType.Equals:
+                    return leftString == rightString;
+
+                case OperatorType.NotEqual:
+                    return leftString != rightString;
+
+                default:
+                    throw new NotImplementedException("Unknown operator.");
+            }
+        }
+
+        private bool EvaluateCharBinaryExpression(OperatorType theOperator, int leftChar, object rightValue)
+        {
+            if (!char.TryParse(rightValue.ToString(), out char rightChar)) return false;
+
+            switch (theOperator)
+            {
+                case OperatorType.Equals:
+                    return leftChar == rightChar;
+
+                case OperatorType.NotEqual:
+                    return leftChar != rightChar;
+
+                case OperatorType.Greater:
+                    return leftChar > rightChar;
+
+                case OperatorType.GreaterThanOrEqual:
+                    return leftChar >= rightChar;
+
+                case OperatorType.Less:
+                    return leftChar < rightChar;
+
+                case OperatorType.LessThanOrEqual:
+                    return leftChar <= rightChar;
+
+                default:
+                    throw new NotImplementedException("Unknown operator.");
+            }
+        }
+
+        private bool EvaluateNumberBinaryExpression(OperatorType theOperator, int leftNumber, object rightValue)
+        {
+            if (!Int32.TryParse(rightValue.ToString(), out int rightNumber)) return false;
+
+            switch (theOperator)
+            {
+                case OperatorType.Equals:
+                    return leftNumber == rightNumber;
+
+                case OperatorType.NotEqual:
+                    return leftNumber != rightNumber;
+
+                case OperatorType.Greater:
+                    return leftNumber > rightNumber;
+
+                case OperatorType.GreaterThanOrEqual:
+                    return leftNumber >= rightNumber;
+
+                case OperatorType.Less:
+                    return leftNumber < rightNumber;
+
+                case OperatorType.LessThanOrEqual:
+                    return leftNumber <= rightNumber;
+
+                default:
+                    throw new NotImplementedException("Unknown operator.");
             }
         }
     }

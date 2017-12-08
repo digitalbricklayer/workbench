@@ -9,7 +9,7 @@ namespace Workbench.Core.Tests.Unit.Models
     public class ExpressionConstraintModelTests
     {
         [Test]
-        public void InitializeWithName()
+        public void InitializeWithNameAndEmptyDomainExpressionReturnsValidName()
         {
             var sut = new ExpressionConstraintGraphicModel("y", "");
             Assert.That(sut.Name, Is.EqualTo("y"));
