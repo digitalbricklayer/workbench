@@ -169,7 +169,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstraintExpressionValidatorVisitor.cs" />
+    <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />

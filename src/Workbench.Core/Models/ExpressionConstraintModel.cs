@@ -50,7 +50,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Validate the constraint.
+        /// Validate the constraint expression.
         /// </summary>
         /// <param name="theModel">Model to validate.</param>
         /// <param name="theContext">Validation context to capture the errors.</param>
@@ -60,14 +60,16 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theContext != null);
 
             if (Expression.Node == null) return false;
 
-            var validatorVisitor = new ConstraintExpressionValidatorVisitor();
-            Expression.Node.AcceptVisitor(validatorVisitor);
+            var variableCaptureVisitor = new ConstraintVariableReferenceCaptureVisitor();
+            Expression.Node.AcceptVisitor(variableCaptureVisitor);
+            var variableReferences = variableCaptureVisitor.GetReferences();
 
-            foreach (var singletonVariableReference in validatorVisitor.SingletonVariableReferences)
+            foreach (var singletonVariableReference in variableReferences.SingletonVariableReferences)
             {
                 if (theModel.Variables.FirstOrDefault(_ => _.Name == singletonVariableReference.VariableName) == null)
                 {
@@ -76,7 +78,7 @@ namespace Workbench.Core.Models
                 }
             }
 
-            foreach (var aggregateVariableReference in validatorVisitor.AggregateVariableReferences)
+            foreach (var aggregateVariableReference in variableReferences.AggregateVariableReferences)
             {
                 if (theModel.Aggregates.FirstOrDefault(_ => _.Name == aggregateVariableReference.VariableName) == null)
                 {
