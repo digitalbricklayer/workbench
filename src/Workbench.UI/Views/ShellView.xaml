@@ -10,7 +10,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ApplicationMenuDictionary.xaml"/>
                 <ResourceDictionary Source="ModelDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionDesignerDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionViewerDictionary.xaml"/>
@@ -37,8 +36,7 @@
     </Window.ContextMenu>-->
 
     <DockPanel LastChildFill="True">
-        <ContentPresenter Content="{Binding ApplicationMenu}"
-                          DockPanel.Dock="Top"/>
+        <ContentControl x:Name="ApplicationMenu" DockPanel.Dock="Top"/>
 
         <ContentControl x:Name="Workspace"/>
     </DockPanel>

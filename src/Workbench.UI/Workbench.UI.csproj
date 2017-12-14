@@ -272,6 +272,9 @@
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewModel.cs" />
+    <Compile Include="Views\ApplicationMenuView.xaml.cs">
+      <DependentUpon>ApplicationMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ColumnNameEditorView.xaml.cs">
       <DependentUpon>ColumnNameEditorView.xaml</DependentUpon>
     </Compile>
@@ -322,13 +325,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ApplicationMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ColumnNameEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ApplicationMenuDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GridVisualizerDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
