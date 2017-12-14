@@ -39,8 +39,6 @@ namespace Workbench.Core.Tests.Unit
             var aValue = actualResult.Snapshot.GetAggregateVariableValueByName("a");
             var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
                                                     .ToArray();
-            var actualModelValues = aValue.Bindings.Select(_ => _.Model)
-                                                   .ToArray();
             Assert.That(aValue.Values, Is.Unique);
             Assert.That(aValue.Values, Is.All.TypeOf<string>());
             Assert.That(actualSolverValues, Is.All.InRange(1, 3));

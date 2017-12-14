@@ -4,14 +4,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding Path=TitleBar.Title}"
         Height="800" Width="500"
-        FocusManager.FocusedElement="{Binding ElementName=workspaceView}"
+        FocusManager.FocusedElement="{Binding ElementName=Workspace}"
         Icon="../Images/AppIcon.ico">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ApplicationMenuDictionary.xaml"/>
-                <ResourceDictionary Source="WorkspaceDictionary.xaml"/>
                 <ResourceDictionary Source="ModelDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionDesignerDictionary.xaml"/>
                 <ResourceDictionary Source="SolutionViewerDictionary.xaml"/>
@@ -19,13 +18,13 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <Window.InputBindings>
+    <!--<Window.InputBindings>-->
         <!-- Bind input to commands. -->
-        <KeyBinding Key="Delete"
+    <!--<KeyBinding Key="Delete"
 			        Command="{Binding ApplicationMenu.ModelMenu.DeleteCommand}" />
-    </Window.InputBindings>
+    </Window.InputBindings>-->
 
-    <Window.ContextMenu>
+    <!--<Window.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Create Singleton Variable"
 					  Command="{Binding ApplicationMenu.ModelMenu.AddSingletonVariableCommand}"
@@ -35,12 +34,12 @@
 					  Command="{Binding ApplicationMenu.ModelMenu.AddAggregateVariableCommand}"
 					  ToolTip="Create a new variable" />
         </ContextMenu>
-    </Window.ContextMenu>
+    </Window.ContextMenu>-->
 
     <DockPanel LastChildFill="True">
         <ContentPresenter Content="{Binding ApplicationMenu}"
                           DockPanel.Dock="Top"/>
 
-        <ContentPresenter Content="{Binding Workspace}"/>
+        <ContentControl x:Name="Workspace"/>
     </DockPanel>
 </Window>

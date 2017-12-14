@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Tests.Unit.Models
