@@ -67,16 +67,10 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the variable is an aggregate.
         /// </summary>
-        public virtual bool IsAggregate
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public abstract bool IsAggregate { get; }
 
         /// <summary>
-        /// Hook called when a graphic is renamed.
+        /// Hook called when a variable is renamed.
         /// </summary>
         protected override void OnRename(string oldVariableName)
         {

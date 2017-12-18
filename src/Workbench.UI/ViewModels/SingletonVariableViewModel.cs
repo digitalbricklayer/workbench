@@ -14,5 +14,7 @@ namespace Workbench.ViewModels
             : base(theVariableModel, theEventAggregator)
         {
         }
+
+        public override bool IsAggregate => false;
     }
 }
