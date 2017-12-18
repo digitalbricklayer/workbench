@@ -16,24 +16,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
-    <!--<Window.InputBindings>-->
-        <!-- Bind input to commands. -->
-    <!--<KeyBinding Key="Delete"
-			        Command="{Binding ApplicationMenu.ModelMenu.DeleteCommand}" />
-    </Window.InputBindings>-->
-
-    <!--<Window.ContextMenu>
-        <ContextMenu>
-            <MenuItem Header="Create Singleton Variable"
-					  Command="{Binding ApplicationMenu.ModelMenu.AddSingletonVariableCommand}"
-					  ToolTip="Create a new variable" />
-
-            <MenuItem Header="Create Aggregate Variable"
-					  Command="{Binding ApplicationMenu.ModelMenu.AddAggregateVariableCommand}"
-					  ToolTip="Create a new variable" />
-        </ContextMenu>
-    </Window.ContextMenu>-->
 
     <DockPanel LastChildFill="True">
         <ContentControl x:Name="ApplicationMenu" DockPanel.Dock="Top"/>
