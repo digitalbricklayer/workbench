@@ -9,13 +9,12 @@ namespace Workbench.Services
     /// <summary>
     /// Factory for creating view models.
     /// </summary>
-    public class ViewModelFactory : IViewModelFactory
+    public sealed class ViewModelFactory : IViewModelFactory
     {
         private readonly IWindowManager windowManager;
         private readonly IEventAggregator eventAggregator;
 
-        public ViewModelFactory(IEventAggregator theEventAggregator,
-                                IWindowManager theWindowManager)
+        public ViewModelFactory(IEventAggregator theEventAggregator, IWindowManager theWindowManager)
         {
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);

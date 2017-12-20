@@ -8,7 +8,7 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a variable model into a view model.
     /// </summary>
-    public class VariableMapper
+    public sealed class VariableMapper
     {
         private readonly IViewModelService cache;
         private readonly IEventAggregator eventAggregator;
@@ -19,7 +19,7 @@ namespace Workbench.Services
             this.eventAggregator = theEventAggregator;
         }
 
-        internal VariableViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
+        public VariableViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
@@ -30,7 +30,7 @@ namespace Workbench.Services
             return variableViewModel;
         }
 
-        internal AggregateVariableViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
+        public AggregateVariableViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 

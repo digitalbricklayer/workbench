@@ -8,7 +8,7 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a constraint model into a view model.
     /// </summary>
-    public class ConstraintMapper
+    public sealed class ConstraintMapper
     {
         private readonly IViewModelService cache;
 
@@ -19,7 +19,7 @@ namespace Workbench.Services
             this.cache = theService;
         }
 
-        internal ConstraintViewModel MapFrom(ConstraintGraphicModel theConstraintModel)
+        public ConstraintViewModel MapFrom(ConstraintGraphicModel theConstraintModel)
         {
             Debug.Assert(theConstraintModel.HasIdentity);
 

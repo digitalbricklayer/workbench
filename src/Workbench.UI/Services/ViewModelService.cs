@@ -9,7 +9,7 @@ namespace Workbench.Services
     /// <summary>
     /// Service responsible for cross cutting concerns across all view models.
     /// </summary>
-    public class ViewModelService : IViewModelService, IDisposable
+    public sealed class ViewModelService : IViewModelService, IDisposable
     {
         private readonly Dictionary<int, GraphicViewModel> graphicMap;
         private readonly Dictionary<int, VariableViewModel> variableMap;

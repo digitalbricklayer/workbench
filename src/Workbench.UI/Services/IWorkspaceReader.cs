@@ -18,7 +18,7 @@ namespace Workbench.Services
     /// Code contract for the IWorkspaceReader interface.
     /// </summary>
     [ContractClassFor(typeof(IWorkspaceReader))]
-    internal abstract class IWorkspaceReaderContract : IWorkspaceReader
+    public abstract class IWorkspaceReaderContract : IWorkspaceReader
     {
         public WorkspaceModel Read(string filename)
         {

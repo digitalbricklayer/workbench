@@ -28,7 +28,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theSolutionModel">Solution model.</param>
         /// <returns>Solution view model.</returns>
-        internal SolutionViewerViewModel MapFrom(SolutionModel theSolutionModel)
+        public SolutionViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
             var solutionViewModel = new SolutionViewerViewModel(theSolutionModel);
             foreach (var valueModel in theSolutionModel.Snapshot.SingletonValues)

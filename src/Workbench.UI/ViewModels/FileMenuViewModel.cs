@@ -7,7 +7,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class FileMenuViewModel
+    public sealed class FileMenuViewModel
     {
         private readonly IDataService dataService;
         private readonly WorkspaceMapper workspaceMapper;

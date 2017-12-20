@@ -31,7 +31,7 @@ namespace Workbench.Services
             this.viewModelFactory = theViewModelFactory;
         }
 
-        internal ModelViewModel MapFrom(ModelModel theModelModel)
+        public ModelViewModel MapFrom(ModelModel theModelModel)
         {
             var modelViewModel = this.viewModelFactory.CreateModel(theModelModel);
 

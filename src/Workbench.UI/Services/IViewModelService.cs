@@ -33,7 +33,7 @@ namespace Workbench.Services
     /// Code contract for the IViewModelService interface.
     /// </summary>
     [ContractClassFor(typeof(IViewModelService))]
-    internal abstract class IViewModelServiceContract : IViewModelService
+    public abstract class IViewModelServiceContract : IViewModelService
     {
         private IViewModelServiceContract()
         {
