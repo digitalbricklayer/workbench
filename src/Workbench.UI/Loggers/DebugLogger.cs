@@ -4,7 +4,7 @@ using Caliburn.Micro;
 
 namespace Workbench.Loggers
 {
-    internal class DebugLogger : ILog
+    public class DebugLogger : ILog
     {
         private readonly Type _type;
     
