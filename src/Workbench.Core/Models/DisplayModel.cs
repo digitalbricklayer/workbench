@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Castle.Core.Internal;
 using Workbench.Core.Solver;
 
 namespace Workbench.Core.Models
@@ -14,7 +13,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class DisplayModel : AbstractModel
     {
-        private readonly IList<VisualizerBindingExpressionModel> bindings;
+        private readonly List<VisualizerBindingExpressionModel> bindings;
         private ObservableCollection<VisualizerModel> visualizers;
         private readonly ModelModel model;
 
