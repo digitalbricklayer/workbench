@@ -33,25 +33,8 @@ namespace Workbench.ViewModels
         public void BindTo(SolutionModel theSolution)
         {
             Contract.Requires<ArgumentNullException>(theSolution != null);
-            Reset();
             Model = theSolution;
             UpdateViewers();
-        }
-
-        /// <summary>
-        /// Reset the contents of the solution.
-        /// </summary>
-        public void Reset()
-        {
-        }
-
-        /// <summary>
-        /// Add a value.
-        /// </summary>
-        /// <param name="newValueViewModel">New value.</param>
-        public void AddValue(ValueModel newValueViewModel)
-        {
-            Contract.Requires<ArgumentNullException>(newValueViewModel != null);
         }
 
         /// <summary>
