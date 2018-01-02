@@ -140,9 +140,11 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.OrTools, Version=1.0.3853.11235, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\or-tools.VisualStudio2013-32b\Google.OrTools.dll</HintPath>
+    <Reference Include="Google.OrTools.x86, Version=5.0.6170.24109, Culture=neutral, PublicKeyToken=fdef6fe93723b46c, processorArchitecture=x86">
+      <HintPath>..\..\packages\Google.OrTools.x86.5.0.6170.24109\lib\net40\Google.OrTools.x86.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.0.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Google.Protobuf.3.0.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Irony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Irony.0.9.1\lib\net40\Irony.dll</HintPath>
