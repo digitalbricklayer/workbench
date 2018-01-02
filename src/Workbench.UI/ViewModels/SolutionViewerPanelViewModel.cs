@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
-using Castle.Core.Internal;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -36,7 +35,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theSolution != null);
             Reset();
             Model = theSolution;
-            Items.ForEach(viewer => viewer.Update());
+            UpdateViewers();
         }
 
         /// <summary>
@@ -63,6 +62,14 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             ActivateItem(newVisualizer);
+        }
+
+        private void UpdateViewers()
+        {
+            foreach (var viewer in Items)
+            {
+                viewer.Update();
+            }
         }
     }
 }
