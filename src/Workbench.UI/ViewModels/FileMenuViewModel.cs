@@ -118,7 +118,7 @@ namespace Workbench.ViewModels
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
                 this.Workspace = this.workspaceMapper.MapFrom(workspaceModel);
-                this.Workspace.SelectedDisplayMode = "Model";
+                this.Workspace.SelectedDisplay = "Model";
             }
             catch (Exception e)
             {

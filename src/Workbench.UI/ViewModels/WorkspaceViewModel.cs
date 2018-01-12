@@ -16,8 +16,8 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private readonly IObservableCollection<string> availableDisplayModes;
-        private string selectedDisplayMode;
+        private readonly IObservableCollection<string> availableDisplays;
+        private string selectedDisplay;
         private bool isDirty;
         private ModelViewModel model;
         private readonly IEventAggregator eventAggregator;
@@ -43,13 +43,13 @@ namespace Workbench.ViewModels
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
             this.viewModelFactory = theViewModelFactory;
-            this.availableDisplayModes = new BindableCollection<string> {"Model", "Designer"};
+            this.availableDisplays = new BindableCollection<string> {"Designer", "Solution"};
             WorkspaceModel = theDataService.GetWorkspace();
-            this.model = this.viewModelFactory.CreateModel(this.WorkspaceModel.Model);
+            this.model = this.viewModelFactory.CreateModel(WorkspaceModel.Model);
             Solution = new SolutionViewModel(this,
                                              new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
                                              new SolutionViewerViewModel(WorkspaceModel.Solution));
-            SelectedDisplayMode = "Model";
+            SelectedDisplay = "Designer";
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public ModelViewModel Model
         {
-            get { return model; }
+            get { return this.model; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
@@ -88,22 +88,18 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the currently selected display mode.
         /// </summary>
-        public string SelectedDisplayMode
+        public string SelectedDisplay
         {
             get
             {
-                return selectedDisplayMode;
+                return this.selectedDisplay;
             }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.selectedDisplayMode = value;
-                switch (this.selectedDisplayMode)
+                this.selectedDisplay = value;
+                switch (this.selectedDisplay)
                 {
-                    case "Model":
-                        ChangeActiveItem(this.Model, closePrevious:false);
-                        break;
-
                     case "Solution":
                         ChangeActiveItem(Solution.Viewer, closePrevious:false);
                         break;
@@ -120,14 +116,14 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the available display modes. Changes depending upon 
+        /// Gets the available displays. Changes depending upon 
         /// whether the model has a solution or not.
         /// </summary>
-        public IObservableCollection<string> AvailableDisplayModes
+        public IObservableCollection<string> AvailableDisplays
         {
             get
             {
-                return this.availableDisplayModes;
+                return this.availableDisplays;
             }
         }
 
@@ -154,7 +150,7 @@ namespace Workbench.ViewModels
             if (!isModelValid) return SolveResult.InvalidModel;
             var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
-            DisplaySolution(this.WorkspaceModel.Solution);
+            DisplaySolution(WorkspaceModel.Solution);
             this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
 
             return solveResult;
@@ -210,7 +206,7 @@ namespace Workbench.ViewModels
 
             var newDomain = new DomainViewModel(new DomainGraphicModel(newDomainName, newDomainLocation, new DomainModel()));
             Model.AddDomain(newDomain);
-            this.IsDirty = true;
+            IsDirty = true;
 
             return newDomain;
         }
@@ -264,12 +260,12 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Add a new grid visualizer to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New grid visualizer.</param>
-        public void AddMapVisualizer(GridVisualizerViewModel newVisualizer)
+        /// <param name="newGridVisualizer">New grid visualizer.</param>
+        public void AddGridVisualizer(GridVisualizerViewModel newGridVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+            Contract.Requires<ArgumentNullException>(newGridVisualizer != null);
 
-            Solution.AddGridVisualizer(newVisualizer);
+            Solution.AddGridVisualizer(newGridVisualizer);
             IsDirty = true;
         }
 
@@ -291,7 +287,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(variable != null);
 
             Model.DeleteVariable(variable);
-            this.IsDirty = true;
+            IsDirty = true;
         }
 
         /// <summary>
@@ -301,7 +297,7 @@ namespace Workbench.ViewModels
         {
             Model.Reset();
             Solution.Reset();
-            this.IsDirty = true;
+            IsDirty = true;
         }
 
         /// <summary>
@@ -321,8 +317,8 @@ namespace Workbench.ViewModels
         public void ChangeSelectedDisplayTo(string newSelectedDisplayMode)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newSelectedDisplayMode));
-            Contract.Requires<ArgumentOutOfRangeException>(AvailableDisplayModes.Contains(newSelectedDisplayMode));
-            SelectedDisplayMode = newSelectedDisplayMode;
+            Contract.Requires<ArgumentOutOfRangeException>(AvailableDisplays.Contains(newSelectedDisplayMode));
+            SelectedDisplay = newSelectedDisplayMode;
         }
 
         /// <summary>
@@ -334,9 +330,9 @@ namespace Workbench.ViewModels
             Solution.Reset();
             Solution.BindTo(theSolution);
 
-            if (!AvailableDisplayModes.Contains("Solution"))
-                AvailableDisplayModes.Add("Solution");
-            SelectedDisplayMode = "Solution";
+            if (!AvailableDisplays.Contains("Solution"))
+                AvailableDisplays.Add("Solution");
+            SelectedDisplay = "Solution";
         }
 
         /// <summary>

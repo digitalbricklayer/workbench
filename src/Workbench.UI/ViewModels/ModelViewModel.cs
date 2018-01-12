@@ -20,20 +20,18 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a model view model with a model and window manager.
         /// </summary>
-        public ModelViewModel(ModelModel theModel, 
-                              IWindowManager theWindowManager, 
-                              IEventAggregator theEventAggregator)
+        public ModelViewModel(ModelModel theModel, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
-            this.Model = theModel;
+            Model = theModel;
             this.windowManager = theWindowManager;
             this.eventAggregator = theEventAggregator;
-            this.Variables = new BindableCollection<VariableViewModel>();
-            this.Domains = new BindableCollection<DomainViewModel>();
-            this.Constraints = new BindableCollection<ConstraintViewModel>();
+            Variables = new BindableCollection<VariableViewModel>();
+            Domains = new BindableCollection<DomainViewModel>();
+            Constraints = new BindableCollection<ConstraintViewModel>();
         }
 
         /// <summary>
@@ -65,8 +63,8 @@ namespace Workbench.ViewModels
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
 
-            this.FixupSingletonVariable(newVariableViewModel);
-            this.AddSingletonVariableToModel(newVariableViewModel);
+            FixupSingletonVariable(newVariableViewModel);
+            AddSingletonVariableToModel(newVariableViewModel);
             this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariableViewModel));
         }
 
@@ -79,8 +77,8 @@ namespace Workbench.ViewModels
             if (newVariableViewModel == null)
                 throw new ArgumentNullException("newVariableViewModel");
 
-            this.FixupAggregateVariable(newVariableViewModel);
-            this.AddAggregateVariableToModel(newVariableViewModel);
+            FixupAggregateVariable(newVariableViewModel);
+            AddAggregateVariableToModel(newVariableViewModel);
             this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariableViewModel));
         }
 
@@ -92,8 +90,8 @@ namespace Workbench.ViewModels
         {
             if (newDomainViewModel == null)
                 throw new ArgumentNullException("newDomainViewModel");
-            this.FixupDomain(newDomainViewModel);
-            this.AddDomainToModel(newDomainViewModel);
+            FixupDomain(newDomainViewModel);
+            AddDomainToModel(newDomainViewModel);
         }
 
         /// <summary>
@@ -104,8 +102,8 @@ namespace Workbench.ViewModels
         {
             if (newConstraintViewModel == null)
                 throw new ArgumentNullException("newConstraintViewModel");
-            this.FixupConstraint(newConstraintViewModel);
-            this.AddConstraintToModel(newConstraintViewModel);
+            FixupConstraint(newConstraintViewModel);
+            AddConstraintToModel(newConstraintViewModel);
         }
 
         /// <summary>
@@ -116,9 +114,9 @@ namespace Workbench.ViewModels
         {
             if (variableToDelete == null) 
                 throw new ArgumentNullException("variableToDelete");
-            this.Variables.Remove(variableToDelete);
-            this.DeactivateItem(variableToDelete, close:true);
-            this.DeleteVariableFromModel(variableToDelete);
+            Variables.Remove(variableToDelete);
+            DeactivateItem(variableToDelete, close:true);
+            DeleteVariableFromModel(variableToDelete);
             this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete));
         }
 
@@ -130,9 +128,9 @@ namespace Workbench.ViewModels
         {
             if (domainToDelete == null) 
                 throw new ArgumentNullException("domainToDelete");
-            this.Domains.Remove(domainToDelete);
-            this.DeactivateItem(domainToDelete, close:true);
-            this.DeleteDomainFromModel(domainToDelete);
+            Domains.Remove(domainToDelete);
+            DeactivateItem(domainToDelete, close:true);
+            DeleteDomainFromModel(domainToDelete);
         }
 
         /// <summary>
@@ -143,9 +141,9 @@ namespace Workbench.ViewModels
         {
             if (constraintToDelete == null)
                 throw new ArgumentNullException("constraintToDelete");
-            this.Constraints.Remove(constraintToDelete);
-            this.DeactivateItem(constraintToDelete, close:true);
-            this.DeleteConstraintFromModel(constraintToDelete);
+            Constraints.Remove(constraintToDelete);
+            DeactivateItem(constraintToDelete, close:true);
+            DeleteConstraintFromModel(constraintToDelete);
         }
 
         /// <summary>
@@ -171,7 +169,7 @@ namespace Workbench.ViewModels
         {
             if (string.IsNullOrWhiteSpace(variableName))
                 throw new ArgumentNullException("variableName");
-            return this.Variables.FirstOrDefault(_ => _.Name == variableName);
+            return Variables.FirstOrDefault(_ => _.Name == variableName);
         }
 
         /// <summary>
@@ -182,7 +180,7 @@ namespace Workbench.ViewModels
         public ConstraintViewModel GetConstraintByName(string constraintName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
-            return this.Constraints.FirstOrDefault(_ => _.Name == constraintName);
+            return Constraints.FirstOrDefault(_ => _.Name == constraintName);
         }
 
         /// <summary>
@@ -200,10 +198,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            this.Variables.Clear();
-            this.Constraints.Clear();
-            this.Domains.Clear();
-            this.Items.Clear();
+            Variables.Clear();
+            Constraints.Clear();
+            Domains.Clear();
+            Items.Clear();
         }
 
         /// <summary>
@@ -217,8 +215,8 @@ namespace Workbench.ViewModels
         {
             if (variableViewModel == null)
                 throw new ArgumentNullException(nameof(variableViewModel));
-            this.ActivateItem(variableViewModel);
-            this.Variables.Add(variableViewModel);
+            ActivateItem(variableViewModel);
+            Variables.Add(variableViewModel);
         }
 
         /// <summary>
@@ -232,8 +230,8 @@ namespace Workbench.ViewModels
         {
             if (variableViewModel == null)
                 throw new ArgumentNullException("variableViewModel");
-            this.ActivateItem(variableViewModel);
-            this.Variables.Add(variableViewModel);
+            ActivateItem(variableViewModel);
+            Variables.Add(variableViewModel);
         }
 
         /// <summary>
@@ -247,8 +245,8 @@ namespace Workbench.ViewModels
         {
             if (domainViewModel == null)
                 throw new ArgumentNullException("domainViewModel");
-            this.ActivateItem(domainViewModel);
-            this.Domains.Add(domainViewModel);
+            ActivateItem(domainViewModel);
+            Domains.Add(domainViewModel);
         }
 
         /// <summary>
@@ -262,8 +260,8 @@ namespace Workbench.ViewModels
         {
             if (constraintViewModel == null)
                 throw new ArgumentNullException("constraintViewModel");
-            this.ActivateItem(constraintViewModel);
-            this.Constraints.Add(constraintViewModel);
+            ActivateItem(constraintViewModel);
+            Constraints.Add(constraintViewModel);
         }
 
         /// <summary>
@@ -273,7 +271,7 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableToModel(SingletonVariableViewModel newVariableViewModel)
         {
             Debug.Assert(newVariableViewModel.Model != null);
-            this.Model.AddVariable((SingletonVariableGraphicModel) newVariableViewModel.Model);
+            Model.AddVariable((SingletonVariableGraphicModel) newVariableViewModel.Model);
         }
 
         /// <summary>
@@ -283,7 +281,7 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableToModel(AggregateVariableViewModel newVariableViewModel)
         {
             Debug.Assert(newVariableViewModel.Model != null);
-            this.Model.AddVariable(newVariableViewModel.Model);
+            Model.AddVariable(newVariableViewModel.Model);
         }
 
         /// <summary>
@@ -293,7 +291,7 @@ namespace Workbench.ViewModels
         private void AddDomainToModel(DomainViewModel newDomainViewModel)
         {
             Debug.Assert(newDomainViewModel.Model != null);
-            this.Model.AddDomain(newDomainViewModel.Model);
+            Model.AddDomain(newDomainViewModel.Model);
         }
 
         /// <summary>
@@ -303,25 +301,25 @@ namespace Workbench.ViewModels
         private void AddConstraintToModel(ConstraintViewModel newConstraintViewModel)
         {
             Debug.Assert(newConstraintViewModel.Model != null);
-            this.Model.AddConstraint(newConstraintViewModel.Model);
+            Model.AddConstraint(newConstraintViewModel.Model);
         }
 
         private void DeleteConstraintFromModel(ConstraintViewModel constraintToDelete)
         {
             Debug.Assert(constraintToDelete.Model != null);
-            this.Model.DeleteConstraint(constraintToDelete.Model);
+            Model.DeleteConstraint(constraintToDelete.Model);
         }
 
         private void DeleteVariableFromModel(VariableViewModel variableToDelete)
         {
             Debug.Assert(variableToDelete.Model != null);
-            this.Model.DeleteVariable(variableToDelete.Model);
+            Model.DeleteVariable(variableToDelete.Model);
         }
 
         private void DeleteDomainFromModel(DomainViewModel domainToDelete)
         {
             Debug.Assert(domainToDelete.Model != null);
-            this.Model.DeleteDomain(domainToDelete.Model);
+            Model.DeleteDomain(domainToDelete.Model);
         }
 
         /// <summary>
@@ -360,10 +358,10 @@ namespace Workbench.ViewModels
         [ContractInvariantMethod]
         private void Invariants()
         {
-            Contract.Invariant(this.Model != null);
-            Contract.Invariant(this.Constraints != null);
-            Contract.Invariant(this.Variables != null);
-            Contract.Invariant(this.Domains != null);
+            Contract.Invariant(Model != null);
+            Contract.Invariant(Constraints != null);
+            Contract.Invariant(Variables != null);
+            Contract.Invariant(Domains != null);
         }
     }
 }

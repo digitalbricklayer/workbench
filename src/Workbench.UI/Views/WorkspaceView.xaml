@@ -9,8 +9,8 @@
 
         <!-- Workspace mode selector -->
         <ComboBox x:Name="workspaceViewSelector"
-                  ItemsSource="{Binding AvailableDisplayModes}"
-                  SelectedItem="{Binding SelectedDisplayMode, Mode=TwoWay}"/>
+                  ItemsSource="{Binding AvailableDisplays}"
+                  SelectedItem="{Binding SelectedDisplay, Mode=TwoWay}"/>
 
         <!-- Work area -->
         <ContentControl x:Name="workAreaControl" 

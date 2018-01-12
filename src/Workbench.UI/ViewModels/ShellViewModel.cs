@@ -15,7 +15,8 @@ namespace Workbench.ViewModels
         private TitleBarViewModel titleBar;
 
         /// <summary>
-        /// Initialize a shell view model with a data service and window manager.
+        /// Initialize a shell view model with an application runtime, workspace view 
+        /// model, application menu view model and title bar view model.
         /// </summary>
         /// <param name="theAppRuntime">Application runtime.</param>
         /// <param name="theWorkspaceViewModel">Workspace view model.</param>
@@ -32,11 +33,11 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.appRuntime = theAppRuntime;
-            this.Workspace = theWorkspaceViewModel;
             this.appRuntime.Shell = this;
-            this.ApplicationMenu = theApplicationMenuViewModel;
-            this.TitleBar = theTitleBarViewModel;
-            this.ActivateItem(this.Workspace);
+            Workspace = theWorkspaceViewModel;
+            ApplicationMenu = theApplicationMenuViewModel;
+            TitleBar = theTitleBarViewModel;
+            ActivateItem(this.Workspace);
         }
 
         /// <summary>

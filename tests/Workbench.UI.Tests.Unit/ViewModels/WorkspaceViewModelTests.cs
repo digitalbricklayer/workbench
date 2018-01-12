@@ -34,7 +34,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateSut();
             sut.SolveModel();
-            Assert.That(sut.SelectedDisplayMode, Is.EqualTo("Solution"));
+            Assert.That(sut.SelectedDisplay, Is.EqualTo("Solution"));
         }
 
         private WorkspaceViewModel CreateSut()

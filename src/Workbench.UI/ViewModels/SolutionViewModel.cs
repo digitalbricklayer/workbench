@@ -124,7 +124,7 @@ namespace Workbench.ViewModels
         /// <returns>Collection of selected grid visualizers.</returns>
         public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedGridVisualizers()
         {
-            if (this.workspace.SelectedDisplayMode == "Designer")
+            if (this.workspace.SelectedDisplay == "Designer")
             {
                 return GridVisualizers.Where(gridVisualizer => gridVisualizer.Designer.IsSelected)
                                       .ToList();
