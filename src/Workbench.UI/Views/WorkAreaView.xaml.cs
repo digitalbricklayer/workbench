@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for WorkspaceView.xaml
+    /// Interaction logic for WorkAreaView.xaml
     /// </summary>
-    public partial class WorkspaceView : UserControl
+    public partial class WorkAreaView : UserControl
     {
-        public WorkspaceView()
+        public WorkAreaView()
         {
             InitializeComponent();
         }

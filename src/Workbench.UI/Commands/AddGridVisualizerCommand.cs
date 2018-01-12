@@ -14,13 +14,13 @@ namespace Workbench.Commands
     /// </summary>
     public class AddGridVisualizerCommand : CommandBase
     {
-        private readonly WorkspaceViewModel workspace;
+        private readonly WorkAreaViewModel workspace;
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
 
-        public AddGridVisualizerCommand(WorkspaceViewModel theWorkspace,
+        public AddGridVisualizerCommand(WorkAreaViewModel theWorkspace,
                                        TitleBarViewModel theTitleBar,
                                        IEventAggregator theEventAggregator,
                                        IDataService theDataService,

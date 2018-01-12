@@ -8,6 +8,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        WorkspaceViewModel Workspace { get; set; }
+        WorkAreaViewModel Workspace { get; set; }
     }
 }

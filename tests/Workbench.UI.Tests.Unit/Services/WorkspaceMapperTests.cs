@@ -68,7 +68,7 @@ namespace Workbench.UI.Tests.Unit.Services
                                                                   CreateWindowManager(),
                                                                   CreateEventAggregator()));
             mock.Setup(_ => _.CreateWorkspace())
-                .Returns(new WorkspaceViewModel(CreateDataService(),
+                .Returns(new WorkAreaViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
                                                 this.viewModelService,

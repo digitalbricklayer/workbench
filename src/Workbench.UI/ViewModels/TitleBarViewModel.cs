@@ -11,7 +11,7 @@ namespace Workbench.ViewModels
         private readonly IAppRuntime appRuntime;
 
         public TitleBarViewModel(IAppRuntime theAppRuntime,
-                                 WorkspaceViewModel theWorkspaceViewModel)
+                                 WorkAreaViewModel theWorkspaceViewModel)
         {
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
@@ -20,7 +20,7 @@ namespace Workbench.ViewModels
 			this.UpdateTitle();
         }
 
-        public WorkspaceViewModel Workspace { get; private set; }
+        public WorkAreaViewModel Workspace { get; private set; }
 
         /// <summary>
         /// Gets or sets the main window title.

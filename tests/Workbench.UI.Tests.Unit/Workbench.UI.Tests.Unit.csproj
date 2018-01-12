@@ -106,11 +106,11 @@
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainViewModelTests.cs" />
     <Compile Include="ViewModels\GridViewModelTests.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModelXTests.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModelEmptyTests.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModelXTests.cs" />
     <Compile Include="ViewModels\SingletonVariableViewModelTests.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModelCreatedFromModelTests.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModelTests.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModelCreatedFromModelTests.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

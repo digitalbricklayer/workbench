@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
     {
         private SolutionViewerViewModel viewer;
         private SolutionDesignerViewModel designer;
-        private readonly WorkspaceViewModel workspace;
+        private readonly WorkAreaViewModel workspace;
 
         /// <summary>
         /// Initialize the solution with the workspace, a solution designer and solution viewer.
@@ -22,7 +22,7 @@ namespace Workbench.ViewModels
         /// <param name="theWorkspace">Workspace.</param>
         /// <param name="theDesigner">Solution designer.</param>
         /// <param name="theViewer">Solutuion display.</param>
-        public SolutionViewModel(WorkspaceViewModel theWorkspace, SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
+        public SolutionViewModel(WorkAreaViewModel theWorkspace, SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
             Contract.Requires<ArgumentNullException>(theDesigner != null);

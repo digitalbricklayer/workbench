@@ -38,7 +38,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the workspace view model.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel Workspace
         {
             get { return this.appRuntime.Workspace; }
             set { this.appRuntime.Workspace = value; }

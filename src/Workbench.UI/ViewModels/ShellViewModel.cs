@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>, IShell
     {
-        private WorkspaceViewModel workspace;
+        private WorkAreaViewModel workspace;
         private ApplicationMenuViewModel applicationMenu;
         private readonly IAppRuntime appRuntime;
         private TitleBarViewModel titleBar;
@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
         public ShellViewModel(IAppRuntime theAppRuntime,
-                              WorkspaceViewModel theWorkspaceViewModel,
+                              WorkAreaViewModel theWorkspaceViewModel,
                               ApplicationMenuViewModel theApplicationMenuViewModel,
                               TitleBarViewModel theTitleBarViewModel)
         {
@@ -57,7 +57,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel Workspace
         {
             get { return this.workspace; }
             set

@@ -9,13 +9,13 @@ namespace Workbench.ViewModels
     [ContractClassFor(typeof(IShell))]
     internal abstract class IShellContract : IShell
     {
-        private WorkspaceViewModel workspace;
+        private WorkAreaViewModel workspace;
 
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel Workspace
         {
             get
             {
-                Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
+                Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
                 return workspace;
             }
             set

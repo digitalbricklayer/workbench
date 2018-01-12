@@ -349,8 +349,8 @@
     <Compile Include="Views\VariableView.xaml.cs">
       <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WorkspaceView.xaml.cs">
-      <DependentUpon>WorkspaceView.xaml</DependentUpon>
+    <Compile Include="Views\WorkAreaView.xaml.cs">
+      <DependentUpon>WorkAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfUtils.cs" />
     <Page Include="Controls\GraphicDisplayControl.xaml">
@@ -449,7 +449,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WorkspaceView.xaml">
+    <Page Include="Views\WorkAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,7 +10,7 @@ namespace Workbench
         /// <summary>
         /// Gets the workspace view model.
         /// </summary>
-        WorkspaceViewModel Workspace { get; set; }
+        WorkAreaViewModel Workspace { get; set; }
 
         /// <summary>
         /// Gets the shell view model.
@@ -37,13 +37,13 @@ namespace Workbench
         private readonly string _applicationName = String.Empty;
         private string _currentFileName;
         private ShellViewModel _shell;
-        private WorkspaceViewModel _workspace;
+        private WorkAreaViewModel _workspace;
 
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel Workspace
         {
             get
             {
-                Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
+                Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
                 return _workspace;
             }
             set

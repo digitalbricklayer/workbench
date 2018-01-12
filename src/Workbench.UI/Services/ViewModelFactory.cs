@@ -36,9 +36,9 @@ namespace Workbench.Services
         /// Create a new workspace view model.
         /// </summary>
         /// <returns>New workspace view model.</returns>
-        public WorkspaceViewModel CreateWorkspace()
+        public WorkAreaViewModel CreateWorkspace()
         {
-            var newWorkspace = IoC.Get<WorkspaceViewModel>();
+            var newWorkspace = IoC.Get<WorkAreaViewModel>();
 			this.OnWorkspaceCreated(new WorkspaceCreatedArgs(newWorkspace));
 			
 			return newWorkspace;

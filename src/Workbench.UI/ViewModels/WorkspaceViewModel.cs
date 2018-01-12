@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
     /// View model for the workspace where a model can be edited and 
     /// the solution displayed.
     /// </summary>
-    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
+    public sealed class WorkAreaViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private readonly IObservableCollection<string> availableDisplays;
         private string selectedDisplay;
@@ -28,7 +28,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a workspace view model with a data service, window manager and event aggregator.
         /// </summary>
-        public WorkspaceViewModel(IDataService theDataService,
+        public WorkAreaViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,
                                   IEventAggregator theEventAggregator,
                                   IViewModelService theViewModelService,

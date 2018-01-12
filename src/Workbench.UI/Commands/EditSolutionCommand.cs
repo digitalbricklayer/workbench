@@ -13,7 +13,7 @@ namespace Workbench.Commands
         private readonly IWindowManager windowManager;
         private readonly SolutionViewModel solution;
 
-        public EditSolutionCommand(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
+        public EditSolutionCommand(IWindowManager theWindowManager, WorkAreaViewModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theWorkspace != null);

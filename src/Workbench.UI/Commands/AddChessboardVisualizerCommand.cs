@@ -14,13 +14,13 @@ namespace Workbench.Commands
     /// </summary>
     public class AddChessboardVisualizerCommand : CommandBase
     {
-        private readonly WorkspaceViewModel workspace;
+        private readonly WorkAreaViewModel workspace;
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
 
-        public AddChessboardVisualizerCommand(WorkspaceViewModel theWorkspace,
+        public AddChessboardVisualizerCommand(WorkAreaViewModel theWorkspace,
                                               TitleBarViewModel theTitleBar,
                                               IEventAggregator theEventAggregator,
                                               IDataService theDataService,

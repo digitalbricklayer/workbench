@@ -13,13 +13,13 @@ namespace Workbench.ViewModels
     /// </summary>
     public class SolutionMenuViewModel
     {
-        private readonly WorkspaceViewModel workspace;
+        private readonly WorkAreaViewModel workspace;
         private readonly IWindowManager windowManager;
 
         /// <summary>
         /// Initialize the solution menu view model with default values.
         /// </summary>
-        public SolutionMenuViewModel(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
+        public SolutionMenuViewModel(IWindowManager theWindowManager, WorkAreaViewModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
