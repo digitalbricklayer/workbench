@@ -13,13 +13,13 @@ namespace Workbench.Commands
         private readonly IWindowManager windowManager;
         private readonly SolutionViewModel solution;
 
-        public EditSolutionCommand(IWindowManager theWindowManager, WorkAreaViewModel theWorkspace)
+        public EditSolutionCommand(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
 
             this.windowManager = theWindowManager;
-            this.solution = theWorkspace.Solution;
+            this.solution = theWorkArea.Solution;
         }
 
         public override void Execute(object parameter)

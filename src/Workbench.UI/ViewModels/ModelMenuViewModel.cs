@@ -79,12 +79,12 @@ namespace Workbench.ViewModels
         public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
-        /// Gets the workspace view model.
+        /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
-            get { return this.appRuntime.Workspace; }
-            set { this.appRuntime.Workspace = value; }
+            get { return this.appRuntime.WorkArea; }
+            set { this.appRuntime.WorkArea = value; }
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.Workspace.Model.Items.Any(_ => _.IsSelected);
+                return this.WorkArea.Model.Items.Any(_ => _.IsSelected);
             }
         }
 
@@ -105,7 +105,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.Workspace.Model.GetSelectedAggregateVariables().Any();
+                return this.WorkArea.Model.GetSelectedAggregateVariables().Any();
             }
         }
 
@@ -114,7 +114,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void ModelSolveAction()
         {
-            this.Workspace.SolveModel();
+            this.WorkArea.SolveModel();
             this.titleBar.UpdateTitle();
         }
 
@@ -124,7 +124,7 @@ namespace Workbench.ViewModels
         private void ModelAddSingletonVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddSingletonVariable("New Variable", newVariableLocation);
+            this.WorkArea.AddSingletonVariable("New Variable", newVariableLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -134,7 +134,7 @@ namespace Workbench.ViewModels
         private void ModelAddAggregateVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddAggregateVariable("New Variable", newVariableLocation);
+            this.WorkArea.AddAggregateVariable("New Variable", newVariableLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -144,7 +144,7 @@ namespace Workbench.ViewModels
         private void ModelAddExpressionConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            Workspace.AddExpressionConstraint("New Constraint", newConstraintLocation);
+            WorkArea.AddExpressionConstraint("New Constraint", newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -154,7 +154,7 @@ namespace Workbench.ViewModels
         private void ModelAddAllDifferentConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            Workspace.AddAllDifferentConstraint("New Constraint", newConstraintLocation);
+            WorkArea.AddAllDifferentConstraint("New Constraint", newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -164,7 +164,7 @@ namespace Workbench.ViewModels
         private void ModelAddDomainAction()
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.Workspace.AddDomain("New Domain", newDomainLocation);
+            this.WorkArea.AddDomain("New Domain", newDomainLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -173,7 +173,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void ModelDeleteAction()
         {
-            this.Workspace.DeleteSelectedGraphics();
+            this.WorkArea.DeleteSelectedGraphics();
             this.titleBar.UpdateTitle();
         }
 
@@ -182,7 +182,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void ModelResizeAction()
         {
-            var selectedVariables = this.Workspace.Model.GetSelectedAggregateVariables();
+            var selectedVariables = this.WorkArea.Model.GetSelectedAggregateVariables();
             if (selectedVariables == null) return;
 
             var resizeViewModel = new AggregateVariableResizeViewModel();

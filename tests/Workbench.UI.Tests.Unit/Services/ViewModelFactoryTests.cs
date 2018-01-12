@@ -13,7 +13,7 @@ namespace Workbench.UI.Tests.Unit.Services
         [SetUp]
         public void Initialize()
         {
-            IoC.GetInstance = (type, s) => CreateWorkspaceViewModel();
+            IoC.GetInstance = (type, s) => CreateWorkAreaViewModel();
             IoC.GetAllInstances = type => null;
             IoC.BuildUp = o => {};
         }
@@ -22,10 +22,10 @@ namespace Workbench.UI.Tests.Unit.Services
         public void CreateWorkspaceFiresWorkspaceCreatedEvent()
         {
             var sut = CreateSut();
-            var wasWorkspaceCreatedCalled = false;
-            sut.WorkspaceCreated += (o, e) => wasWorkspaceCreatedCalled = true;
-            sut.CreateWorkspace();
-            Assert.That(wasWorkspaceCreatedCalled, Is.True);
+            var wasWorkAreaCreatedCalled = false;
+            sut.WorkAreaCreated += (o, e) => wasWorkAreaCreatedCalled = true;
+            sut.CreateWorkArea();
+            Assert.That(wasWorkAreaCreatedCalled, Is.True);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Workbench.UI.Tests.Unit.Services
                                         CreateWindowManagerMock().Object);
         }
 
-        private object CreateWorkspaceViewModel()
+        private object CreateWorkAreaViewModel()
         {
             return new WorkAreaViewModel(CreateDataServiceMock().Object,
                                           CreateWindowManagerMock().Object,

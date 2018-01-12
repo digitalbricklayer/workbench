@@ -9,15 +9,15 @@ namespace Workbench.Services
     public interface IViewModelFactory
     {
         /// <summary>
-        /// Create a new workspace view model.
+        /// Create a new work area view model.
         /// </summary>
         /// <returns>New workspace view model.</returns>
-        WorkAreaViewModel CreateWorkspace();
+        WorkAreaViewModel CreateWorkArea();
 
         /// <summary>
-        /// Event fired when a new workspace view model is created.
+        /// Event fired when a new work area view model is created.
         /// </summary>
-		event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+		event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
 
         /// <summary>
         /// Create a new model view model.
@@ -42,15 +42,15 @@ namespace Workbench.Services
         public ModelViewModel NewModel { get; private set; }
     }
 
-    public class WorkspaceCreatedArgs
+    public class WorkAreaCreatedArgs
     {
-        public WorkspaceCreatedArgs(WorkAreaViewModel theWorkspace)
+        public WorkAreaCreatedArgs(WorkAreaViewModel theWorkArea)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-            this.WorkspaceCreated = theWorkspace;
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
+            WorkAreaCreated = theWorkArea;
         }
 
-        public WorkAreaViewModel WorkspaceCreated { get; private set; }
+        public WorkAreaViewModel WorkAreaCreated { get; private set; }
     }
 
     /// <summary>
@@ -59,13 +59,13 @@ namespace Workbench.Services
     [ContractClassFor(typeof(IViewModelFactory))]
     internal abstract class IViewModelFactoryContract : IViewModelFactory
     {
-        public WorkAreaViewModel CreateWorkspace()
+        public WorkAreaViewModel CreateWorkArea()
         {
             Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
             return default(WorkAreaViewModel);
         }
 
-        public event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+        public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
         public ModelViewModel CreateModel(ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);

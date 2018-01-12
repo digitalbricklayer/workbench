@@ -13,18 +13,18 @@ namespace Workbench.ViewModels
     /// </summary>
     public class SolutionMenuViewModel
     {
-        private readonly WorkAreaViewModel workspace;
+        private readonly WorkAreaViewModel workArea;
         private readonly IWindowManager windowManager;
 
         /// <summary>
         /// Initialize the solution menu view model with default values.
         /// </summary>
-        public SolutionMenuViewModel(IWindowManager theWindowManager, WorkAreaViewModel theWorkspace)
+        public SolutionMenuViewModel(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
 
-            this.workspace = theWorkspace;
+            this.workArea = theWorkArea;
             this.windowManager = theWindowManager;
             AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
             AddGridVisualizerCommand = IoC.Get<AddGridVisualizerCommand>();
@@ -63,12 +63,12 @@ namespace Workbench.ViewModels
         /// </summary>
         public bool CanEditGridExecute
         {
-            get { return this.workspace.Solution.GetSelectedGridVisualizers().Any(); }
+            get { return this.workArea.Solution.GetSelectedGridVisualizers().Any(); }
         }
 
         private void AddColumnHandler()
         {
-            var selectedGridVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
+            var selectedGridVisualizers = this.workArea.Solution.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
             var columnNameEditor = new ColumnNameEditorViewModel();
@@ -81,7 +81,7 @@ namespace Workbench.ViewModels
 
         private void AddRowHandler()
         {
-            var selectedGridVisualizers = this.workspace.Solution.GetSelectedGridVisualizers();
+            var selectedGridVisualizers = this.workArea.Solution.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
             selectedGridVisualizer.AddRow(new GridRowModel());

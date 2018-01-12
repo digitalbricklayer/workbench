@@ -52,9 +52,9 @@ namespace Workbench.UI.Tests.Unit.Services
             Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
         }
 
-        private WorkspaceMapper CreateSut()
+        private WorkAreaMapper CreateSut()
         {
-            return new WorkspaceMapper(CreateModelMapper(),
+            return new WorkAreaMapper(CreateModelMapper(),
                                        CreateSolutionMapper(),
                                        CreateDisplayMapper(),
                                        CreateViewModelFactoryMock().Object);
@@ -67,7 +67,7 @@ namespace Workbench.UI.Tests.Unit.Services
                 .Returns((ModelModel model) => new ModelViewModel(model,
                                                                   CreateWindowManager(),
                                                                   CreateEventAggregator()));
-            mock.Setup(_ => _.CreateWorkspace())
+            mock.Setup(_ => _.CreateWorkArea())
                 .Returns(new WorkAreaViewModel(CreateDataService(),
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),

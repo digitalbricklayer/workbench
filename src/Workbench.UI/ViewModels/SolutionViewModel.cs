@@ -14,23 +14,23 @@ namespace Workbench.ViewModels
     {
         private SolutionViewerViewModel viewer;
         private SolutionDesignerViewModel designer;
-        private readonly WorkAreaViewModel workspace;
+        private readonly WorkAreaViewModel workArea;
 
         /// <summary>
         /// Initialize the solution with the workspace, a solution designer and solution viewer.
         /// </summary>
-        /// <param name="theWorkspace">Workspace.</param>
+        /// <param name="theWorkArea">Work area.</param>
         /// <param name="theDesigner">Solution designer.</param>
         /// <param name="theViewer">Solutuion display.</param>
-        public SolutionViewModel(WorkAreaViewModel theWorkspace, SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
+        public SolutionViewModel(WorkAreaViewModel theWorkArea, SolutionDesignerViewModel theDesigner, SolutionViewerViewModel theViewer)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
             Contract.Requires<ArgumentNullException>(theDesigner != null);
             Contract.Requires<ArgumentNullException>(theViewer != null);
 
             ChessboardVisualizers = new List<ChessboardVisualizerViewModel>();
             GridVisualizers = new List<GridVisualizerViewModel>();
-            this.workspace = theWorkspace;
+            this.workArea = theWorkArea;
             Designer = theDesigner;
             Viewer = theViewer;
             Model = Viewer.Model;
@@ -124,7 +124,7 @@ namespace Workbench.ViewModels
         /// <returns>Collection of selected grid visualizers.</returns>
         public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedGridVisualizers()
         {
-            if (this.workspace.SelectedDisplay == "Designer")
+            if (this.workArea.SelectedDisplay == "Designer")
             {
                 return GridVisualizers.Where(gridVisualizer => gridVisualizer.Designer.IsSelected)
                                       .ToList();

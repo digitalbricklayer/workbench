@@ -14,25 +14,25 @@ namespace Workbench.Commands
     /// </summary>
     public class AddChessboardVisualizerCommand : CommandBase
     {
-        private readonly WorkAreaViewModel workspace;
+        private readonly WorkAreaViewModel workArea;
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
 
-        public AddChessboardVisualizerCommand(WorkAreaViewModel theWorkspace,
+        public AddChessboardVisualizerCommand(WorkAreaViewModel theWorkArea,
                                               TitleBarViewModel theTitleBar,
                                               IEventAggregator theEventAggregator,
                                               IDataService theDataService,
                                               IViewModelService theViewModelService)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
-            this.workspace = theWorkspace;
+            this.workArea = theWorkArea;
             this.titleBar = theTitleBar;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
@@ -49,9 +49,9 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.workspace.ChangeSelectedDisplayTo("Designer");
+            this.workArea.ChangeSelectedDisplayTo("Designer");
             var newVisualizerModel = new ChessboardVisualizerModel("Chessboard", newVisualizerLocation);
-            this.workspace.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));
+            this.workArea.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }
 

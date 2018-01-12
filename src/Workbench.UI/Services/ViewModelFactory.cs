@@ -25,7 +25,7 @@ namespace Workbench.Services
         /// <summary>
         /// Event fired when a new workspace view model is created.
         /// </summary>
-        public event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+        public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
 
         /// <summary>
         /// Event fired when a new model view model is created.
@@ -33,15 +33,15 @@ namespace Workbench.Services
         public event EventHandler<ModelCreatedArgs> ModelCreated;
 
         /// <summary>
-        /// Create a new workspace view model.
+        /// Create a new work area view model.
         /// </summary>
-        /// <returns>New workspace view model.</returns>
-        public WorkAreaViewModel CreateWorkspace()
+        /// <returns>New work area view model.</returns>
+        public WorkAreaViewModel CreateWorkArea()
         {
-            var newWorkspace = IoC.Get<WorkAreaViewModel>();
-			this.OnWorkspaceCreated(new WorkspaceCreatedArgs(newWorkspace));
+            var newWorkArea = IoC.Get<WorkAreaViewModel>();
+			this.OnWorkAreaCreated(new WorkAreaCreatedArgs(newWorkArea));
 			
-			return newWorkspace;
+			return newWorkArea;
         }
 
         /// <summary>
@@ -58,11 +58,11 @@ namespace Workbench.Services
             return newModel;
         }
 
-        private void OnWorkspaceCreated(WorkspaceCreatedArgs e)
+        private void OnWorkAreaCreated(WorkAreaCreatedArgs e)
 		{
-			if (this.WorkspaceCreated != null)
+			if (this.WorkAreaCreated != null)
 			{
-				WorkspaceCreated(this, e);
+				WorkAreaCreated(this, e);
 			}
 		}
 

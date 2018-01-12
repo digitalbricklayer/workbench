@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>, IShell
     {
-        private WorkAreaViewModel workspace;
+        private WorkAreaViewModel workArea;
         private ApplicationMenuViewModel applicationMenu;
         private readonly IAppRuntime appRuntime;
         private TitleBarViewModel titleBar;
@@ -34,10 +34,10 @@ namespace Workbench.ViewModels
 
             this.appRuntime = theAppRuntime;
             this.appRuntime.Shell = this;
-            Workspace = theWorkspaceViewModel;
+            WorkArea = theWorkspaceViewModel;
             ApplicationMenu = theApplicationMenuViewModel;
             TitleBar = theTitleBarViewModel;
-            ActivateItem(this.Workspace);
+            ActivateItem(this.WorkArea);
         }
 
         /// <summary>
@@ -57,12 +57,12 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkAreaViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
-            get { return this.workspace; }
+            get { return this.workArea; }
             set
             {
-                this.workspace = value;
+                this.workArea = value;
                 NotifyOfPropertyChange();
             }
         }

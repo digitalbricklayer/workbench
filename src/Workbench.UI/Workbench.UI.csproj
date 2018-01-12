@@ -332,7 +332,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\WorkspaceViewModel.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModel.cs" />
     <Compile Include="Views\AggregateVariableResizeView.xaml.cs">
       <DependentUpon>AggregateVariableResizeView.xaml</DependentUpon>
     </Compile>

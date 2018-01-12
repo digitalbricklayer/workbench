@@ -8,7 +8,7 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a model into a view model.
     /// </summary>
-    public class WorkspaceMapper
+    public class WorkAreaMapper
     {
         private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
@@ -18,7 +18,7 @@ namespace Workbench.Services
         /// <summary>
         /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
-        public WorkspaceMapper(ModelMapper theModelMapper,
+        public WorkAreaMapper(ModelMapper theModelMapper,
                                SolutionMapper theSolutionMapper,
                                DisplayMapper theDisplayMapper,
                                IViewModelFactory theViewModelFactory)
@@ -41,13 +41,13 @@ namespace Workbench.Services
         /// <returns>Workspace view model.</returns>
         public WorkAreaViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
-            var workspaceViewModel = this.viewModelFactory.CreateWorkspace();
-            workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
-            workspaceViewModel.Solution = new SolutionViewModel(workspaceViewModel,
+            var workAreaViewModel = this.viewModelFactory.CreateWorkArea();
+            workAreaViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
+            workAreaViewModel.Solution = new SolutionViewModel(workAreaViewModel,
                                                                 this.displayMapper.MapFrom(theWorkspaceModel.Solution.Display),
                                                                 this.solutionMapper.MapFrom(theWorkspaceModel.Solution));
 
-            return workspaceViewModel;
+            return workAreaViewModel;
         }
     }
 }

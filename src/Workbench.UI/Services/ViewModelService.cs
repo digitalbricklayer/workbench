@@ -22,7 +22,7 @@ namespace Workbench.Services
         {
 			Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 			this.viewModelFactory = theViewModelFactory;
-			this.viewModelFactory.WorkspaceCreated += OnWorkspaceCreated;
+			this.viewModelFactory.WorkAreaCreated += OnWorkAreaCreated;
             this.graphicMap = new Dictionary<int, GraphicViewModel>();
             this.variableMap = new Dictionary<int, VariableViewModel>();
         }
@@ -65,10 +65,10 @@ namespace Workbench.Services
 		
 		public void Dispose()
 		{
-			this.viewModelFactory.WorkspaceCreated -= OnWorkspaceCreated;
+			this.viewModelFactory.WorkAreaCreated -= OnWorkAreaCreated;
 		}
 		
-		private void OnWorkspaceCreated(Object sender, WorkspaceCreatedArgs e)
+		private void OnWorkAreaCreated(Object sender, WorkAreaCreatedArgs e)
 		{
 		}
     }

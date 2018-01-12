@@ -10,22 +10,22 @@ namespace Workbench.ViewModels
     public sealed class FileMenuViewModel
     {
         private readonly IDataService dataService;
-        private readonly WorkspaceMapper workspaceMapper;
+        private readonly WorkAreaMapper workAreaMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
 
         public FileMenuViewModel(IDataService theDataService,
-                                 WorkspaceMapper theWorkspaceMapper,
+                                 WorkAreaMapper theWorkAreaMapper,
                                  IAppRuntime theAppRuntime,
                                  TitleBarViewModel theTitleBarViewModel)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
+            Contract.Requires<ArgumentNullException>(theWorkAreaMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.dataService = theDataService;
-            this.workspaceMapper = theWorkspaceMapper;
+            this.workAreaMapper = theWorkAreaMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             NewCommand = new CommandHandler(FileNewAction);
@@ -36,12 +36,12 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the workspace view model.
+        /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
-            get { return this.appRuntime.Workspace; }
-            set { this.appRuntime.Workspace = value; }
+            get { return this.appRuntime.WorkArea; }
+            set { this.appRuntime.WorkArea = value; }
         }
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            this.Workspace.Reset();
-            this.Workspace.IsDirty = false;
+            this.WorkArea.Reset();
+            this.WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -112,13 +112,13 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            this.Workspace.Reset();
+            this.WorkArea.Reset();
 
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                this.Workspace = this.workspaceMapper.MapFrom(workspaceModel);
-                this.Workspace.SelectedDisplay = "Model";
+                WorkArea = this.workAreaMapper.MapFrom(workspaceModel);
+                WorkArea.SelectedDisplay = "Model";
             }
             catch (Exception e)
             {
@@ -126,7 +126,7 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
-            this.Workspace.IsDirty = false;
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -189,7 +189,7 @@ namespace Workbench.ViewModels
         /// </returns>
         private bool PromptToSave()
         {
-            if (!this.Workspace.IsDirty)
+            if (!this.WorkArea.IsDirty)
             {
                 // Nothing to save... file is up-to-date
                 return true;
@@ -235,7 +235,7 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = file;
-            this.Workspace.IsDirty = false;
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
 
             return true;
