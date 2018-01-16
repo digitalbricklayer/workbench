@@ -7,6 +7,7 @@ using Workbench.Core.Models;
 using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
+using System.Collections.Generic;
 
 namespace Workbench.ViewModels
 {
@@ -22,16 +23,17 @@ namespace Workbench.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
         private readonly IViewModelFactory viewModelFactory;
-        private SolutionViewModel solution;
+        private SolutionViewerViewModel viewer;
+        private SolutionDesignerViewModel designer;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
         /// </summary>
         public WorkAreaViewModel(IDataService theDataService,
-                                  IWindowManager theWindowManager,
-                                  IEventAggregator theEventAggregator,
-                                  IViewModelService theViewModelService,
-                                  IViewModelFactory theViewModelFactory)
+                                 IWindowManager theWindowManager,
+                                 IEventAggregator theEventAggregator,
+                                 IViewModelService theViewModelService,
+                                 IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
@@ -44,10 +46,12 @@ namespace Workbench.ViewModels
             this.viewModelFactory = theViewModelFactory;
             this.availableDisplays = new BindableCollection<string> {"Designer", "Solution"};
             WorkspaceModel = theDataService.GetWorkspace();
+            Solution = WorkspaceModel.Solution;
             this.model = this.viewModelFactory.CreateModel(WorkspaceModel.Model);
-            Solution = new SolutionViewModel(this,
-                                             new SolutionDesignerViewModel(WorkspaceModel.Solution.Display), 
-                                             new SolutionViewerViewModel(WorkspaceModel.Solution));
+            ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
+            GridVisualizers = new BindableCollection<GridVisualizerViewModel>();
+            Designer = new SolutionDesignerViewModel(WorkspaceModel.Solution.Display);
+            Viewer = new SolutionViewerViewModel(WorkspaceModel.Solution);
             SelectedDisplay = "Designer";
         }
 
@@ -55,6 +59,53 @@ namespace Workbench.ViewModels
         /// Gets or sets the workspace model.
         /// </summary>
         public WorkspaceModel WorkspaceModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the solution designer.
+        /// </summary>
+        public SolutionDesignerViewModel Designer
+        {
+            get
+            {
+                return this.designer;
+            }
+            set
+            {
+                this.designer = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the solution viewer.
+        /// </summary>
+        public SolutionViewerViewModel Viewer
+        {
+            get
+            {
+                return this.viewer;
+            }
+            set
+            {
+                this.viewer = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the solution model.
+        /// </summary>
+        public SolutionModel Solution { get; set; }
+
+        /// <summary>
+        /// Gets all chessboard visualizers.
+        /// </summary>
+        public BindableCollection<ChessboardVisualizerViewModel> ChessboardVisualizers { get; private set; }
+
+        /// <summary>
+        /// Gets all grid visualizers.
+        /// </summary>
+        public BindableCollection<GridVisualizerViewModel> GridVisualizers { get; private set; }
 
         /// <summary>
         /// Gets or sets the model displayed in the workspace.
@@ -70,6 +121,7 @@ namespace Workbench.ViewModels
             }
         }
 
+#if false
         /// <summary>
         /// Gets or sets the workspace solution.
         /// </summary>
@@ -83,6 +135,7 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+#endif
 
         /// <summary>
         /// Gets or sets the currently selected display mode.
@@ -100,11 +153,11 @@ namespace Workbench.ViewModels
                 switch (this.selectedDisplay)
                 {
                     case "Solution":
-                        ChangeActiveItem(Solution.Viewer, closePrevious:false);
+                        ChangeActiveItem(Viewer, closePrevious:false);
                         break;
 
                     case "Designer":
-                        ChangeActiveItem(Solution.Designer, closePrevious: false);
+                        ChangeActiveItem(Designer, closePrevious: false);
                         break;
 
                     default:
@@ -251,20 +304,20 @@ namespace Workbench.ViewModels
         public void AddChessboardVisualizer(ChessboardVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
-
-            Solution.AddChessboardVisualizer(newVisualizer);
+            AddVisualizer(newVisualizer);
+            ChessboardVisualizers.Add(newVisualizer);
             IsDirty = true;
         }
 
         /// <summary>
         /// Add a new grid visualizer to the workspace.
         /// </summary>
-        /// <param name="newGridVisualizer">New grid visualizer.</param>
-        public void AddGridVisualizer(GridVisualizerViewModel newGridVisualizer)
+        /// <param name="newVisualizer">New grid visualizer.</param>
+        public void AddGridVisualizer(GridVisualizerViewModel newVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(newGridVisualizer != null);
-
-            Solution.AddGridVisualizer(newGridVisualizer);
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+            AddVisualizer(newVisualizer);
+            GridVisualizers.Add(newVisualizer);
             IsDirty = true;
         }
 
@@ -295,7 +348,7 @@ namespace Workbench.ViewModels
         public void Reset()
         {
             Model.Reset();
-            Solution.Reset();
+            Viewer.Reset();
             IsDirty = true;
         }
 
@@ -320,14 +373,48 @@ namespace Workbench.ViewModels
             SelectedDisplay = newSelectedDisplayMode;
         }
 
+        public void BindTo(SolutionModel theSolution)
+        {
+            Viewer.BindTo(theSolution);
+        }
+
+        /// <summary>
+        /// Get all selected grid visualizers.
+        /// </summary>
+        /// <returns>Collection of selected grid visualizers.</returns>
+        public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedGridVisualizers()
+        {
+            if (SelectedDisplay == "Designer")
+            {
+                return GridVisualizers.Where(gridVisualizer => gridVisualizer.Designer.IsSelected)
+                                      .ToList();
+            }
+
+            return GridVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
+                                  .ToList();
+        }
+
+        /// <summary>
+        /// Add a new visualizer to the solution.
+        /// </summary>
+        /// <param name="newVisualizer">New visualizer.</param>
+        private void AddVisualizer(VisualizerViewModel newVisualizer)
+        {
+            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+
+            Designer.AddVisualizer(newVisualizer.Designer);
+            Viewer.AddVisualizer(newVisualizer.Viewer);
+//            ActivateItem(newVisualizer);
+        }
+
         /// <summary>
         /// Display the solution.
         /// </summary>
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            Solution.Reset();
-            Solution.BindTo(theSolution);
+            Reset();
+            BindTo(theSolution);
 
             if (!AvailableDisplays.Contains("Solution"))
                 AvailableDisplays.Add("Solution");
@@ -384,6 +471,8 @@ namespace Workbench.ViewModels
         {
             Contract.Invariant(Model != null);
             Contract.Invariant(Solution != null);
+            Contract.Invariant(Designer != null);
+            Contract.Invariant(Viewer != null);
         }
     }
 }

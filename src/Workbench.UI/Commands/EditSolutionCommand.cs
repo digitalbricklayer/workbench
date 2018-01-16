@@ -11,7 +11,7 @@ namespace Workbench.Commands
     public class EditSolutionCommand : CommandBase
     {
         private readonly IWindowManager windowManager;
-        private readonly SolutionViewModel solution;
+        private readonly WorkAreaViewModel workArea;
 
         public EditSolutionCommand(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
         {
@@ -19,13 +19,13 @@ namespace Workbench.Commands
             Contract.Requires<ArgumentNullException>(theWorkArea != null);
 
             this.windowManager = theWindowManager;
-            this.solution = theWorkArea.Solution;
+            this.workArea = theWorkArea;
         }
 
         public override void Execute(object parameter)
         {
             var solutionEditorViewModel = new SolutionEditorViewModel();
-            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.solution.Model.Display.Bindings);
+            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.workArea.Solution.Display.Bindings);
             var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.GetValueOrDefault())
             {
@@ -45,12 +45,12 @@ namespace Workbench.Commands
                 {
                     // New expression
                     var aNewExpression = new VisualizerBindingExpressionModel(visualizerEditor.Text);
-                    this.solution.Model.Display.AddBindingEpxression(aNewExpression);
+                    this.workArea.Solution.Display.AddBindingEpxression(aNewExpression);
                 }
                 else
                 {
                     // Update existing expression
-                    var visualizerBinding = this.solution.Model.Display.GetVisualizerBindingById(visualizerEditor.Id);
+                    var visualizerBinding = this.workArea.Solution.Display.GetVisualizerBindingById(visualizerEditor.Id);
                     visualizerBinding.Text = visualizerEditor.Text;
                 }
             }

@@ -47,10 +47,10 @@ namespace Workbench.UI.Tests.Unit.Services
         private object CreateWorkAreaViewModel()
         {
             return new WorkAreaViewModel(CreateDataServiceMock().Object,
-                                          CreateWindowManagerMock().Object,
-                                          CreateEventAggregatorMock().Object,
-                                          CreateViewModelServiceMock().Object,
-                                          CreateViewModelFactoryMock().Object);
+                                         CreateWindowManagerMock().Object,
+                                         CreateEventAggregatorMock().Object,
+                                         CreateViewModelServiceMock().Object,
+                                         CreateViewModelFactoryMock().Object);
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()

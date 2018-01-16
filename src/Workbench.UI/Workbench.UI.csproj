@@ -268,7 +268,6 @@
     <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\VisualizerDesignerViewModel.cs" />
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />

@@ -63,12 +63,12 @@ namespace Workbench.ViewModels
         /// </summary>
         public bool CanEditGridExecute
         {
-            get { return this.workArea.Solution.GetSelectedGridVisualizers().Any(); }
+            get { return this.workArea.GetSelectedGridVisualizers().Any(); }
         }
 
         private void AddColumnHandler()
         {
-            var selectedGridVisualizers = this.workArea.Solution.GetSelectedGridVisualizers();
+            var selectedGridVisualizers = this.workArea.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
             var columnNameEditor = new ColumnNameEditorViewModel();
@@ -81,7 +81,7 @@ namespace Workbench.ViewModels
 
         private void AddRowHandler()
         {
-            var selectedGridVisualizers = this.workArea.Solution.GetSelectedGridVisualizers();
+            var selectedGridVisualizers = this.workArea.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
             selectedGridVisualizer.AddRow(new GridRowModel());

@@ -18,7 +18,7 @@ namespace Workbench.ViewModels
         public SolutionDesignerViewModel(DisplayModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            this.Model = theModel;
+            Model = theModel;
         }
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace Workbench.ViewModels
         public void AddVisualizer(VisualizerDesignerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
-            this.Model.AddVisualizer(newVisualizer.Model);
-            this.FixupVisualizer(newVisualizer);
+            Model.AddVisualizer(newVisualizer.Model);
+            FixupVisualizer(newVisualizer);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Workbench.ViewModels
         internal void FixupVisualizer(VisualizerDesignerViewModel newVisualizerViewModel)
         {
             Contract.Requires<ArgumentNullException>(newVisualizerViewModel != null);
-            this.ActivateItem(newVisualizerViewModel);
+            ActivateItem(newVisualizerViewModel);
         }
     }
 }
