@@ -24,8 +24,8 @@ namespace Workbench.UI.Tests.Unit.Services
         public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.Model.Variables.Count, Is.EqualTo(2));
+            var actualWorkAreaModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkAreaModel.Editor.Variables.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             var sut = CreateSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.Model.Domains.Count, Is.EqualTo(1));
+            Assert.That(actualWorkspaceModel.Editor.Domains.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             var sut = CreateSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.Model.Constraints.Count, Is.EqualTo(1));
+            Assert.That(actualWorkspaceModel.Editor.Constraints.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace Workbench.UI.Tests.Unit.Services
         private WorkAreaMapper CreateSut()
         {
             return new WorkAreaMapper(CreateModelMapper(),
-                                       CreateSolutionMapper(),
-                                       CreateDisplayMapper(),
-                                       CreateViewModelFactoryMock().Object);
+                                      CreateSolutionMapper(),
+                                      CreateDisplayMapper(),
+                                      CreateViewModelFactoryMock().Object);
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
@@ -79,8 +79,10 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private DisplayMapper CreateDisplayMapper()
         {
-            return new DisplayMapper(CreateEventAggregator(),
-                                     CreateDataService(),
+            return new DisplayMapper(CreateVariableMapper(),
+                                     CreateConstraintMapper(),
+                                     CreateDomainMapper(),
+                                     CreateViewModelFactoryMock().Object,
                                      this.viewModelService);
         }
 

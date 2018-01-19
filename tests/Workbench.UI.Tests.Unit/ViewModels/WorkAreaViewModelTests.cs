@@ -34,24 +34,24 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateSut();
             sut.SolveModel();
-            Assert.That(sut.SelectedDisplay, Is.EqualTo("Solution"));
+            Assert.That(sut.SelectedDisplay, Is.EqualTo("Viewer"));
         }
 
         private WorkAreaViewModel CreateSut()
         {
-            var newWorkspace = new WorkAreaViewModel(this.dataService,
-                                                      this.windowManagerMock.Object,
-                                                      this.eventAggregator,
-                                                      this.viewModelMock.Object,
-                                                      CreateViewModelFactoryMock().Object);
-            newWorkspace.AddSingletonVariable("x", new Point());
-            this.xVariable = newWorkspace.Model.GetVariableByName("x");
+            var newWorkArea = new WorkAreaViewModel(this.dataService,
+                                                    this.windowManagerMock.Object,
+                                                    this.eventAggregator,
+                                                    this.viewModelMock.Object,
+                                                    CreateViewModelFactoryMock().Object);
+            newWorkArea.AddSingletonVariable("x", new Point());
+            this.xVariable = newWorkArea.Editor.GetVariableByName("x");
             this.xVariable.DomainExpression.Text = "1..2";
-            newWorkspace.AddExpressionConstraint("X", new Point());
-            var theConstraint = (ExpressionConstraintViewModel) newWorkspace.Model.GetConstraintByName("X");
+            newWorkArea.AddExpressionConstraint("X", new Point());
+            var theConstraint = (ExpressionConstraintViewModel) newWorkArea.Editor.GetConstraintByName("X");
             theConstraint.Expression.Text = "$x > 1";
 
-            return newWorkspace;
+            return newWorkArea;
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()

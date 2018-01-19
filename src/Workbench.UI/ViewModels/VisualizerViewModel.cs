@@ -4,13 +4,13 @@ namespace Workbench.ViewModels
 {
     public abstract class VisualizerViewModel : Screen
     {
-        private VisualizerDesignerViewModel designer;
+        private EditorViewModel designer;
         private VisualizerViewerViewModel viewer;
 
         /// <summary>
         /// Gets or sets the visualizer designer.
         /// </summary>
-        public VisualizerDesignerViewModel Designer
+        public EditorViewModel Designer
         {
             get { return this.designer; }
             set

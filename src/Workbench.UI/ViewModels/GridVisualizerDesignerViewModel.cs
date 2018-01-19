@@ -6,7 +6,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class GridVisualizerDesignerViewModel : VisualizerDesignerViewModel
+    public class GridVisualizerDesignerViewModel : EditorViewModel
     {
         private GridViewModel grid;
 

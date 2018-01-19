@@ -6,7 +6,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class ChessboardVisualizerDesignerViewModel : VisualizerDesignerViewModel
+    public class ChessboardVisualizerDesignerViewModel : EditorViewModel
     {
         private ChessboardViewModel board;
 

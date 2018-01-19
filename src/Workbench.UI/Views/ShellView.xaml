@@ -11,8 +11,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ModelDictionary.xaml"/>
-                <ResourceDictionary Source="SolutionDesignerDictionary.xaml"/>
-                <ResourceDictionary Source="SolutionViewerDictionary.xaml"/>
+                <ResourceDictionary Source="WorkspaceEditorDictionary.xaml"/>
+                <ResourceDictionary Source="WorkspaceViewerDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

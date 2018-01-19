@@ -265,11 +265,11 @@
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
-    <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
-    <Compile Include="ViewModels\VisualizerDesignerViewModel.cs" />
+    <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewModel.cs" />
@@ -324,7 +324,7 @@
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\ModelViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewerViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -428,11 +428,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SolutionDesignerDictionary.xaml">
+    <Page Include="Views\WorkspaceEditorDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SolutionViewerDictionary.xaml">
+    <Page Include="Views\WorkspaceViewerDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

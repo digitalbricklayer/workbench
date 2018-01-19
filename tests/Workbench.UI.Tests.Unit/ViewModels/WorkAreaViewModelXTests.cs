@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void SolveWithValidModelReturnsSuccessStatus()
         {
-            var sut = CreateValidWorkspace();
+            var sut = CreateValidWorkArea();
             var actualStatus = sut.SolveModel();
             Assert.That(actualStatus.IsSuccess, Is.True);
         }
@@ -37,8 +37,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void AddWithValidSingletonVariablePublishesVariableAddedMessage()
         {
-            var sut = CreateValidWorkspace();
-            sut.Model.AddSingletonVariable(new SingletonVariableViewModel(new SingletonVariableGraphicModel(sut.Model.Model, "z"), this.eventAggregatorMock.Object));
+            var sut = CreateValidWorkArea();
+            sut.AddSingletonVariable(new SingletonVariableViewModel(new SingletonVariableGraphicModel(sut.WorkspaceModel.Model, "z"), this.eventAggregatorMock.Object));
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<SingletonVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
@@ -46,8 +46,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void AddWithValidAggregatorVariablePublishesVariableAddedMessage()
         {
-            var sut = CreateValidWorkspace();
-            sut.Model.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableGraphicModel(sut.Model.Model, "z"), this.eventAggregatorMock.Object));
+            var sut = CreateValidWorkArea();
+            sut.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableGraphicModel(sut.WorkspaceModel.Model, "z"), this.eventAggregatorMock.Object));
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<AggregateVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
@@ -55,25 +55,25 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void DeleteWithValidVariablePublishesVariableDeletedMessage()
         {
-            var sut = CreateValidWorkspace();
-            var variableToDelete = sut.Model.GetVariableByName("x");
+            var sut = CreateValidWorkArea();
+            var variableToDelete = sut.Editor.GetVariableByName("x");
             sut.DeleteVariable(variableToDelete);
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<VariableDeletedMessage>(msg => msg.VariableName == "x"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
 
-        private WorkAreaViewModel CreateValidWorkspace()
+        private WorkAreaViewModel CreateValidWorkArea()
         {
             var workspaceViewModel = new WorkAreaViewModel(CreateDataService(),
                                                             CreateWindowManagerMock().Object,
                                                             this.eventAggregatorMock.Object,
                                                             this.viewModelService,
                                                             this.viewModelFactoryMock.Object);
-            workspaceViewModel.Model.AddSingletonVariable(new SingletonVariableViewModel(new SingletonVariableGraphicModel(workspaceViewModel.Model.Model, "x", new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
-            workspaceViewModel.Model.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableGraphicModel(workspaceViewModel.Model.Model, "y", 2, new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
-            workspaceViewModel.Model.AddConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", "$x > 1")));
-            workspaceViewModel.Model.AddConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("aggregates must be different",
-                                                                                                                   "$y[0] <> $y[1]")));
+            workspaceViewModel.AddSingletonVariable(new SingletonVariableViewModel(new SingletonVariableGraphicModel(workspaceViewModel.WorkspaceModel.Model, "x", new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
+            workspaceViewModel.AddAggregateVariable(new AggregateVariableViewModel(new AggregateVariableGraphicModel(workspaceViewModel.WorkspaceModel.Model, "y", 2, new VariableDomainExpressionModel("1..10")), Mock.Of<IEventAggregator>()));
+            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", "$x > 1")));
+            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("aggregates must be different",
+                                                                                                                              "$y[0] <> $y[1]")));
 
             return workspaceViewModel;
         }

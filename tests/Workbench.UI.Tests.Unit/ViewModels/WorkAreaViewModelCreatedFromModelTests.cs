@@ -37,7 +37,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateSut();
             sut.SolveModel();
-            Assert.That(sut.SelectedDisplay, Is.EqualTo("Solution"));
+            Assert.That(sut.SelectedDisplay, Is.EqualTo("Viewer"));
         }
 
         private WorkAreaViewModel CreateSut()
@@ -51,8 +51,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private DisplayMapper CreateDisplayMapper()
         {
-            return new DisplayMapper(CreateEventAggregatorMock().Object,
-                                     CreateDataServiceMock().Object,
+            return new DisplayMapper(CreateVariableMapper(),
+                                     CreateConstraintMapper(),
+                                     CreateDomainMapper(),
+                                     CreateViewModelFactoryMock().Object,
                                      this.viewModelService);
         }
 

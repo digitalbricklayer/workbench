@@ -20,20 +20,20 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private static WorkAreaViewModel CreateValidWorkspace()
         {
-            var workspaceViewModel = new WorkAreaViewModel(CreateDataService(),
+            var worksAreaViewModel = new WorkAreaViewModel(CreateDataService(),
                                                             CreateWindowManager(),
                                                             CreateEventAggregator(),
                                                             CreateViewModelService(),
                                                             CreateViewModelFactory());
-            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(workspaceViewModel.Model.Model, "x"),
+            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(worksAreaViewModel.WorkspaceModel.Model, "x"),
                                                                    Mock.Of<IEventAggregator>());
-            workspaceViewModel.Model.AddSingletonVariable(variableViewModel);
+            worksAreaViewModel.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
             var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", string.Empty));
-            workspaceViewModel.Model.AddConstraint(constraintViewModel);
+            worksAreaViewModel.AddExpressionConstraint(constraintViewModel);
             constraintViewModel.Expression.Text = "$x > 1";
 
-            return workspaceViewModel;
+            return worksAreaViewModel;
         }
 
         private static IDataService CreateDataService()

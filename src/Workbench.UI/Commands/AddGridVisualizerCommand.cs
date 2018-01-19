@@ -49,7 +49,7 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.workArea.ChangeSelectedDisplayTo("Designer");
+            this.workArea.ChangeSelectedDisplayTo("Editor");
             var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation, GridModel.Default);
             this.workArea.AddGridVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
