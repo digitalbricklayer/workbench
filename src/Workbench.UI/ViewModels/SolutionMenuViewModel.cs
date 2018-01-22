@@ -26,11 +26,11 @@ namespace Workbench.ViewModels
 
             this.workArea = theWorkArea;
             this.windowManager = theWindowManager;
-            AddChessboardVisualizerCommand = IoC.Get<AddChessboardVisualizerCommand>();
-            AddGridVisualizerCommand = IoC.Get<AddGridVisualizerCommand>();
+            AddChessboardCommand = IoC.Get<AddChessboardVisualizerCommand>();
+            AddTableCommand = IoC.Get<AddGridVisualizerCommand>();
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
-            AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditGridExecute);
-            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditGridExecute);
+            AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditTableExecute);
+            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditTableExecute);
         }
 
         /// <summary>
@@ -39,14 +39,14 @@ namespace Workbench.ViewModels
         public ICommand AddColumnCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Solution|Add Map command
+        /// Gets the Insert|Table command
         /// </summary>
-        public ICommand AddGridVisualizerCommand { get; private set; }
+        public ICommand AddTableCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Solution|Add Chessboard command.
+        /// Gets the Insert|Chessboard command.
         /// </summary>
-        public ICommand AddChessboardVisualizerCommand { get; private set; }
+        public ICommand AddChessboardCommand { get; private set; }
 
         /// <summary>
         /// Gets the Solution|Edit Solution command.
@@ -59,9 +59,9 @@ namespace Workbench.ViewModels
         public ICommand AddRowCommand { get; private set; }
 
         /// <summary>
-        /// Gets whether the "Solution|Edit Grid" menu item can be executed.
+        /// Gets whether the "Solution|Edit Table" menu item can be executed.
         /// </summary>
-        public bool CanEditGridExecute
+        public bool CanEditTableExecute
         {
             get { return this.workArea.GetSelectedGridVisualizers().Any(); }
         }
