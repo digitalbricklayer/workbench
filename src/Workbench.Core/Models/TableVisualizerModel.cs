@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
-using Point = System.Windows.Point;
 
 namespace Workbench.Core.Models
 {
@@ -12,7 +11,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class TableVisualizerModel : VisualizerModel
     {
-        private readonly TableModel grid;
+        private readonly TableModel table;
 
         /// <summary>
         /// Initialize a grid visualizer with a name, location, columns and rows.
@@ -21,10 +20,10 @@ namespace Workbench.Core.Models
         /// <param name="location">Grid location.</param>
         /// <param name="columnNames">Column names.</param>
         /// <param name="rows">Rows</param>
-        public TableVisualizerModel(string gridName, Point location, string[] columnNames, TableRowModel[] rows)
+        public TableVisualizerModel(string gridName, System.Windows.Point location, string[] columnNames, TableRowModel[] rows)
             : base(gridName, location)
         {
-            this.grid = new TableModel(columnNames, rows);
+            this.table = new TableModel(columnNames, rows);
         }
 
         /// <summary>
@@ -33,11 +32,11 @@ namespace Workbench.Core.Models
         /// <param name="gridName">Grid name.</param>
         /// <param name="location">Grid location.</param>
         /// <param name="gridModel">Grid model.</param>
-        public TableVisualizerModel(string gridName, Point location, TableModel gridModel)
+        public TableVisualizerModel(string gridName, System.Windows.Point location, TableModel gridModel)
             : base(gridName, location)
         {
             Contract.Requires<ArgumentNullException>(gridModel != null);
-            this.grid = gridModel;
+            this.table = gridModel;
         }
 
         /// <summary>
@@ -45,10 +44,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="gridName">Grid name.</param>
         /// <param name="location">Grid location.</param>
-        public TableVisualizerModel(string gridName, Point location)
+        public TableVisualizerModel(string gridName, System.Windows.Point location)
             : base(gridName, location)
         {
-            this.grid = new TableModel();
+            this.table = new TableModel();
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public TableModel Grid
         {
-            get { return this.grid; }
+            get { return this.table; }
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace Workbench.Core.Models
                     case "BackgroundColor":
                     {
                         var backgroundColor = theCall.GetArgumentByName("BackgroundColor");
-                        var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
+                        var theCell = this.table.GetCellBy(Convert.ToInt32(rowIndex),
                                                           Convert.ToInt32(columnIndex));
                         switch (backgroundColor)
                         {
@@ -99,7 +98,7 @@ namespace Workbench.Core.Models
 
                     case "Text":
                     {
-                        var theCell = this.grid.GetCellBy(Convert.ToInt32(rowIndex),
+                        var theCell = this.table.GetCellBy(Convert.ToInt32(rowIndex),
                                                           Convert.ToInt32(columnIndex));
                         theCell.Text = Convert.ToString(callArgument.Value);
                     }
