@@ -75,7 +75,7 @@ namespace Workbench.ViewModels
             var result = this.windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
             {
-                selectedGridVisualizer.AddColumn(new GridColumnModel(columnNameEditor.ColumnName));
+                selectedGridVisualizer.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
             }
         }
 
@@ -84,7 +84,7 @@ namespace Workbench.ViewModels
             var selectedGridVisualizers = this.workArea.GetSelectedGridVisualizers();
             if (!selectedGridVisualizers.Any()) return;
             var selectedGridVisualizer = selectedGridVisualizers.First();
-            selectedGridVisualizer.AddRow(new GridRowModel());
+            selectedGridVisualizer.AddRow(new TableRowModel());
         }
     }
 }

@@ -258,10 +258,10 @@
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
-    <Compile Include="ViewModels\GridViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerDesignerViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\TableViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerDesignerViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />

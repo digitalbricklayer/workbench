@@ -49,7 +49,7 @@ namespace Workbench.ViewModels
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
-            GridVisualizers = new BindableCollection<GridVisualizerViewModel>();
+            GridVisualizers = new BindableCollection<TableVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
             SelectedDisplay = "Editor";
@@ -105,7 +105,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all grid visualizers.
         /// </summary>
-        public BindableCollection<GridVisualizerViewModel> GridVisualizers { get; private set; }
+        public BindableCollection<TableVisualizerViewModel> GridVisualizers { get; private set; }
 
         /// <summary>
         /// Gets or sets the currently selected display mode.
@@ -364,7 +364,7 @@ namespace Workbench.ViewModels
         /// Add a new grid visualizer to the workspace.
         /// </summary>
         /// <param name="newVisualizer">New grid visualizer.</param>
-        public void AddGridVisualizer(GridVisualizerViewModel newVisualizer)
+        public void AddGridVisualizer(TableVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             AddVisualizer(newVisualizer);
@@ -424,7 +424,7 @@ namespace Workbench.ViewModels
         /// Get all selected grid visualizers.
         /// </summary>
         /// <returns>Collection of selected grid visualizers.</returns>
-        public IReadOnlyCollection<GridVisualizerViewModel> GetSelectedGridVisualizers()
+        public IReadOnlyCollection<TableVisualizerViewModel> GetSelectedGridVisualizers()
         {
             if (SelectedDisplay == "Editor")
             {

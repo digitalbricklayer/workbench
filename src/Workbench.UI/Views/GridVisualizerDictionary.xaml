@@ -4,7 +4,7 @@
                     xmlns:controls="clr-namespace:Workbench.Controls">
 
     <!-- Grid control -->
-    <DataTemplate DataType="{x:Type viewModels:GridViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:TableViewModel}">
         <DataGrid x:Name="gridControl"
                   CanUserAddRows="false"
                   CanUserSortColumns="False"
@@ -15,7 +15,7 @@
     </DataTemplate>
 
     <!-- Grid visualizer in 'design' mode -->
-    <DataTemplate DataType="{x:Type viewModels:GridVisualizerDesignerViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:TableVisualizerDesignerViewModel}">
         <Border BorderBrush="Black" BorderThickness="2">
         <!-- 
         An adorned control is used to enable the edit button when the user 
@@ -121,7 +121,7 @@
     </DataTemplate>
     
     <!-- Grid visualizer in 'view' mode -->
-    <DataTemplate DataType="{x:Type viewModels:GridVisualizerViewerViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:TableVisualizerViewerViewModel}">
         <!-- Border around the entire viewer -->
         <Border BorderBrush="Black" BorderThickness="2">
             <Grid>

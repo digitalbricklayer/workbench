@@ -50,20 +50,20 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workArea.ChangeSelectedDisplayTo("Editor");
-            var newVisualizerModel = new GridVisualizerModel("Map", newVisualizerLocation, GridModel.Default);
+            var newVisualizerModel = new TableVisualizerModel("Map", newVisualizerLocation, TableModel.Default);
             this.workArea.AddGridVisualizer(CreateMapVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }
 
-        private GridVisualizerViewModel CreateMapVisualizer(GridVisualizerModel newVisualizerModel)
+        private TableVisualizerViewModel CreateMapVisualizer(TableVisualizerModel newVisualizerModel)
         {
-            return new GridVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                               new GridVisualizerViewerViewModel(newVisualizerModel));
+            return new TableVisualizerViewModel(CreateDesigner(newVisualizerModel),
+                                               new TableVisualizerViewerViewModel(newVisualizerModel));
         }
 
-        private GridVisualizerDesignerViewModel CreateDesigner(GridVisualizerModel newVisualizerModel)
+        private TableVisualizerDesignerViewModel CreateDesigner(TableVisualizerModel newVisualizerModel)
         {
-            return new GridVisualizerDesignerViewModel(newVisualizerModel,
+            return new TableVisualizerDesignerViewModel(newVisualizerModel,
                                                       this.eventAggregator,
                                                       this.dataService,
                                                       this.viewModelService);
