@@ -18,28 +18,6 @@ namespace Workbench.Services
         /// Event fired when a new work area view model is created.
         /// </summary>
 		event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
-
-        /// <summary>
-        /// Create a new model view model.
-        /// </summary>
-        /// <returns>New model view model.</returns>
-        ModelViewModel CreateModel(ModelModel theModel);
-
-        /// <summary>
-        /// Event fired when a new model view model is created.
-        /// </summary>
-        event EventHandler<ModelCreatedArgs> ModelCreated;
-    }
-
-    public class ModelCreatedArgs
-    {
-        public ModelCreatedArgs(ModelViewModel theModel)
-        {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            this.NewModel = theModel;
-        }
-
-        public ModelViewModel NewModel { get; private set; }
     }
 
     public class WorkAreaCreatedArgs
@@ -66,13 +44,5 @@ namespace Workbench.Services
         }
 
         public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
-        public ModelViewModel CreateModel(ModelModel theModel)
-        {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Ensures(Contract.Result<ModelViewModel>() != null);
-            return default(ModelViewModel);
-        }
-
-        public event EventHandler<ModelCreatedArgs> ModelCreated;
     }
 }

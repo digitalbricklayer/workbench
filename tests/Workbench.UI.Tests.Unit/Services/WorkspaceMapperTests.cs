@@ -54,8 +54,7 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private WorkAreaMapper CreateSut()
         {
-            return new WorkAreaMapper(CreateModelMapper(),
-                                      CreateSolutionMapper(),
+            return new WorkAreaMapper(CreateSolutionMapper(),
                                       CreateDisplayMapper(),
                                       CreateViewModelFactoryMock().Object);
         }
@@ -63,10 +62,6 @@ namespace Workbench.UI.Tests.Unit.Services
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
-                .Returns((ModelModel model) => new ModelViewModel(model,
-                                                                  CreateWindowManager(),
-                                                                  CreateEventAggregator()));
             mock.Setup(_ => _.CreateWorkArea())
                 .Returns(new WorkAreaViewModel(CreateDataService(),
                                                 CreateWindowManager(),
@@ -90,14 +85,6 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             return new SolutionMapper(this.viewModelService,
                                       CreateEventAggregator());
-        }
-
-        private ModelMapper CreateModelMapper()
-        {
-            return new ModelMapper(CreateVariableMapper(),
-                                   CreateConstraintMapper(),
-                                   CreateDomainMapper(),
-                                   CreateViewModelFactoryMock().Object);
         }
 
         private DomainMapper CreateDomainMapper()

@@ -19,7 +19,6 @@ namespace Workbench.ViewModels
         private readonly IObservableCollection<string> availableDisplays;
         private string selectedDisplay;
         private bool isDirty;
-        private ModelViewModel model;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
         private readonly IViewModelFactory viewModelFactory;
@@ -49,7 +48,6 @@ namespace Workbench.ViewModels
             this.availableDisplays = new BindableCollection<string> {"Editor", "Viewer"};
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
-            this.model = this.viewModelFactory.CreateModel(WorkspaceModel.Model);
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             GridVisualizers = new BindableCollection<GridVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
@@ -108,22 +106,6 @@ namespace Workbench.ViewModels
         /// Gets all grid visualizers.
         /// </summary>
         public BindableCollection<GridVisualizerViewModel> GridVisualizers { get; private set; }
-
-#if false
-        /// <summary>
-        /// Gets or sets the model displayed in the workspace.
-        /// </summary>
-        public ModelViewModel Model
-        {
-            get { return this.model; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.model = value;
-                NotifyOfPropertyChange();
-            }
-        }
-#endif
 
         /// <summary>
         /// Gets or sets the currently selected display mode.

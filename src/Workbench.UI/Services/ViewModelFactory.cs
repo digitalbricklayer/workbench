@@ -28,11 +28,6 @@ namespace Workbench.Services
         public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
 
         /// <summary>
-        /// Event fired when a new model view model is created.
-        /// </summary>
-        public event EventHandler<ModelCreatedArgs> ModelCreated;
-
-        /// <summary>
         /// Create a new work area view model.
         /// </summary>
         /// <returns>New work area view model.</returns>
@@ -44,20 +39,6 @@ namespace Workbench.Services
 			return newWorkArea;
         }
 
-        /// <summary>
-        /// Create a new model view model.
-        /// </summary>
-        /// <returns>New model view model.</returns>
-        public ModelViewModel CreateModel(ModelModel theModel)
-        {
-            var newModel = new ModelViewModel(theModel,
-                                              this.windowManager,
-                                              this.eventAggregator);
-            this.OnModelCreate(new ModelCreatedArgs(newModel));
-
-            return newModel;
-        }
-
         private void OnWorkAreaCreated(WorkAreaCreatedArgs e)
 		{
 			if (this.WorkAreaCreated != null)
@@ -65,13 +46,5 @@ namespace Workbench.Services
 				WorkAreaCreated(this, e);
 			}
 		}
-
-        private void OnModelCreate(ModelCreatedArgs e)
-        {
-            if (this.ModelCreated != null)
-            {
-                ModelCreated(this, e);
-            }
-        }
     }
 }

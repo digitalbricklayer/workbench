@@ -28,16 +28,6 @@ namespace Workbench.UI.Tests.Unit.Services
             Assert.That(wasWorkAreaCreatedCalled, Is.True);
         }
 
-        [Test]
-        public void CreateModelFiresModelCreatedEvent()
-        {
-            var sut = CreateSut();
-            var wasModelCreatedCalled = false;
-            sut.ModelCreated += (o, e) => wasModelCreatedCalled = true;
-            sut.CreateModel(new ModelModel());
-            Assert.That(wasModelCreatedCalled, Is.True);
-        }
-
         private static ViewModelFactory CreateSut()
         {
             return new ViewModelFactory(CreateEventAggregatorMock().Object,
@@ -55,12 +45,7 @@ namespace Workbench.UI.Tests.Unit.Services
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
-            var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
-                .Returns((ModelModel model) => new ModelViewModel(model,
-                                                                  CreateWindowManagerMock().Object,
-                                                                  CreateEventAggregatorMock().Object));
-            return mock;
+            return new Mock<IViewModelFactory>();
         }
 
         private static Mock<IViewModelService> CreateViewModelServiceMock()

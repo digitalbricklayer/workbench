@@ -23,8 +23,6 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<WorkAreaMapper>()
                                      .LifeStyle.Transient,
-                            Component.For<ModelMapper>()
-                                     .LifeStyle.Transient,
                             Component.For<SolutionMapper>()
                                      .LifeStyle.Transient,
                             Component.For<DisplayMapper>()

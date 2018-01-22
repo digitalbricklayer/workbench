@@ -300,16 +300,12 @@
     <Compile Include="Views\ExpressionConstraintView.xaml.cs">
       <DependentUpon>ExpressionConstraintView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModelView.xaml.cs">
-      <DependentUpon>ModelView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ViewModelService.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />
-    <Compile Include="Services\ModelMapper.cs" />
     <Compile Include="Services\SolutionMapper.cs" />
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
@@ -323,7 +319,6 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
-    <Compile Include="ViewModels\ModelViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\VariableViewModel.cs" />
@@ -405,10 +400,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ControlDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ModelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
