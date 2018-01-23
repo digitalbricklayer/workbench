@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Workbench.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Menu>
         <MenuItem Header="File">
             <MenuItem Header="New" Command="{Binding FileMenu.NewCommand}">
@@ -36,6 +34,11 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Edit">
+            <MenuItem Header="Delete" Command="{Binding EditMenu.DeleteCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
         </MenuItem>
         <MenuItem Header="View">
         </MenuItem>
@@ -78,12 +81,6 @@
         </MenuItem>
         <MenuItem Header="Model">
             <MenuItem Header="Solve..." Command="{Binding ModelMenu.SolveCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator/>
-            <MenuItem Header="Delete" Command="{Binding ModelMenu.DeleteCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>

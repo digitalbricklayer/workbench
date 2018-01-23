@@ -34,7 +34,6 @@ namespace Workbench.ViewModels
             AddExpressionConstraintCommand = new CommandHandler(ModelAddExpressionConstraintAction);
             AddAllDifferentConstraintCommand = new CommandHandler(ModelAddAllDifferentConstraintAction);
             AddDomainCommand = new CommandHandler(ModelAddDomainAction);
-            DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
             ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
 
@@ -69,11 +68,6 @@ namespace Workbench.ViewModels
         public ICommand AddDomainCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Model|Delete command.
-        /// </summary>
-        public ICommand DeleteCommand { get; private set; }
-
-        /// <summary>
         /// Gets the Model|Resize command.
         /// </summary>
         public ICommand ResizeCommand { get; private set; }
@@ -84,18 +78,6 @@ namespace Workbench.ViewModels
         public WorkAreaViewModel WorkArea
         {
             get { return this.appRuntime.WorkArea; }
-            set { this.appRuntime.WorkArea = value; }
-        }
-
-        /// <summary>
-        /// Gets whether the "Model|Delete" menu item can be executed.
-        /// </summary>
-        public bool CanDeleteExecute
-        {
-            get
-            {
-                return WorkArea.Editor.Items.Any(_ => _.IsSelected);
-            }
         }
 
         /// <summary>
@@ -165,15 +147,6 @@ namespace Workbench.ViewModels
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.WorkArea.AddDomain("New Domain", newDomainLocation);
-            this.titleBar.UpdateTitle();
-        }
-
-        /// <summary>
-        /// Delete all selected graphics.
-        /// </summary>
-        private void ModelDeleteAction()
-        {
-            this.WorkArea.DeleteSelectedGraphics();
             this.titleBar.UpdateTitle();
         }
 

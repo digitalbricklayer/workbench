@@ -8,6 +8,7 @@ using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Workbench.ViewModels
 {
@@ -52,6 +53,7 @@ namespace Workbench.ViewModels
             GridVisualizers = new BindableCollection<TableVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
+            DeleteCommand = new CommandHandler(DeleteAction);
             SelectedDisplay = "Editor";
         }
 
@@ -59,6 +61,11 @@ namespace Workbench.ViewModels
         /// Gets or sets the workspace model.
         /// </summary>
         public WorkspaceModel WorkspaceModel { get; set; }
+
+        /// <summary>
+        /// Gets the Model|Delete command.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
 
         /// <summary>
         /// Gets or sets the workspace editor.
@@ -549,6 +556,15 @@ namespace Workbench.ViewModels
             }
 
             return errorsViewModel;
+        }
+
+        /// <summary>
+        /// Delete all selected graphics.
+        /// </summary>
+        private void DeleteAction()
+        {
+            DeleteSelectedGraphics();
+//            this.titleBar.UpdateTitle();
         }
 
         [ContractInvariantMethod]

@@ -254,6 +254,7 @@
     <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ColumnNameEditorViewModel.cs" />
+    <Compile Include="ViewModels\EditMenuViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />

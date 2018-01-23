@@ -23,6 +23,8 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<FileMenuViewModel>()
                                      .LifeStyle.Singleton,
+                            Component.For<EditMenuViewModel>()
+                                     .LifeStyle.Singleton,
                             Component.For<ModelMenuViewModel>()
                                      .LifeStyle.Singleton,
                             Component.For<SolutionMenuViewModel>()
