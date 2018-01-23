@@ -113,5 +113,7 @@
                 </MenuItem.Icon>
             </MenuItem>
         </MenuItem>
+        <MenuItem Header="Help">
+        </MenuItem>
     </Menu>
 </UserControl>
