@@ -12,7 +12,7 @@ namespace Workbench.Core.Models
     {
         private AllDifferentConstraintModel constraint;
 
-        public AllDifferentConstraintGraphicModel(AllDifferentConstraintModel theConstraint, string theConstraintName, Point theLocation)
+        public AllDifferentConstraintGraphicModel(AllDifferentConstraintModel theConstraint, Point theLocation)
             : base(theConstraint, theLocation)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);

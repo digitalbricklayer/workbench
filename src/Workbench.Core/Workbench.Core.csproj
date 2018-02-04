@@ -178,7 +178,7 @@
     <Compile Include="Models\ConstraintModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\ExpressionConstraintModel.cs" />
-    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelName.cs" />
     <Compile Include="Models\TableCellModel.cs" />
     <Compile Include="Models\TableColumnData.cs" />

@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
     /// A chessboard model.
     /// </summary>
     [Serializable]
-    public class ChessboardModel : BaseModel
+    public class ChessboardModel : Model
     {
         private const int DefaultSize = 8;
         private ObservableCollection<ChessboardSquareModel> pieces;

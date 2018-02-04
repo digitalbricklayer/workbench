@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public abstract class BaseModel : AbstractModel
+    public abstract class Model : AbstractModel
     {
         private ModelName _name;
 
@@ -12,7 +12,7 @@ namespace Workbench.Core.Models
         /// Initialize a model entity with a name.
         /// </summary>
         /// <param name="theName">Text.</param>
-        protected BaseModel(ModelName theName)
+        protected Model(ModelName theName)
         {
             Name = theName;
         }
@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a model entity with default values.
         /// </summary>
-        protected BaseModel()
+        protected Model()
         {
             Name = new ModelName();
         }

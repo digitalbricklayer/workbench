@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
     [Serializable]
-    public class ModelModel : BaseModel
+    public class ModelModel : Model
     {
         private ObservableCollection<VariableGraphicModel> variables;
         private ObservableCollection<SingletonVariableGraphicModel> singletons;

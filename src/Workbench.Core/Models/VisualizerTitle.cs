@@ -1,5 +1,8 @@
+using System;
+
 namespace Workbench.Core.Models
 {
+    [Serializable]
     public sealed class VisualizerTitle
     {
         public VisualizerTitle(string theText)

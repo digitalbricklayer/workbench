@@ -6,14 +6,14 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class GraphicModel : AbstractModel
     {
-        private BaseModel model;
+        private Model model;
 
         /// <summary>
         /// Initialize a graphic model with a name and location.
         /// </summary>
         /// <param name="theModel">Model the graphic belongs.</param>
         /// <param name="location">Location of the graphic.</param>
-        protected GraphicModel(BaseModel theModel, Point location)
+        protected GraphicModel(Model theModel, Point location)
             : this(theModel)
         {
             X = location.X;
@@ -23,7 +23,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a graphic model with a name.
         /// </summary>
-        protected GraphicModel(BaseModel theModel)
+        protected GraphicModel(Model theModel)
         {
             this.model = theModel;
         }

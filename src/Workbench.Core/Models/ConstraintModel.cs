@@ -3,7 +3,7 @@
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public abstract class ConstraintModel : BaseModel
+    public abstract class ConstraintModel : Model
     {
         /// <summary>
         /// Initialize a constraint with a name.

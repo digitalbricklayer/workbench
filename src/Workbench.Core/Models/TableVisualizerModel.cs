@@ -17,29 +17,15 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a grid visualizer with a name, location, columns and rows.
         /// </summary>
-        /// <param name="gridName">Grid name.</param>
+        /// <param name="theTitle">Grid name.</param>
         /// <param name="location">Grid location.</param>
         /// <param name="columnNames">Column names.</param>
         /// <param name="rows">Rows</param>
-        public TableVisualizerModel(TableModel theTable, VisualizerTitle gridName, System.Windows.Point location)
-            : base(theTable, gridName, location)
+        public TableVisualizerModel(TableModel theTable, VisualizerTitle theTitle, System.Windows.Point location)
+            : base(theTable, theTitle, location)
         {
             this.table = theTable;
         }
-
-#if false
-        /// <summary>
-        /// Initialize a grid visualizer with a name and location.
-        /// </summary>
-        /// <param name="gridName">Grid name.</param>
-        /// <param name="location">Grid location.</param>
-        public TableVisualizerModel(TableModel theTable, string gridName, Point location)
-            : base(theTable, location)
-        {
-            this.table = new TableModel();
-        }
-        
-#endif        
 
         /// <summary>
         /// Gets the table model.

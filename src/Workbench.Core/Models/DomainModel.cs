@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public class DomainModel : BaseModel
+    public class DomainModel : Model
     {
         private DomainExpressionModel expression;
 

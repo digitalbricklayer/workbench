@@ -14,7 +14,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel"></param>
         /// <param name="location">Location.</param>
-        protected VisualizerModel(BaseModel theModel, VisualizerTitle theTitle, Point location)
+        protected VisualizerModel(Model theModel, VisualizerTitle theTitle, Point location)
             : base(theModel, location)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);

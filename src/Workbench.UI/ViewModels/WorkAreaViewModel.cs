@@ -351,7 +351,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
             var newAllDifferentConstraintModel = new AllDifferentConstraintModel();
-            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newAllDifferentConstraintModel, newConstraintName, newLocation));
+            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newAllDifferentConstraintModel, newLocation));
             Editor.AddConstraint(newConstraint);
             IsDirty = true;
 

@@ -77,7 +77,7 @@ namespace Workbench.Core.Models
         public WorkspaceContext WithConstraintAllDifferent(string theExpression)
         {
             var newConstraintModel = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
-            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel(newConstraintModel, "All different", new Point(0, 0)));
+            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel(newConstraintModel, new Point(0, 0)));
             return this;
         }
 

@@ -8,7 +8,7 @@ namespace Workbench.Core.Models
     /// A variable can hold a value constrained by a constraint.
     /// </summary>
     [Serializable]
-    public abstract class VariableModel : BaseModel
+    public abstract class VariableModel : Model
     {
         private ModelModel model;
         private VariableDomainExpressionModel domainExpression;

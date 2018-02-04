@@ -10,7 +10,7 @@ namespace Workbench.Core.Models
     /// A grid model.
     /// </summary>
     [Serializable]
-    public class TableModel : BaseModel
+    public class TableModel : Model
     {
         private int columnCount, rowCount;
         private ObservableCollection<TableRowModel> rows;
