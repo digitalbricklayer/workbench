@@ -178,6 +178,8 @@
     <Compile Include="Models\ConstraintModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\ExpressionConstraintModel.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\ModelName.cs" />
     <Compile Include="Models\TableCellModel.cs" />
     <Compile Include="Models\TableColumnData.cs" />
     <Compile Include="Models\TableColumnModel.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
+    <Compile Include="Models\VisualizerTitle.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
     <Compile Include="Nodes\BandExpressionNode.cs" />
     <Compile Include="Nodes\CharacterLiteralNode.cs" />

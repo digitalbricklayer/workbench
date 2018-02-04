@@ -50,7 +50,8 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workArea.ChangeSelectedDisplayTo("Editor");
-            var newVisualizerModel = new ChessboardVisualizerModel("Chessboard", newVisualizerLocation);
+            var newChessboardModel = new ChessboardModel(new ModelName("Chessboard"));
+            var newVisualizerModel = new ChessboardVisualizerModel(newChessboardModel, new VisualizerTitle(), newVisualizerLocation);
             this.workArea.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));
             this.titleBar.UpdateTitle();
         }

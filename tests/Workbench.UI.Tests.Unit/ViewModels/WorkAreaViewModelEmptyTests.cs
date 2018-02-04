@@ -25,11 +25,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                             CreateEventAggregator(),
                                                             CreateViewModelService(),
                                                             CreateViewModelFactory());
-            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(worksAreaViewModel.WorkspaceModel.Model, "x"),
+            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(new SingletonVariableModel(worksAreaViewModel.WorkspaceModel.Model, new ModelName("x"))),
                                                                    Mock.Of<IEventAggregator>());
             worksAreaViewModel.AddSingletonVariable(variableViewModel);
             variableViewModel.DomainExpression.Text = "1..10";
-            var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel("x", string.Empty));
+            var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel()));
             worksAreaViewModel.AddExpressionConstraint(constraintViewModel);
             constraintViewModel.Expression.Text = "$x > 1";
 

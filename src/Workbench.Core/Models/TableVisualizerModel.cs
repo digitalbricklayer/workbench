@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
+using Point = System.Windows.Point;
 
 namespace Workbench.Core.Models
 {
@@ -20,40 +21,30 @@ namespace Workbench.Core.Models
         /// <param name="location">Grid location.</param>
         /// <param name="columnNames">Column names.</param>
         /// <param name="rows">Rows</param>
-        public TableVisualizerModel(string gridName, System.Windows.Point location, string[] columnNames, TableRowModel[] rows)
-            : base(gridName, location)
+        public TableVisualizerModel(TableModel theTable, VisualizerTitle gridName, System.Windows.Point location)
+            : base(theTable, gridName, location)
         {
-            this.table = new TableModel(columnNames, rows);
+            this.table = theTable;
         }
 
-        /// <summary>
-        /// Initialize a grid visualizer with a name, location and grid model.
-        /// </summary>
-        /// <param name="gridName">Grid name.</param>
-        /// <param name="location">Grid location.</param>
-        /// <param name="gridModel">Grid model.</param>
-        public TableVisualizerModel(string gridName, System.Windows.Point location, TableModel gridModel)
-            : base(gridName, location)
-        {
-            Contract.Requires<ArgumentNullException>(gridModel != null);
-            this.table = gridModel;
-        }
-
+#if false
         /// <summary>
         /// Initialize a grid visualizer with a name and location.
         /// </summary>
         /// <param name="gridName">Grid name.</param>
         /// <param name="location">Grid location.</param>
-        public TableVisualizerModel(string gridName, System.Windows.Point location)
-            : base(gridName, location)
+        public TableVisualizerModel(TableModel theTable, string gridName, Point location)
+            : base(theTable, location)
         {
             this.table = new TableModel();
         }
+        
+#endif        
 
         /// <summary>
-        /// Gets the map model.
+        /// Gets the table model.
         /// </summary>
-        public TableModel Grid
+        public TableModel Table
         {
             get { return this.table; }
         }
@@ -122,7 +113,7 @@ namespace Workbench.Core.Models
         public IReadOnlyCollection<TableRowModel> GetRows()
         {
             Contract.Ensures(Contract.Result<IReadOnlyCollection<TableRowModel>>() != null);
-            return Grid.GetRows();
+            return Table.GetRows();
         }
 
         /// <summary>
@@ -132,7 +123,7 @@ namespace Workbench.Core.Models
         public void AddColumn(TableColumnModel theColumn)
         {
             Contract.Requires<ArgumentNullException>(theColumn != null);
-            Grid.AddColumn(theColumn);
+            Table.AddColumn(theColumn);
         }
 
         /// <summary>
@@ -142,7 +133,7 @@ namespace Workbench.Core.Models
         public void AddRow(TableRowModel theRow)
         {
             Contract.Requires<ArgumentNullException>(theRow != null);
-            Grid.AddRow(theRow);
+            Table.AddRow(theRow);
         }
 
         /// <summary>
@@ -153,13 +144,13 @@ namespace Workbench.Core.Models
         public TableColumnModel GetColumnByName(string columnName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
-            return Grid.GetColumnByName(columnName);
+            return Table.GetColumnByName(columnName);
         }
 
         public TableColumnData GetColumnDataByName(string columnName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
-            return Grid.GetColumnDataByName(columnName);
+            return Table.GetColumnDataByName(columnName);
         }
     }
 }

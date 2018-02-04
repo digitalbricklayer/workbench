@@ -7,26 +7,32 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VisualizerModel : GraphicModel
     {
-        private string title;
+        private VisualizerTitle title;
 
         /// <summary>
         /// Initialize an unbound visualizer with a name and location.
         /// </summary>
-        /// <param name="graphicName">Visualizers name.</param>
+        /// <param name="theModel"></param>
         /// <param name="location">Location.</param>
-        protected VisualizerModel(string graphicName, Point location)
-            : base(graphicName, location)
+        protected VisualizerModel(BaseModel theModel, VisualizerTitle theTitle, Point location)
+            : base(theModel, location)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(graphicName));
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theTitle != null);
+            Title = theTitle;
         }
 
         /// <summary>
-        /// Gets or sets the visualizer title.B
+        /// Gets or sets the visualizer title.
         /// </summary>
-        public string Title
+        public VisualizerTitle Title
         {
             get { return this.title; }
-            set { this.title = value; }
+            set
+            {
+                this.title = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>

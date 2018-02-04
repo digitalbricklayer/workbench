@@ -55,10 +55,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public virtual string Title
         {
-            get { return Model.Title; }
+            get { return Model.Title.Text; }
             set
             {
-                Model.Title = value;
+                Model.Title.Text = value;
                 NotifyOfPropertyChange();
             }
         }

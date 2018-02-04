@@ -12,22 +12,11 @@ namespace Workbench.Core.Models
     {
         private AllDifferentConstraintModel constraint;
 
-        public AllDifferentConstraintGraphicModel(string theConstraintName, Point theLocation, AllDifferentConstraintModel theConstraint)
-            : base(theConstraintName, theLocation)
+        public AllDifferentConstraintGraphicModel(AllDifferentConstraintModel theConstraint, string theConstraintName, Point theLocation)
+            : base(theConstraint, theLocation)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
             this.constraint = theConstraint;
-        }
-
-        /// <summary>
-        /// Initialize the all different constraint model with a name and location.
-        /// </summary>
-        /// <param name="constraintName">Constraint name.</param>
-        /// <param name="location">Constraint screen location.</param>
-        public AllDifferentConstraintGraphicModel(string constraintName, Point location)
-            : base(constraintName, location)
-        {
-            this.constraint = new AllDifferentConstraintModel();
         }
 
         /// <summary>

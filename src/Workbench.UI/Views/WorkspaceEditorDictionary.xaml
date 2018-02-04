@@ -5,7 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ChessboardVisualizerDictionary.xaml"/>
-        <ResourceDictionary Source="GridVisualizerDictionary.xaml"/>
+        <ResourceDictionary Source="TableVisualizerDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type viewModels:WorkspaceEditorViewModel}">

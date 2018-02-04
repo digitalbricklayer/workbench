@@ -25,7 +25,7 @@ namespace Workbench.Core.Solver
             var validateContext = new ModelValidationContext();
             if (!theModel.Validate(validateContext)) return SolveResult.InvalidModel;
 
-            this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
+            this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name.Text);
 
             var modelConverter = new ModelConverter(this.solver, this.orToolsCache, this.valueMapper);
             modelConverter.ConvertFrom(theModel);

@@ -76,7 +76,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the value matching the name.
         /// </summary>
-        /// <param name="theVariableName">Name of the variable to find.</param>
+        /// <param name="theVariableName">Text of the variable to find.</param>
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
         public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
@@ -108,7 +108,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the visualizer with the matching name.
         /// </summary>
-        /// <param name="theName">Name of the visualizer.</param>
+        /// <param name="theName">Text of the visualizer.</param>
         /// <returns>Visualizer matching the name.</returns>
         public VisualizerModel GetVisualizerBy(string theName)
         {

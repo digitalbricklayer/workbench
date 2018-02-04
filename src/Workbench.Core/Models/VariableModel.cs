@@ -8,19 +8,20 @@ namespace Workbench.Core.Models
     /// A variable can hold a value constrained by a constraint.
     /// </summary>
     [Serializable]
-    public abstract class VariableModel : AbstractModel
+    public abstract class VariableModel : BaseModel
     {
         private ModelModel model;
         private VariableDomainExpressionModel domainExpression;
-        private string name;
+        private ModelName name;
 
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
+        public VariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
+            : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
+            Contract.Requires<ArgumentNullException>(variableName != null);
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
             Model = theModel;
@@ -29,48 +30,24 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
-        /// </summary>
-        public VariableModel(ModelModel theModel, string variableName, string theRawDomainExpression)
-        {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
-            Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
-
-            Model = theModel;
-            this.name = variableName;
-            DomainExpression = new VariableDomainExpressionModel(theRawDomainExpression);
-        }
-
-        /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        public VariableModel(ModelModel theModel, string variableName)
+        public VariableModel(ModelModel theModel, ModelName variableName)
+            : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(variableName));
+            Contract.Requires<ArgumentNullException>(variableName != null);
 
             Model = theModel;
             this.name = variableName;
             DomainExpression = new VariableDomainExpressionModel();
         }
 
-        /// <summary>
-        /// Initializes a variable with default values.
-        /// </summary>
-        public VariableModel(ModelModel theModel)
-        {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
-            Model = theModel;
-            this.name = "New variable";
-            DomainExpression = new VariableDomainExpressionModel();
-        }
-
+#if false
         /// <summary>
         /// Gets the name of the aggregate variable.
         /// </summary>
-        public virtual string Name
+        public virtual string Text
         {
             get
             {
@@ -83,6 +60,7 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
+#endif
 
         /// <summary>
         /// Gets or sets the variable domain expression.
@@ -119,7 +97,7 @@ namespace Workbench.Core.Models
         /// </returns>
         public override string ToString()
         {
-            return Name;
+            return Name.Text;
         }
 
         /// <summary>

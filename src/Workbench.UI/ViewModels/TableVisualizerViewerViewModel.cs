@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
             : base(newVisualizerModel)
         {
             Model = newVisualizerModel;
-            Grid = new TableViewModel(newVisualizerModel.Grid);
+            Grid = new TableViewModel(newVisualizerModel.Table);
             GridModel = newVisualizerModel;
         }
 
@@ -31,7 +31,7 @@ namespace Workbench.ViewModels
         {
             base.Update();
             // Pick up all changes made to the grid by the grid editor
-            Grid = new TableViewModel(GridModel.Grid);
+            Grid = new TableViewModel(GridModel.Table);
         }
     }
 }

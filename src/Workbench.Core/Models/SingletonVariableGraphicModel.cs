@@ -9,40 +9,16 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name, location and domain expression.
         /// </summary>
-        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
-            : base(theModel, variableName, newLocation, newVariableExpression)
+        public SingletonVariableGraphicModel(SingletonVariableModel theModel, Point newLocation)
+            : base(theModel, newLocation)
         {
         }
 
         /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
+        /// Initializes a variable with a variable name, location and domain expression.
         /// </summary>
-        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel, variableName, theDomainExpression)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
-        /// </summary>
-        public SingletonVariableGraphicModel(ModelModel theModel, string variableName, string theRawDomainExpression)
-            : base(theModel, variableName, theRawDomainExpression)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a variable with a variable name.
-        /// </summary>
-        public SingletonVariableGraphicModel(ModelModel theModel, string variableName)
-            : base(theModel, variableName)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a variable with default values.
-        /// </summary>
-        public SingletonVariableGraphicModel(ModelModel theModel)
-            : base(theModel)
+        public SingletonVariableGraphicModel(SingletonVariableModel theModel)
+            : base(theModel, new Point())
         {
         }
     }

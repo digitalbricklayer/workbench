@@ -29,8 +29,7 @@ namespace Workbench.ViewModels
         /// <param name="theDomainExpression">Domain expression.</param>
         public DomainExpressionViewModel(DomainExpressionModel theDomainExpression)
         {
-            if (theDomainExpression == null)
-                throw new ArgumentNullException("theDomainExpression");
+            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
             this.Model = theDomainExpression;
         }
 

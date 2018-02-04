@@ -11,32 +11,16 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
+        public SingletonVariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
             : base(theModel, variableName, theDomainExpression)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a variable with a variable name and domain expression.
-        /// </summary>
-        public SingletonVariableModel(ModelModel theModel, string variableName, string theRawDomainExpression)
-            : base(theModel, variableName, theRawDomainExpression)
         {
         }
 
         /// <summary>
         /// Initialize a variable with a variable name.
         /// </summary>
-        public SingletonVariableModel(ModelModel theModel, string variableName)
+        public SingletonVariableModel(ModelModel theModel, ModelName variableName)
             : base(theModel, variableName)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a variable with default values.
-        /// </summary>
-        public SingletonVariableModel(ModelModel theModel)
-            : base(theModel, "A singleton")
         {
         }
 

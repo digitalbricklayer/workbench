@@ -79,13 +79,14 @@ namespace Workbench.Core.Tests.Unit
 
         private static TableVisualizerModel CreateGrid()
         {
-            return new TableVisualizerModel("states", new Point(), new[] { "Name", "Color" }, new[] { new TableRowModel("WA", ""),
-                                                                                                    new TableRowModel("NT", ""),
-                                                                                                    new TableRowModel("SA", ""),
-                                                                                                    new TableRowModel("Q", ""),
-                                                                                                    new TableRowModel("NSW", ""),
-                                                                                                    new TableRowModel("V", ""),
-                                                                                                    new TableRowModel("T", "") });
+            var newTable = new TableModel(new ModelName("states"), new[] { "Text", "Color" }, new[] { new TableRowModel("WA", ""),
+                new TableRowModel("NT", ""),
+                new TableRowModel("SA", ""),
+                new TableRowModel("Q", ""),
+                new TableRowModel("NSW", ""),
+                new TableRowModel("V",  ""),
+                new TableRowModel("T", "") });
+            return new TableVisualizerModel(newTable, new VisualizerTitle(), new Point());
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Workbench.ViewModels
         public WorkspaceModel WorkspaceModel { get; set; }
 
         /// <summary>
-        /// Gets the Model|Delete command.
+        /// Gets the Delete command.
         /// </summary>
         public ICommand DeleteCommand { get; private set; }
 
@@ -208,7 +208,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(WorkspaceModel.Model, newVariableName, newVariableLocation, new VariableDomainExpressionModel()),
+            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(new SingletonVariableModel(WorkspaceModel.Model, new ModelName(newVariableName), new VariableDomainExpressionModel()), newVariableLocation),
                                                              this.eventAggregator);
             return AddSingletonVariable(newVariable, newVariableLocation);
         }
@@ -224,7 +224,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
             Editor.AddSingletonVariable(newVariable);
-            //            Viewer.AddSingletonVariable(newVariable);
+//            Viewer.AddSingletonVariable(newVariable);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
@@ -255,7 +255,8 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new AggregateVariableViewModel(new AggregateVariableGraphicModel(WorkspaceModel.Model, newVariableName, newVariableLocation, 1, new VariableDomainExpressionModel()),
+            var newVariableModel = new AggregateVariableModel(WorkspaceModel.Model, new ModelName(newVariableName));
+            var newVariable = new AggregateVariableViewModel(new AggregateVariableGraphicModel(newVariableModel, newVariableLocation),
                                                              this.eventAggregator);
             return AddAggregateVariable(newVariable, newVariableLocation);
         }
@@ -288,7 +289,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
 
-            var newDomain = new DomainViewModel(new DomainGraphicModel(newDomainName, newDomainLocation, new DomainModel()));
+            var newDomain = new DomainViewModel(new DomainGraphicModel(new DomainModel(new ModelName(newDomainName)), newDomainLocation));
             Editor.AddDomain(newDomain);
             IsDirty = true;
 
@@ -334,8 +335,9 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
-            var newConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(newConstraintName, newLocation, new ExpressionConstraintModel()));
-            return AddExpressionConstraint(newConstraint, newLocation);
+            var newExpressionConstraintModel = new ExpressionConstraintModel(new ModelName(newConstraintName));
+            var newExpressionConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(newExpressionConstraintModel, newLocation));
+            return AddExpressionConstraint(newExpressionConstraint, newLocation);
         }
 
         /// <summary>
@@ -348,7 +350,8 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
-            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newConstraintName, newLocation));
+            var newAllDifferentConstraintModel = new AllDifferentConstraintModel();
+            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newAllDifferentConstraintModel, newConstraintName, newLocation));
             Editor.AddConstraint(newConstraint);
             IsDirty = true;
 
@@ -384,9 +387,15 @@ namespace Workbench.ViewModels
         /// </summary>
         public void DeleteSelectedGraphics()
         {
-            DeleteSelectedVariables();
-            DeleteSelectedDomains();
-            DeleteConstraints();
+            if (SelectedDisplay == "Editor")
+            {
+                var selectedEditors = Editor.DeleteSelectedGraphics();
+                var x = selectedEditors.Select(_ => _.Id);
+                foreach (var editor in selectedEditors)
+                {
+
+                }
+            }
         }
 
         /// <summary>
@@ -414,7 +423,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Change the selected display to the new selected display.
         /// </summary>
-        /// <param name="newSelectedDisplayMode">Name of the new display mode.</param>
+        /// <param name="newSelectedDisplayMode">Text of the new display mode.</param>
         public void ChangeSelectedDisplayTo(string newSelectedDisplayMode)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newSelectedDisplayMode));
@@ -425,6 +434,18 @@ namespace Workbench.ViewModels
         public void BindTo(SolutionModel theSolution)
         {
             Viewer.BindTo(theSolution);
+        }
+
+        public bool CanDeleteSelectedExecute()
+        {
+            if (SelectedDisplay == "Editor")
+            {
+                return Editor.Items.Any(_ => _.IsSelected);
+            }
+            else
+            {
+                throw new NotImplementedException("Selection is not implemented for the viewer");
+            }
         }
 
         /// <summary>
@@ -564,7 +585,7 @@ namespace Workbench.ViewModels
         private void DeleteAction()
         {
             DeleteSelectedGraphics();
-//            this.titleBar.UpdateTitle();
+//            TitleBar.UpdateTitle();
         }
 
         [ContractInvariantMethod]

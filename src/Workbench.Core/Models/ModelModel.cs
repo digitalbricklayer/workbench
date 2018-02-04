@@ -11,23 +11,21 @@ namespace Workbench.Core.Models
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
     [Serializable]
-    public class ModelModel : AbstractModel
+    public class ModelModel : BaseModel
     {
         private ObservableCollection<VariableGraphicModel> variables;
         private ObservableCollection<SingletonVariableGraphicModel> singletons;
         private ObservableCollection<AggregateVariableGraphicModel> aggregates;
         private ObservableCollection<DomainGraphicModel> domains;
         private ObservableCollection<ConstraintGraphicModel> constraints;
-        private string name;
 
         /// <summary>
         /// Initialize a model with a model name.
         /// </summary>
         /// <param name="theName">Model name.</param>
-        public ModelModel(string theName)
+        public ModelModel(ModelName theName)
             : this()
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
             Name = theName;
         }
 
@@ -36,7 +34,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public ModelModel()
         {
-            Name = string.Empty;
+            Name = new ModelName();
             Variables = new ObservableCollection<VariableGraphicModel>();
             Singletons = new ObservableCollection<SingletonVariableGraphicModel>();
             Aggregates = new ObservableCollection<AggregateVariableGraphicModel>();
@@ -44,10 +42,11 @@ namespace Workbench.Core.Models
             Constraints = new ObservableCollection<ConstraintGraphicModel>();
         }
 
+#if false
         /// <summary>
         /// Gets or sets the model name.
         /// </summary>
-        public string Name
+        public string Text
         {
             get { return this.name; }
             set
@@ -57,6 +56,7 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
+#endif
 
         /// <summary>
         /// Gets and sets the variables.
@@ -193,7 +193,7 @@ namespace Workbench.Core.Models
         public void AddSharedDomain(DomainGraphicModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomain.Name));
+            Contract.Assume(newDomain.Name != null && !string.IsNullOrWhiteSpace(newDomain.Name));
             newDomain.AssignIdentity();
             Domains.Add(newDomain);
         }

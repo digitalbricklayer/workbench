@@ -27,7 +27,7 @@ namespace Workbench.ViewModels
             this.workAreaMapper = theWorkAreaMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
-            DeleteCommand = new CommandHandler(ModelDeleteAction, _ => CanDeleteExecute);
+            DeleteSelectedCommand = new CommandHandler(DeleteSelectedAction, _ => CanDeleteSelectedExecute);
         }
 
         /// <summary>
@@ -39,35 +39,27 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the Model|Delete command.
+        /// Gets the Delete selected command.
         /// </summary>
-        public ICommand DeleteCommand { get; private set; }
+        public ICommand DeleteSelectedCommand { get; private set; }
 
         /// <summary>
         /// Gets whether the "Model|Delete" menu item can be executed.
         /// </summary>
-        public bool CanDeleteExecute
+        public bool CanDeleteSelectedExecute
         {
             get
             {
-                if (WorkArea.SelectedDisplay == "Editor")
-                {
-                    return WorkArea.Editor.Items.Any(_ => _.IsSelected);
-                }
-                else
-                {
-                    throw new NotImplementedException("Selection is not implemented for the viewer");
-                }
+                return WorkArea.CanDeleteSelectedExecute();
             }
         }
 
         /// <summary>
         /// Delete all selected graphics.
         /// </summary>
-        private void ModelDeleteAction()
+        private void DeleteSelectedAction()
         {
-            this.WorkArea.DeleteSelectedGraphics();
-            this.titleBar.UpdateTitle();
+            WorkArea.DeleteSelectedGraphics();
         }
     }
 }

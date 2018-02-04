@@ -51,13 +51,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Create a new workspace.
         /// </summary>
-        /// <param name="theModelName">Name for the model.</param>
+        /// <param name="theModelName">Text for the model.</param>
         /// <returns>Fluent interface context.</returns>
         public static WorkspaceContext Create(string theModelName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theModelName));
             var newWorkspace = new WorkspaceModel();
-            newWorkspace.Model.Name = theModelName;
+            newWorkspace.Model.Name = new ModelName(theModelName);
             return new WorkspaceContext(newWorkspace);
         }
 

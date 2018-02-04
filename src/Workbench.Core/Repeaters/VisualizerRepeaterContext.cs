@@ -82,7 +82,7 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Get a visualizer using the visualizer name.
         /// </summary>
-        /// <param name="vizualizerName">Name of the visualizer.</param>
+        /// <param name="vizualizerName">Text of the visualizer.</param>
         /// <returns>Visualizer matching the name.</returns>
         public VisualizerModel GetVisualizerByName(string vizualizerName)
         {

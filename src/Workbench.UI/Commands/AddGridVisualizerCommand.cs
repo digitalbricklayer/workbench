@@ -50,8 +50,8 @@ namespace Workbench.Commands
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workArea.ChangeSelectedDisplayTo("Editor");
-            var newVisualizerModel = new TableVisualizerModel("Map", newVisualizerLocation, TableModel.Default);
-            this.workArea.AddGridVisualizer(CreateMapVisualizer(newVisualizerModel));
+            var newTableVisualizer = new TableVisualizerModel(TableModel.Default, new VisualizerTitle(), newVisualizerLocation);
+            this.workArea.AddGridVisualizer(CreateMapVisualizer(newTableVisualizer));
             this.titleBar.UpdateTitle();
         }
 

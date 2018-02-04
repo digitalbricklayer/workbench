@@ -10,7 +10,7 @@ namespace Workbench.Core.Models
     /// A grid model.
     /// </summary>
     [Serializable]
-    public class TableModel : AbstractModel
+    public class TableModel : BaseModel
     {
         private int columnCount, rowCount;
         private ObservableCollection<TableRowModel> rows;
@@ -21,9 +21,12 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="columnNames">Column names.</param>
         /// <param name="theRows">Rows.</param>
-        public TableModel(string[] columnNames, TableRowModel[] theRows)
-            : this()
+        public TableModel(ModelName theName, string[] columnNames, TableRowModel[] theRows)
+            : base(theName)
         {
+            Rows = new ObservableCollection<TableRowModel>();
+            Columns = new ObservableCollection<TableColumnModel>();
+
             foreach (var columnName in columnNames)
             {
                 AddColumn(new TableColumnModel(columnName));
@@ -78,7 +81,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return new TableModel(new[] { "X", "Y" }, new[] { new TableRowModel(), new TableRowModel() });
+                return new TableModel(new ModelName(), new[] { "X", "Y" }, new[] { new TableRowModel(), new TableRowModel() });
             }
         }
 

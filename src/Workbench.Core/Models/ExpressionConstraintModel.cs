@@ -13,12 +13,26 @@ namespace Workbench.Core.Models
     {
         private ConstraintExpressionModel expression;
 
-        public ExpressionConstraintModel(string rawExpression)
+        public ExpressionConstraintModel(ModelName theName, ConstraintExpressionModel theExpression)
+            : base(theName)
         {
-            this.expression = new ConstraintExpressionModel(rawExpression);
+            this.expression = theExpression;
+        }
+
+        public ExpressionConstraintModel(ModelName theName)
+            : base(theName)
+        {
+            this.expression = new ConstraintExpressionModel();
+        }
+
+        public ExpressionConstraintModel(ConstraintExpressionModel theExpression)
+            : base(new ModelName())
+        {
+            this.expression = theExpression;
         }
 
         public ExpressionConstraintModel()
+            : base(new ModelName())
         {
             this.expression = new ConstraintExpressionModel();
         }

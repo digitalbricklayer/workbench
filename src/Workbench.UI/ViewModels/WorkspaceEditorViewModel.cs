@@ -258,7 +258,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Get the constraint with the constraint name.
         /// </summary>
-        /// <param name="constraintName">Name of the constraint.</param>
+        /// <param name="constraintName">Text of the constraint.</param>
         /// <returns>Constraint view model matching the name.</returns>
         public ConstraintViewModel GetConstraintByName(string constraintName)
         {
@@ -274,6 +274,14 @@ namespace Workbench.ViewModels
         {
             return Variables.Where(_ => _.IsSelected && _.IsAggregate)
                             .ToList();
+        }
+
+        public GraphicViewModel[] DeleteSelectedGraphics()
+        {
+            var selectedEditors = Items.Where(_ => _.IsSelected).ToArray();
+            Items.RemoveRange(selectedEditors);
+
+            return selectedEditors;
         }
 
         /// <summary>
