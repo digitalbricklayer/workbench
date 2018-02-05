@@ -42,22 +42,6 @@ namespace Workbench.Core.Models
             Constraints = new ObservableCollection<ConstraintGraphicModel>();
         }
 
-#if false
-        /// <summary>
-        /// Gets or sets the model name.
-        /// </summary>
-        public string Text
-        {
-            get { return this.name; }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.name = value;
-                OnPropertyChanged();
-            }
-        }
-#endif
-
         /// <summary>
         /// Gets and sets the variables.
         /// </summary>

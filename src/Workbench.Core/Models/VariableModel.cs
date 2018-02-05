@@ -43,25 +43,6 @@ namespace Workbench.Core.Models
             DomainExpression = new VariableDomainExpressionModel();
         }
 
-#if false
-        /// <summary>
-        /// Gets the name of the aggregate variable.
-        /// </summary>
-        public virtual string Text
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(value));
-                this.name = value;
-                OnPropertyChanged();
-            }
-        }
-#endif
-
         /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
-using Point = System.Windows.Point;
 
 namespace Workbench.Core.Models
 {
