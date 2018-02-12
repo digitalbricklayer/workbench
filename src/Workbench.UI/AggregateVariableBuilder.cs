@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Services;
 using Workbench.ViewModels;
 
 namespace Workbench
 {
-    public class AggregateVariableBuilder
+    public sealed class AggregateVariableBuilder
     {
-        private string variableName;
+        private ModelName variableName;
         private ModelModel model;
         private IEventAggregator eventAggregator;
         private IViewModelService viewModelService;
@@ -18,7 +17,7 @@ namespace Workbench
 
         public AggregateVariableBuilder WithName(string theVariableName)
         {
-            this.variableName = theVariableName;
+            this.variableName = new ModelName(theVariableName);
             return this;
         }
 
@@ -60,7 +59,7 @@ namespace Workbench
 
         public AggregateVariableVisualizerViewModel Build()
         {
-            var theSingletonVariable = new AggregateVariableModel(this.model, new ModelName(this.variableName), GetSizeOrDefault(), GetExpressionOrDefault());
+            var theSingletonVariable = new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
             return new AggregateVariableVisualizerViewModel(theSingletonVariable,
                                                             new AggregateVariableEditorViewModel(new AggregateVariableGraphicModel(theSingletonVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
                                                             new AggregateVariableViewerViewModel(new AggregateVariableGraphicModel(theSingletonVariable)));
@@ -89,54 +88,6 @@ namespace Workbench
         private IEventAggregator GetEventAggregatorOrDefault()
         {
             return this.eventAggregator ?? new EventAggregator();
-        }
-    }
-
-    internal class DefaultViewModelService : IViewModelService
-    {
-        public void CacheVariable(VariableGraphicViewModel variableViewModel)
-        {
-        }
-
-        public void CacheGraphic(GraphicViewModel graphicViewModel)
-        {
-        }
-
-        public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
-        {
-            return null;
-        }
-
-        public VariableGraphicViewModel GetVariableByIdentity(int variableIdentity)
-        {
-            return null;
-        }
-
-        public IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables()
-        {
-            return null;
-        }
-    }
-
-    internal class DefaultDataService : IDataService
-    {
-        public WorkspaceModel Open(string file)
-        {
-            return null;
-        }
-
-        public void Save(string file)
-        {
-        }
-
-        public WorkspaceModel GetWorkspace()
-        {
-            return null;
-        }
-
-        public VariableGraphicModel GetVariableByName(string variableName)
-        {
-            return null;
         }
     }
 }

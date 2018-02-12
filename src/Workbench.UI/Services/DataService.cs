@@ -53,9 +53,7 @@ namespace Workbench.Services
         /// <returns>Current workspace.</returns>
         public WorkspaceModel GetWorkspace()
         {
-            if (this.currentWorkspace != null)
-                return this.currentWorkspace;
-            return new WorkspaceModel();
+            return this.currentWorkspace ?? new WorkspaceModel();
         }
 
         /// <summary>

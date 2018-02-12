@@ -16,15 +16,19 @@ namespace Workbench.Services
             this.cache = theService;
         }
 
-        internal DomainViewModel MapFrom(DomainGraphicModel theDomainModel)
+        internal DomainEditorViewModel MapFrom(DomainGraphicModel theDomainModel)
         {
             Debug.Assert(theDomainModel.HasIdentity);
 
-            var domainViewModel = new DomainViewModel(theDomainModel);
+#if false
+            var domainViewModel = new DomainEditorViewModel(theDomainModel);
 
             this.cache.CacheGraphic(domainViewModel);
 
             return domainViewModel;
+#else
+            return null;
+#endif
         }
     }
 }

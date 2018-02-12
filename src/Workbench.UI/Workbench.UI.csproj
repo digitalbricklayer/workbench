@@ -227,6 +227,9 @@
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
+    <Compile Include="DefaultDataService.cs" />
+    <Compile Include="DefaultViewModelService.cs" />
+    <Compile Include="DomainBuilder.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
@@ -260,6 +263,8 @@
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ColumnNameEditorViewModel.cs" />
     <Compile Include="ViewModels\ConstraintVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\DomainViewerViewModel.cs" />
+    <Compile Include="ViewModels\DomainVisualizerViewModel.cs" />
     <Compile Include="ViewModels\EditMenuViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintVisualizerViewModel.cs" />
@@ -328,7 +333,7 @@
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\ConstraintViewModel.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModel.cs" />
-    <Compile Include="ViewModels\DomainViewModel.cs" />
+    <Compile Include="ViewModels\DomainEditorViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />

@@ -31,7 +31,7 @@
     <!-- 
     Define a data-template for the DomainViewModel class.
     -->
-    <DataTemplate DataType="{x:Type viewModels:DomainViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:DomainEditorViewModel}">
         <local:DomainView/>
     </DataTemplate>
 

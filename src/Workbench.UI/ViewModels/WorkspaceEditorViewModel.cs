@@ -25,7 +25,7 @@ namespace Workbench.ViewModels
             Model = theDisplay;
             ModelModel = theModel;
             Variables = new BindableCollection<VariableEditorViewModel>();
-            Domains = new BindableCollection<DomainViewModel>();
+            Domains = new BindableCollection<DomainEditorViewModel>();
             Constraints = new BindableCollection<ConstraintViewModel>();
             Visualizers = new BindableCollection<EditorViewModel>();
         }
@@ -50,17 +50,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the collection of variables in the model.
+        /// Gets the collection of variables.
         /// </summary>
         public IObservableCollection<VariableEditorViewModel> Variables { get; private set; }
 
         /// <summary>
-        /// Gets the collection of domains in the model.
+        /// Gets the collection of domains.
         /// </summary>
-        public IObservableCollection<DomainViewModel> Domains { get; private set; }
+        public IObservableCollection<DomainEditorViewModel> Domains { get; private set; }
 
         /// <summary>
-        /// Gets the collection of constraints in the model.
+        /// Gets the collection of constraints.
         /// </summary>
         public IObservableCollection<ConstraintViewModel> Constraints { get; private set; }
 
@@ -109,10 +109,10 @@ namespace Workbench.ViewModels
         /// Add a new domain to the model.
         /// </summary>
         /// <param name="newDomainViewModel">New domain.</param>
-        public void AddDomain(DomainViewModel newDomainViewModel)
+        public void AddDomain(DomainEditorViewModel newDomainViewModel)
         {
-            if (newDomainViewModel == null)
-                throw new ArgumentNullException(nameof(newDomainViewModel));
+            Contract.Requires<ArgumentNullException>(newDomainViewModel != null);
+
             FixupDomain(newDomainViewModel);
             AddDomainToModel(newDomainViewModel);
         }
@@ -146,7 +146,7 @@ namespace Workbench.ViewModels
         /// Delete the domain.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainViewModel domainToDelete)
+        public void DeleteDomain(DomainEditorViewModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
@@ -217,7 +217,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="domainViewModel">Domain view model.</param>
-        internal void FixupDomain(DomainViewModel domainViewModel)
+        internal void FixupDomain(DomainEditorViewModel domainViewModel)
         {
             Contract.Requires<ArgumentNullException>(domainViewModel != null);
             Domains.Add(domainViewModel);
@@ -308,10 +308,10 @@ namespace Workbench.ViewModels
         /// Add a new domain to the model model.
         /// </summary>
         /// <param name="newDomainViewModel">New domain view model.</param>
-        private void AddDomainToModel(DomainViewModel newDomainViewModel)
+        private void AddDomainToModel(DomainEditorViewModel newDomainViewModel)
         {
             Contract.Assert(newDomainViewModel.Model != null);
-            ModelModel.AddDomain(newDomainViewModel.Model);
+            ModelModel.AddDomain(newDomainViewModel.DomainGraphic);
         }
 
         /// <summary>
@@ -336,10 +336,10 @@ namespace Workbench.ViewModels
             ModelModel.DeleteVariable(variableToDelete.VariableGraphic);
         }
 
-        private void DeleteDomainFromModel(DomainViewModel domainToDelete)
+        private void DeleteDomainFromModel(DomainEditorViewModel domainToDelete)
         {
             Contract.Assert(domainToDelete.Model != null);
-            ModelModel.DeleteDomain(domainToDelete.Model);
+            ModelModel.DeleteDomain(domainToDelete.DomainGraphic);
         }
 
         [ContractInvariantMethod]

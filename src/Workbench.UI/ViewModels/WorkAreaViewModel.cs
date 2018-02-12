@@ -304,15 +304,16 @@ namespace Workbench.ViewModels
         /// <param name="newDomainName">New domain name.</param>
         /// <param name="newDomainLocation">New domain location.</param>
         /// <returns>New domain view model.</returns>
-        public DomainViewModel AddDomain(string newDomainName, Point newDomainLocation)
+        public void AddDomain(string newDomainName, Point newDomainLocation)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
 
-            var newDomain = new DomainViewModel(new DomainGraphicModel(new DomainModel(new ModelName(newDomainName)), newDomainLocation));
-            Editor.AddDomain(newDomain);
+            var newDomain = new DomainBuilder().WithName(newDomainName)
+                                               .Build();
+//            var newDomain = new DomainViewModel(new DomainGraphicModel(new DomainModel(new ModelName(newDomainName)), newDomainLocation));
+            AllVisualizers.Add(newDomain);
+            Editor.AddDomain(newDomain.DomainEditor);
             IsDirty = true;
-
-            return newDomain;
         }
 
         /// <summary>
