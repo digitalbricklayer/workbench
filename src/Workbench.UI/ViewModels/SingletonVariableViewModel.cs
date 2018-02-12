@@ -3,7 +3,7 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class SingletonVariableViewModel : VariableViewModel
+    public class SingletonVariableViewModel : VariableGraphicViewModel
     {
         /// <summary>
         /// Initialize the variable view model with the variable model and event aggregator.
@@ -15,6 +15,6 @@ namespace Workbench.ViewModels
         {
         }
 
-        public override bool IsAggregate => false;
+        public override bool IsAggregate { get; }
     }
 }

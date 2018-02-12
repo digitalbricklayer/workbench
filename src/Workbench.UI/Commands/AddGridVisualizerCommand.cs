@@ -51,14 +51,15 @@ namespace Workbench.Commands
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.workArea.ChangeSelectedDisplayTo("Editor");
             var newTableVisualizer = new TableVisualizerModel(TableModel.Default, new VisualizerTitle(), newVisualizerLocation);
-            this.workArea.AddGridVisualizer(CreateMapVisualizer(newTableVisualizer));
+            this.workArea.AddTableVisualizer(CreateMapVisualizer(newTableVisualizer));
             this.titleBar.UpdateTitle();
         }
 
         private TableVisualizerViewModel CreateMapVisualizer(TableVisualizerModel newVisualizerModel)
         {
-            return new TableVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                               new TableVisualizerViewerViewModel(newVisualizerModel));
+            return new TableVisualizerViewModel(newVisualizerModel.Table,
+                                                CreateDesigner(newVisualizerModel),
+                                                new TableVisualizerViewerViewModel(newVisualizerModel));
         }
 
         private TableVisualizerDesignerViewModel CreateDesigner(TableVisualizerModel newVisualizerModel)

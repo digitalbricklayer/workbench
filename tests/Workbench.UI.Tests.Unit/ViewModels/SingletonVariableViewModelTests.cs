@@ -38,7 +38,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             Assert.That(sut.DomainExpression.Model.InlineDomain, Is.Not.Null);
         }
 
-        private VariableViewModel CreateVariable()
+        private VariableGraphicViewModel CreateVariable()
         {
             return new SingletonVariableViewModel(new SingletonVariableGraphicModel(new SingletonVariableModel(new ModelModel(), new ModelName("X"))),
                                                   this.eventAggregatorMock.Object);

@@ -97,7 +97,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the variable at the one based index.
+        /// Get the variable at the index.
         /// </summary>
         /// <param name="variableIndex">Variable index starts at zero.</param>
         /// <returns>Variable at the index.</returns>

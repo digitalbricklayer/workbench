@@ -5,7 +5,7 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public sealed class AggregateVariableViewModel : VariableViewModel
+    public sealed class AggregateVariableViewModel : VariableGraphicViewModel
     {
         public AggregateVariableViewModel(AggregateVariableGraphicModel theVariableModel,
                                           IEventAggregator theEventAggregator)
@@ -13,7 +13,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(theVariableModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            this.Variables = new BindableCollection<VariableViewModel>();
+            this.Variables = new BindableCollection<VariableGraphicViewModel>();
             this.Model = theVariableModel;
         }
 
@@ -40,7 +40,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variables inside the aggregate.
         /// </summary>
-        public IObservableCollection<VariableViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableGraphicViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of variables in the aggregate variable.

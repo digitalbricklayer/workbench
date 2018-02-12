@@ -94,7 +94,7 @@ namespace Workbench.ViewModels
         /// Add a new variable visualizer.
         /// </summary>
         /// <param name="newVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerViewerViewModel newVisualizer)
+        public void AddVisualizer(ViewerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             Viewer.AddVisualizer(newVisualizer);

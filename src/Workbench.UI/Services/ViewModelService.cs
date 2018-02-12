@@ -12,7 +12,7 @@ namespace Workbench.Services
     public sealed class ViewModelService : IViewModelService, IDisposable
     {
         private readonly Dictionary<int, GraphicViewModel> graphicMap;
-        private readonly Dictionary<int, VariableViewModel> variableMap;
+        private readonly Dictionary<int, VariableGraphicViewModel> variableMap;
 		private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace Workbench.Services
 			this.viewModelFactory = theViewModelFactory;
 			this.viewModelFactory.WorkAreaCreated += OnWorkAreaCreated;
             this.graphicMap = new Dictionary<int, GraphicViewModel>();
-            this.variableMap = new Dictionary<int, VariableViewModel>();
+            this.variableMap = new Dictionary<int, VariableGraphicViewModel>();
         }
 
-        public void CacheVariable(VariableViewModel variableViewModel)
+        public void CacheVariable(VariableGraphicViewModel variableViewModel)
         {
             this.CacheGraphic(variableViewModel);
             this.variableMap.Add(variableViewModel.Id, variableViewModel);
@@ -48,7 +48,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="variableIdentity">Variable identity.</param>
         /// <returns>Variable with the identity.</returns>
-        public VariableViewModel GetVariableByIdentity(int variableIdentity)
+        public VariableGraphicViewModel GetVariableByIdentity(int variableIdentity)
         {
             return this.variableMap[variableIdentity];
         }
@@ -57,9 +57,9 @@ namespace Workbench.Services
         /// Get all variable view models.
         /// </summary>
         /// <returns>All variable view models in the model.</returns>
-        public IReadOnlyCollection<VariableViewModel> GetAllVariables()
+        public IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableViewModel>>() != null);
+            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableGraphicViewModel>>() != null);
             return this.variableMap.Values.ToList();
         }
 		

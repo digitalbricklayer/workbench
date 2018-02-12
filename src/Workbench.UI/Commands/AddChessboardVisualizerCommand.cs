@@ -58,13 +58,14 @@ namespace Workbench.Commands
 
         private ChessboardVisualizerViewModel CreateChessboardVisualizer(ChessboardVisualizerModel newVisualizerModel)
         {
-            return new ChessboardVisualizerViewModel(CreateDesigner(newVisualizerModel),
-                                                     new ChessboardVisualizerViewerViewModel(newVisualizerModel));
+            return new ChessboardVisualizerViewModel(newVisualizerModel.Model,
+                                                     CreateDesigner(newVisualizerModel),
+                                                     new ChessboardViewerViewModel(newVisualizerModel));
         }
 
-        private ChessboardVisualizerDesignerViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
+        private ChessboardEditorViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
         {
-            return new ChessboardVisualizerDesignerViewModel(newVisualizerModel,
+            return new ChessboardEditorViewModel(newVisualizerModel,
                                                            this.eventAggregator,
                                                            this.dataService,
                                                            this.viewModelService);

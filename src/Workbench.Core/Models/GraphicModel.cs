@@ -37,7 +37,24 @@ namespace Workbench.Core.Models
             set { this.model.Name.Text = value; }
         }
 
+        /// <summary>
+        /// Gets the graphic model.
+        /// </summary>
+        public Model Model
+        {
+            get { return this.model; }
+        }
+
         public double X { get; set; }
         public double Y { get; set; }
+
+        /// <summary>
+        /// Update a graphic with call arguments.
+        /// </summary>
+        /// <param name="theCall">Call arguments.</param>
+        public virtual void UpdateWith(VisualizerCall theCall)
+        {
+            // Default implementation. Override as appropriate.
+        }
     }
 }

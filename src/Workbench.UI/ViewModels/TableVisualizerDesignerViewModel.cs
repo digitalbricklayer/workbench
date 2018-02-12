@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
 {
     public class TableVisualizerDesignerViewModel : EditorViewModel
     {
-        private TableViewModel grid;
+        private TableViewModel table;
 
         public TableVisualizerDesignerViewModel(TableVisualizerModel theTableModel,
                                                IEventAggregator theEventAggregator,
@@ -22,18 +22,18 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             Model = theTableModel;
-            Grid = new TableViewModel(theTableModel.Table);
+            Table = new TableViewModel(theTableModel.Table);
         }
 
         /// <summary>
         /// Gets or sets the map view model.
         /// </summary>
-        public TableViewModel Grid
+        public TableViewModel Table
         {
-            get { return this.grid; }
+            get { return this.table; }
             set
             {
-                this.grid = value;
+                this.table = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -41,20 +41,20 @@ namespace Workbench.ViewModels
         public void AddColumn(TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            Grid.AddColumn(newColumn);
+            Table.AddColumn(newColumn);
         }
 
         public void Resize(int columns, int rows)
         {
-            Contract.Assume(Grid != null);
-            Grid.Resize(columns, rows);
+            Contract.Assume(Table != null);
+            Table.Resize(columns, rows);
         }
 
         public void AddRow(TableRowModel newRow)
         {
             Contract.Requires<ArgumentNullException>(newRow != null);
-            Contract.Assume(Grid != null);
-            Grid.AddRow(newRow);
+            Contract.Assume(Table != null);
+            Table.AddRow(newRow);
         }
     }
 }

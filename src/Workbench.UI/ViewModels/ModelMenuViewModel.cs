@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
+using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
@@ -126,7 +127,7 @@ namespace Workbench.ViewModels
         private void ModelAddExpressionConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            WorkArea.AddExpressionConstraint("New Constraint", newConstraintLocation);
+            WorkArea.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel(new ModelName("New Constraint")))), newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -165,7 +166,7 @@ namespace Workbench.ViewModels
             {
                 foreach (var variableViewModel in selectedVariables)
                 {
-                    var aggregate = (AggregateVariableViewModel)variableViewModel;
+                    var aggregate = (AggregateVariableEditorViewModel)variableViewModel;
                     aggregate.NumberVariables = Convert.ToString(resizeViewModel.Size);
                 }
             }

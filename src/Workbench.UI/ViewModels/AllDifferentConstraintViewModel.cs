@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public class AllDifferentConstraintViewModel : ConstraintViewModel
     {
-        private VariableViewModel variable;
+        private VariableGraphicViewModel variable;
         private AllDifferentConstraintGraphicModel model;
         private AllDifferentConstraintExpressionViewModel expression;
 
@@ -25,7 +25,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variable the constraint is applied to.
         /// </summary>
-        public VariableViewModel Variable
+        public VariableGraphicViewModel Variable
         {
             get { return this.variable; }
             set

@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
-using Workbench.Core.Models;
 using Workbench.Services;
 using Workbench.ViewModels;
 
@@ -18,7 +17,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IWindowManager> windowManagerMock;
         private IEventAggregator eventAggregator;
         private Mock<IViewModelService> viewModelMock;
-        private VariableViewModel xVariable;
 
         [SetUp]
         public void Initialize()
@@ -45,8 +43,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                     this.viewModelMock.Object,
                                                     CreateViewModelFactoryMock().Object);
             newWorkArea.AddSingletonVariable("x", new Point());
-            this.xVariable = newWorkArea.Editor.GetVariableByName("x");
-            this.xVariable.DomainExpression.Text = "1..2";
+            var xVariable = newWorkArea.GetVariableByName("x");
+            xVariable.VariableEditor.DomainExpression.Text = "1..2";
             newWorkArea.AddExpressionConstraint("X", new Point());
             var theConstraint = (ExpressionConstraintViewModel) newWorkArea.Editor.GetConstraintByName("X");
             theConstraint.Expression.Text = "$x > 1";

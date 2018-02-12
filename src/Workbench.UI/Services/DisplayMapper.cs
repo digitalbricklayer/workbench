@@ -63,14 +63,18 @@ namespace Workbench.Services
 
             foreach (var variableModel in theWorkspace.Model.Singletons)
             {
+#if false
                 var variableViewModel = this.variableMapper.MapFrom(variableModel);
                 newDesignerViewModel.FixupSingletonVariable(variableViewModel);
+#endif
             }
 
             foreach (var aggregateModel in theWorkspace.Model.Aggregates)
             {
+#if false
                 var variableViewModel = this.variableMapper.MapFrom(aggregateModel);
                 newDesignerViewModel.FixupAggregateVariable(variableViewModel);
+#endif
             }
 
             return newDesignerViewModel;

@@ -2,7 +2,6 @@
 using Workbench.ViewModels;
 using Moq;
 using NUnit.Framework;
-using Workbench.Core.Models;
 using Workbench.Services;
 
 namespace Workbench.UI.Tests.Unit.ViewModels
@@ -21,17 +20,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private static WorkAreaViewModel CreateValidWorkspace()
         {
             var worksAreaViewModel = new WorkAreaViewModel(CreateDataService(),
-                                                            CreateWindowManager(),
-                                                            CreateEventAggregator(),
-                                                            CreateViewModelService(),
-                                                            CreateViewModelFactory());
-            var variableViewModel = new SingletonVariableViewModel(new SingletonVariableGraphicModel(new SingletonVariableModel(worksAreaViewModel.WorkspaceModel.Model, new ModelName("x"))),
-                                                                   Mock.Of<IEventAggregator>());
-            worksAreaViewModel.AddSingletonVariable(variableViewModel);
-            variableViewModel.DomainExpression.Text = "1..10";
-            var constraintViewModel = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel()));
-            worksAreaViewModel.AddExpressionConstraint(constraintViewModel);
-            constraintViewModel.Expression.Text = "$x > 1";
+                                                           CreateWindowManager(),
+                                                           CreateEventAggregator(),
+                                                           CreateViewModelService(),
+                                                           CreateViewModelFactory());
 
             return worksAreaViewModel;
         }

@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
 
             Model = theDisplay;
             ModelModel = theModel;
-            Variables = new BindableCollection<VariableViewModel>();
+            Variables = new BindableCollection<VariableEditorViewModel>();
             Domains = new BindableCollection<DomainViewModel>();
             Constraints = new BindableCollection<ConstraintViewModel>();
             Visualizers = new BindableCollection<EditorViewModel>();
@@ -52,7 +52,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the collection of variables in the model.
         /// </summary>
-        public IObservableCollection<VariableViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableEditorViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets the collection of domains in the model.
@@ -76,6 +76,7 @@ namespace Workbench.ViewModels
         public void AddVisualizer(EditorViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
+
             Model.AddVisualizer(newVisualizer.Model);
             FixupVisualizer(newVisualizer);
         }
@@ -84,10 +85,9 @@ namespace Workbench.ViewModels
         /// Add a new singleton variable to the model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable.</param>
-        public void AddSingletonVariable(SingletonVariableViewModel newVariableViewModel)
+        public void AddSingletonVariable(SingletonVariableEditorViewModel newVariableViewModel)
         {
-            if (newVariableViewModel == null)
-                throw new ArgumentNullException("newVariableViewModel");
+            Contract.Requires<ArgumentNullException>(newVariableViewModel != null);
 
             FixupSingletonVariable(newVariableViewModel);
             AddSingletonVariableToModel(newVariableViewModel);
@@ -97,10 +97,9 @@ namespace Workbench.ViewModels
         /// Add a new aggregate variable to the model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable.</param>
-        public void AddAggregateVariable(AggregateVariableViewModel newVariableViewModel)
+        public void AddAggregateVariable(AggregateVariableEditorViewModel newVariableViewModel)
         {
-            if (newVariableViewModel == null)
-                throw new ArgumentNullException("newVariableViewModel");
+            Contract.Requires<ArgumentNullException>(newVariableViewModel != null);
 
             FixupAggregateVariable(newVariableViewModel);
             AddAggregateVariableToModel(newVariableViewModel);
@@ -113,7 +112,7 @@ namespace Workbench.ViewModels
         public void AddDomain(DomainViewModel newDomainViewModel)
         {
             if (newDomainViewModel == null)
-                throw new ArgumentNullException("newDomainViewModel");
+                throw new ArgumentNullException(nameof(newDomainViewModel));
             FixupDomain(newDomainViewModel);
             AddDomainToModel(newDomainViewModel);
         }
@@ -124,8 +123,8 @@ namespace Workbench.ViewModels
         /// <param name="newConstraintViewModel">New constraint.</param>
         public void AddConstraint(ConstraintViewModel newConstraintViewModel)
         {
-            if (newConstraintViewModel == null)
-                throw new ArgumentNullException("newConstraintViewModel");
+            Contract.Requires<ArgumentNullException>(newConstraintViewModel != null);
+
             FixupConstraint(newConstraintViewModel);
             AddConstraintToModel(newConstraintViewModel);
         }
@@ -134,10 +133,10 @@ namespace Workbench.ViewModels
         /// Delete the variable.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
-        public void DeleteVariable(VariableViewModel variableToDelete)
+        public void DeleteVariable(VariableEditorViewModel variableToDelete)
         {
-            if (variableToDelete == null)
-                throw new ArgumentNullException("variableToDelete");
+            Contract.Requires<ArgumentNullException>(variableToDelete != null);
+
             Variables.Remove(variableToDelete);
             DeactivateItem(variableToDelete, close: true);
             DeleteVariableFromModel(variableToDelete);
@@ -149,8 +148,8 @@ namespace Workbench.ViewModels
         /// <param name="domainToDelete">Domain to delete.</param>
         public void DeleteDomain(DomainViewModel domainToDelete)
         {
-            if (domainToDelete == null)
-                throw new ArgumentNullException("domainToDelete");
+            Contract.Requires<ArgumentNullException>(domainToDelete != null);
+
             Domains.Remove(domainToDelete);
             DeactivateItem(domainToDelete, close: true);
             DeleteDomainFromModel(domainToDelete);
@@ -162,8 +161,8 @@ namespace Workbench.ViewModels
         /// <param name="constraintToDelete">Constraint to delete.</param>
         public void DeleteConstraint(ConstraintViewModel constraintToDelete)
         {
-            if (constraintToDelete == null)
-                throw new ArgumentNullException("constraintToDelete");
+            Contract.Requires<ArgumentNullException>(constraintToDelete != null);
+
             Constraints.Remove(constraintToDelete);
             DeactivateItem(constraintToDelete, close: true);
             DeleteConstraintFromModel(constraintToDelete);
@@ -190,7 +189,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="variableViewModel">Singleton variable view model.</param>
-        internal void FixupSingletonVariable(VariableViewModel variableViewModel)
+        internal void FixupSingletonVariable(SingletonVariableEditorViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
@@ -204,7 +203,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="variableViewModel">Aggregate variable view model.</param>
-        internal void FixupAggregateVariable(AggregateVariableViewModel variableViewModel)
+        internal void FixupAggregateVariable(AggregateVariableEditorViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
@@ -248,10 +247,11 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="variableName">Variable name.</param>
         /// <returns>Variable matching the name.</returns>
-        public VariableViewModel GetVariableByName(string variableName)
+        public VariableEditorViewModel GetVariableByName(string variableName)
         {
             if (string.IsNullOrWhiteSpace(variableName))
-                throw new ArgumentNullException("variableName");
+                throw new ArgumentNullException(nameof(variableName));
+
             return Variables.FirstOrDefault(_ => _.Name == variableName);
         }
 
@@ -270,9 +270,9 @@ namespace Workbench.ViewModels
         /// Get all selected aggregate variables.
         /// </summary>
         /// <returns>All selected variables.</returns>
-        public IList<VariableViewModel> GetSelectedAggregateVariables()
+        public IList<VariableEditorViewModel> GetSelectedAggregateVariables()
         {
-            return Variables.Where(_ => _.IsSelected && _.IsAggregate)
+            return Variables.Where(variableEditor => variableEditor.IsSelected && variableEditor.IsAggregate)
                             .ToList();
         }
 
@@ -288,20 +288,20 @@ namespace Workbench.ViewModels
         /// Add a new variable to the model model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddSingletonVariableToModel(SingletonVariableViewModel newVariableViewModel)
+        private void AddSingletonVariableToModel(SingletonVariableEditorViewModel newVariableViewModel)
         {
             Contract.Assert(newVariableViewModel.Model != null);
-            ModelModel.AddVariable((SingletonVariableGraphicModel)newVariableViewModel.Model);
+            ModelModel.AddVariable(newVariableViewModel.SingletonVariableGraphic);
         }
 
         /// <summary>
         /// Add a new variable to the model model.
         /// </summary>
         /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddAggregateVariableToModel(AggregateVariableViewModel newVariableViewModel)
+        private void AddAggregateVariableToModel(AggregateVariableEditorViewModel newVariableViewModel)
         {
             Contract.Assert(newVariableViewModel.Model != null);
-            ModelModel.AddVariable(newVariableViewModel.Model);
+            ModelModel.AddVariable(newVariableViewModel.AggregateVariableGraphic);
         }
 
         /// <summary>
@@ -330,10 +330,10 @@ namespace Workbench.ViewModels
             ModelModel.DeleteConstraint(constraintToDelete.Model);
         }
 
-        private void DeleteVariableFromModel(VariableViewModel variableToDelete)
+        private void DeleteVariableFromModel(VariableEditorViewModel variableToDelete)
         {
             Contract.Assert(variableToDelete.Model != null);
-            ModelModel.DeleteVariable(variableToDelete.Model);
+            ModelModel.DeleteVariable(variableToDelete.VariableGraphic);
         }
 
         private void DeleteDomainFromModel(DomainViewModel domainToDelete)

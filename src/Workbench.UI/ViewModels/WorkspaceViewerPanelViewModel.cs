@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution viewer panel.
     /// </summary>
-    public sealed class WorkspaceViewerPanelViewModel : Conductor<VisualizerViewerViewModel>.Collection.AllActive
+    public sealed class WorkspaceViewerPanelViewModel : Conductor<ViewerViewModel>.Collection.AllActive
     {
         /// <summary>
         /// Initialize the solution viewer with a solution model.
@@ -41,7 +41,7 @@ namespace Workbench.ViewModels
         /// Add a new variable visualizer.
         /// </summary>
         /// <param name="newVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerViewerViewModel newVisualizer)
+        public void AddVisualizer(ViewerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             ActivateItem(newVisualizer);

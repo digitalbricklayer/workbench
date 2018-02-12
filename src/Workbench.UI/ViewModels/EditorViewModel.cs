@@ -17,7 +17,7 @@ namespace Workbench.ViewModels
         protected IEventAggregator eventAggregator;
         protected IDataService dataService;
         protected IViewModelService viewModelService;
-        private VisualizerModel model;
+        private GraphicModel model;
 
         protected EditorViewModel(GraphicModel theGraphicModel,
                                   IEventAggregator theEventAggregator,
@@ -30,6 +30,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
+            Model = theGraphicModel;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
             this.viewModelService = theViewModelService;
@@ -38,7 +39,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the editor model.
         /// </summary>
-        public new VisualizerModel Model
+        public new GraphicModel Model
         {
             get { return this.model; }
             set
@@ -55,10 +56,17 @@ namespace Workbench.ViewModels
         /// </summary>
         public virtual string Title
         {
-            get { return Model.Title.Text; }
+            get
+            {
+                if (Model is VisualizerModel visualizerModel) return visualizerModel.Title.Text;
+                return string.Empty;
+            }
             set
             {
-                Model.Title.Text = value;
+                if (Model is VisualizerModel visualizerModel)
+                {
+                    visualizerModel.Title.Text = value;
+                }
                 NotifyOfPropertyChange();
             }
         }

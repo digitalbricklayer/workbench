@@ -11,7 +11,7 @@ namespace Workbench.Services
     [ContractClass(typeof(IViewModelServiceContract))]
     public interface IViewModelService
     {
-        void CacheVariable(VariableViewModel variableViewModel);
+        void CacheVariable(VariableGraphicViewModel variableViewModel);
         void CacheGraphic(GraphicViewModel graphicViewModel);
         GraphicViewModel GetGraphicByIdentity(int graphicIdentity);
 
@@ -20,13 +20,13 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="variableIdentity">Variable identity.</param>
         /// <returns>Variable matching the identity.</returns>
-        VariableViewModel GetVariableByIdentity(int variableIdentity);
+        VariableGraphicViewModel GetVariableByIdentity(int variableIdentity);
 
         /// <summary>
         /// Get all variable view models.
         /// </summary>
         /// <returns>All variable view models in the model.</returns>
-        IReadOnlyCollection<VariableViewModel> GetAllVariables();
+        IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables();
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace Workbench.Services
         {
         }
 
-        public void CacheVariable(VariableViewModel variableViewModel)
+        public void CacheVariable(VariableGraphicViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
         }
@@ -55,16 +55,16 @@ namespace Workbench.Services
             return default(GraphicViewModel);
         }
 
-        public VariableViewModel GetVariableByIdentity(int variableIdentity)
+        public VariableGraphicViewModel GetVariableByIdentity(int variableIdentity)
         {
             Contract.Requires<ArgumentException>(variableIdentity != default(int));
-            return default(VariableViewModel);
+            return default(VariableGraphicViewModel);
         }
 
-        public IReadOnlyCollection<VariableViewModel> GetAllVariables()
+        public IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableViewModel>>() != null);
-            return default(IReadOnlyCollection<VariableViewModel>);
+            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableGraphicViewModel>>() != null);
+            return default(IReadOnlyCollection<VariableGraphicViewModel>);
         }
     }
 }

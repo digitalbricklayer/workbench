@@ -34,11 +34,5 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// Update a visualizer with call arguments.
-        /// </summary>
-        /// <param name="theCall">Call arguments.</param>
-        public abstract void UpdateWith(VisualizerCall theCall);
     }
 }

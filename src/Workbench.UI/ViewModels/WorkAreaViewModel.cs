@@ -25,7 +25,8 @@ namespace Workbench.ViewModels
         private readonly IViewModelFactory viewModelFactory;
         private readonly IWindowManager windowManager;
         private WorkspaceViewerViewModel viewer;
-        private WorkspaceEditorViewModel designer;
+        private WorkspaceEditorViewModel editor;
+        private readonly IDataService dataService;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -42,6 +43,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
+            this.dataService = theDataService;
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
             this.viewModelFactory = theViewModelFactory;
@@ -49,8 +51,10 @@ namespace Workbench.ViewModels
             this.availableDisplays = new BindableCollection<string> {"Editor", "Viewer"};
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
+            AllVisualizers = new BindableCollection<VisualizerViewModel>();
+            VariableVisualizers = new BindableCollection<VariableVisualizerViewModel>();
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
-            GridVisualizers = new BindableCollection<TableVisualizerViewModel>();
+            TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
             DeleteCommand = new CommandHandler(DeleteAction);
@@ -74,11 +78,11 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return this.designer;
+                return this.editor;
             }
             set
             {
-                this.designer = value;
+                this.editor = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -105,14 +109,24 @@ namespace Workbench.ViewModels
         public SolutionModel Solution { get; set; }
 
         /// <summary>
+        /// Gets all visualizers.
+        /// </summary>
+        public BindableCollection<VisualizerViewModel> AllVisualizers { get; private set; }
+
+        /// <summary>
+        /// Gets all chessboard visualizers.
+        /// </summary>
+        public BindableCollection<VariableVisualizerViewModel> VariableVisualizers { get; private set; }
+
+        /// <summary>
         /// Gets all chessboard visualizers.
         /// </summary>
         public BindableCollection<ChessboardVisualizerViewModel> ChessboardVisualizers { get; private set; }
 
         /// <summary>
-        /// Gets all grid visualizers.
+        /// Gets all table visualizers.
         /// </summary>
-        public BindableCollection<TableVisualizerViewModel> GridVisualizers { get; private set; }
+        public BindableCollection<TableVisualizerViewModel> TableVisualizers { get; private set; }
 
         /// <summary>
         /// Gets or sets the currently selected display mode.
@@ -188,14 +202,13 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Create a new singleton variable.
         /// </summary>
-        /// <param name="newVariableName">New variable.</param>
-        /// <param name="newVariableLocation">New variable location.</param>
+        /// <param name="newVariable">New variable.</param>
         /// <returns>New singleton variable view model.</returns>
-        public VariableViewModel AddSingletonVariable(SingletonVariableViewModel newVariable)
+        public void AddSingletonVariable(SingletonVariableVisualizerViewModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            return AddSingletonVariable(newVariable, new Point());
+            AddSingletonVariable(newVariable, new Point());
         }
 
         /// <summary>
@@ -204,45 +217,49 @@ namespace Workbench.ViewModels
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New singleton variable view model.</returns>
-        public VariableViewModel AddSingletonVariable(string newVariableName, Point newVariableLocation)
+        public void AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
 
-            var newVariable = new SingletonVariableViewModel(new SingletonVariableGraphicModel(new SingletonVariableModel(WorkspaceModel.Model, new ModelName(newVariableName), new VariableDomainExpressionModel()), newVariableLocation),
-                                                             this.eventAggregator);
-            return AddSingletonVariable(newVariable, newVariableLocation);
+            var newVariableModel = new SingletonVariableModel(WorkspaceModel.Model, new ModelName(newVariableName), new VariableDomainExpressionModel());
+            var newVariableEditor = new SingletonVariableEditorViewModel(new SingletonVariableGraphicModel(newVariableModel, newVariableLocation),
+                                                                         this.eventAggregator,
+                                                                         this.dataService,
+                                                                         this.viewModelService);
+            var newVariableViewer = new SingletonVariableViewerViewModel(new SingletonVariableGraphicModel(newVariableModel, newVariableLocation));
+            var newVariable = new SingletonVariableVisualizerViewModel(newVariableModel, newVariableEditor, newVariableViewer);
+            AddSingletonVariable(newVariable, newVariableLocation);
         }
 
         /// <summary>
         /// Create a new singleton variable.
         /// </summary>
-        /// <param name="newVariableName">New variable.</param>
+        /// <param name="newVariable">New variable.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New singleton variable view model.</returns>
-        public VariableViewModel AddSingletonVariable(SingletonVariableViewModel newVariable, Point newVariableLocation)
+        public void AddSingletonVariable(SingletonVariableVisualizerViewModel newVariable, Point newVariableLocation)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            Editor.AddSingletonVariable(newVariable);
+            AddVisualizer(newVariable);
+            VariableVisualizers.Add(newVariable);
+            Editor.AddSingletonVariable(newVariable.SingletonEditor);
 //            Viewer.AddSingletonVariable(newVariable);
-            this.viewModelService.CacheVariable(newVariable);
+//            this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
-
-            return newVariable;
         }
 
         /// <summary>
         /// Create a new aggregate variable.
         /// </summary>
-        /// <param name="newVariableName">New variable name.</param>
-        /// <param name="newVariableLocation">New variable location.</param>
+        /// <param name="newVariable">New variable name.</param>
         /// <returns>New aggregate variable view model.</returns>
-        public VariableViewModel AddAggregateVariable(AggregateVariableViewModel newVariable)
+        public void AddAggregateVariable(AggregateVariableVisualizerViewModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            return AddAggregateVariable(newVariable, new Point());
+            AddAggregateVariable(newVariable, new Point());
         }
 
         /// <summary>
@@ -251,32 +268,34 @@ namespace Workbench.ViewModels
         /// <param name="newVariableName">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New aggregate variable view model.</returns>
-        public VariableViewModel AddAggregateVariable(string newVariableName, Point newVariableLocation)
+        public void AddAggregateVariable(string newVariableName, Point newVariableLocation)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
 
+#if false
             var newVariableModel = new AggregateVariableModel(WorkspaceModel.Model, new ModelName(newVariableName));
-            var newVariable = new AggregateVariableViewModel(new AggregateVariableGraphicModel(newVariableModel, newVariableLocation),
-                                                             this.eventAggregator);
+            var newVariable = new AggregateVariableVisualizerViewModel(new AggregateVariableGraphicModel(newVariableModel, newVariableLocation),
+                this.eventAggregator);
             return AddAggregateVariable(newVariable, newVariableLocation);
+#endif
         }
 
         /// <summary>
         /// Create a new aggregate variable.
         /// </summary>
-        /// <param name="newVariableName">New variable name.</param>
+        /// <param name="newVariable">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New aggregate variable view model.</returns>
-        public VariableViewModel AddAggregateVariable(AggregateVariableViewModel newVariable, Point newVariableLocation)
+        public void AddAggregateVariable(AggregateVariableVisualizerViewModel newVariable, Point newVariableLocation)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            Editor.AddAggregateVariable(newVariable);
-            this.viewModelService.CacheVariable(newVariable);
+            AddVisualizer(newVariable);
+            VariableVisualizers.Add(newVariable);
+            Editor.AddAggregateVariable(newVariable.AggregateEditor);
+//            this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
-
-            return newVariable;
         }
 
         /// <summary>
@@ -299,8 +318,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Create a new expression constraint.
         /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="newLocation">New constraint location.</param>
+        /// <param name="newConstraint">New constraint.</param>
         /// <returns>New constraint view model.</returns>
         public ConstraintViewModel AddExpressionConstraint(ExpressionConstraintViewModel newConstraint)
         {
@@ -312,7 +330,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Create a new expression constraint.
         /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="newConstraint">New constraint name.</param>
         /// <param name="newLocation">New constraint location.</param>
         /// <returns>New constraint view model.</returns>
         public ConstraintViewModel AddExpressionConstraint(ExpressionConstraintViewModel newConstraint, Point newLocation)
@@ -371,29 +389,35 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new grid visualizer to the workspace.
+        /// Add a new table visualizer to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New grid visualizer.</param>
-        public void AddGridVisualizer(TableVisualizerViewModel newVisualizer)
+        /// <param name="newVisualizer">New table visualizer.</param>
+        public void AddTableVisualizer(TableVisualizerViewModel newVisualizer)
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             AddVisualizer(newVisualizer);
-            GridVisualizers.Add(newVisualizer);
+            TableVisualizers.Add(newVisualizer);
             IsDirty = true;
         }
 
         /// <summary>
-        /// Delete all selected graphic items.
+        /// Delete all selected graphics.
         /// </summary>
         public void DeleteSelectedGraphics()
         {
+            /*
+             * TODO: this is awful. need something that ties both the editor and 
+             * viewer together so that both can be deleted easily. If I'm on the 
+             * editor and move to the viewer I probably will expect the editor that 
+             * is selected on the editor to be selected on the viewer as well.
+             */
             if (SelectedDisplay == "Editor")
             {
                 var selectedEditors = Editor.DeleteSelectedGraphics();
-                var x = selectedEditors.Select(_ => _.Id);
-                foreach (var editor in selectedEditors)
+                var selectedModels = selectedEditors.Select(_ => _.Model.Model);
+                foreach (var model in selectedModels)
                 {
-
+//                    Viewer.
                 }
             }
         }
@@ -401,11 +425,11 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Delete the variable from the view-model.
         /// </summary>
-        public void DeleteVariable(VariableViewModel variable)
+        public void DeleteVariable(VariableVisualizerViewModel variable)
         {
             Contract.Requires<ArgumentNullException>(variable != null);
 
-            Editor.DeleteVariable(variable);
+            Editor.DeleteVariable(variable.VariableEditor);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable));
         }
@@ -456,12 +480,22 @@ namespace Workbench.ViewModels
         {
             if (SelectedDisplay == "Editor")
             {
-                return GridVisualizers.Where(gridVisualizer => gridVisualizer.Designer.IsSelected)
+                return TableVisualizers.Where(gridVisualizer => gridVisualizer.Editor.IsSelected)
                                       .ToList();
             }
 
-            return GridVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
+            return TableVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
                                   .ToList();
+        }
+
+        /// <summary>
+        /// Get the variable matching the variable name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable matching the name.</returns>
+        public VariableVisualizerViewModel GetVariableByName(string variableName)
+        {
+            return VariableVisualizers.FirstOrDefault(variableVisualizer => variableVisualizer.Name == variableName);
         }
 
         /// <summary>
@@ -472,7 +506,8 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
-            Editor.AddVisualizer(newVisualizer.Designer);
+            AllVisualizers.Add(newVisualizer);
+            Editor.AddVisualizer(newVisualizer.Editor);
             Viewer.AddVisualizer(newVisualizer.Viewer);
         }
 
@@ -487,6 +522,7 @@ namespace Workbench.ViewModels
             SelectedDisplay = "Viewer";
         }
 
+#if false
         /// <summary>
         /// Delete the currently selected variables from the view-model.
         /// </summary>
@@ -531,6 +567,7 @@ namespace Workbench.ViewModels
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Solve the model.

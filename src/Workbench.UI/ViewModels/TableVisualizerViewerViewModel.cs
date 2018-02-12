@@ -2,7 +2,7 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class TableVisualizerViewerViewModel : VisualizerViewerViewModel
+    public class TableVisualizerViewerViewModel : ViewerViewModel
     {
         private TableViewModel grid;
 

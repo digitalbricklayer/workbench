@@ -116,7 +116,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the graphic identity.
+        /// Gets the graphic model identity.
         /// </summary>
         public int Id
         {

@@ -34,7 +34,7 @@ namespace Workbench.Core.Models
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this._name = value;
+                _name = value;
                 OnPropertyChanged();
             }
         }

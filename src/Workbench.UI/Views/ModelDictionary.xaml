@@ -10,7 +10,7 @@
     <!-- 
     Define a data-template for the 'VariableViewModel' class.
     -->
-    <DataTemplate DataType="{x:Type viewModels:VariableViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:VariableGraphicViewModel}">
         <local:VariableView/>
     </DataTemplate>
 

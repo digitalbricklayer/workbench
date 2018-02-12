@@ -6,19 +6,16 @@ namespace Workbench.ViewModels
 {
     public class TableVisualizerViewModel : VisualizerViewModel
     {
-        public TableVisualizerViewModel(TableVisualizerDesignerViewModel theDesigner,
-                                       TableVisualizerViewerViewModel theViewer)
+        public TableVisualizerViewModel(TableModel theTable, TableVisualizerDesignerViewModel theEditor, TableVisualizerViewerViewModel theViewer)
+            : base(theTable, theEditor, theViewer)
         {
-            Contract.Requires<ArgumentNullException>(theDesigner != null);
-            Contract.Requires<ArgumentNullException>(theViewer != null);
-            Designer = GridDesigner = theDesigner;
-            Viewer = theViewer;
+            TableEditor = theEditor;
             Model = theViewer.GridModel;
         }
 
         public TableVisualizerModel Model { get; private set; }
 
-        public TableVisualizerDesignerViewModel GridDesigner { get; private set; }
+        public TableVisualizerDesignerViewModel TableEditor { get; private set; }
 
         /// <summary>
         /// Add a new column to the grid visializer.
@@ -27,7 +24,7 @@ namespace Workbench.ViewModels
         public void AddColumn(TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            GridDesigner.AddColumn(newColumn);
+            TableEditor.AddColumn(newColumn);
         }
 
         /// <summary>
@@ -37,7 +34,7 @@ namespace Workbench.ViewModels
         public void AddRow(TableRowModel newRow)
         {
             Contract.Requires<ArgumentNullException>(newRow != null);
-            GridDesigner.AddRow(newRow);
+            TableEditor.AddRow(newRow);
         }
 
         /// <summary>
@@ -47,7 +44,7 @@ namespace Workbench.ViewModels
         /// <param name="rows">Number of rows.</param>
         public void Resize(int columns, int rows)
         {
-            GridDesigner.Resize(columns, rows);
+            TableEditor.Resize(columns, rows);
         }
     }
 }
