@@ -247,6 +247,8 @@
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
+    <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableViewerViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
@@ -264,6 +266,8 @@
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
+    <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableViewerViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="ViewModels\TableVisualizerDesignerViewModel.cs" />
@@ -272,6 +276,9 @@
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
+    <Compile Include="ViewModels\VariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\VariableViewerViewModel.cs" />
+    <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceViewerPanelViewModel.cs" />
