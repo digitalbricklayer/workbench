@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Services;
 using Workbench.ViewModels;
@@ -59,10 +60,13 @@ namespace Workbench
 
         public AggregateVariableVisualizerViewModel Build()
         {
-            var theSingletonVariable = new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
-            return new AggregateVariableVisualizerViewModel(theSingletonVariable,
-                                                            new AggregateVariableEditorViewModel(new AggregateVariableGraphicModel(theSingletonVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
-                                                            new AggregateVariableViewerViewModel(new AggregateVariableGraphicModel(theSingletonVariable)));
+            Contract.Assume(this.model != null);
+            Contract.Assume(this.variableName != null);
+
+            var theAggregateVariable = new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
+            return new AggregateVariableVisualizerViewModel(theAggregateVariable,
+                                                            new AggregateVariableEditorViewModel(new AggregateVariableGraphicModel(theAggregateVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
+                                                            new AggregateVariableViewerViewModel(new AggregateVariableGraphicModel(theAggregateVariable)));
         }
 
         private VariableDomainExpressionModel GetExpressionOrDefault()

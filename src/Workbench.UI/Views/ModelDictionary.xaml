@@ -7,56 +7,34 @@
         <local:VariableDomainExpressionView/>
     </DataTemplate>
 
-    <!-- 
-    Define a data-template for the 'VariableViewModel' class.
-    -->
-    <DataTemplate DataType="{x:Type viewModels:VariableGraphicViewModel}">
-        <local:VariableView/>
+    <DataTemplate DataType="{x:Type viewModels:SingletonVariableEditorViewModel}">
+        <local:SingletonVariableView/>
     </DataTemplate>
 
-    <!-- 
-    Define a data-template for the AggregateVariableViewModel class.
-    -->
-    <DataTemplate DataType="{x:Type viewModels:AggregateVariableViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:AggregateVariableEditorViewModel}">
         <local:AggregateVariableView/>
     </DataTemplate>
 
-    <!--
-    Define a data-template for the DomainExpressionViewModel class.
-    -->
     <DataTemplate DataType="{x:Type viewModels:DomainExpressionViewModel}">
         <local:DomainExpressionView/>
     </DataTemplate>
 
-    <!-- 
-    Define a data-template for the DomainViewModel class.
-    -->
     <DataTemplate DataType="{x:Type viewModels:DomainEditorViewModel}">
         <local:DomainView/>
     </DataTemplate>
 
-    <!-- Define a data-template for the ConstraintExpressionViewModel class. -->
     <DataTemplate DataType="{x:Type viewModels:ConstraintExpressionViewModel}">
         <local:ConstraintExpressionView/>
     </DataTemplate>
 
-    <!-- 
-    Define a data-template for the ExpressionConstraintViewModel class.
-    This generates the UI for each constraint.
-    -->
     <DataTemplate DataType="{x:Type viewModels:ExpressionConstraintViewModel}">
         <local:ExpressionConstraintView/>
     </DataTemplate>
 
-    <!-- Define a data-template for the ConstraintExpressionViewModel class. -->
     <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintExpressionViewModel}">
         <local:AllDifferentConstraintExpressionView/>
     </DataTemplate>
 
-    <!-- 
-    Define a data-template for the AllDifferentConstraintViewModel class.
-    This generates the UI for each constraint.
-    -->
     <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintViewModel}">
         <local:AllDifferentConstraintView/>
     </DataTemplate>

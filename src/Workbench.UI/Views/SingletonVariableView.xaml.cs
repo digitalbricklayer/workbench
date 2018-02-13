@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for VariableView.xaml
+    /// Interaction logic for SingletonVariableView.xaml
     /// </summary>
-    public partial class VariableView : UserControl
+    public partial class SingletonVariableView : UserControl
     {
-        public VariableView()
+        public SingletonVariableView()
         {
             InitializeComponent();
         }

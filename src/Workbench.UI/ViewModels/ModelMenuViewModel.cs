@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
@@ -16,18 +17,30 @@ namespace Workbench.ViewModels
         private readonly IWindowManager windowManager;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
+        private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelService viewModelService;
+        private readonly IDataService dataService;
 
         public ModelMenuViewModel(IWindowManager theWindowManager,
                                   IAppRuntime theAppRuntime,
-                                  TitleBarViewModel theTitleBarViewModel)
+                                  TitleBarViewModel theTitleBarViewModel,
+                                  IEventAggregator theEventAggregator,
+                                  IViewModelService theViewModelService,
+                                  IDataService theDataService)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
+            Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.windowManager = theWindowManager;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
+            this.eventAggregator = theEventAggregator;
+            this.viewModelService = theViewModelService;
+            this.dataService = theDataService;
 
             SolveCommand = new CommandHandler(ModelSolveAction);
             AddSingletonVariableCommand = new CommandHandler(ModelAddSingletonVariableAction);
@@ -117,7 +130,13 @@ namespace Workbench.ViewModels
         private void ModelAddAggregateVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.WorkArea.AddAggregateVariable("New Variable", newVariableLocation);
+            var newAggregate = new AggregateVariableBuilder().WithName("New Variable")
+                                                             .WithModel(WorkArea.WorkspaceModel.Model)
+                                                             .WithDataService(this.dataService)
+                                                             .WithEventAggregator(this.eventAggregator)
+                                                             .WithViewModelService(this.viewModelService)
+                                                             .Build();
+            this.WorkArea.AddAggregateVariable(newAggregate, newVariableLocation);
             this.titleBar.UpdateTitle();
         }
 

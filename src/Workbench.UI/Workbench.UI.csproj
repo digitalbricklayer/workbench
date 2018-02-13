@@ -211,7 +211,7 @@
     <Compile Include="Bootstrapper\InfrastructureInstaller.cs" />
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="Commands\AddGridVisualizerCommand.cs" />
+    <Compile Include="Commands\AddTableVisualizerCommand.cs" />
     <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
@@ -275,7 +275,7 @@
     <Compile Include="ViewModels\SingletonVariableViewerViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
-    <Compile Include="ViewModels\TableVisualizerDesignerViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerEditorViewModel.cs" />
     <Compile Include="ViewModels\TableVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\TableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
@@ -359,8 +359,8 @@
     <Compile Include="Views\VariableDomainExpressionView.xaml.cs">
       <DependentUpon>VariableDomainExpressionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VariableView.xaml.cs">
-      <DependentUpon>VariableView.xaml</DependentUpon>
+    <Compile Include="Views\SingletonVariableView.xaml.cs">
+      <DependentUpon>SingletonVariableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkAreaView.xaml.cs">
       <DependentUpon>WorkAreaView.xaml</DependentUpon>
@@ -454,7 +454,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VariableView.xaml">
+    <Page Include="Views\SingletonVariableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

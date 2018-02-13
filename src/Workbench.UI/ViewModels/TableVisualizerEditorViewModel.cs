@@ -6,11 +6,11 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class TableVisualizerDesignerViewModel : EditorViewModel
+    public class TableVisualizerEditorViewModel : EditorViewModel
     {
         private TableViewModel table;
 
-        public TableVisualizerDesignerViewModel(TableVisualizerModel theTableModel,
+        public TableVisualizerEditorViewModel(TableVisualizerModel theTableModel,
                                                IEventAggregator theEventAggregator,
                                                IDataService theDataService,
                                                IViewModelService theViewModelService)

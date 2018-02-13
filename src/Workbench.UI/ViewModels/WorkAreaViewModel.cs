@@ -265,24 +265,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Create a new aggregate variable.
         /// </summary>
-        /// <param name="newVariableName">New variable name.</param>
-        /// <param name="newVariableLocation">New variable location.</param>
-        /// <returns>New aggregate variable view model.</returns>
-        public void AddAggregateVariable(string newVariableName, Point newVariableLocation)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
-
-#if false
-            var newVariableModel = new AggregateVariableModel(WorkspaceModel.Model, new ModelName(newVariableName));
-            var newVariable = new AggregateVariableVisualizerViewModel(new AggregateVariableGraphicModel(newVariableModel, newVariableLocation),
-                this.eventAggregator);
-            return AddAggregateVariable(newVariable, newVariableLocation);
-#endif
-        }
-
-        /// <summary>
-        /// Create a new aggregate variable.
-        /// </summary>
         /// <param name="newVariable">New variable name.</param>
         /// <param name="newVariableLocation">New variable location.</param>
         /// <returns>New aggregate variable view model.</returns>

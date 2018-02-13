@@ -6,7 +6,7 @@ namespace Workbench.ViewModels
 {
     public class TableVisualizerViewModel : VisualizerViewModel
     {
-        public TableVisualizerViewModel(TableModel theTable, TableVisualizerDesignerViewModel theEditor, TableVisualizerViewerViewModel theViewer)
+        public TableVisualizerViewModel(TableModel theTable, TableVisualizerEditorViewModel theEditor, TableVisualizerViewerViewModel theViewer)
             : base(theTable, theEditor, theViewer)
         {
             TableEditor = theEditor;
@@ -15,7 +15,7 @@ namespace Workbench.ViewModels
 
         public TableVisualizerModel Model { get; private set; }
 
-        public TableVisualizerDesignerViewModel TableEditor { get; private set; }
+        public TableVisualizerEditorViewModel TableEditor { get; private set; }
 
         /// <summary>
         /// Add a new column to the grid visializer.
