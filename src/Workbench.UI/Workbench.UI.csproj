@@ -230,6 +230,8 @@
     <Compile Include="DefaultDataService.cs" />
     <Compile Include="DefaultViewModelService.cs" />
     <Compile Include="DomainBuilder.cs" />
+    <Compile Include="AllDifferentConstraintBuilder.cs" />
+    <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
@@ -253,7 +255,9 @@
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableViewerViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintViewerViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
@@ -262,10 +266,14 @@
     <Compile Include="ViewModels\ChessboardViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ColumnNameEditorViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintViewerViewModel.cs" />
     <Compile Include="ViewModels\ConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\DomainViewerViewModel.cs" />
     <Compile Include="ViewModels\DomainVisualizerViewModel.cs" />
     <Compile Include="ViewModels\EditMenuViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintViewerViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />

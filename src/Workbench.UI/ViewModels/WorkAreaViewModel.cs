@@ -292,7 +292,6 @@ namespace Workbench.ViewModels
 
             var newDomain = new DomainBuilder().WithName(newDomainName)
                                                .Build();
-//            var newDomain = new DomainViewModel(new DomainGraphicModel(new DomainModel(new ModelName(newDomainName)), newDomainLocation));
             AllVisualizers.Add(newDomain);
             Editor.AddDomain(newDomain.DomainEditor);
             IsDirty = true;
@@ -302,12 +301,11 @@ namespace Workbench.ViewModels
         /// Create a new expression constraint.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
-        /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel AddExpressionConstraint(ExpressionConstraintViewModel newConstraint)
+        public void AddExpressionConstraint(ExpressionConstraintVisualizerViewModel newConstraint)
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
-            return AddExpressionConstraint(newConstraint, new Point());
+            AddExpressionConstraint(newConstraint, new Point());
         }
 
         /// <summary>
@@ -315,15 +313,13 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="newConstraint">New constraint name.</param>
         /// <param name="newLocation">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel AddExpressionConstraint(ExpressionConstraintViewModel newConstraint, Point newLocation)
+        public void AddExpressionConstraint(ExpressionConstraintVisualizerViewModel newConstraint, Point newLocation)
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
-            Editor.AddConstraint(newConstraint);
+            AllVisualizers.Add(newConstraint);
+            Editor.AddConstraint(newConstraint.ExpressionEditor);
             IsDirty = true;
-
-            return newConstraint;
         }
 
         /// <summary>
@@ -331,32 +327,30 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="newConstraintName">New constraint name.</param>
         /// <param name="newLocation">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel AddExpressionConstraint(string newConstraintName, Point newLocation)
+        public void AddExpressionConstraint(string newConstraintName, Point newLocation)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
 
             var newExpressionConstraintModel = new ExpressionConstraintModel(new ModelName(newConstraintName));
-            var newExpressionConstraint = new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(newExpressionConstraintModel, newLocation));
-            return AddExpressionConstraint(newExpressionConstraint, newLocation);
+            var newExpressionConstraintGraphic = new ExpressionConstraintGraphicModel(newExpressionConstraintModel);
+            AddExpressionConstraint(new ExpressionConstraintVisualizerViewModel(newExpressionConstraintModel,
+                                                                                new ExpressionConstraintEditorViewModel(newExpressionConstraintGraphic, this.eventAggregator, this.dataService, this.viewModelService),
+                                                                                new ExpressionConstraintViewerViewModel(newExpressionConstraintGraphic)),
+                                    newLocation);
         }
 
         /// <summary>
         /// Create a new all different constraint.
         /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
+        /// <param name="newConstraint">New all different constraint.</param>
         /// <param name="newLocation">New constraint location.</param>
-        /// <returns>New constraint view model.</returns>
-        public ConstraintViewModel AddAllDifferentConstraint(string newConstraintName, Point newLocation)
+        public void AddAllDifferentConstraint(AllDifferentConstraintVisualizerViewModel newConstraint, Point newLocation)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
+            Contract.Requires<ArgumentNullException>(newConstraint != null);
 
-            var newAllDifferentConstraintModel = new AllDifferentConstraintModel();
-            var newConstraint = new AllDifferentConstraintViewModel(new AllDifferentConstraintGraphicModel(newAllDifferentConstraintModel, newLocation));
-            Editor.AddConstraint(newConstraint);
+            AllVisualizers.Add(newConstraint);
+            Editor.AddConstraint(newConstraint.AllDifferentEditor);
             IsDirty = true;
-
-            return newConstraint;
         }
 
         /// <summary>

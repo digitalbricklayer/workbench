@@ -59,8 +59,10 @@ namespace Workbench.Services
 
             foreach (var constraintModel in theWorkspace.Model.Constraints)
             {
+#if false
                 var constraintViewModel = this.constraintMapper.MapFrom(constraintModel);
                 newDesignerViewModel.FixupConstraint(constraintViewModel);
+#endif
             }
 
             foreach (var variableModel in theWorkspace.Model.Singletons)

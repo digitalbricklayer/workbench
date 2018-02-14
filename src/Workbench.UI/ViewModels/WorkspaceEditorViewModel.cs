@@ -26,7 +26,7 @@ namespace Workbench.ViewModels
             ModelModel = theModel;
             Variables = new BindableCollection<VariableEditorViewModel>();
             Domains = new BindableCollection<DomainEditorViewModel>();
-            Constraints = new BindableCollection<ConstraintViewModel>();
+            Constraints = new BindableCollection<ConstraintEditorViewModel>();
             Visualizers = new BindableCollection<EditorViewModel>();
         }
 
@@ -62,7 +62,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the collection of constraints.
         /// </summary>
-        public IObservableCollection<ConstraintViewModel> Constraints { get; private set; }
+        public IObservableCollection<ConstraintEditorViewModel> Constraints { get; private set; }
 
         /// <summary>
         /// Gets all of the visualizers.
@@ -118,15 +118,27 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new constraint to the model.
+        /// Add a new all different constraint to the model.
         /// </summary>
-        /// <param name="newConstraintViewModel">New constraint.</param>
-        public void AddConstraint(ConstraintViewModel newConstraintViewModel)
+        /// <param name="newAllDifferentConstraint">New constraint.</param>
+        public void AddConstraint(AllDifferentConstraintEditorViewModel newAllDifferentConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newConstraintViewModel != null);
+            Contract.Requires<ArgumentNullException>(newAllDifferentConstraint != null);
 
-            FixupConstraint(newConstraintViewModel);
-            AddConstraintToModel(newConstraintViewModel);
+            FixupConstraint(newAllDifferentConstraint);
+            AddConstraintToModel(newAllDifferentConstraint);
+        }
+
+        /// <summary>
+        /// Add a new expression constraint to the model.
+        /// </summary>
+        /// <param name="newExpressionConstraint">New constraint.</param>
+        public void AddConstraint(ExpressionConstraintEditorViewModel newExpressionConstraint)
+        {
+            Contract.Requires<ArgumentNullException>(newExpressionConstraint != null);
+
+            FixupConstraint(newExpressionConstraint);
+            AddConstraintToModel(newExpressionConstraint);
         }
 
         /// <summary>
@@ -159,7 +171,7 @@ namespace Workbench.ViewModels
         /// Delete the constraint.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ConstraintViewModel constraintToDelete)
+        public void DeleteConstraint(ConstraintEditorViewModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
 
@@ -231,7 +243,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="constraintViewModel">Constraint view model.</param>
-        internal void FixupConstraint(ConstraintViewModel constraintViewModel)
+        internal void FixupConstraint(ConstraintEditorViewModel constraintViewModel)
         {
             Contract.Requires<ArgumentNullException>(constraintViewModel != null);
             Constraints.Add(constraintViewModel);
@@ -260,7 +272,7 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="constraintName">Text of the constraint.</param>
         /// <returns>Constraint view model matching the name.</returns>
-        public ConstraintViewModel GetConstraintByName(string constraintName)
+        public ConstraintEditorViewModel GetConstraintByName(string constraintName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
             return Constraints.FirstOrDefault(_ => _.Name == constraintName);
@@ -315,19 +327,29 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new constraint to the model model.
+        /// Add a new all different constraint to the model model.
         /// </summary>
         /// <param name="newConstraintViewModel">New constraint view model.</param>
-        private void AddConstraintToModel(ConstraintViewModel newConstraintViewModel)
+        private void AddConstraintToModel(AllDifferentConstraintEditorViewModel newConstraintViewModel)
+        {
+            Contract.Assert(newConstraintViewModel.Model != null);
+            ModelModel.AddConstraint(newConstraintViewModel.AllDifferentConstraintGraphic);
+        }
+
+        /// <summary>
+        /// Add a new expression constraint to the model model.
+        /// </summary>
+        /// <param name="newConstraintViewModel">New constraint view model.</param>
+        private void AddConstraintToModel(ExpressionConstraintEditorViewModel newConstraintViewModel)
         {
             Contract.Assert(newConstraintViewModel.Model != null);
             ModelModel.AddConstraint(newConstraintViewModel.Model);
         }
 
-        private void DeleteConstraintFromModel(ConstraintViewModel constraintToDelete)
+        private void DeleteConstraintFromModel(ConstraintEditorViewModel constraintToDelete)
         {
             Contract.Assert(constraintToDelete.Model != null);
-            ModelModel.DeleteConstraint(constraintToDelete.Model);
+            ModelModel.DeleteConstraint(constraintToDelete.ConstraintGraphic);
         }
 
         private void DeleteVariableFromModel(VariableEditorViewModel variableToDelete)

@@ -46,7 +46,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var xVariable = newWorkArea.GetVariableByName("x");
             xVariable.VariableEditor.DomainExpression.Text = "1..2";
             newWorkArea.AddExpressionConstraint("X", new Point());
-            var theConstraint = (ExpressionConstraintViewModel) newWorkArea.Editor.GetConstraintByName("X");
+            var theConstraint = (ExpressionConstraintEditorViewModel) newWorkArea.Editor.GetConstraintByName("X");
             theConstraint.Expression.Text = "$x > 1";
 
             return newWorkArea;

@@ -27,7 +27,7 @@
         <local:ConstraintExpressionView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:ExpressionConstraintViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:ExpressionConstraintEditorViewModel}">
         <local:ExpressionConstraintView/>
     </DataTemplate>
 
@@ -35,7 +35,7 @@
         <local:AllDifferentConstraintExpressionView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintEditorViewModel}">
         <local:AllDifferentConstraintView/>
     </DataTemplate>
 

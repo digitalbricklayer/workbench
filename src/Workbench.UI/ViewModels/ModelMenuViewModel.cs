@@ -146,7 +146,8 @@ namespace Workbench.ViewModels
         private void ModelAddExpressionConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            WorkArea.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel(new ModelName("New Constraint")))), newConstraintLocation);
+            WorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().Build(),
+                                             newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -156,7 +157,12 @@ namespace Workbench.ViewModels
         private void ModelAddAllDifferentConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            WorkArea.AddAllDifferentConstraint("New Constraint", newConstraintLocation);
+            var theConstraint = new AllDifferentConstraintModel();
+            var theConstraintGraphic = new AllDifferentConstraintGraphicModel(theConstraint, newConstraintLocation);
+            WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintVisualizerViewModel(theConstraint,
+                                                                                            new AllDifferentConstraintEditorViewModel(theConstraintGraphic, this.eventAggregator, this.dataService, this.viewModelService),
+                                                                                            new AllDifferentConstraintViewerViewModel(theConstraintGraphic)),
+                                               newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
 

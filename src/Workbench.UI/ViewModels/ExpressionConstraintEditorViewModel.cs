@@ -1,15 +1,18 @@
-﻿using Workbench.Core.Models;
+﻿using Caliburn.Micro;
+using Workbench.Core.Models;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class ExpressionConstraintVisualizerViewModel : ConstraintVisualizerViewModel
+    public class ExpressionConstraintEditorViewModel : ConstraintEditorViewModel
     {
         private ExpressionConstraintGraphicModel model;
 
-        public ExpressionConstraintVisualizerViewModel(ExpressionConstraintModel theConstraint, ExpressionConstraintEditorViewModel theEditor, ExpressionConstraintViewerViewModel theViewer)
-            : base(theConstraint, theEditor, theViewer)
+        public ExpressionConstraintEditorViewModel(ExpressionConstraintGraphicModel theExpressionConstraintGraphic, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
+            : base(theExpressionConstraintGraphic, theEventAggregator, theDataService, theViewModelService)
         {
-            ExpressionEditor = theEditor;
+            Model = theExpressionConstraintGraphic;
+            Expression = new ConstraintExpressionViewModel(theExpressionConstraintGraphic.Expression);
         }
 
         /// <summary>
@@ -20,7 +23,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the expression is a valid expression.
         /// </summary>
-        public override bool IsValid
+        public bool IsValid
         {
             get
             {
@@ -40,7 +43,5 @@ namespace Workbench.ViewModels
                 this.model = value;
             }
         }
-
-        public ExpressionConstraintEditorViewModel ExpressionEditor { get; }
     }
 }

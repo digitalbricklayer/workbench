@@ -84,8 +84,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                                                   .WithSize(2)
                                                                                   .WithDomain("1..10")
                                                                                   .Build());
-            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel(new ConstraintExpressionModel("$x > 1")))));
-            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintViewModel(new ExpressionConstraintGraphicModel(new ExpressionConstraintModel(new ConstraintExpressionModel("$y[0] <> $y[1]")))));
+            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$x > 1")
+                                                                                        .Build());
+            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$y[0] <> $y[1]")
+                                                                                        .Build());
 
             return workspaceViewModel;
         }

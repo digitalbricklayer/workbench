@@ -19,6 +19,13 @@ namespace Workbench.Core.Models
             this.constraint = theConstraint;
         }
 
+        public AllDifferentConstraintGraphicModel(AllDifferentConstraintModel theConstraint)
+            : base(theConstraint)
+        {
+            Contract.Requires<ArgumentNullException>(theConstraint != null);
+            this.constraint = theConstraint;
+        }
+
         /// <summary>
         /// Gets the all different constraint model.
         /// </summary>
