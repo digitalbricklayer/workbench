@@ -19,15 +19,20 @@ namespace Workbench.Services
             this.cache = theService;
         }
 
-        public ConstraintViewModel MapFrom(ConstraintGraphicModel theConstraintModel)
+        public ConstraintVisualizerViewModel MapFrom(ConstraintGraphicModel theConstraintModel)
         {
             Debug.Assert(theConstraintModel.HasIdentity);
 
+#if false
             var constraintViewModel = new ExpressionConstraintViewModel((ExpressionConstraintGraphicModel) theConstraintModel);
 
             this.cache.CacheGraphic(constraintViewModel);
 
             return constraintViewModel;
+#else
+            return null;
+#endif
         }
+
     }
 }

@@ -102,13 +102,13 @@
     <Compile Include="Services\ViewModelFactoryTests.cs" />
     <Compile Include="Services\WorkspaceMapperTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
-    <Compile Include="ViewModels\ExpressionConstraintViewModelTests.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintEditorViewModelTests.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\DomainVisualizerViewModelTests.cs" />
     <Compile Include="ViewModels\TableViewModelTests.cs" />
     <Compile Include="ViewModels\WorkAreaViewModelEmptyTests.cs" />
     <Compile Include="ViewModels\WorkAreaViewModelXTests.cs" />
-    <Compile Include="ViewModels\SingletonVariableViewModelTests.cs" />
+    <Compile Include="ViewModels\SingletonVariableEditorViewModelTests.cs" />
     <Compile Include="ViewModels\WorkAreaViewModelCreatedFromModelTests.cs" />
     <Compile Include="ViewModels\WorkAreaViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />

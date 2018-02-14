@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -38,5 +39,15 @@ namespace Workbench.ViewModels
 
         public VariableGraphicModel VariableGraphic { get; set; }
         public bool IsAggregate { get; set; }
+
+        /// <summary>
+        /// Hook called when a variable is renamed.
+        /// </summary>
+        protected override void OnRename(string oldVariableName)
+        {
+            base.OnRename(oldVariableName);
+            var variableRenamedMessage = new VariableRenamedMessage(oldVariableName, this);
+            this.eventAggregator.PublishOnUIThread(variableRenamedMessage);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Workbench.Messages
         /// </summary>
         /// <param name="theOldName">Old variable name.</param>
         /// <param name="theVariable">The renamed variable.</param>
-        public VariableRenamedMessage(string theOldName, VariableGraphicViewModel theVariable)
+        public VariableRenamedMessage(string theOldName, VariableEditorViewModel theVariable)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
             Contract.Requires<ArgumentNullException>(theVariable != null);
@@ -32,6 +32,6 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the variable that was renamed.
         /// </summary>
-        public VariableGraphicViewModel Renamed { get; private set; }
+        public VariableEditorViewModel Renamed { get; private set; }
     }
 }

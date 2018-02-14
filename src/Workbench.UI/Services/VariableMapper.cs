@@ -19,26 +19,34 @@ namespace Workbench.Services
             this.eventAggregator = theEventAggregator;
         }
 
-        public VariableGraphicViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
+        public SingletonVariableEditorViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
+#if false
             var variableViewModel = new SingletonVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);
 
             return variableViewModel;
+#else
+            return null;
+#endif
         }
 
-        public AggregateVariableViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
+        public AggregateVariableEditorViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
+#if false
             var variableViewModel = new AggregateVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);
 
             return variableViewModel;
+#else
+            return null;
+#endif
         }
     }
 }

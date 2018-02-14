@@ -258,7 +258,6 @@
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintViewerViewModel.cs" />
-    <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
     <Compile Include="ViewModels\ChessboardViewModel.cs" />
@@ -274,7 +273,6 @@
     <Compile Include="ViewModels\EditMenuViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintViewerViewModel.cs" />
-    <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
@@ -287,7 +285,6 @@
     <Compile Include="ViewModels\TableVisualizerViewerViewModel.cs" />
     <Compile Include="ViewModels\TableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
-    <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableEditorViewModel.cs" />
     <Compile Include="ViewModels\VariableViewerViewModel.cs" />
@@ -337,9 +334,7 @@
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
-    <Compile Include="ViewModels\AggregateVariableViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
-    <Compile Include="ViewModels\ConstraintViewModel.cs" />
     <Compile Include="ViewModels\DomainExpressionViewModel.cs" />
     <Compile Include="ViewModels\DomainEditorViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />

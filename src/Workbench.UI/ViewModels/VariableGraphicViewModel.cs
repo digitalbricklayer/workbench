@@ -75,8 +75,8 @@ namespace Workbench.ViewModels
         protected override void OnRename(string oldVariableName)
         {
             base.OnRename(oldVariableName);
-            var variableRenamedMessage = new VariableRenamedMessage(oldVariableName, this);
-            this.eventAggregator.PublishOnUIThread(variableRenamedMessage);
+//            var variableRenamedMessage = new VariableRenamedMessage(oldVariableName, this);
+//            this.eventAggregator.PublishOnUIThread(variableRenamedMessage);
         }
     }
 }
