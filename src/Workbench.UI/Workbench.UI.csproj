@@ -343,7 +343,6 @@
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
-    <Compile Include="ViewModels\VariableGraphicViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -62,5 +62,13 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public int Id
+        {
+            get
+            {
+                return Editor.Model.Id;
+            }
+        }
     }
 }

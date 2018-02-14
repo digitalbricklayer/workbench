@@ -16,7 +16,7 @@ namespace Workbench.Messages
         /// <param name="theVisualizer">Visualizers being bound to a variable.</param>
         /// <param name="theVariable">Variable bound to the visualizer. 
         /// May be null if the variable is being unbound from any variable.</param>
-        public VisualizerBoundMessage(VisualizerModel theVisualizer, VariableGraphicViewModel theVariable)
+        public VisualizerBoundMessage(VisualizerModel theVisualizer, VariableVisualizerViewModel theVariable)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             Visualizer = theVisualizer;
@@ -31,6 +31,6 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the variable binding to the visualizer.
         /// </summary>
-        public VariableGraphicViewModel Variable { get; private set; }
+        public VariableVisualizerViewModel Variable { get; private set; }
     }
 }

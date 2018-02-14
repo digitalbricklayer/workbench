@@ -8,7 +8,6 @@ namespace Workbench.ViewModels
 {
     public class AllDifferentConstraintEditorViewModel : ConstraintEditorViewModel
     {
-        private VariableGraphicViewModel variable;
         private AllDifferentConstraintExpressionViewModel expression;
 
         public AllDifferentConstraintEditorViewModel(AllDifferentConstraintGraphicModel theAllDifferentGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
@@ -19,19 +18,6 @@ namespace Workbench.ViewModels
             base.Model = theAllDifferentGraphicModel;
             AllDifferentConstraintGraphic = theAllDifferentGraphicModel;
             Expression = new AllDifferentConstraintExpressionViewModel(theAllDifferentGraphicModel.Expression);
-        }
-
-        /// <summary>
-        /// Gets the variable the constraint is applied to.
-        /// </summary>
-        public VariableGraphicViewModel Variable
-        {
-            get { return this.variable; }
-            set
-            {
-                this.variable = value;
-                NotifyOfPropertyChange();
-            }
         }
 
         public AllDifferentConstraintGraphicModel AllDifferentConstraintGraphic { get; }

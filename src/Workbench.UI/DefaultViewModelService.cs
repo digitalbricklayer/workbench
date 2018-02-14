@@ -6,25 +6,25 @@ namespace Workbench
 {
     internal class DefaultViewModelService : IViewModelService
     {
-        public void CacheVariable(VariableGraphicViewModel variableViewModel)
+        public void CacheVariable(VariableVisualizerViewModel variableViewModel)
         {
         }
 
-        public void CacheGraphic(GraphicViewModel graphicViewModel)
+        public void CacheGraphic(VisualizerViewModel graphicViewModel)
         {
         }
 
-        public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
-        {
-            return null;
-        }
-
-        public VariableGraphicViewModel GetVariableByIdentity(int variableIdentity)
+        public VisualizerViewModel GetGraphicByIdentity(int graphicIdentity)
         {
             return null;
         }
 
-        public IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables()
+        public VariableVisualizerViewModel GetVariableByIdentity(int variableIdentity)
+        {
+            return null;
+        }
+
+        public IReadOnlyCollection<VariableVisualizerViewModel> GetAllVariables()
         {
             return null;
         }

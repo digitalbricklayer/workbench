@@ -11,8 +11,8 @@ namespace Workbench.Services
     /// </summary>
     public sealed class ViewModelService : IViewModelService, IDisposable
     {
-        private readonly Dictionary<int, GraphicViewModel> graphicMap;
-        private readonly Dictionary<int, VariableGraphicViewModel> variableMap;
+        private readonly Dictionary<int, VisualizerViewModel> graphicMap;
+        private readonly Dictionary<int, VariableVisualizerViewModel> variableMap;
 		private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
@@ -23,22 +23,22 @@ namespace Workbench.Services
 			Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 			this.viewModelFactory = theViewModelFactory;
 			this.viewModelFactory.WorkAreaCreated += OnWorkAreaCreated;
-            this.graphicMap = new Dictionary<int, GraphicViewModel>();
-            this.variableMap = new Dictionary<int, VariableGraphicViewModel>();
+            this.graphicMap = new Dictionary<int, VisualizerViewModel>();
+            this.variableMap = new Dictionary<int, VariableVisualizerViewModel>();
         }
 
-        public void CacheVariable(VariableGraphicViewModel variableViewModel)
+        public void CacheVariable(VariableVisualizerViewModel variableViewModel)
         {
             this.CacheGraphic(variableViewModel);
             this.variableMap.Add(variableViewModel.Id, variableViewModel);
         }
 
-        public void CacheGraphic(GraphicViewModel graphicViewModel)
+        public void CacheGraphic(VisualizerViewModel graphicViewModel)
         {
             this.graphicMap.Add(graphicViewModel.Id, graphicViewModel);
         }
 
-        public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
+        public VisualizerViewModel GetGraphicByIdentity(int graphicIdentity)
         {
             return this.graphicMap[graphicIdentity];
         }
@@ -48,7 +48,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="variableIdentity">Variable identity.</param>
         /// <returns>Variable with the identity.</returns>
-        public VariableGraphicViewModel GetVariableByIdentity(int variableIdentity)
+        public VariableVisualizerViewModel GetVariableByIdentity(int variableIdentity)
         {
             return this.variableMap[variableIdentity];
         }
@@ -57,9 +57,9 @@ namespace Workbench.Services
         /// Get all variable view models.
         /// </summary>
         /// <returns>All variable view models in the model.</returns>
-        public IReadOnlyCollection<VariableGraphicViewModel> GetAllVariables()
+        public IReadOnlyCollection<VariableVisualizerViewModel> GetAllVariables()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableGraphicViewModel>>() != null);
+            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableVisualizerViewModel>>() != null);
             return this.variableMap.Values.ToList();
         }
 		
