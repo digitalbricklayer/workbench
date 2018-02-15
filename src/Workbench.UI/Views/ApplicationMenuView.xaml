@@ -34,7 +34,7 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Edit">
-            <MenuItem Header="Delete" Command="{Binding EditMenu.DeleteCommand}">
+            <MenuItem Header="Delete" Command="{Binding EditMenu.DeleteSelectedCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
