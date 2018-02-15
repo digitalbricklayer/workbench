@@ -43,37 +43,37 @@
         <MenuItem Header="View">
         </MenuItem>
         <MenuItem Header="Insert">
-            <MenuItem Header="Singleton Variable" Command="{Binding ModelMenu.AddSingletonVariableCommand}">
+            <MenuItem Header="Singleton Variable" Command="{Binding InsertMenu.AddSingletonVariableCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Aggregate Variable" Command="{Binding ModelMenu.AddAggregateVariableCommand}">
+            <MenuItem Header="Aggregate Variable" Command="{Binding InsertMenu.AddAggregateVariableCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Expression Constraint" Command="{Binding ModelMenu.AddExpressionConstraintCommand}">
+            <MenuItem Header="Expression Constraint" Command="{Binding InsertMenu.AddExpressionConstraintCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="All Different Constraint" Command="{Binding ModelMenu.AddAllDifferentConstraintCommand}">
+            <MenuItem Header="All Different Constraint" Command="{Binding InsertMenu.AddAllDifferentConstraintCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Domain" Command="{Binding ModelMenu.AddDomainCommand}">
+            <MenuItem Header="Domain" Command="{Binding InsertMenu.AddDomainCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Chessboard" Command="{Binding SolutionMenu.AddChessboardCommand}">
+            <MenuItem Header="Chessboard" Command="{Binding InsertMenu.AddChessboardCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png"  />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Table" Command="{Binding SolutionMenu.AddTableCommand}">
+            <MenuItem Header="Table" Command="{Binding InsertMenu.AddTableCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png"  />
                 </MenuItem.Icon>

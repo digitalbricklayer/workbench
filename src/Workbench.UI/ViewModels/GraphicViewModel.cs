@@ -142,7 +142,7 @@ namespace Workbench.ViewModels
         /// </summary>
         protected virtual void OnRename(string theOldName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
+            Contract.Requires<ArgumentNullException>(theOldName != null);
             // Intentionally left blank, override as necessary.
         }
     }

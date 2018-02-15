@@ -8,6 +8,13 @@ namespace Workbench
     public class ExpressionConstraintBuilder
     {
         private ConstraintExpressionModel expression = new ConstraintExpressionModel();
+        private ModelName name = new ModelName("New Constraint");
+
+        public ExpressionConstraintBuilder WithName(string theName)
+        {
+            this.name = new ModelName(theName);
+            return this;
+        }
 
         public ExpressionConstraintBuilder WithExpression(string theExpression)
         {
@@ -17,7 +24,7 @@ namespace Workbench
 
         public ExpressionConstraintVisualizerViewModel Build()
         {
-            var theConstraint = new ExpressionConstraintModel(new ModelName("New Constraint"), this.expression);
+            var theConstraint = new ExpressionConstraintModel(this.name, this.expression);
             var theConstraintGraphic = new ExpressionConstraintGraphicModel(theConstraint);
             return new ExpressionConstraintVisualizerViewModel(theConstraint,
                                                                new ExpressionConstraintEditorViewModel(theConstraintGraphic, GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),

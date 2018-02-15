@@ -275,6 +275,7 @@
     <Compile Include="ViewModels\ExpressionConstraintViewerViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
+    <Compile Include="ViewModels\InsertMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
     <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
