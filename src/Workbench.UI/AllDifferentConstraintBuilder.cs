@@ -8,6 +8,13 @@ namespace Workbench
     public class AllDifferentConstraintBuilder
     {
         private AllDifferentConstraintExpressionModel expression = new AllDifferentConstraintExpressionModel();
+        private ModelName name = new ModelName("New Constraint");
+
+        public AllDifferentConstraintBuilder WithName(string theName)
+        {
+            this.name = new ModelName(theName);
+            return this;
+        }
 
         public AllDifferentConstraintBuilder WithExpression(string theExpression)
         {
@@ -17,7 +24,7 @@ namespace Workbench
 
         public AllDifferentConstraintVisualizerViewModel Build()
         {
-            var theConstraint = new AllDifferentConstraintModel(this.expression);
+            var theConstraint = new AllDifferentConstraintModel(this.name, this.expression);
             var theConstraintGraphic = new AllDifferentConstraintGraphicModel(theConstraint);
             return new AllDifferentConstraintVisualizerViewModel(theConstraint,
                                                                new AllDifferentConstraintEditorViewModel(theConstraintGraphic, GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),

@@ -131,11 +131,8 @@ namespace Workbench.ViewModels
         private void AddAllDifferentConstraintAction()
         {
             var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            var theConstraint = new AllDifferentConstraintModel();
-            var theConstraintGraphic = new AllDifferentConstraintGraphicModel(theConstraint, newConstraintLocation);
-            WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintVisualizerViewModel(theConstraint,
-                                                                                            new AllDifferentConstraintEditorViewModel(theConstraintGraphic, this.eventAggregator, this.dataService, this.viewModelService),
-                                                                                            new AllDifferentConstraintViewerViewModel(theConstraintGraphic)),
+            WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName("New Constraint")
+                                                                                  .Build(),
                                                newConstraintLocation);
             this.titleBar.UpdateTitle();
         }
