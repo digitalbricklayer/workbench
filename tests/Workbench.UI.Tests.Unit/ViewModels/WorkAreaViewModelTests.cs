@@ -42,10 +42,15 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                     this.eventAggregator,
                                                     this.viewModelMock.Object,
                                                     CreateViewModelFactoryMock().Object);
-            newWorkArea.AddSingletonVariable("x", new Point());
+            newWorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
+                                                                           .WithModel(newWorkArea.WorkspaceModel.Model)
+                                                                           .Build(),
+                                             new Point());
             var xVariable = newWorkArea.GetVariableByName("x");
             xVariable.VariableEditor.DomainExpression.Text = "1..2";
-            newWorkArea.AddExpressionConstraint("X", new Point());
+            newWorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("X")
+                                                                                 .Build(),
+                                                new Point());
             var theConstraint = (ExpressionConstraintEditorViewModel) newWorkArea.Editor.GetConstraintByName("X");
             theConstraint.Expression.Text = "$x > 1";
 

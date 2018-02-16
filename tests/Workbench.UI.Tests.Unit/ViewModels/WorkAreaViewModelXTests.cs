@@ -38,10 +38,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void AddWithValidSingletonVariablePublishesVariableAddedMessage()
         {
             var sut = CreateValidWorkArea();
-            var theSingletonVariable = new SingletonVariableModel(sut.WorkspaceModel.Model, new ModelName("z"));
-            sut.AddSingletonVariable(new SingletonVariableVisualizerViewModel(theSingletonVariable,
-                                                                              new SingletonVariableEditorViewModel(new SingletonVariableGraphicModel(theSingletonVariable), this.eventAggregatorMock.Object, CreateDataService(), this.viewModelService),
-                                                                              new SingletonVariableViewerViewModel(new SingletonVariableGraphicModel(theSingletonVariable))));
+            sut.AddSingletonVariable(new SingletonVariableBuilder().WithName("z")
+                                                                   .WithModel(sut.WorkspaceModel.Model)
+                                                                   .Build());
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<SingletonVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
@@ -75,10 +74,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                            this.eventAggregatorMock.Object,
                                                            this.viewModelService,
                                                            this.viewModelFactoryMock.Object);
-            var x = new SingletonVariableModel(workspaceViewModel.WorkspaceModel.Model, new ModelName("x"), new VariableDomainExpressionModel("1..10"));
-            workspaceViewModel.AddSingletonVariable(new SingletonVariableVisualizerViewModel(x,
-                                                                                             new SingletonVariableEditorViewModel(new SingletonVariableGraphicModel(x), this.eventAggregatorMock.Object, CreateDataService(), this.viewModelService),
-                                                                                             new SingletonVariableViewerViewModel(new SingletonVariableGraphicModel(x))));
+            workspaceViewModel.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
+                                                                                  .WithDomain("1..10")
+                                                                                  .WithModel(workspaceViewModel.WorkspaceModel.Model)
+                                                                                  .Build());
             workspaceViewModel.AddAggregateVariable(new AggregateVariableBuilder().WithName("y")
                                                                                   .WithModel(workspaceViewModel.WorkspaceModel.Model)
                                                                                   .WithSize(2)

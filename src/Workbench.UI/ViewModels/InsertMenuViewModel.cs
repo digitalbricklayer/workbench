@@ -93,7 +93,13 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableAction()
         {
             var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.WorkArea.AddSingletonVariable("New Variable", newVariableLocation);
+            this.WorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("New Variable")
+                                                                             .WithModel(WorkArea.WorkspaceModel.Model)
+                                                                             .WithDataService(this.dataService)
+                                                                             .WithEventAggregator(this.eventAggregator)
+                                                                             .WithViewModelService(this.viewModelService)
+                                                                             .Build(),
+                                               newVariableLocation);
             this.titleBar.UpdateTitle();
         }
 
@@ -143,7 +149,9 @@ namespace Workbench.ViewModels
         private void AddDomainAction()
         {
             var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.WorkArea.AddDomain("New Domain", newDomainLocation);
+            this.WorkArea.AddDomain(new DomainBuilder().WithName("New Domain")
+                                                       .Build(),
+                                    newDomainLocation);
             this.titleBar.UpdateTitle();
         }
     }

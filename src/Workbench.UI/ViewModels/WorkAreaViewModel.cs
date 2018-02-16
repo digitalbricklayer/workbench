@@ -220,15 +220,13 @@ namespace Workbench.ViewModels
         public void AddSingletonVariable(string newVariableName, Point newVariableLocation)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newVariableName));
-
-            var newVariableModel = new SingletonVariableModel(WorkspaceModel.Model, new ModelName(newVariableName), new VariableDomainExpressionModel());
-            var newVariableEditor = new SingletonVariableEditorViewModel(new SingletonVariableGraphicModel(newVariableModel, newVariableLocation),
-                                                                         this.eventAggregator,
-                                                                         this.dataService,
-                                                                         this.viewModelService);
-            var newVariableViewer = new SingletonVariableViewerViewModel(new SingletonVariableGraphicModel(newVariableModel, newVariableLocation));
-            var newVariable = new SingletonVariableVisualizerViewModel(newVariableModel, newVariableEditor, newVariableViewer);
-            AddSingletonVariable(newVariable, newVariableLocation);
+            AddSingletonVariable(new SingletonVariableBuilder().WithName(newVariableName)
+                                                               .WithModel(WorkspaceModel.Model)
+                                                               .WithDataService(this.dataService)
+                                                               .WithEventAggregator(this.eventAggregator)
+                                                               .WithViewModelService(this.viewModelService)
+                                                               .Build(),
+                                 newVariableLocation);
         }
 
         /// <summary>
@@ -283,15 +281,23 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Create a new domain.
         /// </summary>
-        /// <param name="newDomainName">New domain name.</param>
-        /// <param name="newDomainLocation">New domain location.</param>
-        /// <returns>New domain view model.</returns>
-        public void AddDomain(string newDomainName, Point newDomainLocation)
+        /// <param name="newDomain">New domain.</param>
+        public void AddDomain(DomainVisualizerViewModel newDomain)
         {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newDomainName));
+            Contract.Requires<ArgumentNullException>(newDomain != null);
 
-            var newDomain = new DomainBuilder().WithName(newDomainName)
-                                               .Build();
+            AddDomain(newDomain, new Point());
+        }
+
+        /// <summary>
+        /// Create a new domain at a specific location.
+        /// </summary>
+        /// <param name="newDomain">New domain.</param>
+        /// <param name="newDomainLocation">New domain location.</param>
+        public void AddDomain(DomainVisualizerViewModel newDomain, Point newDomainLocation)
+        {
+            Contract.Requires<ArgumentNullException>(newDomain != null);
+
             AllVisualizers.Add(newDomain);
             Editor.AddDomain(newDomain.DomainEditor);
             IsDirty = true;
@@ -320,23 +326,6 @@ namespace Workbench.ViewModels
             AllVisualizers.Add(newConstraint);
             Editor.AddConstraint(newConstraint.ExpressionEditor);
             IsDirty = true;
-        }
-
-        /// <summary>
-        /// Create a new expression constraint.
-        /// </summary>
-        /// <param name="newConstraintName">New constraint name.</param>
-        /// <param name="newLocation">New constraint location.</param>
-        public void AddExpressionConstraint(string newConstraintName, Point newLocation)
-        {
-            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(newConstraintName));
-
-            var newExpressionConstraintModel = new ExpressionConstraintModel(new ModelName(newConstraintName));
-            var newExpressionConstraintGraphic = new ExpressionConstraintGraphicModel(newExpressionConstraintModel);
-            AddExpressionConstraint(new ExpressionConstraintVisualizerViewModel(newExpressionConstraintModel,
-                                                                                new ExpressionConstraintEditorViewModel(newExpressionConstraintGraphic, this.eventAggregator, this.dataService, this.viewModelService),
-                                                                                new ExpressionConstraintViewerViewModel(newExpressionConstraintGraphic)),
-                                    newLocation);
         }
 
         /// <summary>
