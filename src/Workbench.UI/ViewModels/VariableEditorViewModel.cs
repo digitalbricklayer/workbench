@@ -7,11 +7,11 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class VariableEditorViewModel : EditorViewModel
+    public abstract class VariableEditorViewModel : EditorViewModel
     {
         private VariableDomainExpressionViewModel domainExpression;
 
-        public VariableEditorViewModel(VariableGraphicModel theGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
+        protected VariableEditorViewModel(VariableGraphicModel theGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
             : base(theGraphicModel, theEventAggregator, theDataService, theViewModelService)
         {
             VariableGraphic = theGraphicModel;
@@ -38,7 +38,11 @@ namespace Workbench.ViewModels
         }
 
         public VariableGraphicModel VariableGraphic { get; set; }
-        public bool IsAggregate { get; set; }
+
+        /// <summary>
+        /// Gets whether the variable is an aggregate.
+        /// </summary>
+        public abstract bool IsAggregate { get; }
 
         /// <summary>
         /// Hook called when a variable is renamed.

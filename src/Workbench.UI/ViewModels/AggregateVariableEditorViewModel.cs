@@ -79,7 +79,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the variable is an aggregate.
         /// </summary>
-        public bool IsAggregate
+        public override bool IsAggregate
         {
             get
             {

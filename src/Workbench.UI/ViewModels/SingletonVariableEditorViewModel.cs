@@ -14,5 +14,7 @@ namespace Workbench.ViewModels
         }
 
         public SingletonVariableGraphicModel SingletonVariableGraphic { get; set; }
+
+        public override bool IsAggregate => false;
     }
 }
