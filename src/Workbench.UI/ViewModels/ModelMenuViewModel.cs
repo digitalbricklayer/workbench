@@ -85,7 +85,7 @@ namespace Workbench.ViewModels
                 foreach (var variableViewModel in selectedVariables)
                 {
                     var aggregate = (AggregateVariableEditorViewModel)variableViewModel;
-                    aggregate.NumberVariables = Convert.ToString(resizeViewModel.Size);
+                    aggregate.VariableCount = resizeViewModel.Size;
                 }
             }
         }

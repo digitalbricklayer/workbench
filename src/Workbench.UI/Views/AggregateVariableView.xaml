@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Workbench.Controls"
+             xmlns:workbench="clr-namespace:Workbench"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <workbench:IntToStringConverter x:Key="customIntToStringConverter" EmptyStringValue="0" />
+    </UserControl.Resources>
+
     <Grid Height="60">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="VariableNameColumn" Width="Auto"/>
@@ -59,8 +64,8 @@
                                                         FontStyle="Italic"/>
                     <!-- Size of the aggregate -->
                     <controls:EditableTextBlock x:Name="variableSizeEditor"
-                                       Grid.Column="1"
-                                       Text="{Binding NumberVariables}"/>
+                                                Grid.Column="1"
+                                                Text="{Binding VariableCount, Converter={StaticResource customIntToStringConverter}}"/>
                 </Grid>
 
                 <!-- Right hand '>' -->

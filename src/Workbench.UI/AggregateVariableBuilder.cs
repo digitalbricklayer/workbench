@@ -76,7 +76,7 @@ namespace Workbench
 
         private int GetSizeOrDefault()
         {
-            return this.size ?? 1;
+            return this.size ?? AggregateVariableModel.DefaultSize;
         }
 
         private IViewModelService GetViewModelServiceOrDefault()

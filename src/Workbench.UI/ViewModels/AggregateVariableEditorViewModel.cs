@@ -46,10 +46,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public int VariableCount
         {
-            get { return this.Model.AggregateCount; }
+            get { return Model.AggregateCount; }
             set
             {
-                this.Model.Resize(value);
+                Resize(value);
                 NotifyOfPropertyChange();
             }
         }
@@ -79,28 +79,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the variable is an aggregate.
         /// </summary>
-        public override bool IsAggregate
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of variables.
-        /// </summary>
-        public string NumberVariables
-        {
-            get { return Convert.ToString(this.Variables.Count); }
-            set
-            {
-                var newSize = Convert.ToInt32(value);
-                if (newSize == this.Variables.Count) return;
-                this.Resize(newSize);
-                NotifyOfPropertyChange();
-            }
-        }
+        public override bool IsAggregate => true;
 
         private void Resize(int newSize)
         {

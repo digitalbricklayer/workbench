@@ -40,14 +40,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initializes an aggregate variable with a name and domain expression.
-        /// </summary>
-        public AggregateVariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
-            : this(theModel, variableName, DefaultSize, theDomainExpression)
-        {
-        }
-
-        /// <summary>
         /// Initialize an aggregate variable with a name.
         /// </summary>
         /// <param name="newName">New variable name.</param>

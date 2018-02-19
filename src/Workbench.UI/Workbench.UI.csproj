@@ -201,6 +201,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IntToStringConverter.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />
