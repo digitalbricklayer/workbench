@@ -26,8 +26,8 @@ namespace Workbench
         {
             var theSingletonVariable = new DomainModel(GetNameOrDefault(), GetExpressionOrDefault());
             return new DomainVisualizerViewModel(theSingletonVariable,
-                new DomainEditorViewModel(new DomainGraphicModel(theSingletonVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
-                new DomainViewerViewModel(new DomainGraphicModel(theSingletonVariable)));
+                                                 new DomainEditorViewModel(new DomainGraphicModel(theSingletonVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
+                                                 new DomainViewerViewModel(new DomainGraphicModel(theSingletonVariable)));
         }
 
         private ModelName GetNameOrDefault()

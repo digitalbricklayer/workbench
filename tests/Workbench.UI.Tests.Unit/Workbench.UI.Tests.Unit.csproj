@@ -103,7 +103,7 @@
     <Compile Include="Services\WorkspaceMapperTests.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewModelTests.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModelTests.cs" />
-    <Compile Include="ViewModels\DomainExpressionViewModelTests.cs" />
+    <Compile Include="ViewModels\DomainExpressionEditorViewModelTests.cs" />
     <Compile Include="ViewModels\DomainVisualizerViewModelTests.cs" />
     <Compile Include="ViewModels\TableViewModelTests.cs" />
     <Compile Include="ViewModels\WorkAreaViewModelEmptyTests.cs" />

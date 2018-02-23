@@ -12,13 +12,14 @@ namespace Workbench.ViewModels
     public sealed class DomainEditorViewModel : EditorViewModel
     {
         private DomainGraphicModel model;
+        private DomainExpressionEditorViewModel expression;
 
         public DomainEditorViewModel(DomainGraphicModel theDomainGraphic, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
             : base(theDomainGraphic, theEventAggregator, theDataService, theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theDomainGraphic != null);
             DomainGraphic = theDomainGraphic;
-            this.Expression = new DomainExpressionViewModel(theDomainGraphic.Expression);
+            Expression = new DomainExpressionEditorViewModel(theDomainGraphic.Expression);
         }
 
         public DomainGraphicModel DomainGraphic { get; set; }
@@ -26,17 +27,30 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
-        public DomainExpressionViewModel Expression { get; set; }
+        public DomainExpressionEditorViewModel Expression
+        {
+            get { return this.expression; }
+            set
+            {
+                Set(ref this.expression, value);
+            }
+        }
 
         /// <summary>
-        /// Get whether the domain expression is valid.
+        /// Gets whether the domain expression is valid.
         /// </summary>
         public bool IsValid
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(this.Expression.Text);
+                return !string.IsNullOrWhiteSpace(Expression.Text);
             }
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            ActivateItem(Expression);
         }
     }
 }

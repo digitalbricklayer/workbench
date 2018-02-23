@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for ExpressionConstraintView.xaml
+    /// Interaction logic for SingletonVariableEditorView.xaml
     /// </summary>
-    public partial class ExpressionConstraintView : UserControl
+    public partial class SingletonVariableEditorView : UserControl
     {
-        public ExpressionConstraintView()
+        public SingletonVariableEditorView()
         {
             InitializeComponent();
         }

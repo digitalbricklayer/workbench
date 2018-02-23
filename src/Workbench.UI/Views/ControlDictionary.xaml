@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Workbench.Views"
-                    xmlns:viewModels="clr-namespace:Workbench.ViewModels">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<ControlTemplate x:Key="editButtonTemplate"
 					 TargetType="{x:Type Button}">

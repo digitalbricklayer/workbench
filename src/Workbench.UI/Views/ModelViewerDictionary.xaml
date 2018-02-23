@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:Workbench.ViewModels"
+                    xmlns:local="clr-namespace:Workbench.Views">
+
+    <DataTemplate DataType="{x:Type viewModels:VariableDomainExpressionViewModel}">
+        <local:VariableDomainExpressionView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:SingletonVariableViewerViewModel}">
+        <local:SingletonVariableEditorView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AggregateVariableViewerViewModel}">
+        <local:AggregateVariableEditorView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:DomainViewerViewModel}">
+        <local:DomainViewerView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:ConstraintExpressionViewModel}">
+        <local:ConstraintExpressionView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:ExpressionConstraintViewerViewModel}">
+        <local:ExpressionConstraintEditorView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintExpressionViewModel}">
+        <local:AllDifferentConstraintExpressionView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintViewerViewModel}">
+        <local:AllDifferentConstraintEditorView/>
+    </DataTemplate>
+
+</ResourceDictionary>

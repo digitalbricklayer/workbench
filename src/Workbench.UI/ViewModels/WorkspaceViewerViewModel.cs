@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution viewer.
     /// </summary>
-    public sealed class WorkspaceViewerViewModel : Conductor<IScreen>.Collection.AllActive
+    public sealed class WorkspaceViewerViewModel : Conductor<Screen>.Collection.AllActive
     {
         private SnapshotViewerViewModel snapshot;
         private WorkspaceViewerPanelViewModel viewer;
@@ -23,9 +23,7 @@ namespace Workbench.ViewModels
 
             Model = theSolution;
             Snapshot = new SnapshotViewerViewModel();
-            ActivateItem(Snapshot);
             Viewer = new WorkspaceViewerPanelViewModel(theSolution);
-            ActivateItem(Viewer);
         }
 
         /// <summary>
@@ -98,6 +96,20 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
             Viewer.AddVisualizer(newVisualizer);
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            ActivateItem(Snapshot);
+            ActivateItem(Viewer);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+            DeactivateItem(Snapshot, close);
+            DeactivateItem(Viewer, close);
         }
     }
 }

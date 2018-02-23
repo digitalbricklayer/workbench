@@ -10,7 +10,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ModelDictionary.xaml"/>
                 <ResourceDictionary Source="WorkspaceEditorDictionary.xaml"/>
                 <ResourceDictionary Source="WorkspaceViewerDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>

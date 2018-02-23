@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
         private readonly IViewModelService viewModelService;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IWindowManager windowManager;
-        private WorkspaceViewerViewModel viewer;
+        private WorkspaceViewerPanelViewModel viewer;
         private WorkspaceEditorViewModel editor;
         private readonly IDataService dataService;
 
@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
-            Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
+            Viewer = new WorkspaceViewerPanelViewModel(WorkspaceModel.Solution);
             DeleteCommand = new CommandHandler(DeleteAction);
             SelectedDisplay = "Editor";
         }
@@ -90,7 +90,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace viewer.
         /// </summary>
-        public WorkspaceViewerViewModel Viewer
+        public WorkspaceViewerPanelViewModel Viewer
         {
             get
             {
@@ -300,6 +300,7 @@ namespace Workbench.ViewModels
 
             AllVisualizers.Add(newDomain);
             Editor.AddDomain(newDomain.DomainEditor);
+            Viewer.AddVisualizer(newDomain.DomainViewer);
             IsDirty = true;
         }
 
@@ -406,7 +407,7 @@ namespace Workbench.ViewModels
         public void Reset()
         {
             Editor.Reset();
-            Viewer.Reset();
+//            Viewer.Reset();
             IsDirty = true;
         }
 

@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the solution designer.
     /// </summary>
-    public sealed class WorkspaceEditorViewModel : Conductor<GraphicViewModel>.Collection.AllActive
+    public sealed class WorkspaceEditorViewModel : Conductor<EditorViewModel>.Collection.AllActive
     {
         private DisplayModel model;
 

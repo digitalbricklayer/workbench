@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for AggregateVariableView.xaml
+    /// Interaction logic for AllDifferentConstraintEditorView.xaml
     /// </summary>
-    public partial class AggregateVariableView : UserControl
+    public partial class AllDifferentConstraintEditorView : UserControl
     {
-        public AggregateVariableView()
+        public AllDifferentConstraintEditorView()
         {
             InitializeComponent();
         }
