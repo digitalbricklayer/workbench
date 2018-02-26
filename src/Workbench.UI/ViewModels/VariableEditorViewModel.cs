@@ -9,19 +9,19 @@ namespace Workbench.ViewModels
 {
     public abstract class VariableEditorViewModel : EditorViewModel
     {
-        private VariableDomainExpressionViewModel domainExpression;
+        private VariableDomainExpressionEditorViewModel domainExpression;
 
-        protected VariableEditorViewModel(VariableGraphicModel theGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
-            : base(theGraphicModel, theEventAggregator, theDataService, theViewModelService)
+        protected VariableEditorViewModel(VariableGraphicModel theVariableModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
+            : base(theVariableModel, theEventAggregator, theDataService, theViewModelService)
         {
-            VariableGraphic = theGraphicModel;
-            this.domainExpression = new VariableDomainExpressionViewModel(theGraphicModel.DomainExpression);
+            VariableGraphic = theVariableModel;
+            this.domainExpression = new VariableDomainExpressionEditorViewModel(theVariableModel.DomainExpression);
         }
 
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
-        public VariableDomainExpressionViewModel DomainExpression
+        public VariableDomainExpressionEditorViewModel DomainExpression
         {
             get
             {

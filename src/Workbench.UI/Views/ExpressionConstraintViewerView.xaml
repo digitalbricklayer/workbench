@@ -12,60 +12,17 @@
             <ColumnDefinition x:Name="ConstraintExpressionColumn" Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!-- 
-        An adorned control is used to enable the edit button when the user 
-        hovers over the constraint name control.
-        -->
-        <controls:AdornedControl
-                    HorizontalAdornerPlacement="Outside"
-                    VerticalAdornerPlacement="Outside"
-                    AdornerOffsetX="-12"
-                    AdornerOffsetY="8"
-                    IsMouseOverShowEnabled="{Binding ElementName=modelControl, Path=IsNotDragging}">
 
-            <!-- The name of the domain. -->
-            <controls:EditableTextBlock
-                        x:Name="nameEditor"
-                        Text="{Binding Name, Mode=TwoWay}"
-                        IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                        FontFamily="Courier New"
-                        FontWeight="Bold"
-                        FontSize="24"
-                        FontStyle="Italic"/>
-
-            <controls:AdornedControl.AdornerContent>
-
-                <!-- 
-                    This is the adorner that pops up when the user hovers the mouse over the constraint name.
-                    It displays a button that the user can click to edit the name.
-                    -->
-                <Canvas x:Name="constraintAdornerCanvas"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Width="30"
-                                Height="30">
-                    <Line X1="0"
-                                    Y1="30"
-                                    X2="15"
-                                    Y2="15"
-                                    Stroke="Black"
-                                    StrokeThickness="1"/>
-                    <Button x:Name="editConstraintButton"
-                                    Canvas.Left="10"
-                                    Canvas.Top="0"
-                                    Width="20"
-                                    Height="20"
-                                    Cursor="Hand"
-                                    Focusable="False"
-                                    Command="{Binding EditNameCommand}"
-                                    CommandParameter="{Binding}"
-                                    Template="{StaticResource editButtonTemplate}"/>
-                </Canvas>
-            </controls:AdornedControl.AdornerContent>
-        </controls:AdornedControl>
+        <!-- The name of the domain. -->
+        <TextBlock x:Name="nameEditor"
+                   Text="{Binding Name, Mode=TwoWay}"
+                   FontFamily="Courier New"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   FontStyle="Italic"/>
 
         <ContentPresenter x:Name="expressionEditor"
-                                Grid.Column="1"
-                                Content="{Binding Expression}"/>
+                            Grid.Column="1"
+                            Content="{Binding Expression}"/>
     </Grid>
 </UserControl>

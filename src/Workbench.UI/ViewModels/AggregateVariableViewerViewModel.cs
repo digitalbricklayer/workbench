@@ -5,13 +5,10 @@ namespace Workbench.ViewModels
 {
     public class AggregateVariableViewerViewModel : VariableViewerViewModel
     {
-        private VariableDomainExpressionViewModel domainExpression;
-
         public AggregateVariableViewerViewModel(AggregateVariableGraphicModel theAggregateVariableGraphic)
             : base(theAggregateVariableGraphic)
         {
             AggregateVariableGraphic = theAggregateVariableGraphic;
-            DomainExpression = new VariableDomainExpressionViewModel(AggregateVariableGraphic.DomainExpression);
         }
 
         public AggregateVariableGraphicModel AggregateVariableGraphic { get; set; }
@@ -33,25 +30,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the domain expression.
-        /// </summary>
-        public VariableDomainExpressionViewModel DomainExpression
-        {
-            get
-            {
-                return this.domainExpression;
-            }
-            set
-            {
-                this.domainExpression = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
         /// Gets whether the variable is an aggregate.
         /// </summary>
-        public bool IsAggregate => true;
+        public override bool IsAggregate => true;
 
     }
 }

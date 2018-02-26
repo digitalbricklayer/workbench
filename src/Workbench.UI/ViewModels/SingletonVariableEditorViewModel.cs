@@ -6,11 +6,11 @@ namespace Workbench.ViewModels
 {
     public class SingletonVariableEditorViewModel : VariableEditorViewModel
     {
-        public SingletonVariableEditorViewModel(SingletonVariableGraphicModel theGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
-            : base(theGraphicModel, theEventAggregator, theDataService, theViewModelService)
+        public SingletonVariableEditorViewModel(SingletonVariableGraphicModel theSingletonVariableModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
+            : base(theSingletonVariableModel, theEventAggregator, theDataService, theViewModelService)
         {
-            Model = theGraphicModel;
-            SingletonVariableGraphic = theGraphicModel;
+            Model = theSingletonVariableModel;
+            SingletonVariableGraphic = theSingletonVariableModel;
         }
 
         public SingletonVariableGraphicModel SingletonVariableGraphic { get; set; }

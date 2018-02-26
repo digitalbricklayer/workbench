@@ -4,10 +4,12 @@ namespace Workbench.ViewModels
 {
     public class SingletonVariableViewerViewModel : VariableViewerViewModel
     {
-        public SingletonVariableViewerViewModel(SingletonVariableGraphicModel theGraphicModel)
-            : base(theGraphicModel)
+        public SingletonVariableViewerViewModel(SingletonVariableGraphicModel theSingletonVariableModel)
+            : base(theSingletonVariableModel)
         {
-            Model = theGraphicModel;
+            Model = theSingletonVariableModel;
         }
+
+        public override bool IsAggregate => false;
     }
 }

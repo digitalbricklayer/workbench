@@ -223,6 +223,7 @@
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
+    <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
     <Compile Include="Views\AggregateVariableViewerView.xaml.cs">
       <DependentUpon>AggregateVariableViewerView.xaml</DependentUpon>
     </Compile>
@@ -234,6 +235,9 @@
     </Compile>
     <Compile Include="Views\SingletonVariableViewerView.xaml.cs">
       <DependentUpon>SingletonVariableViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VariableDomainExpressionViewerView.xaml.cs">
+      <DependentUpon>VariableDomainExpressionViewerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkspaceViewerPanelView.xaml.cs">
       <DependentUpon>WorkspaceViewerPanelView.xaml</DependentUpon>
@@ -367,7 +371,7 @@
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
-    <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
+    <Compile Include="ViewModels\VariableDomainExpressionEditorViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -383,8 +387,8 @@
     <Compile Include="Views\SolutionEditorView.xaml.cs">
       <DependentUpon>SolutionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VariableDomainExpressionView.xaml.cs">
-      <DependentUpon>VariableDomainExpressionView.xaml</DependentUpon>
+    <Compile Include="Views\VariableDomainExpressionEditorView.xaml.cs">
+      <DependentUpon>VariableDomainExpressionEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
       <DependentUpon>SingletonVariableEditorView.xaml</DependentUpon>
@@ -406,6 +410,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SingletonVariableViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VariableDomainExpressionViewerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -505,7 +513,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VariableDomainExpressionView.xaml">
+    <Page Include="Views\VariableDomainExpressionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

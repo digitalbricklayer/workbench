@@ -3,10 +3,6 @@
                     xmlns:viewModels="clr-namespace:Workbench.ViewModels"
                     xmlns:local="clr-namespace:Workbench.Views">
 
-    <DataTemplate DataType="{x:Type viewModels:VariableDomainExpressionViewModel}">
-        <local:VariableDomainExpressionView/>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type viewModels:SingletonVariableViewerViewModel}">
         <local:SingletonVariableViewerView/>
     </DataTemplate>

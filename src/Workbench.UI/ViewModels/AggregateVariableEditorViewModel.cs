@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
-        public new VariableDomainExpressionViewModel DomainExpression
+        public new VariableDomainExpressionEditorViewModel DomainExpression
         {
             get
             {

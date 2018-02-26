@@ -48,17 +48,16 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- The name of the aggregate variable. -->
-                <controls:EditableTextBlock x:Name="nameEditor"
-                                                    Text="{Binding Name, Mode=TwoWay}"
-                                                    IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                                                    FontFamily="Courier New"
-                                                    FontWeight="Bold"
-                                                    FontSize="24"
-                                                    FontStyle="Italic"/>
+                <TextBlock x:Name="nameEditor"
+                           Text="{Binding Name, Mode=TwoWay}"
+                           FontFamily="Courier New"
+                           FontWeight="Bold"
+                           FontSize="24"
+                           FontStyle="Italic"/>
                 <!-- Size of the aggregate -->
-                <controls:EditableTextBlock x:Name="variableSizeEditor"
-                                            Grid.Column="1"
-                                            Text="{Binding VariableCount, Converter={StaticResource customIntToStringConverter}}"/>
+                <TextBlock x:Name="variableSizeEditor"
+                           Grid.Column="1"
+                           Text="{Binding VariableCount, Converter={StaticResource customIntToStringConverter}}"/>
             </Grid>
 
             <!-- Right hand '>' -->

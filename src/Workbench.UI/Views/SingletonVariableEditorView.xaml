@@ -7,6 +7,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
     <Grid Height="60">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="VariableNameColumn" Width="Auto"/>
@@ -46,13 +47,13 @@
 
                 <!-- The name of the variable. -->
                 <controls:EditableTextBlock x:Name="nameEditor"
-                                                Grid.Column="1"
-                                                Text="{Binding Name, Mode=TwoWay}"
-                                                IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
-                                                FontFamily="Courier New"
-                                                FontWeight="Bold"
-                                                FontSize="24"
-                                                FontStyle="Italic"/>
+                                            Grid.Column="1"
+                                            Text="{Binding Name, Mode=TwoWay}"
+                                            IsInEditMode="{Binding IsNameEditing, Mode=TwoWay}"
+                                            FontFamily="Courier New"
+                                            FontWeight="Bold"
+                                            FontSize="24"
+                                            FontStyle="Italic"/>
 
                 <!-- Right hand '>' -->
                 <Canvas Grid.Column="2">
@@ -72,9 +73,9 @@
             </Grid>
             <controls:AdornedControl.AdornerContent>
                 <!-- 
-                        This is the adorner that pops up when the user hovers the mouse over the variable name.
-                        It displays a button that the user can click to edit the name.
-                        -->
+                This is the adorner that pops up when the user hovers the mouse over the variable name.
+                It displays a button that the user can click to edit the name.
+                -->
                 <Canvas x:Name="variableAdornerCanvas"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
