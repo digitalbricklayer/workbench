@@ -6,7 +6,17 @@
              xmlns:views="clr-namespace:Workbench.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ModelEditorDictionary.xaml"/>
+                <ResourceDictionary Source="ChessboardVisualizerDictionary.xaml"/>
+                <ResourceDictionary Source="TableVisualizerDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <!--
     The ScrollViewer displays scrollbars when the content is too big to fit in the viewport. 
     Focusable is set to False because it is only the solution view that should be focusable.

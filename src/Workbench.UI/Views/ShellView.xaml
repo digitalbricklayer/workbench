@@ -1,5 +1,5 @@
 ﻿<Window x:Class="Workbench.Views.ShellView"
-        x:Name="mainWindow"
+        x:Name="Shell"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding Path=TitleBar.Title}"
@@ -10,7 +10,6 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="WorkspaceEditorDictionary.xaml"/>
                 <ResourceDictionary Source="WorkspaceViewerDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

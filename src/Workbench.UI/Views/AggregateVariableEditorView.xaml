@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:Workbench.Controls"
              xmlns:workbench="clr-namespace:Workbench"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
     <UserControl.Resources>
         <workbench:IntToStringConverter x:Key="customIntToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
@@ -114,8 +116,6 @@
             </controls:AdornedControl.AdornerContent>
         </controls:AdornedControl>
 
-        <ContentPresenter x:Name="expressionEditor"
-                                Grid.Column="1"
-                                Content="{Binding DomainExpression}"/>
+        <ContentControl Grid.Column="1" cal:View.Model="{Binding DomainExpression}"/>
     </Grid>
 </UserControl>

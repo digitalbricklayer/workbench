@@ -223,6 +223,18 @@
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
+    <Compile Include="Views\AggregateVariableViewerView.xaml.cs">
+      <DependentUpon>AggregateVariableViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllDifferentConstraintViewerView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpressionConstraintViewerView.xaml.cs">
+      <DependentUpon>ExpressionConstraintViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SingletonVariableViewerView.xaml.cs">
+      <DependentUpon>SingletonVariableViewerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WorkspaceViewerPanelView.xaml.cs">
       <DependentUpon>WorkspaceViewerPanelView.xaml</DependentUpon>
     </Compile>
@@ -381,6 +393,22 @@
       <DependentUpon>WorkAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfUtils.cs" />
+    <Page Include="Views\AggregateVariableViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AllDifferentConstraintViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpressionConstraintViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SingletonVariableViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\WorkspaceViewerPanelView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
