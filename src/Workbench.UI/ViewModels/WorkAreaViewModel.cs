@@ -326,6 +326,7 @@ namespace Workbench.ViewModels
 
             AllVisualizers.Add(newConstraint);
             Editor.AddConstraint(newConstraint.ExpressionEditor);
+            Viewer.AddVisualizer(newConstraint.Viewer);
             IsDirty = true;
         }
 
@@ -340,6 +341,7 @@ namespace Workbench.ViewModels
 
             AllVisualizers.Add(newConstraint);
             Editor.AddConstraint(newConstraint.AllDifferentEditor);
+            Viewer.AddVisualizer(newConstraint.Viewer);
             IsDirty = true;
         }
 

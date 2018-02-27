@@ -11,12 +11,13 @@ namespace Workbench.ViewModels
         protected ViewerViewModel(GraphicModel theGraphicModel)
             : base(theGraphicModel)
         {
+            GraphicModel = theGraphicModel;
         }
 
         /// <summary>
         /// Gets or sets the viewer model.
         /// </summary>
-        public new GraphicModel Model
+        public GraphicModel GraphicModel
         {
             get { return this.model; }
             set

@@ -8,21 +8,33 @@ namespace Workbench.ViewModels
 {
     public class AllDifferentConstraintEditorViewModel : ConstraintEditorViewModel
     {
-        private AllDifferentConstraintExpressionViewModel expression;
+        private VariableEditorViewModel variable;
+        private AllDifferentConstraintGraphicModel model;
+        private AllDifferentConstraintExpressionEditorViewModel expression;
 
         public AllDifferentConstraintEditorViewModel(AllDifferentConstraintGraphicModel theAllDifferentGraphicModel, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
             : base(theAllDifferentGraphicModel, theEventAggregator, theDataService, theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theAllDifferentGraphicModel != null);
 
-            base.Model = theAllDifferentGraphicModel;
             AllDifferentConstraintGraphic = theAllDifferentGraphicModel;
-            Expression = new AllDifferentConstraintExpressionViewModel(theAllDifferentGraphicModel.Expression);
+            Expression = new AllDifferentConstraintExpressionEditorViewModel(theAllDifferentGraphicModel.Expression);
         }
 
-        public AllDifferentConstraintGraphicModel AllDifferentConstraintGraphic { get; }
+        /// <summary>
+        /// Gets the variable the constraint is applied to.
+        /// </summary>
+        public VariableEditorViewModel Variable
+        {
+            get { return this.variable; }
+            set
+            {
+                this.variable = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public bool IsValid
+        public override bool IsValid
         {
             get
             {
@@ -30,7 +42,20 @@ namespace Workbench.ViewModels
             }
         }
 
-        public AllDifferentConstraintExpressionViewModel Expression
+        /// <summary>
+        /// Gets or sets the all different constraint model.
+        /// </summary>
+        public AllDifferentConstraintGraphicModel AllDifferentConstraintGraphic
+        {
+            get { return this.model; }
+            set
+            {
+                this.model = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public AllDifferentConstraintExpressionEditorViewModel Expression
         {
             get { return this.expression; }
             set

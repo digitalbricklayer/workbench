@@ -15,16 +15,8 @@
         <local:DomainEditorView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModels:ConstraintExpressionViewModel}">
-        <local:ConstraintExpressionView/>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type viewModels:ExpressionConstraintEditorViewModel}">
         <local:ExpressionConstraintEditorView/>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintExpressionViewModel}">
-        <local:AllDifferentConstraintExpressionView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:AllDifferentConstraintEditorViewModel}">

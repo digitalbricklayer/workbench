@@ -30,7 +30,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
-            Model = theGraphicModel;
+            GraphicModel = theGraphicModel;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
             this.viewModelService = theViewModelService;
@@ -39,14 +39,13 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the editor model.
         /// </summary>
-        public new GraphicModel Model
+        public GraphicModel GraphicModel
         {
             get { return this.model; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
 
-                base.Model = value;
                 this.model = value;
             }
         }

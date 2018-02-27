@@ -15,7 +15,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
-        public ConstraintExpressionViewModel Expression { get; private set; }
+        public ConstraintExpressionEditorViewModel Expression { get; private set; }
 
         /// <summary>
         /// Gets whether the expression is a valid expression.

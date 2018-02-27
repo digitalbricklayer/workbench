@@ -62,7 +62,7 @@
                         This border indicates that variable is selected.
                         Normally it is transparent, but when 'IsSelected' is set
                         to 'true' the border brush becomes blue and its background
-                        becomds light blue.
+                        becomes light blue.
                         -->
                         <Border
                             x:Name="selectionBorder"

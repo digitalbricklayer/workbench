@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Services;
 
@@ -11,19 +13,21 @@ namespace Workbench.ViewModels
         public ExpressionConstraintEditorViewModel(ExpressionConstraintGraphicModel theExpressionConstraintGraphic, IEventAggregator theEventAggregator, IDataService theDataService, IViewModelService theViewModelService)
             : base(theExpressionConstraintGraphic, theEventAggregator, theDataService, theViewModelService)
         {
+            Contract.Requires<ArgumentNullException>(theExpressionConstraintGraphic != null);
+
             Model = theExpressionConstraintGraphic;
-            Expression = new ConstraintExpressionViewModel(theExpressionConstraintGraphic.Expression);
+            Expression = new ConstraintExpressionEditorViewModel(Model.Expression);
         }
 
         /// <summary>
         /// Gets or sets the constraint expression.
         /// </summary>
-        public ConstraintExpressionViewModel Expression { get; private set; }
+        public ConstraintExpressionEditorViewModel Expression { get; private set; }
 
         /// <summary>
         /// Gets whether the expression is a valid expression.
         /// </summary>
-        public bool IsValid
+        public override bool IsValid
         {
             get
             {
