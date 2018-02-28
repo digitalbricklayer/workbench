@@ -247,8 +247,8 @@
     <Compile Include="Views\VariableDomainExpressionViewerView.xaml.cs">
       <DependentUpon>VariableDomainExpressionViewerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WorkspaceViewerPanelView.xaml.cs">
-      <DependentUpon>WorkspaceViewerPanelView.xaml</DependentUpon>
+    <Compile Include="Views\WorkspaceViewerView.xaml.cs">
+      <DependentUpon>WorkspaceViewerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkspaceEditorView.xaml.cs">
       <DependentUpon>WorkspaceEditorView.xaml</DependentUpon>
@@ -322,7 +322,7 @@
     <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
-    <Compile Include="ViewModels\WorkspaceViewerPanelViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
@@ -378,7 +378,6 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
-    <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionEditorViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -433,7 +432,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\WorkspaceViewerPanelView.xaml">
+    <Page Include="Views\WorkspaceViewerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -518,10 +517,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModelErrorsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\WorkspaceViewerDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

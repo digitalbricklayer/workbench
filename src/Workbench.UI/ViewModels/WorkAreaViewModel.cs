@@ -22,9 +22,8 @@ namespace Workbench.ViewModels
         private bool isDirty;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
-        private readonly IViewModelFactory viewModelFactory;
         private readonly IWindowManager windowManager;
-        private WorkspaceViewerPanelViewModel viewer;
+        private WorkspaceViewerViewModel viewer;
         private WorkspaceEditorViewModel editor;
         private readonly IDataService dataService;
 
@@ -46,7 +45,6 @@ namespace Workbench.ViewModels
             this.dataService = theDataService;
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
-            this.viewModelFactory = theViewModelFactory;
             this.windowManager = theWindowManager;
             this.availableDisplays = new BindableCollection<string> {"Editor", "Viewer"};
             WorkspaceModel = theDataService.GetWorkspace();
@@ -56,7 +54,7 @@ namespace Workbench.ViewModels
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
-            Viewer = new WorkspaceViewerPanelViewModel(WorkspaceModel.Solution);
+            Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
             DeleteCommand = new CommandHandler(DeleteAction);
             SelectedDisplay = "Editor";
         }
@@ -90,7 +88,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace viewer.
         /// </summary>
-        public WorkspaceViewerPanelViewModel Viewer
+        public WorkspaceViewerViewModel Viewer
         {
             get
             {
@@ -242,8 +240,8 @@ namespace Workbench.ViewModels
             AddVisualizer(newVariable);
             VariableVisualizers.Add(newVariable);
             Editor.AddSingletonVariable(newVariable.SingletonEditor);
-//            Viewer.AddSingletonVariable(newVariable);
-//            this.viewModelService.CacheVariable(newVariable);
+            Viewer.AddVisualizer(newVariable.SingletonViewer);
+            this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
         }
@@ -273,7 +271,7 @@ namespace Workbench.ViewModels
             AddVisualizer(newVariable);
             VariableVisualizers.Add(newVariable);
             Editor.AddAggregateVariable(newVariable.AggregateEditor);
-//            this.viewModelService.CacheVariable(newVariable);
+            this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
         }
@@ -404,16 +402,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Reset the contents of the workspace.
-        /// </summary>
-        public void Reset()
-        {
-            Editor.Reset();
-//            Viewer.Reset();
-            IsDirty = true;
-        }
-
-        /// <summary>
         /// Change the selected display to the new selected display.
         /// </summary>
         /// <param name="newSelectedDisplayMode">Text of the new display mode.</param>
@@ -486,57 +474,9 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            Reset();
             BindTo(theSolution);
             SelectedDisplay = "Viewer";
         }
-
-#if false
-        /// <summary>
-        /// Delete the currently selected variables from the view-model.
-        /// </summary>
-        private void DeleteSelectedVariables()
-        {
-            // Take a copy of the variables list so we can delete domains while iterating.
-            var variablesCopy = Editor.Variables.ToArray();
-
-            foreach (var variable in variablesCopy)
-            {
-                if (variable.IsSelected)
-                {
-                    DeleteVariable(variable);
-                }
-            }
-        }
-
-        private void DeleteSelectedDomains()
-        {
-            // Take a copy of the domains list so we can delete domains while iterating.
-            var domainCopy = Editor.Domains.ToArray();
-
-            foreach (var domain in domainCopy)
-            {
-                if (domain.IsSelected)
-                {
-                    Editor.DeleteDomain(domain);
-                }
-            }
-        }
-
-        private void DeleteConstraints()
-        {
-            // Take a copy of the domains list so we can delete domains while iterating.
-            var constraintsCopy = Editor.Constraints.ToArray();
-
-            foreach (var constraint in constraintsCopy)
-            {
-                if (constraint.IsSelected)
-                {
-                    Editor.DeleteConstraint(constraint);
-                }
-            }
-        }
-#endif
 
         /// <summary>
         /// Solve the model.

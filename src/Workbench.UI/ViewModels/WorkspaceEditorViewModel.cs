@@ -250,10 +250,6 @@ namespace Workbench.ViewModels
             ActivateItem(constraintViewModel);
         }
 
-        internal void Reset()
-        {
-        }
-
         /// <summary>
         /// Get the singleton variable matching the given name.
         /// </summary>

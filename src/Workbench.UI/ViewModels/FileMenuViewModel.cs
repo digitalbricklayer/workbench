@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Microsoft.Win32;
 using Workbench.Services;
 
@@ -86,8 +87,8 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            this.WorkArea.Reset();
-            this.WorkArea.IsDirty = false;
+            WorkArea = IoC.Get<WorkAreaViewModel>();
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -111,8 +112,6 @@ namespace Workbench.ViewModels
                 // Open has been cancelled
                 return;
             }
-
-            this.WorkArea.Reset();
 
             try
             {
