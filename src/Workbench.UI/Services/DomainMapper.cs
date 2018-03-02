@@ -1,4 +1,6 @@
-using System.Diagnostics;
+using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -10,18 +12,25 @@ namespace Workbench.Services
     public class DomainMapper
     {
         private readonly IViewModelService cache;
+        private IEventAggregator eventAggregator;
+        private IDataService dataService;
 
         public DomainMapper(IViewModelService theService)
         {
+            Contract.Requires<ArgumentNullException>(theService != null);
             this.cache = theService;
         }
 
-        internal DomainEditorViewModel MapFrom(DomainGraphicModel theDomainModel)
+        public DomainEditorViewModel MapFrom(DomainGraphicModel theDomainModel)
         {
-            Debug.Assert(theDomainModel.HasIdentity);
+            Contract.Requires<ArgumentNullException>(theDomainModel != null);
+            Contract.Assert(theDomainModel.HasIdentity);
 
 #if false
-            var domainViewModel = new DomainEditorViewModel(theDomainModel);
+            var domainViewModel = new DomainEditorViewModel(theDomainModel,
+                                                            this.eventAggregator,
+                                                            this.dataService,
+                                                            this.cache);
 
             this.cache.CacheGraphic(domainViewModel);
 

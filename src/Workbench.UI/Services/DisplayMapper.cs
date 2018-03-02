@@ -51,10 +51,8 @@ namespace Workbench.Services
 
             foreach (var domainModel in theWorkspace.Model.Domains)
             {
-#if false
                 var domainViewModel = this.domainMapper.MapFrom(domainModel);
                 newDesignerViewModel.FixupDomain(domainViewModel);
-#endif
             }
 
             foreach (var constraintModel in theWorkspace.Model.Constraints)

@@ -14,21 +14,25 @@ namespace Workbench.ViewModels
         private readonly WorkAreaMapper workAreaMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
+        private readonly IViewModelFactory viewModelFactory;
 
         public FileMenuViewModel(IDataService theDataService,
                                  WorkAreaMapper theWorkAreaMapper,
                                  IAppRuntime theAppRuntime,
-                                 TitleBarViewModel theTitleBarViewModel)
+                                 TitleBarViewModel theTitleBarViewModel,
+                                 IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWorkAreaMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
             this.dataService = theDataService;
             this.workAreaMapper = theWorkAreaMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
+            this.viewModelFactory = theViewModelFactory;
             NewCommand = new CommandHandler(FileNewAction);
             OpenCommand = new CommandHandler(FileOpenAction);
             SaveCommand = new CommandHandler(FileSaveAction);
@@ -87,7 +91,7 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            WorkArea = IoC.Get<WorkAreaViewModel>();
+            WorkArea = this.viewModelFactory.CreateWorkArea();
             WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
@@ -117,11 +121,11 @@ namespace Workbench.ViewModels
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
                 WorkArea = this.workAreaMapper.MapFrom(workspaceModel);
-                WorkArea.SelectedDisplay = "Model";
+                WorkArea.SelectedDisplay = "Editor";
             }
             catch (Exception e)
             {
-                this.ShowError(e.Message);
+                ShowError(e.Message);
             }
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
@@ -140,7 +144,7 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            this.Save(this.appRuntime.CurrentFileName);
+            Save(this.appRuntime.CurrentFileName);
         }
 
         /// <summary>

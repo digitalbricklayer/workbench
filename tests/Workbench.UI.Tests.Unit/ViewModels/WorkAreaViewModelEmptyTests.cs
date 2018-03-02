@@ -13,8 +13,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void SolveWithValidModelReturnsSuccessStatus()
         {
             var sut = CreateValidWorkspace();
+            ScreenExtensions.TryActivate(sut);
             var actualStatus = sut.SolveModel();
             Assert.That(actualStatus.IsSuccess, Is.True);
+            ScreenExtensions.TryDeactivate(sut, true);
         }
 
         private static WorkAreaViewModel CreateValidWorkspace()
@@ -24,7 +26,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                            CreateEventAggregator(),
                                                            CreateViewModelService(),
                                                            CreateViewModelFactory());
-
             return worksAreaViewModel;
         }
 
