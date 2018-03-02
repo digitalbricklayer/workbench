@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
-        Title="Column Name Editor"
+        Title="Column Text Editor"
         Height="142" Width="364">
 
     <Grid Margin="15">
@@ -20,7 +20,7 @@
         <Image Source="pack://application:,,,/ConstraintWorkbench;component/Images/question2.png" Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
 
         <Label Grid.Column="1">Column name:</Label>
-        <TextBox Name="columnNameEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding ColumnName}"/>
+        <TextBox Name="columnTextEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding ColumnName}"/>
 
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
             <Button IsDefault="True" Name="btnDialogOk" MinWidth="60" Margin="0,0,10,0" Content="_OK">

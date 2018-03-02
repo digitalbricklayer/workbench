@@ -15,7 +15,7 @@ namespace Workbench.UI.Tests.Integration.Services
             WriteWorkspaceToDisk(filePath);
             var readWorkspaceModel = ReadWorkspaceModel(filePath);
             Assert.That(readWorkspaceModel, Is.Not.Null);
-            Assert.That(readWorkspaceModel.Model.Name, Is.Empty);
+            Assert.That(readWorkspaceModel.Model.Name.Text, Is.Empty);
             var variableX = readWorkspaceModel.Model.GetVariableByName("x");
             Assert.That(variableX.Name, Is.EqualTo("x"));
             File.Delete(filePath);

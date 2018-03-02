@@ -21,9 +21,7 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Transient,
                             Component.For<IViewModelService, ViewModelService>()
                                      .LifeStyle.Singleton,
-                            Component.For<WorkspaceMapper>()
-                                     .LifeStyle.Transient,
-                            Component.For<ModelMapper>()
+                            Component.For<WorkAreaMapper>()
                                      .LifeStyle.Transient,
                             Component.For<SolutionMapper>()
                                      .LifeStyle.Transient,

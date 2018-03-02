@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
+using Caliburn.Micro;
 using Microsoft.Win32;
 using Workbench.Services;
 
@@ -10,24 +11,28 @@ namespace Workbench.ViewModels
     public sealed class FileMenuViewModel
     {
         private readonly IDataService dataService;
-        private readonly WorkspaceMapper workspaceMapper;
+        private readonly WorkAreaMapper workAreaMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
+        private readonly IViewModelFactory viewModelFactory;
 
         public FileMenuViewModel(IDataService theDataService,
-                                 WorkspaceMapper theWorkspaceMapper,
+                                 WorkAreaMapper theWorkAreaMapper,
                                  IAppRuntime theAppRuntime,
-                                 TitleBarViewModel theTitleBarViewModel)
+                                 TitleBarViewModel theTitleBarViewModel,
+                                 IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
+            Contract.Requires<ArgumentNullException>(theWorkAreaMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
             this.dataService = theDataService;
-            this.workspaceMapper = theWorkspaceMapper;
+            this.workAreaMapper = theWorkAreaMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
+            this.viewModelFactory = theViewModelFactory;
             NewCommand = new CommandHandler(FileNewAction);
             OpenCommand = new CommandHandler(FileOpenAction);
             SaveCommand = new CommandHandler(FileSaveAction);
@@ -36,12 +41,12 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the workspace view model.
+        /// Gets the work area view model.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
-            get { return this.appRuntime.Workspace; }
-            set { this.appRuntime.Workspace = value; }
+            get { return this.appRuntime.WorkArea; }
+            set { this.appRuntime.WorkArea = value; }
         }
 
         /// <summary>
@@ -86,8 +91,8 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            this.Workspace.Reset();
-            this.Workspace.IsDirty = false;
+            WorkArea = this.viewModelFactory.CreateWorkArea();
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -112,21 +117,19 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            this.Workspace.Reset();
-
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                this.Workspace = this.workspaceMapper.MapFrom(workspaceModel);
-                this.Workspace.SelectedDisplayMode = "Model";
+                WorkArea = this.workAreaMapper.MapFrom(workspaceModel);
+                WorkArea.SelectedDisplay = "Editor";
             }
             catch (Exception e)
             {
-                this.ShowError(e.Message);
+                ShowError(e.Message);
             }
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
-            this.Workspace.IsDirty = false;
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -141,7 +144,7 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            this.Save(this.appRuntime.CurrentFileName);
+            Save(this.appRuntime.CurrentFileName);
         }
 
         /// <summary>
@@ -189,7 +192,7 @@ namespace Workbench.ViewModels
         /// </returns>
         private bool PromptToSave()
         {
-            if (!this.Workspace.IsDirty)
+            if (!this.WorkArea.IsDirty)
             {
                 // Nothing to save... file is up-to-date
                 return true;
@@ -235,7 +238,7 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = file;
-            this.Workspace.IsDirty = false;
+            WorkArea.IsDirty = false;
             this.titleBar.UpdateTitle();
 
             return true;

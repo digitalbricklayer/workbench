@@ -13,7 +13,7 @@ namespace Workbench.Messages
         /// Initialize the new aggregate added message with the new aggregate variable.
         /// </summary>
         /// <param name="newVariable"></param>
-        public AggregateVariableAddedMessage(AggregateVariableViewModel newVariable)
+        public AggregateVariableAddedMessage(AggregateVariableVisualizerViewModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
             Added = newVariable;
@@ -22,7 +22,7 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the new aggregate variable.
         /// </summary>
-        public AggregateVariableViewModel Added { get; private set; }
+        public AggregateVariableVisualizerViewModel Added { get; private set; }
 
         /// <summary>
         /// Gets the new aggregate variable name.

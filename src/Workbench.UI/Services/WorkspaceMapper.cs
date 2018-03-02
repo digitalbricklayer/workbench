@@ -8,9 +8,8 @@ namespace Workbench.Services
     /// <summary>
     /// Maps a model into a view model.
     /// </summary>
-    public class WorkspaceMapper
+    public class WorkAreaMapper
     {
-        private readonly ModelMapper modelMapper;
         private readonly SolutionMapper solutionMapper;
         private readonly DisplayMapper displayMapper;
         private readonly IViewModelFactory viewModelFactory;
@@ -18,17 +17,14 @@ namespace Workbench.Services
         /// <summary>
         /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
-        public WorkspaceMapper(ModelMapper theModelMapper,
-                               SolutionMapper theSolutionMapper,
-                               DisplayMapper theDisplayMapper,
-                               IViewModelFactory theViewModelFactory)
+        public WorkAreaMapper(SolutionMapper theSolutionMapper,
+                              DisplayMapper theDisplayMapper,
+                              IViewModelFactory theViewModelFactory)
         {
-            Contract.Requires<ArgumentNullException>(theModelMapper != null);
             Contract.Requires<ArgumentNullException>(theSolutionMapper != null);
             Contract.Requires<ArgumentNullException>(theDisplayMapper != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this.modelMapper = theModelMapper;
             this.displayMapper = theDisplayMapper;
             this.solutionMapper = theSolutionMapper;
             this.viewModelFactory = theViewModelFactory;
@@ -39,15 +35,13 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theWorkspaceModel">Workspace model.</param>
         /// <returns>Workspace view model.</returns>
-        public WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
+        public WorkAreaViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
-            var workspaceViewModel = this.viewModelFactory.CreateWorkspace();
-            workspaceViewModel.Model = this.modelMapper.MapFrom(theWorkspaceModel.Model);
-            workspaceViewModel.Solution = new SolutionViewModel(workspaceViewModel,
-                                                                this.displayMapper.MapFrom(theWorkspaceModel.Solution.Display),
-                                                                this.solutionMapper.MapFrom(theWorkspaceModel.Solution));
+            var workAreaViewModel = this.viewModelFactory.CreateWorkArea();
+            workAreaViewModel.Editor = this.displayMapper.MapFrom(theWorkspaceModel);
+            workAreaViewModel.Viewer = this.solutionMapper.MapFrom(theWorkspaceModel.Solution);
 
-            return workspaceViewModel;
+            return workAreaViewModel;
         }
     }
 }

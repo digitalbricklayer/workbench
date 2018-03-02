@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
-using Workbench.Core.Solver;
 
 namespace Workbench.Core.Repeaters
 {

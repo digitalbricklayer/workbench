@@ -15,12 +15,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize the chessboard visualizer with a screen location.
         /// </summary>
-        /// <param name="theName">Name of the chessboard.</param>
+        /// <param name="theName">Text of the chessboard.</param>
         /// <param name="theLocation">Screen location.</param>
-        public ChessboardVisualizerModel(string theName, Point theLocation)
-            : base(theName, theLocation)
+        public ChessboardVisualizerModel(ChessboardModel theBoard, VisualizerTitle theTitle, Point theLocation)
+            : base(theBoard, theTitle, theLocation)
         {
-            this.chessboard = new ChessboardModel();
+            this.chessboard = theBoard;
         }
 
         /// <summary>

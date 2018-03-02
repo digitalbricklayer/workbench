@@ -43,7 +43,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public void AssignIdentity()
         {
-            Debug.Assert(!this.HasIdentity);
+            if (HasIdentity) return;
 
             this.Id = nextIdentity;
             Interlocked.Increment(ref nextIdentity);

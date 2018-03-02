@@ -13,7 +13,7 @@ namespace Workbench.UI.Tests.Unit.Services
         [SetUp]
         public void Initialize()
         {
-            IoC.GetInstance = (type, s) => CreateWorkspaceViewModel();
+            IoC.GetInstance = (type, s) => CreateWorkAreaViewModel();
             IoC.GetAllInstances = type => null;
             IoC.BuildUp = o => {};
         }
@@ -22,20 +22,10 @@ namespace Workbench.UI.Tests.Unit.Services
         public void CreateWorkspaceFiresWorkspaceCreatedEvent()
         {
             var sut = CreateSut();
-            var wasWorkspaceCreatedCalled = false;
-            sut.WorkspaceCreated += (o, e) => wasWorkspaceCreatedCalled = true;
-            sut.CreateWorkspace();
-            Assert.That(wasWorkspaceCreatedCalled, Is.True);
-        }
-
-        [Test]
-        public void CreateModelFiresModelCreatedEvent()
-        {
-            var sut = CreateSut();
-            var wasModelCreatedCalled = false;
-            sut.ModelCreated += (o, e) => wasModelCreatedCalled = true;
-            sut.CreateModel(new ModelModel());
-            Assert.That(wasModelCreatedCalled, Is.True);
+            var wasWorkAreaCreatedCalled = false;
+            sut.WorkAreaCreated += (o, e) => wasWorkAreaCreatedCalled = true;
+            sut.CreateWorkArea();
+            Assert.That(wasWorkAreaCreatedCalled, Is.True);
         }
 
         private static ViewModelFactory CreateSut()
@@ -44,23 +34,18 @@ namespace Workbench.UI.Tests.Unit.Services
                                         CreateWindowManagerMock().Object);
         }
 
-        private object CreateWorkspaceViewModel()
+        private object CreateWorkAreaViewModel()
         {
-            return new WorkspaceViewModel(CreateDataServiceMock().Object,
-                                          CreateWindowManagerMock().Object,
-                                          CreateEventAggregatorMock().Object,
-                                          CreateViewModelServiceMock().Object,
-                                          CreateViewModelFactoryMock().Object);
+            return new WorkAreaViewModel(CreateDataServiceMock().Object,
+                                         CreateWindowManagerMock().Object,
+                                         CreateEventAggregatorMock().Object,
+                                         CreateViewModelServiceMock().Object,
+                                         CreateViewModelFactoryMock().Object);
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
-            var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateModel(It.IsAny<ModelModel>()))
-                .Returns((ModelModel model) => new ModelViewModel(model,
-                                                                  CreateWindowManagerMock().Object,
-                                                                  CreateEventAggregatorMock().Object));
-            return mock;
+            return new Mock<IViewModelFactory>();
         }
 
         private static Mock<IViewModelService> CreateViewModelServiceMock()

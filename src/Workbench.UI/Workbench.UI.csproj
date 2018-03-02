@@ -201,6 +201,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IntToStringConverter.cs" />
+    <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\CaliburnInfrastructureInstaller.cs" />
@@ -210,7 +213,7 @@
     <Compile Include="Bootstrapper\InfrastructureInstaller.cs" />
     <Compile Include="Bootstrapper\ViewModelInstaller.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="Commands\AddGridVisualizerCommand.cs" />
+    <Compile Include="Commands\AddTableVisualizerCommand.cs" />
     <Compile Include="Commands\AddChessboardVisualizerCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
@@ -220,12 +223,44 @@
     <Compile Include="Controls\EditableTextBlock.cs" />
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
-    <Compile Include="Controls\GraphicDisplayControl.xaml.cs">
-      <DependentUpon>GraphicDisplayControl.xaml</DependentUpon>
+    <Compile Include="ViewModels\AllDifferentConstraintExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
+    <Compile Include="Views\AggregateVariableViewerView.xaml.cs">
+      <DependentUpon>AggregateVariableViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllDifferentConstraintExpressionViewerView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintExpressionViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AllDifferentConstraintViewerView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConstraintExpressionViewerView.xaml.cs">
+      <DependentUpon>ConstraintExpressionViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpressionConstraintViewerView.xaml.cs">
+      <DependentUpon>ExpressionConstraintViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SingletonVariableViewerView.xaml.cs">
+      <DependentUpon>SingletonVariableViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VariableDomainExpressionViewerView.xaml.cs">
+      <DependentUpon>VariableDomainExpressionViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WorkspaceViewerView.xaml.cs">
+      <DependentUpon>WorkspaceViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WorkspaceEditorView.xaml.cs">
+      <DependentUpon>WorkspaceEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="Controls\GraphicItem.cs" />
     <Compile Include="Controls\GraphicItemsControl.cs" />
+    <Compile Include="DefaultDataService.cs" />
+    <Compile Include="DefaultViewModelService.cs" />
+    <Compile Include="DomainBuilder.cs" />
+    <Compile Include="AllDifferentConstraintBuilder.cs" />
+    <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
@@ -246,42 +281,61 @@
     <Compile Include="Services\IWorkspaceReaderWriter.cs" />
     <Compile Include="Services\IWorkspaceWriter.cs" />
     <Compile Include="Services\ViewModelFactory.cs" />
-    <Compile Include="ViewModels\AllDifferentConstraintExpressionViewModel.cs" />
-    <Compile Include="ViewModels\AllDifferentConstraintViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableViewerViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintExpressionEditorViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintViewerViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ApplicationMenuViewModel.cs" />
     <Compile Include="ViewModels\ChessboardViewModel.cs" />
-    <Compile Include="ViewModels\ChessboardVisualizerDesignerViewModel.cs" />
-    <Compile Include="ViewModels\ChessboardVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardEditorViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ColumnNameEditorViewModel.cs" />
-    <Compile Include="ViewModels\ExpressionConstraintViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintViewerViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\DomainExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\DomainViewerViewModel.cs" />
+    <Compile Include="ViewModels\DomainVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\EditMenuViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintViewerViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintVisualizerViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
+    <Compile Include="ViewModels\InsertMenuViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\IShellContract.cs" />
-    <Compile Include="ViewModels\GridViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerDesignerViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerViewerViewModel.cs" />
-    <Compile Include="ViewModels\GridVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableViewerViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\TableViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerEditorViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\TableVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
-    <Compile Include="ViewModels\SingletonVariableViewModel.cs" />
     <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
-    <Compile Include="ViewModels\SolutionDesignerViewModel.cs" />
+    <Compile Include="ViewModels\VariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\VariableViewerViewModel.cs" />
+    <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
-    <Compile Include="ViewModels\VisualizerDesignerViewModel.cs" />
+    <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
-    <Compile Include="ViewModels\VisualizerViewerViewModel.cs" />
+    <Compile Include="ViewModels\ViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerViewModel.cs" />
-    <Compile Include="Views\AggregateVariableView.xaml.cs">
-      <DependentUpon>AggregateVariableView.xaml</DependentUpon>
+    <Compile Include="Views\AggregateVariableEditorView.xaml.cs">
+      <DependentUpon>AggregateVariableEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AllDifferentConstraintExpressionView.xaml.cs">
-      <DependentUpon>AllDifferentConstraintExpressionView.xaml</DependentUpon>
+    <Compile Include="Views\AllDifferentConstraintExpressionEditorView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintExpressionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AllDifferentConstraintView.xaml.cs">
-      <DependentUpon>AllDifferentConstraintView.xaml</DependentUpon>
+    <Compile Include="Views\AllDifferentConstraintEditorView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ApplicationMenuView.xaml.cs">
       <DependentUpon>ApplicationMenuView.xaml</DependentUpon>
@@ -289,20 +343,23 @@
     <Compile Include="Views\ColumnNameEditorView.xaml.cs">
       <DependentUpon>ColumnNameEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ConstraintExpressionView.xaml.cs">
-      <DependentUpon>ConstraintExpressionView.xaml</DependentUpon>
+    <Compile Include="Views\ConstraintExpressionEditorView.xaml.cs">
+      <DependentUpon>ConstraintExpressionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DomainExpressionView.xaml.cs">
-      <DependentUpon>DomainExpressionView.xaml</DependentUpon>
+    <Compile Include="Views\DomainExpressionViewerView.xaml.cs">
+      <DependentUpon>DomainExpressionViewerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DomainView.xaml.cs">
-      <DependentUpon>DomainView.xaml</DependentUpon>
+    <Compile Include="Views\DomainViewerView.xaml.cs">
+      <DependentUpon>DomainViewerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExpressionConstraintView.xaml.cs">
-      <DependentUpon>ExpressionConstraintView.xaml</DependentUpon>
+    <Compile Include="Views\DomainExpressionEditorView.xaml.cs">
+      <DependentUpon>DomainExpressionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModelView.xaml.cs">
-      <DependentUpon>ModelView.xaml</DependentUpon>
+    <Compile Include="Views\DomainEditorView.xaml.cs">
+      <DependentUpon>DomainEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExpressionConstraintEditorView.xaml.cs">
+      <DependentUpon>ExpressionConstraintEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -310,29 +367,23 @@
     <Compile Include="Services\ViewModelService.cs" />
     <Compile Include="Services\ConstraintMapper.cs" />
     <Compile Include="Services\DomainMapper.cs" />
-    <Compile Include="Services\ModelMapper.cs" />
     <Compile Include="Services\SolutionMapper.cs" />
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
-    <Compile Include="ViewModels\AggregateVariableViewModel.cs" />
-    <Compile Include="ViewModels\ConstraintExpressionViewModel.cs" />
-    <Compile Include="ViewModels\ConstraintViewModel.cs" />
-    <Compile Include="ViewModels\DomainExpressionViewModel.cs" />
-    <Compile Include="ViewModels\DomainViewModel.cs" />
+    <Compile Include="ViewModels\ConstraintExpressionEditorViewModel.cs" />
+    <Compile Include="ViewModels\DomainExpressionEditorViewModel.cs" />
+    <Compile Include="ViewModels\DomainEditorViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
-    <Compile Include="ViewModels\ModelViewModel.cs" />
-    <Compile Include="ViewModels\SolutionViewerViewModel.cs" />
-    <Compile Include="ViewModels\VariableDomainExpressionViewModel.cs" />
-    <Compile Include="ViewModels\VariableViewModel.cs" />
+    <Compile Include="ViewModels\VariableDomainExpressionEditorViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\WorkspaceViewModel.cs" />
+    <Compile Include="ViewModels\WorkAreaViewModel.cs" />
     <Compile Include="Views\AggregateVariableResizeView.xaml.cs">
       <DependentUpon>AggregateVariableResizeView.xaml</DependentUpon>
     </Compile>
@@ -343,29 +394,61 @@
     <Compile Include="Views\SolutionEditorView.xaml.cs">
       <DependentUpon>SolutionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VariableDomainExpressionView.xaml.cs">
-      <DependentUpon>VariableDomainExpressionView.xaml</DependentUpon>
+    <Compile Include="Views\VariableDomainExpressionEditorView.xaml.cs">
+      <DependentUpon>VariableDomainExpressionEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VariableView.xaml.cs">
-      <DependentUpon>VariableView.xaml</DependentUpon>
+    <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
+      <DependentUpon>SingletonVariableEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WorkspaceView.xaml.cs">
-      <DependentUpon>WorkspaceView.xaml</DependentUpon>
+    <Compile Include="Views\WorkAreaView.xaml.cs">
+      <DependentUpon>WorkAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfUtils.cs" />
-    <Page Include="Controls\GraphicDisplayControl.xaml">
+    <Page Include="Views\AggregateVariableViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AllDifferentConstraintExpressionViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AllDifferentConstraintViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConstraintExpressionViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ExpressionConstraintViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SingletonVariableViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VariableDomainExpressionViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WorkspaceViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WorkspaceEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AggregateVariableView.xaml">
+    <Page Include="Views\AggregateVariableEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AllDifferentConstraintExpressionView.xaml">
+    <Page Include="Views\AllDifferentConstraintExpressionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AllDifferentConstraintView.xaml">
+    <Page Include="Views\AllDifferentConstraintEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,23 +460,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ConstraintExpressionView.xaml">
+    <Page Include="Views\ConstraintExpressionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DomainExpressionView.xaml">
+    <Page Include="Views\DomainExpressionViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DomainViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DomainExpressionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DomainView.xaml">
+    <Page Include="Views\DomainEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ExpressionConstraintView.xaml">
+    <Page Include="Views\ExpressionConstraintEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GridVisualizerDictionary.xaml">
+    <Page Include="Views\ModelViewerDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TableVisualizerDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -401,15 +496,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ModelDictionary.xaml">
+    <Page Include="Views\ModelEditorDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ControlDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ModelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -429,27 +520,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SolutionDesignerDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SolutionViewerDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SolutionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VariableDomainExpressionView.xaml">
+    <Page Include="Views\VariableDomainExpressionEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VariableView.xaml">
+    <Page Include="Views\SingletonVariableEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WorkspaceView.xaml">
+    <Page Include="Views\WorkAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

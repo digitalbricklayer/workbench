@@ -12,21 +12,29 @@ namespace Workbench.Services
     /// </summary>
     public class DisplayMapper
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IDataService dataService;
+        private readonly VariableMapper variableMapper;
+        private readonly DomainMapper domainMapper;
+        private readonly ConstraintMapper constraintMapper;
+        private readonly IViewModelFactory viewModelFactory;
         private readonly IViewModelService _viewModelService;
 
-        public DisplayMapper(IEventAggregator theEventAggregator,
-                             IDataService theDataService,
+        public DisplayMapper(VariableMapper theVariableMapper,
+                             ConstraintMapper theConstraintMapper,
+                             DomainMapper theDomainMapper,
+                             IViewModelFactory theViewModelFactory,
                              IViewModelService theViewModelService)
         {
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theVariableMapper != null);
+            Contract.Requires<ArgumentNullException>(theConstraintMapper != null);
+            Contract.Requires<ArgumentNullException>(theDomainMapper != null);
+            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
-            this.eventAggregator = theEventAggregator;
-            this.dataService = theDataService;
             this._viewModelService = theViewModelService;
+            this.variableMapper = theVariableMapper;
+            this.domainMapper = theDomainMapper;
+            this.constraintMapper = theConstraintMapper;
+            this.viewModelFactory = theViewModelFactory;
         }
 
         /// <summary>
@@ -34,11 +42,43 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theDisplay">Display model.</param>
         /// <returns>Solution designer view model.</returns>
-        public SolutionDesignerViewModel MapFrom(DisplayModel theDisplay)
+        public WorkspaceEditorViewModel MapFrom(WorkspaceModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
-            var newDesignerViewModel = new SolutionDesignerViewModel(theDisplay);
+            var theModel = theWorkspace.Model;
+            var newDesignerViewModel = new WorkspaceEditorViewModel(theWorkspace.Solution.Display, theModel);
+
+            foreach (var domainModel in theWorkspace.Model.Domains)
+            {
+                var domainViewModel = this.domainMapper.MapFrom(domainModel);
+                newDesignerViewModel.FixupDomain(domainViewModel);
+            }
+
+            foreach (var constraintModel in theWorkspace.Model.Constraints)
+            {
+#if false
+                var constraintViewModel = this.constraintMapper.MapFrom(constraintModel);
+                newDesignerViewModel.FixupConstraint(constraintViewModel);
+#endif
+            }
+
+            foreach (var variableModel in theWorkspace.Model.Singletons)
+            {
+#if false
+                var variableViewModel = this.variableMapper.MapFrom(variableModel);
+                newDesignerViewModel.FixupSingletonVariable(variableViewModel);
+#endif
+            }
+
+            foreach (var aggregateModel in theWorkspace.Model.Aggregates)
+            {
+#if false
+                var variableViewModel = this.variableMapper.MapFrom(aggregateModel);
+                newDesignerViewModel.FixupAggregateVariable(variableViewModel);
+#endif
+            }
+
             return newDesignerViewModel;
         }
     }

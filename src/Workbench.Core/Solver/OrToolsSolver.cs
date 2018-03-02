@@ -25,7 +25,10 @@ namespace Workbench.Core.Solver
             var validateContext = new ModelValidationContext();
             if (!theModel.Validate(validateContext)) return SolveResult.InvalidModel;
 
-            this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name);
+            // A model with zero variables crashes the or-tools solver...
+            if (theModel.Variables.Count == 0) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());
+
+            this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name.Text);
 
             var modelConverter = new ModelConverter(this.solver, this.orToolsCache, this.valueMapper);
             modelConverter.ConvertFrom(theModel);

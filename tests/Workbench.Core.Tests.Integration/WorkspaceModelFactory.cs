@@ -33,13 +33,13 @@ namespace Workbench.UI.Tests.Integration
         private ModelModel CreateModel()
         {
             modelModel = new ModelModel();
-            var x = new SingletonVariableGraphicModel(modelModel, "x", "z");
+            var x = new SingletonVariableGraphicModel(new SingletonVariableModel(modelModel, new ModelName("x"), new VariableDomainExpressionModel("z")));
             modelModel.AddVariable(x);
-            var y = new AggregateVariableGraphicModel(modelModel, "y", 10, new VariableDomainExpressionModel("1..9"));
+            var y = new AggregateVariableGraphicModel(new AggregateVariableModel(modelModel, new ModelName("y"), 10, new VariableDomainExpressionModel("1..9")));
             modelModel.AddVariable(y);
-            var constraint = new ExpressionConstraintGraphicModel("X", "x > 1");
+            var constraint = new ExpressionConstraintGraphicModel(new ExpressionConstraintModel(new ConstraintExpressionModel("x > 1")));
             modelModel.AddConstraint(constraint);
-            var domain = new DomainGraphicModel("z", "1..10");
+            var domain = new DomainGraphicModel(new DomainModel(new ModelName("z"), new DomainExpressionModel("1..10")));
             modelModel.AddDomain(domain);
 
             return modelModel;
@@ -47,7 +47,7 @@ namespace Workbench.UI.Tests.Integration
 
         private SolutionModel CreateSolution()
         {
-            var x = new SingletonVariableGraphicModel(modelModel, "x");
+            var x = new SingletonVariableGraphicModel(new SingletonVariableModel(modelModel, new ModelName("x")));
             var valueOfX = new ValueModel(x, new ValueBinding(1, 1));
             var snapshot = new SolutionSnapshot(Enumerable.Empty<ValueModel>(), new List<ValueModel> { valueOfX }, TimeSpan.Zero);
             var solutionModel = new SolutionModel(modelModel, snapshot);

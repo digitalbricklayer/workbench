@@ -4,14 +4,15 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public class DomainModel : AbstractModel
+    public class DomainModel : Model
     {
         private DomainExpressionModel expression;
 
         /// <summary>
         /// Initialize a domain with a domain expression.
         /// </summary>
-        public DomainModel(DomainExpressionModel theExpression)
+        public DomainModel(ModelName theName, DomainExpressionModel theExpression)
+            : base(theName)
         {
             Contract.Requires<ArgumentNullException>(theExpression != null);
             this.expression = theExpression;
@@ -20,15 +21,28 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a domain with a domain expression.
         /// </summary>
-        public DomainModel(string rawDomainExpression)
-            : this(new DomainExpressionModel(rawDomainExpression))
+        public DomainModel(ModelName theName)
+            : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theName != null);
+            this.expression = new DomainExpressionModel();
+        }
+
+        /// <summary>
+        /// Initialize a domain with a domain expression.
+        /// </summary>
+        public DomainModel(DomainExpressionModel theExpression)
+            : base(new ModelName())
+        {
+            Contract.Requires<ArgumentNullException>(theExpression != null);
+            this.expression = theExpression;
         }
 
         /// <summary>
         /// Initialize a domain with default values.
         /// </summary>
         public DomainModel()
+            : base(new ModelName())
         {
             Expression = new DomainExpressionModel();
         }

@@ -11,22 +11,22 @@ namespace Workbench.Services
     [ContractClass(typeof(IViewModelServiceContract))]
     public interface IViewModelService
     {
-        void CacheVariable(VariableViewModel variableViewModel);
-        void CacheGraphic(GraphicViewModel graphicViewModel);
-        GraphicViewModel GetGraphicByIdentity(int graphicIdentity);
+        void CacheVariable(VariableVisualizerViewModel variableViewModel);
+        void CacheGraphic(VisualizerViewModel graphicViewModel);
+        VisualizerViewModel GetGraphicByIdentity(int graphicIdentity);
 
         /// <summary>
         /// Get the variable matching the identity.
         /// </summary>
         /// <param name="variableIdentity">Variable identity.</param>
         /// <returns>Variable matching the identity.</returns>
-        VariableViewModel GetVariableByIdentity(int variableIdentity);
+        VariableVisualizerViewModel GetVariableByIdentity(int variableIdentity);
 
         /// <summary>
         /// Get all variable view models.
         /// </summary>
         /// <returns>All variable view models in the model.</returns>
-        IReadOnlyCollection<VariableViewModel> GetAllVariables();
+        IReadOnlyCollection<VariableVisualizerViewModel> GetAllVariables();
     }
 
     /// <summary>
@@ -39,32 +39,32 @@ namespace Workbench.Services
         {
         }
 
-        public void CacheVariable(VariableViewModel variableViewModel)
+        public void CacheVariable(VariableVisualizerViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
         }
 
-        public void CacheGraphic(GraphicViewModel graphicViewModel)
+        public void CacheGraphic(VisualizerViewModel graphicViewModel)
         {
             Contract.Requires<ArgumentNullException>(graphicViewModel != null);
         }
 
-        public GraphicViewModel GetGraphicByIdentity(int graphicIdentity)
+        public VisualizerViewModel GetGraphicByIdentity(int graphicIdentity)
         {
             Contract.Requires<ArgumentException>(graphicIdentity != default(int));
-            return default(GraphicViewModel);
+            return default(VisualizerViewModel);
         }
 
-        public VariableViewModel GetVariableByIdentity(int variableIdentity)
+        public VariableVisualizerViewModel GetVariableByIdentity(int variableIdentity)
         {
             Contract.Requires<ArgumentException>(variableIdentity != default(int));
-            return default(VariableViewModel);
+            return default(VariableVisualizerViewModel);
         }
 
-        public IReadOnlyCollection<VariableViewModel> GetAllVariables()
+        public IReadOnlyCollection<VariableVisualizerViewModel> GetAllVariables()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableViewModel>>() != null);
-            return default(IReadOnlyCollection<VariableViewModel>);
+            Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableVisualizerViewModel>>() != null);
+            return default(IReadOnlyCollection<VariableVisualizerViewModel>);
         }
     }
 }

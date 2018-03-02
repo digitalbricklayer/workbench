@@ -25,53 +25,26 @@ namespace Workbench.Services
         /// <summary>
         /// Event fired when a new workspace view model is created.
         /// </summary>
-        public event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
+        public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
 
         /// <summary>
-        /// Event fired when a new model view model is created.
+        /// Create a new work area view model.
         /// </summary>
-        public event EventHandler<ModelCreatedArgs> ModelCreated;
-
-        /// <summary>
-        /// Create a new workspace view model.
-        /// </summary>
-        /// <returns>New workspace view model.</returns>
-        public WorkspaceViewModel CreateWorkspace()
+        /// <returns>New work area view model.</returns>
+        public WorkAreaViewModel CreateWorkArea()
         {
-            var newWorkspace = IoC.Get<WorkspaceViewModel>();
-			this.OnWorkspaceCreated(new WorkspaceCreatedArgs(newWorkspace));
+            var newWorkArea = IoC.Get<WorkAreaViewModel>();
+			this.OnWorkAreaCreated(new WorkAreaCreatedArgs(newWorkArea));
 			
-			return newWorkspace;
+			return newWorkArea;
         }
 
-        /// <summary>
-        /// Create a new model view model.
-        /// </summary>
-        /// <returns>New model view model.</returns>
-        public ModelViewModel CreateModel(ModelModel theModel)
-        {
-            var newModel = new ModelViewModel(theModel,
-                                              this.windowManager,
-                                              this.eventAggregator);
-            this.OnModelCreate(new ModelCreatedArgs(newModel));
-
-            return newModel;
-        }
-
-        private void OnWorkspaceCreated(WorkspaceCreatedArgs e)
+        private void OnWorkAreaCreated(WorkAreaCreatedArgs e)
 		{
-			if (this.WorkspaceCreated != null)
+			if (this.WorkAreaCreated != null)
 			{
-				WorkspaceCreated(this, e);
+				WorkAreaCreated(this, e);
 			}
 		}
-
-        private void OnModelCreate(ModelCreatedArgs e)
-        {
-            if (this.ModelCreated != null)
-            {
-                ModelCreated(this, e);
-            }
-        }
     }
 }

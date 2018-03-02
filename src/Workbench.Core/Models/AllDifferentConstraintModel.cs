@@ -13,6 +13,12 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AllDifferentConstraintModel : ConstraintModel
     {
+        public AllDifferentConstraintModel(ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
+            : base(theName)
+        {
+            Expression = theExpressionModel;
+        }
+
         public AllDifferentConstraintModel(AllDifferentConstraintExpressionModel theExpressionModel)
         {
             Expression = theExpressionModel;

@@ -11,16 +11,23 @@ namespace Workbench.Core.Models
     /// A chessboard model.
     /// </summary>
     [Serializable]
-    public class ChessboardModel : AbstractModel
+    public class ChessboardModel : Model
     {
         private const int DefaultSize = 8;
         private ObservableCollection<ChessboardSquareModel> pieces;
         private int size = DefaultSize;
-
+ 
         /// <summary>
         /// Initialize a chessboard with default values.
         /// </summary>
         public ChessboardModel()
+        {
+            this.pieces = new ObservableCollection<ChessboardSquareModel>();
+            InitializeBoard();
+        }
+
+        public ChessboardModel(ModelName modelName)
+            : base(modelName)
         {
             this.pieces = new ObservableCollection<ChessboardSquareModel>();
             InitializeBoard();

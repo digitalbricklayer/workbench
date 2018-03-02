@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Base for all graphic elements displayed on the model view.
     /// </summary>
-    public abstract class GraphicViewModel : Screen
+    public abstract class GraphicViewModel : Conductor<Screen>.Collection.AllActive
     {
         /// <summary>
         /// Set to 'true' when the graphic is selected.
@@ -116,7 +116,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the graphic identity.
+        /// Gets the graphic model identity.
         /// </summary>
         public int Id
         {
@@ -142,7 +142,7 @@ namespace Workbench.ViewModels
         /// </summary>
         protected virtual void OnRename(string theOldName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theOldName));
+            Contract.Requires<ArgumentNullException>(theOldName != null);
             // Intentionally left blank, override as necessary.
         }
     }

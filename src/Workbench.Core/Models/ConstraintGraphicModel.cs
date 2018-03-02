@@ -12,27 +12,17 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize the constraint with a constraint name and location.
         /// </summary>
-        /// <param name="constraintName">Constraint name.</param>
         /// <param name="location">Location of the graphic.</param>
-        protected ConstraintGraphicModel(string constraintName, Point location)
-            : base(constraintName, location)
+        protected ConstraintGraphicModel(ConstraintModel theConstraint, Point location)
+            : base(theConstraint, location)
         {
         }
 
         /// <summary>
         /// Initialize the constraint with a constraint name.
         /// </summary>
-        /// <param name="constraintName">Constraint name.</param>
-        protected ConstraintGraphicModel(string constraintName)
-            : base(constraintName)
-        {
-        }
-
-        /// <summary>
-        /// Initialize the constraint with default values.
-        /// </summary>
-        protected ConstraintGraphicModel()
-            : base("new constraint")
+        protected ConstraintGraphicModel(ConstraintModel theConstraint)
+            : base(theConstraint)
         {
         }
 

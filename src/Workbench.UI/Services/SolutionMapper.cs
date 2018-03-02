@@ -28,9 +28,10 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theSolutionModel">Solution model.</param>
         /// <returns>Solution view model.</returns>
-        public SolutionViewerViewModel MapFrom(SolutionModel theSolutionModel)
+        public WorkspaceViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
-            var solutionViewModel = new SolutionViewerViewModel(theSolutionModel);
+            var solutionViewModel = new WorkspaceViewerViewModel(theSolutionModel);
+#if false
             foreach (var valueModel in theSolutionModel.Snapshot.SingletonValues)
             {
                 solutionViewModel.AddValue(valueModel);
@@ -40,7 +41,8 @@ namespace Workbench.Services
             {
                 solutionViewModel.AddValue(anAggregateValue);
             }
-
+           
+#endif
             return solutionViewModel;
         }
     }

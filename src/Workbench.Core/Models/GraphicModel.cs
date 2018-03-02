@@ -6,35 +6,26 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class GraphicModel : AbstractModel
     {
-        private string name;
+        private Model model;
 
         /// <summary>
         /// Initialize a graphic model with a name and location.
         /// </summary>
-        /// <param name="graphicName">Name for the graphic.</param>
+        /// <param name="theModel">Model the graphic belongs.</param>
         /// <param name="location">Location of the graphic.</param>
-        protected GraphicModel(string graphicName, Point location)
-            : this(graphicName)
+        protected GraphicModel(Model theModel, Point location)
+            : this(theModel)
         {
-            this.X = location.X;
-            this.Y = location.Y;
+            X = location.X;
+            Y = location.Y;
         }
 
         /// <summary>
         /// Initialize a graphic model with a name.
         /// </summary>
-        /// <param name="graphicName">Name for the graphic.</param>
-        protected GraphicModel(string graphicName)
+        protected GraphicModel(Model theModel)
         {
-            this.name = graphicName;
-        }
-
-        /// <summary>
-        /// Initialize a graphic model with default values.
-        /// </summary>
-        protected GraphicModel()
-        {
-            this.name = string.Empty;
+            this.model = theModel;
         }
 
         /// <summary>
@@ -42,11 +33,28 @@ namespace Workbench.Core.Models
         /// </summary>
         public virtual string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.model.Name.Text; }
+            set { this.model.Name.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets the graphic model.
+        /// </summary>
+        public Model Model
+        {
+            get { return this.model; }
         }
 
         public double X { get; set; }
         public double Y { get; set; }
+
+        /// <summary>
+        /// Update a graphic with call arguments.
+        /// </summary>
+        /// <param name="theCall">Call arguments.</param>
+        public virtual void UpdateWith(VisualizerCall theCall)
+        {
+            // Default implementation. Override as appropriate.
+        }
     }
 }

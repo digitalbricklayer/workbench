@@ -3,8 +3,25 @@
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public abstract class ConstraintModel : AbstractModel
+    public abstract class ConstraintModel : Model
     {
+        /// <summary>
+        /// Initialize a constraint with a name.
+        /// </summary>
+        /// <param name="theName">Text.</param>
+        protected ConstraintModel(ModelName theName)
+            : base(theName)
+        {
+        }
+
+        /// <summary>
+        /// Initialize a constraint with a default name.
+        /// </summary>
+        protected ConstraintModel()
+            : base(new ModelName())
+        {
+        }
+
         /// <summary>
         /// Validate the constraint.
         /// </summary>

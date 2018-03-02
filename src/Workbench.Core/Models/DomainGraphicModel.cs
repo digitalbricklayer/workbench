@@ -12,42 +12,18 @@ namespace Workbench.Core.Models
     {
         private DomainModel domain;
 
-        public DomainGraphicModel(string domainName, Point location, DomainModel theDomain)
-            : base(domainName, location)
+        public DomainGraphicModel(DomainModel theDomain, Point location)
+            : base(theDomain, location)
         {
-            if (theDomain == null)
-                throw new ArgumentNullException(nameof(theDomain));
-            Contract.EndContractBlock();
+            Contract.Requires<ArgumentNullException>(theDomain != null);
             this.domain = theDomain;
         }
 
-        public DomainGraphicModel(string domainName, DomainExpressionModel theExpression)
-            : base(domainName)
+        public DomainGraphicModel(DomainModel theDomain)
+            : base(theDomain, new Point())
         {
-            if (theExpression == null)
-                throw new ArgumentNullException(nameof(theExpression));
-            Contract.EndContractBlock();
-            this.domain = new DomainModel(theExpression);
-        }
-
-        public DomainGraphicModel(string domainName, string rawDomainExpression)
-            : this(domainName, new DomainExpressionModel(rawDomainExpression))
-        {
-        }
-
-        public DomainGraphicModel(string rawExpression)
-            : this("Constraint", rawExpression)
-        {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            Contract.EndContractBlock();
-            ParseExpression(rawExpression);
-        }
-
-        public DomainGraphicModel()
-            : base("New domain")
-        {
-            this.domain = new DomainModel();
+            Contract.Requires<ArgumentNullException>(theDomain != null);
+            this.domain = theDomain;
         }
 
         public DomainExpressionModel Expression

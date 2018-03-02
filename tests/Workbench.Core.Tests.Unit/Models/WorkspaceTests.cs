@@ -10,7 +10,7 @@ namespace Workbench.Core.Tests.Unit.Models
         public void CreateWorkspaceWithBlankNameReturnsModelWithBlankName()
         {
             var sut = WorkspaceModelFactory.Create();
-            Assert.That(sut.Model.Name, Is.Empty);
+            Assert.That(sut.Model.Name.Text, Is.Empty);
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace Workbench.Core.Tests.Unit.Models
                                     .AddSingleton("x", "1..10")
                                     .WithConstraintExpression("x > 1")
                                     .Build();
-            Assert.That(sut.Model.Name, Is.EqualTo(ExpectedModelName));
+            Assert.That(sut.Model.Name.Text, Is.EqualTo(ExpectedModelName));
         }
     }
 }

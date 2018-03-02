@@ -165,7 +165,7 @@
     </DataTemplate>
 
     <!-- Chessboard visualizer in 'design' mode -->
-    <DataTemplate DataType="{x:Type viewModels:ChessboardVisualizerDesignerViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:ChessboardEditorViewModel}">
         <Border BorderBrush="Black" BorderThickness="2">
         <!-- 
         An adorned control is used to enable the edit button when the user 
@@ -271,7 +271,7 @@
     </DataTemplate>
     
     <!-- Chessboard visualizer in 'view' mode -->
-    <DataTemplate DataType="{x:Type viewModels:ChessboardVisualizerViewerViewModel}">
+    <DataTemplate DataType="{x:Type viewModels:ChessboardViewerViewModel}">
         <!-- Border around the entire viewer -->
         <Border BorderBrush="Black" BorderThickness="2">
             <Grid>

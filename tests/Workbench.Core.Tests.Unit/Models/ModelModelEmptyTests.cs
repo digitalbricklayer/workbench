@@ -16,7 +16,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeEmptyModel()
         {
-            return new ModelModel("An Empty Model");
+            return new ModelModel(new ModelName("An Empty Model"));
         }
     }
 }

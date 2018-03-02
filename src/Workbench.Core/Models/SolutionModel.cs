@@ -76,7 +76,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the value matching the name.
         /// </summary>
-        /// <param name="theVariableName">Name of the variable to find.</param>
+        /// <param name="theVariableName">Text of the variable to find.</param>
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
         public ValueModel GetSingletonVariableValueByName(string theVariableName)
         {
@@ -106,14 +106,14 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the visualizer with the matching name.
+        /// Get the graphic with the matching name.
         /// </summary>
-        /// <param name="theName">Name of the visualizer.</param>
-        /// <returns>Visualizer matching the name.</returns>
-        public VisualizerModel GetVisualizerBy(string theName)
+        /// <param name="theName">Name of the graphic.</param>
+        /// <returns>Graphic matching the name.</returns>
+        public GraphicModel GetGraphicBy(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            return Display.GetVisualizerBy(theName);
+            return Display.GetGraphicBy(theName);
         }
 
         /// <summary>

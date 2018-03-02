@@ -9,20 +9,21 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>, IShell
     {
-        private WorkspaceViewModel workspace;
+        private WorkAreaViewModel workArea;
         private ApplicationMenuViewModel applicationMenu;
         private readonly IAppRuntime appRuntime;
         private TitleBarViewModel titleBar;
 
         /// <summary>
-        /// Initialize a shell view model with a data service and window manager.
+        /// Initialize a shell view model with an application runtime, workspace view 
+        /// model, application menu view model and title bar view model.
         /// </summary>
         /// <param name="theAppRuntime">Application runtime.</param>
         /// <param name="theWorkspaceViewModel">Workspace view model.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
         public ShellViewModel(IAppRuntime theAppRuntime,
-                              WorkspaceViewModel theWorkspaceViewModel,
+                              WorkAreaViewModel theWorkspaceViewModel,
                               ApplicationMenuViewModel theApplicationMenuViewModel,
                               TitleBarViewModel theTitleBarViewModel)
         {
@@ -32,11 +33,11 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.appRuntime = theAppRuntime;
-            this.Workspace = theWorkspaceViewModel;
             this.appRuntime.Shell = this;
-            this.ApplicationMenu = theApplicationMenuViewModel;
-            this.TitleBar = theTitleBarViewModel;
-            this.ActivateItem(this.Workspace);
+            WorkArea = theWorkspaceViewModel;
+            ApplicationMenu = theApplicationMenuViewModel;
+            TitleBar = theTitleBarViewModel;
+            ActivateItem(this.WorkArea);
         }
 
         /// <summary>
@@ -56,12 +57,12 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
-            get { return this.workspace; }
+            get { return this.workArea; }
             set
             {
-                this.workspace = value;
+                this.workArea = value;
                 NotifyOfPropertyChange();
             }
         }

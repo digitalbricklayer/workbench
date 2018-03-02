@@ -18,9 +18,9 @@ namespace Workbench
         }
 
         /// <summary>
-        /// Gets or sets the workspace view model.
+        /// Gets or sets the work area view model.
         /// </summary>
-        public WorkspaceViewModel Workspace { get; set; }
+        public WorkAreaViewModel WorkArea { get; set; }
 
         /// <summary>
         /// Gets the shell view model.

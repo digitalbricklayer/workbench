@@ -13,54 +13,12 @@ namespace Workbench.Core.Models
         private VariableModel variable;
 
         /// <summary>
-        /// Initializes a variable with a variable name, location and domain expression.
-        /// </summary>
-        protected VariableGraphicModel(ModelModel theModel, string variableName, Point newLocation, VariableDomainExpressionModel newVariableExpression)
-            : base(variableName, newLocation)
-        {
-            if (newVariableExpression == null)
-                throw new ArgumentNullException(nameof(newVariableExpression));
-            Contract.EndContractBlock();
-            this.variable = new SingletonVariableModel(theModel, variableName, newVariableExpression);
-        }
-
-        /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
-        /// </summary>
-        protected VariableGraphicModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(variableName)
-        {
-            if (theDomainExpression == null)
-                throw new ArgumentNullException(nameof(theDomainExpression));
-            Contract.EndContractBlock();
-            this.variable = new SingletonVariableModel(theModel, variableName, theDomainExpression);
-        }
-
-        /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
-        /// </summary>
-        protected VariableGraphicModel(ModelModel theModel, string variableName, string theRawDomainExpression)
-            : base(variableName)
-        {
-            this.variable = new SingletonVariableModel(theModel, variableName, theRawDomainExpression);
-        }
-
-        /// <summary>
-        /// Initializes a variable with a variable name.
-        /// </summary>
-        protected VariableGraphicModel(ModelModel theModel, string variableName)
-            : base(variableName)
-        {
-            this.variable = new SingletonVariableModel(theModel, variableName);
-        }
-
-        /// <summary>
         /// Initializes a variable with default values.
         /// </summary>
-        protected VariableGraphicModel(ModelModel theModel)
-            : base("New variable")
+        protected VariableGraphicModel(VariableModel theVariable, Point theLocation)
+            : base(theVariable, theLocation)
         {
-            this.variable = new SingletonVariableModel(theModel);
+            Variable = theVariable;
         }
 
         /// <summary>
@@ -99,7 +57,7 @@ namespace Workbench.Core.Models
         /// </returns>
         public override string ToString()
         {
-            return Variable.Name;
+            return Variable.Name.Text;
         }
 
         /// <summary>

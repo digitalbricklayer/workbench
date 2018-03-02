@@ -8,9 +8,9 @@ namespace Workbench
     public interface IAppRuntime
     {
         /// <summary>
-        /// Gets the workspace view model.
+        /// Gets the work area view model.
         /// </summary>
-        WorkspaceViewModel Workspace { get; set; }
+        WorkAreaViewModel WorkArea { get; set; }
 
         /// <summary>
         /// Gets the shell view model.
@@ -37,19 +37,19 @@ namespace Workbench
         private readonly string _applicationName = String.Empty;
         private string _currentFileName;
         private ShellViewModel _shell;
-        private WorkspaceViewModel _workspace;
+        private WorkAreaViewModel workArea;
 
-        public WorkspaceViewModel Workspace
+        public WorkAreaViewModel WorkArea
         {
             get
             {
-                Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
-                return _workspace;
+                Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
+                return this.workArea;
             }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                _workspace = value;
+                this.workArea = value;
             }
         }
 

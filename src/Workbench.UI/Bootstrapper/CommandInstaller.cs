@@ -19,7 +19,7 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Transient,
                             Component.For<EditSolutionCommand>()
                                      .LifeStyle.Transient,
-                            Component.For<AddGridVisualizerCommand>()
+                            Component.For<AddTableVisualizerCommand>()
                                      .LifeStyle.Transient);
         }
     }

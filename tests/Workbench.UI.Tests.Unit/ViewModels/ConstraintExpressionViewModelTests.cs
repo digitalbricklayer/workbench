@@ -10,7 +10,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void Initialize_With_Default_Values_Text_Is_Empty()
         {
-            var sut = new ConstraintExpressionViewModel(new ConstraintExpressionModel());
+            var sut = new ConstraintExpressionEditorViewModel(new ConstraintExpressionModel());
             Assert.That(sut.Text, Is.Empty);
         }
     }

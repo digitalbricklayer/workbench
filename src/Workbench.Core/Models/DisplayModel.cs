@@ -14,7 +14,7 @@ namespace Workbench.Core.Models
     public class DisplayModel : AbstractModel
     {
         private readonly List<VisualizerBindingExpressionModel> bindings;
-        private ObservableCollection<VisualizerModel> visualizers;
+        private ObservableCollection<GraphicModel> graphics;
         private readonly ModelModel model;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
 
-            Visualizers = new ObservableCollection<VisualizerModel>();
+            Graphics = new ObservableCollection<GraphicModel>();
             this.bindings = new List<VisualizerBindingExpressionModel>();
             this.model = theModel;
         }
@@ -33,14 +33,14 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the visualizer collection.
         /// </summary>
-        public ObservableCollection<VisualizerModel> Visualizers
+        public ObservableCollection<GraphicModel> Graphics
         {
-            get { return this.visualizers; }
+            get { return this.graphics; }
             private set
             {
 				Contract.Requires<ArgumentNullException>(value != null);
 
-                this.visualizers = value;
+                this.graphics = value;
                 OnPropertyChanged();
             }
         }
@@ -54,26 +54,26 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a new visualizer.
+        /// Add a new graphic.
         /// </summary>
-        /// <param name="theVisualizer">New visualizer.</param>
-        public void AddVisualizer(VisualizerModel theVisualizer)
+        /// <param name="theGraphic">New visualizer.</param>
+        public void AddVisualizer(GraphicModel theGraphic)
         {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            Contract.Requires<ArgumentNullException>(theGraphic != null);
 
-            theVisualizer.AssignIdentity();
-            Visualizers.Add(theVisualizer);
+            theGraphic.AssignIdentity();
+            Graphics.Add(theGraphic);
         }
 
         /// <summary>
-        /// Get the visualizer by name.
+        /// Get the graphic by name.
         /// </summary>
-        /// <param name="theName">Visualizers name.</param>
-        /// <returns>Visualizers.</returns>
-        public VisualizerModel GetVisualizerBy(string theName)
+        /// <param name="theName">Graphic name.</param>
+        /// <returns>Graphic matching the unique name.</returns>
+        public GraphicModel GetGraphicBy(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            return (from aViewerViewModel in Visualizers
+            return (from aViewerViewModel in Graphics
                     where aViewerViewModel.Name == theName
                     select aViewerViewModel).FirstOrDefault();
         }

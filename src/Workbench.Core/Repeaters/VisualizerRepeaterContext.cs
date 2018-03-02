@@ -82,11 +82,11 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Get a visualizer using the visualizer name.
         /// </summary>
-        /// <param name="vizualizerName">Name of the visualizer.</param>
-        /// <returns>Visualizer matching the name.</returns>
-        public VisualizerModel GetVisualizerByName(string vizualizerName)
+        /// <param name="graphicName">Name of the graphic.</param>
+        /// <returns>Graphic matching the name.</returns>
+        public GraphicModel GetVisualizerByName(string graphicName)
         {
-            return Display.GetVisualizerBy(vizualizerName);
+            return Display.GetGraphicBy(graphicName);
         }
 
         private void CreateCounterContextsFrom(MultiRepeaterStatementNode theRepeater)

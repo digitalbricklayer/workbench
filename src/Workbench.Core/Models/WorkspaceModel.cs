@@ -14,6 +14,17 @@ namespace Workbench.Core.Models
         private SolutionModel solution;
 
         /// <summary>
+        /// Initialize a workspace with a model name.
+        /// </summary>
+        public WorkspaceModel(ModelName theModelName)
+        {
+            Contract.Requires<ArgumentNullException>(theModelName != null);
+
+            Model = new ModelModel(theModelName);
+            Solution = new SolutionModel(this.Model);
+        }
+
+        /// <summary>
         /// Initialize a workspace with default values.
         /// </summary>
         public WorkspaceModel()
@@ -56,8 +67,7 @@ namespace Workbench.Core.Models
         public static WorkspaceContext Create(string theModelName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theModelName));
-            var newWorkspace = new WorkspaceModel();
-            newWorkspace.Model.Name = theModelName;
+            var newWorkspace = new WorkspaceModel(new ModelName(theModelName));
             return new WorkspaceContext(newWorkspace);
         }
 
@@ -99,7 +109,7 @@ namespace Workbench.Core.Models
         /// Add the visualizer.
         /// </summary>
         /// <param name="theVisualizer">The visualizer to add.</param>
-        internal void AddVisualizer(VisualizerModel theVisualizer)
+        public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
             Solution.AddVisualizer(theVisualizer);

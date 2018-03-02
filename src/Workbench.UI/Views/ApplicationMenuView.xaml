@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Workbench.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Menu>
         <MenuItem Header="File">
             <MenuItem Header="New" Command="{Binding FileMenu.NewCommand}">
@@ -36,41 +34,53 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Edit">
+            <MenuItem Header="Delete" Command="{Binding EditMenu.DeleteSelectedCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem Header="View">
+        </MenuItem>
+        <MenuItem Header="Insert">
+            <MenuItem Header="Singleton Variable" Command="{Binding InsertMenu.AddSingletonVariableCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Aggregate Variable" Command="{Binding InsertMenu.AddAggregateVariableCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Expression Constraint" Command="{Binding InsertMenu.AddExpressionConstraintCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="All Different Constraint" Command="{Binding InsertMenu.AddAllDifferentConstraintCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Domain" Command="{Binding InsertMenu.AddDomainCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Chessboard" Command="{Binding InsertMenu.AddChessboardCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Table" Command="{Binding InsertMenu.AddTableCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
         </MenuItem>
         <MenuItem Header="Model">
             <MenuItem Header="Solve..." Command="{Binding ModelMenu.SolveCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator/>
-            <MenuItem Header="Add Singleton Variable" Command="{Binding ModelMenu.AddSingletonVariableCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Add Aggregate Variable" Command="{Binding ModelMenu.AddAggregateVariableCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Add Expression Constraint" Command="{Binding ModelMenu.AddExpressionConstraintCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Add All Different Constraint" Command="{Binding ModelMenu.AddAllDifferentConstraintCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Add Domain" Command="{Binding ModelMenu.AddDomainCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator/>
-            <MenuItem Header="Delete" Command="{Binding ModelMenu.DeleteCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png" />
                 </MenuItem.Icon>
@@ -89,16 +99,6 @@
                 </MenuItem.Icon>
             </MenuItem>
             <Separator/>
-            <MenuItem Header="Add Chessboard" Command="{Binding SolutionMenu.AddChessboardVisualizerCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png"  />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Add Grid" Command="{Binding SolutionMenu.AddGridVisualizerCommand}">
-                <MenuItem.Icon>
-                    <Image Source="../Images/Transparent.png"  />
-                </MenuItem.Icon>
-            </MenuItem>
             <MenuItem Header="Add Column..." Command="{Binding SolutionMenu.AddColumnCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png"  />
@@ -109,6 +109,8 @@
                     <Image Source="../Images/Transparent.png"  />
                 </MenuItem.Icon>
             </MenuItem>
+        </MenuItem>
+        <MenuItem Header="Help">
         </MenuItem>
     </Menu>
 </UserControl>

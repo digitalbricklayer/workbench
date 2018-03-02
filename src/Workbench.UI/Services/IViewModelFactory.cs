@@ -9,48 +9,26 @@ namespace Workbench.Services
     public interface IViewModelFactory
     {
         /// <summary>
-        /// Create a new workspace view model.
+        /// Create a new work area view model.
         /// </summary>
         /// <returns>New workspace view model.</returns>
-        WorkspaceViewModel CreateWorkspace();
+        WorkAreaViewModel CreateWorkArea();
 
         /// <summary>
-        /// Event fired when a new workspace view model is created.
+        /// Event fired when a new work area view model is created.
         /// </summary>
-		event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
-
-        /// <summary>
-        /// Create a new model view model.
-        /// </summary>
-        /// <returns>New model view model.</returns>
-        ModelViewModel CreateModel(ModelModel theModel);
-
-        /// <summary>
-        /// Event fired when a new model view model is created.
-        /// </summary>
-        event EventHandler<ModelCreatedArgs> ModelCreated;
+		event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
     }
 
-    public class ModelCreatedArgs
+    public class WorkAreaCreatedArgs
     {
-        public ModelCreatedArgs(ModelViewModel theModel)
+        public WorkAreaCreatedArgs(WorkAreaViewModel theWorkArea)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            this.NewModel = theModel;
+            Contract.Requires<ArgumentNullException>(theWorkArea != null);
+            WorkAreaCreated = theWorkArea;
         }
 
-        public ModelViewModel NewModel { get; private set; }
-    }
-
-    public class WorkspaceCreatedArgs
-    {
-        public WorkspaceCreatedArgs(WorkspaceViewModel theWorkspace)
-        {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-            this.WorkspaceCreated = theWorkspace;
-        }
-
-        public WorkspaceViewModel WorkspaceCreated { get; private set; }
+        public WorkAreaViewModel WorkAreaCreated { get; private set; }
     }
 
     /// <summary>
@@ -59,20 +37,12 @@ namespace Workbench.Services
     [ContractClassFor(typeof(IViewModelFactory))]
     internal abstract class IViewModelFactoryContract : IViewModelFactory
     {
-        public WorkspaceViewModel CreateWorkspace()
+        public WorkAreaViewModel CreateWorkArea()
         {
-            Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
-            return default(WorkspaceViewModel);
+            Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
+            return default(WorkAreaViewModel);
         }
 
-        public event EventHandler<WorkspaceCreatedArgs> WorkspaceCreated;
-        public ModelViewModel CreateModel(ModelModel theModel)
-        {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Ensures(Contract.Result<ModelViewModel>() != null);
-            return default(ModelViewModel);
-        }
-
-        public event EventHandler<ModelCreatedArgs> ModelCreated;
+        public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
     }
 }

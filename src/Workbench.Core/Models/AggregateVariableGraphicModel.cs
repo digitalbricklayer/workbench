@@ -15,69 +15,21 @@ namespace Workbench.Core.Models
     {
         private AggregateVariableModel variable;
 
-        public AggregateVariableGraphicModel(ModelModel theModel, string newVariableName, Point newVariableLocation, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel, newVariableName, newVariableLocation, theDomainExpression)
+        public AggregateVariableGraphicModel(AggregateVariableModel theVariable, Point newVariableLocation)
+            : base(theVariable, newVariableLocation)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-            this.variable = new AggregateVariableModel(theModel, newVariableName, aggregateSize, theDomainExpression);
+            Contract.Requires<ArgumentNullException>(theVariable != null);
+            this.variable = theVariable;
         }
 
         /// <summary>
         /// Initializes an aggregate variable with a name, a size and domain expression.
         /// </summary>
-        public AggregateVariableGraphicModel(ModelModel theModel, string theVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel, theVariableName)
+        public AggregateVariableGraphicModel(AggregateVariableModel theVariable)
+            : base(theVariable, new Point())
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-            this.variable = new AggregateVariableModel(theModel, theVariableName, aggregateSize, theDomainExpression);
-        }
-
-        /// <summary>
-        /// Initializes an aggregate variable with a name, a size and domain expression.
-        /// </summary>
-        public AggregateVariableGraphicModel(ModelModel theModel, string variableName, int aggregateSize, string theRawDomainExpression)
-            : base(theModel, variableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= 0);
-            Contract.Requires<ArgumentNullException>(theRawDomainExpression != null);
-            this.variable = new AggregateVariableModel(theModel, variableName, aggregateSize, theRawDomainExpression);
-        }
-
-        /// <summary>
-        /// Initializes an aggregate variable with a name and domain expression.
-        /// </summary>
-        public AggregateVariableGraphicModel(ModelModel theModel, string variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel, variableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-
-            this.variable = new AggregateVariableModel(theModel, variableName, 0, theDomainExpression);
-        }
-
-        public AggregateVariableGraphicModel(ModelModel theModel, string newVariableName, Point newVariableLocation)
-            : this(theModel, newVariableName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newVariableName));
-
-            this.variable = new AggregateVariableModel(theModel, newVariableName);
-        }
-
-        /// <summary>
-        /// Initialize an aggregate variable with a name.
-        /// </summary>
-        /// <param name="newName">New variable name.</param>
-        public AggregateVariableGraphicModel(ModelModel theModel, string newName)
-            : base(theModel, newName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newName));
-
-            this.variable = new AggregateVariableModel(theModel, newName);
+            Contract.Requires<ArgumentNullException>(theVariable != null);
+            this.variable = theVariable;
         }
 
         /// <summary>
@@ -99,11 +51,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variables in the aggregate.
         /// </summary>
-        public IReadOnlyCollection<VariableGraphicModel> Variables
+        public IReadOnlyCollection<VariableModel> Variables
         {
             get
             {
-                return new ReadOnlyCollection<VariableGraphicModel>(this.variable.Variables.ToList()); 
+                return new ReadOnlyCollection<VariableModel>(this.variable.Variables.ToList()); 
             }
         }
 
@@ -145,11 +97,11 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the variable at the one based index.
+        /// Get the variable at the index.
         /// </summary>
         /// <param name="variableIndex">Variable index starts at zero.</param>
         /// <returns>Variable at the index.</returns>
-        public VariableGraphicModel GetVariableByIndex(int variableIndex)
+        public VariableModel GetVariableByIndex(int variableIndex)
         {
             Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count() && variableIndex >= 0);
             return this.variable.GetVariableByIndex(variableIndex);

@@ -9,8 +9,8 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void AddTestColumnGetColumnCellsReturnsCells()
         {
-            var sut = GridModel.Default;
-            sut.AddColumn(new GridColumnModel("Test"));
+            var sut = TableModel.Default;
+            sut.AddColumn(new TableColumnModel("Test"));
             var testColumnData = sut.GetColumnDataByName("Test");
             var columnCells = testColumnData.GetCells();
             var expectedColumnCellCount = sut.GetRows().Count;
@@ -20,9 +20,9 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void AddTestRowGetColumnCellsReturnsCells()
         {
-            var sut = GridModel.Default;
-            sut.AddColumn(new GridColumnModel("Test"));
-            sut.AddRow(new GridRowModel());
+            var sut = TableModel.Default;
+            sut.AddColumn(new TableColumnModel("Test"));
+            sut.AddRow(new TableRowModel());
             var testRow = sut.GetRowAt(1);
             var a = sut.GetCellBy(2, 1);
             a.Text = "a";

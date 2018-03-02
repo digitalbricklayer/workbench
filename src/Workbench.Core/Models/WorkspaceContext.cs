@@ -30,8 +30,9 @@ namespace Workbench.Core.Models
         /// <returns>Workspace context.</returns>
         public WorkspaceContext AddSingleton(string theVariableName, string theDomainExpression)
         {
-            var newVariable = new SingletonVariableGraphicModel(this.workspace.Model, theVariableName, theDomainExpression);
-            this.workspace.Model.AddVariable(newVariable);
+            var newVariable = new SingletonVariableModel(this.workspace.Model, new ModelName(theVariableName), new VariableDomainExpressionModel(theDomainExpression));
+            var newVariableGraphic = new SingletonVariableGraphicModel(newVariable);
+            this.workspace.Model.AddVariable(newVariableGraphic);
 
             return this;
         }
@@ -45,15 +46,16 @@ namespace Workbench.Core.Models
         /// <returns>Workspace context.</returns>
         public WorkspaceContext AddAggregate(string newAggregateName, int aggregateSize, string newDomainExpression)
         {
-            var newVariable = new AggregateVariableGraphicModel(this.workspace.Model, newAggregateName, aggregateSize, newDomainExpression);
-            this.workspace.Model.AddVariable(newVariable);
+            var newVariable = new AggregateVariableModel(this.workspace.Model, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
+            var newVariableGraphic = new AggregateVariableGraphicModel(newVariable);
+            this.workspace.Model.AddVariable(newVariableGraphic);
 
             return this;
         }
 
         public WorkspaceContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
-            var newDomain = new DomainGraphicModel(newDomainName, new Point(1, 1),  new DomainModel(newDomainExpression));
+            var newDomain = new DomainGraphicModel(new DomainModel(new ModelName(newDomainName), new DomainExpressionModel(newDomainExpression)), new Point(1, 1));
             this.workspace.Model.AddSharedDomain(newDomain);
 
             return this;
@@ -67,15 +69,15 @@ namespace Workbench.Core.Models
 
         public WorkspaceContext WithConstraintExpression(string theConstraintExpression)
         {
-            var theConstraintModel = new ExpressionConstraintModel(theConstraintExpression);
-            this.workspace.Model.AddConstraint(new ExpressionConstraintGraphicModel("Constraint 1", new Point(0, 0), theConstraintModel));
+            var theConstraintModel = new ExpressionConstraintModel(new ConstraintExpressionModel(theConstraintExpression));
+            this.workspace.Model.AddConstraint(new ExpressionConstraintGraphicModel(theConstraintModel, new Point(0, 0)));
             return this;
         }
 
         public WorkspaceContext WithConstraintAllDifferent(string theExpression)
         {
             var newConstraintModel = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
-            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel("All different", new Point(0, 0), newConstraintModel));
+            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel(newConstraintModel, new Point(0, 0)));
             return this;
         }
 
@@ -83,8 +85,9 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
-            var theVisualizer = new ChessboardVisualizerModel(theVisualizerName, new Point());
-            this.workspace.AddVisualizer(theVisualizer);
+            var theChessboard = new ChessboardModel(new ModelName(theVisualizerName));
+            var theChessboardVisualizer = new ChessboardVisualizerModel(theChessboard, new VisualizerTitle(), new Point());
+            this.workspace.AddVisualizer(theChessboardVisualizer);
             return this;
         }
 
@@ -96,7 +99,7 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithGridVisualizer(GridVisualizerModel theVisualizer)
+        public WorkspaceContext WithGridVisualizer(TableVisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentException>(theVisualizer != null);
 
@@ -108,31 +111,33 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
-            var theVisualizer = new GridVisualizerModel(theVisualizerName, new Point());
+            var tableModel = new TableModel();
+            var theTableVisualizer = new TableVisualizerModel(tableModel, new VisualizerTitle(theVisualizerName), new Point());
             foreach (var columnName in columnNames)
             {
-                theVisualizer.AddColumn(new GridColumnModel(columnName));
+                theTableVisualizer.AddColumn(new TableColumnModel(columnName));
             }
-            this.workspace.AddVisualizer(theVisualizer);
+            this.workspace.AddVisualizer(theTableVisualizer);
             return this;
         }
 
-        public WorkspaceContext WithGridVisualizer(string theVisualizerName, string[] columnNames, GridRowModel[] rows)
+        public WorkspaceContext WithGridVisualizer(string theVisualizerName, string[] columnNames, TableRowModel[] rows)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
             Contract.Requires<ArgumentNullException>(columnNames != null);
             Contract.Requires<ArgumentNullException>(rows != null);
 
-            var theVisualizer = new GridVisualizerModel(theVisualizerName, new Point());
+            var tableModel = new TableModel();
+            var theTableVisualizer = new TableVisualizerModel(tableModel, new VisualizerTitle(theVisualizerName), new Point());
             foreach (var columnName in columnNames)
             {
-                theVisualizer.AddColumn(new GridColumnModel(columnName));
+                theTableVisualizer.AddColumn(new TableColumnModel(columnName));
             }
             foreach (var row in rows)
             {
-                theVisualizer.AddRow(row);
+                theTableVisualizer.AddRow(row);
             }
-            this.workspace.AddVisualizer(theVisualizer);
+            this.workspace.AddVisualizer(theTableVisualizer);
 
             return this;
         }
