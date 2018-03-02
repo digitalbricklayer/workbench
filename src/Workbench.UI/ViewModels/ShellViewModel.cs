@@ -37,7 +37,6 @@ namespace Workbench.ViewModels
             WorkArea = theWorkspaceViewModel;
             ApplicationMenu = theApplicationMenuViewModel;
             TitleBar = theTitleBarViewModel;
-            ActivateItem(this.WorkArea);
         }
 
         /// <summary>
@@ -78,6 +77,14 @@ namespace Workbench.ViewModels
                 this.titleBar = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            ActivateItem(WorkArea);
+            ActivateItem(ApplicationMenu);
+            ActivateItem(TitleBar);
         }
     }
 }
