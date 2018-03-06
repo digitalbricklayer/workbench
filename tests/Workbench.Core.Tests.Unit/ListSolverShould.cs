@@ -24,11 +24,11 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var cValue = actualResult.Snapshot.GetSingletonVariableValueByName("c");
-            var cValueBinding = cValue.GetBindingAt(0);
-            Assert.That(cValueBinding.Solver, Is.InRange(1, 3));
-            Assert.That(cValueBinding.Model, Is.InstanceOf<string>());
-            Assert.That(cValueBinding.Model, Is.EqualTo("moon"));
+            var cLabel = actualResult.Snapshot.GetLabelByVariableName("c");
+            var cBinding = cLabel.Binding;
+            Assert.That(cBinding.Solver, Is.InRange(1, 3));
+            Assert.That(cBinding.Model, Is.InstanceOf<string>());
+            Assert.That(cBinding.Model, Is.EqualTo("moon"));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var aValue = actualResult.Snapshot.GetAggregateVariableValueByName("a");
+            var aValue = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
             var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
                                                     .ToArray();
             Assert.That(aValue.Values, Is.Unique);

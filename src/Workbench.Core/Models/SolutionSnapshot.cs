@@ -11,17 +11,17 @@ namespace Workbench.Core.Models
     [Serializable]
     public sealed class SolutionSnapshot
     {
-        private readonly List<ValueModel> singletonValues;
-        private readonly List<ValueModel> aggregateValues;
+        private readonly List<LabelModel> singletonLabels;
+        private readonly List<CompoundLabelModel> compoundLabels;
         private TimeSpan duration;
 
         /// <summary>
-        /// Initialize a solution snapshot with default values.
+        /// Initialize a solution snapshot with singleton labels, compound labels and the solution duration.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<ValueModel> theSingletonValues, IEnumerable<ValueModel> theAggregateValues, TimeSpan theDuration)
+        public SolutionSnapshot(IEnumerable<LabelModel> theSingletonValues, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
         {
-            this.singletonValues = new List<ValueModel>(theSingletonValues);
-            this.aggregateValues = new List<ValueModel>(theAggregateValues);
+            this.singletonLabels = new List<LabelModel>(theSingletonValues);
+            this.compoundLabels = new List<CompoundLabelModel>(theCompoundLabels);
 	    this.duration = theDuration;
         }
 
@@ -30,31 +30,31 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionSnapshot()
         {
-            this.singletonValues = new List<ValueModel>();
-            this.aggregateValues = new List<ValueModel>();
+            this.singletonLabels = new List<LabelModel>();
+            this.compoundLabels = new List<CompoundLabelModel>();
         }
 
         /// <summary>
         /// Gets the singleton variable values.
         /// </summary>
-        public IReadOnlyCollection<ValueModel> SingletonValues
+        public IReadOnlyCollection<LabelModel> SingletonValues
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<ValueModel>>() != null);
-                return this.singletonValues.ToList();
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<LabelModel>>() != null);
+                return this.singletonLabels.ToList();
             }
         }
 
         /// <summary>
         /// Gets the aggregate variable values.
         /// </summary>
-        public IReadOnlyCollection<ValueModel> AggregateValues
+        public IReadOnlyCollection<CompoundLabelModel> AggregateValues
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<ValueModel>>() != null);
-                return this.aggregateValues.ToList();
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<CompoundLabelModel>>() != null);
+                return this.compoundLabels.ToList();
             }
         }
 
@@ -68,45 +68,45 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a singleton variable value to the snapshot.
+        /// Add a label to the snapshot.
         /// </summary>
-        /// <param name="newSingletonValue">Singleton value.</param>
-        internal void AddSingletonValue(ValueModel newSingletonValue)
+        /// <param name="newLabel">Singleton value.</param>
+        internal void AddSingletonValue(LabelModel newLabel)
         {
-            Contract.Requires<ArgumentNullException>(newSingletonValue != null);
-            this.singletonValues.Add(newSingletonValue);
+            Contract.Requires<ArgumentNullException>(newLabel != null);
+            this.singletonLabels.Add(newLabel);
         }
 
         /// <summary>
-        /// Add an aggregate variable value to the snapshot.
+        /// Add a compound label to the snapshot.
         /// </summary>
-        /// <param name="newAggregateValue">Aggregate value.</param>
-        internal void AddAggregateValue(ValueModel newAggregateValue)
+        /// <param name="newCompoundLabel">Aggregate value.</param>
+        internal void AddAggregateValue(CompoundLabelModel newCompoundLabel)
         {
-            Contract.Requires<ArgumentNullException>(newAggregateValue != null);
-            this.aggregateValues.Add(newAggregateValue);
+            Contract.Requires<ArgumentNullException>(newCompoundLabel != null);
+            this.compoundLabels.Add(newCompoundLabel);
         }
 
         /// <summary>
-        /// Get the aggregate variable value matching the variable name.
+        /// Get the compound label matching the variable name.
         /// </summary>
         /// <param name="theAggregateVariableName">Aggregate variable name.</param>
-        /// <returns>Value for the aggregate variable.</returns>
-        public ValueModel GetAggregateVariableValueByName(string theAggregateVariableName)
+        /// <returns>Compound label for the aggregate variable.</returns>
+        public CompoundLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
-            return this.aggregateValues.FirstOrDefault(_ => _.Variable.Name == theAggregateVariableName);
+            return this.compoundLabels.FirstOrDefault(_ => _.Variable.Name == theAggregateVariableName);
         }
 
         /// <summary>
-        /// Get the singleton variable value matching the variable name.
+        /// Get the label matching the variable name.
         /// </summary>
         /// <param name="theSingletonVariableName">Singleton variable name.</param>
-        /// <returns>Value for the singleton variable.</returns>
-        public ValueModel GetSingletonVariableValueByName(string theSingletonVariableName)
+        /// <returns>Label for the singleton variable.</returns>
+        public LabelModel GetLabelByVariableName(string theSingletonVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
-            return this.singletonValues.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
+            return this.singletonLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
         }
     }
 }

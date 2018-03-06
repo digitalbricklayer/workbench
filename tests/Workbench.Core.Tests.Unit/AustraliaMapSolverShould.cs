@@ -26,7 +26,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var waValue = actualResult.Snapshot.GetSingletonVariableValueByName("wa");
+            var waValue = actualResult.Snapshot.GetLabelByVariableName("wa");
             Assert.That(waValue.Value, Is.TypeOf<string>());
         }
 

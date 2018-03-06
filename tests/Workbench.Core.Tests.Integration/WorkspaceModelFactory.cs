@@ -48,8 +48,8 @@ namespace Workbench.UI.Tests.Integration
         private SolutionModel CreateSolution()
         {
             var x = new SingletonVariableGraphicModel(new SingletonVariableModel(modelModel, new ModelName("x")));
-            var valueOfX = new ValueModel(x, new ValueBinding(1, 1));
-            var snapshot = new SolutionSnapshot(Enumerable.Empty<ValueModel>(), new List<ValueModel> { valueOfX }, TimeSpan.Zero);
+            var valueOfX = new LabelModel(x, new ValueBinding(1, 1));
+            var snapshot = new SolutionSnapshot(new List<LabelModel> { valueOfX }, Enumerable.Empty<CompoundLabelModel>(), TimeSpan.Zero);
             var solutionModel = new SolutionModel(modelModel, snapshot);
 
             return solutionModel;

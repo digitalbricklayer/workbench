@@ -175,6 +175,7 @@
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\AllDifferentConstraintModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
+    <Compile Include="Models\CompoundLabelModel.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\ExpressionConstraintModel.cs" />
@@ -251,7 +252,7 @@
     <Compile Include="Models\ConstraintGraphicModel.cs" />
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\ValueModel.cs" />
+    <Compile Include="Models\LabelModel.cs" />
     <Compile Include="Models\AggregateVariableGraphicModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />

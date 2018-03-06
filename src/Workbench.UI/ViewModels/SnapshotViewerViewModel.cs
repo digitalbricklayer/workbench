@@ -10,23 +10,38 @@ namespace Workbench.ViewModels
     /// </summary>
     public class SnapshotViewerViewModel : Screen
     {
-        private IObservableCollection<ValueModel> values;
+        private IObservableCollection<LabelModel> labels;
+        private IObservableCollection<CompoundLabelModel> compoundLabels;
 
         public SnapshotViewerViewModel()
         {
-            this.values = new BindableCollection<ValueModel>();
+            this.labels = new BindableCollection<LabelModel>();
         }
 
         /// <summary>
-        /// Gets the values displayed in the solution.
+        /// Gets the labels displayed in the solution.
         /// </summary>
-        public IObservableCollection<ValueModel> Values
+        public IObservableCollection<LabelModel> Labels
         {
-            get { return this.values; }
+            get { return this.labels; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.values = value;
+                this.labels = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets the compound labels displayed in the solution.
+        /// </summary>
+        public IObservableCollection<CompoundLabelModel> CompoundLabels
+        {
+            get { return this.compoundLabels; }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.compoundLabels = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -36,23 +51,24 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Reset()
         {
-            Values.Clear();
+            Labels.Clear();
+            CompoundLabels.Clear();
         }
 
         /// <summary>
         /// Add a value.
         /// </summary>
-        /// <param name="newValueViewModel">New value.</param>
-        public void AddValue(ValueModel newValueViewModel)
+        /// <param name="newLabelViewModel">New value.</param>
+        public void AddValue(LabelModel newLabelViewModel)
         {
-            Contract.Requires<ArgumentNullException>(newValueViewModel != null);
-            Values.Add(newValueViewModel);
+            Contract.Requires<ArgumentNullException>(newLabelViewModel != null);
+            Labels.Add(newLabelViewModel);
         }
 
         public void BindTo(SolutionModel theSolution)
         {
-            Values.AddRange(theSolution.Snapshot.SingletonValues);
-            Values.AddRange(theSolution.Snapshot.AggregateValues);
+            Labels.AddRange(theSolution.Snapshot.SingletonValues);
+            CompoundLabels.AddRange(theSolution.Snapshot.AggregateValues);
         }
     }
 }

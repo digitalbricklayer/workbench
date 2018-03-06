@@ -59,8 +59,8 @@ namespace Workbench.Core.Solver
                     newValueBindings.Add(new ValueBinding(modelValue, solverValue));
                     variableCounter++;
                 }
-                var newValue = new ValueModel(aggregateTuple.Value.Item1, newValueBindings);
-                this.snapshot.AddAggregateValue(newValue);
+                var newCompoundLabel = new CompoundLabelModel(aggregateTuple.Value.Item1, newValueBindings);
+                this.snapshot.AddAggregateValue(newCompoundLabel);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Workbench.Core.Solver
             {
                 var solverValue = theSolutionCollector.Value(0, variableTuple.Value.Item2);
                 var modelValue = ConvertSolverValueToModel(variableTuple.Value.Item1, solverValue);
-                var newValue = new ValueModel(variableTuple.Value.Item1, new ValueBinding(modelValue, solverValue));
+                var newValue = new LabelModel(variableTuple.Value.Item1, new ValueBinding(modelValue, solverValue));
                 this.snapshot.AddSingletonValue(newValue);
             }
         }

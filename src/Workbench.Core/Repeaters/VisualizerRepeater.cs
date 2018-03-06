@@ -128,7 +128,7 @@ namespace Workbench.Core.Repeaters
             if (theValueReferenceExpression.IsSingletonValue)
             {
                 var singletonVariableName = theValueReferenceExpression.VariableName;
-                var singletonValue = this.snapshot.GetSingletonVariableValueByName(singletonVariableName.Name);
+                var singletonValue = this.snapshot.GetLabelByVariableName(singletonVariableName.Name);
                 return singletonValue.Value;
             }
             else if (theValueReferenceExpression.IsAggregateValue)
@@ -145,7 +145,7 @@ namespace Workbench.Core.Repeaters
                     var counterContext = this.context.GetCounterContextByName(counterReference.CounterName);
                     offsetValue = counterContext.CurrentValue;
                 }
-                var aggregateValue = this.snapshot.GetAggregateVariableValueByName(aggregateVariableName.Name);
+                var aggregateValue = this.snapshot.GetCompoundLabelByVariableName(aggregateVariableName.Name);
                 return aggregateValue.GetValueAt(offsetValue - 1);
             }
             else

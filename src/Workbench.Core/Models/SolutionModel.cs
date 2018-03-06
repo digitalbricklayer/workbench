@@ -17,6 +17,7 @@ namespace Workbench.Core.Models
         /// Initialize the solution with the model.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
+        /// <param name="theSnapshot">Solution snapshot.</param>
         public SolutionModel(ModelModel theModel, SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -78,10 +79,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Text of the variable to find.</param>
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
-        public ValueModel GetSingletonVariableValueByName(string theVariableName)
+        public LabelModel GetLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return Snapshot.GetSingletonVariableValueByName(theVariableName);
+            return Snapshot.GetLabelByVariableName(theVariableName);
         }
 
         /// <summary>
@@ -89,10 +90,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Aggregate value.</param>
         /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
-        public ValueModel GetAggregateVariableValueByName(string theVariableName)
+        public CompoundLabelModel GetCompoundLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return Snapshot.GetAggregateVariableValueByName(theVariableName);
+            return Snapshot.GetCompoundLabelByVariableName(theVariableName);
         }
 
         /// <summary>

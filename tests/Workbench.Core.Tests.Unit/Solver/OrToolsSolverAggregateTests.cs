@@ -24,7 +24,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                var c = actualSnapshot.GetCompoundLabelByVariableName("c");
                 Assert.That(c.GetValueAt(0), Is.LessThan(c.GetValueAt(9)));
                 Assert.That(c.GetValueAt(1), Is.GreaterThan(c.GetValueAt(8)));
             }
@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                var c = actualSnapshot.GetCompoundLabelByVariableName("c");
                 Assert.That(c.Values.Count, Is.EqualTo(10));
             }
         }
@@ -49,7 +49,7 @@ namespace Workbench.Core.Tests.Unit.Solver
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateVariableValueByName("c");
+                var c = actualSnapshot.GetCompoundLabelByVariableName("c");
                 Assert.That(c.GetValueAt(0), Is.InRange(1, 9));
             }
         }
