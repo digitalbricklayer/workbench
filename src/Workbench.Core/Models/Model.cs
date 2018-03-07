@@ -11,10 +11,10 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a model entity with a name.
         /// </summary>
-        /// <param name="theName">Text.</param>
+        /// <param name="theName">Model entity name.</param>
         protected Model(ModelName theName)
         {
-            Name = theName;
+            _name = theName;
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Workbench.Core.Models
         /// </summary>
         protected Model()
         {
-            Name = new ModelName();
+            _name = new ModelName();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public virtual ModelName Name
         {
-            get { return this._name; }
+            get { return _name; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);

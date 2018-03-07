@@ -47,7 +47,7 @@ namespace Workbench.Services
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             var theModel = theWorkspace.Model;
-            var newDesignerViewModel = new WorkspaceEditorViewModel(theWorkspace.Solution.Display, theModel);
+            var newDesignerViewModel = new WorkspaceEditorViewModel(theWorkspace.Display, theModel);
 
             foreach (var domainModel in theWorkspace.Model.Domains)
             {

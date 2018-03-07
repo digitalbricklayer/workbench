@@ -10,7 +10,6 @@ namespace Workbench.Core.Models
     [Serializable]
     public class SolutionModel : AbstractModel
     {
-        private DisplayModel display;
         private SolutionSnapshot snapshot;
 
         /// <summary>
@@ -25,7 +24,6 @@ namespace Workbench.Core.Models
 
             Model = theModel;
             Snapshot = theSnapshot;
-            Display = new DisplayModel(Model);
             Snapshot = new SolutionSnapshot();
         }
 
@@ -39,21 +37,7 @@ namespace Workbench.Core.Models
 
             Model = theModel;
             Snapshot = new SolutionSnapshot();
-            Display = new DisplayModel(Model);
             Snapshot = new SolutionSnapshot();
-        }
-
-        /// <summary>
-        /// Gets or sets the solution display.
-        /// </summary>
-        public DisplayModel Display
-        {
-            get { return this.display; }
-            set
-            {
-                this.display = value;
-                OnPropertyChanged();
-            }
         }
 
         /// <summary>
@@ -97,45 +81,13 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add the visualizer.
-        /// </summary>
-        /// <param name="theVisualizer">The visualizer to add.</param>
-        public void AddVisualizer(VisualizerModel theVisualizer)
-        {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
-            Display.AddVisualizer(theVisualizer);
-        }
-
-        /// <summary>
-        /// Get the graphic with the matching name.
-        /// </summary>
-        /// <param name="theName">Name of the graphic.</param>
-        /// <returns>Graphic matching the name.</returns>
-        public GraphicModel GetGraphicBy(string theName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            return Display.GetGraphicBy(theName);
-        }
-
-        /// <summary>
         /// Update the solution from a snapshot.
         /// </summary>
         /// <param name="theSolveResult">Solution snapshot.</param>
         public void UpdateSolutionFrom(SolveResult theSolveResult)
         {
             Contract.Requires<ArgumentNullException>(theSolveResult != null);
-            Display.UpdateFrom(theSolveResult);
             Snapshot = theSolveResult.Snapshot;
-        }
-
-        /// <summary>
-        /// Add a new visualizer binding expression.
-        /// </summary>
-        /// <param name="newBindingExpression">New visualizer binding expression.</param>
-        public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
-        {
-            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
-            Display.AddBindingEpxression(newBindingExpression);
         }
     }
 }

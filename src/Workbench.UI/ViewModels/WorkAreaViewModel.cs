@@ -53,7 +53,7 @@ namespace Workbench.ViewModels
             VariableVisualizers = new BindableCollection<VariableVisualizerViewModel>();
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
-            Editor = new WorkspaceEditorViewModel(WorkspaceModel.Solution.Display, WorkspaceModel.Model);
+            Editor = new WorkspaceEditorViewModel(WorkspaceModel.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
             DeleteCommand = new CommandHandler(DeleteAction);
             SelectedDisplay = "Editor";
@@ -63,6 +63,14 @@ namespace Workbench.ViewModels
         /// Gets or sets the workspace model.
         /// </summary>
         public WorkspaceModel WorkspaceModel { get; set; }
+
+        /// <summary>
+        /// Gets the display model.
+        /// </summary>
+        public DisplayModel Display
+        {
+            get { return WorkspaceModel.Display; }
+        }
 
         /// <summary>
         /// Gets the Delete command.

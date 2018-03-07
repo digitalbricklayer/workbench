@@ -95,7 +95,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
 
-            this.workspace.AddSolutionBinding(new VisualizerBindingExpressionModel(theBindingExpression));
+            this.workspace.AddBindingExpression(new VisualizerBindingExpressionModel(theBindingExpression));
             return this;
         }
 
@@ -151,7 +151,7 @@ namespace Workbench.Core.Models
         public DisplayModel GetDisplay()
         {
             Contract.Assume(this.workspace != null);
-            return this.workspace.Solution.Display;
+            return this.workspace.Display;
         }
 
         public WorkspaceModel Build()

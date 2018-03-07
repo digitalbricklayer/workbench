@@ -25,7 +25,7 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var solutionEditorViewModel = new SolutionEditorViewModel();
-            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.workArea.Solution.Display.Bindings);
+            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.workArea.Display.Bindings);
             var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.GetValueOrDefault())
             {
@@ -45,12 +45,12 @@ namespace Workbench.Commands
                 {
                     // New expression
                     var aNewExpression = new VisualizerBindingExpressionModel(visualizerEditor.Text);
-                    this.workArea.Solution.Display.AddBindingEpxression(aNewExpression);
+                    this.workArea.Display.AddBindingEpxression(aNewExpression);
                 }
                 else
                 {
                     // Update existing expression
-                    var visualizerBinding = this.workArea.Solution.Display.GetVisualizerBindingById(visualizerEditor.Id);
+                    var visualizerBinding = this.workArea.Display.GetVisualizerBindingById(visualizerEditor.Id);
                     visualizerBinding.Text = visualizerEditor.Text;
                 }
             }

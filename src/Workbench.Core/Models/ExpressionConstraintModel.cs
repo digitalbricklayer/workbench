@@ -16,18 +16,22 @@ namespace Workbench.Core.Models
         public ExpressionConstraintModel(ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theName != null);
+            Contract.Requires<ArgumentNullException>(theExpression != null);
             this.expression = theExpression;
         }
 
         public ExpressionConstraintModel(ModelName theName)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theName != null);
             this.expression = new ConstraintExpressionModel();
         }
 
         public ExpressionConstraintModel(ConstraintExpressionModel theExpression)
             : base(new ModelName())
         {
+            Contract.Requires<ArgumentNullException>(theExpression != null);
             this.expression = theExpression;
         }
 

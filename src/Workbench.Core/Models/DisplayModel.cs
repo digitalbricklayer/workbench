@@ -73,9 +73,10 @@ namespace Workbench.Core.Models
         public GraphicModel GetGraphicBy(string theName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
-            return (from aViewerViewModel in Graphics
-                    where aViewerViewModel.Name == theName
-                    select aViewerViewModel).FirstOrDefault();
+
+            return (from aGraphic in Graphics
+                    where aGraphic.Name == theName
+                    select aGraphic).FirstOrDefault();
         }
 
         /// <summary>

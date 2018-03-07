@@ -35,7 +35,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             sut.Solve();
-            var gridVisualizer = (TableVisualizerModel)sut.Solution.GetGraphicBy("states");
+            var gridVisualizer = (TableVisualizerModel)sut.GetGraphicBy("states");
             var colorColumnData = gridVisualizer.GetColumnDataByName("Color");
             var colorCells = colorColumnData.GetCells();
             Assert.That(colorCells, Has.Count.EqualTo(7), "There should be 7 cells in the color column corresponding to the 7 Australian states.");
