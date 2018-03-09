@@ -10,16 +10,16 @@ namespace Workbench.Core.Tests.Unit.Models
         public void AddSingletonVariableToModelVariableAddedToCorrectModel()
         {
             var sut = MakeValidModel();
-            var xGraphic = sut.GetVariableByName("x");
-            Assert.That(xGraphic.Variable.Model, Is.SameAs(sut));
+            var xVariable = sut.GetVariableByName("x");
+            Assert.That(xVariable.Model, Is.SameAs(sut));
         }
 
         [Test]
         public void AddAggregateVariableToModelVariableAddedToCorrectModel()
         {
             var sut = MakeValidModel();
-            var xGraphic = sut.GetVariableByName("y");
-            Assert.That(xGraphic.Variable.Model, Is.SameAs(sut));
+            var xVariable = sut.GetVariableByName("y");
+            Assert.That(xVariable.Model, Is.SameAs(sut));
         }
 
         [Test]

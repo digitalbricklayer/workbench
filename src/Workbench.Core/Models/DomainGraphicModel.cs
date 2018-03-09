@@ -10,25 +10,30 @@ namespace Workbench.Core.Models
     [Serializable]
     public class DomainGraphicModel : GraphicModel
     {
-        private DomainModel domain;
+        private readonly DomainModel _domain;
 
         public DomainGraphicModel(DomainModel theDomain, Point location)
             : base(theDomain, location)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
-            this.domain = theDomain;
+            _domain = theDomain;
         }
 
         public DomainGraphicModel(DomainModel theDomain)
             : base(theDomain, new Point())
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
-            this.domain = theDomain;
+            _domain = theDomain;
         }
 
         public DomainExpressionModel Expression
         {
-            get { return this.domain.Expression; }
+            get { return _domain.Expression; }
+        }
+
+        public DomainModel Domain
+        {
+            get { return _domain; }
         }
 
         /// <summary>
@@ -37,10 +42,8 @@ namespace Workbench.Core.Models
         /// <param name="rawExpression">Raw domain expression.</param>
         public void ParseExpression(string rawExpression)
         {
-            if (string.IsNullOrWhiteSpace(rawExpression))
-                throw new ArgumentException("rawExpression");
-            Contract.EndContractBlock();
-            this.domain.ParseExpression(rawExpression);
+            Contract.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(rawExpression));
+            _domain.ParseExpression(rawExpression);
         }
     }
 }

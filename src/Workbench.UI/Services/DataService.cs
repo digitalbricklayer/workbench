@@ -61,7 +61,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="variableName">Variable name.</param>
         /// <returns>Variable.</returns>
-        public VariableGraphicModel GetVariableByName(string variableName)
+        public VariableModel GetVariableByName(string variableName)
         {
             return this.currentWorkspace.Model.GetVariableByName(variableName);
         }

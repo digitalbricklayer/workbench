@@ -31,8 +31,9 @@ namespace Workbench.Core.Models
         public WorkspaceContext AddSingleton(string theVariableName, string theDomainExpression)
         {
             var newVariable = new SingletonVariableModel(this.workspace.Model, new ModelName(theVariableName), new VariableDomainExpressionModel(theDomainExpression));
+            this.workspace.Model.AddVariable(newVariable);
             var newVariableGraphic = new SingletonVariableGraphicModel(newVariable);
-            this.workspace.Model.AddVariable(newVariableGraphic);
+            this.workspace.Display.AddVisualizer(newVariableGraphic);
 
             return this;
         }
@@ -47,37 +48,45 @@ namespace Workbench.Core.Models
         public WorkspaceContext AddAggregate(string newAggregateName, int aggregateSize, string newDomainExpression)
         {
             var newVariable = new AggregateVariableModel(this.workspace.Model, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
+            this.workspace.Model.AddVariable(newVariable);
             var newVariableGraphic = new AggregateVariableGraphicModel(newVariable);
-            this.workspace.Model.AddVariable(newVariableGraphic);
+            this.workspace.Display.AddVisualizer(newVariableGraphic);
 
             return this;
         }
 
         public WorkspaceContext WithSharedDomain(string newDomainName, string newDomainExpression)
         {
-            var newDomain = new DomainGraphicModel(new DomainModel(new ModelName(newDomainName), new DomainExpressionModel(newDomainExpression)), new Point(1, 1));
+            var newDomain = new DomainModel(new ModelName(newDomainName), new DomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddSharedDomain(newDomain);
+            var newDomainGraphic = new DomainGraphicModel(newDomain, new Point(1, 1));
+            this.workspace.Display.AddVisualizer(newDomainGraphic);
 
             return this;
         }
 
-        public WorkspaceContext WithSharedDomain(DomainGraphicModel theDomainExpression)
+        public WorkspaceContext WithSharedDomain(DomainGraphicModel theDomainGraphic)
         {
-            this.workspace.Model.AddSharedDomain(theDomainExpression);
+            this.workspace.Model.AddSharedDomain(theDomainGraphic.Domain);
+            this.workspace.Display.AddVisualizer(theDomainGraphic);
             return this;
         }
 
         public WorkspaceContext WithConstraintExpression(string theConstraintExpression)
         {
             var theConstraintModel = new ExpressionConstraintModel(new ConstraintExpressionModel(theConstraintExpression));
-            this.workspace.Model.AddConstraint(new ExpressionConstraintGraphicModel(theConstraintModel, new Point(0, 0)));
+            this.workspace.Model.AddConstraint(theConstraintModel);
+            var constraintGraphic = new ExpressionConstraintGraphicModel(theConstraintModel, new Point(0, 0));
+            this.workspace.Display.AddVisualizer(constraintGraphic);
             return this;
         }
 
         public WorkspaceContext WithConstraintAllDifferent(string theExpression)
         {
-            var newConstraintModel = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
-            this.workspace.Model.AddConstraint(new AllDifferentConstraintGraphicModel(newConstraintModel, new Point(0, 0)));
+            var newConstraint = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
+            this.workspace.Model.AddConstraint(newConstraint);
+            var newConstraintGraphic = new AllDifferentConstraintGraphicModel(newConstraint, new Point(0, 0));
+            this.workspace.Display.AddVisualizer(newConstraintGraphic);
             return this;
         }
 

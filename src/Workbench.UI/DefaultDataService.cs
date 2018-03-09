@@ -19,7 +19,7 @@ namespace Workbench
             return null;
         }
 
-        public VariableGraphicModel GetVariableByName(string variableName)
+        public VariableModel GetVariableByName(string variableName)
         {
             return null;
         }

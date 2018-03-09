@@ -32,7 +32,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="variableName">Variable name.</param>
         /// <returns>Variable.</returns>
-        VariableGraphicModel GetVariableByName(string variableName);
+        VariableModel GetVariableByName(string variableName);
     }
 
     /// <summary>
@@ -63,11 +63,11 @@ namespace Workbench.Services
             return default(WorkspaceModel);
         }
 
-        public VariableGraphicModel GetVariableByName(string variableName)
+        public VariableModel GetVariableByName(string variableName)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Ensures(Contract.Result<VariableGraphicModel>() != null);
-            return default(VariableGraphicModel);
+            Contract.Ensures(Contract.Result<VariableModel>() != null);
+            return default(VariableModel);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Workbench.Core.Solver
         /// Map the expression constraint model into the or-tools solver.
         /// </summary>
         /// <param name="constraint">Expression constraint model.</param>
-        internal void ProcessConstraint(ExpressionConstraintGraphicModel constraint)
+        internal void ProcessConstraint(ExpressionConstraintModel constraint)
         {
             Contract.Requires<ArgumentNullException>(constraint != null);
             var repeater = new ConstraintRepeater(this.solver, this.cache, this.model, this.valueMapper);

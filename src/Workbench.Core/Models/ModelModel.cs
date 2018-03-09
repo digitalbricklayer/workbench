@@ -13,14 +13,14 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ModelModel : Model
     {
-        private ObservableCollection<VariableGraphicModel> variables;
-        private ObservableCollection<SingletonVariableGraphicModel> singletons;
-        private ObservableCollection<AggregateVariableGraphicModel> aggregates;
-        private ObservableCollection<DomainGraphicModel> domains;
-        private ObservableCollection<ConstraintGraphicModel> constraints;
+        private ObservableCollection<VariableModel> variables;
+        private ObservableCollection<SingletonVariableModel> singletons;
+        private ObservableCollection<AggregateVariableModel> aggregates;
+        private ObservableCollection<DomainModel> domains;
+        private ObservableCollection<ConstraintModel> constraints;
 
         /// <summary>
-        /// Initialize a model with a model name.
+        /// Initialize a model with a name.
         /// </summary>
         /// <param name="theName">Model name.</param>
         public ModelModel(ModelName theName)
@@ -35,17 +35,17 @@ namespace Workbench.Core.Models
         public ModelModel()
         {
             Name = new ModelName();
-            Variables = new ObservableCollection<VariableGraphicModel>();
-            Singletons = new ObservableCollection<SingletonVariableGraphicModel>();
-            Aggregates = new ObservableCollection<AggregateVariableGraphicModel>();
-            Domains = new ObservableCollection<DomainGraphicModel>();
-            Constraints = new ObservableCollection<ConstraintGraphicModel>();
+            Variables = new ObservableCollection<VariableModel>();
+            Singletons = new ObservableCollection<SingletonVariableModel>();
+            Aggregates = new ObservableCollection<AggregateVariableModel>();
+            Domains = new ObservableCollection<DomainModel>();
+            Constraints = new ObservableCollection<ConstraintModel>();
         }
 
         /// <summary>
         /// Gets and sets the variables.
         /// </summary>
-        public ObservableCollection<VariableGraphicModel> Variables
+        public ObservableCollection<VariableModel> Variables
         {
             get { return this.variables; }
             set
@@ -59,7 +59,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the singleton variable collection.
         /// </summary>
-        public ObservableCollection<SingletonVariableGraphicModel> Singletons
+        public ObservableCollection<SingletonVariableModel> Singletons
         {
             get { return this.singletons; }
             set
@@ -73,7 +73,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets and sets the aggregate variables.
         /// </summary>
-        public ObservableCollection<AggregateVariableGraphicModel> Aggregates
+        public ObservableCollection<AggregateVariableModel> Aggregates
         {
             get { return this.aggregates; }
             set
@@ -87,7 +87,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public ObservableCollection<DomainGraphicModel> Domains
+        public ObservableCollection<DomainModel> Domains
         {
             get { return this.domains; }
             set
@@ -101,7 +101,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the constraints.
         /// </summary>
-        public ObservableCollection<ConstraintGraphicModel> Constraints
+        public ObservableCollection<ConstraintModel> Constraints
         {
             get { return this.constraints; }
             set
@@ -116,20 +116,22 @@ namespace Workbench.Core.Models
         /// Add a new constraint to the model.
         /// </summary>
         /// <param name="newConstraint">New constraint.</param>
-        public void AddConstraint(ConstraintGraphicModel newConstraint)
+        public void AddConstraint(ConstraintModel newConstraint)
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
+
             newConstraint.AssignIdentity();
-            this.Constraints.Add(newConstraint);
+            Constraints.Add(newConstraint);
         }
 
         /// <summary>
         /// Delete the constraint from the model.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ConstraintGraphicModel constraintToDelete)
+        public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
+
             Constraints.Remove(constraintToDelete);
         }
 
@@ -137,9 +139,10 @@ namespace Workbench.Core.Models
         /// Add a new variable to the model.
         /// </summary>
         /// <param name="newVariable">New variable.</param>
-        public void AddVariable(SingletonVariableGraphicModel newVariable)
+        public void AddVariable(SingletonVariableModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
+
             newVariable.AssignIdentity();
             Variables.Add(newVariable);
             Singletons.Add(newVariable);
@@ -149,9 +152,10 @@ namespace Workbench.Core.Models
         /// Add a new aggregate variable to the model.
         /// </summary>
         /// <param name="newVariable">New aggregate variable.</param>
-        public void AddVariable(AggregateVariableGraphicModel newVariable)
+        public void AddVariable(AggregateVariableModel newVariable)
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
+
             newVariable.AssignIdentity();
             Variables.Add(newVariable);
             Aggregates.Add(newVariable);
@@ -161,30 +165,34 @@ namespace Workbench.Core.Models
         /// Delete the variable from the model.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
-        public void DeleteVariable(VariableGraphicModel variableToDelete)
+        public void DeleteVariable(VariableModel variableToDelete)
         {
             Contract.Requires<ArgumentNullException>(variableToDelete != null);
+
             Variables.Remove(variableToDelete);
         }
 
-        public void AddDomain(DomainGraphicModel newDomain)
+        public void AddDomain(DomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
+
             newDomain.AssignIdentity();
             Domains.Add(newDomain);
         }
 
-        public void AddSharedDomain(DomainGraphicModel newDomain)
+        public void AddSharedDomain(DomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
-            Contract.Assume(newDomain.Name != null && !string.IsNullOrWhiteSpace(newDomain.Name));
+            Contract.Assume(newDomain.Name != null);
+
             newDomain.AssignIdentity();
             Domains.Add(newDomain);
         }
 
-        public void RemoveSharedDomain(DomainGraphicModel oldDomain)
+        public void RemoveSharedDomain(DomainModel oldDomain)
         {
             Contract.Requires<ArgumentNullException>(oldDomain != null);
+
             Domains.Add(oldDomain);
         }
 
@@ -192,9 +200,10 @@ namespace Workbench.Core.Models
         /// Delete the domain from the model.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainGraphicModel domainToDelete)
+        public void DeleteDomain(DomainModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
+
             Domains.Remove(domainToDelete);
         }
 
@@ -203,10 +212,11 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">The variable name.</param>
         /// <returns>Variable model.</returns>
-        public VariableGraphicModel GetVariableByName(string theVariableName)
+        public VariableModel GetVariableByName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return Variables.FirstOrDefault(variable => variable.Name == theVariableName);
+
+            return Variables.FirstOrDefault(variable => variable.Name.IsEqualTo(theVariableName));
         }
 
         /// <summary>
@@ -225,6 +235,8 @@ namespace Workbench.Core.Models
         /// <returns>True if the model is valid, False if it is not valid.</returns>
         public bool Validate(ModelValidationContext validateContext)
         {
+            Contract.Requires<ArgumentNullException>(validateContext != null);
+
             var expressionsValid = ValidateConstraints(validateContext);
             if (!expressionsValid) return false;
             return ValidateSharedDomains(validateContext);
@@ -235,10 +247,23 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theSharedDomainName">Shared domain name.</param>
         /// <returns>Shared domain matching the name.</returns>
-        public DomainGraphicModel GetSharedDomainByName(string theSharedDomainName)
+        public DomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
-            return Domains.FirstOrDefault(x => x.Name == theSharedDomainName);
+            return Domains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
+        }
+
+        /// <summary>
+        /// Solve the model.
+        /// </summary>
+        /// <returns>Solve result.</returns>
+        public SolveResult Solve()
+        {
+            Contract.Ensures(Contract.Result<SolveResult>() != null);
+            using (var solver = new OrToolsSolver())
+            {
+                return solver.Solve(this);
+            }
         }
 
         private bool ValidateConstraints(ModelValidationContext validateContext)
@@ -246,7 +271,7 @@ namespace Workbench.Core.Models
             return Constraints.All(aConstraint => ValidateConstraint(aConstraint, validateContext));
         }
 
-        private bool ValidateConstraint(ConstraintGraphicModel aConstraint, ModelValidationContext theContext)
+        private bool ValidateConstraint(ConstraintModel aConstraint, ModelValidationContext theContext)
         {
             return aConstraint.Validate(this, theContext);
         }
@@ -274,19 +299,6 @@ namespace Workbench.Core.Models
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Solve the model.
-        /// </summary>
-        /// <returns>Solve result.</returns>
-        public SolveResult Solve()
-        {
-            Contract.Ensures(Contract.Result<SolveResult>() != null);
-            using (var solver = new OrToolsSolver())
-            {
-                return solver.Solve(this);
-            }
         }
     }
 }

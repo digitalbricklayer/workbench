@@ -55,9 +55,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomain()
         {
-            var theModel = new ModelModel();
             var sut = new AggregateVariableGraphicModel(new AggregateVariableModel(new ModelModel(), new ModelName("A test"), 2, new VariableDomainExpressionModel("1..10")));
-            theModel.AddVariable(sut);
             sut.Resize(10);
             sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
             Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(9, new VariableDomainExpressionModel("8..11")));

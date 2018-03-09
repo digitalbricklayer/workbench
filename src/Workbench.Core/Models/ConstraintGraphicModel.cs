@@ -10,21 +10,28 @@ namespace Workbench.Core.Models
     public abstract class ConstraintGraphicModel : GraphicModel
     {
         /// <summary>
-        /// Initialize the constraint with a constraint name and location.
+        /// Initialize the constraint graphic with a constraint and location.
         /// </summary>
         /// <param name="location">Location of the graphic.</param>
         protected ConstraintGraphicModel(ConstraintModel theConstraint, Point location)
             : base(theConstraint, location)
         {
+            Constraint = theConstraint;
         }
 
         /// <summary>
-        /// Initialize the constraint with a constraint name.
+        /// Initialize the constraint graphic with a constraint.
         /// </summary>
         protected ConstraintGraphicModel(ConstraintModel theConstraint)
             : base(theConstraint)
         {
+            Constraint = theConstraint;
         }
+
+        /// <summary>
+        /// Gets the constraint model.
+        /// </summary>
+        public ConstraintModel Constraint { get; private set; }
 
         /// <summary>
         /// Validate the constraint.

@@ -11,26 +11,26 @@ namespace Workbench.Core.Solver
     /// </summary>
     internal class OrToolsCache
     {
-        private readonly Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>> singletonVariableMap;
-        private readonly Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> aggregateVariableMap;
+        private readonly Dictionary<string, Tuple<SingletonVariableModel, IntVar>> singletonVariableMap;
+        private readonly Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> aggregateVariableMap;
 
         internal OrToolsCache()
         {
-            this.singletonVariableMap = new Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>>();
-            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>>();
+            this.singletonVariableMap = new Dictionary<string, Tuple<SingletonVariableModel, IntVar>>();
+            this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>>();
             this.Variables = new IntVarVector();
         }
 
-        internal Dictionary<string, Tuple<SingletonVariableGraphicModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
-        internal Dictionary<string, Tuple<AggregateVariableGraphicModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
+        internal Dictionary<string, Tuple<SingletonVariableModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
+        internal Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
         internal IntVarVector Variables { get; private set; }
 
-        internal void AddAggregate(string name, Tuple<AggregateVariableGraphicModel, IntVarVector> tuple)
+        internal void AddAggregate(string name, Tuple<AggregateVariableModel, IntVarVector> tuple)
         {
             this.aggregateVariableMap.Add(name, tuple);
         }
 
-        internal void AddSingleton(string name, Tuple<SingletonVariableGraphicModel, IntVar> tuple)
+        internal void AddSingleton(string name, Tuple<SingletonVariableModel, IntVar> tuple)
         {
             this.singletonVariableMap.Add(name, tuple);
         }

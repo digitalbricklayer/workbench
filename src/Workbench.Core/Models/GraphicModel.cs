@@ -9,9 +9,9 @@ namespace Workbench.Core.Models
         private Model model;
 
         /// <summary>
-        /// Initialize a graphic model with a name and location.
+        /// Initialize a graphic model with a model and location.
         /// </summary>
-        /// <param name="theModel">Model the graphic belongs.</param>
+        /// <param name="theModel">Model the graphic represents.</param>
         /// <param name="location">Location of the graphic.</param>
         protected GraphicModel(Model theModel, Point location)
             : this(theModel)
@@ -21,7 +21,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initialize a graphic model with a name.
+        /// Initialize a graphic model with a model.
         /// </summary>
         protected GraphicModel(Model theModel)
         {

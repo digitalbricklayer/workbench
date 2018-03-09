@@ -36,7 +36,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variable model.
         /// </summary>
-        public virtual VariableModel Variable
+        public VariableModel Variable
         {
             get
             {

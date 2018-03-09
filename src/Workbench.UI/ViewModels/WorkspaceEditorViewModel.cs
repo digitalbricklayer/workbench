@@ -299,7 +299,7 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableToModel(SingletonVariableEditorViewModel newVariableViewModel)
         {
             Contract.Assert(newVariableViewModel.Model != null);
-            ModelModel.AddVariable(newVariableViewModel.SingletonVariableGraphic);
+            ModelModel.AddVariable(newVariableViewModel.SingletonVariableGraphic.SingletonVariable);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableToModel(AggregateVariableEditorViewModel newVariableViewModel)
         {
             Contract.Assert(newVariableViewModel.Model != null);
-            ModelModel.AddVariable(newVariableViewModel.AggregateVariableGraphic);
+            ModelModel.AddVariable(newVariableViewModel.AggregateVariableGraphic.AggregateVariable);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Workbench.ViewModels
         private void AddDomainToModel(DomainEditorViewModel newDomainViewModel)
         {
             Contract.Assert(newDomainViewModel.Model != null);
-            ModelModel.AddDomain(newDomainViewModel.DomainGraphic);
+            ModelModel.AddDomain(newDomainViewModel.DomainGraphic.Domain);
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Workbench.ViewModels
         private void AddConstraintToModel(AllDifferentConstraintEditorViewModel newConstraintViewModel)
         {
             Contract.Assert(newConstraintViewModel.Model != null);
-            ModelModel.AddConstraint(newConstraintViewModel.AllDifferentConstraintGraphic);
+            ModelModel.AddConstraint(newConstraintViewModel.AllDifferentConstraintGraphic.Constraint);
         }
 
         /// <summary>
@@ -339,25 +339,25 @@ namespace Workbench.ViewModels
         private void AddConstraintToModel(ExpressionConstraintEditorViewModel newConstraintViewModel)
         {
             Contract.Assert(newConstraintViewModel.Model != null);
-            ModelModel.AddConstraint(newConstraintViewModel.Model);
+            ModelModel.AddConstraint(newConstraintViewModel.Model.Constraint);
         }
 
         private void DeleteConstraintFromModel(ConstraintEditorViewModel constraintToDelete)
         {
             Contract.Assert(constraintToDelete.Model != null);
-            ModelModel.DeleteConstraint(constraintToDelete.ConstraintGraphic);
+            ModelModel.DeleteConstraint(constraintToDelete.ConstraintGraphic.Constraint);
         }
 
         private void DeleteVariableFromModel(VariableEditorViewModel variableToDelete)
         {
             Contract.Assert(variableToDelete.Model != null);
-            ModelModel.DeleteVariable(variableToDelete.VariableGraphic);
+            ModelModel.DeleteVariable(variableToDelete.VariableGraphic.Variable);
         }
 
         private void DeleteDomainFromModel(DomainEditorViewModel domainToDelete)
         {
             Contract.Assert(domainToDelete.Model != null);
-            ModelModel.DeleteDomain(domainToDelete.DomainGraphic);
+            ModelModel.DeleteDomain(domainToDelete.DomainGraphic.Domain);
         }
 
         [ContractInvariantMethod]

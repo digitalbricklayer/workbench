@@ -39,12 +39,12 @@ namespace Workbench.Core.Solver
             {
                 switch (constraint)
                 {
-                    case ExpressionConstraintGraphicModel expressionConstraint:
+                    case ExpressionConstraintModel expressionConstraint:
                         var expressionConstraintConverter = new ExpressionConstraintConverter(this.solver, this.cache, theModel, this.valueMapper);
                         expressionConstraintConverter.ProcessConstraint(expressionConstraint);
                         break;
 
-                    case AllDifferentConstraintGraphicModel allDifferentConstraint:
+                    case AllDifferentConstraintModel allDifferentConstraint:
                         var allDifferentConstraintConverter = new AllDifferentConstraintConverter(this.solver, this.cache, theModel);
                         allDifferentConstraintConverter.ProcessConstraint(allDifferentConstraint);
                         break;

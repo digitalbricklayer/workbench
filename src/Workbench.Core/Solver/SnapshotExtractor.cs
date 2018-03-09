@@ -75,13 +75,13 @@ namespace Workbench.Core.Solver
             }
         }
 
-        private object ConvertSolverValueToModel(SingletonVariableGraphicModel theVariable, long solverValue)
+        private object ConvertSolverValueToModel(SingletonVariableModel theVariable, long solverValue)
         {
             var theVariableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
             return theVariableDomainValue.MapFrom(solverValue);
         }
 
-        private object ConvertSolverValueToModel(AggregateVariableGraphicModel theVariable, int index, long solverValue)
+        private object ConvertSolverValueToModel(AggregateVariableModel theVariable, int index, long solverValue)
         {
             var theVariableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
             return theVariableDomainValue.MapFrom(solverValue);

@@ -12,6 +12,7 @@ namespace Workbench.Core.Models
         public SingletonVariableGraphicModel(SingletonVariableModel theModel, Point newLocation)
             : base(theModel, newLocation)
         {
+            SingletonVariable = theModel;
         }
 
         /// <summary>
@@ -20,6 +21,9 @@ namespace Workbench.Core.Models
         public SingletonVariableGraphicModel(SingletonVariableModel theModel)
             : base(theModel, new Point())
         {
+            SingletonVariable = theModel;
         }
+
+        public SingletonVariableModel SingletonVariable { get; private set; }
     }
 }

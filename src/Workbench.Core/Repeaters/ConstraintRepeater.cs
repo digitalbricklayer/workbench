@@ -54,7 +54,7 @@ namespace Workbench.Core.Repeaters
             }
         }
 
-        internal ConstraintRepeaterContext CreateContextFrom(ExpressionConstraintGraphicModel constraint)
+        internal ConstraintRepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
         {
             return new ConstraintRepeaterContext(constraint, this.model);
         }

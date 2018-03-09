@@ -89,7 +89,7 @@ namespace Workbench.Core.Models
 
             foreach (var singletonVariableReference in variableReferences.SingletonVariableReferences)
             {
-                if (theModel.Variables.FirstOrDefault(_ => _.Name == singletonVariableReference.VariableName) == null)
+                if (theModel.Variables.FirstOrDefault(_ => _.Name.IsEqualTo(singletonVariableReference.VariableName)) == null)
                 {
                     theContext.AddError($"Missing singleton variable {singletonVariableReference.VariableName}");
                     return false;
@@ -98,7 +98,7 @@ namespace Workbench.Core.Models
 
             foreach (var aggregateVariableReference in variableReferences.AggregateVariableReferences)
             {
-                if (theModel.Aggregates.FirstOrDefault(_ => _.Name == aggregateVariableReference.VariableName) == null)
+                if (theModel.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(aggregateVariableReference.VariableName)) == null)
                 {
                     theContext.AddError($"Missing aggregate variable {aggregateVariableReference.VariableName}");
                     return false;

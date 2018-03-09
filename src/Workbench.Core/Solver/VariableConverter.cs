@@ -44,15 +44,15 @@ namespace Workbench.Core.Solver
         {
             foreach (var aggregate in theModel.Aggregates)
             {
-                var theVariableBand = VariableBandEvaluator.GetVariableBand(aggregate.Variable);
+                var theVariableBand = VariableBandEvaluator.GetVariableBand(aggregate);
                 this.valueMapper.AddVariableDomainValue(aggregate, theVariableBand);
                 var theVariableRange = theVariableBand.GetRange();
                 var orVariableVector = this.solver.MakeIntVarArray(aggregate.AggregateCount,
                                                                    theVariableRange.Lower,
                                                                    theVariableRange.Upper,
-                                                                   aggregate.Name);
-                this.cache.AddAggregate(aggregate.Name,
-                                        new Tuple<AggregateVariableGraphicModel, IntVarVector>(aggregate, orVariableVector));
+                                                                   aggregate.Name.Text);
+                this.cache.AddAggregate(aggregate.Name.Text,
+                                        new Tuple<AggregateVariableModel, IntVarVector>(aggregate, orVariableVector));
                 foreach (var orVar in orVariableVector)
                 {
                     this.cache.AddVariable(orVar);
@@ -64,18 +64,18 @@ namespace Workbench.Core.Solver
         {
             foreach (var variable in theModel.Singletons)
             {
-                var theVariableBand = VariableBandEvaluator.GetVariableBand(variable.Variable);
+                var theVariableBand = VariableBandEvaluator.GetVariableBand(variable);
                 this.valueMapper.AddVariableDomainValue(variable, theVariableBand);
                 var orVariable = ProcessVariable(variable);
-                this.cache.AddSingleton(variable.Name, new Tuple<SingletonVariableGraphicModel, IntVar>(variable, orVariable));
+                this.cache.AddSingleton(variable.Name.Text, new Tuple<SingletonVariableModel, IntVar>(variable, orVariable));
             }
         }
 
-        private IntVar ProcessVariable(VariableGraphicModel variable)
+        private IntVar ProcessVariable(VariableModel variable)
         {
-            var theVariableBand = VariableBandEvaluator.GetVariableBand(variable.Variable);
+            var theVariableBand = VariableBandEvaluator.GetVariableBand(variable);
             var theVariableRange = theVariableBand.GetRange();
-            var orVariable = solver.MakeIntVar(theVariableRange.Lower, theVariableRange.Upper, variable.Name);
+            var orVariable = solver.MakeIntVar(theVariableRange.Lower, theVariableRange.Upper, variable.Name.Text);
             this.cache.AddVariable(orVariable);
 
             return orVariable;

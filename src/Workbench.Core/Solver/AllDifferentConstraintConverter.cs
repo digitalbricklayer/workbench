@@ -33,7 +33,7 @@ namespace Workbench.Core.Solver
         /// Map the all different constraint model into the or-tools solver.
         /// </summary>
         /// <param name="allDifferentConstraint">All different constraint model.</param>
-        internal void ProcessConstraint(AllDifferentConstraintGraphicModel allDifferentConstraint)
+        internal void ProcessConstraint(AllDifferentConstraintModel allDifferentConstraint)
         {
             Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
             var theVector = this.cache.GetVectorByName(allDifferentConstraint.Expression.Text);

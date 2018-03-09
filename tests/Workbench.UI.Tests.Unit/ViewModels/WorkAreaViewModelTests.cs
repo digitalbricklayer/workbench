@@ -59,8 +59,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
-            var mock = new Mock<IViewModelFactory>();
-            return mock;
+            return new Mock<IViewModelFactory>();
         }
 
         private Mock<IWorkspaceReaderWriter> CreateWorkspaceReaderWriterMock()

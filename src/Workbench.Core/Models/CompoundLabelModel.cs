@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValueBindings">Values to bind to the model.</param>
-        public CompoundLabelModel(VariableGraphicModel theModel, IReadOnlyCollection<ValueBinding> theValueBindings)
+        public CompoundLabelModel(VariableModel theModel, IReadOnlyCollection<ValueBinding> theValueBindings)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theValueBindings != null);
@@ -33,7 +33,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variable associated with the valueBindings.
         /// </summary>
-        public VariableGraphicModel Variable { get; private set; }
+        public VariableModel Variable { get; private set; }
 
         /// <summary>
         /// Gets the value bindings.
@@ -69,7 +69,7 @@ namespace Workbench.Core.Models
             get
             {
                 Contract.Assume(Variable != null);
-                return Variable.Name;
+                return Variable.Name.Text;
             }
         }
 

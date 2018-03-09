@@ -18,7 +18,7 @@ namespace Workbench.Core.Repeaters
         /// </summary>
         /// <param name="theConstraint">Expression constraint.</param>
         /// <param name="theModel">Model</param>
-        public ConstraintRepeaterContext(ExpressionConstraintGraphicModel theConstraint, ModelModel theModel)
+        public ConstraintRepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
             Constraint = theConstraint;
@@ -44,7 +44,7 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Gets the constraint.
         /// </summary>
-        public ExpressionConstraintGraphicModel Constraint { get; private set; }
+        public ExpressionConstraintModel Constraint { get; private set; }
 
         /// <summary>
         /// Gets the model.

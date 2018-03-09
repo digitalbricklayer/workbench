@@ -40,8 +40,8 @@ namespace Workbench.Services
         /// <summary>
         /// Map a display model to a solution designer view model.
         /// </summary>
-        /// <param name="theDisplay">Display model.</param>
-        /// <returns>Solution designer view model.</returns>
+        /// <param name="theWorkspace">The workspace.</param>
+        /// <returns>Workspace editor view model.</returns>
         public WorkspaceEditorViewModel MapFrom(WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
@@ -51,8 +51,10 @@ namespace Workbench.Services
 
             foreach (var domainModel in theWorkspace.Model.Domains)
             {
+#if false
                 var domainViewModel = this.domainMapper.MapFrom(domainModel);
                 newDesignerViewModel.FixupDomain(domainViewModel);
+#endif
             }
 
             foreach (var constraintModel in theWorkspace.Model.Constraints)

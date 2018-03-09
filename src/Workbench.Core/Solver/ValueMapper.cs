@@ -12,27 +12,27 @@ namespace Workbench.Core.Solver
     {
         private Dictionary<string, DomainValue> valueVariableDictionary = new Dictionary<string, DomainValue>();
 
-        internal DomainValue GetDomainValueFor(VariableGraphicModel theVariable)
+        internal DomainValue GetDomainValueFor(VariableModel theVariable)
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
 
-            return this.valueVariableDictionary[theVariable.Name];
+            return this.valueVariableDictionary[theVariable.Name.Text];
         }
 
-        internal void AddVariableDomainValue(SingletonVariableGraphicModel theSingleton, DomainValue theVariableBand)
+        internal void AddVariableDomainValue(SingletonVariableModel theSingleton, DomainValue theVariableBand)
         {
             Contract.Requires<ArgumentNullException>(theSingleton != null);
             Contract.Requires<ArgumentNullException>(theVariableBand != null);
 
-            this.valueVariableDictionary.Add(theSingleton.Name, theVariableBand);
+            this.valueVariableDictionary.Add(theSingleton.Name.Text, theVariableBand);
         }
 
-        internal void AddVariableDomainValue(AggregateVariableGraphicModel theAggregate, DomainValue theVariableBand)
+        internal void AddVariableDomainValue(AggregateVariableModel theAggregate, DomainValue theVariableBand)
         {
             Contract.Requires<ArgumentNullException>(theAggregate != null);
             Contract.Requires<ArgumentNullException>(theVariableBand != null);
 
-            this.valueVariableDictionary.Add(theAggregate.Name, theVariableBand);
+            this.valueVariableDictionary.Add(theAggregate.Name.Text, theVariableBand);
         }
     }
 }

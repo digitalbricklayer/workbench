@@ -95,7 +95,7 @@ namespace Workbench.Core.Models
         public CompoundLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
-            return this.compoundLabels.FirstOrDefault(_ => _.Variable.Name == theAggregateVariableName);
+            return this.compoundLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Workbench.UI.Tests.Integration.Services
             Assert.That(readWorkspaceModel, Is.Not.Null);
             Assert.That(readWorkspaceModel.Model.Name.Text, Is.Empty);
             var variableX = readWorkspaceModel.Model.GetVariableByName("x");
-            Assert.That(variableX.Name, Is.EqualTo("x"));
+            Assert.That(variableX.Name.Text, Is.EqualTo("x"));
             File.Delete(filePath);
         }
 
@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Integration.Services
 
         private static void WriteWorkspaceToDisk(string filePath)
         {
-            var workspaceModel = WorkspaceModelFactory.Create();
+            var workspaceModel = new WorkspaceModelFactory().Create();
             var workspaceWriter = new BinaryFileWorkspaceWriter();
             workspaceWriter.Write(filePath, workspaceModel);
         }

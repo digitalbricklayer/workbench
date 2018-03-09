@@ -16,7 +16,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariable">Variable model.</param>
         /// <param name="theBinding">Value to bind to the model.</param>
-        public LabelModel(VariableGraphicModel theVariable, ValueBinding theBinding)
+        public LabelModel(VariableModel theVariable, ValueBinding theBinding)
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
             Contract.Requires<ArgumentNullException>(theBinding != null);
@@ -28,7 +28,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the variable associated with the values.
         /// </summary>
-        public VariableGraphicModel Variable { get; private set; }
+        public VariableModel Variable { get; private set; }
 
         /// <summary>
         /// Gets the bindings bound to the variable.
@@ -61,7 +61,7 @@ namespace Workbench.Core.Models
             get
             {
                 Contract.Assume(Variable != null);
-                return Variable.Name;
+                return Variable.Name.Text;
             }
         }
 

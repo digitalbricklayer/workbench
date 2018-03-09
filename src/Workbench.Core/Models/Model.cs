@@ -3,6 +3,9 @@ using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
+	/// <summary>
+	/// Base for all classes in the model.
+	/// </summary>
     [Serializable]
     public abstract class Model : AbstractModel
     {
@@ -14,6 +17,7 @@ namespace Workbench.Core.Models
         /// <param name="theName">Model entity name.</param>
         protected Model(ModelName theName)
         {
+            Contract.Requires<ArgumentNullException>(theName != null);
             _name = theName;
         }
 

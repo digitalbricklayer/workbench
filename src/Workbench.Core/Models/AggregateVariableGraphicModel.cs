@@ -13,13 +13,12 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AggregateVariableGraphicModel : VariableGraphicModel
     {
-        private AggregateVariableModel variable;
-
         public AggregateVariableGraphicModel(AggregateVariableModel theVariable, Point newVariableLocation)
             : base(theVariable, newVariableLocation)
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
-            this.variable = theVariable;
+
+            AggregateVariable = theVariable;
         }
 
         /// <summary>
@@ -29,23 +28,8 @@ namespace Workbench.Core.Models
             : base(theVariable, new Point())
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
-            this.variable = theVariable;
-        }
 
-        /// <summary>
-        /// Gets the aggregate variable model.
-        /// </summary>
-        public override VariableModel Variable
-        {
-            get
-            {
-                return this.variable;
-            }
-            set
-            {
-                this.variable = (AggregateVariableModel) value;
-                base.Variable = value;
-            }
+            AggregateVariable = theVariable;
         }
 
         /// <summary>
@@ -55,7 +39,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return new ReadOnlyCollection<VariableModel>(this.variable.Variables.ToList()); 
+                return new ReadOnlyCollection<VariableModel>(AggregateVariable.Variables.ToList()); 
             }
         }
 
@@ -66,7 +50,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return this.variable.AggregateCount;
+                return AggregateVariable.AggregateCount;
             }
         }
 
@@ -75,15 +59,17 @@ namespace Workbench.Core.Models
         /// </summary>
         public new VariableDomainExpressionModel DomainExpression
         {
-            get { return this.variable.DomainExpression; }
+            get { return AggregateVariable.DomainExpression; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
 
-                this.variable.DomainExpression = value;
+                AggregateVariable.DomainExpression = value;
                 OnPropertyChanged();
             }
         }
+
+        public AggregateVariableModel AggregateVariable { get; private set; }
 
         /// <summary>
         /// Resize the aggregate variable.
@@ -93,7 +79,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(newAggregateSize > 0);
 
-            this.variable.Resize(newAggregateSize);
+            AggregateVariable.Resize(newAggregateSize);
         }
 
         /// <summary>
@@ -103,8 +89,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable at the index.</returns>
         public VariableModel GetVariableByIndex(int variableIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < this.Variables.Count() && variableIndex >= 0);
-            return this.variable.GetVariableByIndex(variableIndex);
+            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < Variables.Count && variableIndex >= 0);
+            return AggregateVariable.GetVariableByIndex(variableIndex);
         }
 
         /// <summary>
@@ -117,7 +103,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentOutOfRangeException>(variableIndex < Variables.Count());
             Contract.Requires<ArgumentNullException>(newDomainExpression != null);
 
-            this.variable.OverrideDomainTo(variableIndex, newDomainExpression);
+            AggregateVariable.OverrideDomainTo(variableIndex, newDomainExpression);
         }
 
         /// <summary>

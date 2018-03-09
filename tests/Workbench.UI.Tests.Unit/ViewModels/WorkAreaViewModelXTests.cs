@@ -3,7 +3,6 @@ using Caliburn.Micro;
 using Workbench.ViewModels;
 using Moq;
 using NUnit.Framework;
-using Workbench.Core.Models;
 using Workbench.Messages;
 using Workbench.Services;
 
@@ -15,7 +14,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IEventAggregator> eventAggregatorMock;
         private IViewModelService viewModelService;
         private Mock<IViewModelFactory> viewModelFactoryMock;
-        private Mock<IWindowManager> windowManagerMock;
 
         [SetUp]
         public void Initialize()
@@ -23,7 +21,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.eventAggregatorMock = new Mock<IEventAggregator>();
             this.viewModelFactoryMock = CreateViewModelFactoryMock();
             this.viewModelService = Mock.Of<IViewModelService>();
-            this.windowManagerMock = CreateWindowManagerMock();
+            CreateWindowManagerMock();
         }
 
         [Test]
