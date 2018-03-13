@@ -13,66 +13,17 @@ namespace Workbench.ViewModels
     /// </summary>
     public class SolutionMenuViewModel
     {
-        private readonly WorkAreaViewModel workArea;
-        private readonly IWindowManager windowManager;
-
         /// <summary>
         /// Initialize the solution menu view model with default values.
         /// </summary>
-        public SolutionMenuViewModel(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
+        public SolutionMenuViewModel()
         {
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkArea != null);
-
-            this.workArea = theWorkArea;
-            this.windowManager = theWindowManager;
             EditSolutionCommand = IoC.Get<EditSolutionCommand>();
-            AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditTableExecute);
-            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditTableExecute);
         }
-
-        /// <summary>
-        /// Gets the Solution|Add Column command.
-        /// </summary>
-        public ICommand AddColumnCommand { get; private set; }
 
         /// <summary>
         /// Gets the Solution|Edit Solution command.
         /// </summary>
         public ICommand EditSolutionCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the Solution|Edit Map command
-        /// </summary>
-        public ICommand AddRowCommand { get; private set; }
-
-        /// <summary>
-        /// Gets whether the "Solution|Edit Table" menu item can be executed.
-        /// </summary>
-        public bool CanEditTableExecute
-        {
-            get { return this.workArea.GetSelectedGridVisualizers().Any(); }
-        }
-
-        private void AddColumnHandler()
-        {
-            var selectedGridVisualizers = this.workArea.GetSelectedGridVisualizers();
-            if (!selectedGridVisualizers.Any()) return;
-            var selectedGridVisualizer = selectedGridVisualizers.First();
-            var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this.windowManager.ShowDialog(columnNameEditor);
-            if (result.GetValueOrDefault())
-            {
-                selectedGridVisualizer.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
-            }
-        }
-
-        private void AddRowHandler()
-        {
-            var selectedGridVisualizers = this.workArea.GetSelectedGridVisualizers();
-            if (!selectedGridVisualizers.Any()) return;
-            var selectedGridVisualizer = selectedGridVisualizers.First();
-            selectedGridVisualizer.AddRow(new TableRowModel());
-        }
     }
 }

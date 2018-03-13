@@ -441,7 +441,7 @@ namespace Workbench.ViewModels
         /// Get all selected grid visualizers.
         /// </summary>
         /// <returns>Collection of selected grid visualizers.</returns>
-        public IReadOnlyCollection<TableVisualizerViewModel> GetSelectedGridVisualizers()
+        public IReadOnlyCollection<TableVisualizerViewModel> GetSelectedTableVisualizers()
         {
             if (SelectedDisplay == "Editor")
             {

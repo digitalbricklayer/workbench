@@ -225,6 +225,7 @@
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
     <Compile Include="Views\AggregateVariableViewerView.xaml.cs">
       <DependentUpon>AggregateVariableViewerView.xaml</DependentUpon>

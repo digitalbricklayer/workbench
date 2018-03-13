@@ -110,6 +110,18 @@
                 </MenuItem.Icon>
             </MenuItem>
         </MenuItem>
+        <MenuItem Header="Table">
+            <MenuItem Header="Add Column..." Command="{Binding TableMenu.AddColumnCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Add Row" Command="{Binding TableMenu.AddRowCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
         <MenuItem Header="Help">
         </MenuItem>
     </Menu>
