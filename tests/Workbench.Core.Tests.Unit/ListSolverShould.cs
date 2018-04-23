@@ -25,10 +25,9 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var cLabel = actualResult.Snapshot.GetLabelByVariableName("c");
-            var cBinding = cLabel.Binding;
-            Assert.That(cBinding.Solver, Is.InRange(1, 3));
-            Assert.That(cBinding.Model, Is.InstanceOf<string>());
-            Assert.That(cBinding.Model, Is.EqualTo("moon"));
+            var cValue = cLabel.Value;
+            Assert.That(cValue, Is.InstanceOf<string>());
+            Assert.That(cValue, Is.EqualTo("moon"));
         }
 
         [Test]
@@ -37,11 +36,8 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var aValue = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
-            var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
-                                                    .ToArray();
             Assert.That(aValue.Values, Is.Unique);
             Assert.That(aValue.Values, Is.All.TypeOf<string>());
-            Assert.That(actualSolverValues, Is.All.InRange(1, 3));
         }
 
         private static WorkspaceModel CreateWorkspace()

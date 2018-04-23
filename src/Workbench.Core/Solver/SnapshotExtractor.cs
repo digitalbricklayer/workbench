@@ -49,14 +49,14 @@ namespace Workbench.Core.Solver
         {
             foreach (var aggregateTuple in this.orToolsCache.AggregateVariableMap)
             {
-                var newValueBindings = new List<ValueBinding>();
+                var newValueBindings = new List<ValueModel>();
                 var orVariables = aggregateTuple.Value.Item2;
                 var variableCounter = 1;
                 foreach (var orVariable in orVariables)
                 {
                     var solverValue = theSolutionCollector.Value(0, orVariable);
                     var modelValue = ConvertSolverValueToModel(aggregateTuple.Value.Item1, variableCounter, solverValue);
-                    newValueBindings.Add(new ValueBinding(modelValue, solverValue));
+                    newValueBindings.Add(new ValueModel(modelValue));
                     variableCounter++;
                 }
                 var newCompoundLabel = new CompoundLabelModel(aggregateTuple.Value.Item1, newValueBindings);
@@ -70,7 +70,7 @@ namespace Workbench.Core.Solver
             {
                 var solverValue = theSolutionCollector.Value(0, variableTuple.Value.Item2);
                 var modelValue = ConvertSolverValueToModel(variableTuple.Value.Item1, solverValue);
-                var newValue = new LabelModel(variableTuple.Value.Item1, new ValueBinding(modelValue, solverValue));
+                var newValue = new LabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
                 this.snapshot.AddSingletonValue(newValue);
             }
         }

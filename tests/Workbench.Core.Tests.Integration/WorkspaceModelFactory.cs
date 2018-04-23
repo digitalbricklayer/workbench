@@ -23,7 +23,7 @@ namespace Workbench.UI.Tests.Integration
                                              .WithSharedDomain("z", "1..10")
                                              .Build();
             var xVariable = newWorkspace.Model.GetVariableByName("x");
-            var valueOfX = new LabelModel(xVariable, new ValueBinding(1, 1));
+            var valueOfX = new LabelModel(xVariable, new ValueModel(1));
             var snapshot = new SolutionSnapshot(new List<LabelModel> { valueOfX }, Enumerable.Empty<CompoundLabelModel>(), TimeSpan.Zero);
             newWorkspace.Solution = new SolutionModel(newWorkspace.Model, snapshot);
 

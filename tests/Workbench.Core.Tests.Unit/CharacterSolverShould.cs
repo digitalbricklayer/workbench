@@ -25,13 +25,10 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var aValue = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
-            var actualSolverValues = aValue.Bindings.Select(_ => _.Solver)
-													.ToList();
             var actualModelValues = aValue.Bindings.Select(_ => _.Model)
 												   .ToList();
             Assert.That(aValue.Values, Is.Unique);
             Assert.That(aValue.Values, Is.All.TypeOf<char>());
-            Assert.That(actualSolverValues, Is.All.InRange(1, 26));
             Assert.That(actualModelValues, Is.All.InRange('a', 'z')
                                                  .Using(new CharacterRangeComparer()));
         }
@@ -42,10 +39,9 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var bLabel = actualResult.Snapshot.GetLabelByVariableName("b");
-            var bBinding = bLabel.Binding;
-            Assert.That(bBinding.Solver, Is.InRange(1, 26));
-            Assert.That(bBinding.Model, Is.InRange('a', 'z')
-                                          .Using(new CharacterRangeComparer()));
+            var bBinding = bLabel.Value;
+            Assert.That(bBinding, Is.InRange('a', 'z')
+                                    .Using(new CharacterRangeComparer()));
         }
 
         private static WorkspaceModel CreateWorkspace()

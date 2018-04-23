@@ -4,25 +4,25 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A label matches the values bound to a singleton variable with the variable itself.
+    /// A label matches a value bound to a singleton variable with the variable.
     /// </summary>
     [Serializable]
     public class LabelModel
     {
-        private readonly ValueBinding valueBinding;
+        private readonly ValueModel value;
 
         /// <summary>
         /// Initialize the label with the variable and binding.
         /// </summary>
         /// <param name="theVariable">Variable model.</param>
-        /// <param name="theBinding">Value to bind to the model.</param>
-        public LabelModel(VariableModel theVariable, ValueBinding theBinding)
+        /// <param name="theValue">Value to bind to the model.</param>
+        public LabelModel(VariableModel theVariable, ValueModel theValue)
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
-            Contract.Requires<ArgumentNullException>(theBinding != null);
+            Contract.Requires<ArgumentNullException>(theValue != null);
 
             Variable = theVariable;
-            this.valueBinding = theBinding;
+            this.value = theValue;
         }
 
         /// <summary>
@@ -31,25 +31,14 @@ namespace Workbench.Core.Models
         public VariableModel Variable { get; private set; }
 
         /// <summary>
-        /// Gets the bindings bound to the variable.
-        /// </summary>
-        public ValueBinding Binding
-        {
-            get
-            {
-                return this.valueBinding;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the first binding.
         /// </summary>
         public object Value
         {
             get
             {
-                Contract.Assume(this.valueBinding != null);
-                return this.valueBinding.Model;
+                Contract.Assume(this.value != null);
+                return this.value.Model;
             }
         }
 
@@ -72,7 +61,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return valueBinding.ToString();
+                return value.ToString();
             }
         }
 

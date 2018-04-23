@@ -13,21 +13,21 @@ namespace Workbench.Core.Models
     [Serializable]
     public class CompoundLabelModel
     {
-        private readonly List<ValueBinding> valueBindings;
+        private readonly List<ValueModel> valueBindings;
 
         /// <summary>
         /// Initialize a compound label with the variable and valueBindings.
         /// </summary>
         /// <param name="theModel">Variable model.</param>
         /// <param name="theValueBindings">Values to bind to the model.</param>
-        public CompoundLabelModel(VariableModel theModel, IReadOnlyCollection<ValueBinding> theValueBindings)
+        public CompoundLabelModel(VariableModel theModel, IReadOnlyCollection<ValueModel> theValueBindings)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theValueBindings != null);
             Contract.Requires<ArgumentException>(theValueBindings.Any());
 
             Variable = theModel;
-            this.valueBindings = new List<ValueBinding>(theValueBindings);
+            this.valueBindings = new List<ValueModel>(theValueBindings);
         }
 
         /// <summary>
@@ -38,12 +38,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the value bindings.
         /// </summary>
-        public IReadOnlyCollection<ValueBinding> Bindings
+        public IReadOnlyCollection<ValueModel> Bindings
         {
             get
             {
                 Contract.Assume(this.valueBindings != null);
-                return new ReadOnlyCollection<ValueBinding>(this.valueBindings);
+                return new ReadOnlyCollection<ValueModel>(this.valueBindings);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="index">Index starting at zero.</param>
         /// <returns>Value at index.</returns>
-        public ValueBinding GetBindingAt(int index)
+        public ValueModel GetBindingAt(int index)
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
 
