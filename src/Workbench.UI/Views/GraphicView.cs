@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -130,12 +131,12 @@ namespace Workbench.Views
             //
             // Create a collection to contain domains.
             //
-            this.Graphics = new ObservableCollection<object>();
+            Graphics = new ObservableCollection<object>();
 
             //
             // Default background is white.
             //
-            this.Background = Brushes.White;
+            Background = Brushes.White;
 
             //
             // Add handlers for graphic drag events.
@@ -166,22 +167,22 @@ namespace Workbench.Views
 
             CommandBinding binding = new CommandBinding();
             binding.Command = SelectAllCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(SelectAll_Executed);
+            binding.Executed += SelectAll_Executed;
             CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
 
             binding = new CommandBinding();
             binding.Command = SelectNoneCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(SelectNone_Executed);
+            binding.Executed += SelectNone_Executed;
             CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
 
             binding = new CommandBinding();
             binding.Command = InvertSelectionCommand;
-            binding.Executed += new ExecutedRoutedEventHandler(InvertSelection_Executed);
+            binding.Executed += InvertSelection_Executed;
             CommandManager.RegisterClassCommandBinding(typeof(GraphicView), binding);
         }
 
         /// <summary>
-        /// Event raised when the user starts dragging a variable in the network.
+        /// Event raised when the user starts dragging a graphic in the network.
         /// </summary>
         public event GraphicDragStartedEventHandler GraphicDragStarted
         {
@@ -190,7 +191,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Event raised while user is dragging a variable in the network.
+        /// Event raised while user is dragging a graphic in the network.
         /// </summary>
         public event GraphicDraggingEventHandler GraphicDragging
         {
@@ -199,7 +200,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Event raised when the user has completed dragging a variable in the network.
+        /// Event raised when the user has completed dragging a graphic.
         /// </summary>
         public event GraphicDragCompletedEventHandler GraphicDragCompleted
         {
@@ -302,7 +303,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Set to 'true' when the user is dragging either a variable or a connection.
+        /// Set to 'true' when the user is dragging either a graphic.
         /// </summary>
         public bool IsDragging
         {
@@ -332,7 +333,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Gets or sets the DataTemplate used to display each variable item.
+        /// Gets or sets the DataTemplate used to display each graphic item.
         /// This is the equivalent to 'ItemTemplate' for ItemsControl.
         /// </summary>
         public DataTemplate GraphicItemTemplate
@@ -364,7 +365,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Gets or sets the Style that is applied to the item container for each variable item.
+        /// Gets or sets the Style that is applied to the item container for each graphic item.
         /// This is the equivalent to 'ItemContainerStyle' for ItemsControl.
         /// </summary>
         public Style GraphicItemContainerStyle
@@ -448,53 +449,50 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// An event raised when the domains selected in the NetworkView has changed.
+        /// An event raised when the graphics selected in the view has changed.
         /// </summary>
         public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
-        /// Bring the currently selected domains into view.
+        /// Bring the currently selected graphics into view.
         /// This affects ContentViewportOffsetX/ContentViewportOffsetY, but doesn't affect 'ContentScale'.
         /// </summary>
-        public void BringSelectedVariablesIntoView()
+        public void BringSelectedGraphicsIntoView()
         {
-            BringVariablesIntoView(SelectedGraphics);
+            BringGraphicsIntoView(SelectedGraphics);
         }
 
         /// <summary>
-        /// Bring the collection of domains into view.
+        /// Bring the collection of graphics into view.
         /// This affects ContentViewportOffsetX/ContentViewportOffsetY, but doesn't affect 'ContentScale'.
         /// </summary>
-        public void BringVariablesIntoView(ICollection variables)
+        public void BringGraphicsIntoView(ICollection graphics)
         {
-            if (variables == null)
-            {
-                throw new ArgumentNullException("variables");
-            }
+            Contract.Requires<ArgumentNullException>(graphics != null);
 
-            if (variables.Count == 0)
+            if (graphics.Count == 0)
             {
                 return;
             }
 
             Rect rect = Rect.Empty;
 
-            foreach (var variable in variables)
+            foreach (var graphic in graphics)
             {
-                GraphicItem graphicItem = FindAssociatedGraphicItem(variable);
-                Rect variableRect = new Rect(graphicItem.X, graphicItem.Y, graphicItem.ActualWidth, graphicItem.ActualHeight);
+                GraphicItem graphicItem = FindAssociatedGraphicItem(graphic);
+                Rect graphicRect = new Rect(graphicItem.X, graphicItem.Y, graphicItem.ActualWidth, graphicItem.ActualHeight);
 
                 if (rect == Rect.Empty)
                 {
-                    rect = variableRect;
+                    rect = graphicRect;
                 }
                 else
                 {
-                    rect.Intersect(variableRect);
+                    rect.Intersect(graphicRect);
                 }
             }
 
-            this.BringIntoView(rect);
+            BringIntoView(rect);
         }
 
         /// <summary>
@@ -502,7 +500,7 @@ namespace Workbench.Views
         /// </summary>
         public void SelectNone()
         {
-            this.SelectedGraphics.Clear();
+            SelectedGraphics.Clear();
         }
 
         /// <summary>
@@ -510,16 +508,16 @@ namespace Workbench.Views
         /// </summary>
         public void SelectAll()
         {
-            this.SelectAllGraphics();
+            SelectAllGraphics();
         }
 
         private void SelectAllGraphics()
         {
-            if (this.SelectedGraphics.Count == this.Graphics.Count) return;
-            this.SelectedGraphics.Clear();
-            foreach (var variable in this.Graphics)
+            if (SelectedGraphics.Count == Graphics.Count) return;
+            SelectedGraphics.Clear();
+            foreach (var graphic in Graphics)
             {
-                this.SelectedGraphics.Add(variable);
+                SelectedGraphics.Add(graphic);
             }
         }
 
@@ -528,14 +526,14 @@ namespace Workbench.Views
         /// </summary>
         public void InvertSelection()
         {
-            var selectedVariablesCopy = new ArrayList(this.SelectedGraphics);
-            this.SelectedGraphics.Clear();
+            var selectedGraphicsCopy = new ArrayList(SelectedGraphics);
+            SelectedGraphics.Clear();
 
-            foreach (var variable in this.Graphics)
+            foreach (var graphic in Graphics)
             {
-                if (!selectedVariablesCopy.Contains(variable))
+                if (!selectedGraphicsCopy.Contains(graphic))
                 {
-                    this.SelectedGraphics.Add(variable);
+                    SelectedGraphics.Add(graphic);
                 }
             }
         }
@@ -590,23 +588,23 @@ namespace Workbench.Views
             //
             if (this.initialSelectedGraphics != null && this.initialSelectedGraphics.Any())
             {
-                foreach (var variable in this.initialSelectedGraphics)
+                foreach (var graphic in this.initialSelectedGraphics)
                 {
-                    this.graphicItemsControl.SelectedItems.Add(variable);
+                    this.graphicItemsControl.SelectedItems.Add(graphic);
                 }
             }
 
             this.initialSelectedGraphics = null; // Don't need this any more.
 
-            this.graphicItemsControl.SelectionChanged += new SelectionChangedEventHandler(graphicItemsControl_SelectionChanged);
+            this.graphicItemsControl.SelectionChanged += graphicItemsControl_SelectionChanged;
 
-            this.dragSelectionCanvas = (FrameworkElement)this.Template.FindName("PART_DragSelectionCanvas", this);
+            this.dragSelectionCanvas = (FrameworkElement)Template.FindName("PART_DragSelectionCanvas", this);
             if (this.dragSelectionCanvas == null)
             {
                 throw new ApplicationException("Failed to find 'PART_DragSelectionCanvas' in the visual tree for 'ModelView'.");
             }
 
-            this.dragSelectionBorder = (FrameworkElement)this.Template.FindName("PART_DragSelectionBorder", this);
+            this.dragSelectionBorder = (FrameworkElement)Template.FindName("PART_DragSelectionBorder", this);
             if (this.dragSelectionBorder == null)
             {
                 throw new ApplicationException("Failed to find 'PART_dragSelectionBorder' in the visual tree for 'ModelView'.");
@@ -614,36 +612,34 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Event raised when a new collection has been assigned to the 'VariablesSource' property.
+        /// Event raised when a new collection has been assigned to the 'GraphicsSource' property.
         /// </summary>
         private static void GraphicsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             GraphicView c = (GraphicView)d;
 
             //
-            // Clear variables.
+            // Clear graphics.
             //
             c.Graphics.Clear();
 
             if (e.OldValue != null)
             {
-                var notifyCollectionChanged = e.OldValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
+                if (e.OldValue is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     //
                     // Unhook events from previous collection.
                     //
-                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                    notifyCollectionChanged.CollectionChanged -= c.GraphicsSource_CollectionChanged;
                 }
             }
 
             if (e.NewValue != null)
             {
-                var enumerable = e.NewValue as IEnumerable;
-                if (enumerable != null)
+                if (e.NewValue is IEnumerable enumerable)
                 {
                     //
-                    // Populate 'domains' from 'VariablesSource'.
+                    // Populate 'domains' from 'GraphicsSource'.
                     //
                     foreach (object obj in enumerable)
                     {
@@ -651,50 +647,40 @@ namespace Workbench.Views
                     }
                 }
 
-                var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
+                if (e.NewValue is INotifyCollectionChanged notifyCollectionChanged)
                 {
                     //
                     // Hook events in new collection.
                     //
-                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.VariablesSource_CollectionChanged);
+                    notifyCollectionChanged.CollectionChanged += c.GraphicsSource_CollectionChanged;
                 }
             }
         }
 
         /// <summary>
-        /// Event raised when a variable has been added to or removed from the collection assigned to 'VariablesSource'.
+        /// Event raised when a graphic has been added to or removed from the collection assigned to 'GraphicsSource'.
         /// </summary>
-        private void VariablesSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void GraphicsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
-                //
-                // 'VariablesSource' has been cleared, also clear 'domains'.
-                //
-                this.Graphics.Clear();
+                Graphics.Clear();
             }
             else
             {
                 if (e.OldItems != null)
                 {
-                    //
-                    // For each item that has been removed from 'VariablesSource' also remove it from 'domains'.
-                    //
                     foreach (object obj in e.OldItems)
                     {
-                        this.Graphics.Remove(obj);
+                        Graphics.Remove(obj);
                     }
                 }
 
                 if (e.NewItems != null)
                 {
-                    //
-                    // For each item that has been added to 'VariablesSource' also add it to 'domains'.
-                    //
                     foreach (object obj in e.NewItems)
                     {
-                        this.Graphics.Add(obj);
+                        Graphics.Add(obj);
                     }
                 }
             }
@@ -712,9 +698,9 @@ namespace Workbench.Views
 
             int maxZ = 0;
 
-            for (int variableIndex = 0; ; ++variableIndex)
+            for (int graphicIndex = 0; ; ++graphicIndex)
             {
-                GraphicItem graphicItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(variableIndex);
+                GraphicItem graphicItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(graphicIndex);
                 if (graphicItem == null)
                 {
                     break;
@@ -734,8 +720,7 @@ namespace Workbench.Views
         /// </summary>
         internal GraphicItem FindAssociatedGraphicItem(object graphic)
         {
-            GraphicItem graphicItem = graphic as GraphicItem;
-            if (graphicItem == null)
+            if (!(graphic is GraphicItem graphicItem))
             {
                 graphicItem = graphicItemsControl.FindAssociatedGraphicItem(graphic);
             }
@@ -747,7 +732,7 @@ namespace Workbench.Views
         /// </summary>
         internal void DeselectAll()
         {
-            this.SelectedGraphics.Clear();
+            SelectedGraphics.Clear();
         }
 
         /// <summary>
@@ -757,17 +742,17 @@ namespace Workbench.Views
         {
             base.OnMouseDown(e);
 
-            this.Focus();
+            Focus();
 
             if (e.ChangedButton == MouseButton.Left &&
                 (Keyboard.Modifiers & ModifierKeys.Control) != 0)
             {
-                this.DeselectAll();
+                DeselectAll();
 
                 isControlAndLeftMouseButtonDown = true;
                 origMouseDownPoint = e.GetPosition(this);
 
-                this.CaptureMouse();
+                CaptureMouse();
 
                 e.Handled = true;
             }
@@ -800,7 +785,7 @@ namespace Workbench.Views
                 if (isControlAndLeftMouseButtonDown)
                 {
                     isControlAndLeftMouseButtonDown = false;
-                    this.ReleaseMouseCapture();
+                    ReleaseMouseCapture();
 
 
                     e.Handled = true;
@@ -811,7 +796,7 @@ namespace Workbench.Views
                     //
                     // A click and release in empty space clears the selection.
                     //
-                    this.DeselectAll();
+                    DeselectAll();
                 }
             }
         }
@@ -933,15 +918,15 @@ namespace Workbench.Views
             this.graphicItemsControl.SelectedItems.Clear();
 
             //
-            // Find and select all the variable list box items.
+            // Find and select all the graphic list box items.
             //
-            for (int graphicIndex = 0; graphicIndex < this.Graphics.Count; ++graphicIndex)
+            for (int graphicIndex = 0; graphicIndex < Graphics.Count; ++graphicIndex)
             {
                 var graphicItem = (GraphicItem)this.graphicItemsControl.ItemContainerGenerator.ContainerFromIndex(graphicIndex);
                 var transformToAncestor = graphicItem.TransformToAncestor(this);
-                Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
-                Point itemPt2 = transformToAncestor.Transform(new Point(graphicItem.ActualWidth, graphicItem.ActualHeight));
-                Rect itemRect = new Rect(itemPt1, itemPt2);
+                var itemPt1 = transformToAncestor.Transform(new Point(0, 0));
+                var itemPt2 = transformToAncestor.Transform(new Point(graphicItem.ActualWidth, graphicItem.ActualHeight));
+                var itemRect = new Rect(itemPt1, itemPt2);
                 if (dragRect.Contains(itemRect))
                 {
                     graphicItem.IsSelected = true;
@@ -954,10 +939,7 @@ namespace Workbench.Views
         /// </summary>
         private void graphicItemsControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.SelectionChanged != null)
-            {
-                this.SelectionChanged(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
-            }
+            SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(ListBox.SelectionChangedEvent, e.RemovedItems, e.AddedItems));
         }
 
         /// <summary>
@@ -967,15 +949,14 @@ namespace Workbench.Views
         {
             e.Handled = true;
 
-            this.IsDragging = true;
-            this.IsNotDragging = false;
-            this.IsDraggingGraphic = true;
-            this.IsNotDraggingGraphic = false;
+            IsDragging = true;
+            IsNotDragging = false;
+            IsDraggingGraphic = true;
+            IsNotDraggingGraphic = false;
 
-            var eventArgs = new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, this.SelectedGraphics);            
-            RaiseEvent(eventArgs);
+            RaiseEvent(new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, SelectedGraphics));
 
-            e.Cancel = eventArgs.Cancel;
+            e.Cancel = new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, SelectedGraphics).Cancel;
         }
 
         /// <summary>
@@ -992,7 +973,7 @@ namespace Workbench.Views
             {
                 this.cachedSelectedGraphicItems = new List<GraphicItem>();
 
-                foreach (var selectedGraphic in this.SelectedGraphics)
+                foreach (var selectedGraphic in SelectedGraphics)
                 {
                     var graphicItem = FindAssociatedGraphicItem(selectedGraphic);
                     if (graphicItem == null)
@@ -1013,8 +994,7 @@ namespace Workbench.Views
                 graphicItem.Y += e.VerticalChange;
             }
 
-            var eventArgs = new GraphicDraggingEventArgs(GraphicDraggingEvent, this, this.SelectedGraphics, e.HorizontalChange, e.VerticalChange);
-            RaiseEvent(eventArgs);
+            RaiseEvent(new GraphicDraggingEventArgs(GraphicDraggingEvent, this, SelectedGraphics, e.HorizontalChange, e.VerticalChange));
         }
 
         /// <summary>
@@ -1024,18 +1004,14 @@ namespace Workbench.Views
         {
             e.Handled = true;
 
-            var eventArgs = new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, this.SelectedGraphics);
-            RaiseEvent(eventArgs);
+            RaiseEvent(new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, SelectedGraphics));
 
-            if (cachedSelectedGraphicItems != null)
-            {
-                cachedSelectedGraphicItems = null;
-            }
+            cachedSelectedGraphicItems = null;
 
-            this.IsDragging = false;
-            this.IsNotDragging = true;
-            this.IsDraggingGraphic = false;
-            this.IsNotDraggingGraphic = true;
+            IsDragging = false;
+            IsNotDragging = true;
+            IsDraggingGraphic = false;
+            IsNotDraggingGraphic = true;
         }
     }
 }

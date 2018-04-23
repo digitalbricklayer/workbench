@@ -145,10 +145,10 @@ namespace Workbench.Controls
         /// </summary>
         internal void BringToFront()
         {
-            if (this.ParentGraphicView == null) return;
+            if (ParentGraphicView == null) return;
 
-            int maxZ = this.ParentGraphicView.FindMaxZIndex();
-            this.ZIndex = maxZ + 1;
+            int maxZ = ParentGraphicView.FindMaxZIndex();
+            ZIndex = maxZ + 1;
         }
 
         /// <summary>
@@ -172,21 +172,18 @@ namespace Workbench.Controls
 
             BringToFront();
 
-            if (this.ParentGraphicView != null)
-            {
-                this.ParentGraphicView.Focus();
-            }
+            ParentGraphicView?.Focus();
 
-            if (e.ChangedButton == MouseButton.Left && this.ParentGraphicView != null)
+            if (e.ChangedButton == MouseButton.Left && ParentGraphicView != null)
             {
-                lastMousePoint = e.GetPosition(this.ParentGraphicView);
+                lastMousePoint = e.GetPosition(ParentGraphicView);
                 isLeftMouseDown = true;
 
                 LeftMouseDownSelectionLogic();
 
                 e.Handled = true;
             }
-            else if (e.ChangedButton == MouseButton.Right && this.ParentGraphicView != null)
+            else if (e.ChangedButton == MouseButton.Right && ParentGraphicView != null)
             {
                 RightMouseDownSelectionLogic();
            }
@@ -215,15 +212,15 @@ namespace Workbench.Controls
                 //
                 isLeftMouseAndControlDown = false;
 
-                if (this.ParentGraphicView.SelectedGraphics.Count == 0)
+                if (ParentGraphicView.SelectedGraphics.Count == 0)
                 {
                     //
                     // Nothing already selected, select the item.
                     //
-                    this.IsSelected = true;
+                    IsSelected = true;
                 }
-                else if (this.ParentGraphicView.SelectedGraphics.Contains(this) ||
-                         this.ParentGraphicView.SelectedGraphics.Contains(this.DataContext))
+                else if (ParentGraphicView.SelectedGraphics.Contains(this) ||
+                         ParentGraphicView.SelectedGraphics.Contains(DataContext))
                 {
                     // 
                     // Item is already selected, do nothing.
@@ -236,8 +233,8 @@ namespace Workbench.Controls
                     // Item is not selected.
                     // Deselect all, and select the item.
                     //
-                    this.ParentGraphicView.SelectedGraphics.Clear();
-                    this.IsSelected = true;
+                    ParentGraphicView.SelectedGraphics.Clear();
+                    IsSelected = true;
                 }
             }
         }
@@ -249,15 +246,15 @@ namespace Workbench.Controls
         /// </summary>
         internal void RightMouseDownSelectionLogic()
         {
-            if (this.ParentGraphicView.SelectedGraphics.Count == 0)
+            if (ParentGraphicView.SelectedGraphics.Count == 0)
             {
                 //
                 // Nothing already selected, select the item.
                 //
-                this.IsSelected = true;
+                IsSelected = true;
             }
-            else if (this.ParentGraphicView.SelectedGraphics.Contains(this) ||
-                     this.ParentGraphicView.SelectedGraphics.Contains(this.DataContext))
+            else if (ParentGraphicView.SelectedGraphics.Contains(this) ||
+                     ParentGraphicView.SelectedGraphics.Contains(DataContext))
             {
                 // 
                 // Item is already selected, do nothing.
@@ -269,8 +266,8 @@ namespace Workbench.Controls
                 // Item is not selected.
                 // Deselect all, and select the item.
                 //
-                this.ParentGraphicView.DeselectAll();
-                this.IsSelected = true;
+                ParentGraphicView.DeselectAll();
+                IsSelected = true;
             }
         }
 
@@ -287,7 +284,7 @@ namespace Workbench.Controls
                 // Raise the event to notify that dragging is in progress.
                 //
 
-                Point curMousePoint = e.GetPosition(this.ParentGraphicView);
+                Point curMousePoint = e.GetPosition(ParentGraphicView);
 
                 object item = this;
                 if (DataContext != null)
@@ -296,22 +293,21 @@ namespace Workbench.Controls
                 }
 
                 Vector offset = curMousePoint - lastMousePoint;
-                if (offset.X != 0.0 ||
-                    offset.Y != 0.0)
+                if (Math.Abs(offset.X) > 0 || Math.Abs(offset.Y) > 0)
                 {
                     lastMousePoint = curMousePoint;
 
-                    RaiseEvent(new GraphicDraggingEventArgs(GraphicDraggingEvent, this, new object[] { item }, offset.X, offset.Y));
+                    RaiseEvent(new GraphicDraggingEventArgs(GraphicDraggingEvent, this, new[] { item }, offset.X, offset.Y));
                 }
             }
-            else if (isLeftMouseDown && this.ParentGraphicView.EnableGraphicDragging)
+            else if (isLeftMouseDown && ParentGraphicView.EnableGraphicDragging)
             {
                 //
                 // The user is left-dragging the variable,
                 // but don't initiate the drag operation until 
                 // the mouse cursor has moved more than the threshold distance.
                 //
-                Point curMousePoint = e.GetPosition(this.ParentGraphicView);
+                Point curMousePoint = e.GetPosition(ParentGraphicView);
                 var dragDelta = curMousePoint - lastMousePoint;
                 double dragDistance = Math.Abs(dragDelta.Length);
                 if (dragDistance > DragThreshold)
@@ -321,15 +317,14 @@ namespace Workbench.Controls
                     //
 
                     //
-                    // Raise an event to notify that that dragging has commenced.
+                    // Raise an event to notify that dragging has commenced.
                     //
-                    GraphicDragStartedEventArgs eventArgs = new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, new GraphicItem[] { this });
-                    RaiseEvent(eventArgs);
+                    RaiseEvent(new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, new[] { this }));
 
-                    if (eventArgs.Cancel)
+                    if (new GraphicDragStartedEventArgs(GraphicDragStartedEvent, this, new[] { this }).Cancel)
                     {
                         //
-                        // Handler of the event disallowed dragging of the variable.
+                        // Handler of the event disallowed dragging of the graphic.
                         //
                         isLeftMouseDown = false;
                         isLeftMouseAndControlDown = false;
@@ -337,7 +332,7 @@ namespace Workbench.Controls
                     }
 
                     isDragging = true;
-                    this.CaptureMouse();
+                    CaptureMouse();
                     e.Handled = true;
                 }
             }
@@ -358,9 +353,9 @@ namespace Workbench.Controls
                     // Raise an event to notify that variable dragging has finished.
                     //
 
-                    RaiseEvent(new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, new GraphicItem[] { this }));
+                    RaiseEvent(new GraphicDragCompletedEventArgs(GraphicDragCompletedEvent, this, new[] { this }));
 
-					this.ReleaseMouseCapture();
+					ReleaseMouseCapture();
 
                     isDragging = false;
                 }
@@ -393,16 +388,16 @@ namespace Workbench.Controls
                 // Control key was held down.
                 // Toggle the selection.
                 //
-                this.IsSelected = !this.IsSelected;
+                IsSelected = !IsSelected;
             }
             else
             {
                 //
                 // Control key was not held down.
                 //
-                if (this.ParentGraphicView.SelectedGraphics.Count == 1 &&
-                    (this.ParentGraphicView.SelectedGraphic == this ||
-                     this.ParentGraphicView.SelectedGraphic == this.DataContext))
+                if (ParentGraphicView.SelectedGraphics.Count == 1 &&
+                    (Equals(ParentGraphicView.SelectedGraphic, this) ||
+                     ParentGraphicView.SelectedGraphic == DataContext))
                 {
                     //
                     // The item that was clicked is already the only selected item.
@@ -414,8 +409,8 @@ namespace Workbench.Controls
                     //
                     // Clear the selection and select the clicked item as the only selected item.
                     //
-                    this.ParentGraphicView.SelectedGraphics.Clear();
-                    this.IsSelected = true;
+                    ParentGraphicView.SelectedGraphics.Clear();
+                    IsSelected = true;
                 }
             }
 

@@ -15,6 +15,9 @@ namespace Workbench.ViewModels
 
         public TableVisualizerModel Model { get; private set; }
 
+        /// <summary>
+        /// Gets the table editor.
+        /// </summary>
         public TableVisualizerEditorViewModel TableEditor { get; private set; }
 
         /// <summary>
@@ -45,6 +48,22 @@ namespace Workbench.ViewModels
         public void Resize(int columns, int rows)
         {
             TableEditor.Resize(columns, rows);
+        }
+
+        /// <summary>
+        /// Delete the selected column.
+        /// </summary>
+        public void DeleteColumnSelected()
+        {
+            TableEditor.DeleteColumnSelected();
+        }
+
+        /// <summary>
+        /// Delete the selected row.
+        /// </summary>
+        public void DeleteRowSelected()
+        {
+            TableEditor.DeleteRowSelected();
         }
     }
 }

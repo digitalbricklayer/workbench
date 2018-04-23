@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Workbench.Controls
 {
     /// <summary>
-    /// Implements a ListBox for displaying constraints in the ModelView UI.
+    /// Implements a ListBox for displaying graphics in the UI.
     /// </summary>
     internal class GraphicItemsControl : ListBox
     {
@@ -17,12 +17,12 @@ namespace Workbench.Controls
         }
 
         /// <summary>
-        /// Find the GraphicItem UI element that has the specified data context.
-        /// Return null if no such GraphicItem exists.
+        /// Find the graphic item UI element that has the specified data context.
+        /// Return null if no such graphic item exists.
         /// </summary>
-        internal GraphicItem FindAssociatedGraphicItem(object variableDataContext)
+        internal GraphicItem FindAssociatedGraphicItem(object graphicDataContext)
         {
-            return (GraphicItem)this.ItemContainerGenerator.ContainerFromItem(variableDataContext);
+            return (GraphicItem)ItemContainerGenerator.ContainerFromItem(graphicDataContext);
         }
 
         /// <summary>

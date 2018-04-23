@@ -19,21 +19,53 @@ namespace Workbench.ViewModels
 
             this.workArea = theWorkArea;
             this.windowManager = theWindowManager;
-            AddRowCommand = new CommandHandler(AddRowHandler, _ => CanEditTableExecute);
-            AddColumnCommand = new CommandHandler(AddColumnHandler, _ => CanEditTableExecute);
+            AddRowAfterCommand = new CommandHandler(AddRowAfter, _ => CanEditTableExecute);
+            AddColumnAfterCommand = new CommandHandler(AddColumnAfter, _ => CanEditTableExecute);
+            AddRowBeforeCommand = new CommandHandler(AddRowBefore, _ => CanEditTableExecute);
+            AddColumnBeforeCommand = new CommandHandler(AddColumnBefore, _ => CanEditTableExecute);
+            DeleteSelectedRowCommand = new CommandHandler(DeleteSelectedRow, _ => CanEditTableExecute);
+            DeleteSelectedColumnCommand = new CommandHandler(DeleteSelectedColumn, _ => CanEditTableExecute);
         }
 
         /// <summary>
-        /// Gets the Solution|Edit Map command
+        /// Gets the Table|Add Row Before command
         /// </summary>
-        public ICommand AddRowCommand { get; private set; }
+        public ICommand AddRowBeforeCommand { get; }
 
         /// <summary>
-        /// Gets the Solution|Add Column command.
+        /// Gets the Table|Add Row After command
         /// </summary>
-        public ICommand AddColumnCommand { get; private set; }
+        public ICommand AddRowAfterCommand { get; }
 
-        private void AddColumnHandler()
+        /// <summary>
+        /// Gets the Table|Add Column Before command.
+        /// </summary>
+        public ICommand AddColumnBeforeCommand { get; }
+
+        /// <summary>
+        /// Gets the Table|Add Column After command.
+        /// </summary>
+        public ICommand AddColumnAfterCommand { get; }
+
+        /// <summary>
+        /// Gets the Table|Delete Selected Row command.
+        /// </summary>
+        public ICommand DeleteSelectedRowCommand { get; set; }
+
+        /// <summary>
+        /// Gets the Table|Delete Selected Column command.
+        /// </summary>
+        public ICommand DeleteSelectedColumnCommand { get; set; }
+
+        /// <summary>
+        /// Gets whether the "Table|Edit Table" menu item can be executed.
+        /// </summary>
+        public bool CanEditTableExecute
+        {
+            get { return this.workArea.GetSelectedTableVisualizers().Any(); }
+        }
+
+        private void AddColumnAfter()
         {
             var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
             if (!selectedTableVisualizers.Any()) return;
@@ -46,20 +78,49 @@ namespace Workbench.ViewModels
             }
         }
 
-        private void AddRowHandler()
+        private void AddRowAfter()
+        {
+            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
+            Contract.Assert(selectedTableVisualizers.Any());
+            var selectedTableVisualizer = selectedTableVisualizers.First();
+            selectedTableVisualizer.AddRow(new TableRowModel());
+        }
+
+        private void AddColumnBefore()
+        {
+            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
+            Contract.Assert(selectedTableVisualizers.Any());
+            var selectedTableVisualizer = selectedTableVisualizers.First();
+            var columnNameEditor = new ColumnNameEditorViewModel();
+            var result = this.windowManager.ShowDialog(columnNameEditor);
+            if (result.GetValueOrDefault())
+            {
+                selectedTableVisualizer.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
+            }
+        }
+
+        private void AddRowBefore()
         {
             var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
             if (!selectedTableVisualizers.Any()) return;
-            var selectedGridVisualizer = selectedTableVisualizers.First();
-            selectedGridVisualizer.AddRow(new TableRowModel());
+            var selectedTableVisualizer = selectedTableVisualizers.First();
+            selectedTableVisualizer.AddRow(new TableRowModel());
         }
 
-        /// <summary>
-        /// Gets whether the "Table|Edit Table" menu item can be executed.
-        /// </summary>
-        public bool CanEditTableExecute
+        private void DeleteSelectedColumn()
         {
-            get { return this.workArea.GetSelectedTableVisualizers().Any(); }
+            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
+            if (!selectedTableVisualizers.Any()) return;
+            var selectedTableVisualizer = selectedTableVisualizers.First();
+            selectedTableVisualizer.DeleteColumnSelected();
+        }
+
+        private void DeleteSelectedRow()
+        {
+            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
+            if (!selectedTableVisualizers.Any()) return;
+            var selectedTableVisualizer = selectedTableVisualizers.First();
+            selectedTableVisualizer.DeleteRowSelected();
         }
     }
 }

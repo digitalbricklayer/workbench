@@ -96,6 +96,12 @@ namespace Workbench.ViewModels
             Grid.Resize(newColumnCount, newRowCount);
         }
 
+        public void DeleteColumnSelected()
+        {
+            Contract.Assume(SelectedColumn != null);
+//            DeleteRowFromTable(SelectedColumn);
+        }
+
         private void PopulateGridColumns(DataTable newTable)
         {
             foreach (var column in Grid.Columns)

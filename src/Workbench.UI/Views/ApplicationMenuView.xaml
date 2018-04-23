@@ -111,12 +111,33 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="Table">
-            <MenuItem Header="Add Column..." Command="{Binding TableMenu.AddColumnCommand}">
+            <MenuItem Header="Add Column Before..." Command="{Binding TableMenu.AddColumnBeforeCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png"  />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="Add Row" Command="{Binding TableMenu.AddRowCommand}">
+            <MenuItem Header="Add Column After..." Command="{Binding TableMenu.AddColumnAfterCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete Column" Command="{Binding TableMenu.DeleteSelectedColumnCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Header="Add Row Before" Command="{Binding TableMenu.AddRowBeforeCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Add Row After" Command="{Binding TableMenu.AddRowAfterCommand}">
+                <MenuItem.Icon>
+                    <Image Source="../Images/Transparent.png"  />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Delete Row" Command="{Binding TableMenu.DeleteSelectedRowCommand}">
                 <MenuItem.Icon>
                     <Image Source="../Images/Transparent.png"  />
                 </MenuItem.Icon>

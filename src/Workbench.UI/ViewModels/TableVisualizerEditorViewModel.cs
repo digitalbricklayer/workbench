@@ -56,5 +56,15 @@ namespace Workbench.ViewModels
             Contract.Assume(Table != null);
             Table.AddRow(newRow);
         }
+
+        public void DeleteColumnSelected()
+        {
+            Table.DeleteColumnSelected();
+        }
+
+        public void DeleteRowSelected()
+        {
+            
+        }
     }
 }
