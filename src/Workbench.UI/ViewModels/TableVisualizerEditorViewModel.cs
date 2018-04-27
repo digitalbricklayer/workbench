@@ -22,7 +22,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             Model = theTableModel;
-            Table = new TableViewModel(theTableModel.Table);
+            Table = new TableViewModel(theTableModel.Table, this);
         }
 
         /// <summary>
