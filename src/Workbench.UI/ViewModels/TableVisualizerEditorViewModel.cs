@@ -2,18 +2,19 @@ using System;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class TableVisualizerEditorViewModel : EditorViewModel
+    public class TableVisualizerEditorViewModel : EditorViewModel, IHandle<TableSelectionChanged>
     {
         private TableViewModel table;
 
         public TableVisualizerEditorViewModel(TableVisualizerModel theTableModel,
-                                               IEventAggregator theEventAggregator,
-                                               IDataService theDataService,
-                                               IViewModelService theViewModelService)
+                                              IEventAggregator theEventAggregator,
+                                              IDataService theDataService,
+                                              IViewModelService theViewModelService)
             : base(theTableModel, theEventAggregator, theDataService, theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theTableModel != null);
@@ -22,7 +23,8 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             Model = theTableModel;
-            Table = new TableViewModel(theTableModel.Table, this);
+            this.eventAggregator.Subscribe(this);
+            Table = new TableViewModel(theTableModel.Table, theEventAggregator);
         }
 
         /// <summary>
@@ -65,6 +67,16 @@ namespace Workbench.ViewModels
         public void DeleteRowSelected()
         {
             
+        }
+
+        /// <summary>
+        /// Handle the table selection changed event.
+        /// </summary>
+        /// <param name="theMessage">Table selection changed event.</param>
+        public void Handle(TableSelectionChanged theMessage)
+        {
+            // The grid "steals" focus from the container, so make the container selected again...
+            IsSelected = true;
         }
     }
 }

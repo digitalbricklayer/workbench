@@ -21,10 +21,10 @@ namespace Workbench.Commands
         private readonly IViewModelService viewModelService;
 
         public AddTableVisualizerCommand(WorkAreaViewModel theWorkArea,
-                                       TitleBarViewModel theTitleBar,
-                                       IEventAggregator theEventAggregator,
-                                       IDataService theDataService,
-                                       IViewModelService theViewModelService)
+                                         TitleBarViewModel theTitleBar,
+                                         IEventAggregator theEventAggregator,
+                                         IDataService theDataService,
+                                         IViewModelService theViewModelService)
         {
             Contract.Requires<ArgumentNullException>(theWorkArea != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
@@ -59,7 +59,7 @@ namespace Workbench.Commands
         {
             return new TableVisualizerViewModel(newVisualizerModel.Table,
                                                 CreateDesigner(newVisualizerModel),
-                                                new TableVisualizerViewerViewModel(newVisualizerModel));
+                                                new TableVisualizerViewerViewModel(newVisualizerModel, this.eventAggregator));
         }
 
         private TableVisualizerEditorViewModel CreateDesigner(TableVisualizerModel newVisualizerModel)

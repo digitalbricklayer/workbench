@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -5,12 +8,18 @@ namespace Workbench.ViewModels
     public class TableVisualizerViewerViewModel : ViewerViewModel
     {
         private TableViewModel grid;
+        private readonly IEventAggregator eventAggregator;
 
-        public TableVisualizerViewerViewModel(TableVisualizerModel newVisualizerModel)
+        public TableVisualizerViewerViewModel(TableVisualizerModel newVisualizerModel, IEventAggregator theEventAggregator)
             : base(newVisualizerModel)
         {
+            Contract.Requires<ArgumentNullException>(newVisualizerModel != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+
             Model = newVisualizerModel;
-            Grid = new TableViewModel(newVisualizerModel.Table, this);
+            this.eventAggregator = theEventAggregator;
+            this.eventAggregator.Subscribe(this);
+            Grid = new TableViewModel(newVisualizerModel.Table, theEventAggregator);
             GridModel = newVisualizerModel;
         }
 
@@ -31,7 +40,7 @@ namespace Workbench.ViewModels
         {
             base.Update();
             // Pick up all changes made to the grid by the grid editor
-            Grid = new TableViewModel(GridModel.Table, this);
+            Grid = new TableViewModel(GridModel.Table, this.eventAggregator);
         }
     }
 }

@@ -202,6 +202,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IntToStringConverter.cs" />
+    <Compile Include="Messages\TableSelectionChanged.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\AggregateVariableViewerView.xaml.cs">
       <DependentUpon>AggregateVariableViewerView.xaml</DependentUpon>
     </Compile>

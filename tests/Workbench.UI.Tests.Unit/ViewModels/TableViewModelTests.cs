@@ -1,4 +1,6 @@
 ﻿using System.Threading;
+using Caliburn.Micro;
+using Moq;
 using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
@@ -13,7 +15,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void GetRowDataFromTableReturnsExpectedValue()
         {
             var theGridModel = new TableModel();
-            var sut = new TableViewModel(theGridModel);
+            var sut = new TableViewModel(theGridModel, Mock.Of<IEventAggregator>());
             sut.AddColumn(new TableColumnModel("X"));
             sut.AddColumn(new TableColumnModel("Y"));
             sut.AddColumn(new TableColumnModel("Z"));
@@ -28,7 +30,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void GetRowDataFromDefaultTableReturnsExpectedValue()
         {
-            var sut = new TableViewModel(TableModel.Default);
+            var sut = new TableViewModel(TableModel.Default, Mock.Of<IEventAggregator>());
 
             var actualRow = sut.GetRowAt(1);
             Assert.That(actualRow.Cells[1].Text, Is.Empty);
