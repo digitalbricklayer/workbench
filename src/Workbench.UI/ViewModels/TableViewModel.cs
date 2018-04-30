@@ -12,11 +12,15 @@ namespace Workbench.ViewModels
         private DataTable dataTable;
         private int? selectedIndex;
         private object selectedColumn;
+        private IConductor parent;
 
-        public TableViewModel(TableModel theModel)
+        public TableViewModel(TableModel theModel, IConductor theParent)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theParent != null);
+
             this.model = theModel;
+            this.parent = theParent;
             this.dataTable = CreateDataTable();
             Contract.Assert(!this.dataTable.HasErrors);
         }
@@ -100,6 +104,13 @@ namespace Workbench.ViewModels
         {
             Contract.Assume(SelectedColumn != null);
 //            DeleteRowFromTable(SelectedColumn);
+        }
+
+        public void OnSelectionChanged()
+        {
+            var x = (GraphicViewModel) this.parent;
+            // The grid "steals" focus from the container, so make the container selected again...
+            x.IsSelected = true;
         }
 
         private void PopulateGridColumns(DataTable newTable)

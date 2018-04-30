@@ -89,7 +89,7 @@ namespace Workbench.Views
         /// <summary>
         /// Cached list of currently selected graphics.
         /// </summary>
-        private List<object> initialSelectedGraphics;
+        private List<object> initialSelectedGraphics = new List<object>();
 
         /// <summary>
         /// Set to 'true' when the control key and the left mouse button is currently held down.
@@ -129,7 +129,7 @@ namespace Workbench.Views
         public GraphicView()
         {
             //
-            // Create a collection to contain domains.
+            // Create a collection to contain graphics.
             //
             Graphics = new ObservableCollection<object>();
 
@@ -209,7 +209,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// Collection of domains in the model.
+        /// Collection of graphics.
         /// </summary>
         public ObservableCollection<object> Graphics
         {
@@ -224,7 +224,7 @@ namespace Workbench.Views
         }
 
         /// <summary>
-        /// A reference to the collection that is the source used to populate 'domains'.
+        /// A reference to the collection that is the source used to populate graphics.
         /// Used in the same way as 'ItemsSource' in 'ItemsControl'.
         /// </summary>
         public IEnumerable GraphicsSource
@@ -393,11 +393,6 @@ namespace Workbench.Views
                 }
                 else
                 {
-                    if (initialSelectedGraphics == null)
-                    {
-                        return null;
-                    }
-
                     if (initialSelectedGraphics.Count != 1)
                     {
                         return null;
@@ -414,11 +409,6 @@ namespace Workbench.Views
                 }
                 else
                 {
-                    if (initialSelectedGraphics == null)
-                    {
-                        initialSelectedGraphics = new List<object>();
-                    }
-
                     initialSelectedGraphics.Clear();
                     initialSelectedGraphics.Add(value);
                 }
@@ -438,11 +428,6 @@ namespace Workbench.Views
                 }
                 else
                 {
-                    if (initialSelectedGraphics == null)
-                    {
-                        initialSelectedGraphics = new List<object>();
-                    }
-
                     return initialSelectedGraphics;
                 }
             }

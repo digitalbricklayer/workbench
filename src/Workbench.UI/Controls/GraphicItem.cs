@@ -172,7 +172,7 @@ namespace Workbench.Controls
 
             BringToFront();
 
-            ParentGraphicView?.Focus();
+            ParentGraphicView.Focus();
 
             if (e.ChangedButton == MouseButton.Left && ParentGraphicView != null)
             {
