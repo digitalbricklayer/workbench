@@ -7,7 +7,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class TableVisualizerEditorViewModel : EditorViewModel, IHandle<TableSelectionChanged>
+    public class TableVisualizerEditorViewModel : EditorViewModel, IHandle<TableClicked>
     {
         private TableViewModel table;
 
@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
 
             Model = theTableModel;
             this.eventAggregator.Subscribe(this);
-            Table = new TableViewModel(theTableModel.Table, theEventAggregator);
+            Table = new TableViewModel(theTableModel.Table, this);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Workbench.ViewModels
         /// Handle the table selection changed event.
         /// </summary>
         /// <param name="theMessage">Table selection changed event.</param>
-        public void Handle(TableSelectionChanged theMessage)
+        public void Handle(TableClicked theMessage)
         {
             // The grid "steals" focus from the container, so make the container selected again...
             IsSelected = true;

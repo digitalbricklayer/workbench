@@ -3,7 +3,6 @@ using System.Data;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Messages;
 
 namespace Workbench.ViewModels
 {
@@ -13,15 +12,15 @@ namespace Workbench.ViewModels
         private DataTable dataTable;
         private int? selectedIndex;
         private object selectedColumn;
-        private IEventAggregator eventAggregator;
+        private readonly IConductor parent;
 
-        public TableViewModel(TableModel theModel, IEventAggregator theEventAggregator)
+        public TableViewModel(TableModel theModel, IConductor theParent)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theParent != null);
 
             this.model = theModel;
-            this.eventAggregator = theEventAggregator;
+            this.parent = theParent;
             this.dataTable = CreateDataTable();
             Contract.Assert(!this.dataTable.HasErrors);
         }
@@ -107,9 +106,10 @@ namespace Workbench.ViewModels
 //            DeleteRowFromTable(SelectedColumn);
         }
 
-        public void OnSelectionChanged()
+        public void OnGridFocus()
         {
-            this.eventAggregator.PublishOnUIThread(new TableSelectionChanged());
+            var x = (GraphicViewModel) this.parent;
+            x.IsSelected = true;
         }
 
         private void PopulateGridColumns(DataTable newTable)

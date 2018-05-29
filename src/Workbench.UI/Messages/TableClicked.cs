@@ -1,6 +1,6 @@
 namespace Workbench.Messages
 {
-    public class TableSelectionChanged
+    public class TableClicked
     {
     }
 }

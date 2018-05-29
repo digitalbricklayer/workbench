@@ -202,7 +202,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IntToStringConverter.cs" />
-    <Compile Include="Messages\TableSelectionChanged.cs" />
+    <Compile Include="Messages\TableClicked.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />

@@ -15,7 +15,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void GetRowDataFromTableReturnsExpectedValue()
         {
             var theGridModel = new TableModel();
-            var sut = new TableViewModel(theGridModel, Mock.Of<IEventAggregator>());
+            var sut = new TableViewModel(theGridModel, Mock.Of<IConductor>());
             sut.AddColumn(new TableColumnModel("X"));
             sut.AddColumn(new TableColumnModel("Y"));
             sut.AddColumn(new TableColumnModel("Z"));
@@ -30,7 +30,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void GetRowDataFromDefaultTableReturnsExpectedValue()
         {
-            var sut = new TableViewModel(TableModel.Default, Mock.Of<IEventAggregator>());
+            var sut = new TableViewModel(TableModel.Default, Mock.Of<IConductor>());
 
             var actualRow = sut.GetRowAt(1);
             Assert.That(actualRow.Cells[1].Text, Is.Empty);

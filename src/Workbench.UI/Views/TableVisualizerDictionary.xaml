@@ -9,7 +9,7 @@
         <DataGrid x:Name="gridControl"
                   CanUserAddRows="false"
                   CanUserSortColumns="False"
-                  cal:Message.Attach="[Event SelectionChanged] = [OnSelectionChanged]"
+                  cal:Message.Attach="[Event SelectedCellsChanged] = [OnGridFocus]"
                   SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}"
                   CurrentColumn="{Binding SelectedColumn, Mode=OneWayToSource}"
                   ItemsSource="{Binding Table}">

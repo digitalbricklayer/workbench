@@ -19,7 +19,7 @@ namespace Workbench.ViewModels
             Model = newVisualizerModel;
             this.eventAggregator = theEventAggregator;
             this.eventAggregator.Subscribe(this);
-            Grid = new TableViewModel(newVisualizerModel.Table, theEventAggregator);
+            Grid = new TableViewModel(newVisualizerModel.Table, this);
             GridModel = newVisualizerModel;
         }
 
@@ -40,7 +40,7 @@ namespace Workbench.ViewModels
         {
             base.Update();
             // Pick up all changes made to the grid by the grid editor
-            Grid = new TableViewModel(GridModel.Table, this.eventAggregator);
+            Grid = new TableViewModel(GridModel.Table, this);
         }
     }
 }
