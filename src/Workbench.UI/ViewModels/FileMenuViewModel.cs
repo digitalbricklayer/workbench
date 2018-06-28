@@ -121,7 +121,9 @@ namespace Workbench.ViewModels
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
                 WorkArea = this.workAreaMapper.MapFrom(workspaceModel);
+#if false
                 WorkArea.SelectedDisplay = "Editor";
+#endif
             }
             catch (Exception e)
             {

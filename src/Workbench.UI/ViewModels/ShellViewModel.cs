@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the main window shell.
+    /// View model for the main shell window.
     /// </summary>
-    public sealed class ShellViewModel : Conductor<Screen>, IShell
+    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
         private WorkAreaViewModel workArea;
         private ApplicationMenuViewModel applicationMenu;
@@ -37,6 +38,8 @@ namespace Workbench.ViewModels
             WorkArea = theWorkspaceViewModel;
             ApplicationMenu = theApplicationMenuViewModel;
             TitleBar = theTitleBarViewModel;
+            var shellSubScreens = new List<Screen> { WorkArea, ApplicationMenu, TitleBar };
+            Items.AddRange(shellSubScreens);
         }
 
         /// <summary>
@@ -77,14 +80,6 @@ namespace Workbench.ViewModels
                 this.titleBar = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-            ActivateItem(WorkArea);
-            ActivateItem(ApplicationMenu);
-            ActivateItem(TitleBar);
         }
     }
 }

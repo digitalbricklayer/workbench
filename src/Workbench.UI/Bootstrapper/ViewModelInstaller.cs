@@ -19,6 +19,10 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<WorkAreaViewModel>()
                                      .LifeStyle.Singleton,
+                            Component.For<ModelTabViewModel>()
+                                     .LifeStyle.Singleton,
+                            Component.For<ChessboardTabViewModel>()
+                                     .LifeStyle.Singleton,
                             Component.For<ApplicationMenuViewModel>()
                                      .LifeStyle.Singleton,
                             Component.For<FileMenuViewModel>()

@@ -226,7 +226,9 @@
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
+    <Compile Include="ViewModels\ModelTabViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
@@ -239,6 +241,9 @@
     <Compile Include="Views\AllDifferentConstraintViewerView.xaml.cs">
       <DependentUpon>AllDifferentConstraintViewerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChessboardTabView.xaml.cs">
+      <DependentUpon>ChessboardTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConstraintExpressionViewerView.xaml.cs">
       <DependentUpon>ConstraintExpressionViewerView.xaml</DependentUpon>
     </Compile>
@@ -250,6 +255,9 @@
     </Compile>
     <Compile Include="Views\VariableDomainExpressionViewerView.xaml.cs">
       <DependentUpon>VariableDomainExpressionViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModelTabView.xaml.cs">
+      <DependentUpon>ModelTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkspaceViewerView.xaml.cs">
       <DependentUpon>WorkspaceViewerView.xaml</DependentUpon>
@@ -420,6 +428,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ChessboardTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConstraintExpressionViewerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -433,6 +445,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VariableDomainExpressionViewerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ModelTabView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

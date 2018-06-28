@@ -49,7 +49,9 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
+#if false
             this.workArea.ChangeSelectedDisplayTo("Editor");
+#endif
             var newTableVisualizer = new TableVisualizerModel(TableModel.Default, new VisualizerTitle(), newVisualizerLocation);
             this.workArea.AddTableVisualizer(CreateMapVisualizer(newTableVisualizer));
             this.titleBar.UpdateTitle();

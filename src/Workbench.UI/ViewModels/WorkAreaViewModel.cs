@@ -17,8 +17,6 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class WorkAreaViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private readonly IObservableCollection<string> availableDisplays;
-        private string selectedDisplay;
         private bool isDirty;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelService viewModelService;
@@ -26,6 +24,7 @@ namespace Workbench.ViewModels
         private WorkspaceViewerViewModel viewer;
         private WorkspaceEditorViewModel editor;
         private readonly IDataService dataService;
+        private ModelTabViewModel modelTab;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -34,7 +33,8 @@ namespace Workbench.ViewModels
                                  IWindowManager theWindowManager,
                                  IEventAggregator theEventAggregator,
                                  IViewModelService theViewModelService,
-                                 IViewModelFactory theViewModelFactory)
+                                 IViewModelFactory theViewModelFactory,
+                                 ModelTabViewModel theModelTab)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
@@ -46,17 +46,20 @@ namespace Workbench.ViewModels
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
             this.windowManager = theWindowManager;
-            this.availableDisplays = new BindableCollection<string> {"Editor", "Viewer"};
+            this.modelTab = theModelTab;
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
             AllVisualizers = new BindableCollection<VisualizerViewModel>();
             VariableVisualizers = new BindableCollection<VariableVisualizerViewModel>();
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
+#if false
+#else
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
+            Items.Add(ModelTab);
+#endif
             DeleteCommand = new CommandHandler(DeleteAction);
-            SelectedDisplay = "Editor";
         }
 
         /// <summary>
@@ -89,6 +92,16 @@ namespace Workbench.ViewModels
             set
             {
                 this.editor = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public ModelTabViewModel ModelTab
+        {
+            get { return this.modelTab; }
+            set
+            {
+                this.modelTab = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -133,48 +146,6 @@ namespace Workbench.ViewModels
         /// Gets all table visualizers.
         /// </summary>
         public BindableCollection<TableVisualizerViewModel> TableVisualizers { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the currently selected display mode.
-        /// </summary>
-        public string SelectedDisplay
-        {
-            get
-            {
-                return this.selectedDisplay;
-            }
-            set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.selectedDisplay = value;
-                switch (this.selectedDisplay)
-                {
-                    case "Viewer":
-                        ChangeActiveItem(Viewer, closePrevious:false);
-                        break;
-
-                    case "Editor":
-                        ChangeActiveItem(Editor, closePrevious: false);
-                        break;
-
-                    default:
-                        throw new NotImplementedException("Unknown display mode.");
-                }
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets the available displays. Changes depending upon 
-        /// whether the model has a solution or not.
-        /// </summary>
-        public IObservableCollection<string> AvailableDisplays
-        {
-            get
-            {
-                return this.availableDisplays;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the work area dirty flag.
@@ -386,15 +357,6 @@ namespace Workbench.ViewModels
              * editor and move to the viewer I probably will expect the editor that 
              * is selected on the editor to be selected on the viewer as well.
              */
-            if (SelectedDisplay == "Editor")
-            {
-                var selectedEditors = Editor.DeleteSelectedGraphics();
-                var selectedModels = selectedEditors.Select(_ => _.Model.Model);
-                foreach (var model in selectedModels)
-                {
-//                    Viewer.
-                }
-            }
         }
 
         /// <summary>
@@ -409,17 +371,6 @@ namespace Workbench.ViewModels
             this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable));
         }
 
-        /// <summary>
-        /// Change the selected display to the new selected display.
-        /// </summary>
-        /// <param name="newSelectedDisplayMode">Text of the new display mode.</param>
-        public void ChangeSelectedDisplayTo(string newSelectedDisplayMode)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newSelectedDisplayMode));
-            Contract.Requires<ArgumentOutOfRangeException>(AvailableDisplays.Contains(newSelectedDisplayMode));
-            SelectedDisplay = newSelectedDisplayMode;
-        }
-
         public void BindTo(SolutionModel theSolution)
         {
             Viewer.BindTo(theSolution);
@@ -427,6 +378,7 @@ namespace Workbench.ViewModels
 
         public bool CanDeleteSelectedExecute()
         {
+#if false
             if (SelectedDisplay == "Editor")
             {
                 return Editor.Items.Any(_ => _.IsSelected);
@@ -435,6 +387,9 @@ namespace Workbench.ViewModels
             {
                 throw new NotImplementedException("Selection is not implemented for the viewer");
             }
+#else
+            return false;
+#endif
         }
 
         /// <summary>
@@ -443,12 +398,13 @@ namespace Workbench.ViewModels
         /// <returns>Collection of selected grid visualizers.</returns>
         public IReadOnlyCollection<TableVisualizerViewModel> GetSelectedTableVisualizers()
         {
+#if false
             if (SelectedDisplay == "Editor")
             {
                 return TableVisualizers.Where(gridVisualizer => gridVisualizer.Editor.IsSelected)
-                                      .ToList();
+                    .ToList();
             }
-
+#endif
             return TableVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
                                   .ToList();
         }
@@ -483,7 +439,7 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             BindTo(theSolution);
-            SelectedDisplay = "Viewer";
+            ActivateItem(Viewer);
         }
 
         /// <summary>

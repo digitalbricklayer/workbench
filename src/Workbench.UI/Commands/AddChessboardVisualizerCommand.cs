@@ -49,7 +49,9 @@ namespace Workbench.Commands
         public override void Execute(object parameter)
         {
             var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
+#if false
             this.workArea.ChangeSelectedDisplayTo("Editor");
+#endif
             var newChessboardModel = new ChessboardModel(new ModelName("Chessboard"));
             var newVisualizerModel = new ChessboardVisualizerModel(newChessboardModel, new VisualizerTitle(), newVisualizerLocation);
             this.workArea.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));

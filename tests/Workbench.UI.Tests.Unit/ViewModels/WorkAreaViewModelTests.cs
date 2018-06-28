@@ -32,7 +32,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = CreateSut();
             sut.SolveModel();
-            Assert.That(sut.SelectedDisplay, Is.EqualTo("Viewer"));
+            Assert.That(sut.ActiveItem.DisplayName, Is.EqualTo("Viewer"));
         }
 
         private WorkAreaViewModel CreateSut()

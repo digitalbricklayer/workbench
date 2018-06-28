@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using Castle.Windsor;
 using Workbench.ViewModels;
@@ -34,14 +35,11 @@ namespace Workbench.Bootstrapper
             this.container = ContainerBuilder.Build();
         }
 
-        /// <summary>
-        /// Override this to provide an IoC specific implementation.
-        /// </summary>
-        /// <param name="service">The service to locate.</param>
-        /// <param name="key">The key to locate.</param>
-        /// <returns>
-        /// The located service.
-        /// </returns>
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            DisplayRootViewFor<IShell>();
+        }
+
         protected override object GetInstance(Type service, string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -51,35 +49,20 @@ namespace Workbench.Bootstrapper
             return this.container.Resolve(key, service);
         }
 
-        /// <summary>
-        /// Override this to provide an IoC specific implementation
-        /// </summary>
-        /// <param name="service">The service to locate.</param>
-        /// <returns>
-        /// The located services.
-        /// </returns>
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return this.container.ResolveAll(service).Cast<object>();
         }
 
-        /// <summary>
-        /// Override this to provide an IoC specific implementation.
-        /// </summary>
-        /// <param name="instance">The instance to perform injection on.</param>
         protected override void BuildUp(object instance)
         {
             throw new NotImplementedException("The BuildUp method has not been implemented because Castle Windsor supports property based injection natively.");
-        }
+         }
 
-        /// <summary>
-        /// Override this to add custom behavior to execute after the application starts.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The args.</param>
-        protected override void OnStartup(object sender, StartupEventArgs e)
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            DisplayRootViewFor<IShell>();
+            e.Handled = true;
+            MessageBox.Show(e.Exception.Message, "An error as occurred", MessageBoxButton.OK);
         }
     }
 }
