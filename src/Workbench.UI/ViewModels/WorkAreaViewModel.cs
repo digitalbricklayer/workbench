@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
         private WorkspaceViewerViewModel viewer;
         private WorkspaceEditorViewModel editor;
         private readonly IDataService dataService;
-        private ModelTabViewModel modelTab;
+        private ModelEditorTabViewModel modelTab;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -34,7 +34,7 @@ namespace Workbench.ViewModels
                                  IEventAggregator theEventAggregator,
                                  IViewModelService theViewModelService,
                                  IViewModelFactory theViewModelFactory,
-                                 ModelTabViewModel theModelTab)
+                                 ModelEditorTabViewModel theModelTab)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
@@ -57,7 +57,7 @@ namespace Workbench.ViewModels
 #else
             Editor = new WorkspaceEditorViewModel(WorkspaceModel.Display, WorkspaceModel.Model);
             Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
-            Items.Add(ModelTab);
+            Items.Add(ModelEditorTab);
 #endif
             DeleteCommand = new CommandHandler(DeleteAction);
         }
@@ -96,7 +96,7 @@ namespace Workbench.ViewModels
             }
         }
 
-        public ModelTabViewModel ModelTab
+        public ModelEditorTabViewModel ModelEditorTab
         {
             get { return this.modelTab; }
             set
@@ -222,7 +222,7 @@ namespace Workbench.ViewModels
             Viewer.AddVisualizer(newVariable.SingletonViewer);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
+            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable.SingletonEditor));
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Workbench.ViewModels
             Editor.AddAggregateVariable(newVariable.AggregateEditor);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
+            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable.AggregateEditor));
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Workbench.ViewModels
 
             Editor.DeleteVariable(variable.VariableEditor);
             IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable));
+            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable.VariableEditor));
         }
 
         public void BindTo(SolutionModel theSolution)

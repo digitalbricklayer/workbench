@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
+using Workbench.Core.Solver;
 using Workbench.Services;
 using Workbench.ViewModels;
 
@@ -28,11 +29,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         }
 
         [Test]
-        public void SolveModelWithVisualizerDisplaysSolution()
+        public void SolveModelWithVisualizerReturnsSuccess()
         {
             var sut = CreateSut();
-            sut.SolveModel();
-            Assert.That(sut.ActiveItem.DisplayName, Is.EqualTo("Viewer"));
+            var actualResult = sut.SolveModel();
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         private WorkAreaViewModel CreateSut()
@@ -41,7 +42,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                     this.windowManagerMock.Object,
                                                     this.eventAggregator,
                                                     this.viewModelMock.Object,
-                                                    CreateViewModelFactoryMock().Object);
+                                                    CreateViewModelFactoryMock().Object,
+                                                    new ModelEditorTabViewModel(this.dataService, this.windowManagerMock.Object, this.eventAggregator));
             newWorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                            .WithModel(newWorkArea.WorkspaceModel.Model)
                                                                            .Build(),

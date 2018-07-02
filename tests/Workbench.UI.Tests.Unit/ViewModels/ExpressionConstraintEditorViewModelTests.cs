@@ -56,7 +56,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private static IViewModelService CreateViewModelService()
         {
-            return new ViewModelService(CreateViewModelFactory());
+            return new ViewModelService();
         }
 
         private static IEventAggregator CreateEventAggregator()

@@ -71,7 +71,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                            CreateWindowManagerMock().Object,
                                                            this.eventAggregatorMock.Object,
                                                            this.viewModelService,
-                                                           this.viewModelFactoryMock.Object);
+                                                           this.viewModelFactoryMock.Object,
+                                                           new ModelEditorTabViewModel(CreateDataService(), CreateWindowManagerMock().Object, this.eventAggregatorMock.Object));
             workspaceViewModel.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                                   .WithDomain("1..10")
                                                                                   .WithModel(workspaceViewModel.WorkspaceModel.Model)

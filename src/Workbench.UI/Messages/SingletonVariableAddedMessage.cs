@@ -13,7 +13,7 @@ namespace Workbench.Messages
         /// Initialize a new singleton variable added message with the new variable.
         /// </summary>
         /// <param name="theNewVariable">New variable.</param>
-        public SingletonVariableAddedMessage(SingletonVariableVisualizerViewModel theNewVariable)
+        public SingletonVariableAddedMessage(SingletonVariableEditorViewModel theNewVariable)
         {
             Contract.Requires<ArgumentNullException>(theNewVariable != null);
             NewVariable = theNewVariable;
@@ -22,7 +22,7 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the new variable.
         /// </summary>
-        public SingletonVariableVisualizerViewModel NewVariable { get; private set; }
+        public SingletonVariableEditorViewModel NewVariable { get; private set; }
 
         /// <summary>
         /// Gets the new variable name.

@@ -228,7 +228,7 @@
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
-    <Compile Include="ViewModels\ModelTabViewModel.cs" />
+    <Compile Include="ViewModels\ModelEditorTabViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />

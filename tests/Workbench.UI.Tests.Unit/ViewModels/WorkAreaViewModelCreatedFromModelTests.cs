@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.windowManagerMock = new Mock<IWindowManager>();
             this.eventAggregatorMock = new Mock<IEventAggregator>();
             this.viewModelFactoryMock = CreateViewModelFactoryMock();
-            this.viewModelService = new ViewModelService(this.viewModelFactoryMock.Object);
+            this.viewModelService = new ViewModelService();
         }
     
         [Test]
@@ -106,7 +106,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                           this.windowManagerMock.Object,
                                           this.eventAggregatorMock.Object,
                                           this.viewModelService,
-                                          this.viewModelFactoryMock.Object);
+                                          this.viewModelFactoryMock.Object,
+                                          new ModelEditorTabViewModel(this.dataServiceMock.Object, this.windowManagerMock.Object, this.eventAggregatorMock.Object));
         }
     }
 }

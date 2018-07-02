@@ -15,9 +15,7 @@ namespace Workbench.UI.Tests.Unit.Services
         [SetUp]
         public void Initialize()
         {
-            var viewModelFactory = new ViewModelFactory(CreateEventAggregator(),
-                                                        CreateWindowManager());
-            this.viewModelService = new ViewModelService(viewModelFactory);
+            this.viewModelService = new ViewModelService();
         }
 
         [Test]
@@ -71,7 +69,8 @@ namespace Workbench.UI.Tests.Unit.Services
                                                 CreateWindowManager(),
                                                 CreateEventAggregator(),
                                                 this.viewModelService,
-                                                mock.Object));
+                                                mock.Object,
+                                                new ModelEditorTabViewModel(CreateDataService(), CreateWindowManager(), CreateEventAggregator())));
 
             return mock;
         }

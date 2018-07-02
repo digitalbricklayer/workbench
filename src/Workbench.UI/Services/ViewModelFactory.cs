@@ -23,28 +23,14 @@ namespace Workbench.Services
         }
 
         /// <summary>
-        /// Event fired when a new workspace view model is created.
-        /// </summary>
-        public event EventHandler<WorkAreaCreatedArgs> WorkAreaCreated;
-
-        /// <summary>
         /// Create a new work area view model.
         /// </summary>
         /// <returns>New work area view model.</returns>
         public WorkAreaViewModel CreateWorkArea()
         {
             var newWorkArea = IoC.Get<WorkAreaViewModel>();
-			this.OnWorkAreaCreated(new WorkAreaCreatedArgs(newWorkArea));
 			
 			return newWorkArea;
         }
-
-        private void OnWorkAreaCreated(WorkAreaCreatedArgs e)
-		{
-			if (this.WorkAreaCreated != null)
-			{
-				WorkAreaCreated(this, e);
-			}
-		}
     }
 }

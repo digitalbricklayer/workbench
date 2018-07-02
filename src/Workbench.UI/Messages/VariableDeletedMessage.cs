@@ -13,7 +13,7 @@ namespace Workbench.Messages
         /// Initialize a variable deleted message with the deleted variable.
         /// </summary>
         /// <param name="theDeletedVariable">The variable that has been deleted.</param>
-        public VariableDeletedMessage(VariableVisualizerViewModel theDeletedVariable)
+        public VariableDeletedMessage(VariableEditorViewModel theDeletedVariable)
         {
             Contract.Requires<ArgumentNullException>(theDeletedVariable != null);
             Deleted = theDeletedVariable;
@@ -27,6 +27,6 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the variable that has been deleted.
         /// </summary>
-        public VariableVisualizerViewModel Deleted { get; private set; }
+        public VariableEditorViewModel Deleted { get; private set; }
     }
 }

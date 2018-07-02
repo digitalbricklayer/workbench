@@ -57,7 +57,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private IViewModelService CreateViewModelService()
         {
-            return new ViewModelService(CreateViewModelFactory());
+            return new ViewModelService();
         }
 
         private IWindowManager CreateWindowManager()

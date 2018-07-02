@@ -9,20 +9,16 @@ namespace Workbench.Services
     /// <summary>
     /// Service responsible for cross cutting concerns across all view models.
     /// </summary>
-    public sealed class ViewModelService : IViewModelService, IDisposable
+    public sealed class ViewModelService : IViewModelService
     {
         private readonly Dictionary<int, VisualizerViewModel> graphicMap;
         private readonly Dictionary<int, VariableVisualizerViewModel> variableMap;
-		private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
         /// Initialize the view model cache with default values.
         /// </summary>
-        public ViewModelService(IViewModelFactory theViewModelFactory)
+        public ViewModelService()
         {
-			Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
-			this.viewModelFactory = theViewModelFactory;
-			this.viewModelFactory.WorkAreaCreated += OnWorkAreaCreated;
             this.graphicMap = new Dictionary<int, VisualizerViewModel>();
             this.variableMap = new Dictionary<int, VariableVisualizerViewModel>();
         }
@@ -62,14 +58,5 @@ namespace Workbench.Services
             Contract.Ensures(Contract.Result<IReadOnlyCollection<VariableVisualizerViewModel>>() != null);
             return this.variableMap.Values.ToList();
         }
-		
-		public void Dispose()
-		{
-			this.viewModelFactory.WorkAreaCreated -= OnWorkAreaCreated;
-		}
-		
-		private void OnWorkAreaCreated(Object sender, WorkAreaCreatedArgs e)
-		{
-		}
     }
 }

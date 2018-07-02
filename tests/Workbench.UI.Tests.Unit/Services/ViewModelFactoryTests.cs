@@ -22,10 +22,8 @@ namespace Workbench.UI.Tests.Unit.Services
         public void CreateWorkspaceFiresWorkspaceCreatedEvent()
         {
             var sut = CreateSut();
-            var wasWorkAreaCreatedCalled = false;
-            sut.WorkAreaCreated += (o, e) => wasWorkAreaCreatedCalled = true;
-            sut.CreateWorkArea();
-            Assert.That(wasWorkAreaCreatedCalled, Is.True);
+            var actualWorkArea = sut.CreateWorkArea();
+            Assert.That(actualWorkArea, Is.Not.Null);
         }
 
         private static ViewModelFactory CreateSut()
@@ -40,7 +38,8 @@ namespace Workbench.UI.Tests.Unit.Services
                                          CreateWindowManagerMock().Object,
                                          CreateEventAggregatorMock().Object,
                                          CreateViewModelServiceMock().Object,
-                                         CreateViewModelFactoryMock().Object);
+                                         CreateViewModelFactoryMock().Object,
+                                         new ModelEditorTabViewModel(CreateDataServiceMock().Object, CreateWindowManagerMock().Object, CreateEventAggregatorMock().Object));
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
