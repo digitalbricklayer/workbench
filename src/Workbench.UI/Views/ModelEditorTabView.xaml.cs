@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for ModelTabView.xaml
+    /// Interaction logic for ModelEditorTabView.xaml
     /// </summary>
-    public partial class ModelTabView : UserControl
+    public partial class ModelEditorTabView : UserControl
     {
-        public ModelTabView()
+        public ModelEditorTabView()
         {
             InitializeComponent();
         }

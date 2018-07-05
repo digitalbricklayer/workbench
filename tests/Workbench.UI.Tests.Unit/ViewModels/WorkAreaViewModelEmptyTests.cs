@@ -26,7 +26,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                            CreateEventAggregator(),
                                                            CreateViewModelService(),
                                                            CreateViewModelFactory(),
-                                                           new ModelEditorTabViewModel(CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
+                                                           new ModelEditorTabViewModel(CreateDataService()));
             return worksAreaViewModel;
         }
 

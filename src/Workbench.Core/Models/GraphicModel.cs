@@ -56,5 +56,11 @@ namespace Workbench.Core.Models
         {
             // Default implementation. Override as appropriate.
         }
+
+        public override void AssignIdentity()
+        {
+            base.AssignIdentity();
+            Model.AssignIdentity();
+        }
     }
 }

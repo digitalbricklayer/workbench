@@ -55,7 +55,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                      CreateConstraintMapper(),
                                      CreateDomainMapper(),
                                      CreateViewModelFactoryMock().Object,
-                                     this.viewModelService);
+                                     this.viewModelService,
+                                     CreateDataServiceMock().Object);
         }
 
         private SolutionMapper CreateSolutionMapper()
@@ -107,7 +108,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                           this.eventAggregatorMock.Object,
                                           this.viewModelService,
                                           this.viewModelFactoryMock.Object,
-                                          new ModelEditorTabViewModel(this.dataServiceMock.Object, this.windowManagerMock.Object, this.eventAggregatorMock.Object));
+                                          new ModelEditorTabViewModel(this.dataServiceMock.Object));
         }
     }
 }

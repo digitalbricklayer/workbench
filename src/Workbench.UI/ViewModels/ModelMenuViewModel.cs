@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return WorkArea.Editor.GetSelectedAggregateVariables().Any();
+                return WorkArea.ModelEditor.GetSelectedAggregateVariables().Any();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void ModelResizeAction()
         {
-            var selectedVariables = WorkArea.Editor.GetSelectedAggregateVariables();
+            var selectedVariables = WorkArea.ModelEditor.GetSelectedAggregateVariables();
             if (selectedVariables == null) return;
 
             var resizeViewModel = new AggregateVariableResizeViewModel();

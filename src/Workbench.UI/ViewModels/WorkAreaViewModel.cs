@@ -22,9 +22,8 @@ namespace Workbench.ViewModels
         private readonly IViewModelService viewModelService;
         private readonly IWindowManager windowManager;
         private WorkspaceViewerViewModel viewer;
-        private WorkspaceEditorViewModel editor;
+        private ModelEditorTabViewModel _modelEditor;
         private readonly IDataService dataService;
-        private ModelEditorTabViewModel modelTab;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -46,19 +45,15 @@ namespace Workbench.ViewModels
             this.eventAggregator = theEventAggregator;
             this.viewModelService = theViewModelService;
             this.windowManager = theWindowManager;
-            this.modelTab = theModelTab;
+            this._modelEditor = theModelTab;
+
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
             AllVisualizers = new BindableCollection<VisualizerViewModel>();
             VariableVisualizers = new BindableCollection<VariableVisualizerViewModel>();
             ChessboardVisualizers = new BindableCollection<ChessboardVisualizerViewModel>();
             TableVisualizers = new BindableCollection<TableVisualizerViewModel>();
-#if false
-#else
-            Editor = new WorkspaceEditorViewModel(WorkspaceModel.Display, WorkspaceModel.Model);
-            Viewer = new WorkspaceViewerViewModel(WorkspaceModel.Solution);
-            Items.Add(ModelEditorTab);
-#endif
+            Items.Add(ModelEditor);
             DeleteCommand = new CommandHandler(DeleteAction);
         }
 
@@ -83,41 +78,15 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace editor.
         /// </summary>
-        public WorkspaceEditorViewModel Editor
+        public ModelEditorTabViewModel ModelEditor
         {
             get
             {
-                return this.editor;
+                return this._modelEditor;
             }
             set
             {
-                this.editor = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public ModelEditorTabViewModel ModelEditorTab
-        {
-            get { return this.modelTab; }
-            set
-            {
-                this.modelTab = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the workspace viewer.
-        /// </summary>
-        public WorkspaceViewerViewModel Viewer
-        {
-            get
-            {
-                return this.viewer;
-            }
-            set
-            {
-                this.viewer = value;
+                this._modelEditor = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -217,9 +186,8 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
             AddVisualizer(newVariable);
+            ModelEditor.AddSingletonVariable(newVariable.SingletonEditor);
             VariableVisualizers.Add(newVariable);
-            Editor.AddSingletonVariable(newVariable.SingletonEditor);
-            Viewer.AddVisualizer(newVariable.SingletonViewer);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable.SingletonEditor));
@@ -249,7 +217,7 @@ namespace Workbench.ViewModels
 
             AddVisualizer(newVariable);
             VariableVisualizers.Add(newVariable);
-            Editor.AddAggregateVariable(newVariable.AggregateEditor);
+            ModelEditor.AddAggregateVariable(newVariable.AggregateEditor);
             this.viewModelService.CacheVariable(newVariable);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable.AggregateEditor));
@@ -276,8 +244,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newDomain != null);
 
             AllVisualizers.Add(newDomain);
-            Editor.AddDomain(newDomain.DomainEditor);
-            Viewer.AddVisualizer(newDomain.DomainViewer);
+            ModelEditor.AddDomain(newDomain.DomainEditor);
             IsDirty = true;
         }
 
@@ -302,8 +269,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
             AllVisualizers.Add(newConstraint);
-            Editor.AddConstraint(newConstraint.ExpressionEditor);
-            Viewer.AddVisualizer(newConstraint.Viewer);
+            ModelEditor.AddConstraint(newConstraint.ExpressionEditor);
             IsDirty = true;
         }
 
@@ -317,8 +283,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
             AllVisualizers.Add(newConstraint);
-            Editor.AddConstraint(newConstraint.AllDifferentEditor);
-            Viewer.AddVisualizer(newConstraint.Viewer);
+            ModelEditor.AddConstraint(newConstraint.AllDifferentEditor);
             IsDirty = true;
         }
 
@@ -366,14 +331,13 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(variable != null);
 
-            Editor.DeleteVariable(variable.VariableEditor);
+            ModelEditor.DeleteVariable(variable.VariableEditor);
             IsDirty = true;
             this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable.VariableEditor));
         }
 
         public void BindTo(SolutionModel theSolution)
         {
-            Viewer.BindTo(theSolution);
         }
 
         public bool CanDeleteSelectedExecute()
@@ -428,8 +392,11 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
             AllVisualizers.Add(newVisualizer);
+#if false
             Editor.AddVisualizer(newVisualizer.Editor);
             Viewer.AddVisualizer(newVisualizer.Viewer);
+            
+#endif
         }
 
         /// <summary>
@@ -439,7 +406,6 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             BindTo(theSolution);
-            ActivateItem(Viewer);
         }
 
         /// <summary>
@@ -502,9 +468,7 @@ namespace Workbench.ViewModels
         private void WorkspaceInvariants()
         {
             Contract.Invariant(WorkspaceModel != null);
-            Contract.Invariant(Solution != null);
-            Contract.Invariant(Editor != null);
-            Contract.Invariant(Viewer != null);
+            Contract.Invariant(ModelEditor != null);
         }
     }
 }

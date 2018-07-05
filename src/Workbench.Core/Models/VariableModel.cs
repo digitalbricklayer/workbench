@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name and domain expression.
         /// </summary>
-        public VariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
+        protected VariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
             : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -32,7 +32,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        public VariableModel(ModelModel theModel, ModelName variableName)
+        protected VariableModel(ModelModel theModel, ModelName variableName)
             : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -94,6 +94,12 @@ namespace Workbench.Core.Models
         public virtual DomainValue GetVariableBand()
         {
             return VariableBandEvaluator.GetVariableBand(this);
+        }
+
+        public override void AssignIdentity()
+        {
+            base.AssignIdentity();
+            DomainExpression.AssignIdentity();
         }
     }
 }

@@ -7,7 +7,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class TableVisualizerEditorViewModel : EditorViewModel, IHandle<TableClicked>
+    public class TableVisualizerEditorViewModel : EditorViewModel
     {
         private TableViewModel table;
 
@@ -67,16 +67,6 @@ namespace Workbench.ViewModels
         public void DeleteRowSelected()
         {
             
-        }
-
-        /// <summary>
-        /// Handle the table selection changed event.
-        /// </summary>
-        /// <param name="theMessage">Table selection changed event.</param>
-        public void Handle(TableClicked theMessage)
-        {
-            // The grid "steals" focus from the container, so make the container selected again...
-            IsSelected = true;
         }
     }
 }

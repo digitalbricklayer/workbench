@@ -120,7 +120,6 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
-            newConstraint.AssignIdentity();
             Constraints.Add(newConstraint);
         }
 
@@ -143,7 +142,11 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            newVariable.AssignIdentity();
+            if (!newVariable.HasIdentity)
+            {
+                newVariable.AssignIdentity();
+            }
+
             Variables.Add(newVariable);
             Singletons.Add(newVariable);
         }
@@ -156,7 +159,11 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
-            newVariable.AssignIdentity();
+            if (!newVariable.HasIdentity)
+            {
+                newVariable.AssignIdentity();
+            }
+
             Variables.Add(newVariable);
             Aggregates.Add(newVariable);
         }
@@ -172,28 +179,16 @@ namespace Workbench.Core.Models
             Variables.Remove(variableToDelete);
         }
 
-        public void AddDomain(DomainModel newDomain)
-        {
-            Contract.Requires<ArgumentNullException>(newDomain != null);
-
-            newDomain.AssignIdentity();
-            Domains.Add(newDomain);
-        }
-
         public void AddSharedDomain(DomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
             Contract.Assume(newDomain.Name != null);
 
-            newDomain.AssignIdentity();
+            if (!newDomain.HasIdentity)
+            {
+                newDomain.AssignIdentity();
+            }
             Domains.Add(newDomain);
-        }
-
-        public void RemoveSharedDomain(DomainModel oldDomain)
-        {
-            Contract.Requires<ArgumentNullException>(oldDomain != null);
-
-            Domains.Add(oldDomain);
         }
 
         /// <summary>

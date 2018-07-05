@@ -72,7 +72,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                            this.eventAggregatorMock.Object,
                                                            this.viewModelService,
                                                            this.viewModelFactoryMock.Object,
-                                                           new ModelEditorTabViewModel(CreateDataService(), CreateWindowManagerMock().Object, this.eventAggregatorMock.Object));
+                                                           new ModelEditorTabViewModel(CreateDataService()));
             workspaceViewModel.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                                   .WithDomain("1..10")
                                                                                   .WithModel(workspaceViewModel.WorkspaceModel.Model)

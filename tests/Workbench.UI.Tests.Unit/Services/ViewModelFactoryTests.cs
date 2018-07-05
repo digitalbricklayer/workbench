@@ -19,7 +19,7 @@ namespace Workbench.UI.Tests.Unit.Services
         }
 
         [Test]
-        public void CreateWorkspaceFiresWorkspaceCreatedEvent()
+        public void CreateWorkspaceReturnsWorkAreaViewModel()
         {
             var sut = CreateSut();
             var actualWorkArea = sut.CreateWorkArea();
@@ -39,7 +39,7 @@ namespace Workbench.UI.Tests.Unit.Services
                                          CreateEventAggregatorMock().Object,
                                          CreateViewModelServiceMock().Object,
                                          CreateViewModelFactoryMock().Object,
-                                         new ModelEditorTabViewModel(CreateDataServiceMock().Object, CreateWindowManagerMock().Object, CreateEventAggregatorMock().Object));
+                                         new ModelEditorTabViewModel(CreateDataServiceMock().Object));
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()

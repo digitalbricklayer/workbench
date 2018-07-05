@@ -38,8 +38,7 @@ namespace Workbench.Services
         public WorkAreaViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
             var workAreaViewModel = this.viewModelFactory.CreateWorkArea();
-            workAreaViewModel.Editor = this.displayMapper.MapFrom(theWorkspaceModel);
-            workAreaViewModel.Viewer = this.solutionMapper.MapFrom(theWorkspaceModel.Solution);
+            workAreaViewModel.ModelEditor = this.displayMapper.MapFrom(theWorkspaceModel);
 
             return workAreaViewModel;
         }

@@ -203,7 +203,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IntToStringConverter.cs" />
-    <Compile Include="Messages\TableClicked.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="ViewModels\AllDifferentConstraintExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\ConstraintExpressionViewerViewModel.cs" />
-    <Compile Include="ViewModels\ModelEditorTabViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\VariableDomainExpressionViewerViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
@@ -256,8 +254,8 @@
     <Compile Include="Views\VariableDomainExpressionViewerView.xaml.cs">
       <DependentUpon>VariableDomainExpressionViewerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ModelTabView.xaml.cs">
-      <DependentUpon>ModelTabView.xaml</DependentUpon>
+    <Compile Include="Views\ModelEditorTabView.xaml.cs">
+      <DependentUpon>ModelEditorTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkspaceViewerView.xaml.cs">
       <DependentUpon>WorkspaceViewerView.xaml</DependentUpon>
@@ -332,7 +330,7 @@
     <Compile Include="ViewModels\VariableEditorViewModel.cs" />
     <Compile Include="ViewModels\VariableViewerViewModel.cs" />
     <Compile Include="ViewModels\VariableVisualizerViewModel.cs" />
-    <Compile Include="ViewModels\WorkspaceEditorViewModel.cs" />
+    <Compile Include="ViewModels\ModelEditorTabViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceViewerViewModel.cs" />
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
@@ -448,7 +446,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ModelTabView.xaml">
+    <Page Include="Views\ModelEditorTabView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

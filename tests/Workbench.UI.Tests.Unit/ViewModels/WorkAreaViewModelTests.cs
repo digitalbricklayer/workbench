@@ -43,7 +43,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                     this.eventAggregator,
                                                     this.viewModelMock.Object,
                                                     CreateViewModelFactoryMock().Object,
-                                                    new ModelEditorTabViewModel(this.dataService, this.windowManagerMock.Object, this.eventAggregator));
+                                                    new ModelEditorTabViewModel(this.dataService));
             newWorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                            .WithModel(newWorkArea.WorkspaceModel.Model)
                                                                            .Build(),
@@ -53,7 +53,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             newWorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("X")
                                                                                  .Build(),
                                                 new Point());
-            var theConstraint = (ExpressionConstraintEditorViewModel) newWorkArea.Editor.GetConstraintByName("X");
+            var theConstraint = (ExpressionConstraintEditorViewModel) newWorkArea.ModelEditor.GetConstraintByName("X");
             theConstraint.Expression.Text = "$x > 1";
 
             return newWorkArea;

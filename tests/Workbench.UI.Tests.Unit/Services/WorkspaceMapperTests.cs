@@ -24,7 +24,7 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             var sut = CreateSut();
             var actualWorkAreaModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkAreaModel.Editor.Variables.Count, Is.EqualTo(2));
+            Assert.That(actualWorkAreaModel.ModelEditor.Variables.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             var sut = CreateSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.Editor.Domains.Count, Is.EqualTo(1));
+            Assert.That(actualWorkspaceModel.ModelEditor.Domains.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Workbench.UI.Tests.Unit.Services
         {
             var sut = CreateSut();
             var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.Editor.Constraints.Count, Is.EqualTo(1));
+            Assert.That(actualWorkspaceModel.ModelEditor.Constraints.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -66,11 +66,11 @@ namespace Workbench.UI.Tests.Unit.Services
             var mock = new Mock<IViewModelFactory>();
             mock.Setup(_ => _.CreateWorkArea())
                 .Returns(new WorkAreaViewModel(CreateDataService(),
-                                                CreateWindowManager(),
-                                                CreateEventAggregator(),
-                                                this.viewModelService,
-                                                mock.Object,
-                                                new ModelEditorTabViewModel(CreateDataService(), CreateWindowManager(), CreateEventAggregator())));
+                                               CreateWindowManager(),
+                                               CreateEventAggregator(),
+                                               this.viewModelService,
+                                               mock.Object,
+                                               new ModelEditorTabViewModel(CreateDataService())));
 
             return mock;
         }
@@ -81,7 +81,8 @@ namespace Workbench.UI.Tests.Unit.Services
                                      CreateConstraintMapper(),
                                      CreateDomainMapper(),
                                      CreateViewModelFactoryMock().Object,
-                                     this.viewModelService);
+                                     this.viewModelService,
+                                     CreateDataService());
         }
 
         private SolutionMapper CreateSolutionMapper()

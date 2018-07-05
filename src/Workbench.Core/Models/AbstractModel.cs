@@ -22,7 +22,7 @@ namespace Workbench.Core.Models
             {
                 if (value == default(int))
                     throw new ArgumentException("Id must have a non-default value.",
-                                                "value");
+                                                nameof(value));
                 this.id = value;
             }
         }
@@ -34,14 +34,14 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return this.id != default(int);
+                return this.Id != default(int);
             }
         }
 
         /// <summary>
         /// Assign an identity to the model.
         /// </summary>
-        public void AssignIdentity()
+        public virtual void AssignIdentity()
         {
             if (HasIdentity) return;
 

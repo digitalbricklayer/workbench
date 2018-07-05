@@ -16,13 +16,15 @@ namespace Workbench.Services
         private readonly DomainMapper domainMapper;
         private readonly ConstraintMapper constraintMapper;
         private readonly IViewModelFactory viewModelFactory;
-        private readonly IViewModelService _viewModelService;
+        private readonly IViewModelService viewModelService;
+        private readonly IDataService dataService;
 
         public DisplayMapper(VariableMapper theVariableMapper,
                              ConstraintMapper theConstraintMapper,
                              DomainMapper theDomainMapper,
                              IViewModelFactory theViewModelFactory,
-                             IViewModelService theViewModelService)
+                             IViewModelService theViewModelService,
+                             IDataService theDataService)
         {
             Contract.Requires<ArgumentNullException>(theVariableMapper != null);
             Contract.Requires<ArgumentNullException>(theConstraintMapper != null);
@@ -30,11 +32,12 @@ namespace Workbench.Services
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
             Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
-            this._viewModelService = theViewModelService;
+            this.viewModelService = theViewModelService;
             this.variableMapper = theVariableMapper;
             this.domainMapper = theDomainMapper;
             this.constraintMapper = theConstraintMapper;
             this.viewModelFactory = theViewModelFactory;
+            this.dataService = theDataService;
         }
 
         /// <summary>
@@ -42,12 +45,12 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theWorkspace">The workspace.</param>
         /// <returns>Workspace editor view model.</returns>
-        public WorkspaceEditorViewModel MapFrom(WorkspaceModel theWorkspace)
+        public ModelEditorTabViewModel MapFrom(WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             var theModel = theWorkspace.Model;
-            var newDesignerViewModel = new WorkspaceEditorViewModel(theWorkspace.Display, theModel);
+            var newDesignerViewModel = new ModelEditorTabViewModel(this.dataService);
 
             foreach (var domainModel in theWorkspace.Model.Domains)
             {
