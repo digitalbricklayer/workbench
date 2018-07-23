@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
-using System.Collections.Generic;
-using System.Linq;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -11,20 +10,45 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the model editor.
     /// </summary>
-    public sealed class ModelEditorTabViewModel : Conductor<EditorViewModel>.Collection.AllActive
+    public sealed class ModelEditorTabViewModel : Conductor<ItemViewModel>.Collection.AllActive, ITabViewModel
     {
+        private ICommand _addSingletonVariableCommand;
+        private ICommand _addAggregateVariableCommand;
+        private readonly IAppRuntime _appRuntime;
+        private readonly IWindowManager _windowManager;
+        private ICommand _addDomainCommand;
+        private ICommand _addExpressionConstraintCommand;
+        private ICommand _addAllDifferentConstraintCommand;
+
         /// <summary>
         /// Initialize a solution designer view model with default values.
         /// </summary>
-        public ModelEditorTabViewModel(IDataService theDataService)
+        public ModelEditorTabViewModel(IAppRuntime theAppRuntime, IDataService theDataService, IWindowManager theWindowManager)
         {
+            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            _appRuntime = theAppRuntime;
+            _windowManager = theWindowManager;
             DisplayName = "Model";
             ModelModel = theDataService.GetWorkspace().Model;
-            Variables = new BindableCollection<VariableEditorViewModel>();
-            Domains = new BindableCollection<DomainEditorViewModel>();
-            Constraints = new BindableCollection<ConstraintEditorViewModel>();
+            Variables = new BindableCollection<VariableItemViewModel>();
+            Domains = new BindableCollection<DomainItemViewModel>();
+            Constraints = new BindableCollection<ConstraintItemViewModel>();
+            AddSingletonVariableCommand =  new CommandHandler(AddSingletonVariableAction);
+            AddAggregateVariableCommand = new CommandHandler(AddAggregateVariableAction);
+            AddDomainCommand = new CommandHandler(AddDomainAction);
+            AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
+            AddExpressionConstraintCommand = new CommandHandler(AddExpressionConstraintAction);
+        }
+
+        /// <summary>
+        /// Gets the work area view model.
+        /// </summary>
+        public WorkAreaViewModel WorkArea
+        {
+            get { return _appRuntime.WorkArea; }
         }
 
         /// <summary>
@@ -35,96 +59,164 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the collection of variables.
         /// </summary>
-        public IObservableCollection<VariableEditorViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableItemViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets the collection of domains.
         /// </summary>
-        public IObservableCollection<DomainEditorViewModel> Domains { get; private set; }
+        public IObservableCollection<DomainItemViewModel> Domains { get; private set; }
 
         /// <summary>
         /// Gets the collection of constraints.
         /// </summary>
-        public IObservableCollection<ConstraintEditorViewModel> Constraints { get; private set; }
+        public IObservableCollection<ConstraintItemViewModel> Constraints { get; private set; }
 
         /// <summary>
-        /// Add a new singleton variable to the model.
+        /// Gets or sets the Add singleton variable command.
         /// </summary>
-        /// <param name="newVariableViewModel">New variable.</param>
-        public void AddSingletonVariable(SingletonVariableEditorViewModel newVariableViewModel)
+        public ICommand AddSingletonVariableCommand
         {
-            Contract.Requires<ArgumentNullException>(newVariableViewModel != null);
+            get => _addSingletonVariableCommand;
+            set
+            {
+                _addSingletonVariableCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-            FixupSingletonVariable(newVariableViewModel);
-            AddSingletonVariableToModel(newVariableViewModel);
+        /// <summary>
+        /// Gets or sets the Add singleton variable command.
+        /// </summary>
+        public ICommand AddAggregateVariableCommand
+        {
+            get => _addAggregateVariableCommand;
+            set
+            {
+                _addAggregateVariableCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Add singleton variable command.
+        /// </summary>
+        public ICommand AddDomainCommand
+        {
+            get => _addDomainCommand;
+            set
+            {
+                _addDomainCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand AddExpressionConstraintCommand
+        {
+            get => _addExpressionConstraintCommand;
+            set
+            {
+                _addExpressionConstraintCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand AddAllDifferentConstraintCommand
+        {
+            get => _addAllDifferentConstraintCommand;
+            set
+            {
+                _addAllDifferentConstraintCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Add a new singleton variable.
+        /// </summary>
+        /// <param name="newVariableModel">New variable.</param>
+        public void AddSingletonVariable(SingletonVariableModel newVariableModel)
+        {
+            Contract.Requires<ArgumentNullException>(newVariableModel != null);
+
+            var newSingletonVariableItem = new SingletonVariableItemViewModel(newVariableModel);
+            FixupSingletonVariable(newSingletonVariableItem);
+            ModelModel.AddVariable(newVariableModel);
         }
 
         /// <summary>
         /// Add a new aggregate variable to the model.
         /// </summary>
-        /// <param name="newVariableViewModel">New variable.</param>
-        public void AddAggregateVariable(AggregateVariableEditorViewModel newVariableViewModel)
+        /// <param name="newVariableModel">New variable.</param>
+        public void AddAggregateVariable(AggregateVariableModel newVariableModel)
         {
-            Contract.Requires<ArgumentNullException>(newVariableViewModel != null);
+            Contract.Requires<ArgumentNullException>(newVariableModel != null);
 
-            FixupAggregateVariable(newVariableViewModel);
-            AddAggregateVariableToModel(newVariableViewModel);
+            var newAggregateVariableItem = new AggregateVariableItemViewModel(newVariableModel);
+            FixupAggregateVariable(newAggregateVariableItem);
+            ModelModel.AddVariable(newVariableModel);
         }
 
         /// <summary>
         /// Add a new domain to the model.
         /// </summary>
-        /// <param name="newDomainViewModel">New domain.</param>
-        public void AddDomain(DomainEditorViewModel newDomainViewModel)
+        /// <param name="newDomainModel">New domain.</param>
+        public void AddDomain(DomainModel newDomainModel)
         {
-            Contract.Requires<ArgumentNullException>(newDomainViewModel != null);
+            Contract.Requires<ArgumentNullException>(newDomainModel != null);
 
-            FixupDomain(newDomainViewModel);
-            AddDomainToModel(newDomainViewModel);
+            var newDomainItem = new DomainItemViewModel(newDomainModel);
+            FixupDomain(newDomainItem);
+            AddDomainToModel(newDomainModel);
         }
 
         /// <summary>
         /// Add a new all different constraint to the model.
         /// </summary>
         /// <param name="newAllDifferentConstraint">New constraint.</param>
-        public void AddConstraint(AllDifferentConstraintEditorViewModel newAllDifferentConstraint)
+        public void AddConstraint(AllDifferentConstraintModel newAllDifferentConstraint)
         {
             Contract.Requires<ArgumentNullException>(newAllDifferentConstraint != null);
 
-            FixupConstraint(newAllDifferentConstraint);
-            AddConstraintToModel(newAllDifferentConstraint);
+            var newConstraint = new AllDifferentConstraintItemViewModel(newAllDifferentConstraint);
+            FixupConstraint(newConstraint);
+            AddConstraintToModel(newConstraint);
         }
 
         /// <summary>
         /// Add a new expression constraint to the model.
         /// </summary>
         /// <param name="newExpressionConstraint">New constraint.</param>
-        public void AddConstraint(ExpressionConstraintEditorViewModel newExpressionConstraint)
+        public void AddConstraint(ExpressionConstraintModel newExpressionConstraint)
         {
             Contract.Requires<ArgumentNullException>(newExpressionConstraint != null);
 
-            FixupConstraint(newExpressionConstraint);
-            AddConstraintToModel(newExpressionConstraint);
+            var newExpressionConstraintEditor = new ExpressionConstraintItemViewModel(newExpressionConstraint);
+            FixupConstraint(newExpressionConstraintEditor);
+            AddConstraintToModel(newExpressionConstraintEditor);
         }
 
         /// <summary>
         /// Delete the variable.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
-        public void DeleteVariable(VariableEditorViewModel variableToDelete)
+        public void DeleteVariable(VariableModel variableToDelete)
         {
             Contract.Requires<ArgumentNullException>(variableToDelete != null);
 
+#if false
+            Items.Remove(variableToDelete);
             Variables.Remove(variableToDelete);
             DeactivateItem(variableToDelete, close: true);
             DeleteVariableFromModel(variableToDelete);
+            
+#endif
         }
 
         /// <summary>
         /// Delete the domain.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainEditorViewModel domainToDelete)
+        public void DeleteDomain(DomainItemViewModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
@@ -137,7 +229,7 @@ namespace Workbench.ViewModels
         /// Delete the constraint.
         /// </summary>
         /// <param name="constraintToDelete">Constraint to delete.</param>
-        public void DeleteConstraint(ConstraintEditorViewModel constraintToDelete)
+        public void DeleteConstraint(ConstraintItemViewModel constraintToDelete)
         {
             Contract.Requires<ArgumentNullException>(constraintToDelete != null);
 
@@ -153,7 +245,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="variableViewModel">Singleton variable view model.</param>
-        internal void FixupSingletonVariable(SingletonVariableEditorViewModel variableViewModel)
+        internal void FixupSingletonVariable(SingletonVariableItemViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
@@ -167,7 +259,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="variableViewModel">Aggregate variable view model.</param>
-        internal void FixupAggregateVariable(AggregateVariableEditorViewModel variableViewModel)
+        internal void FixupAggregateVariable(AggregateVariableItemViewModel variableViewModel)
         {
             Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
@@ -181,7 +273,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="domainViewModel">Domain view model.</param>
-        internal void FixupDomain(DomainEditorViewModel domainViewModel)
+        internal void FixupDomain(DomainItemViewModel domainViewModel)
         {
             Contract.Requires<ArgumentNullException>(domainViewModel != null);
             Domains.Add(domainViewModel);
@@ -195,7 +287,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="constraintViewModel">Constraint view model.</param>
-        internal void FixupConstraint(ConstraintEditorViewModel constraintViewModel)
+        internal void FixupConstraint(ConstraintItemViewModel constraintViewModel)
         {
             Contract.Requires<ArgumentNullException>(constraintViewModel != null);
             Constraints.Add(constraintViewModel);
@@ -203,118 +295,107 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Get the singleton variable matching the given name.
-        /// </summary>
-        /// <param name="variableName">Variable name.</param>
-        /// <returns>Variable matching the name.</returns>
-        public VariableEditorViewModel GetVariableByName(string variableName)
-        {
-            if (string.IsNullOrWhiteSpace(variableName))
-                throw new ArgumentNullException(nameof(variableName));
-
-            return Variables.FirstOrDefault(_ => _.Name == variableName);
-        }
-
-        /// <summary>
-        /// Get the constraint with the constraint name.
-        /// </summary>
-        /// <param name="constraintName">Text of the constraint.</param>
-        /// <returns>Constraint view model matching the name.</returns>
-        public ConstraintEditorViewModel GetConstraintByName(string constraintName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(constraintName));
-            return Constraints.FirstOrDefault(_ => _.Name == constraintName);
-        }
-
-        /// <summary>
-        /// Get all selected aggregate variables.
-        /// </summary>
-        /// <returns>All selected variables.</returns>
-        public IList<VariableEditorViewModel> GetSelectedAggregateVariables()
-        {
-            return Variables.Where(variableEditor => variableEditor.IsSelected && variableEditor.IsAggregate)
-                            .ToList();
-        }
-
-        public GraphicViewModel[] DeleteSelectedGraphics()
-        {
-            var selectedEditors = Items.Where(_ => _.IsSelected).ToArray();
-            Items.RemoveRange(selectedEditors);
-
-            return selectedEditors;
-        }
-
-        /// <summary>
-        /// Add a new variable to the model model.
-        /// </summary>
-        /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddSingletonVariableToModel(SingletonVariableEditorViewModel newVariableViewModel)
-        {
-            Contract.Assert(newVariableViewModel.Model != null);
-            newVariableViewModel.SingletonVariableGraphic.AssignIdentity();
-            ModelModel.AddVariable(newVariableViewModel.SingletonVariableGraphic.SingletonVariable);
-        }
-
-        /// <summary>
-        /// Add a new variable to the model model.
-        /// </summary>
-        /// <param name="newVariableViewModel">New variable view model.</param>
-        private void AddAggregateVariableToModel(AggregateVariableEditorViewModel newVariableViewModel)
-        {
-            Contract.Assert(newVariableViewModel.Model != null);
-            newVariableViewModel.AggregateVariableGraphic.AssignIdentity();
-            ModelModel.AddVariable(newVariableViewModel.AggregateVariableGraphic.AggregateVariable);
-        }
-
-        /// <summary>
         /// Add a new domain to the model model.
         /// </summary>
-        /// <param name="newDomainViewModel">New domain view model.</param>
-        private void AddDomainToModel(DomainEditorViewModel newDomainViewModel)
+        /// <param name="newDomainModel">New domain view model.</param>
+        private void AddDomainToModel(DomainModel newDomainModel)
         {
-            Contract.Assert(newDomainViewModel.Model != null);
-            newDomainViewModel.DomainGraphic.AssignIdentity();
-            ModelModel.AddSharedDomain(newDomainViewModel.DomainGraphic.Domain);
+            Contract.Assert(newDomainModel != null);
+
+            newDomainModel.AssignIdentity();
+            ModelModel.AddSharedDomain(newDomainModel);
         }
 
         /// <summary>
         /// Add a new all different constraint to the model model.
         /// </summary>
         /// <param name="newConstraintViewModel">New constraint view model.</param>
-        private void AddConstraintToModel(AllDifferentConstraintEditorViewModel newConstraintViewModel)
+        private void AddConstraintToModel(AllDifferentConstraintItemViewModel newConstraintViewModel)
         {
-            Contract.Assert(newConstraintViewModel.Model != null);
-            newConstraintViewModel.AllDifferentConstraintGraphic.AssignIdentity();
-            ModelModel.AddConstraint(newConstraintViewModel.AllDifferentConstraintGraphic.Constraint);
+            Contract.Assert(newConstraintViewModel.Constraint != null);
+            ModelModel.AddConstraint(newConstraintViewModel.Constraint);
         }
 
         /// <summary>
         /// Add a new expression constraint to the model model.
         /// </summary>
         /// <param name="newConstraintViewModel">New constraint view model.</param>
-        private void AddConstraintToModel(ExpressionConstraintEditorViewModel newConstraintViewModel)
+        private void AddConstraintToModel(ExpressionConstraintItemViewModel newConstraintViewModel)
         {
             Contract.Assert(newConstraintViewModel.Model != null);
             newConstraintViewModel.Model.AssignIdentity();
-            ModelModel.AddConstraint(newConstraintViewModel.Model.Constraint);
+            ModelModel.AddConstraint(newConstraintViewModel.ExpressionConstraint);
         }
 
-        private void DeleteConstraintFromModel(ConstraintEditorViewModel constraintToDelete)
+        private void DeleteConstraintFromModel(ConstraintItemViewModel constraintToDelete)
         {
             Contract.Assert(constraintToDelete.Model != null);
-            ModelModel.DeleteConstraint(constraintToDelete.ConstraintGraphic.Constraint);
+            ModelModel.DeleteConstraint(constraintToDelete.Constraint);
         }
 
-        private void DeleteVariableFromModel(VariableEditorViewModel variableToDelete)
+        private void DeleteVariableFromModel(VariableItemViewModel variableToDelete)
         {
             Contract.Assert(variableToDelete.Model != null);
-            ModelModel.DeleteVariable(variableToDelete.VariableGraphic.Variable);
+            ModelModel.DeleteVariable(variableToDelete.Variable);
         }
 
-        private void DeleteDomainFromModel(DomainEditorViewModel domainToDelete)
+        private void DeleteDomainFromModel(DomainItemViewModel domainToDelete)
         {
             Contract.Assert(domainToDelete.Model != null);
-            ModelModel.DeleteDomain(domainToDelete.DomainGraphic.Domain);
+            ModelModel.DeleteDomain(domainToDelete.Domain);
+        }
+
+        private void AddSingletonVariableAction()
+        {
+            var singletonVariableEditorViewModel = new SingletonVariableEditViewModel();
+            var x = _windowManager.ShowDialog(singletonVariableEditorViewModel);
+            if (!x.HasValue) return;
+            WorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
+                                                                        .WithDomain(singletonVariableEditorViewModel.DomainExpression)
+                                                                        .WithModel(WorkArea.WorkspaceModel.Model)
+                                                                        .Build());
+        }
+
+        private void AddAggregateVariableAction()
+        {
+            var aggregateVariableEditorViewModel = new AggregateVariableEditViewModel();
+            var x = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
+            if (!x.HasValue) return;
+            WorkArea.AddAggregateVariable(new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
+                                                                        .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
+                                                                        .WithSize(aggregateVariableEditorViewModel.Size)
+                                                                        .WithModel(WorkArea.WorkspaceModel.Model)
+                                                                        .Build());
+        }
+
+        private void AddDomainAction()
+        {
+            var domainEditorViewModel = new DomainEditViewModel();
+            var x = _windowManager.ShowDialog(domainEditorViewModel);
+            if (!x.HasValue) return;
+            WorkArea.AddDomain(new DomainBuilder().WithName(domainEditorViewModel.DomainName)
+                                                  .WithDomain(domainEditorViewModel.DomainExpression)
+                                                  .Build());
+        }
+
+        private void AddExpressionConstraintAction()
+        {
+            var expressionConstraintEditViewModel = new ExpressionConstraintEditViewModel();
+            var x = _windowManager.ShowDialog(expressionConstraintEditViewModel);
+            if (!x.HasValue) return;
+            WorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditViewModel.ConstraintName)
+                                                                              .WithExpression(expressionConstraintEditViewModel.ConstraintExpression)
+                                                                              .Build());
+        }
+
+        private void AddAllDifferentConstraintAction()
+        {
+            var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditViewModel();
+            var x = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
+            if (!x.HasValue) return;
+            WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
+                                                                                  .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
+                                                                                  .Build());
         }
 
         [ContractInvariantMethod]

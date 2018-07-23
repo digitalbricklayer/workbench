@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
+using Workbench.Core.Models;
 
 namespace Workbench.Messages
 {
@@ -13,20 +13,20 @@ namespace Workbench.Messages
         /// Initialize a variable deleted message with the deleted variable.
         /// </summary>
         /// <param name="theDeletedVariable">The variable that has been deleted.</param>
-        public VariableDeletedMessage(VariableEditorViewModel theDeletedVariable)
+        public VariableDeletedMessage(VariableModel theDeletedVariable)
         {
             Contract.Requires<ArgumentNullException>(theDeletedVariable != null);
-            Deleted = theDeletedVariable;
+            DeletedVariable = theDeletedVariable;
         }
 
         /// <summary>
         /// Gets the name of the deleted variable.
         /// </summary>
-        public string VariableName => Deleted.Name;
+        public string VariableName => DeletedVariable.Name;
 
         /// <summary>
         /// Gets the variable that has been deleted.
         /// </summary>
-        public VariableEditorViewModel Deleted { get; private set; }
+        public VariableModel DeletedVariable { get; private set; }
     }
 }

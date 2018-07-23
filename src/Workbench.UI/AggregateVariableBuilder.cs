@@ -1,8 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
-using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Services;
-using Workbench.ViewModels;
 
 namespace Workbench
 {
@@ -10,9 +7,6 @@ namespace Workbench
     {
         private ModelName variableName;
         private ModelModel model;
-        private IEventAggregator eventAggregator;
-        private IViewModelService viewModelService;
-        private IDataService dataService;
         private int? size;
         private VariableDomainExpressionModel domain;
 
@@ -28,24 +22,6 @@ namespace Workbench
             return this;
         }
 
-        public AggregateVariableBuilder WithEventAggregator(IEventAggregator theEventAggregator)
-        {
-            this.eventAggregator = theEventAggregator;
-            return this;
-        }
-
-        public AggregateVariableBuilder WithViewModelService(IViewModelService theViewModelService)
-        {
-            this.viewModelService = theViewModelService;
-            return this;
-        }
-
-        public AggregateVariableBuilder WithDataService(IDataService theDataService)
-        {
-            this.dataService = theDataService;
-            return this;
-        }
-
         public AggregateVariableBuilder WithModel(ModelModel theModel)
         {
             this.model = theModel;
@@ -58,15 +34,12 @@ namespace Workbench
             return this;
         }
 
-        public AggregateVariableVisualizerViewModel Build()
+        public AggregateVariableModel Build()
         {
             Contract.Assume(this.model != null);
             Contract.Assume(this.variableName != null);
 
-            var theAggregateVariable = new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
-            return new AggregateVariableVisualizerViewModel(theAggregateVariable,
-                                                            new AggregateVariableEditorViewModel(new AggregateVariableGraphicModel(theAggregateVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
-                                                            new AggregateVariableViewerViewModel(new AggregateVariableGraphicModel(theAggregateVariable)));
+            return new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
         }
 
         private VariableDomainExpressionModel GetExpressionOrDefault()
@@ -77,21 +50,6 @@ namespace Workbench
         private int GetSizeOrDefault()
         {
             return this.size ?? AggregateVariableModel.DefaultSize;
-        }
-
-        private IViewModelService GetViewModelServiceOrDefault()
-        {
-            return this.viewModelService ?? new DefaultViewModelService();
-        }
-
-        private IDataService GetDataServiceOrDefault()
-        {
-            return this.dataService ?? new DefaultDataService();
-        }
-
-        private IEventAggregator GetEventAggregatorOrDefault()
-        {
-            return this.eventAggregator ?? new EventAggregator();
         }
     }
 }

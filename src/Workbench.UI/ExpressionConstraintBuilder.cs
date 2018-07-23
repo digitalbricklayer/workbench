@@ -1,7 +1,4 @@
-﻿using Caliburn.Micro;
-using Workbench.Core.Models;
-using Workbench.Services;
-using Workbench.ViewModels;
+﻿using Workbench.Core.Models;
 
 namespace Workbench
 {
@@ -22,28 +19,9 @@ namespace Workbench
             return this;
         }
 
-        public ExpressionConstraintVisualizerViewModel Build()
+        public ExpressionConstraintModel Build()
         {
-            var theConstraint = new ExpressionConstraintModel(this.name, this.expression);
-            var theConstraintGraphic = new ExpressionConstraintGraphicModel(theConstraint);
-            return new ExpressionConstraintVisualizerViewModel(theConstraint,
-                                                               new ExpressionConstraintEditorViewModel(theConstraintGraphic, GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
-                                                               new ExpressionConstraintViewerViewModel(theConstraintGraphic));
-        }
-
-        private IDataService GetDataServiceOrDefault()
-        {
-            return new DefaultDataService();
-        }
-
-        private IEventAggregator GetEventAggregatorOrDefault()
-        {
-            return new EventAggregator();
-        }
-
-        private IViewModelService GetViewModelServiceOrDefault()
-        {
-            return new DefaultViewModelService();
+            return new ExpressionConstraintModel(this.name, this.expression);
         }
     }
 }

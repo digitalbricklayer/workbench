@@ -11,6 +11,12 @@ namespace Workbench.Services
         /// </summary>
         /// <returns>New workspace view model.</returns>
         WorkAreaViewModel CreateWorkArea();
+
+        /// <summary>
+        /// Create a new model editor view model.
+        /// </summary>
+        /// <returns>New model editor view model.</returns>
+        ModelEditorTabViewModel CreateModelEditor();
     }
 
     /// <summary>
@@ -23,6 +29,12 @@ namespace Workbench.Services
         {
             Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
             return default(WorkAreaViewModel);
+        }
+
+        public ModelEditorTabViewModel CreateModelEditor()
+        {
+            Contract.Ensures(Contract.Result<ModelEditorTabViewModel>() != null);
+            return default(ModelEditorTabViewModel);
         }
     }
 }

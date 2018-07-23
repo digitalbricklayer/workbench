@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
-using Workbench.Commands;
-using Workbench.Core.Models;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -13,35 +10,28 @@ namespace Workbench.ViewModels
     {
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
-        private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelService viewModelService;
-        private readonly IDataService dataService;
+        private readonly IWindowManager windowManager;
 
         public InsertMenuViewModel(IAppRuntime theAppRuntime,
                                    TitleBarViewModel theTitleBarViewModel,
                                    IEventAggregator theEventAggregator,
-                                   IViewModelService theViewModelService,
-                                   IDataService theDataService)
+                                   IDataService theDataService,
+                                   IWindowManager theWindowManager)
         {
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
-            this.eventAggregator = theEventAggregator;
-            this.viewModelService = theViewModelService;
-            this.dataService = theDataService;
+            this.windowManager = theWindowManager;
 
             AddSingletonVariableCommand = new CommandHandler(AddSingletonVariableAction);
             AddAggregateVariableCommand = new CommandHandler(AddAggregateVariableAction);
             AddExpressionConstraintCommand = new CommandHandler(AddExpressionConstraintAction);
             AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
             AddDomainCommand = new CommandHandler(AddDomainAction);
-            AddChessboardCommand = IoC.Get<AddChessboardVisualizerCommand>();
-            AddTableCommand = IoC.Get<AddTableVisualizerCommand>();
         }
 
         /// <summary>
@@ -78,28 +68,17 @@ namespace Workbench.ViewModels
         public ICommand AddDomainCommand { get; private set; }
 
         /// <summary>
-        /// Gets the Insert|Table command
-        /// </summary>
-        public ICommand AddTableCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the Insert|Chessboard command.
-        /// </summary>
-        public ICommand AddChessboardCommand { get; private set; }
-
-        /// <summary>
         /// Create a new singleton variable.
         /// </summary>
         private void AddSingletonVariableAction()
         {
-            var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
-            this.WorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("New Variable")
+            var singletonVariableEditorViewModel = new SingletonVariableEditViewModel();
+            var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
+            if (!x.HasValue) return;
+            this.WorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
+                                                                             .WithDomain(singletonVariableEditorViewModel.DomainExpression)
                                                                              .WithModel(WorkArea.WorkspaceModel.Model)
-                                                                             .WithDataService(this.dataService)
-                                                                             .WithEventAggregator(this.eventAggregator)
-                                                                             .WithViewModelService(this.viewModelService)
-                                                                             .Build(),
-                                               newVariableLocation);
+                                                                             .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -108,14 +87,10 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAggregateVariableAction()
         {
-            var newVariableLocation = Mouse.GetPosition(Application.Current.MainWindow);
             var newAggregate = new AggregateVariableBuilder().WithName("New Variable")
                                                              .WithModel(WorkArea.WorkspaceModel.Model)
-                                                             .WithDataService(this.dataService)
-                                                             .WithEventAggregator(this.eventAggregator)
-                                                             .WithViewModelService(this.viewModelService)
                                                              .Build();
-            this.WorkArea.AddAggregateVariable(newAggregate, newVariableLocation);
+            this.WorkArea.AddAggregateVariable(newAggregate);
             this.titleBar.UpdateTitle();
         }
 
@@ -124,10 +99,8 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddExpressionConstraintAction()
         {
-            var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
             WorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("New Constraint")
-                                                                              .Build(),
-                                             newConstraintLocation);
+                    .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -136,10 +109,8 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAllDifferentConstraintAction()
         {
-            var newConstraintLocation = Mouse.GetPosition(Application.Current.MainWindow);
             WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName("New Constraint")
-                                                                                  .Build(),
-                                               newConstraintLocation);
+                                                                                  .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -148,10 +119,8 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddDomainAction()
         {
-            var newDomainLocation = Mouse.GetPosition(Application.Current.MainWindow);
             this.WorkArea.AddDomain(new DomainBuilder().WithName("New Domain")
-                                                       .Build(),
-                                    newDomainLocation);
+                                                       .Build());
             this.titleBar.UpdateTitle();
         }
     }

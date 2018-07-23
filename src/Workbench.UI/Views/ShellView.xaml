@@ -7,14 +7,6 @@
         FocusManager.FocusedElement="{Binding ElementName=WorkArea}"
         Icon="../Images/AppIcon.ico">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="WorkspaceViewerDictionary.xaml"/>-->
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
     <DockPanel LastChildFill="True">
         <ContentControl x:Name="ApplicationMenu" DockPanel.Dock="Top"/>
 

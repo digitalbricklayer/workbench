@@ -95,7 +95,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
             var theChessboard = new ChessboardModel(new ModelName(theVisualizerName));
-            var theChessboardVisualizer = new ChessboardVisualizerModel(theChessboard, new VisualizerTitle(), new Point());
+            var theChessboardVisualizer = new ChessboardVisualizerModel(theChessboard, new VisualizerTitle());
             this.workspace.AddVisualizer(theChessboardVisualizer);
             return this;
         }

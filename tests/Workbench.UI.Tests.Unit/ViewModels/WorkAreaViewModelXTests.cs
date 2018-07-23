@@ -49,7 +49,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var sut = CreateValidWorkArea();
             sut.AddAggregateVariable(new AggregateVariableBuilder().WithName("z")
                                                                    .WithModel(sut.WorkspaceModel.Model)
-                                                                   .WithEventAggregator(this.eventAggregatorMock.Object)
                                                                    .Build());
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<AggregateVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
@@ -70,7 +69,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var workspaceViewModel = new WorkAreaViewModel(CreateDataService(),
                                                            CreateWindowManagerMock().Object,
                                                            this.eventAggregatorMock.Object,
-                                                           this.viewModelService,
                                                            this.viewModelFactoryMock.Object,
                                                            new ModelEditorTabViewModel(CreateDataService()));
             workspaceViewModel.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")

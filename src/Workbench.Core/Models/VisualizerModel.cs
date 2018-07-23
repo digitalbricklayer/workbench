@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.Contracts;
-using System.Windows;
 
 namespace Workbench.Core.Models
 {
@@ -13,9 +12,9 @@ namespace Workbench.Core.Models
         /// Initialize an unbound visualizer with a name and location.
         /// </summary>
         /// <param name="theModel"></param>
-        /// <param name="location">Location.</param>
-        protected VisualizerModel(Model theModel, VisualizerTitle theTitle, Point location)
-            : base(theModel, location)
+        /// <param name="theTitle"></param>
+        protected VisualizerModel(Model theModel, VisualizerTitle theTitle)
+            : base(theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theTitle != null);

@@ -10,14 +10,6 @@ namespace Workbench.UI.Tests.Unit.Services
     [TestFixture]
     public class WorkspaceMapperTests
     {
-        private IViewModelService viewModelService;
-
-        [SetUp]
-        public void Initialize()
-        {
-            this.viewModelService = new ViewModelService();
-        }
-
         [Test]
         [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
@@ -68,7 +60,6 @@ namespace Workbench.UI.Tests.Unit.Services
                 .Returns(new WorkAreaViewModel(CreateDataService(),
                                                CreateWindowManager(),
                                                CreateEventAggregator(),
-                                               this.viewModelService,
                                                mock.Object,
                                                new ModelEditorTabViewModel(CreateDataService())));
 

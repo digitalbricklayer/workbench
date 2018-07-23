@@ -6,6 +6,7 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+#if false
     /// <summary>
     /// Service responsible for cross cutting concerns across all view models.
     /// </summary>
@@ -59,4 +60,5 @@ namespace Workbench.Services
             return this.variableMap.Values.ToList();
         }
     }
+#endif
 }

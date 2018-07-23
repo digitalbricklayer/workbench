@@ -1,4 +1,6 @@
-﻿using Castle.MicroKernel;
+﻿using System.Linq;
+using System.Reflection;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Workbench.ViewModels;
 
@@ -19,8 +21,6 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<WorkAreaViewModel>()
                                      .LifeStyle.Singleton,
-                            Component.For<ModelEditorTabViewModel>()
-                                     .LifeStyle.Singleton,
                             Component.For<ChessboardTabViewModel>()
                                      .LifeStyle.Singleton,
                             Component.For<ApplicationMenuViewModel>()
@@ -35,10 +35,10 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<SolutionMenuViewModel>()
                                      .LifeStyle.Singleton,
-                            Component.For<TableMenuViewModel>()
-                                     .LifeStyle.Singleton,
                             Component.For<TitleBarViewModel>()
-                                     .LifeStyle.Singleton);
+                                     .LifeStyle.Singleton,
+                            Types.FromThisAssembly()
+                                 .BasedOn<ITabViewModel>());
         }
     }
 }

@@ -5,6 +5,7 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+#if false
     /// <summary>
     /// Maps a constraint model into a view model.
     /// </summary>
@@ -23,16 +24,14 @@ namespace Workbench.Services
         {
             Debug.Assert(theConstraintModel.HasIdentity);
 
-#if false
             var constraintViewModel = new ExpressionConstraintViewModel((ExpressionConstraintGraphicModel) theConstraintModel);
 
             this.cache.CacheGraphic(constraintViewModel);
 
             return constraintViewModel;
-#else
             return null;
-#endif
         }
 
     }
+#endif
 }

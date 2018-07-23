@@ -106,7 +106,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new WorkAreaViewModel(this.dataServiceMock.Object,
                                           this.windowManagerMock.Object,
                                           this.eventAggregatorMock.Object,
-                                          this.viewModelService,
                                           this.viewModelFactoryMock.Object,
                                           new ModelEditorTabViewModel(this.dataServiceMock.Object));
         }

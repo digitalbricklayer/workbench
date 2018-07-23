@@ -4,6 +4,7 @@ using Workbench.ViewModels;
 
 namespace Workbench
 {
+#if false
     internal class DefaultViewModelService : IViewModelService
     {
         public void CacheVariable(VariableVisualizerViewModel variableViewModel)
@@ -28,5 +29,6 @@ namespace Workbench
         {
             return null;
         }
-    }
+}
+#endif
 }

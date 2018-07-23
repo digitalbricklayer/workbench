@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -13,9 +12,8 @@ namespace Workbench.ViewModels
 
         public TableVisualizerEditorViewModel(TableVisualizerModel theTableModel,
                                               IEventAggregator theEventAggregator,
-                                              IDataService theDataService,
-                                              IViewModelService theViewModelService)
-            : base(theTableModel, theEventAggregator, theDataService, theViewModelService)
+                                              IDataService theDataService)
+            : base(theEventAggregator, theDataService)
         {
             Contract.Requires<ArgumentNullException>(theTableModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);

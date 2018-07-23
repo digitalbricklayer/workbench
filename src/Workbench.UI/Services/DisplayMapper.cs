@@ -7,6 +7,7 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+#if false
     /// <summary>
     /// Map the display model to a solution designer view model.
     /// </summary>
@@ -54,37 +55,30 @@ namespace Workbench.Services
 
             foreach (var domainModel in theWorkspace.Model.Domains)
             {
-#if false
                 var domainViewModel = this.domainMapper.MapFrom(domainModel);
                 newDesignerViewModel.FixupDomain(domainViewModel);
-#endif
             }
 
             foreach (var constraintModel in theWorkspace.Model.Constraints)
             {
-#if false
                 var constraintViewModel = this.constraintMapper.MapFrom(constraintModel);
                 newDesignerViewModel.FixupConstraint(constraintViewModel);
-#endif
             }
 
             foreach (var variableModel in theWorkspace.Model.Singletons)
             {
-#if false
                 var variableViewModel = this.variableMapper.MapFrom(variableModel);
                 newDesignerViewModel.FixupSingletonVariable(variableViewModel);
-#endif
             }
 
             foreach (var aggregateModel in theWorkspace.Model.Aggregates)
             {
-#if false
                 var variableViewModel = this.variableMapper.MapFrom(aggregateModel);
                 newDesignerViewModel.FixupAggregateVariable(variableViewModel);
-#endif
             }
 
             return newDesignerViewModel;
         }
     }
+#endif
 }

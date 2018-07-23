@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
                                                      IEventAggregator theEventAggregator,
                                                      IDataService theDataService,
                                                      IViewModelService theViewModelService)
-            : base(theChessboardVisualizerModel, theEventAggregator, theDataService, theViewModelService)
+            : base(theEventAggregator, theDataService)
         {
             Contract.Requires<ArgumentNullException>(theChessboardVisualizerModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);

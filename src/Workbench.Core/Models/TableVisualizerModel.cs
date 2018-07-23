@@ -21,7 +21,7 @@ namespace Workbench.Core.Models
         /// <param name="columnNames">Column names.</param>
         /// <param name="rows">Rows</param>
         public TableVisualizerModel(TableModel theTable, VisualizerTitle theTitle, System.Windows.Point location)
-            : base(theTable, theTitle, location)
+            : base(theTable, theTitle)
         {
             this.table = theTable;
         }

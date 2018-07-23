@@ -24,7 +24,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var worksAreaViewModel = new WorkAreaViewModel(CreateDataService(),
                                                            CreateWindowManager(),
                                                            CreateEventAggregator(),
-                                                           CreateViewModelService(),
                                                            CreateViewModelFactory(),
                                                            new ModelEditorTabViewModel(CreateDataService()));
             return worksAreaViewModel;

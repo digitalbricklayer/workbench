@@ -6,11 +6,11 @@ namespace Workbench.ViewModels
 {
     public class TableVisualizerViewModel : VisualizerViewModel
     {
-        public TableVisualizerViewModel(TableModel theTable, TableVisualizerEditorViewModel theEditor, TableVisualizerViewerViewModel theViewer)
-            : base(theTable, theEditor, theViewer)
+        public TableVisualizerViewModel(TableModel theTable, TableVisualizerEditorViewModel theEditor)
+            : base(theTable, theEditor)
         {
             TableEditor = theEditor;
-            Model = theViewer.GridModel;
+            Model = /*theViewer.GridModel*/ null;
         }
 
         public TableVisualizerModel Model { get; private set; }

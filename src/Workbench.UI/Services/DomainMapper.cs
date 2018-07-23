@@ -11,23 +11,20 @@ namespace Workbench.Services
     /// </summary>
     public class DomainMapper
     {
-        private readonly IViewModelService cache;
         private IEventAggregator eventAggregator;
         private IDataService dataService;
 
-        public DomainMapper(IViewModelService theService)
+        public DomainMapper()
         {
-            Contract.Requires<ArgumentNullException>(theService != null);
-            this.cache = theService;
         }
 
-        public DomainEditorViewModel MapFrom(DomainGraphicModel theDomainModel)
+        public DomainItemViewModel MapFrom(DomainGraphicModel theDomainModel)
         {
             Contract.Requires<ArgumentNullException>(theDomainModel != null);
             Contract.Assert(theDomainModel.HasIdentity);
 
 #if false
-            var domainViewModel = new DomainEditorViewModel(theDomainModel,
+            var domainViewModel = new DomainItemViewModel(theDomainModel,
                                                             this.eventAggregator,
                                                             this.dataService,
                                                             this.cache);

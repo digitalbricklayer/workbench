@@ -11,21 +11,20 @@ namespace Workbench.Services
     public class WorkAreaMapper
     {
         private readonly SolutionMapper solutionMapper;
+#if false
         private readonly DisplayMapper displayMapper;
+#endif
         private readonly IViewModelFactory viewModelFactory;
 
         /// <summary>
         /// Initialize the model mapper with a window manager and view model factory.
         /// </summary>
         public WorkAreaMapper(SolutionMapper theSolutionMapper,
-                              DisplayMapper theDisplayMapper,
                               IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theSolutionMapper != null);
-            Contract.Requires<ArgumentNullException>(theDisplayMapper != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this.displayMapper = theDisplayMapper;
             this.solutionMapper = theSolutionMapper;
             this.viewModelFactory = theViewModelFactory;
         }
@@ -38,8 +37,9 @@ namespace Workbench.Services
         public WorkAreaViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
             var workAreaViewModel = this.viewModelFactory.CreateWorkArea();
+#if false
             workAreaViewModel.ModelEditor = this.displayMapper.MapFrom(theWorkspaceModel);
-
+#endif
             return workAreaViewModel;
         }
     }

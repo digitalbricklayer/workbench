@@ -18,25 +18,21 @@ namespace Workbench.Commands
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelService viewModelService;
 
         public AddTableVisualizerCommand(WorkAreaViewModel theWorkArea,
                                          TitleBarViewModel theTitleBar,
                                          IEventAggregator theEventAggregator,
-                                         IDataService theDataService,
-                                         IViewModelService theViewModelService)
+                                         IDataService theDataService)
         {
             Contract.Requires<ArgumentNullException>(theWorkArea != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.workArea = theWorkArea;
             this.titleBar = theTitleBar;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
-            this.viewModelService = theViewModelService;
         }
 
         /// <summary>
@@ -57,19 +53,9 @@ namespace Workbench.Commands
             this.titleBar.UpdateTitle();
         }
 
-        private TableVisualizerViewModel CreateMapVisualizer(TableVisualizerModel newVisualizerModel)
-        {
-            return new TableVisualizerViewModel(newVisualizerModel.Table,
-                                                CreateDesigner(newVisualizerModel),
-                                                new TableVisualizerViewerViewModel(newVisualizerModel, this.eventAggregator));
-        }
-
         private TableVisualizerEditorViewModel CreateDesigner(TableVisualizerModel newVisualizerModel)
         {
-            return new TableVisualizerEditorViewModel(newVisualizerModel,
-                                                      this.eventAggregator,
-                                                      this.dataService,
-                                                      this.viewModelService);
+            return new TableVisualizerEditorViewModel(newVisualizerModel;
         }
     }
 }

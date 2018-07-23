@@ -15,12 +15,17 @@ namespace Workbench.Bootstrapper
         /// <param name="kernel">The kernel.</param>
         public void Register(IKernelInternal kernel)
         {
+#if false
             kernel.Register(Component.For<AddChessboardVisualizerCommand>()
-                                     .LifeStyle.Transient,
-                            Component.For<EditSolutionCommand>()
-                                     .LifeStyle.Transient,
-                            Component.For<AddTableVisualizerCommand>()
+                    .LifeStyle.Transient,
+                Component.For<EditSolutionCommand>()
+                    .LifeStyle.Transient,
+                Component.For<AddTableVisualizerCommand>()
+                    .LifeStyle.Transient);
+#else
+            kernel.Register(Component.For<EditSolutionCommand>()
                                      .LifeStyle.Transient);
+#endif
         }
     }
 }

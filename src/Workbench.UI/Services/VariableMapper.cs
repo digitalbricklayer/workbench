@@ -10,16 +10,14 @@ namespace Workbench.Services
     /// </summary>
     public sealed class VariableMapper
     {
-        private readonly IViewModelService cache;
         private readonly IEventAggregator eventAggregator;
 
-        public VariableMapper(IViewModelService theService, IEventAggregator theEventAggregator)
+        public VariableMapper(IEventAggregator theEventAggregator)
         {
-            this.cache = theService;
             this.eventAggregator = theEventAggregator;
         }
 
-        public SingletonVariableEditorViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
+        public SingletonVariableItemViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
@@ -34,7 +32,7 @@ namespace Workbench.Services
 #endif
         }
 
-        public AggregateVariableEditorViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
+        public AggregateVariableItemViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 

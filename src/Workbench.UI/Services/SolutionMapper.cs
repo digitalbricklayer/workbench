@@ -11,18 +11,16 @@ namespace Workbench.Services
     /// </summary>
     public class SolutionMapper
     {
-        private readonly IViewModelService viewModelService;
         private readonly IEventAggregator eventAggregator;
 
-        public SolutionMapper(IViewModelService theService, IEventAggregator theEventAggregator)
+        public SolutionMapper(IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
-            this.viewModelService = theService;
             this.eventAggregator = theEventAggregator;
         }
 
+#if false
         /// <summary>
         /// Map a solution model into a view model.
         /// </summary>
@@ -31,7 +29,6 @@ namespace Workbench.Services
         public WorkspaceViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
             var solutionViewModel = new WorkspaceViewerViewModel(theSolutionModel);
-#if false
             foreach (var valueModel in theSolutionModel.Snapshot.SingletonValues)
             {
                 solutionViewModel.AddValue(valueModel);
@@ -42,8 +39,8 @@ namespace Workbench.Services
                 solutionViewModel.AddValue(anAggregateValue);
             }
            
-#endif
             return solutionViewModel;
         }
+#endif
     }
 }

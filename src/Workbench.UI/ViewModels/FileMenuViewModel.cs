@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
-using Caliburn.Micro;
 using Microsoft.Win32;
 using Workbench.Services;
 

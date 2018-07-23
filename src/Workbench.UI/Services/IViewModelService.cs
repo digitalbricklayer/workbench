@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+#if false
     /// <summary>
     /// Contract for the view model service.
     /// </summary>
@@ -67,4 +67,5 @@ namespace Workbench.Services
             return default(IReadOnlyCollection<VariableVisualizerViewModel>);
         }
     }
+#endif
 }

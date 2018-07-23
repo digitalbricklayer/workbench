@@ -1,7 +1,4 @@
-﻿using Caliburn.Micro;
-using Workbench.Core.Models;
-using Workbench.Services;
-using Workbench.ViewModels;
+﻿using Workbench.Core.Models;
 
 namespace Workbench
 {
@@ -22,12 +19,9 @@ namespace Workbench
             return this;
         }
 
-        public DomainVisualizerViewModel Build()
+        public DomainModel Build()
         {
-            var theSingletonVariable = new DomainModel(GetNameOrDefault(), GetExpressionOrDefault());
-            return new DomainVisualizerViewModel(theSingletonVariable,
-                                                 new DomainEditorViewModel(new DomainGraphicModel(theSingletonVariable), GetEventAggregatorOrDefault(), GetDataServiceOrDefault(), GetViewModelServiceOrDefault()),
-                                                 new DomainViewerViewModel(new DomainGraphicModel(theSingletonVariable)));
+            return new DomainModel(GetNameOrDefault(), GetExpressionOrDefault());
         }
 
         private ModelName GetNameOrDefault()
@@ -38,21 +32,6 @@ namespace Workbench
         private DomainExpressionModel GetExpressionOrDefault()
         {
             return this.expression ?? new DomainExpressionModel();
-        }
-
-        private IDataService GetDataServiceOrDefault()
-        {
-            return new DefaultDataService();
-        }
-
-        private IEventAggregator GetEventAggregatorOrDefault()
-        {
-            return new EventAggregator();
-        }
-
-        private IViewModelService GetViewModelServiceOrDefault()
-        {
-            return new DefaultViewModelService();
         }
     }
 }

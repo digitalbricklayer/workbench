@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
 using Workbench.Core.Solver;
@@ -17,7 +16,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private IDataService dataService;
         private Mock<IWindowManager> windowManagerMock;
         private IEventAggregator eventAggregator;
-        private Mock<IViewModelService> viewModelMock;
 
         [SetUp]
         public void Initialize()
@@ -25,7 +23,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             this.dataService = new DataService(CreateWorkspaceReaderWriterMock().Object);
             this.windowManagerMock = new Mock<IWindowManager>();
             this.eventAggregator = new EventAggregator();
-            this.viewModelMock = new Mock<IViewModelService>();
         }
 
         [Test]
@@ -41,20 +38,14 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var newWorkArea = new WorkAreaViewModel(this.dataService,
                                                     this.windowManagerMock.Object,
                                                     this.eventAggregator,
-                                                    this.viewModelMock.Object,
                                                     CreateViewModelFactoryMock().Object,
                                                     new ModelEditorTabViewModel(this.dataService));
             newWorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
-                                                                           .WithModel(newWorkArea.WorkspaceModel.Model)
-                                                                           .Build(),
-                                             new Point());
-            var xVariable = newWorkArea.GetVariableByName("x");
-            xVariable.VariableEditor.DomainExpression.Text = "1..2";
-            newWorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("X")
-                                                                                 .Build(),
-                                                new Point());
-            var theConstraint = (ExpressionConstraintEditorViewModel) newWorkArea.ModelEditor.GetConstraintByName("X");
-            theConstraint.Expression.Text = "$x > 1";
+                .WithDomain("1..2")
+                    .WithModel(newWorkArea.WorkspaceModel.Model)
+                    .Build());
+            newWorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("X").WithExpression("$x > 1")
+                    .Build());
 
             return newWorkArea;
         }

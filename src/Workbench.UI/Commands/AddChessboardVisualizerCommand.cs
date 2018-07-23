@@ -18,25 +18,21 @@ namespace Workbench.Commands
         private readonly TitleBarViewModel titleBar;
         private readonly IDataService dataService;
         private readonly IEventAggregator eventAggregator;
-        private readonly IViewModelService viewModelService;
 
         public AddChessboardVisualizerCommand(WorkAreaViewModel theWorkArea,
                                               TitleBarViewModel theTitleBar,
                                               IEventAggregator theEventAggregator,
-                                              IDataService theDataService,
-                                              IViewModelService theViewModelService)
+                                              IDataService theDataService)
         {
             Contract.Requires<ArgumentNullException>(theWorkArea != null);
             Contract.Requires<ArgumentNullException>(theTitleBar != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theViewModelService != null);
 
             this.workArea = theWorkArea;
             this.titleBar = theTitleBar;
             this.eventAggregator = theEventAggregator;
             this.dataService = theDataService;
-            this.viewModelService = theViewModelService;
         }
 
         /// <summary>
@@ -48,29 +44,13 @@ namespace Workbench.Commands
         /// </param>
         public override void Execute(object parameter)
         {
-            var newVisualizerLocation = Mouse.GetPosition(Application.Current.MainWindow);
 #if false
             this.workArea.ChangeSelectedDisplayTo("Editor");
 #endif
             var newChessboardModel = new ChessboardModel(new ModelName("Chessboard"));
-            var newVisualizerModel = new ChessboardVisualizerModel(newChessboardModel, new VisualizerTitle(), newVisualizerLocation);
-            this.workArea.AddChessboardVisualizer(CreateChessboardVisualizer(newVisualizerModel));
+            var newVisualizerModel = new ChessboardVisualizerModel(newChessboardModel, new VisualizerTitle());
+            this.workArea.AddChessboardVisualizer(newVisualizerModel);
             this.titleBar.UpdateTitle();
-        }
-
-        private ChessboardVisualizerViewModel CreateChessboardVisualizer(ChessboardVisualizerModel newVisualizerModel)
-        {
-            return new ChessboardVisualizerViewModel(newVisualizerModel.Model,
-                                                     CreateDesigner(newVisualizerModel),
-                                                     new ChessboardViewerViewModel(newVisualizerModel));
-        }
-
-        private ChessboardEditorViewModel CreateDesigner(ChessboardVisualizerModel newVisualizerModel)
-        {
-            return new ChessboardEditorViewModel(newVisualizerModel,
-                                                           this.eventAggregator,
-                                                           this.dataService,
-                                                           this.viewModelService);
         }
     }
 }

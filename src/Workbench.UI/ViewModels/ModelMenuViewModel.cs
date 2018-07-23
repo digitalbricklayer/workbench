@@ -28,18 +28,12 @@ namespace Workbench.ViewModels
             this.titleBar = theTitleBarViewModel;
 
             SolveCommand = new CommandHandler(ModelSolveAction);
-            ResizeCommand = new CommandHandler(ModelResizeAction, _ => CanResizeExecute);
         }
 
         /// <summary>
         /// Gets the Model|Solve command
         /// </summary>
         public ICommand SolveCommand { get; private set; }
-
-        /// <summary>
-        /// Gets the Model|Resize command.
-        /// </summary>
-        public ICommand ResizeCommand { get; private set; }
 
         /// <summary>
         /// Gets the work area view model.
@@ -50,44 +44,12 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets whether the "Model|Resize" menu item can be executed.
-        /// </summary>
-        public bool CanResizeExecute
-        {
-            get
-            {
-                return WorkArea.ModelEditor.GetSelectedAggregateVariables().Any();
-            }
-        }
-
-        /// <summary>
         /// Solve the model.
         /// </summary>
         private void ModelSolveAction()
         {
             this.WorkArea.SolveModel();
             this.titleBar.UpdateTitle();
-        }
-
-        /// <summary>
-        /// Resize the selected aggregate variable.
-        /// </summary>
-        private void ModelResizeAction()
-        {
-            var selectedVariables = WorkArea.ModelEditor.GetSelectedAggregateVariables();
-            if (selectedVariables == null) return;
-
-            var resizeViewModel = new AggregateVariableResizeViewModel();
-            var showDialogResult = this.windowManager.ShowDialog(resizeViewModel);
-
-            if (showDialogResult.GetValueOrDefault())
-            {
-                foreach (var variableViewModel in selectedVariables)
-                {
-                    var aggregate = (AggregateVariableEditorViewModel)variableViewModel;
-                    aggregate.VariableCount = resizeViewModel.Size;
-                }
-            }
         }
     }
 }
