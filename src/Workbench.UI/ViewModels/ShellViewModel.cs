@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
-        private WorkAreaViewModel workArea;
+        private WorkspaceViewModel _workspace;
         private ApplicationMenuViewModel applicationMenu;
         private readonly IAppRuntime appRuntime;
         private TitleBarViewModel titleBar;
@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
         public ShellViewModel(IAppRuntime theAppRuntime,
-                              WorkAreaViewModel theWorkspaceViewModel,
+                              WorkspaceViewModel theWorkspaceViewModel,
                               ApplicationMenuViewModel theApplicationMenuViewModel,
                               TitleBarViewModel theTitleBarViewModel)
         {
@@ -35,10 +35,10 @@ namespace Workbench.ViewModels
 
             this.appRuntime = theAppRuntime;
             this.appRuntime.Shell = this;
-            WorkArea = theWorkspaceViewModel;
+            Workspace = theWorkspaceViewModel;
             ApplicationMenu = theApplicationMenuViewModel;
             TitleBar = theTitleBarViewModel;
-            var shellSubScreens = new List<Screen> { WorkArea, ApplicationMenu, TitleBar };
+            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, TitleBar };
             Items.AddRange(shellSubScreens);
         }
 
@@ -59,12 +59,12 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkAreaViewModel WorkArea
+        public WorkspaceViewModel Workspace
         {
-            get { return this.workArea; }
+            get { return this._workspace; }
             set
             {
-                this.workArea = value;
+                this._workspace = value;
                 NotifyOfPropertyChange();
             }
         }

@@ -33,9 +33,9 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel WorkArea
+        public WorkspaceViewModel Workspace
         {
-            get { return this.appRuntime.WorkArea; }
+            get { return this.appRuntime.Workspace; }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Workbench.ViewModels
         {
             get
             {
-                return WorkArea.CanDeleteSelectedExecute();
+                return Workspace.CanDeleteSelectedExecute();
             }
         }
 
@@ -59,7 +59,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void DeleteSelectedAction()
         {
-            WorkArea.DeleteSelectedGraphics();
+            Workspace.DeleteSelectedGraphics();
         }
     }
 }

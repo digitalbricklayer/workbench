@@ -13,7 +13,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the aplication work area.
     /// </summary>
-    public sealed class WorkAreaViewModel : Conductor<IScreen>.Collection.OneActive
+    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private bool isDirty;
         private readonly IEventAggregator eventAggregator;
@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
         /// </summary>
-        public WorkAreaViewModel(IDataService theDataService,
+        public WorkspaceViewModel(IDataService theDataService,
                                  IWindowManager theWindowManager,
                                  IEventAggregator theEventAggregator,
                                  IViewModelFactory theViewModelFactory)
@@ -40,7 +40,6 @@ namespace Workbench.ViewModels
 
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
-            AllVisualizers = new BindableCollection<ItemViewModel>();
             ChessboardVisualizers = new BindableCollection<IScreen>();
             TableVisualizers = new BindableCollection<IScreen>();
             DeleteCommand = new CommandHandler(DeleteAction);
@@ -79,11 +78,6 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
-
-        /// <summary>
-        /// Gets all visualizers.
-        /// </summary>
-        public BindableCollection<ItemViewModel> AllVisualizers { get; private set; }
 
         /// <summary>
         /// Gets all chessboard visualizers.

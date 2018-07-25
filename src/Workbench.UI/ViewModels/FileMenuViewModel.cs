@@ -42,10 +42,10 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel WorkArea
+        public WorkspaceViewModel Workspace
         {
-            get { return this.appRuntime.WorkArea; }
-            set { this.appRuntime.WorkArea = value; }
+            get { return this.appRuntime.Workspace; }
+            set { this.appRuntime.Workspace = value; }
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            WorkArea = this.viewModelFactory.CreateWorkArea();
-            WorkArea.IsDirty = false;
+            Workspace = this.viewModelFactory.CreateWorkArea();
+            Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -119,9 +119,9 @@ namespace Workbench.ViewModels
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                WorkArea = this.workAreaMapper.MapFrom(workspaceModel);
+                Workspace = this.workAreaMapper.MapFrom(workspaceModel);
 #if false
-                WorkArea.SelectedDisplay = "Editor";
+                Workspace.SelectedDisplay = "Editor";
 #endif
             }
             catch (Exception e)
@@ -130,7 +130,7 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
-            WorkArea.IsDirty = false;
+            Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -193,7 +193,7 @@ namespace Workbench.ViewModels
         /// </returns>
         private bool PromptToSave()
         {
-            if (!this.WorkArea.IsDirty)
+            if (!this.Workspace.IsDirty)
             {
                 // Nothing to save... file is up-to-date
                 return true;
@@ -239,7 +239,7 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = file;
-            WorkArea.IsDirty = false;
+            Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
 
             return true;

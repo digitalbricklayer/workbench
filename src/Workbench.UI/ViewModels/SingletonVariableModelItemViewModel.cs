@@ -2,9 +2,9 @@
 
 namespace Workbench.ViewModels
 {
-    public sealed class SingletonVariableItemViewModel : VariableItemViewModel
+    public sealed class SingletonVariableModelItemViewModel : VariableModelItemViewModel
     {
-        public SingletonVariableItemViewModel(SingletonVariableModel theSingletonVariableModel)
+        public SingletonVariableModelItemViewModel(SingletonVariableModel theSingletonVariableModel)
             : base(theSingletonVariableModel)
         {
             SingletonVariable = theSingletonVariableModel;

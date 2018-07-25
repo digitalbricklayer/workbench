@@ -8,7 +8,6 @@
                 <ResourceDictionary>
                     <bootstrapper:Bootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
-				<ResourceDictionary Source="Views/ControlDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

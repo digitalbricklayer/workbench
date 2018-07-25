@@ -3,11 +3,11 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public abstract class ItemViewModel : Conductor<Screen>.Collection.AllActive
+    public abstract class ModelItemViewModel : Screen
     {
         private Model _model;
 
-        protected ItemViewModel(Model theModel)
+        protected ModelItemViewModel(Model theModel)
         {
             Model = theModel;
         }

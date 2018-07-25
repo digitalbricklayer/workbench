@@ -37,9 +37,9 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel WorkArea
+        public WorkspaceViewModel Workspace
         {
-            get { return this.appRuntime.WorkArea; }
+            get { return this.appRuntime.Workspace; }
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace Workbench.ViewModels
             var singletonVariableEditorViewModel = new SingletonVariableEditViewModel();
             var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
             if (!x.HasValue) return;
-            this.WorkArea.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
+            this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                              .WithDomain(singletonVariableEditorViewModel.DomainExpression)
-                                                                             .WithModel(WorkArea.WorkspaceModel.Model)
+                                                                             .WithModel(Workspace.WorkspaceModel.Model)
                                                                              .Build());
             this.titleBar.UpdateTitle();
         }
@@ -88,9 +88,9 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableAction()
         {
             var newAggregate = new AggregateVariableBuilder().WithName("New Variable")
-                                                             .WithModel(WorkArea.WorkspaceModel.Model)
+                                                             .WithModel(Workspace.WorkspaceModel.Model)
                                                              .Build();
-            this.WorkArea.AddAggregateVariable(newAggregate);
+            this.Workspace.AddAggregateVariable(newAggregate);
             this.titleBar.UpdateTitle();
         }
 
@@ -99,7 +99,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddExpressionConstraintAction()
         {
-            WorkArea.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("New Constraint")
+            Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("New Constraint")
                     .Build());
             this.titleBar.UpdateTitle();
         }
@@ -109,7 +109,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAllDifferentConstraintAction()
         {
-            WorkArea.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName("New Constraint")
+            Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName("New Constraint")
                                                                                   .Build());
             this.titleBar.UpdateTitle();
         }
@@ -119,7 +119,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddDomainAction()
         {
-            this.WorkArea.AddDomain(new DomainBuilder().WithName("New Domain")
+            this.Workspace.AddDomain(new DomainBuilder().WithName("New Domain")
                                                        .Build());
             this.titleBar.UpdateTitle();
         }

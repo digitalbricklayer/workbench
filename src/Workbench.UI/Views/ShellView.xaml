@@ -10,6 +10,6 @@
     <DockPanel LastChildFill="True">
         <ContentControl x:Name="ApplicationMenu" DockPanel.Dock="Top"/>
 
-        <ContentControl x:Name="WorkArea"/>
+        <ContentControl x:Name="Workspace"/>
     </DockPanel>
 </Window>

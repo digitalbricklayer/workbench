@@ -7,11 +7,11 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for a domain.
     /// </summary>
-    public sealed class DomainItemViewModel : ItemViewModel
+    public sealed class DomainModelItemViewModel : ModelItemViewModel
     {
         private string _expressionText;
 
-        public DomainItemViewModel(DomainModel theDomain)
+        public DomainModelItemViewModel(DomainModel theDomain)
             : base(theDomain)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);

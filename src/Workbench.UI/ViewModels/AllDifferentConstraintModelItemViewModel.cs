@@ -7,9 +7,9 @@ namespace Workbench.ViewModels
     /// <summary>
     /// All different constraint displayed in a list.
     /// </summary>
-    public sealed class AllDifferentConstraintItemViewModel : ConstraintItemViewModel
+    public sealed class AllDifferentConstraintModelItemViewModel : ConstraintModelItemViewModel
     {
-        public AllDifferentConstraintItemViewModel(AllDifferentConstraintModel theAllDifferentModel)
+        public AllDifferentConstraintModelItemViewModel(AllDifferentConstraintModel theAllDifferentModel)
             : base(theAllDifferentModel)
         {
             Contract.Requires<ArgumentNullException>(theAllDifferentModel != null);

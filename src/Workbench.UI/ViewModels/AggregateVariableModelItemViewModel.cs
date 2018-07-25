@@ -3,12 +3,12 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class AggregateVariableItemViewModel : VariableItemViewModel
+    public class AggregateVariableModelItemViewModel : VariableModelItemViewModel
     {
-        public AggregateVariableItemViewModel(AggregateVariableModel theAggregateVariableModel)
+        public AggregateVariableModelItemViewModel(AggregateVariableModel theAggregateVariableModel)
             : base(theAggregateVariableModel)
         {
-            Variables = new BindableCollection<VariableItemViewModel>();
+            Variables = new BindableCollection<VariableModelItemViewModel>();
             AggregateVariable = theAggregateVariableModel;
         }
 
@@ -17,7 +17,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the variables inside the aggregate.
         /// </summary>
-        public IObservableCollection<VariableItemViewModel> Variables { get; private set; }
+        public IObservableCollection<VariableModelItemViewModel> Variables { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of variables in the aggregate variable.

@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for SingletonVariableItemView.xaml
+    /// Interaction logic for WorkspaceView.xaml
     /// </summary>
-    public partial class SingletonVariableItemView : UserControl
+    public partial class WorkspaceView : UserControl
     {
-        public SingletonVariableItemView()
+        public WorkspaceView()
         {
             InitializeComponent();
         }

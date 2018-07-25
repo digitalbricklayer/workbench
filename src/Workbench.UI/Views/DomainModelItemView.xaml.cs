@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for AggregateVariableItemView.xaml
+    /// Interaction logic for DomainModelItemView.xaml
     /// </summary>
-    public partial class AggregateVariableItemView : UserControl
+    public partial class DomainModelItemView : UserControl
     {
-        public AggregateVariableItemView()
+        public DomainModelItemView()
         {
             InitializeComponent();
         }

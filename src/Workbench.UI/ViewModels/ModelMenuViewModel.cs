@@ -38,9 +38,9 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the work area view model.
         /// </summary>
-        public WorkAreaViewModel WorkArea
+        public WorkspaceViewModel Workspace
         {
-            get { return this.appRuntime.WorkArea; }
+            get { return this.appRuntime.Workspace; }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void ModelSolveAction()
         {
-            this.WorkArea.SolveModel();
+            this.Workspace.SolveModel();
             this.titleBar.UpdateTitle();
         }
     }

@@ -34,7 +34,7 @@ namespace Workbench.Services
         /// </summary>
         /// <param name="theWorkspaceModel">Workspace model.</param>
         /// <returns>Workspace view model.</returns>
-        public WorkAreaViewModel MapFrom(WorkspaceModel theWorkspaceModel)
+        public WorkspaceViewModel MapFrom(WorkspaceModel theWorkspaceModel)
         {
             var workAreaViewModel = this.viewModelFactory.CreateWorkArea();
 #if false

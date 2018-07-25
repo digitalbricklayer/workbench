@@ -4,9 +4,9 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public sealed class ExpressionConstraintItemViewModel : ConstraintItemViewModel
+    public sealed class ExpressionConstraintModelItemViewModel : ConstraintModelItemViewModel
     {
-        public ExpressionConstraintItemViewModel(ExpressionConstraintModel theExpressionConstraint)
+        public ExpressionConstraintModelItemViewModel(ExpressionConstraintModel theExpressionConstraint)
             : base(theExpressionConstraint)
         {
             Contract.Requires<ArgumentNullException>(theExpressionConstraint != null);

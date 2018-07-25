@@ -4,12 +4,12 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public abstract class VariableItemViewModel : ItemViewModel
+    public abstract class VariableModelItemViewModel : ModelItemViewModel
     {
         private VariableDomainExpressionEditorViewModel _domainExpression;
         private string _domainExpressionText;
 
-        protected VariableItemViewModel(VariableModel theVariableModel)
+        protected VariableModelItemViewModel(VariableModel theVariableModel)
             : base(theVariableModel)
         {
             Variable = theVariableModel;

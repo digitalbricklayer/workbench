@@ -19,7 +19,7 @@ namespace Workbench.Bootstrapper
         {
             kernel.Register(Component.For<IShell, ShellViewModel>()
                                      .LifeStyle.Singleton,
-                            Component.For<WorkAreaViewModel>()
+                            Component.For<WorkspaceViewModel>()
                                      .LifeStyle.Singleton,
                             Component.For<ChessboardTabViewModel>()
                                      .LifeStyle.Singleton,

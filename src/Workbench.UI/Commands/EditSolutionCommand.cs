@@ -11,21 +11,21 @@ namespace Workbench.Commands
     public class EditSolutionCommand : CommandBase
     {
         private readonly IWindowManager windowManager;
-        private readonly WorkAreaViewModel workArea;
+        private readonly WorkspaceViewModel _workspace;
 
-        public EditSolutionCommand(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
+        public EditSolutionCommand(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkArea != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             this.windowManager = theWindowManager;
-            this.workArea = theWorkArea;
+            this._workspace = theWorkspace;
         }
 
         public override void Execute(object parameter)
         {
             var solutionEditorViewModel = new SolutionEditorViewModel();
-            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this.workArea.Display.Bindings);
+            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(this._workspace.Display.Bindings);
             var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.GetValueOrDefault())
             {
@@ -45,12 +45,12 @@ namespace Workbench.Commands
                 {
                     // New expression
                     var aNewExpression = new VisualizerBindingExpressionModel(visualizerEditor.Text);
-                    this.workArea.Display.AddBindingEpxression(aNewExpression);
+                    this._workspace.Display.AddBindingEpxression(aNewExpression);
                 }
                 else
                 {
                     // Update existing expression
-                    var visualizerBinding = this.workArea.Display.GetVisualizerBindingById(visualizerEditor.Id);
+                    var visualizerBinding = this._workspace.Display.GetVisualizerBindingById(visualizerEditor.Id);
                     visualizerBinding.Text = visualizerEditor.Text;
                 }
             }

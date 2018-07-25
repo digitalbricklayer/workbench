@@ -18,13 +18,13 @@ namespace Workbench.Services
         {
         }
 
-        public DomainItemViewModel MapFrom(DomainGraphicModel theDomainModel)
+        public DomainModelItemViewModel MapFrom(DomainGraphicModel theDomainModel)
         {
             Contract.Requires<ArgumentNullException>(theDomainModel != null);
             Contract.Assert(theDomainModel.HasIdentity);
 
 #if false
-            var domainViewModel = new DomainItemViewModel(theDomainModel,
+            var domainViewModel = new DomainModelItemViewModel(theDomainModel,
                                                             this.eventAggregator,
                                                             this.dataService,
                                                             this.cache);

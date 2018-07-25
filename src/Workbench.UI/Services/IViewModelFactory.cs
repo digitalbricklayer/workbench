@@ -10,7 +10,7 @@ namespace Workbench.Services
         /// Create a new work area view model.
         /// </summary>
         /// <returns>New workspace view model.</returns>
-        WorkAreaViewModel CreateWorkArea();
+        WorkspaceViewModel CreateWorkArea();
 
         /// <summary>
         /// Create a new model editor view model.
@@ -25,10 +25,10 @@ namespace Workbench.Services
     [ContractClassFor(typeof(IViewModelFactory))]
     internal abstract class IViewModelFactoryContract : IViewModelFactory
     {
-        public WorkAreaViewModel CreateWorkArea()
+        public WorkspaceViewModel CreateWorkArea()
         {
-            Contract.Ensures(Contract.Result<WorkAreaViewModel>() != null);
-            return default(WorkAreaViewModel);
+            Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
+            return default(WorkspaceViewModel);
         }
 
         public ModelEditorTabViewModel CreateModelEditor()

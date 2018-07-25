@@ -2,11 +2,11 @@
 
 namespace Workbench.ViewModels
 {
-    public abstract class ConstraintItemViewModel : ItemViewModel
+    public abstract class ConstraintModelItemViewModel : ModelItemViewModel
     {
         private string _expressionText;
 
-        protected ConstraintItemViewModel(ConstraintModel theConstraint)
+        protected ConstraintModelItemViewModel(ConstraintModel theConstraint)
             : base(theConstraint)
         {
             Constraint = theConstraint;
