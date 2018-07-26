@@ -19,6 +19,7 @@ namespace Workbench.ViewModels
         private ICommand _addDomainCommand;
         private ICommand _addExpressionConstraintCommand;
         private ICommand _addAllDifferentConstraintCommand;
+        private ICommand _editCommand;
 
         /// <summary>
         /// Initialize a solution designer view model with default values.
@@ -41,6 +42,7 @@ namespace Workbench.ViewModels
             AddDomainCommand = new CommandHandler(AddDomainAction);
             AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
             AddExpressionConstraintCommand = new CommandHandler(AddExpressionConstraintAction);
+            EditCommand = new CommandHandler(EditAction, IsItemEditable);
         }
 
         /// <summary>
@@ -130,6 +132,16 @@ namespace Workbench.ViewModels
             }
         }
 
+        public ICommand EditCommand
+        {
+            get => _editCommand;
+            set
+            {
+                _editCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         /// <summary>
         /// Add a new singleton variable.
         /// </summary>
@@ -138,7 +150,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVariableModel != null);
 
-            var newSingletonVariableItem = new SingletonVariableModelItemViewModel(newVariableModel);
+            var newSingletonVariableItem = new SingletonVariableModelItemViewModel(newVariableModel, _windowManager);
             FixupSingletonVariable(newSingletonVariableItem);
             ModelModel.AddVariable(newVariableModel);
         }
@@ -151,7 +163,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVariableModel != null);
 
-            var newAggregateVariableItem = new AggregateVariableModelItemViewModel(newVariableModel);
+            var newAggregateVariableItem = new AggregateVariableModelItemViewModel(newVariableModel, _windowManager);
             FixupAggregateVariable(newAggregateVariableItem);
             ModelModel.AddVariable(newVariableModel);
         }
@@ -164,7 +176,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newDomainModel != null);
 
-            var newDomainItem = new DomainModelItemViewModel(newDomainModel);
+            var newDomainItem = new DomainModelItemViewModel(newDomainModel, _windowManager);
             FixupDomain(newDomainItem);
             AddDomainToModel(newDomainModel);
         }
@@ -177,7 +189,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newAllDifferentConstraint != null);
 
-            var newConstraint = new AllDifferentConstraintModelItemViewModel(newAllDifferentConstraint);
+            var newConstraint = new AllDifferentConstraintModelItemViewModel(newAllDifferentConstraint, _windowManager);
             FixupConstraint(newConstraint);
             AddConstraintToModel(newConstraint);
         }
@@ -190,7 +202,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newExpressionConstraint != null);
 
-            var newExpressionConstraintEditor = new ExpressionConstraintModelItemViewModel(newExpressionConstraint);
+            var newExpressionConstraintEditor = new ExpressionConstraintModelItemViewModel(newExpressionConstraint, _windowManager);
             FixupConstraint(newExpressionConstraintEditor);
             AddConstraintToModel(newExpressionConstraintEditor);
         }
@@ -347,7 +359,7 @@ namespace Workbench.ViewModels
 
         private void AddSingletonVariableAction()
         {
-            var singletonVariableEditorViewModel = new SingletonVariableEditViewModel();
+            var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
             var x = _windowManager.ShowDialog(singletonVariableEditorViewModel);
             if (!x.HasValue) return;
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
@@ -358,7 +370,7 @@ namespace Workbench.ViewModels
 
         private void AddAggregateVariableAction()
         {
-            var aggregateVariableEditorViewModel = new AggregateVariableEditViewModel();
+            var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
             var x = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
             if (!x.HasValue) return;
             Workspace.AddAggregateVariable(new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
@@ -370,7 +382,7 @@ namespace Workbench.ViewModels
 
         private void AddDomainAction()
         {
-            var domainEditorViewModel = new DomainEditViewModel();
+            var domainEditorViewModel = new DomainEditorViewModel();
             var x = _windowManager.ShowDialog(domainEditorViewModel);
             if (!x.HasValue) return;
             Workspace.AddDomain(new DomainBuilder().WithName(domainEditorViewModel.DomainName)
@@ -380,7 +392,7 @@ namespace Workbench.ViewModels
 
         private void AddExpressionConstraintAction()
         {
-            var expressionConstraintEditViewModel = new ExpressionConstraintEditViewModel();
+            var expressionConstraintEditViewModel = new ExpressionConstraintEditorViewModel();
             var x = _windowManager.ShowDialog(expressionConstraintEditViewModel);
             if (!x.HasValue) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditViewModel.ConstraintName)
@@ -390,12 +402,23 @@ namespace Workbench.ViewModels
 
         private void AddAllDifferentConstraintAction()
         {
-            var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditViewModel();
+            var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditorViewModel();
             var x = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
             if (!x.HasValue) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
                                                                                   .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
                                                                                   .Build());
+        }
+
+        private void EditAction()
+        {
+            Contract.Assume(ActiveItem != null);
+            ActiveItem.Edit();
+        }
+
+        private bool IsItemEditable(object obj)
+        {
+            return ActiveItem != null;
         }
 
         [ContractInvariantMethod]

@@ -2,12 +2,12 @@
 
 namespace Workbench.ViewModels
 {
-    public class ExpressionConstraintEditViewModel : Screen
+    public class ExpressionConstraintEditorViewModel : Screen
     {
         private string _constraintName;
         private string _constraintExpression;
 
-        public ExpressionConstraintEditViewModel()
+        public ExpressionConstraintEditorViewModel()
         {
             ConstraintName = string.Empty;
             ConstraintExpression = string.Empty;

@@ -2,29 +2,29 @@
 
 namespace Workbench.ViewModels
 {
-    public class SingletonVariableEditViewModel : Screen
+    public class DomainEditorViewModel : Screen
     {
-        private string _variableName;
+        private string _domainName;
         private string _domainExpression;
 
         /// <summary>
-        /// Initialize the singleton variable edit with default values.
+        /// Initialize the domain edit with default values.
         /// </summary>
-        public SingletonVariableEditViewModel()
+        public DomainEditorViewModel()
         {
-            VariableName = string.Empty;
+            DomainName = string.Empty;
             DomainExpression = string.Empty;
         }
 
         /// <summary>
-        /// Gets or sets the variable name.
+        /// Gets or sets the domain name.
         /// </summary>
-        public string VariableName
+        public string DomainName
         {
-            get => _variableName;
+            get => _domainName;
             set
             {
-                _variableName = value;
+                _domainName = value;
                 NotifyOfPropertyChange();
             }
         }

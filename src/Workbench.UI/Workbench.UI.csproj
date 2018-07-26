@@ -223,21 +223,21 @@
     <Compile Include="Controls\EditableTextBlockAdorner.cs" />
     <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
-    <Compile Include="ViewModels\AllDifferentConstraintEditViewModel.cs" />
-    <Compile Include="ViewModels\ExpressionConstraintEditViewModel.cs" />
+    <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\ITabViewModel.cs" />
-    <Compile Include="ViewModels\AggregateVariableEditViewModel.cs" />
-    <Compile Include="ViewModels\DomainEditViewModel.cs" />
-    <Compile Include="ViewModels\SingletonVariableEditViewModel.cs" />
+    <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\DomainEditorViewModel.cs" />
+    <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AggregateVariableEditView.xaml.cs">
-      <DependentUpon>AggregateVariableEditView.xaml</DependentUpon>
+    <Compile Include="Views\AggregateVariableEditorView.xaml.cs">
+      <DependentUpon>AggregateVariableEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AllDifferentConstraintEditView.xaml.cs">
-      <DependentUpon>AllDifferentConstraintEditView.xaml</DependentUpon>
+    <Compile Include="Views\AllDifferentConstraintEditorView.xaml.cs">
+      <DependentUpon>AllDifferentConstraintEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllDifferentConstraintModelItemView.xaml.cs">
       <DependentUpon>AllDifferentConstraintModelItemView.xaml</DependentUpon>
@@ -245,14 +245,14 @@
     <Compile Include="Views\ExpressionConstraintModelItemView.xaml.cs">
       <DependentUpon>ExpressionConstraintModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ExpressionConstraintEditView.xaml.cs">
-      <DependentUpon>ExpressionConstraintEditView.xaml</DependentUpon>
+    <Compile Include="Views\ExpressionConstraintEditorView.xaml.cs">
+      <DependentUpon>ExpressionConstraintEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DomainEditView.xaml.cs">
-      <DependentUpon>DomainEditView.xaml</DependentUpon>
+    <Compile Include="Views\DomainEditorView.xaml.cs">
+      <DependentUpon>DomainEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SingletonVariableEditView.xaml.cs">
-      <DependentUpon>SingletonVariableEditView.xaml</DependentUpon>
+    <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
+      <DependentUpon>SingletonVariableEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModelEditorTabView.xaml.cs">
       <DependentUpon>ModelEditorTabView.xaml</DependentUpon>
@@ -327,14 +327,11 @@
     <Compile Include="Services\VariableMapper.cs" />
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
-    <Compile Include="ViewModels\ConstraintExpressionEditorViewModel.cs" />
-    <Compile Include="ViewModels\DomainExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\DomainModelItemViewModel.cs" />
     <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
-    <Compile Include="ViewModels\VariableDomainExpressionEditorViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -360,11 +357,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AggregateVariableEditView.xaml">
+    <Page Include="Views\AggregateVariableEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AllDifferentConstraintEditView.xaml">
+    <Page Include="Views\AllDifferentConstraintEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -376,15 +373,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ExpressionConstraintEditView.xaml">
+    <Page Include="Views\ExpressionConstraintEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DomainEditView.xaml">
+    <Page Include="Views\DomainEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SingletonVariableEditView.xaml">
+    <Page Include="Views\SingletonVariableEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

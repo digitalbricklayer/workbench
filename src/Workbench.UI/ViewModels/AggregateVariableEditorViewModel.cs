@@ -1,30 +1,33 @@
 ﻿using Caliburn.Micro;
+using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class DomainEditViewModel : Screen
+    public class AggregateVariableEditorViewModel : Screen
     {
-        private string _domainName;
+        private string _variableName;
         private string _domainExpression;
+        private int _size;
 
         /// <summary>
-        /// Initialize the domain edit with default values.
+        /// Initialize the aggregate variable edit with default values.
         /// </summary>
-        public DomainEditViewModel()
+        public AggregateVariableEditorViewModel()
         {
-            DomainName = string.Empty;
+            VariableName = string.Empty;
             DomainExpression = string.Empty;
+            Size = AggregateVariableModel.DefaultSize;
         }
 
         /// <summary>
-        /// Gets or sets the domain name.
+        /// Gets or sets the variable name.
         /// </summary>
-        public string DomainName
+        public string VariableName
         {
-            get => _domainName;
+            get => _variableName;
             set
             {
-                _domainName = value;
+                _variableName = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -38,6 +41,19 @@ namespace Workbench.ViewModels
             set
             {
                 _domainExpression = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the domain expression.
+        /// </summary>
+        public int Size
+        {
+            get => _size;
+            set
+            {
+                _size = value;
                 NotifyOfPropertyChange();
             }
         }

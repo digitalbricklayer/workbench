@@ -72,7 +72,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddSingletonVariableAction()
         {
-            var singletonVariableEditorViewModel = new SingletonVariableEditViewModel();
+            var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
             var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
             if (!x.HasValue) return;
             this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)

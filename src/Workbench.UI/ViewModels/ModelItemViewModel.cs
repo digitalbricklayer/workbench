@@ -21,5 +21,7 @@ namespace Workbench.ViewModels
                 NotifyOfPropertyChange();
             }
         }
+
+        public abstract void Edit();
     }
 }

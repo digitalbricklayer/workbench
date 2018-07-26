@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for SingletonVariableEditView.xaml
+    /// Interaction logic for SingletonVariableEditorView.xaml
     /// </summary>
-    public partial class DomainEditView : Window
+    public partial class DomainEditorView : Window
     {
-        public DomainEditView()
+        public DomainEditorView()
         {
             InitializeComponent();
         }

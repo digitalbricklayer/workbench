@@ -1,22 +1,19 @@
 ﻿using Caliburn.Micro;
-using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class AggregateVariableEditViewModel : Screen
+    public class SingletonVariableEditorViewModel : Screen
     {
         private string _variableName;
         private string _domainExpression;
-        private int _size;
 
         /// <summary>
-        /// Initialize the aggregate variable edit with default values.
+        /// Initialize the singleton variable edit with default values.
         /// </summary>
-        public AggregateVariableEditViewModel()
+        public SingletonVariableEditorViewModel()
         {
             VariableName = string.Empty;
             DomainExpression = string.Empty;
-            Size = AggregateVariableModel.DefaultSize;
         }
 
         /// <summary>
@@ -41,19 +38,6 @@ namespace Workbench.ViewModels
             set
             {
                 _domainExpression = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the domain expression.
-        /// </summary>
-        public int Size
-        {
-            get => _size;
-            set
-            {
-                _size = value;
                 NotifyOfPropertyChange();
             }
         }

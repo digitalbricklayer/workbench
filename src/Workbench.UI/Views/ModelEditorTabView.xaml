@@ -23,7 +23,7 @@
             <Button x:Name="AddExpresionConstraintButton" Command="{Binding AddExpressionConstraintCommand}">Add Expression Constraint...</Button>
             <Button x:Name="AddAllDifferentConstraintButton" Command="{Binding AddAllDifferentConstraintCommand}">Add 'All Different' Constraint...</Button>
             <Button x:Name="AddDomainButton" Command="{Binding AddDomainCommand}">Add Domain...</Button>
-            <Button x:Name="Edit">Edit...</Button>
+            <Button x:Name="EditButton" Command="{Binding EditCommand}">Edit...</Button>
             <Separator/>
             <Button x:Name="Delete">Delete</Button>
         </StackPanel>

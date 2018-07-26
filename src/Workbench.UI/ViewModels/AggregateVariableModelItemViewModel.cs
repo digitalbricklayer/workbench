@@ -1,15 +1,23 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
     public class AggregateVariableModelItemViewModel : VariableModelItemViewModel
     {
-        public AggregateVariableModelItemViewModel(AggregateVariableModel theAggregateVariableModel)
+        private readonly IWindowManager _windowManager;
+
+        public AggregateVariableModelItemViewModel(AggregateVariableModel theAggregateVariableModel, IWindowManager theWindowManager)
             : base(theAggregateVariableModel)
         {
-            Variables = new BindableCollection<VariableModelItemViewModel>();
+            Contract.Requires<ArgumentNullException>(theAggregateVariableModel != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
+
             AggregateVariable = theAggregateVariableModel;
+            _windowManager = theWindowManager;
+            Variables = new BindableCollection<VariableModelItemViewModel>();
         }
 
         public AggregateVariableModel AggregateVariable { get; set; }
@@ -30,6 +38,20 @@ namespace Workbench.ViewModels
                 AggregateVariable.Resize(value);
                 NotifyOfPropertyChange();
             }
+        }
+
+        public override void Edit()
+        {
+            var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
+            aggregateVariableEditorViewModel.VariableName = AggregateVariable.Name;
+            aggregateVariableEditorViewModel.DomainExpression = AggregateVariable.DomainExpression.Text;
+            aggregateVariableEditorViewModel.Size = AggregateVariable.AggregateCount;
+            var result = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
+            if (!result.HasValue) return;
+            DisplayName = AggregateVariable.Name.Text = aggregateVariableEditorViewModel.VariableName;
+            DomainExpressionText = AggregateVariable.DomainExpression.Text = aggregateVariableEditorViewModel.DomainExpression;
+            VariableCount = aggregateVariableEditorViewModel.Size;
+            AggregateVariable.Resize(aggregateVariableEditorViewModel.Size);
         }
     }
 }

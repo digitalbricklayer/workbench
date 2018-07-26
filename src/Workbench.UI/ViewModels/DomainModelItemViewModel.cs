@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -9,15 +10,20 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class DomainModelItemViewModel : ModelItemViewModel
     {
+        private readonly IWindowManager _windowManager;
+
         private string _expressionText;
 
-        public DomainModelItemViewModel(DomainModel theDomain)
+        public DomainModelItemViewModel(DomainModel theDomain, IWindowManager theWindowManager)
             : base(theDomain)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
+
             Domain = theDomain;
             DisplayName = theDomain.Name;
             ExpressionText = theDomain.Expression.Text;
+            _windowManager = theWindowManager;
         }
 
         public DomainModel Domain { get; set; }
@@ -32,6 +38,17 @@ namespace Workbench.ViewModels
             {
                 Set(ref this._expressionText, value);
             }
+        }
+
+        public override void Edit()
+        {
+            var domainEditorViewModel = new DomainEditorViewModel();
+            domainEditorViewModel.DomainName = Domain.Name;
+            domainEditorViewModel.DomainExpression = Domain.Expression.Text;
+            var result = _windowManager.ShowDialog(domainEditorViewModel);
+            if (!result.HasValue) return;
+            DisplayName = Domain.Name.Text = domainEditorViewModel.DomainName;
+            ExpressionText = Domain.Expression.Text = domainEditorViewModel.DomainExpression;
         }
     }
 }

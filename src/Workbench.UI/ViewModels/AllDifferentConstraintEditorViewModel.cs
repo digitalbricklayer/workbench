@@ -2,12 +2,12 @@
 
 namespace Workbench.ViewModels
 {
-    public class AllDifferentConstraintEditViewModel : Screen
+    public class AllDifferentConstraintEditorViewModel : Screen
     {
         private string _constraintName;
         private string _constraintExpression;
 
-        public AllDifferentConstraintEditViewModel()
+        public AllDifferentConstraintEditorViewModel()
         {
             ConstraintName = string.Empty;
             ConstraintExpression = string.Empty;

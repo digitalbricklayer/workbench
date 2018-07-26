@@ -1,9 +1,9 @@
-﻿<Window x:Class="Workbench.Views.SingletonVariableEditView"
+﻿<Window x:Class="Workbench.Views.AllDifferentConstraintEditorView "
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
-        Title="Singleton Variable Editor"
+        Title="All Different Constraint Editor"
         Height="174.138" Width="482.636">
 
     <Grid Margin="15">
@@ -21,12 +21,12 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Label >Variable name:</Label>
-                <TextBox Name="VariableName" MinWidth="250"/>
+                <Label >Constraint name:</Label>
+                <TextBox Name="ConstraintName" MinWidth="250"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label>Domain Expression:</Label>
-                <TextBox Name="DomainExpression" MinWidth="250"/>
+                <Label>Constraint Expression:</Label>
+                <TextBox Name="ConstraintExpression" MinWidth="250"/>
             </StackPanel>
         </StackPanel>
 

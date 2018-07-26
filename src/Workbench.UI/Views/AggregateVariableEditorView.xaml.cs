@@ -5,9 +5,9 @@ namespace Workbench.Views
     /// <summary>
     /// Interaction logic for SingletonVariableEditView.xaml
     /// </summary>
-    public partial class SingletonVariableEditView : Window
+    public partial class AggregateVariableEditorView : Window
     {
-        public SingletonVariableEditView()
+        public AggregateVariableEditorView()
         {
             InitializeComponent();
         }
