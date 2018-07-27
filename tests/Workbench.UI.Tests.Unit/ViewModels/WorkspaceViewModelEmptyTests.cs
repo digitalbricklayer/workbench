@@ -7,7 +7,7 @@ using Workbench.Services;
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
     [TestFixture]
-    public class WorkAreaViewModelEmptyTests
+    public class WorkspaceViewModelEmptyTests
     {
         [Test]
         public void SolveWithValidModelReturnsSuccessStatus()
@@ -19,14 +19,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             ScreenExtensions.TryDeactivate(sut, true);
         }
 
-        private static WorkAreaViewModel CreateValidWorkspace()
+        private static WorkspaceViewModel CreateValidWorkspace()
         {
-            var worksAreaViewModel = new WorkAreaViewModel(CreateDataService(),
-                                                           CreateWindowManager(),
-                                                           CreateEventAggregator(),
-                                                           CreateViewModelFactory(),
-                                                           new ModelEditorTabViewModel(CreateDataService()));
-            return worksAreaViewModel;
+            var workspaceViewModel = new WorkspaceViewModel(CreateDataService(),
+                                                            CreateWindowManager(),
+                                                            CreateEventAggregator(),
+                                                            CreateViewModelFactory());
+            return workspaceViewModel;
         }
 
         private static IDataService CreateDataService()
@@ -36,12 +35,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private static IViewModelFactory CreateViewModelFactory()
         {
-            return new ViewModelFactory(CreateEventAggregator(), CreateWindowManager());
-        }
-
-        private static IViewModelService CreateViewModelService()
-        {
-            return new ViewModelService();
+            return new ViewModelFactory();
         }
 
         private static IEventAggregator CreateEventAggregator()

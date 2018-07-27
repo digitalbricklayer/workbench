@@ -416,7 +416,7 @@ namespace Workbench.ViewModels
             ActiveItem.Edit();
         }
 
-        private bool IsItemEditable(object obj)
+        private bool IsItemEditable(object parameter)
         {
             return ActiveItem != null;
         }

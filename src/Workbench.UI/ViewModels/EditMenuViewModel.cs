@@ -9,22 +9,22 @@ namespace Workbench.ViewModels
     public sealed class EditMenuViewModel
     {
         private readonly IDataService dataService;
-        private readonly WorkAreaMapper workAreaMapper;
+        private readonly WorkspaceMapper _workspaceMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
 
         public EditMenuViewModel(IDataService theDataService,
-                                 WorkAreaMapper theWorkAreaMapper,
+                                 WorkspaceMapper theWorkspaceMapper,
                                  IAppRuntime theAppRuntime,
                                  TitleBarViewModel theTitleBarViewModel)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWorkAreaMapper != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
             this.dataService = theDataService;
-            this.workAreaMapper = theWorkAreaMapper;
+            this._workspaceMapper = theWorkspaceMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             DeleteSelectedCommand = new CommandHandler(DeleteSelectedAction, _ => CanDeleteSelectedExecute);
@@ -41,7 +41,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Delete selected command.
         /// </summary>
-        public ICommand DeleteSelectedCommand { get; private set; }
+        public ICommand DeleteSelectedCommand { get; }
 
         /// <summary>
         /// Gets whether the "Model|Delete" menu item can be executed.

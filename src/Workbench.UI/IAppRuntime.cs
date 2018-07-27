@@ -44,12 +44,12 @@ namespace Workbench
             get
             {
                 Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
-                return this._workspace;
+                return _workspace;
             }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this._workspace = value;
+                _workspace = value;
             }
         }
 

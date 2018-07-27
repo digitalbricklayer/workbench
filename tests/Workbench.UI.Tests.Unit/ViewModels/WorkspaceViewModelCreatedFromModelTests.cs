@@ -12,7 +12,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
     /// an existing workspace model.
     /// </summary>
     [TestFixture]
-    public class WorkAreaViewModelCreatedFromModelTests
+    public class WorkspaceViewModelCreatedFromModelTests
     {
         private Mock<IDataService> dataServiceMock;
         private Mock<IWindowManager> windowManagerMock;
@@ -101,13 +101,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return mock;
         }
 
-        private WorkAreaViewModel CreateWorkspaceViewModel()
+        private WorkspaceViewModel CreateWorkspaceViewModel()
         {
-            return new WorkAreaViewModel(this.dataServiceMock.Object,
+            return new WorkspaceViewModel(this.dataServiceMock.Object,
                                           this.windowManagerMock.Object,
                                           this.eventAggregatorMock.Object,
                                           this.viewModelFactoryMock.Object,
-                                          new ModelEditorTabViewModel(this.dataServiceMock.Object));
+                                          new ModelEditorTabViewModel(new AppRuntime(), this.dataServiceMock.Object, this.windowManagerMock.Object));
         }
     }
 }

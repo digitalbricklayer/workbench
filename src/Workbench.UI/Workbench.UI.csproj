@@ -310,7 +310,6 @@
     <Compile Include="ViewModels\TitleBarViewModel.cs" />
     <Compile Include="ViewModels\ModelItemViewModel.cs" />
     <Compile Include="ViewModels\SolutionMenuViewModel.cs" />
-    <Compile Include="ViewModels\ViewerViewModel.cs" />
     <Compile Include="Views\ApplicationMenuView.xaml.cs">
       <DependentUpon>ApplicationMenuView.xaml</DependentUpon>
     </Compile>
@@ -328,7 +327,6 @@
     <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
     <Compile Include="ViewModels\DomainModelItemViewModel.cs" />
-    <Compile Include="ViewModels\GraphicViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />

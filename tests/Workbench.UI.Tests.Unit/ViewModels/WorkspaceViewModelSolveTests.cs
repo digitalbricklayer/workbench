@@ -9,25 +9,39 @@ using Workbench.Services;
 namespace Workbench.UI.Tests.Unit.ViewModels
 {
     [TestFixture]
-    public class WorkAreaViewModelXTests
+    public class WorkspaceViewModelSolveTests
     {
         private Mock<IEventAggregator> eventAggregatorMock;
-        private IViewModelService viewModelService;
-        private Mock<IViewModelFactory> viewModelFactoryMock;
+        private WorkspaceViewModel sut;
 
         [SetUp]
         public void Initialize()
         {
             this.eventAggregatorMock = new Mock<IEventAggregator>();
-            this.viewModelFactoryMock = CreateViewModelFactoryMock();
-            this.viewModelService = Mock.Of<IViewModelService>();
-            CreateWindowManagerMock();
+            this.sut = CreateSut();
+            ScreenExtensions.TryActivate(this.sut);
+            this.sut.ModelEditor.AddSingletonVariableCommand.Execute(new SingletonVariableBuilder().WithName("x")
+                .WithDomain("1..10")
+                .WithModel(this.sut.WorkspaceModel.Model)
+                .Build());
+            this.sut.ModelEditor.AddAggregateVariableCommand.Execute(new AggregateVariableBuilder().WithName("y")
+                .WithModel(this.sut.WorkspaceModel.Model)
+                .WithSize(2)
+                .WithDomain("1..10")
+                .Build());
+            this.sut.ModelEditor.AddExpressionConstraintCommand.Execute(new ExpressionConstraintBuilder().WithExpression("$x > 1").Build());
+            this.sut.ModelEditor.AddExpressionConstraintCommand.Execute(new ExpressionConstraintBuilder().WithExpression("$y[0] <> $y[1]").Build());
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            ScreenExtensions.TryDeactivate(this.sut, close:true);
         }
 
         [Test]
         public void SolveWithValidModelReturnsSuccessStatus()
         {
-            var sut = CreateValidWorkArea();
             var actualStatus = sut.SolveModel();
             Assert.That(actualStatus.IsSuccess, Is.True);
         }
@@ -35,7 +49,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void AddWithValidSingletonVariablePublishesVariableAddedMessage()
         {
-            var sut = CreateValidWorkArea();
             sut.AddSingletonVariable(new SingletonVariableBuilder().WithName("z")
                                                                    .WithModel(sut.WorkspaceModel.Model)
                                                                    .Build());
@@ -46,7 +59,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void AddWithValidAggregatorVariablePublishesVariableAddedMessage()
         {
-            var sut = CreateValidWorkArea();
             sut.AddAggregateVariable(new AggregateVariableBuilder().WithName("z")
                                                                    .WithModel(sut.WorkspaceModel.Model)
                                                                    .Build());
@@ -57,33 +69,15 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [Test]
         public void DeleteWithValidVariablePublishesVariableDeletedMessage()
         {
-            var sut = CreateValidWorkArea();
-            var variableToDelete = sut.GetVariableByName("x");
+            var variableToDelete = sut.WorkspaceModel.Model.GetVariableByName("x");
             sut.DeleteVariable(variableToDelete);
             this.eventAggregatorMock.Verify(_ => _.Publish(It.Is<VariableDeletedMessage>(msg => msg.VariableName == "x"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);
         }
 
-        private WorkAreaViewModel CreateValidWorkArea()
+        private WorkspaceViewModel CreateSut()
         {
-            var workspaceViewModel = new WorkAreaViewModel(CreateDataService(),
-                                                           CreateWindowManagerMock().Object,
-                                                           this.eventAggregatorMock.Object,
-                                                           this.viewModelFactoryMock.Object,
-                                                           new ModelEditorTabViewModel(CreateDataService()));
-            workspaceViewModel.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
-                                                                                  .WithDomain("1..10")
-                                                                                  .WithModel(workspaceViewModel.WorkspaceModel.Model)
-                                                                                  .Build());
-            workspaceViewModel.AddAggregateVariable(new AggregateVariableBuilder().WithName("y")
-                                                                                  .WithModel(workspaceViewModel.WorkspaceModel.Model)
-                                                                                  .WithSize(2)
-                                                                                  .WithDomain("1..10")
-                                                                                  .Build());
-            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$x > 1")
-                                                                                        .Build());
-            workspaceViewModel.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$y[0] <> $y[1]")
-                                                                                        .Build());
+            var workspaceViewModel = new WorkspaceViewModel(CreateDataService(), CreateWindowManagerMock().Object, this.eventAggregatorMock.Object, CreateViewModelFactoryMock().Object);
 
             return workspaceViewModel;
         }
@@ -105,7 +99,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
-            return new Mock<IViewModelFactory>();
+            var x = new Mock<IViewModelFactory>();
+            x.Setup(_ => _.CreateModelEditor())
+             .Returns(new ModelEditorTabViewModel(new AppRuntime{Workspace = this.sut}, CreateDataService(), CreateWindowManagerMock().Object));
+            return x;
         }
     }
 }

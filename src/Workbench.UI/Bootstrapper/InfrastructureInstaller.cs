@@ -19,7 +19,7 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<IViewModelFactory, ViewModelFactory>()
                                      .LifeStyle.Transient,
-                            Component.For<WorkAreaMapper>()
+                            Component.For<WorkspaceMapper>()
                                      .LifeStyle.Transient,
                             Component.For<SolutionMapper>()
                                      .LifeStyle.Transient,

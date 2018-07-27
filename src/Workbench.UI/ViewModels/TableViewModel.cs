@@ -106,12 +106,6 @@ namespace Workbench.ViewModels
 //            DeleteRowFromTable(SelectedColumn);
         }
 
-        public void OnGridFocus()
-        {
-            var x = (GraphicViewModel) this.parent;
-            x.IsSelected = true;
-        }
-
         private void PopulateGridColumns(DataTable newTable)
         {
             foreach (var column in Grid.Columns)

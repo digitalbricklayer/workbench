@@ -9,11 +9,11 @@ namespace Workbench.Services
     public sealed class ViewModelFactory : IViewModelFactory
     {
         /// <inheritdoc />
-        public WorkspaceViewModel CreateWorkArea()
+        public WorkspaceViewModel CreateWorkspace()
         {
-            var newWorkArea = IoC.Get<WorkspaceViewModel>();
+            var newWorkspace = IoC.Get<WorkspaceViewModel>();
 			
-			return newWorkArea;
+			return newWorkspace;
         }
 
         /// <inheritdoc />

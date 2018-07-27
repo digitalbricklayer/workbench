@@ -10,25 +10,25 @@ namespace Workbench.ViewModels
     public sealed class FileMenuViewModel
     {
         private readonly IDataService dataService;
-        private readonly WorkAreaMapper workAreaMapper;
+        private readonly WorkspaceMapper _workspaceMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
         private readonly IViewModelFactory viewModelFactory;
 
         public FileMenuViewModel(IDataService theDataService,
-                                 WorkAreaMapper theWorkAreaMapper,
+                                 WorkspaceMapper theWorkspaceMapper,
                                  IAppRuntime theAppRuntime,
                                  TitleBarViewModel theTitleBarViewModel,
                                  IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWorkAreaMapper != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
             this.dataService = theDataService;
-            this.workAreaMapper = theWorkAreaMapper;
+            this._workspaceMapper = theWorkspaceMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             this.viewModelFactory = theViewModelFactory;
@@ -90,7 +90,7 @@ namespace Workbench.ViewModels
         private void FileNewAction()
         {
             if (!PromptToSave()) return;
-            Workspace = this.viewModelFactory.CreateWorkArea();
+            Workspace = this.viewModelFactory.CreateWorkspace();
             Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
@@ -119,7 +119,7 @@ namespace Workbench.ViewModels
             try
             {
                 var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                Workspace = this.workAreaMapper.MapFrom(workspaceModel);
+                Workspace = this._workspaceMapper.MapFrom(workspaceModel);
 #if false
                 Workspace.SelectedDisplay = "Editor";
 #endif

@@ -48,7 +48,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace model.
         /// </summary>
-        public WorkspaceModel WorkspaceModel { get; set; }
+        public WorkspaceModel WorkspaceModel { get; }
 
         /// <summary>
         /// Gets the display model.
@@ -61,7 +61,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Delete command.
         /// </summary>
-        public ICommand DeleteCommand { get; private set; }
+        public ICommand DeleteCommand { get; }
 
         /// <summary>
         /// Gets or sets the workspace editor.
@@ -82,17 +82,17 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all chessboard visualizers.
         /// </summary>
-        public BindableCollection<IScreen> ChessboardVisualizers { get; private set; }
+        public BindableCollection<IScreen> ChessboardVisualizers { get; }
 
         /// <summary>
         /// Gets all table visualizers.
         /// </summary>
-        public BindableCollection<IScreen> TableVisualizers { get; private set; }
+        public BindableCollection<IScreen> TableVisualizers { get; }
 
         /// <summary>
         /// Gets or sets the solution model.
         /// </summary>
-        public SolutionModel Solution { get; set; }
+        public SolutionModel Solution { get; }
 
         /// <summary>
         /// Gets or sets the work area dirty flag.
