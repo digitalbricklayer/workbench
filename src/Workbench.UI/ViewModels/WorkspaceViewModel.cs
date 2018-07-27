@@ -5,8 +5,6 @@ using Workbench.Core.Models;
 using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace Workbench.ViewModels
 {
@@ -42,7 +40,6 @@ namespace Workbench.ViewModels
             Solution = WorkspaceModel.Solution;
             ChessboardVisualizers = new BindableCollection<IScreen>();
             TableVisualizers = new BindableCollection<IScreen>();
-            DeleteCommand = new CommandHandler(DeleteAction);
         }
 
         /// <summary>
@@ -59,12 +56,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the Delete command.
-        /// </summary>
-        public ICommand DeleteCommand { get; }
-
-        /// <summary>
-        /// Gets or sets the workspace editor.
+        /// Gets or sets the model editor.
         /// </summary>
         public ModelEditorTabViewModel ModelEditor
         {
@@ -211,50 +203,8 @@ namespace Workbench.ViewModels
             IsDirty = true;
         }
 
-        /// <summary>
-        /// Delete all selected graphics.
-        /// </summary>
-        public void DeleteSelectedGraphics()
-        {
-        }
-
         public void BindTo(SolutionModel theSolution)
         {
-        }
-
-        public bool CanDeleteSelectedExecute()
-        {
-#if false
-            if (SelectedDisplay == "Editor")
-            {
-                return Editor.Items.Any(_ => _.IsSelected);
-            }
-            else
-            {
-                throw new NotImplementedException("Selection is not implemented for the viewer");
-            }
-#else
-            return false;
-#endif
-        }
-
-        /// <summary>
-        /// Get all selected grid visualizers.
-        /// </summary>
-        /// <returns>Collection of selected grid visualizers.</returns>
-        public IReadOnlyCollection<IScreen> GetSelectedTableVisualizers()
-        {
-#if false
-            if (SelectedDisplay == "Editor")
-            {
-                return TableVisualizers.Where(gridVisualizer => gridVisualizer.Editor.IsSelected)
-                    .ToList();
-            }
-            return TableVisualizers.Where(gridVisualizer => gridVisualizer.Viewer.IsSelected)
-                                  .ToList();
-#else
-            return null;
-#endif
         }
 
         protected override void OnInitialize()
@@ -320,19 +270,12 @@ namespace Workbench.ViewModels
             return errorsViewModel;
         }
 
-        /// <summary>
-        /// Delete all selected graphics.
-        /// </summary>
-        private void DeleteAction()
-        {
-            DeleteSelectedGraphics();
-//            TitleBar.UpdateTitle();
-        }
-
         [ContractInvariantMethod]
         private void WorkspaceInvariants()
         {
             Contract.Invariant(WorkspaceModel != null);
+            Contract.Invariant(TableVisualizers != null);
+            Contract.Invariant(ChessboardVisualizers != null);
         }
     }
 }

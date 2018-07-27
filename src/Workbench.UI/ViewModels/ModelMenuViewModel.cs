@@ -26,7 +26,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Model|Solve command
         /// </summary>
-        public ICommand SolveCommand { get; private set; }
+        public ICommand SolveCommand { get; }
 
         /// <summary>
         /// Gets the work area view model.
