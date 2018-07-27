@@ -20,6 +20,7 @@ namespace Workbench.ViewModels
         private ICommand _addExpressionConstraintCommand;
         private ICommand _addAllDifferentConstraintCommand;
         private ICommand _editCommand;
+        private CommandHandler _deleteCommand;
 
         /// <summary>
         /// Initialize a solution designer view model with default values.
@@ -42,7 +43,8 @@ namespace Workbench.ViewModels
             AddDomainCommand = new CommandHandler(AddDomainAction);
             AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
             AddExpressionConstraintCommand = new CommandHandler(AddExpressionConstraintAction);
-            EditCommand = new CommandHandler(EditAction, IsItemEditable);
+            EditCommand = new CommandHandler(EditAction, IsItemSelected);
+            DeleteCommand = new CommandHandler(DeleteAction, IsItemSelected);
         }
 
         /// <summary>
@@ -143,6 +145,19 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets the delete command.
+        /// </summary>
+        public CommandHandler DeleteCommand
+        {
+            get => _deleteCommand;
+            set
+            {
+                _deleteCommand = value; 
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
         /// Add a new singleton variable.
         /// </summary>
         /// <param name="newVariableModel">New variable.</param>
@@ -211,17 +226,14 @@ namespace Workbench.ViewModels
         /// Delete the variable.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
-        public void DeleteVariable(VariableModel variableToDelete)
+        public void DeleteVariable(VariableModelItemViewModel variableToDelete)
         {
             Contract.Requires<ArgumentNullException>(variableToDelete != null);
 
-#if false
             Items.Remove(variableToDelete);
             Variables.Remove(variableToDelete);
             DeactivateItem(variableToDelete, close: true);
             DeleteVariableFromModel(variableToDelete);
-            
-#endif
         }
 
         /// <summary>
@@ -396,8 +408,8 @@ namespace Workbench.ViewModels
             var x = _windowManager.ShowDialog(expressionConstraintEditViewModel);
             if (!x.HasValue) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditViewModel.ConstraintName)
-                                                                              .WithExpression(expressionConstraintEditViewModel.ConstraintExpression)
-                                                                              .Build());
+                                                                               .WithExpression(expressionConstraintEditViewModel.ConstraintExpression)
+                                                                               .Build());
         }
 
         private void AddAllDifferentConstraintAction()
@@ -406,8 +418,8 @@ namespace Workbench.ViewModels
             var x = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
             if (!x.HasValue) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
-                                                                                  .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
-                                                                                  .Build());
+                                                                                   .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
+                                                                                   .Build());
         }
 
         private void EditAction()
@@ -416,7 +428,30 @@ namespace Workbench.ViewModels
             ActiveItem.Edit();
         }
 
-        private bool IsItemEditable(object parameter)
+        private void DeleteAction()
+        {
+            Contract.Assume(ActiveItem != null);
+
+            switch (ActiveItem)
+            {
+                case VariableModelItemViewModel variableItem:
+                    DeleteVariable(variableItem);
+                    break;
+
+                case ConstraintModelItemViewModel constraintItem:
+                    DeleteConstraint(constraintItem);
+                    break;
+
+                case DomainModelItemViewModel domainItem:
+                    DeleteDomain(domainItem);
+                    break;
+
+                default:
+                    throw new NotImplementedException("Unknown item.");
+            }
+        }
+
+        private bool IsItemSelected(object parameter)
         {
             return ActiveItem != null;
         }

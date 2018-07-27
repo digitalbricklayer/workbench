@@ -25,7 +25,7 @@
             <Button x:Name="AddDomainButton" Command="{Binding AddDomainCommand}">Add Domain...</Button>
             <Button x:Name="EditButton" Command="{Binding EditCommand}">Edit...</Button>
             <Separator/>
-            <Button x:Name="Delete">Delete</Button>
+            <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}">Delete</Button>
         </StackPanel>
         <ListBox x:Name="Items" SelectionMode="Single"/>
     </DockPanel>

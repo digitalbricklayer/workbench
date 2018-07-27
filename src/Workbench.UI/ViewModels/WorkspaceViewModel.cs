@@ -216,24 +216,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void DeleteSelectedGraphics()
         {
-            /*
-             * TODO: this is awful. need something that ties both the editor and 
-             * viewer together so that both can be deleted easily. If I'm on the 
-             * editor and move to the viewer I probably will expect the editor that 
-             * is selected on the editor to be selected on the viewer as well.
-             */
-        }
-
-        /// <summary>
-        /// Delete the variable from the view-model.
-        /// </summary>
-        public void DeleteVariable(VariableModel variable)
-        {
-            Contract.Requires<ArgumentNullException>(variable != null);
-
-            ModelEditor.DeleteVariable(variable);
-            IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variable));
         }
 
         public void BindTo(SolutionModel theSolution)
