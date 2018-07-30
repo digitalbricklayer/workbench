@@ -48,14 +48,6 @@ namespace Workbench.ViewModels
         public WorkspaceModel WorkspaceModel { get; }
 
         /// <summary>
-        /// Gets the display model.
-        /// </summary>
-        public DisplayModel Display
-        {
-            get { return WorkspaceModel.Display; }
-        }
-
-        /// <summary>
         /// Gets or sets the model editor.
         /// </summary>
         public ModelEditorTabViewModel ModelEditor

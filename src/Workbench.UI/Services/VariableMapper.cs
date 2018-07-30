@@ -17,7 +17,7 @@ namespace Workbench.Services
             this.eventAggregator = theEventAggregator;
         }
 
-        public SingletonVariableModelItemViewModel MapFrom(SingletonVariableGraphicModel theVariableModel)
+        public SingletonVariableModelItemViewModel MapFrom(SingletonVariableModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
@@ -32,7 +32,7 @@ namespace Workbench.Services
 #endif
         }
 
-        public AggregateVariableModelItemViewModel MapFrom(AggregateVariableGraphicModel theVariableModel)
+        public AggregateVariableModelItemViewModel MapFrom(AggregateVariableModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 

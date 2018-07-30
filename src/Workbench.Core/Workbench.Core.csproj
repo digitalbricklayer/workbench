@@ -189,7 +189,6 @@
     <Compile Include="Models\TableRowModel.cs" />
     <Compile Include="Models\TableVisualizerModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
-    <Compile Include="Models\SingletonVariableGraphicModel.cs" />
     <Compile Include="Models\SingletonVariableModel.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
     <Compile Include="Models\ValueModel.cs" />
@@ -245,21 +244,16 @@
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Grammars\ConstraintGrammar.cs" />
-    <Compile Include="Models\AllDifferentConstraintGraphicModel.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
     <Compile Include="Models\ChessboardVisualizerModel.cs" />
     <Compile Include="Models\ChessPieceModel.cs" />
     <Compile Include="Models\ChessboardSquareModel.cs" />
-    <Compile Include="Models\ConstraintGraphicModel.cs" />
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\LabelModel.cs" />
-    <Compile Include="Models\AggregateVariableGraphicModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
-    <Compile Include="Models\ExpressionConstraintGraphicModel.cs" />
     <Compile Include="Models\DomainExpressionModel.cs" />
-    <Compile Include="Models\DomainGraphicModel.cs" />
     <Compile Include="Models\GraphicModel.cs" />
     <Compile Include="Models\AbstractModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />
@@ -268,7 +262,6 @@
     <Compile Include="Models\RangeExpression.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\VariableDomainExpressionModel.cs" />
-    <Compile Include="Models\VariableGraphicModel.cs" />
     <Compile Include="Models\WorkspaceModel.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceExpressionNode.cs" />
     <Compile Include="Nodes\AggregateVariableReferenceNode.cs" />

@@ -32,8 +32,6 @@ namespace Workbench.Core.Models
         {
             var newVariable = new SingletonVariableModel(this.workspace.Model, new ModelName(theVariableName), new VariableDomainExpressionModel(theDomainExpression));
             this.workspace.Model.AddVariable(newVariable);
-            var newVariableGraphic = new SingletonVariableGraphicModel(newVariable);
-            this.workspace.Display.AddVisualizer(newVariableGraphic);
 
             return this;
         }
@@ -49,8 +47,6 @@ namespace Workbench.Core.Models
         {
             var newVariable = new AggregateVariableModel(this.workspace.Model, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddVariable(newVariable);
-            var newVariableGraphic = new AggregateVariableGraphicModel(newVariable);
-            this.workspace.Display.AddVisualizer(newVariableGraphic);
 
             return this;
         }
@@ -59,16 +55,13 @@ namespace Workbench.Core.Models
         {
             var newDomain = new DomainModel(new ModelName(newDomainName), new DomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddSharedDomain(newDomain);
-            var newDomainGraphic = new DomainGraphicModel(newDomain, new Point(1, 1));
-            this.workspace.Display.AddVisualizer(newDomainGraphic);
 
             return this;
         }
 
-        public WorkspaceContext WithSharedDomain(DomainGraphicModel theDomainGraphic)
+        public WorkspaceContext WithSharedDomain(DomainModel theDomain)
         {
-            this.workspace.Model.AddSharedDomain(theDomainGraphic.Domain);
-            this.workspace.Display.AddVisualizer(theDomainGraphic);
+            this.workspace.Model.AddSharedDomain(theDomain);
             return this;
         }
 
@@ -76,8 +69,6 @@ namespace Workbench.Core.Models
         {
             var theConstraintModel = new ExpressionConstraintModel(new ConstraintExpressionModel(theConstraintExpression));
             this.workspace.Model.AddConstraint(theConstraintModel);
-            var constraintGraphic = new ExpressionConstraintGraphicModel(theConstraintModel, new Point(0, 0));
-            this.workspace.Display.AddVisualizer(constraintGraphic);
             return this;
         }
 
@@ -85,8 +76,6 @@ namespace Workbench.Core.Models
         {
             var newConstraint = new AllDifferentConstraintModel(new AllDifferentConstraintExpressionModel(theExpression));
             this.workspace.Model.AddConstraint(newConstraint);
-            var newConstraintGraphic = new AllDifferentConstraintGraphicModel(newConstraint, new Point(0, 0));
-            this.workspace.Display.AddVisualizer(newConstraintGraphic);
             return this;
         }
 
@@ -149,18 +138,6 @@ namespace Workbench.Core.Models
             this.workspace.AddVisualizer(theTableVisualizer);
 
             return this;
-        }
-
-        public ModelModel GetModel()
-        {
-            Contract.Assume(this.workspace != null);
-            return this.workspace.Model;
-        }
-
-        public DisplayModel GetDisplay()
-        {
-            Contract.Assume(this.workspace != null);
-            return this.workspace.Display;
         }
 
         public WorkspaceModel Build()
