@@ -216,12 +216,6 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
-    <Compile Include="Controls\AdornedControl.cs" />
-    <Compile Include="Controls\AdornerEventArgs.cs" />
-    <Compile Include="Controls\AdornerPlacement.cs" />
-    <Compile Include="Controls\EditableTextBlock.cs" />
-    <Compile Include="Controls\EditableTextBlockAdorner.cs" />
-    <Compile Include="Controls\FrameworkElementAdorner.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
@@ -263,7 +257,6 @@
     <Compile Include="Views\DomainModelItemView.xaml.cs">
       <DependentUpon>DomainModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GraphicDragEvents.cs" />
     <Compile Include="DefaultDataService.cs" />
     <Compile Include="DefaultViewModelService.cs" />
     <Compile Include="DomainBuilder.cs" />
@@ -507,6 +500,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\question2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
