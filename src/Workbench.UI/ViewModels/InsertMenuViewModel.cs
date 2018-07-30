@@ -76,9 +76,9 @@ namespace Workbench.ViewModels
             var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
             if (!x.HasValue) return;
             this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
-                                                                             .WithDomain(singletonVariableEditorViewModel.DomainExpression)
-                                                                             .WithModel(Workspace.WorkspaceModel.Model)
-                                                                             .Build());
+                                                                              .WithDomain(singletonVariableEditorViewModel.DomainExpression)
+                                                                              .WithModel(Workspace.WorkspaceModel.Model)
+                                                                              .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -87,7 +87,12 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAggregateVariableAction()
         {
-            var newAggregate = new AggregateVariableBuilder().WithName("New Variable")
+            var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
+            var x = this.windowManager.ShowDialog(aggregateVariableEditorViewModel);
+            if (!x.HasValue) return;
+            var newAggregate = new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
+                                                             .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
+                                                             .WithSize(aggregateVariableEditorViewModel.Size)
                                                              .WithModel(Workspace.WorkspaceModel.Model)
                                                              .Build();
             this.Workspace.AddAggregateVariable(newAggregate);
@@ -99,8 +104,12 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddExpressionConstraintAction()
         {
-            Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("New Constraint")
-                    .Build());
+            var expressionConstraintEditorViewModel = new ExpressionConstraintEditorViewModel();
+            var x = this.windowManager.ShowDialog(expressionConstraintEditorViewModel);
+            if (!x.HasValue) return;
+            Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditorViewModel.ConstraintName)
+                                                                               .WithExpression(expressionConstraintEditorViewModel.ConstraintExpression)
+                                                                               .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -109,8 +118,12 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAllDifferentConstraintAction()
         {
-            Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName("New Constraint")
-                                                                                  .Build());
+            var allDifferentConstraintEditorViewModel = new AllDifferentConstraintEditorViewModel();
+            var x = this.windowManager.ShowDialog(allDifferentConstraintEditorViewModel);
+            if (!x.HasValue) return;
+            Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditorViewModel.ConstraintName)
+                                                                                   .WithExpression(allDifferentConstraintEditorViewModel.ConstraintExpression)
+                                                                                   .Build());
             this.titleBar.UpdateTitle();
         }
 
@@ -119,8 +132,12 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddDomainAction()
         {
-            this.Workspace.AddDomain(new DomainBuilder().WithName("New Domain")
-                                                       .Build());
+            var domainEditorViewModel = new DomainEditorViewModel();
+            var x = this.windowManager.ShowDialog(domainEditorViewModel);
+            if (!x.HasValue) return;
+            this.Workspace.AddDomain(new DomainBuilder().WithName(domainEditorViewModel.DomainName)
+                                                        .WithDomain(domainEditorViewModel.DomainExpression)
+                                                        .Build());
             this.titleBar.UpdateTitle();
         }
     }
