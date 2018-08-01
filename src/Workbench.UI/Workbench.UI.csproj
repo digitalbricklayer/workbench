@@ -223,6 +223,8 @@
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\DomainEditorViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
+    <Compile Include="ViewModels\SolutionStatsPanelViewModel.cs" />
+    <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
@@ -245,6 +247,7 @@
     <Compile Include="Views\DomainEditorView.xaml.cs">
       <DependentUpon>DomainEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LabelDataTemplateSelector.cs" />
     <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
       <DependentUpon>SingletonVariableEditorView.xaml</DependentUpon>
     </Compile>
@@ -296,7 +299,7 @@
     <Compile Include="ViewModels\SingletonVariableModelItemViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
-    <Compile Include="ViewModels\SnapshotViewerViewModel.cs" />
+    <Compile Include="ViewModels\SolutionViewerTabViewModel.cs" />
     <Compile Include="ViewModels\VariableModelItemViewModel.cs" />
     <Compile Include="ViewModels\ModelEditorTabViewModel.cs" />
     <Compile Include="ViewModels\SolutionEditorViewModel.cs" />
@@ -339,6 +342,15 @@
     </Compile>
     <Compile Include="Views\SingletonVariableModelItemView.xaml.cs">
       <DependentUpon>SingletonVariableModelItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SolutionStatsPanelView.xaml.cs">
+      <DependentUpon>SolutionStatsPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SolutionViewerTabView.xaml.cs">
+      <DependentUpon>SolutionViewerTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SolutionViewerPanelView.xaml.cs">
+      <DependentUpon>SolutionViewerPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WorkspaceView.xaml.cs">
       <DependentUpon>WorkspaceView.xaml</DependentUpon>
@@ -417,6 +429,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SingletonVariableModelItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionStatsPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionViewerTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SolutionViewerPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

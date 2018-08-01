@@ -56,9 +56,9 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
 
                 var actualSnapshot = actualResult.Snapshot;
-                var singletonVariableCount = actualSnapshot.SingletonValues.Count;
+                var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
                 Assert.That(singletonVariableCount, Is.EqualTo(3));
-                Assert.That(actualSnapshot.AggregateValues, Is.Empty);
+                Assert.That(actualSnapshot.AggregateLabels, Is.Empty);
             }
         }
 

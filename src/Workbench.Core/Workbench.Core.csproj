@@ -182,6 +182,7 @@
     <Compile Include="Models\ExpressionConstraintModel.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelName.cs" />
+    <Compile Include="Models\LabelModel.cs" />
     <Compile Include="Models\TableCellModel.cs" />
     <Compile Include="Models\TableColumnData.cs" />
     <Compile Include="Models\TableColumnModel.cs" />
@@ -250,7 +251,7 @@
     <Compile Include="Models\ChessboardSquareModel.cs" />
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\LabelModel.cs" />
+    <Compile Include="Models\SingletonLabelModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
     <Compile Include="Models\DomainExpressionModel.cs" />

@@ -70,7 +70,7 @@ namespace Workbench.Core.Solver
             {
                 var solverValue = theSolutionCollector.Value(0, variableTuple.Value.Item2);
                 var modelValue = ConvertSolverValueToModel(variableTuple.Value.Item1, solverValue);
-                var newValue = new LabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
+                var newValue = new SingletonLabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
                 this.snapshot.AddSingletonValue(newValue);
             }
         }

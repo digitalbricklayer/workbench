@@ -62,8 +62,8 @@ namespace Workbench.Core.Tests.Unit.Solver
                 var actualResult = sut.Solve(MakeModel());
 
                 var actualSnapshot = actualResult.Snapshot;
-                var singletonVariableCount = actualSnapshot.SingletonValues.Count;
-                var aggregateVariableCount = actualSnapshot.AggregateValues.Count;
+                var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
+                var aggregateVariableCount = actualSnapshot.AggregateLabels.Count;
                 Assert.That(singletonVariableCount, Is.EqualTo(0));
                 Assert.That(aggregateVariableCount, Is.EqualTo(1));
             }

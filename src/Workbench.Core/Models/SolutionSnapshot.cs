@@ -11,18 +11,18 @@ namespace Workbench.Core.Models
     [Serializable]
     public sealed class SolutionSnapshot
     {
-        private readonly List<LabelModel> singletonLabels;
+        private readonly List<SingletonLabelModel> singletonLabels;
         private readonly List<CompoundLabelModel> compoundLabels;
         private TimeSpan duration;
 
         /// <summary>
         /// Initialize a solution snapshot with singleton labels, compound labels and the solution duration.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<LabelModel> theSingletonValues, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
+        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonValues, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
         {
-            this.singletonLabels = new List<LabelModel>(theSingletonValues);
+            this.singletonLabels = new List<SingletonLabelModel>(theSingletonValues);
             this.compoundLabels = new List<CompoundLabelModel>(theCompoundLabels);
-	    this.duration = theDuration;
+	        this.duration = theDuration;
         }
 
         /// <summary>
@@ -30,18 +30,18 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionSnapshot()
         {
-            this.singletonLabels = new List<LabelModel>();
+            this.singletonLabels = new List<SingletonLabelModel>();
             this.compoundLabels = new List<CompoundLabelModel>();
         }
 
         /// <summary>
         /// Gets the singleton variable values.
         /// </summary>
-        public IReadOnlyCollection<LabelModel> SingletonValues
+        public IReadOnlyCollection<SingletonLabelModel> SingletonLabels
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<LabelModel>>() != null);
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<SingletonLabelModel>>() != null);
                 return this.singletonLabels.ToList();
             }
         }
@@ -49,7 +49,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the aggregate variable values.
         /// </summary>
-        public IReadOnlyCollection<CompoundLabelModel> AggregateValues
+        public IReadOnlyCollection<CompoundLabelModel> AggregateLabels
         {
             get
             {
@@ -70,11 +70,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Add a label to the snapshot.
         /// </summary>
-        /// <param name="newLabel">Singleton value.</param>
-        internal void AddSingletonValue(LabelModel newLabel)
+        /// <param name="newSingletonLabel">Singleton value.</param>
+        internal void AddSingletonValue(SingletonLabelModel newSingletonLabel)
         {
-            Contract.Requires<ArgumentNullException>(newLabel != null);
-            this.singletonLabels.Add(newLabel);
+            Contract.Requires<ArgumentNullException>(newSingletonLabel != null);
+            this.singletonLabels.Add(newSingletonLabel);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theSingletonVariableName">Singleton variable name.</param>
         /// <returns>Label for the singleton variable.</returns>
-        public LabelModel GetLabelByVariableName(string theSingletonVariableName)
+        public SingletonLabelModel GetLabelByVariableName(string theSingletonVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
             return this.singletonLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);

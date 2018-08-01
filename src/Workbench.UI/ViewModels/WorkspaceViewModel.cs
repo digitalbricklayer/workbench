@@ -18,6 +18,7 @@ namespace Workbench.ViewModels
         private readonly IWindowManager windowManager;
         private ModelEditorTabViewModel _modelEditor;
         private readonly IViewModelFactory _viewModelFactory;
+        private SolutionViewerTabViewModel _solutionViewer;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -59,6 +60,19 @@ namespace Workbench.ViewModels
             set
             {
                 this._modelEditor = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the solution viewer.
+        /// </summary>
+        public SolutionViewerTabViewModel SolutionViewer
+        {
+            get => _solutionViewer;
+            set
+            {
+                _solutionViewer = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -213,6 +227,9 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             BindTo(theSolution);
+            SolutionViewer = new SolutionViewerTabViewModel();
+            ActivateItem(SolutionViewer);
+            SolutionViewer.BindTo(theSolution);
         }
 
         /// <summary>

@@ -11,29 +11,30 @@ namespace Workbench.Core.Models
     /// A compound label matches the values bound to an aggregate variable with the variable itself.
     /// </summary>
     [Serializable]
-    public class CompoundLabelModel
+    public class CompoundLabelModel : LabelModel
     {
         private readonly List<ValueModel> valueBindings;
 
         /// <summary>
         /// Initialize a compound label with the variable and valueBindings.
         /// </summary>
-        /// <param name="theModel">Variable model.</param>
+        /// <param name="theAggregateVariable">Variable model.</param>
         /// <param name="theValueBindings">Values to bind to the model.</param>
-        public CompoundLabelModel(VariableModel theModel, IReadOnlyCollection<ValueModel> theValueBindings)
+        public CompoundLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValueBindings)
+            : base(theAggregateVariable)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theAggregateVariable != null);
             Contract.Requires<ArgumentNullException>(theValueBindings != null);
             Contract.Requires<ArgumentException>(theValueBindings.Any());
 
-            Variable = theModel;
+            AggregateVariable = theAggregateVariable;
             this.valueBindings = new List<ValueModel>(theValueBindings);
         }
 
         /// <summary>
         /// Gets the variable associated with the valueBindings.
         /// </summary>
-        public VariableModel Variable { get; private set; }
+        public AggregateVariableModel AggregateVariable { get; private set; }
 
         /// <summary>
         /// Gets the value bindings.
@@ -62,26 +63,13 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the variable name.
-        /// </summary>
-        public string VariableName
-        {
-            get
-            {
-                Contract.Assume(Variable != null);
-                return Variable.Name.Text;
-            }
-        }
-
-        /// <summary>
         /// Gets a text representation of the value.
         /// </summary>
-        public string Text
+        public override string Text
         {
             get
             {
                 var textBuilder = new StringBuilder();
-                textBuilder.Append(VariableName);
                 foreach (var value in Values)
                 {
                     textBuilder.Append(" " + value);

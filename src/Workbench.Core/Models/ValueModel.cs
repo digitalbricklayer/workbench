@@ -20,6 +20,11 @@ namespace Workbench.Core.Models
             Model = theModelValue;
         }
 
+        public override string ToString()
+        {
+            return Model.ToString();
+        }
+
         /// <summary>
         /// Gets the model value.
         /// </summary>

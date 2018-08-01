@@ -29,14 +29,14 @@ namespace Workbench.Services
         public WorkspaceViewerViewModel MapFrom(SolutionModel theSolutionModel)
         {
             var solutionViewModel = new WorkspaceViewerViewModel(theSolutionModel);
-            foreach (var valueModel in theSolutionModel.Snapshot.SingletonValues)
+            foreach (var valueModel in theSolutionModel.Snapshot.SingletonLabels)
             {
-                solutionViewModel.AddValue(valueModel);
+                solutionViewModel.AddLabel(valueModel);
             }
 
-            foreach (var anAggregateValue in theSolutionModel.Snapshot.AggregateValues)
+            foreach (var anAggregateValue in theSolutionModel.Snapshot.AggregateLabels)
             {
-                solutionViewModel.AddValue(anAggregateValue);
+                solutionViewModel.AddLabel(anAggregateValue);
             }
            
             return solutionViewModel;

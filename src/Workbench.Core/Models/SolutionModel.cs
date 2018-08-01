@@ -63,7 +63,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Text of the variable to find.</param>
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
-        public LabelModel GetLabelByVariableName(string theVariableName)
+        public SingletonLabelModel GetLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return Snapshot.GetLabelByVariableName(theVariableName);
