@@ -227,7 +227,15 @@ namespace Workbench.ViewModels
         private void DisplaySolution(SolutionModel theSolution)
         {
             BindTo(theSolution);
-            SolutionViewer = new SolutionViewerTabViewModel();
+            /*
+             * There is only ever one solution viewer, so re-use the same
+             * view model if it already exists.
+             */
+            if (SolutionViewer == null)
+            {
+                SolutionViewer = new SolutionViewerTabViewModel();
+            }
+
             ActivateItem(SolutionViewer);
             SolutionViewer.BindTo(theSolution);
         }

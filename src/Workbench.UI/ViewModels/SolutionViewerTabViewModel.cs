@@ -45,14 +45,6 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Reset the contents of the solution.
-        /// </summary>
-        public void Reset()
-        {
-            Viewer.Reset();
-        }
-
-        /// <summary>
         /// Add a label.
         /// </summary>
         /// <param name="newLabel">New label.</param>
@@ -64,6 +56,7 @@ namespace Workbench.ViewModels
 
         public void BindTo(SolutionModel theSolution)
         {
+            Viewer.Reset();
             Viewer.BindTo(theSolution);
             Stats.BindTo(theSolution);
         }
