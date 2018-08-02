@@ -13,38 +13,38 @@ namespace Workbench.Core.Models
     [Serializable]
     public class CompoundLabelModel : LabelModel
     {
-        private readonly List<ValueModel> valueBindings;
+        private readonly List<ValueModel> values;
 
         /// <summary>
-        /// Initialize a compound label with the variable and valueBindings.
+        /// Initialize a compound label with the variable and values.
         /// </summary>
         /// <param name="theAggregateVariable">Variable model.</param>
-        /// <param name="theValueBindings">Values to bind to the model.</param>
-        public CompoundLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValueBindings)
+        /// <param name="theValues">Values to bind to the model.</param>
+        public CompoundLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
             : base(theAggregateVariable)
         {
             Contract.Requires<ArgumentNullException>(theAggregateVariable != null);
-            Contract.Requires<ArgumentNullException>(theValueBindings != null);
-            Contract.Requires<ArgumentException>(theValueBindings.Any());
+            Contract.Requires<ArgumentNullException>(theValues != null);
+            Contract.Requires<ArgumentException>(theValues.Any());
 
             AggregateVariable = theAggregateVariable;
-            this.valueBindings = new List<ValueModel>(theValueBindings);
+            this.values = new List<ValueModel>(theValues);
         }
 
         /// <summary>
-        /// Gets the variable associated with the valueBindings.
+        /// Gets the variable associated with the values.
         /// </summary>
         public AggregateVariableModel AggregateVariable { get; private set; }
 
         /// <summary>
-        /// Gets the value bindings.
+        /// Gets the values.
         /// </summary>
         public IReadOnlyCollection<ValueModel> Bindings
         {
             get
             {
-                Contract.Assume(this.valueBindings != null);
-                return new ReadOnlyCollection<ValueModel>(this.valueBindings);
+                Contract.Assume(this.values != null);
+                return new ReadOnlyCollection<ValueModel>(this.values);
             }
         }
 
@@ -55,8 +55,8 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(this.valueBindings != null);
-                var theValues = this.valueBindings.Select(binding => binding.Model)
+                Contract.Assume(this.values != null);
+                var theValues = this.values.Select(binding => binding.Model)
                                            .ToList();
                 return new ReadOnlyCollection<object>(theValues);
             }
@@ -88,7 +88,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
 
-            var theValue = this.valueBindings[index];
+            var theValue = this.values[index];
             return theValue.Model;
         }
 
@@ -101,7 +101,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
 
-            return this.valueBindings[index];
+            return this.values[index];
         }
     }
 }

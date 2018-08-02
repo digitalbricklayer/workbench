@@ -1,7 +1,9 @@
+using System;
 using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
+    [Serializable]
     public abstract class LabelModel
     {
         protected LabelModel(VariableModel theVariable)

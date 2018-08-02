@@ -5,7 +5,7 @@ using Workbench.Core.Solver;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// Workspace model where the model and solution are stored.
+    /// The workspace contains all of the model and a solution if the model has been solved successfully.
     /// </summary>
     [Serializable]
     public class WorkspaceModel : AbstractModel

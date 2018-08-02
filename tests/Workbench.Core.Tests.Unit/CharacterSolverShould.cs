@@ -24,11 +24,11 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var aValue = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
-            var actualModelValues = aValue.Bindings.Select(_ => _.Model)
+            var aLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
+            var actualModelValues = aLabel.Bindings.Select(_ => _.Model)
 												   .ToList();
-            Assert.That(aValue.Values, Is.Unique);
-            Assert.That(aValue.Values, Is.All.TypeOf<char>());
+            Assert.That(aLabel.Values, Is.Unique);
+            Assert.That(aLabel.Values, Is.All.TypeOf<char>());
             Assert.That(actualModelValues, Is.All.InRange('a', 'z')
                                                  .Using(new CharacterRangeComparer()));
         }
