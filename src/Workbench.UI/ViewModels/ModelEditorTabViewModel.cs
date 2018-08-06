@@ -158,6 +158,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Get whether the currently selected tab be closed by the user.
+        /// </summary>
+        public bool CloseTabIsVisible => false;
+
+        public void CloseTab()
+        {
+            Contract.Assume(!CloseTabIsVisible);
+            throw new NotImplementedException("User in not permitted to close this tab.");
+        }
+
+        /// <summary>
         /// Add a new singleton variable.
         /// </summary>
         /// <param name="newVariableModel">New variable.</param>

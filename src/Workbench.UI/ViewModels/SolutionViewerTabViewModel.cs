@@ -44,6 +44,8 @@ namespace Workbench.ViewModels
             }
         }
 
+        public bool CloseTabIsVisible => false;
+
         /// <summary>
         /// Add a label.
         /// </summary>
@@ -59,6 +61,12 @@ namespace Workbench.ViewModels
             Viewer.Reset();
             Viewer.BindTo(theSolution);
             Stats.BindTo(theSolution);
+        }
+
+        public void CloseTab()
+        {
+            Contract.Assume(!CloseTabIsVisible);
+            throw new NotImplementedException("User in not permitted to close this tab.");
         }
 
         protected override void OnInitialize()

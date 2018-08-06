@@ -21,7 +21,7 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Label >Variable name:</Label>
+                <Label>Variable name:</Label>
                 <TextBox Name="VariableName" MinWidth="250"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

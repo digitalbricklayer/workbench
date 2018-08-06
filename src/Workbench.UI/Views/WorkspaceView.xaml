@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
     <UserControl.InputBindings>
         <KeyBinding Key="Delete"
                     Command="{Binding DeleteCommand}"
@@ -14,8 +18,19 @@
 
     <Grid>
         <!-- Workspace -->
-        <TabControl x:Name="Items"
-                    BorderThickness="0"
-                    TabStripPlacement="Bottom" />
+        <TabControl x:Name="Items" BorderThickness="0" TabStripPlacement="Bottom">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DisplayName}" />
+                        <!-- The grid will not appear if CanCloseIsVisible is false, therefore the close button will also not be displayed -->
+                        <Grid Visibility="{Binding CloseTabIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <!-- The tab close button -->
+                            <Button x:Name="CloseTab" Content="x" />
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
     </Grid>
 </UserControl>
