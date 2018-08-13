@@ -12,31 +12,28 @@ namespace Workbench.ViewModels
         private DataTable dataTable;
         private int? selectedIndex;
         private object selectedColumn;
-        private readonly IConductor parent;
 
-        public TableViewModel(TableModel theModel, IConductor theParent)
+        public TableViewModel(TableModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theParent != null);
 
             this.model = theModel;
-            this.parent = theParent;
             this.dataTable = CreateDataTable();
             Contract.Assert(!this.dataTable.HasErrors);
         }
 
         /// <summary>
-        /// Gets the map model.
+        /// Gets the table model.
         /// </summary>
-        public TableModel Grid
+        public TableModel Table
         {
             get { return this.model; }
         }
 
         /// <summary>
-        /// Gets or sets the data table for the grid.
+        /// Gets or sets the data table.
         /// </summary>
-        public DataTable Table
+        public DataTable Data
         {
             get
             {
@@ -72,32 +69,32 @@ namespace Workbench.ViewModels
         public void AddColumn(TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            Grid.AddColumn(newColumn);
-            Table = CreateDataTable();
+            Table.AddColumn(newColumn);
+            Data = CreateDataTable();
         }
 
         public void AddRow(TableRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
-            Grid.AddRow(theNewRow);
+            Table.AddRow(theNewRow);
             AddRowToTable(this.dataTable, theNewRow);
         }
 
         public TableRowModel GetRowAt(int rowIndex)
         {
-            return Grid.GetRowAt(rowIndex);
+            return Table.GetRowAt(rowIndex);
         }
 
         public void Resize(int newColumnCount, int newRowCount)
         {
-            if (newColumnCount > Grid.Columns.Count)
+            if (newColumnCount > Table.Columns.Count)
             {
-                for (var i = Grid.Columns.Count; i < newColumnCount; i++)
+                for (var i = Table.Columns.Count; i < newColumnCount; i++)
                 {
                     AddColumn(new TableColumnModel(Convert.ToString(i)));
                 }
             }
-            Grid.Resize(newColumnCount, newRowCount);
+            Table.Resize(newColumnCount, newRowCount);
         }
 
         public void DeleteColumnSelected()
@@ -106,17 +103,17 @@ namespace Workbench.ViewModels
 //            DeleteRowFromTable(SelectedColumn);
         }
 
-        private void PopulateGridColumns(DataTable newTable)
+        private void PopulateTableColumns(DataTable newTable)
         {
-            foreach (var column in Grid.Columns)
+            foreach (var column in Table.Columns)
             {
                 AddColumnToTable(newTable, column);
             }
         }
 
-        private void PopulateGridRows(DataTable newTable)
+        private void PopulateTableRows(DataTable newTable)
         {
-            foreach (var row in Grid.Rows)
+            foreach (var row in Table.Rows)
             {
                 AddRowToTable(newTable, row);
             }
@@ -145,8 +142,8 @@ namespace Workbench.ViewModels
         {
             var newTable = new DataTable();
             newTable.RowChanged += OnRowChanged;
-            PopulateGridColumns(newTable);
-            PopulateGridRows(newTable);
+            PopulateTableColumns(newTable);
+            PopulateTableRows(newTable);
             newTable.AcceptChanges();
             return newTable;
         }
@@ -165,7 +162,7 @@ namespace Workbench.ViewModels
             {
                 case DataRowAction.Change:
                     // Keep the model in sync with changes to the grid control
-                    var selectedRow = Grid.GetRowAt(SelectedIndex.Value);
+                    var selectedRow = Table.GetRowAt(SelectedIndex.Value);
                     selectedRow.UpdateCellsFrom(args.Row.ItemArray);
                     break;
             }

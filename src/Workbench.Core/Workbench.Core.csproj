@@ -188,7 +188,7 @@
     <Compile Include="Models\TableColumnModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\TableRowModel.cs" />
-    <Compile Include="Models\TableVisualizerModel.cs" />
+    <Compile Include="Models\TableTabModel.cs" />
     <Compile Include="Models\ModelValidationContext.cs" />
     <Compile Include="Models\SingletonVariableModel.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
@@ -196,7 +196,7 @@
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
-    <Compile Include="Models\VisualizerTitle.cs" />
+    <Compile Include="Models\WorkspaceTabTitle.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
     <Compile Include="Nodes\BandExpressionNode.cs" />
     <Compile Include="Nodes\CharacterLiteralNode.cs" />

@@ -219,12 +219,14 @@
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
-    <Compile Include="ViewModels\ITabViewModel.cs" />
+    <Compile Include="ViewModels\IWorkspaceTabViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\DomainEditorViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionStatsPanelViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
+    <Compile Include="ViewModels\TableMenuViewModel.cs" />
+    <Compile Include="ViewModels\TableTabViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
@@ -346,6 +348,9 @@
     <Compile Include="Views\SolutionStatsPanelView.xaml.cs">
       <DependentUpon>SolutionStatsPanelView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TableTabView.xaml.cs">
+      <DependentUpon>TableTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SolutionViewerTabView.xaml.cs">
       <DependentUpon>SolutionViewerTabView.xaml</DependentUpon>
     </Compile>
@@ -435,6 +440,10 @@
     <Page Include="Views\SolutionStatsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TableTabView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SolutionViewerTabView.xaml">
       <SubType>Designer</SubType>

@@ -6,14 +6,14 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VisualizerModel : GraphicModel
     {
-        private VisualizerTitle title;
+        private WorkspaceTabTitle title;
 
         /// <summary>
         /// Initialize an unbound visualizer with a name and location.
         /// </summary>
         /// <param name="theModel"></param>
         /// <param name="theTitle"></param>
-        protected VisualizerModel(Model theModel, VisualizerTitle theTitle)
+        protected VisualizerModel(Model theModel, WorkspaceTabTitle theTitle)
             : base(theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -24,7 +24,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the visualizer title.
         /// </summary>
-        public VisualizerTitle Title
+        public WorkspaceTabTitle Title
         {
             get { return this.title; }
             set

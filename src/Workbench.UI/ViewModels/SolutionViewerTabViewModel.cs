@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the built-in solution viewer.
     /// </summary>
-    public sealed class SolutionViewerTabViewModel : Conductor<IScreen>.Collection.AllActive, ITabViewModel
+    public sealed class SolutionViewerTabViewModel : Conductor<IScreen>.Collection.AllActive, IWorkspaceTabViewModel
     {
         private SolutionViewerPanelViewModel _viewer;
         private SolutionStatsPanelViewModel _stats;
@@ -61,12 +61,6 @@ namespace Workbench.ViewModels
             Viewer.Reset();
             Viewer.BindTo(theSolution);
             Stats.BindTo(theSolution);
-        }
-
-        public void CloseTab()
-        {
-            Contract.Assume(!CloseTabIsVisible);
-            throw new NotImplementedException("User in not permitted to close this tab.");
         }
 
         protected override void OnInitialize()

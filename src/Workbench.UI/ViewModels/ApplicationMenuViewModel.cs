@@ -13,7 +13,8 @@ namespace Workbench.ViewModels
                                         ModelMenuViewModel theModelMenu,
                                         SolutionMenuViewModel theSolutionMenu,
                                         EditMenuViewModel theEditMenu,
-                                        InsertMenuViewModel theInsertMenu)
+                                        InsertMenuViewModel theInsertMenu,
+                                        TableMenuViewModel theTableMenu)
         {
             Contract.Requires<ArgumentNullException>(theFileMenu != null);
             Contract.Requires<ArgumentNullException>(theModelMenu != null);
@@ -26,6 +27,7 @@ namespace Workbench.ViewModels
             SolutionMenu = theSolutionMenu;
             EditMenu = theEditMenu;
             InsertMenu = theInsertMenu;
+            TableMenu = theTableMenu;
         }
 
         /// <summary>
@@ -36,21 +38,26 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the File menu.
         /// </summary>
-        public FileMenuViewModel FileMenu { get; private set; }
+        public FileMenuViewModel FileMenu { get; }
 
         /// <summary>
         /// Gets the File menu.
         /// </summary>
-        public EditMenuViewModel EditMenu { get; private set; }
+        public EditMenuViewModel EditMenu { get; }
 
         /// <summary>
         /// Gets the Model menu.
         /// </summary>
-        public ModelMenuViewModel ModelMenu { get; private set; }
+        public ModelMenuViewModel ModelMenu { get; }
 
         /// <summary>
         /// Gets the Solution menu.
         /// </summary>
-        public SolutionMenuViewModel SolutionMenu { get; private set; }
+        public SolutionMenuViewModel SolutionMenu { get; }
+
+        /// <summary>
+        /// Gets the Table menu.
+        /// </summary>
+        public TableMenuViewModel TableMenu { get; }
     }
 }

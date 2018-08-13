@@ -18,7 +18,7 @@ namespace Workbench.Core.Models
         /// <param name="theBoard"></param>
         /// <param name="theTitle"></param>
         /// <param name="theName">Text of the chessboard.</param>
-        public ChessboardVisualizerModel(ChessboardModel theBoard, VisualizerTitle theTitle)
+        public ChessboardVisualizerModel(ChessboardModel theBoard, WorkspaceTabTitle theTitle)
             : base(theBoard, theTitle)
         {
             this.chessboard = theBoard;

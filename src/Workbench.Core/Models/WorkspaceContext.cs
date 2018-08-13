@@ -84,7 +84,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
             var theChessboard = new ChessboardModel(new ModelName(theVisualizerName));
-            var theChessboardVisualizer = new ChessboardVisualizerModel(theChessboard, new VisualizerTitle());
+            var theChessboardVisualizer = new ChessboardVisualizerModel(theChessboard, new WorkspaceTabTitle());
             this.workspace.AddVisualizer(theChessboardVisualizer);
             return this;
         }
@@ -97,11 +97,11 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithGridVisualizer(TableVisualizerModel theVisualizer)
+        public WorkspaceContext WithGridVisualizer(TableTabModel theTab)
         {
-            Contract.Requires<ArgumentException>(theVisualizer != null);
+            Contract.Requires<ArgumentException>(theTab != null);
 
-            this.workspace.AddVisualizer(theVisualizer);
+            this.workspace.AddVisualizer(theTab);
             return this;
         }
 
@@ -110,7 +110,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
             var tableModel = new TableModel();
-            var theTableVisualizer = new TableVisualizerModel(tableModel, new VisualizerTitle(theVisualizerName), new Point());
+            var theTableVisualizer = new TableTabModel(tableModel, new WorkspaceTabTitle(theVisualizerName));
             foreach (var columnName in columnNames)
             {
                 theTableVisualizer.AddColumn(new TableColumnModel(columnName));
@@ -126,7 +126,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(rows != null);
 
             var tableModel = new TableModel();
-            var theTableVisualizer = new TableVisualizerModel(tableModel, new VisualizerTitle(theVisualizerName), new Point());
+            var theTableVisualizer = new TableTabModel(tableModel, new WorkspaceTabTitle(theVisualizerName));
             foreach (var columnName in columnNames)
             {
                 theTableVisualizer.AddColumn(new TableColumnModel(columnName));

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -9,16 +8,16 @@ namespace Workbench.ViewModels
 {
     public sealed class TableMenuViewModel
     {
-        private readonly WorkAreaViewModel workArea;
-        private readonly IWindowManager windowManager;
+        private readonly WorkspaceViewModel _workspace;
+        private readonly IWindowManager _windowManager;
 
-        public TableMenuViewModel(IWindowManager theWindowManager, WorkAreaViewModel theWorkArea)
+        public TableMenuViewModel(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkArea != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
-            this.workArea = theWorkArea;
-            this.windowManager = theWindowManager;
+            _workspace = theWorkspace;
+            _windowManager = theWindowManager;
             AddRowAfterCommand = new CommandHandler(AddRowAfter, _ => CanEditTableExecute);
             AddColumnAfterCommand = new CommandHandler(AddColumnAfter, _ => CanEditTableExecute);
             AddRowBeforeCommand = new CommandHandler(AddRowBefore, _ => CanEditTableExecute);
@@ -60,67 +59,57 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the "Table|Edit Table" menu item can be executed.
         /// </summary>
-        public bool CanEditTableExecute
-        {
-            get { return this.workArea.GetSelectedTableVisualizers().Any(); }
-        }
+        public bool CanEditTableExecute => _workspace.ActiveItem is TableTabViewModel;
 
         private void AddColumnAfter()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            if (!selectedTableVisualizers.Any()) return;
-            var selectedTableVisualizer = selectedTableVisualizers.First();
+            var selectedTableTab = GetSelectedTableTab();
             var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this.windowManager.ShowDialog(columnNameEditor);
+            var result = this._windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
             {
-                selectedTableVisualizer.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
+                selectedTableTab.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
             }
         }
 
         private void AddRowAfter()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            Contract.Assert(selectedTableVisualizers.Any());
-            var selectedTableVisualizer = selectedTableVisualizers.First();
-            selectedTableVisualizer.AddRow(new TableRowModel());
+            var selectedTableTab = GetSelectedTableTab();
+            selectedTableTab.AddRow(new TableRowModel());
         }
 
         private void AddColumnBefore()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            Contract.Assert(selectedTableVisualizers.Any());
-            var selectedTableVisualizer = selectedTableVisualizers.First();
+            var selectedTableTab = GetSelectedTableTab();
             var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this.windowManager.ShowDialog(columnNameEditor);
+            var result = this._windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
             {
-                selectedTableVisualizer.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
+                selectedTableTab.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
             }
         }
 
         private void AddRowBefore()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            if (!selectedTableVisualizers.Any()) return;
-            var selectedTableVisualizer = selectedTableVisualizers.First();
-            selectedTableVisualizer.AddRow(new TableRowModel());
+            var selectedTableTab = GetSelectedTableTab();
+            selectedTableTab.AddRow(new TableRowModel());
         }
 
         private void DeleteSelectedColumn()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            if (!selectedTableVisualizers.Any()) return;
-            var selectedTableVisualizer = selectedTableVisualizers.First();
-            selectedTableVisualizer.DeleteColumnSelected();
+            var selectedTableTab = GetSelectedTableTab();
+//            selectedTableTab.DeleteColumnSelected();
         }
 
         private void DeleteSelectedRow()
         {
-            var selectedTableVisualizers = this.workArea.GetSelectedTableVisualizers();
-            if (!selectedTableVisualizers.Any()) return;
-            var selectedTableVisualizer = selectedTableVisualizers.First();
-            selectedTableVisualizer.DeleteRowSelected();
+            var selectedTableTab = GetSelectedTableTab();
+//            selectedTableTab.DeleteRowSelected();
+        }
+
+        private TableTabViewModel GetSelectedTableTab()
+        {
+            return _workspace.ActiveItem as TableTabViewModel;
         }
     }
 }

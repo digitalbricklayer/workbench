@@ -9,18 +9,16 @@ namespace Workbench.Core.Models
     /// Visualizer for a grid.
     /// </summary>
     [Serializable]
-    public class TableVisualizerModel : VisualizerModel
+    public class TableTabModel : VisualizerModel
     {
         private readonly TableModel table;
 
         /// <summary>
-        /// Initialize a grid visualizer with a name, location, columns and rows.
+        /// Initialize a table tab with a model and title.
         /// </summary>
-        /// <param name="theTitle">Grid name.</param>
-        /// <param name="location">Grid location.</param>
-        /// <param name="columnNames">Column names.</param>
-        /// <param name="rows">Rows</param>
-        public TableVisualizerModel(TableModel theTable, VisualizerTitle theTitle, System.Windows.Point location)
+        /// <param name="theTable">Table model.</param>
+        /// <param name="theTitle">Table title.</param>
+        public TableTabModel(TableModel theTable, WorkspaceTabTitle theTitle)
             : base(theTable, theTitle)
         {
             this.table = theTable;

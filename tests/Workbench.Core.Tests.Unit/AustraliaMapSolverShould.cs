@@ -35,7 +35,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             sut.Solve();
-            var tableVisualizer = (TableVisualizerModel)sut.GetTabBy("states");
+            var tableVisualizer = (TableTabModel)sut.GetTabBy("states");
             var colorColumnData = tableVisualizer.GetColumnDataByName("Color");
             var colorCells = colorColumnData.GetCells();
             Assert.That(colorCells, Has.Count.EqualTo(7), "There should be 7 cells in the color column corresponding to the 7 Australian states.");
@@ -77,7 +77,7 @@ namespace Workbench.Core.Tests.Unit
             return workspace;
         }
 
-        private static TableVisualizerModel CreateGrid()
+        private static TableTabModel CreateGrid()
         {
             var newTable = new TableModel(new ModelName("states"), new[] { "Text", "Color" }, new[] { new TableRowModel("WA", ""),
                 new TableRowModel("NT", ""),
@@ -86,7 +86,7 @@ namespace Workbench.Core.Tests.Unit
                 new TableRowModel("NSW", ""),
                 new TableRowModel("V",  ""),
                 new TableRowModel("T", "") });
-            return new TableVisualizerModel(newTable, new VisualizerTitle(), new Point());
+            return new TableTabModel(newTable, new WorkspaceTabTitle());
         }
     }
 }

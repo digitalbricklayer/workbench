@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the model editor.
     /// </summary>
-    public sealed class ModelEditorTabViewModel : Conductor<ModelItemViewModel>.Collection.OneActive, ITabViewModel
+    public sealed class ModelEditorTabViewModel : Conductor<ModelItemViewModel>.Collection.OneActive, IWorkspaceTabViewModel
     {
         private ICommand _addSingletonVariableCommand;
         private ICommand _addAggregateVariableCommand;
@@ -161,12 +161,6 @@ namespace Workbench.ViewModels
         /// Get whether the currently selected tab be closed by the user.
         /// </summary>
         public bool CloseTabIsVisible => false;
-
-        public void CloseTab()
-        {
-            Contract.Assume(!CloseTabIsVisible);
-            throw new NotImplementedException("User in not permitted to close this tab.");
-        }
 
         /// <summary>
         /// Add a new singleton variable.

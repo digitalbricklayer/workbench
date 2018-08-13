@@ -20,7 +20,7 @@ namespace Workbench.Views
                     return element.FindResource("compoundLabel") as DataTemplate;
 
                 default:
-                    throw new NotImplementedException("Unknown label type.");
+                    throw new NotImplementedException("Label not implemented.");
             }
         }
     }

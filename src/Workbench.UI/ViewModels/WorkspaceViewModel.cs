@@ -14,8 +14,8 @@ namespace Workbench.ViewModels
     public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private bool isDirty;
-        private readonly IEventAggregator eventAggregator;
-        private readonly IWindowManager windowManager;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IWindowManager _windowManager;
         private ModelEditorTabViewModel _modelEditor;
         private readonly IViewModelFactory _viewModelFactory;
         private SolutionViewerTabViewModel _solutionViewer;
@@ -33,14 +33,14 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this.eventAggregator = theEventAggregator;
-            this.windowManager = theWindowManager;
+            this._eventAggregator = theEventAggregator;
+            this._windowManager = theWindowManager;
             _viewModelFactory = theViewModelFactory;
 
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
-            ChessboardVisualizers = new BindableCollection<IScreen>();
-            TableVisualizers = new BindableCollection<IScreen>();
+            ChessboardTabs = new BindableCollection<ChessboardTabViewModel>();
+            TableTabs = new BindableCollection<TableTabViewModel>();
         }
 
         /// <summary>
@@ -80,12 +80,12 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all chessboard visualizers.
         /// </summary>
-        public BindableCollection<IScreen> ChessboardVisualizers { get; }
+        public BindableCollection<ChessboardTabViewModel> ChessboardTabs { get; }
 
         /// <summary>
         /// Gets all table visualizers.
         /// </summary>
-        public BindableCollection<IScreen> TableVisualizers { get; }
+        public BindableCollection<TableTabViewModel> TableTabs { get; }
 
         /// <summary>
         /// Gets or sets the solution model.
@@ -116,7 +116,7 @@ namespace Workbench.ViewModels
             var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
             DisplaySolution(WorkspaceModel.Solution);
-            this.eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
+            _eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
 
             return solveResult;
         }
@@ -132,7 +132,7 @@ namespace Workbench.ViewModels
 
             ModelEditor.AddSingletonVariable(newVariable);
             IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
+            _eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Workbench.ViewModels
 
             ModelEditor.AddAggregateVariable(newVariable);
             IsDirty = true;
-            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
+            _eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
-//            ChessboardVisualizers.Add(newVisualizer);
+//            ChessboardTabs.Add(newVisualizer);
             IsDirty = true;
         }
 
@@ -205,7 +205,9 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVisualizer != null);
 
-//            TableVisualizers.Add(newVisualizer);
+            var newTableTab = new TableTabViewModel(new TableTabModel(TableModel.Default, new WorkspaceTabTitle("Table")), _eventAggregator);
+            TableTabs.Add(newTableTab);
+            ActivateItem(newTableTab);
             IsDirty = true;
         }
 
@@ -213,9 +215,18 @@ namespace Workbench.ViewModels
         {
         }
 
+        /// <summary>
+        /// Close the tab initiated by the user.
+        /// </summary>
+        public void CloseTab()
+        {
+            DeactivateItem(ActiveItem, true);
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
+            // The model editor is always present in the workspace
             ModelEditor = _viewModelFactory.CreateModelEditor();
             Items.Add(ModelEditor);
         }
@@ -261,7 +272,7 @@ namespace Workbench.ViewModels
         private void DisplayErrorDialog(ModelValidationContext theContext)
         {
             var errorsViewModel = CreateModelErrorsFrom(theContext);
-            this.windowManager.ShowDialog(errorsViewModel);
+            _windowManager.ShowDialog(errorsViewModel);
         }
 
         /// <summary>
@@ -291,8 +302,8 @@ namespace Workbench.ViewModels
         private void WorkspaceInvariants()
         {
             Contract.Invariant(WorkspaceModel != null);
-            Contract.Invariant(TableVisualizers != null);
-            Contract.Invariant(ChessboardVisualizers != null);
+            Contract.Invariant(TableTabs != null);
+            Contract.Invariant(ChessboardTabs != null);
         }
     }
 }

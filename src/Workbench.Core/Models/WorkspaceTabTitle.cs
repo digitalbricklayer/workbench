@@ -3,14 +3,14 @@ using System;
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public sealed class VisualizerTitle
+    public sealed class WorkspaceTabTitle
     {
-        public VisualizerTitle(string theText)
+        public WorkspaceTabTitle(string theText)
         {
             Text = theText;
         }
 
-        public VisualizerTitle()
+        public WorkspaceTabTitle()
         {
             Text = string.Empty;
         }

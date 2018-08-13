@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -23,10 +24,10 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding DisplayName}" />
-                        <!-- The grid will not appear if CanCloseIsVisible is false, therefore the close button will also not be displayed -->
+                        <!-- The grid will not appear (collapsed) if the tab cannot be closed -->
                         <Grid Visibility="{Binding CloseTabIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                             <!-- The tab close button -->
-                            <Button x:Name="CloseTab" Content="x" />
+                            <Button x:Name="CloseTab" Content="x" cal:Message.Attach="CloseTab" />
                         </Grid>
                     </StackPanel>
                 </DataTemplate>

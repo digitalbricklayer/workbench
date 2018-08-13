@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
+using Workbench.Core.Models;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -32,6 +33,7 @@ namespace Workbench.ViewModels
             AddExpressionConstraintCommand = new CommandHandler(AddExpressionConstraintAction);
             AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
             AddDomainCommand = new CommandHandler(AddDomainAction);
+            AddTableCommand = new CommandHandler(AddTableAction);
         }
 
         /// <summary>
@@ -66,6 +68,11 @@ namespace Workbench.ViewModels
         /// Gets the Model|Add Domain command.
         /// </summary>
         public ICommand AddDomainCommand { get; private set; }
+
+        /// <summary>
+        /// Gets the Insert|Add Table command.
+        /// </summary>
+        public ICommand AddTableCommand { get; }
 
         /// <summary>
         /// Create a new singleton variable.
@@ -139,6 +146,11 @@ namespace Workbench.ViewModels
                                                         .WithDomain(domainEditorViewModel.DomainExpression)
                                                         .Build());
             this.titleBar.UpdateTitle();
+        }
+
+        private void AddTableAction()
+        {
+            Workspace.AddTableVisualizer(TableModel.Default);
         }
     }
 }
