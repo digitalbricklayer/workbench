@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock x:Name="titleEditor"
-                       Text="{Binding Path=Table.Title, Mode=TwoWay}"
+                       Text="{Binding Path=Title, Mode=TwoWay}"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Center"
                        TextAlignment="Left"/>
@@ -22,19 +22,15 @@
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1 0 0 0">
 
                 <TextBlock x:Name="nameEditor"
-                           Text="{Binding Path=Table.Name, Mode=TwoWay}"
+                           Text="{Binding Path=Name, Mode=TwoWay}"
                            HorizontalAlignment="Stretch"
                            TextAlignment="Left"/>
 
             </Border>
         </Grid>
-        <DataGrid x:Name="Table"
-                  CanUserAddRows="false"
-                  CanUserSortColumns="False"
-                  SelectedIndex="{Binding Table.SelectedIndex, Mode=OneWayToSource}"
-                  CurrentColumn="{Binding Table.SelectedColumn, Mode=OneWayToSource}"
-                  ItemsSource="{Binding Table.Data}">
-        </DataGrid>
+
+        <ContentControl x:Name="Table"/>
+
     </DockPanel>
 
 </UserControl>

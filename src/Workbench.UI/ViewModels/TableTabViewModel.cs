@@ -11,6 +11,8 @@ namespace Workbench.ViewModels
     public sealed class TableTabViewModel : Conductor<IScreen>.Collection.AllActive, IWorkspaceTabViewModel
     {
         private TableViewModel _table;
+        private string _name;
+        private string _title;
 
         public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator)
         {
@@ -31,6 +33,32 @@ namespace Workbench.ViewModels
         /// Gets the table tab model.
         /// </summary>
         public TableTabModel Model { get; }
+
+        /// <summary>
+        /// Gets or sets the table name.
+        /// </summary>
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the table title.
+        /// </summary>
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the table view model.
