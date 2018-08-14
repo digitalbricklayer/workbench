@@ -246,7 +246,7 @@
     <Compile Include="Views\DomainEditorView.xaml.cs">
       <DependentUpon>DomainEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LabelDataTemplateSelector.cs" />
+    <Compile Include="Selectors\LabelDataTemplateSelector.cs" />
     <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
       <DependentUpon>SingletonVariableEditorView.xaml</DependentUpon>
     </Compile>

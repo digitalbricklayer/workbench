@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:models="clr-namespace:Workbench.Core.Models;assembly=Workbench.Core"
              xmlns:views="clr-namespace:Workbench.Views"
+             xmlns:selectors="clr-namespace:Workbench.Selectors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
     <UserControl.Resources>
-        <views:LabelDataTemplateSelector x:Key="labelDataTemplateSelector"/>
+        <selectors:LabelDataTemplateSelector x:Key="labelDataTemplateSelector"/>
     </UserControl.Resources>
 
     <DockPanel LastChildFill="True">
