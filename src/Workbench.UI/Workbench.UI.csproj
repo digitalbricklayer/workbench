@@ -202,9 +202,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="IntToStringConverter.cs" />
-    <Compile Include="SingletonVariableBuilder.cs" />
-    <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AppRuntime.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\CaliburnInfrastructureInstaller.cs" />
@@ -262,11 +259,8 @@
     <Compile Include="Views\DomainModelItemView.xaml.cs">
       <DependentUpon>DomainModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DefaultDataService.cs" />
-    <Compile Include="DefaultViewModelService.cs" />
-    <Compile Include="DomainBuilder.cs" />
-    <Compile Include="AllDifferentConstraintBuilder.cs" />
-    <Compile Include="ExpressionConstraintBuilder.cs" />
+    <Compile Include="Services\DefaultDataService.cs" />
+    <Compile Include="Services\DefaultViewModelService.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
@@ -360,7 +354,6 @@
     <Compile Include="Views\WorkspaceView.xaml.cs">
       <DependentUpon>WorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfUtils.cs" />
     <Page Include="Views\ChessboardTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

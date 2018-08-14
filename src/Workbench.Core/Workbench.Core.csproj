@@ -168,7 +168,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateVariableBuilder.cs" />
+    <Compile Include="AllDifferentConstraintBuilder.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
+    <Compile Include="DomainBuilder.cs" />
+    <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
@@ -297,6 +301,7 @@
     <Compile Include="Repeaters\ConstraintRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
+    <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\ConstraintConverter.cs" />
     <Compile Include="Solver\Range.cs" />

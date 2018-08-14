@@ -1,7 +1,6 @@
 ﻿using Workbench.Core.Models;
-using Workbench.Services;
 
-namespace Workbench
+namespace Workbench.Services
 {
     internal class DefaultDataService : IDataService
     {

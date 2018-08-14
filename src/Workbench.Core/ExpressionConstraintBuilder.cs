@@ -1,6 +1,6 @@
 ﻿using Workbench.Core.Models;
 
-namespace Workbench
+namespace Workbench.Core
 {
     public class ExpressionConstraintBuilder
     {

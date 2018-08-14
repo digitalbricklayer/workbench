@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Models
         public void InitializeVariableWithValidNameSetsExpectedNameInVariable()
         {
             var sut = new SingletonVariableModel(new ModelModel(), new ModelName("x"));
-            Assert.That(sut.Name, Is.EqualTo("x"));
+            Assert.That(sut.Name, Is.EqualTo(new ModelName("x")));
         }
 
         [Test]

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Workbench.Services;
-using Workbench.ViewModels;
-
-namespace Workbench
+﻿namespace Workbench.Services
 {
 #if false
     internal class DefaultViewModelService : IViewModelService

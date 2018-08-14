@@ -1,55 +1,43 @@
 ﻿using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
-namespace Workbench
+namespace Workbench.Core
 {
-    public sealed class AggregateVariableBuilder
+    public sealed class SingletonVariableBuilder
     {
         private ModelName variableName;
         private ModelModel model;
-        private int? size;
         private VariableDomainExpressionModel domain;
 
-        public AggregateVariableBuilder WithName(string theVariableName)
+        public SingletonVariableBuilder WithName(string theVariableName)
         {
             this.variableName = new ModelName(theVariableName);
             return this;
         }
 
-        public AggregateVariableBuilder WithDomain(string theExpression)
+        public SingletonVariableBuilder WithDomain(string theExpression)
         {
             this.domain = new VariableDomainExpressionModel(theExpression);
             return this;
         }
 
-        public AggregateVariableBuilder WithModel(ModelModel theModel)
+        public SingletonVariableBuilder WithModel(ModelModel theModel)
         {
             this.model = theModel;
             return this;
         }
 
-        public AggregateVariableBuilder WithSize(int theVariableSize)
-        {
-            this.size = theVariableSize;
-            return this;
-        }
-
-        public AggregateVariableModel Build()
+        public SingletonVariableModel Build()
         {
             Contract.Assume(this.model != null);
             Contract.Assume(this.variableName != null);
 
-            return new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
+            return new SingletonVariableModel(this.model, this.variableName, GetExpressionOrDefault());
         }
 
         private VariableDomainExpressionModel GetExpressionOrDefault()
         {
             return this.domain ?? new VariableDomainExpressionModel();
-        }
-
-        private int GetSizeOrDefault()
-        {
-            return this.size ?? AggregateVariableModel.DefaultSize;
         }
     }
 }

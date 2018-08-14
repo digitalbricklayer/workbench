@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Caliburn.Micro;
+using Workbench.Core;
 using Workbench.Core.Models;
 using Workbench.Services;
 
