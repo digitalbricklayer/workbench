@@ -13,13 +13,17 @@ namespace Workbench.ViewModels
         private TableViewModel _table;
         private string _name;
         private string _title;
+        private readonly IWindowManager _windowManager;
 
-        public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator)
+        public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator, IWindowManager theWindowManager)
         {
             Contract.Requires<ArgumentNullException>(theTableModel != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
-            DisplayName = "Table1";
+            _windowManager = theWindowManager;
+            _name = DisplayName = "table1";
+            _title = "table1";
             Model = theTableModel;
             Table = new TableViewModel(theTableModel.Table);
         }
@@ -90,6 +94,24 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newRow != null);
             Contract.Assume(Table != null);
             Table.AddRow(newRow);
+        }
+
+        public void EditTitle()
+        {
+            var titleEditor = new TableTitleEditorViewModel();
+            titleEditor.TableTitle = Title;
+            var status = _windowManager.ShowDialog(titleEditor);
+            if (!status.HasValue || !status.Value) return;
+            Title = titleEditor.TableTitle;
+        }
+
+        public void EditName()
+        {
+            var nameEditor = new TableNameEditorViewModel();
+            nameEditor.TableName = Name;
+            var status = _windowManager.ShowDialog(nameEditor);
+            if (!status.HasValue || !status.Value) return;
+            Name = nameEditor.TableName;
         }
     }
 }

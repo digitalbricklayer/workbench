@@ -1,0 +1,36 @@
+﻿<Window x:Class="Workbench.Views.TableNameEditorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="Table Name Editor"
+        Height="154.034" Width="364">
+
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Image Source="pack://application:,,,/ConstraintWorkbench;component/Images/question2.png" Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
+
+        <Label Grid.Column="1">Table name:</Label>
+        <TextBox Name="columnTextEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding TableName}"/>
+
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,16,0,-1" Grid.Column="1">
+            <Button IsDefault="True" Name="btnDialogOk" MinWidth="60" Margin="0,0,10,0" Content="_OK">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <cal:ActionMessage MethodName="AcceptButton" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
+    </Grid>
+</Window>
