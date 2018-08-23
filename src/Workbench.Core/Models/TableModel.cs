@@ -7,7 +7,7 @@ using System.Linq;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A grid model.
+    /// A table model.
     /// </summary>
     [Serializable]
     public class TableModel : Model
@@ -17,8 +17,9 @@ namespace Workbench.Core.Models
         private ObservableCollection<TableColumnModel> columns;
 
         /// <summary>
-        /// Initialize a grid with columns and rows.
+        /// Initialize a table with columns and rows.
         /// </summary>
+        /// <param name="theName">Table name.</param>
         /// <param name="columnNames">Column names.</param>
         /// <param name="theRows">Rows.</param>
         public TableModel(ModelName theName, string[] columnNames, TableRowModel[] theRows)
@@ -29,18 +30,18 @@ namespace Workbench.Core.Models
 
             foreach (var columnName in columnNames)
             {
-                AddColumn(new TableColumnModel(columnName));
+                AppendColumn(new TableColumnModel(columnName));
             }
             this.columnCount = columnNames.Length;
             foreach (var row in theRows)
             {
-                AddRow(row);
+                AppendRow(row);
             }
             this.rowCount = theRows.Length;
         }
 
         /// <summary>
-        /// Initalize a grid with empty rows and columns.
+        /// Initalize a table with empty rows and columns.
         /// </summary>
         public TableModel()
         {
@@ -49,7 +50,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the grid rows.
+        /// Gets the table rows.
         /// </summary>
         public ObservableCollection<TableRowModel> Rows
         {
@@ -62,7 +63,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the grid columns.
+        /// Gets the table columns.
         /// </summary>
         public ObservableCollection<TableColumnModel> Columns
         {
@@ -75,7 +76,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the grid as it is displayed when newly created.
+        /// Gets a table with default configuration.
         /// </summary>
         public static TableModel Default
         {
@@ -86,13 +87,16 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a row to the grid.
+        /// Add a row to the table.
         /// </summary>
+        /// <param name="selectedRowIndex"></param>
         /// <param name="theRow">The new row.</param>
-        public void AddRow(TableRowModel theRow)
+        public void AddRowBefore(int selectedRowIndex, TableRowModel theRow)
         {
             Contract.Requires<ArgumentNullException>(theRow != null);
-            Rows.Add(theRow);
+
+            Rows.Insert(selectedRowIndex == 0 ? selectedRowIndex: selectedRowIndex - 1, theRow);
+            this.rowCount++;
             if (theRow.Cells.Count == Columns.Count) return;
             for (var z = 0; z < Columns.Count; z++)
             {
@@ -101,24 +105,77 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a column to the grid.
+        /// Add a row to the table.
         /// </summary>
+        /// <param name="selectedRowIndex"></param>
+        /// <param name="theRow">The new row.</param>
+        public void AddRowAfter(int selectedRowIndex, TableRowModel theRow)
+        {
+            Contract.Requires<ArgumentNullException>(theRow != null);
+
+            Rows.Insert(selectedRowIndex, theRow);
+            this.rowCount++;
+            if (theRow.Cells.Count == Columns.Count) return;
+            for (var z = 0; z < Columns.Count; z++)
+            {
+                theRow.AddCell(new TableCellModel());
+            }
+        }
+
+        /// <summary>
+        /// Add a column to the table.
+        /// </summary>
+        /// <param name="selectedColumnIndex">The currently selected column index.</param>
         /// <param name="theColumn">The new column.</param>
-        public void AddColumn(TableColumnModel theColumn)
+        public void AddColumnBefore(int selectedColumnIndex, TableColumnModel theColumn)
         {
             Contract.Requires<ArgumentNullException>(theColumn != null);
-            theColumn.Index = Columns.Count + 1;
+
+            // Column indexes start at 1
+            theColumn.Index = selectedColumnIndex == 0? 1: selectedColumnIndex + 1;
+            // Re-index the columns to the right of the inserted column
+            for (var i = selectedColumnIndex; i < Columns.Count; i++)
+            {
+                Columns[i].Index++;
+            }
             foreach (var row in Rows)
             {
                 row.AddCell(new TableCellModel());
             }
-            Columns.Add(theColumn);
+            Columns.Insert(selectedColumnIndex, theColumn);
+            this.columnCount++;
         }
 
         /// <summary>
-        /// Get all rows in the grid.
+        /// Add a column to the table.
         /// </summary>
-        /// <returns>All rows in the grid.</returns>
+        /// <param name="selectedColumnIndex">The currently selected column index.</param>
+        /// <param name="theColumn">The new column.</param>
+        public void AddColumnAfter(int selectedColumnIndex, TableColumnModel theColumn)
+        {
+            Contract.Requires<ArgumentNullException>(theColumn != null);
+
+            // Column indexes start at 1
+            theColumn.Index = selectedColumnIndex == 0 ? 2 : selectedColumnIndex + 1;
+            // Re-index the columns to the right of the inserted column
+            for (var i = selectedColumnIndex; i < Columns.Count; i++)
+            {
+                Columns[i].Index++;
+            }
+
+            foreach (var row in Rows)
+            {
+                row.AddCell(new TableCellModel());
+            }
+
+            Columns.Insert(selectedColumnIndex == 0 ? 1 : selectedColumnIndex + 1, theColumn);
+            this.columnCount++;
+        }
+
+        /// <summary>
+        /// Get all rows in the table.
+        /// </summary>
+        /// <returns>All rows in the table.</returns>
         public IReadOnlyCollection<TableRowModel> GetRows()
         {
             Contract.Ensures(Contract.Result<IReadOnlyCollection<TableRowModel>>() != null);
@@ -171,7 +228,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Resize the grid.
+        /// Resize the table.
         /// </summary>
         /// <param name="newColumnCount">Number of columns.</param>
         /// <param name="newRowCount">Number of rows.</param>
@@ -181,7 +238,7 @@ namespace Workbench.Core.Models
             {
                 for (var i = this.columnCount; i < newColumnCount; i++)
                 {
-                    AddColumn(new TableColumnModel(Convert.ToString(i)));
+                    AppendColumn(new TableColumnModel(Convert.ToString(i)));
                 }
             }
 
@@ -189,7 +246,7 @@ namespace Workbench.Core.Models
             {
                 for (var i = this.rowCount; i < newRowCount; i++)
                 {
-                    AddRow(new TableRowModel());
+                    AppendRow(new TableRowModel());
                 }
             }
         }
@@ -204,6 +261,23 @@ namespace Workbench.Core.Models
             }
 
             return accumulator;
+        }
+
+        private void AppendColumn(TableColumnModel theColumn)
+        {
+            // Column indexes start at 1
+            theColumn.Index = this.columnCount + 1;
+            foreach (var row in Rows)
+            {
+                row.AddCell(new TableCellModel());
+            }
+            Columns.Insert(this.columnCount, theColumn);
+            this.columnCount++;
+        }
+
+        private void AppendRow(TableRowModel newRow)
+        {
+            AddRowAfter(rowCount, newRow);
         }
     }
 }

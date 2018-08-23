@@ -8,9 +8,9 @@
 
     <DataGrid CanUserAddRows="false"
               CanUserSortColumns="False"
+              SelectionMode="Single"
               SelectionUnit="CellOrRowHeader"
-              SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}"
-              CurrentColumn="{Binding SelectedColumn, Mode=OneWayToSource}"
+              SelectedCellsChanged="OnSelectedCellsChanged"
               ItemsSource="{Binding Data}">
     </DataGrid>
 

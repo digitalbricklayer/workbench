@@ -100,26 +100,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a new column to the grid.
-        /// </summary>
-        /// <param name="theColumn">New column.</param>
-        public void AddColumn(TableColumnModel theColumn)
-        {
-            Contract.Requires<ArgumentNullException>(theColumn != null);
-            Table.AddColumn(theColumn);
-        }
-
-        /// <summary>
-        /// Add a new row to the grid.
-        /// </summary>
-        /// <param name="theRow">New row.</param>
-        public void AddRow(TableRowModel theRow)
-        {
-            Contract.Requires<ArgumentNullException>(theRow != null);
-            Table.AddRow(theRow);
-        }
-
-        /// <summary>
         /// Get the column by name.
         /// </summary>
         /// <param name="columnName">Column name.</param>

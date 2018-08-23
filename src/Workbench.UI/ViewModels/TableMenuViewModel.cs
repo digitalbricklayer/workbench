@@ -64,35 +64,39 @@ namespace Workbench.ViewModels
         private void AddColumnAfter()
         {
             var selectedTableTab = GetSelectedTableTab();
+            Contract.Assert(selectedTableTab.SelectedColumn != null);
             var columnNameEditor = new ColumnNameEditorViewModel();
             var result = this._windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
             {
-                selectedTableTab.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
+                selectedTableTab.AddColumnAfter(selectedTableTab.SelectedColumn.Value, new TableColumnModel(columnNameEditor.ColumnName));
+            }
+        }
+
+        private void AddColumnBefore()
+        {
+            var selectedTableTab = GetSelectedTableTab();
+            Contract.Assert(selectedTableTab.SelectedColumn != null);
+            var columnNameEditor = new ColumnNameEditorViewModel();
+            var result = this._windowManager.ShowDialog(columnNameEditor);
+            if (result.GetValueOrDefault())
+            {
+                selectedTableTab.AddColumnBefore(selectedTableTab.SelectedColumn.Value, new TableColumnModel(columnNameEditor.ColumnName));
             }
         }
 
         private void AddRowAfter()
         {
             var selectedTableTab = GetSelectedTableTab();
-            selectedTableTab.AddRow(new TableRowModel());
-        }
-
-        private void AddColumnBefore()
-        {
-            var selectedTableTab = GetSelectedTableTab();
-            var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this._windowManager.ShowDialog(columnNameEditor);
-            if (result.GetValueOrDefault())
-            {
-                selectedTableTab.AddColumn(new TableColumnModel(columnNameEditor.ColumnName));
-            }
+            Contract.Assert(selectedTableTab.SelectedRow != null);
+            selectedTableTab.AddRowAfter(selectedTableTab.SelectedRow.Value, new TableRowModel());
         }
 
         private void AddRowBefore()
         {
             var selectedTableTab = GetSelectedTableTab();
-            selectedTableTab.AddRow(new TableRowModel());
+            Contract.Assert(selectedTableTab.SelectedRow != null);
+            selectedTableTab.AddRowBefore(selectedTableTab.SelectedRow.Value, new TableRowModel());
         }
 
         private void DeleteSelectedColumn()

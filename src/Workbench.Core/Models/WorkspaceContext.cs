@@ -105,41 +105,6 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithGridVisualizer(string theVisualizerName, params string[] columnNames)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
-
-            var tableModel = new TableModel();
-            var theTableVisualizer = new TableTabModel(tableModel, new WorkspaceTabTitle(theVisualizerName));
-            foreach (var columnName in columnNames)
-            {
-                theTableVisualizer.AddColumn(new TableColumnModel(columnName));
-            }
-            this.workspace.AddVisualizer(theTableVisualizer);
-            return this;
-        }
-
-        public WorkspaceContext WithGridVisualizer(string theVisualizerName, string[] columnNames, TableRowModel[] rows)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
-            Contract.Requires<ArgumentNullException>(columnNames != null);
-            Contract.Requires<ArgumentNullException>(rows != null);
-
-            var tableModel = new TableModel();
-            var theTableVisualizer = new TableTabModel(tableModel, new WorkspaceTabTitle(theVisualizerName));
-            foreach (var columnName in columnNames)
-            {
-                theTableVisualizer.AddColumn(new TableColumnModel(columnName));
-            }
-            foreach (var row in rows)
-            {
-                theTableVisualizer.AddRow(row);
-            }
-            this.workspace.AddVisualizer(theTableVisualizer);
-
-            return this;
-        }
-
         public WorkspaceModel Build()
         {
             Contract.Ensures(Contract.Result<WorkspaceModel>() != null);

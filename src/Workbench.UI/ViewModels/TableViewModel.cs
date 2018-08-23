@@ -10,8 +10,8 @@ namespace Workbench.ViewModels
     {
         private readonly TableModel model;
         private DataTable dataTable;
-        private int? selectedIndex;
-        private object selectedColumn;
+        private int? _selectedRow;
+        private int? _selectedColumn;
 
         public TableViewModel(TableModel theModel)
         {
@@ -46,38 +46,58 @@ namespace Workbench.ViewModels
             }
         }
 
-        public int? SelectedIndex
+        /// <summary>
+        /// Gets or sets the selected row.
+        /// </summary>
+        public int? SelectedRow
         {
-            get { return selectedIndex; }
+            get => _selectedRow;
             set
             {
-                selectedIndex = value;
+                _selectedRow = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public object SelectedColumn
+        /// <summary>
+        /// Gets or sets the selected column.
+        /// </summary>
+        public int? SelectedColumn
         {
-            get { return selectedColumn; }
+            get => _selectedColumn;
             set
             {
-                this.selectedColumn = value;
+                _selectedColumn = value;
                 NotifyOfPropertyChange();
             }
         }
 
-        public void AddColumn(TableColumnModel newColumn)
+        public void AddColumnAfter(int selectedColumnIndex, TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            Table.AddColumn(newColumn);
+            Table.AddColumnAfter(selectedColumnIndex, newColumn);
             Data = CreateDataTable();
         }
 
-        public void AddRow(TableRowModel theNewRow)
+        public void AddColumnBefore(int selectedColumnIndex, TableColumnModel newColumn)
+        {
+            Contract.Requires<ArgumentNullException>(newColumn != null);
+            Table.AddColumnBefore(selectedColumnIndex, newColumn);
+            Data = CreateDataTable();
+        }
+
+        public void AddRowBefore(int selectedRowIndex, TableRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
-            Table.AddRow(theNewRow);
-            AddRowToTable(this.dataTable, theNewRow);
+            Table.AddRowBefore(selectedRowIndex, theNewRow);
+            AddRowToTable(theNewRow, selectedRowIndex);
+        }
+
+        public void AddRowAfter(int selectedRowIndex, TableRowModel theNewRow)
+        {
+            Contract.Requires<ArgumentNullException>(theNewRow != null);
+            Table.AddRowAfter(selectedRowIndex, theNewRow);
+            AddRowToTable(theNewRow, selectedRowIndex);
         }
 
         public TableRowModel GetRowAt(int rowIndex)
@@ -91,7 +111,7 @@ namespace Workbench.ViewModels
             {
                 for (var i = Table.Columns.Count; i < newColumnCount; i++)
                 {
-                    AddColumn(new TableColumnModel(Convert.ToString(i)));
+                    AddColumnEnd(new TableColumnModel(Convert.ToString(i)));
                 }
             }
             Table.Resize(newColumnCount, newRowCount);
@@ -115,7 +135,7 @@ namespace Workbench.ViewModels
         {
             foreach (var row in Table.Rows)
             {
-                AddRowToTable(newTable, row);
+                AppendRowToTable(row, newTable);
             }
         }
 
@@ -128,7 +148,22 @@ namespace Workbench.ViewModels
             Contract.Assert(!newTable.HasErrors);
         }
 
-        private void AddRowToTable(DataTable newTable, TableRowModel theRowModel)
+        private void AddColumnEnd(TableColumnModel newColumn)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddRowToTable(TableRowModel theRowModel, int selectedRowIndex)
+        {
+            var newRow = this.dataTable.NewRow();
+            var i = 0;
+            foreach (var row in theRowModel.Cells)
+                newRow[i++] = row.Text;
+            this.dataTable.Rows.InsertAt(newRow, selectedRowIndex);
+            this.dataTable.AcceptChanges();
+        }
+
+        private void AppendRowToTable(TableRowModel theRowModel, DataTable newTable)
         {
             var newRow = newTable.NewRow();
             var i = 0;
@@ -149,20 +184,20 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Update the grid model when the grid control is changed.
+        /// Update the table model when the grid control is changed.
         /// </summary>
         /// <param name="sender">Data grid.</param>
         /// <param name="args">Row change event arguments.</param>
         private void OnRowChanged(object sender, DataRowChangeEventArgs args)
         {
             // Row may change before a row is selected
-            if (SelectedIndex == null || SelectedIndex.Value == -1) return;
+            if (SelectedRow == null || SelectedRow == -1) return;
 
             switch (args.Action)
             {
                 case DataRowAction.Change:
-                    // Keep the model in sync with changes to the grid control
-                    var selectedRow = Table.GetRowAt(SelectedIndex.Value);
+                    // Keep the model in sync with changes to the grid
+                    var selectedRow = Table.GetRowAt(SelectedRow.Value);
                     selectedRow.UpdateCellsFrom(args.Row.ItemArray);
                     break;
             }

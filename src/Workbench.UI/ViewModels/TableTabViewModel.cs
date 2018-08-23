@@ -64,6 +64,13 @@ namespace Workbench.ViewModels
             }
         }
 
+        public int? SelectedRow => Table.SelectedRow;
+
+        /// <summary>
+        /// Gets the selected column.
+        /// </summary>
+        public int? SelectedColumn => Table.SelectedColumn;
+
         /// <summary>
         /// Gets or sets the table view model.
         /// </summary>
@@ -77,10 +84,30 @@ namespace Workbench.ViewModels
             }
         }
 
-        public void AddColumn(TableColumnModel newColumn)
+        public void AddColumnBefore(int selectedColumnIndex, TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
-            Table.AddColumn(newColumn);
+            Table.AddColumnBefore(selectedColumnIndex, newColumn);
+        }
+
+        public void AddColumnAfter(int selectedColumnIndex, TableColumnModel newColumn)
+        {
+            Contract.Requires<ArgumentNullException>(newColumn != null);
+            Table.AddColumnAfter(selectedColumnIndex, newColumn);
+        }
+
+        public void AddRowBefore(int selectedRowIndex, TableRowModel newRow)
+        {
+            Contract.Requires<ArgumentNullException>(newRow != null);
+            Contract.Assume(Table != null);
+            Table.AddRowBefore(selectedRowIndex, newRow);
+        }
+
+        public void AddRowAfter(int selectedRowIndex, TableRowModel newRow)
+        {
+            Contract.Requires<ArgumentNullException>(newRow != null);
+            Contract.Assume(Table != null);
+            Table.AddRowAfter(selectedRowIndex, newRow);
         }
 
         public void Resize(int columns, int rows)
@@ -89,19 +116,12 @@ namespace Workbench.ViewModels
             Table.Resize(columns, rows);
         }
 
-        public void AddRow(TableRowModel newRow)
-        {
-            Contract.Requires<ArgumentNullException>(newRow != null);
-            Contract.Assume(Table != null);
-            Table.AddRow(newRow);
-        }
-
         public void EditTitle()
         {
             var titleEditor = new TableTitleEditorViewModel();
             titleEditor.TableTitle = Title;
             var status = _windowManager.ShowDialog(titleEditor);
-            if (!status.HasValue || !status.Value) return;
+            if (status.GetValueOrDefault()) return;
             Title = titleEditor.TableTitle;
         }
 
@@ -110,9 +130,8 @@ namespace Workbench.ViewModels
             var nameEditor = new TableNameEditorViewModel();
             nameEditor.TableName = Name;
             var status = _windowManager.ShowDialog(nameEditor);
-            if (!status.HasValue || !status.Value) return;
+            if (status.GetValueOrDefault()) return;
             Name = nameEditor.TableName;
         }
     }
 }
-

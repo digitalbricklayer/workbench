@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A column inside a grid.
+    /// A column inside a table.
     /// </summary>
     [Serializable]
     public class TableColumnModel : AbstractModel
@@ -15,7 +13,7 @@ namespace Workbench.Core.Models
         private int index;
 
         /// <summary>
-        /// Initialize a grid column with a column name.
+        /// Initialize a table column with a column name.
         /// </summary>
         /// <param name="theColumnName">Column name.</param>
         public TableColumnModel(string theColumnName)
@@ -25,7 +23,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the grid column name.
+        /// Gets or sets the table column name.
         /// </summary>
         public string Name
         {
@@ -38,7 +36,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the grid column index.
+        /// Gets or sets the table column index.
         /// </summary>
         public int Index
         {

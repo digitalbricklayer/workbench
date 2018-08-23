@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
         Title="Column Text Editor"
-        Height="142" Width="364">
+        Height="151.146" Width="364">
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>

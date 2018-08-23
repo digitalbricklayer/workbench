@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Diagnostics.Contracts;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Workbench.ViewModels;
 
 namespace Workbench.Views
 {
@@ -23,6 +12,17 @@ namespace Workbench.Views
         public TableView()
         {
             InitializeComponent();
+        }
+
+        private void OnSelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+            var columnIndex = dataGrid.CurrentCell.Column.DisplayIndex;
+            var rowIndex = dataGrid.Items.IndexOf(dataGrid.CurrentItem);
+            var tableViewModel = DataContext as TableViewModel;
+            Contract.Assert(tableViewModel != null);
+            tableViewModel.SelectedRow = rowIndex;
+            tableViewModel.SelectedColumn = columnIndex;
         }
     }
 }
