@@ -164,6 +164,19 @@ namespace Workbench.ViewModels
         public bool CloseTabIsVisible => false;
 
         /// <summary>
+        /// Gets or sets the tab text.
+        /// </summary>
+        public string Text
+        {
+            get => DisplayName;
+            set
+            {
+                DisplayName = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
         /// Add a new singleton variable.
         /// </summary>
         /// <param name="newVariableModel">New variable.</param>

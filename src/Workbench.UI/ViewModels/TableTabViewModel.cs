@@ -14,6 +14,7 @@ namespace Workbench.ViewModels
         private string _name;
         private string _title;
         private readonly IWindowManager _windowManager;
+        private string _text;
 
         public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator, IWindowManager theWindowManager)
         {
@@ -22,7 +23,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
             _windowManager = theWindowManager;
-            _name = DisplayName = "table1";
+            _text = _name = DisplayName = "table1";
             _title = "table1";
             Model = theTableModel;
             Table = new TableViewModel(theTableModel.Table);
@@ -47,6 +48,20 @@ namespace Workbench.ViewModels
             set
             {
                 _name = value;
+                Text = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the tab text.
+        /// </summary>
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text= value;
                 NotifyOfPropertyChange();
             }
         }
@@ -137,7 +152,7 @@ namespace Workbench.ViewModels
             var titleEditor = new TableTitleEditorViewModel();
             titleEditor.TableTitle = Title;
             var status = _windowManager.ShowDialog(titleEditor);
-            if (status.GetValueOrDefault()) return;
+            if (status.HasValue && !status.Value) return;
             Title = titleEditor.TableTitle;
         }
 
@@ -146,7 +161,7 @@ namespace Workbench.ViewModels
             var nameEditor = new TableNameEditorViewModel();
             nameEditor.TableName = Name;
             var status = _windowManager.ShowDialog(nameEditor);
-            if (status.GetValueOrDefault()) return;
+            if (status.HasValue && !status.Value) return;
             Name = nameEditor.TableName;
         }
     }

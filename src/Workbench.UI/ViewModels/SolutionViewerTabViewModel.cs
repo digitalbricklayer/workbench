@@ -12,10 +12,14 @@ namespace Workbench.ViewModels
     {
         private SolutionViewerPanelViewModel _viewer;
         private SolutionStatsPanelViewModel _stats;
+        private string _text;
 
+        /// <summary>
+        /// Initialize a default solution view tab with default values.
+        /// </summary>
         public SolutionViewerTabViewModel()
         {
-            DisplayName = "Solution";
+            Text = DisplayName = "Solution";
         }
 
         /// <summary>
@@ -47,9 +51,22 @@ namespace Workbench.ViewModels
         public bool CloseTabIsVisible => false;
 
         /// <summary>
+        /// Gets or sets the table text.
+        /// </summary>
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value; 
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
         /// Add a label.
         /// </summary>
-        /// <param name="newLabel">New label.</param>
+        /// <param name="newSingletonLabelViewModel">New singleton label.</param>
         public void AddLabel(LabelModel newSingletonLabelViewModel)
         {
             Contract.Requires<ArgumentNullException>(newSingletonLabelViewModel != null);

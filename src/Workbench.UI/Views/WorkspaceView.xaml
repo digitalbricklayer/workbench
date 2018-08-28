@@ -23,7 +23,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DisplayName}" />
+                        <TextBlock Text="{Binding Text}" />
                         <!-- The grid will not appear (collapsed) if the tab cannot be closed -->
                         <Grid Visibility="{Binding CloseTabIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                             <!-- The tab close button -->
