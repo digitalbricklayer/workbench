@@ -11,7 +11,7 @@
               SelectionMode="Single"
               SelectionUnit="CellOrRowHeader"
               SelectedCellsChanged="OnSelectedCellsChanged"
-              ItemsSource="{Binding Data}">
+              ItemsSource="{Binding Data, Mode=TwoWay}">
     </DataGrid>
 
 </UserControl>

@@ -173,6 +173,22 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Delete the currently selected row.
+        /// </summary>
+        /// <param name="selectedRowIndex">Selected row index.</param>
+        public void DeleteRowSelected(int selectedRowIndex)
+        {
+            Rows.RemoveAt(selectedRowIndex);
+            this.rowCount--;
+        }
+
+        public void DeleteColumnSelected(int columnToDeleteIndex)
+        {
+            Columns.RemoveAt(columnToDeleteIndex);
+            this.columnCount--;
+        }
+
+        /// <summary>
         /// Get all rows in the table.
         /// </summary>
         /// <returns>All rows in the table.</returns>

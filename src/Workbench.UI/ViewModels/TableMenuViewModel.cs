@@ -102,13 +102,13 @@ namespace Workbench.ViewModels
         private void DeleteSelectedColumn()
         {
             var selectedTableTab = GetSelectedTableTab();
-//            selectedTableTab.DeleteColumnSelected();
+            selectedTableTab.DeleteColumnSelected();
         }
 
         private void DeleteSelectedRow()
         {
             var selectedTableTab = GetSelectedTableTab();
-//            selectedTableTab.DeleteRowSelected();
+            selectedTableTab.DeleteRowSelected();
         }
 
         private TableTabViewModel GetSelectedTableTab()

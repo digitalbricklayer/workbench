@@ -110,6 +110,22 @@ namespace Workbench.ViewModels
             Table.AddRowAfter(selectedRowIndex, newRow);
         }
 
+        /// <summary>
+        /// Delete the currently selected column.
+        /// </summary>
+        public void DeleteColumnSelected()
+        {
+            Table.DeleteColumnSelected();
+        }
+
+        /// <summary>
+        /// Delete the currently selected row.
+        /// </summary>
+        public void DeleteRowSelected()
+        {
+            Table.DeleteRowSelected();
+        }
+
         public void Resize(int columns, int rows)
         {
             Contract.Assume(Table != null);

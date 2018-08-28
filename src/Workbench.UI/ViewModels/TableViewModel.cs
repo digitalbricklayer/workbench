@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -8,40 +9,34 @@ namespace Workbench.ViewModels
 {
     public class TableViewModel : Screen
     {
-        private readonly TableModel model;
-        private DataTable dataTable;
+        private readonly TableModel _table;
+        private DataTable _dataTable;
         private int? _selectedRow;
         private int? _selectedColumn;
+        private object _selectedIndex;
 
-        public TableViewModel(TableModel theModel)
+        public TableViewModel(TableModel theTable)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theTable != null);
 
-            this.model = theModel;
-            this.dataTable = CreateDataTable();
-            Contract.Assert(!this.dataTable.HasErrors);
+            _table = theTable;
+            _dataTable = CreateDataTable();
         }
 
         /// <summary>
         /// Gets the table model.
         /// </summary>
-        public TableModel Table
-        {
-            get { return this.model; }
-        }
+        public TableModel Table => _table;
 
         /// <summary>
         /// Gets or sets the data table.
         /// </summary>
         public DataTable Data
         {
-            get
-            {
-                return this.dataTable;
-            }
+            get => _dataTable;
             set
             {
-                this.dataTable = value;
+                _dataTable = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -75,6 +70,7 @@ namespace Workbench.ViewModels
         public void AddColumnAfter(int selectedColumnIndex, TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
+            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Table.Columns.Count);
             Table.AddColumnAfter(selectedColumnIndex, newColumn);
             Data = CreateDataTable();
         }
@@ -82,6 +78,7 @@ namespace Workbench.ViewModels
         public void AddColumnBefore(int selectedColumnIndex, TableColumnModel newColumn)
         {
             Contract.Requires<ArgumentNullException>(newColumn != null);
+            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Table.Columns.Count);
             Table.AddColumnBefore(selectedColumnIndex, newColumn);
             Data = CreateDataTable();
         }
@@ -89,6 +86,7 @@ namespace Workbench.ViewModels
         public void AddRowBefore(int selectedRowIndex, TableRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
+            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Table.Rows.Count);
             Table.AddRowBefore(selectedRowIndex, theNewRow);
             AddRowToTable(theNewRow, selectedRowIndex);
         }
@@ -96,6 +94,7 @@ namespace Workbench.ViewModels
         public void AddRowAfter(int selectedRowIndex, TableRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
+            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Table.Rows.Count);
             Table.AddRowAfter(selectedRowIndex, theNewRow);
             AddRowToTable(theNewRow, selectedRowIndex);
         }
@@ -111,7 +110,7 @@ namespace Workbench.ViewModels
             {
                 for (var i = Table.Columns.Count; i < newColumnCount; i++)
                 {
-                    AddColumnEnd(new TableColumnModel(Convert.ToString(i)));
+                    AppendColumn(new TableColumnModel(Convert.ToString(i)));
                 }
             }
             Table.Resize(newColumnCount, newRowCount);
@@ -119,8 +118,16 @@ namespace Workbench.ViewModels
 
         public void DeleteColumnSelected()
         {
-            Contract.Assume(SelectedColumn != null);
-//            DeleteRowFromTable(SelectedColumn);
+            Contract.Assume(SelectedColumn.HasValue);
+            Table.DeleteColumnSelected(SelectedColumn.Value);
+            DeleteColumnFromTable(SelectedColumn.Value);
+        }
+
+        public void DeleteRowSelected()
+        {
+            Contract.Assume(SelectedRow.HasValue);
+            Table.DeleteRowSelected(SelectedRow.Value);
+            DeleteRowFromTable(SelectedRow.Value);
         }
 
         private void PopulateTableColumns(DataTable newTable)
@@ -148,19 +155,43 @@ namespace Workbench.ViewModels
             Contract.Assert(!newTable.HasErrors);
         }
 
-        private void AddColumnEnd(TableColumnModel newColumn)
+        private void AppendColumn(TableColumnModel newColumn)
         {
             throw new NotImplementedException();
         }
 
         private void AddRowToTable(TableRowModel theRowModel, int selectedRowIndex)
         {
-            var newRow = this.dataTable.NewRow();
+            var newRow = _dataTable.NewRow();
             var i = 0;
             foreach (var row in theRowModel.Cells)
                 newRow[i++] = row.Text;
-            this.dataTable.Rows.InsertAt(newRow, selectedRowIndex);
-            this.dataTable.AcceptChanges();
+            _dataTable.Rows.InsertAt(newRow, selectedRowIndex);
+            _dataTable.AcceptChanges();
+        }
+
+        private void DeleteRowFromTable(int rowToDeleteIndex)
+        {
+            _dataTable.Rows.RemoveAt(rowToDeleteIndex);
+            _dataTable.AcceptChanges();
+        }
+
+        private void DeleteColumnFromTable(int columnToDeleteIndex)
+        {
+            Contract.Assume(_dataTable.Columns.CanRemove(_dataTable.Columns[columnToDeleteIndex]));
+
+            // Remove the current selection
+            _dataTable.Columns.Remove(_dataTable.Columns[columnToDeleteIndex]);
+            _dataTable.AcceptChanges();
+            /*
+             * May seem excessive, but just removing the column from the existing
+             * data table does not propogate the change to the data grid control. Copying
+             * the data table and then re-binding does the trick. Performance may be
+             * somewhat hampered.
+             */
+            Data = _dataTable.Clone();
+            SelectedColumn = null;
+            SelectedRow = null;
         }
 
         private void AppendRowToTable(TableRowModel theRowModel, DataTable newTable)
@@ -180,6 +211,7 @@ namespace Workbench.ViewModels
             PopulateTableColumns(newTable);
             PopulateTableRows(newTable);
             newTable.AcceptChanges();
+            Contract.Assert(!newTable.HasErrors);
             return newTable;
         }
 
