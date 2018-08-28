@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -79,6 +78,11 @@ namespace Workbench.Core.Models
             {
                 this.cells[i++].Text = Convert.ToString(item);
             }
+        }
+
+        public void RemoveCell(int columnToDeleteIndex)
+        {
+            this.cells.RemoveAt(columnToDeleteIndex);
         }
     }
 }

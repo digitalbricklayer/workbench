@@ -1,19 +1,17 @@
 using System;
 using System.Data;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
-    public class TableViewModel : Screen
+    public class TableViewModel : Screen, IDisposable
     {
         private readonly TableModel _table;
         private DataTable _dataTable;
         private int? _selectedRow;
         private int? _selectedColumn;
-        private object _selectedIndex;
 
         public TableViewModel(TableModel theTable)
         {
@@ -130,6 +128,11 @@ namespace Workbench.ViewModels
             DeleteRowFromTable(SelectedRow.Value);
         }
 
+        public void Dispose()
+        {
+            _dataTable?.Dispose();
+        }
+
         private void PopulateTableColumns(DataTable newTable)
         {
             foreach (var column in Table.Columns)
@@ -189,7 +192,7 @@ namespace Workbench.ViewModels
              * the data table and then re-binding does the trick. Performance may be
              * somewhat hampered.
              */
-            Data = _dataTable.Clone();
+            CloneData();
             SelectedColumn = null;
             SelectedRow = null;
         }
@@ -233,6 +236,13 @@ namespace Workbench.ViewModels
                     selectedRow.UpdateCellsFrom(args.Row.ItemArray);
                     break;
             }
+        }
+
+        private void CloneData()
+        {
+            var existingDataTable = Data;
+            Data = CreateDataTable();
+            existingDataTable.Dispose();
         }
     }
 }

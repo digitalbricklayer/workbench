@@ -186,6 +186,10 @@ namespace Workbench.Core.Models
         {
             Columns.RemoveAt(columnToDeleteIndex);
             this.columnCount--;
+            foreach (var row in Rows)
+            {
+                row.RemoveCell(columnToDeleteIndex);
+            }
         }
 
         /// <summary>
