@@ -35,6 +35,7 @@ namespace Workbench.ViewModels
             AddAllDifferentConstraintCommand = new CommandHandler(AddAllDifferentConstraintAction);
             AddDomainCommand = new CommandHandler(AddDomainAction);
             AddTableCommand = new CommandHandler(AddTableAction);
+            AddChessboardCommand = new CommandHandler(AddChessboardAction);
         }
 
         /// <summary>
@@ -74,6 +75,11 @@ namespace Workbench.ViewModels
         /// Gets the Insert|Add Table command.
         /// </summary>
         public ICommand AddTableCommand { get; }
+
+        /// <summary>
+        /// Gets the Insert|Add Chessboard command.
+        /// </summary>
+        public ICommand AddChessboardCommand { get; }
 
         /// <summary>
         /// Create a new singleton variable.
@@ -151,7 +157,12 @@ namespace Workbench.ViewModels
 
         private void AddTableAction()
         {
-            Workspace.AddTableVisualizer(TableModel.Default);
+            Workspace.AddTableTab(TableModel.Default);
+        }
+
+        private void AddChessboardAction()
+        {
+            Workspace.AddChessboardTab(new ChessboardModel(new ModelName("board1")));
         }
     }
 }

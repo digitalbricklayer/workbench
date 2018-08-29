@@ -186,24 +186,25 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Add a new chessboard visualizer to the workspace.
+        /// Add a new chessboard tab to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New chessboard visualizer.</param>
-        public void AddChessboardVisualizer(ChessboardVisualizerModel newVisualizer)
+        /// <param name="newChessboard">New chessboard tab.</param>
+        public void AddChessboardTab(ChessboardModel newChessboard)
         {
-            Contract.Requires<ArgumentNullException>(newVisualizer != null);
-
-//            ChessboardTabs.Add(newVisualizer);
+            Contract.Requires<ArgumentNullException>(newChessboard != null);
+            var newChessboardTab = new ChessboardTabViewModel(new ChessboardTabModel(newChessboard, new WorkspaceTabTitle("board1")), _windowManager);
+            ChessboardTabs.Add(newChessboardTab);
+            ActivateItem(newChessboardTab);
             IsDirty = true;
         }
 
         /// <summary>
-        /// Add a new table visualizer to the workspace.
+        /// Add a new table tab to the workspace.
         /// </summary>
-        /// <param name="newVisualizer">New table visualizer.</param>
-        public void AddTableVisualizer(TableModel newVisualizer)
+        /// <param name="newTable">New table.</param>
+        public void AddTableTab(TableModel newTable)
         {
-            Contract.Requires<ArgumentNullException>(newVisualizer != null);
+            Contract.Requires<ArgumentNullException>(newTable != null);
 
             var newTableTab = new TableTabViewModel(new TableTabModel(TableModel.Default, new WorkspaceTabTitle("Table")), _eventAggregator, _windowManager);
             TableTabs.Add(newTableTab);

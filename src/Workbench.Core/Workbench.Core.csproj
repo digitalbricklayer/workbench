@@ -250,7 +250,7 @@
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
     <Compile Include="Grammars\ConstraintGrammar.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
-    <Compile Include="Models\ChessboardVisualizerModel.cs" />
+    <Compile Include="Models\ChessboardTabModel.cs" />
     <Compile Include="Models\ChessPieceModel.cs" />
     <Compile Include="Models\ChessboardSquareModel.cs" />
     <Compile Include="Models\PieceType.cs" />

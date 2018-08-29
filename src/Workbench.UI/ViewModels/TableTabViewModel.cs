@@ -23,8 +23,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
             _windowManager = theWindowManager;
-            _text = _name = DisplayName = "table1";
-            _title = "table1";
+            Title = TabText = Name = DisplayName = theTableModel.Name;
             Model = theTableModel;
             Table = new TableViewModel(theTableModel.Table);
         }
