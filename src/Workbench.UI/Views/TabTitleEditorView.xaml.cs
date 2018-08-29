@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for TableTitleEditorView.xaml
+    /// Interaction logic for TabTitleEditorView.xaml
     /// </summary>
-    public partial class TableTitleEditorView : Window
+    public partial class TabTitleEditorView : Window
     {
-        public TableTitleEditorView()
+        public TabTitleEditorView()
         {
             InitializeComponent();
         }

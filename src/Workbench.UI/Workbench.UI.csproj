@@ -215,8 +215,8 @@
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
-    <Compile Include="ViewModels\TableNameEditorViewModel.cs" />
-    <Compile Include="ViewModels\TableTitleEditorViewModel.cs" />
+    <Compile Include="ViewModels\TabNameEditorViewModel.cs" />
+    <Compile Include="ViewModels\TabTitleEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\IWorkspaceTabViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
@@ -242,11 +242,11 @@
     <Compile Include="Views\ChessboardView.xaml.cs">
       <DependentUpon>ChessboardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TableNameEditorView.xaml.cs">
-      <DependentUpon>TableNameEditorView.xaml</DependentUpon>
+    <Compile Include="Views\TabNameEditorView.xaml.cs">
+      <DependentUpon>TabNameEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TableTitleEditorView.xaml.cs">
-      <DependentUpon>TableTitleEditorView.xaml</DependentUpon>
+    <Compile Include="Views\TabTitleEditorView.xaml.cs">
+      <DependentUpon>TabTitleEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ExpressionConstraintModelItemView.xaml.cs">
       <DependentUpon>ExpressionConstraintModelItemView.xaml</DependentUpon>
@@ -388,11 +388,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TableNameEditorView.xaml">
+    <Page Include="Views\TabNameEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TableTitleEditorView.xaml">
+    <Page Include="Views\TabTitleEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -89,20 +89,20 @@ namespace Workbench.ViewModels
 
         public void EditTitle()
         {
-            var titleEditor = new TableTitleEditorViewModel();
-            titleEditor.TableTitle = Title;
+            var titleEditor = new TabTitleEditorViewModel();
+            titleEditor.TabTitle = Title;
             var status = _windowManager.ShowDialog(titleEditor);
             if (status.HasValue && !status.Value) return;
-            Title = titleEditor.TableTitle;
+            Title = titleEditor.TabTitle;
         }
 
         public void EditName()
         {
-            var nameEditor = new TableNameEditorViewModel();
-            nameEditor.TableName = Name;
+            var nameEditor = new TabNameEditorViewModel();
+            nameEditor.TabName = Name;
             var status = _windowManager.ShowDialog(nameEditor);
             if (status.HasValue && !status.Value) return;
-            Name = nameEditor.TableName;
+            Name = nameEditor.TabName;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿<Window x:Class="Workbench.Views.TableTitleEditorView"
+﻿<Window x:Class="Workbench.Views.TabNameEditorView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
-        Title="Table Title Editor"
-        Height="151.627" Width="364">
+        Title="Name Editor"
+        Height="154.034" Width="364">
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
@@ -19,10 +19,10 @@
 
         <Image Source="pack://application:,,,/ConstraintWorkbench;component/Images/question2.png" Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
 
-        <Label Grid.Column="1">Table title:</Label>
-        <TextBox Name="columnTextEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding TableTitle}"/>
+        <Label Grid.Column="1">Name:</Label>
+        <TextBox Name="columnTextEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding TabName}"/>
 
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,16,0,-1" Grid.Column="1">
             <Button IsDefault="True" Name="btnDialogOk" MinWidth="60" Margin="0,0,10,0" Content="_OK">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

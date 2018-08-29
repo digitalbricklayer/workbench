@@ -3,21 +3,21 @@ using Caliburn.Micro;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the table name editor dialog box.
+    /// View model for the tab title editor dialog box.
     /// </summary>
-    public class TableNameEditorViewModel : Screen
+    public class TabTitleEditorViewModel : Screen
     {
-        private string _tableName;
+        private string _tabTitle;
 
         /// <summary>
-        /// Gets or sets the table title.
+        /// Gets or sets the tab title.
         /// </summary>
-        public string TableName
+        public string TabTitle
         {
-            get => this._tableName;
+            get => this._tabTitle;
             set
             {
-                _tableName = value;
+                _tabTitle = value;
                 NotifyOfPropertyChange();
             }
         }
