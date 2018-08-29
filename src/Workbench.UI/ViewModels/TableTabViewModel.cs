@@ -48,7 +48,7 @@ namespace Workbench.ViewModels
             set
             {
                 _name = value;
-                Text = value;
+                TabText = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the tab text.
         /// </summary>
-        public string Text
+        public string TabText
         {
             get => _text;
             set

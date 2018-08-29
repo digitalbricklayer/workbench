@@ -159,14 +159,14 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Get whether the currently selected tab be closed by the user.
+        /// Gets whether the currently selected tab be closed by the user.
         /// </summary>
         public bool CloseTabIsVisible => false;
 
         /// <summary>
         /// Gets or sets the tab text.
         /// </summary>
-        public string Text
+        public string TabText
         {
             get => DisplayName;
             set

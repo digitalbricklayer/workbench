@@ -19,7 +19,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolutionViewerTabViewModel()
         {
-            Text = DisplayName = "Solution";
+            TabText = DisplayName = "Solution";
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the table text.
         /// </summary>
-        public string Text
+        public string TabText
         {
             get => _text;
             set

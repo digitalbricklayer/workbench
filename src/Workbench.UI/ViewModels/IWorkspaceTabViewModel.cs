@@ -13,6 +13,6 @@
         /// <summary>
         /// Gets or sets the tab text.
         /// </summary>
-        string Text { get; set; }
+        string TabText { get; set; }
     }
 }
