@@ -86,7 +86,7 @@ namespace Workbench.Core.Repeaters
         /// <returns>Graphic matching the name.</returns>
         public GraphicModel GetVisualizerByName(string graphicName)
         {
-            return Display.GetGraphicBy(graphicName);
+            return Display.GetVisualizerBy(graphicName);
         }
 
         private void CreateCounterContextsFrom(MultiRepeaterStatementNode theRepeater)

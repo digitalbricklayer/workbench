@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class TableTabModel : VisualizerModel
     {
-        private readonly TableModel table;
+        private readonly TableModel _table;
 
         /// <summary>
         /// Initialize a table tab with a model and title.
@@ -21,16 +21,13 @@ namespace Workbench.Core.Models
         public TableTabModel(TableModel theTable, WorkspaceTabTitle theTitle)
             : base(theTable, theTitle)
         {
-            this.table = theTable;
+            _table = theTable;
         }
 
         /// <summary>
         /// Gets the table model.
         /// </summary>
-        public TableModel Table
-        {
-            get { return this.table; }
-        }
+        public TableModel Table => _table;
 
         /// <summary>
         /// Update the grid visualizer with call arguments.
@@ -47,7 +44,7 @@ namespace Workbench.Core.Models
                     case "BackgroundColor":
                     {
                         var backgroundColor = theCall.GetArgumentByName("BackgroundColor");
-                        var theCell = this.table.GetCellBy(Convert.ToInt32(rowIndex),
+                        var theCell = this._table.GetCellBy(Convert.ToInt32(rowIndex),
                                                           Convert.ToInt32(columnIndex));
                         switch (backgroundColor)
                         {
@@ -72,7 +69,7 @@ namespace Workbench.Core.Models
 
                     case "Text":
                     {
-                        var theCell = this.table.GetCellBy(Convert.ToInt32(rowIndex),
+                        var theCell = this._table.GetCellBy(Convert.ToInt32(rowIndex),
                                                           Convert.ToInt32(columnIndex));
                         theCell.Text = Convert.ToString(callArgument.Value);
                     }

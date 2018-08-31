@@ -12,6 +12,7 @@ namespace Workbench.Core.Models
     {
         private ModelModel model;
         private SolutionModel solution;
+        private DisplayModel display;
 
         /// <summary>
         /// Initialize a workspace with a model name.
@@ -22,6 +23,7 @@ namespace Workbench.Core.Models
 
             Model = new ModelModel(theModelName);
             Solution = new SolutionModel(Model);
+            Display = new DisplayModel(Model);
         }
 
         /// <summary>
@@ -55,6 +57,19 @@ namespace Workbench.Core.Models
             set
             {
                 this.solution = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the solution display.
+        /// </summary>
+        public DisplayModel Display
+        {
+            get { return this.display; }
+            set
+            {
+                this.display = value;
                 OnPropertyChanged();
             }
         }
@@ -102,6 +117,7 @@ namespace Workbench.Core.Models
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
             Contract.Requires<ArgumentNullException>(theVisualizer != null);
+            Display.AddVisualizer(theVisualizer);
         }
 
         /// <summary>
@@ -111,6 +127,7 @@ namespace Workbench.Core.Models
         public void UpdateSolutionFrom(SolveResult theSolveResult)
         {
             Contract.Requires<ArgumentNullException>(theSolveResult != null);
+            Display.UpdateFrom(theSolveResult);
             Solution.UpdateSolutionFrom(theSolveResult);
         }
 
@@ -121,11 +138,18 @@ namespace Workbench.Core.Models
         public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
+            Display.AddBindingEpxression(newBindingExpression);
         }
 
-        public VisualizerModel GetTabBy(string theTabName)
+        /// <summary>
+        /// Get the visualizer with the matching name.
+        /// </summary>
+        /// <param name="theName">Name of the visualizer.</param>
+        /// <returns>Visualizer matching the name.</returns>
+        public VisualizerModel GetVisualizerBy(string theName)
         {
-            throw new NotImplementedException();
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            return Display.GetVisualizerBy(theName);
         }
     }
 }

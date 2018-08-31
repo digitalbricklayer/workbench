@@ -79,7 +79,7 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithChessboardVisualizer(string theVisualizerName)
+        public WorkspaceContext WithChessboard(string theVisualizerName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
 
@@ -97,7 +97,7 @@ namespace Workbench.Core.Models
             return this;
         }
 
-        public WorkspaceContext WithGridVisualizer(TableTabModel theTab)
+        public WorkspaceContext WithTable(TableTabModel theTab)
         {
             Contract.Requires<ArgumentException>(theTab != null);
 

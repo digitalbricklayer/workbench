@@ -93,6 +93,7 @@ namespace Workbench.Core.Models
         /// <param name="theRow">The new row.</param>
         public void AddRowBefore(int selectedRowIndex, TableRowModel theRow)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
             Contract.Requires<ArgumentNullException>(theRow != null);
 
             Rows.Insert(selectedRowIndex == 0 ? selectedRowIndex: selectedRowIndex - 1, theRow);
@@ -111,6 +112,7 @@ namespace Workbench.Core.Models
         /// <param name="theRow">The new row.</param>
         public void AddRowAfter(int selectedRowIndex, TableRowModel theRow)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
             Contract.Requires<ArgumentNullException>(theRow != null);
 
             Rows.Insert(selectedRowIndex, theRow);
@@ -129,6 +131,7 @@ namespace Workbench.Core.Models
         /// <param name="theColumn">The new column.</param>
         public void AddColumnBefore(int selectedColumnIndex, TableColumnModel theColumn)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Columns.Count);
             Contract.Requires<ArgumentNullException>(theColumn != null);
 
             // Column indexes start at 1
@@ -153,6 +156,7 @@ namespace Workbench.Core.Models
         /// <param name="theColumn">The new column.</param>
         public void AddColumnAfter(int selectedColumnIndex, TableColumnModel theColumn)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Columns.Count);
             Contract.Requires<ArgumentNullException>(theColumn != null);
 
             // Column indexes start at 1
@@ -168,7 +172,7 @@ namespace Workbench.Core.Models
                 row.AddCell(new TableCellModel());
             }
 
-            Columns.Insert(selectedColumnIndex == 0 ? 1 : selectedColumnIndex + 1, theColumn);
+            Columns.Insert(selectedColumnIndex + 1, theColumn);
             this.columnCount++;
         }
 
@@ -178,6 +182,8 @@ namespace Workbench.Core.Models
         /// <param name="selectedRowIndex">Selected row index.</param>
         public void DeleteRowSelected(int selectedRowIndex)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
+
             Rows.RemoveAt(selectedRowIndex);
             this.rowCount--;
         }
@@ -271,6 +277,17 @@ namespace Workbench.Core.Models
             }
         }
 
+        private void AppendRow(TableRowModel theRow)
+        {
+            Rows.Add(theRow);
+            this.rowCount++;
+            if (theRow.Cells.Count == Columns.Count) return;
+            for (var z = 0; z < Columns.Count; z++)
+            {
+                theRow.AddCell(new TableCellModel());
+            }
+        }
+
         private IEnumerable<TableCellModel> GetCellsByColumn(TableColumnModel theColumn)
         {
             var accumulator = new List<TableCellModel>();
@@ -293,11 +310,6 @@ namespace Workbench.Core.Models
             }
             Columns.Insert(this.columnCount, theColumn);
             this.columnCount++;
-        }
-
-        private void AppendRow(TableRowModel newRow)
-        {
-            AddRowAfter(rowCount, newRow);
         }
     }
 }

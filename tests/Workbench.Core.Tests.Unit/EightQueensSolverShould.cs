@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             sut.Solve();
-            var chessboardVisualizer = (ChessboardTabModel)sut.GetTabBy("board");
+            var chessboardVisualizer = (ChessboardTabModel)sut.GetVisualizerBy("board");
             var allQueenSquares = chessboardVisualizer.GetSquaresOccupiedBy(PieceType.Queen);
             Assert.That(allQueenSquares, Has.Count.EqualTo(ExpectedQueens));
         }
@@ -51,7 +51,7 @@ namespace Workbench.Core.Tests.Unit
                                           .WithConstraintExpression("$cols[i] + i <> $cols[j] + j | i,j in size(cols),i")
                                           .WithConstraintExpression("$cols[i] - i <> $cols[j] - j | i,j in size(cols),i")
                                           .WithVisualizerBinding("for x,y in 1..size(cols),1..size(cols): if <cols,x> = %y: board(x:x,y:y,side:white,piece:Queen)")
-                                          .WithChessboardVisualizer("board")
+                                          .WithChessboard("board")
                                           .Build();
 
             return workspace;

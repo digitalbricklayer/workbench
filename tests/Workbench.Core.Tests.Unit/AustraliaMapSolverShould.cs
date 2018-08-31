@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
@@ -31,11 +30,11 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        public void SolveWithGridVisualizerAssignsColorsWithinContraints()
+        public void SolveWithTableVisualizerAssignsColorsWithinContraints()
         {
             var sut = CreateWorkspace();
             sut.Solve();
-            var tableVisualizer = (TableTabModel)sut.GetTabBy("states");
+            var tableVisualizer = (TableTabModel)sut.GetVisualizerBy("states");
             var colorColumnData = tableVisualizer.GetColumnDataByName("Color");
             var colorCells = colorColumnData.GetCells();
             Assert.That(colorCells, Has.Count.EqualTo(7), "There should be 7 cells in the color column corresponding to the 7 Australian states.");
@@ -71,13 +70,13 @@ namespace Workbench.Core.Tests.Unit
                                           .WithVisualizerBinding("states(row:5,column:2,Text:<nsw>)")
                                           .WithVisualizerBinding("states(row:6,column:2,Text:<v>)")
                                           .WithVisualizerBinding("states(row:7,column:2,Text:<t>)")
-                                          .WithGridVisualizer(CreateGrid())
+                                          .WithTable(CreateTable())
                                           .Build();
 
             return workspace;
         }
 
-        private static TableTabModel CreateGrid()
+        private static TableTabModel CreateTable()
         {
             var newTable = new TableModel(new ModelName("states"), new[] { "Text", "Color" }, new[] { new TableRowModel("WA", ""),
                 new TableRowModel("NT", ""),
