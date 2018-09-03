@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -17,6 +19,7 @@ namespace Workbench.ViewModels
         private ICommand _addAggregateVariableCommand;
         private readonly IAppRuntime _appRuntime;
         private readonly IWindowManager _windowManager;
+        private readonly IEventAggregator _eventAggregator;
         private ICommand _addDomainCommand;
         private ICommand _addExpressionConstraintCommand;
         private ICommand _addAllDifferentConstraintCommand;
@@ -26,14 +29,19 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a solution designer view model with default values.
         /// </summary>
-        public ModelEditorTabViewModel(IAppRuntime theAppRuntime, IDataService theDataService, IWindowManager theWindowManager)
+        public ModelEditorTabViewModel(IAppRuntime theAppRuntime,
+                                       IDataService theDataService,
+                                       IWindowManager theWindowManager,
+                                       IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             _appRuntime = theAppRuntime;
             _windowManager = theWindowManager;
+            _eventAggregator = theEventAggregator;
             DisplayName = "Model";
             ModelModel = theDataService.GetWorkspace().Model;
             Variables = new BindableCollection<VariableModelItemViewModel>();
@@ -253,6 +261,7 @@ namespace Workbench.ViewModels
             Variables.Remove(variableToDelete);
             DeactivateItem(variableToDelete, close: true);
             DeleteVariableFromModel(variableToDelete);
+            _eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete.Variable));
         }
 
         /// <summary>
@@ -279,6 +288,16 @@ namespace Workbench.ViewModels
             Constraints.Remove(constraintToDelete);
             DeactivateItem(constraintToDelete, close: true);
             DeleteConstraintFromModel(constraintToDelete);
+        }
+
+        /// <summary>
+        /// Get the variable by name.
+        /// </summary>
+        /// <param name="variableName">Variable name.</param>
+        /// <returns>Variable matching the name or null if the variable doesn't exist.</returns>
+        public VariableModelItemViewModel GetVariableByName(string variableName)
+        {
+            return Variables.FirstOrDefault(variableItem => variableItem.Variable.Name == variableName);
         }
 
         /// <summary>

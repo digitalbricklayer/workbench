@@ -24,9 +24,9 @@ namespace Workbench.ViewModels
         /// Initialize a work area view model with a data service, window manager and event aggregator.
         /// </summary>
         public WorkspaceViewModel(IDataService theDataService,
-                                 IWindowManager theWindowManager,
-                                 IEventAggregator theEventAggregator,
-                                 IViewModelFactory theViewModelFactory)
+                                  IWindowManager theWindowManager,
+                                  IEventAggregator theEventAggregator,
+                                  IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);

@@ -58,7 +58,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(_appRuntime, this.dataService, this.windowManagerMock.Object));
+                                .Returns(new ModelEditorTabViewModel(_appRuntime, this.dataService, this.windowManagerMock.Object, this.eventAggregator));
             return viewModelFactoryMock;
         }
 

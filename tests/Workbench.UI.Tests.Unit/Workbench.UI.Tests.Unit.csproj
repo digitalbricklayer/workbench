@@ -107,6 +107,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ExpressionConstraintModelItemViewModelTests.cs" />
     <Compile Include="ViewModels\TableViewModelTests.cs" />
+    <Compile Include="ViewModels\WorkspaceViewModelEmptyTests.cs" />
+    <Compile Include="ViewModels\WorkspaceViewModelSolveTests.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelTests.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>

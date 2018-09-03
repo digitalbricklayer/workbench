@@ -24,7 +24,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var workspaceViewModel = new WorkspaceViewModel(CreateDataService(),
                                                             CreateWindowManager(),
                                                             CreateEventAggregator(),
-                                                            CreateViewModelFactory());
+                                                            CreateViewModelFactory().Object);
             return workspaceViewModel;
         }
 
@@ -33,9 +33,12 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new DataService(Mock.Of<IWorkspaceReaderWriter>());
         }
 
-        private static IViewModelFactory CreateViewModelFactory()
+        private static Mock<IViewModelFactory> CreateViewModelFactory()
         {
-            return new ViewModelFactory();
+            var viewModelFactoryMock = new Mock<IViewModelFactory>();
+            viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
+                                .Returns(new ModelEditorTabViewModel(new AppRuntime(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
+            return viewModelFactoryMock;
         }
 
         private static IEventAggregator CreateEventAggregator()
