@@ -125,6 +125,21 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Append a new row to the end of the table.
+        /// </summary>
+        /// <param name="theRow">The new row.</param>
+        public void AddRow(TableRowModel theRow)
+        {
+            Rows.Add(theRow);
+            this.rowCount++;
+            if (theRow.Cells.Count == Columns.Count) return;
+            for (var z = 0; z < Columns.Count; z++)
+            {
+                theRow.AddCell(new TableCellModel());
+            }
+        }
+
+        /// <summary>
         /// Add a column to the table.
         /// </summary>
         /// <param name="selectedColumnIndex">The currently selected column index.</param>
@@ -173,6 +188,25 @@ namespace Workbench.Core.Models
             }
 
             Columns.Insert(selectedColumnIndex + 1, theColumn);
+            this.columnCount++;
+        }
+
+        /// <summary>
+        /// Add a new column to the table.
+        /// </summary>
+        /// <param name="theColumn">The new column.</param>
+        public void AddColumn(TableColumnModel theColumn)
+        {
+            Contract.Requires<ArgumentNullException>(theColumn != null);
+            // Column indexes start at 1
+            theColumn.Index = Columns.Count + 1;
+
+            foreach (var row in Rows)
+            {
+                row.AddCell(new TableCellModel());
+            }
+
+            Columns.Add(theColumn);
             this.columnCount++;
         }
 

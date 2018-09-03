@@ -81,6 +81,12 @@ namespace Workbench.ViewModels
             Data = CreateDataTable();
         }
 
+        public void AddColumn(TableColumnModel newColumn)
+        {
+            Contract.Requires<ArgumentNullException>(newColumn != null);
+            AppendColumn(newColumn);
+        }
+
         public void AddRowBefore(int selectedRowIndex, TableRowModel theNewRow)
         {
             Contract.Requires<ArgumentNullException>(theNewRow != null);
@@ -95,6 +101,13 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Table.Rows.Count);
             Table.AddRowAfter(selectedRowIndex, theNewRow);
             AddRowToTable(theNewRow, selectedRowIndex);
+        }
+
+        public void AddRow(TableRowModel theNewRow)
+        {
+            Contract.Requires<ArgumentNullException>(theNewRow != null);
+            Table.AddRow(theNewRow);
+            AppendRowToTable(theNewRow, _dataTable);
         }
 
         public TableRowModel GetRowAt(int rowIndex)
@@ -160,7 +173,8 @@ namespace Workbench.ViewModels
 
         private void AppendColumn(TableColumnModel newColumn)
         {
-            throw new NotImplementedException();
+            Table.AddColumn(newColumn);
+            AddColumnToTable(_dataTable, newColumn);
         }
 
         private void AddRowToTable(TableRowModel theRowModel, int selectedRowIndex)
