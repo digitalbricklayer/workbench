@@ -33,6 +33,7 @@ namespace Workbench.Core.Models
         {
             Model = new ModelModel();
             Solution = new SolutionModel(Model);
+            Display = new DisplayModel(Model);
         }
 
         /// <summary>

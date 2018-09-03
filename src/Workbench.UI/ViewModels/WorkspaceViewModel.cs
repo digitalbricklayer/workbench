@@ -33,8 +33,8 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this._eventAggregator = theEventAggregator;
-            this._windowManager = theWindowManager;
+            _eventAggregator = theEventAggregator;
+            _windowManager = theWindowManager;
             _viewModelFactory = theViewModelFactory;
 
             WorkspaceModel = theDataService.GetWorkspace();
@@ -53,13 +53,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public ModelEditorTabViewModel ModelEditor
         {
-            get
-            {
-                return this._modelEditor;
-            }
+            get => _modelEditor;
             set
             {
-                this._modelEditor = value;
+                _modelEditor = value;
                 NotifyOfPropertyChange();
             }
         }
