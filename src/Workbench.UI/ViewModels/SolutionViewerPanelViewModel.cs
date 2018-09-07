@@ -62,26 +62,6 @@ namespace Workbench.ViewModels
             }
         }
 
-        /// <summary>
-        /// Reset the contents of the solution.
-        /// </summary>
-        public void Reset()
-        {
-            Labels.Clear();
-            SingletonLabels.Clear();
-            CompoundLabels.Clear();
-        }
-
-        /// <summary>
-        /// Add a label.
-        /// </summary>
-        /// <param name="newLabel">New label.</param>
-        public void AddLabel(LabelModel newSingletonLabel)
-        {
-            Contract.Requires<ArgumentNullException>(newSingletonLabel != null);
-            Labels.Add(newSingletonLabel);
-        }
-
         public void BindTo(SolutionModel theSolution)
         {
             var allLabels = new List<LabelModel>(theSolution.Snapshot.SingletonLabels);

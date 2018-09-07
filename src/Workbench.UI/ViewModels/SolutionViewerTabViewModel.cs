@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -63,20 +61,11 @@ namespace Workbench.ViewModels
             }
         }
 
-        /// <summary>
-        /// Add a label.
-        /// </summary>
-        /// <param name="newSingletonLabelViewModel">New singleton label.</param>
-        public void AddLabel(LabelModel newSingletonLabelViewModel)
-        {
-            Contract.Requires<ArgumentNullException>(newSingletonLabelViewModel != null);
-            Viewer.AddLabel(newSingletonLabelViewModel);
-        }
-
         public void BindTo(SolutionModel theSolution)
         {
-            Viewer.Reset();
+            Viewer = new SolutionViewerPanelViewModel();
             Viewer.BindTo(theSolution);
+            Stats = new SolutionStatsPanelViewModel();
             Stats.BindTo(theSolution);
         }
 

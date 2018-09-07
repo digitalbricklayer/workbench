@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
-using Workbench.Core.Models;
 using Workbench.Services;
 using Workbench.ViewModels;
 
@@ -17,32 +16,46 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IDataService> _dataServiceMock;
         private Mock<IWindowManager> _windowManagerMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
-        private WorkspaceModel _workspaceModel;
         private Mock<IViewModelFactory> _viewModelFactoryMock;
+
+        /// <summary>
+        /// Gets the subject of the test.
+        /// </summary>
+        public WorkspaceViewModel Subject { get; private set; }
 
         [SetUp]
         public void Initialize()
         {
-            _workspaceModel = WorkspaceModelFactory.Create();
             _dataServiceMock = CreateDataServiceMock();
             _windowManagerMock = new Mock<IWindowManager>();
             _eventAggregatorMock = CreateEventAggregatorMock();
             _viewModelFactoryMock = CreateViewModelFactoryMock();
+            Subject = CreateSut();
+            ScreenExtensions.TryActivate(Subject);
         }
 
         [Test]
-        public void SolveModelWithValidModelDisplaysSolution()
+        public void SolveModelWithValidModelDisplaysSolutionTab()
         {
-            var sut = CreateSut();
-            ScreenExtensions.TryActivate(sut);
-            sut.SolveModel();
-            Assert.That(sut.ActiveItem, Is.InstanceOf<SolutionViewerTabViewModel>());
+            Subject.SolveModel();
+            Assert.That(Subject.ActiveItem, Is.InstanceOf<SolutionViewerTabViewModel>());
+        }
+
+        [Test]
+        public void SolveModelWithValidModelBindsLabels()
+        {
+            Subject.SolveModel();
+            var solutionViewerTab = Subject.ActiveItem as SolutionViewerTabViewModel;
+            if (solutionViewerTab == null) Assert.Fail("Active tab is not the correct one.");
+            Assert.That(solutionViewerTab.Viewer.Labels, Is.Not.Empty);
         }
 
         private WorkspaceViewModel CreateSut()
         {
-            return new WorkspaceViewModel(_dataServiceMock.Object, _windowManagerMock.Object, _eventAggregatorMock.Object, _viewModelFactoryMock.Object);
-
+            return new WorkspaceViewModel(_dataServiceMock.Object,
+                                          _windowManagerMock.Object,
+                                          _eventAggregatorMock.Object,
+                                          _viewModelFactoryMock.Object);
         }
 
         private Mock<IEventAggregator> CreateEventAggregatorMock()
@@ -53,24 +66,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IDataService> CreateDataServiceMock()
         {
             var mock = new Mock<IDataService>();
-            mock.Setup(_ => _.GetWorkspace())
-                .Returns(_workspaceModel);
+            mock.Setup(_ => _.GetWorkspace()).Returns(WorkspaceModelFactory.Create);
             return mock;
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
-            var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateWorkspace()).Returns(CreateWorkspaceViewModel);
-            return mock;
-        }
-
-        private WorkspaceViewModel CreateWorkspaceViewModel()
-        {
-            return new WorkspaceViewModel(_dataServiceMock.Object,
-                                          _windowManagerMock.Object,
-                                          _eventAggregatorMock.Object,
-                                          _viewModelFactoryMock.Object);
+            return new Mock<IViewModelFactory>();
         }
     }
 }
