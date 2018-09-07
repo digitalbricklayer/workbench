@@ -14,26 +14,23 @@ namespace Workbench.UI.Tests.Unit.ViewModels
     [TestFixture]
     public class WorkspaceViewModelCreatedFromModelTests
     {
-        private Mock<IDataService> dataServiceMock;
-        private Mock<IWindowManager> windowManagerMock;
-        private Mock<IEventAggregator> eventAggregatorMock;
-        private WorkspaceModel workspaceModel;
-        private IViewModelService viewModelService;
-        private Mock<IViewModelFactory> viewModelFactoryMock;
+        private Mock<IDataService> _dataServiceMock;
+        private Mock<IWindowManager> _windowManagerMock;
+        private Mock<IEventAggregator> _eventAggregatorMock;
+        private WorkspaceModel _workspaceModel;
+        private Mock<IViewModelFactory> _viewModelFactoryMock;
 
         [SetUp]
         public void Initialize()
         {
-            this.workspaceModel = WorkspaceModelFactory.Create();
-            this.dataServiceMock = CreateDataServiceMock();
-            this.windowManagerMock = new Mock<IWindowManager>();
-            this.eventAggregatorMock = new Mock<IEventAggregator>();
-            this.viewModelFactoryMock = CreateViewModelFactoryMock();
-            this.viewModelService = new ViewModelService();
+            _workspaceModel = WorkspaceModelFactory.Create();
+            _dataServiceMock = CreateDataServiceMock();
+            _windowManagerMock = new Mock<IWindowManager>();
+            _eventAggregatorMock = CreateEventAggregatorMock();
+            _viewModelFactoryMock = CreateViewModelFactoryMock();
         }
     
         [Test]
-        [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void SolveModelWithValidModelDisplaysSolution()
         {
             var sut = CreateSut();
@@ -41,43 +38,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             Assert.That(sut.ActiveItem.DisplayName, Is.EqualTo("Viewer"));
         }
 
-        private WorkAreaViewModel CreateSut()
+        private WorkspaceViewModel CreateSut()
         {
-            var workspaceMapper = new WorkAreaMapper(CreateSolutionMapper(),
-                                                     CreateDisplayMapper(),
-                                                     CreateViewModelFactoryMock().Object);
-            return workspaceMapper.MapFrom(this.workspaceModel);
-        }
+            return new WorkspaceViewModel(_dataServiceMock.Object, _windowManagerMock.Object, _eventAggregatorMock.Object, _viewModelFactoryMock.Object);
 
-        private DisplayMapper CreateDisplayMapper()
-        {
-            return new DisplayMapper(CreateVariableMapper(),
-                                     CreateConstraintMapper(),
-                                     CreateDomainMapper(),
-                                     CreateViewModelFactoryMock().Object,
-                                     this.viewModelService,
-                                     CreateDataServiceMock().Object);
-        }
-
-        private SolutionMapper CreateSolutionMapper()
-        {
-            return new SolutionMapper(this.viewModelService,
-                                      this.eventAggregatorMock.Object);
-        }
-
-        private DomainMapper CreateDomainMapper()
-        {
-            return new DomainMapper(this.viewModelService);
-        }
-
-        private ConstraintMapper CreateConstraintMapper()
-        {
-            return new ConstraintMapper(this.viewModelService);
-        }
-
-        private VariableMapper CreateVariableMapper()
-        {
-            return new VariableMapper(this.viewModelService, this.eventAggregatorMock.Object);
         }
 
         private Mock<IEventAggregator> CreateEventAggregatorMock()
@@ -89,25 +53,23 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var mock = new Mock<IDataService>();
             mock.Setup(_ => _.GetWorkspace())
-                .Returns(this.workspaceModel);
+                .Returns(_workspaceModel);
             return mock;
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateWorkArea())
-                .Returns(CreateWorkspaceViewModel);
+            mock.Setup(_ => _.CreateWorkspace()).Returns(CreateWorkspaceViewModel);
             return mock;
         }
 
         private WorkspaceViewModel CreateWorkspaceViewModel()
         {
-            return new WorkspaceViewModel(this.dataServiceMock.Object,
-                                          this.windowManagerMock.Object,
-                                          this.eventAggregatorMock.Object,
-                                          this.viewModelFactoryMock.Object,
-                                          new ModelEditorTabViewModel(new AppRuntime(), this.dataServiceMock.Object, this.windowManagerMock.Object));
+            return new WorkspaceViewModel(_dataServiceMock.Object,
+                                          _windowManagerMock.Object,
+                                          _eventAggregatorMock.Object,
+                                          _viewModelFactoryMock.Object);
         }
     }
 }

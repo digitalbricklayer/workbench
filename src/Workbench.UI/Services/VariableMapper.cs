@@ -21,7 +21,7 @@ namespace Workbench.Services
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-#if false
+#if true
             var variableViewModel = new SingletonVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);
@@ -36,7 +36,7 @@ namespace Workbench.Services
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-#if false
+#if true
             var variableViewModel = new AggregateVariableViewModel(theVariableModel, this.eventAggregator);
 
             this.cache.CacheVariable(variableViewModel);

@@ -7,7 +7,7 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
-#if false
+#if true
     /// <summary>
     /// Map the display model to a solution designer view model.
     /// </summary>

@@ -23,7 +23,7 @@ namespace Workbench.Services
             Contract.Requires<ArgumentNullException>(theDomainModel != null);
             Contract.Assert(theDomainModel.HasIdentity);
 
-#if false
+#if true
             var domainViewModel = new DomainModelItemViewModel(theDomainModel,
                                                             this.eventAggregator,
                                                             this.dataService,

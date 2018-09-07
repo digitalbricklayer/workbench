@@ -24,6 +24,6 @@ namespace Workbench.ViewModels
             }
         }
 
-        public VariableModel Variable { get; set; }
+        public VariableModel Variable { get;}
     }
 }

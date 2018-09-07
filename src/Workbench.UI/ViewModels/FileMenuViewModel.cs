@@ -10,25 +10,21 @@ namespace Workbench.ViewModels
     public sealed class FileMenuViewModel
     {
         private readonly IDataService dataService;
-        private readonly WorkspaceMapper _workspaceMapper;
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;
         private readonly IViewModelFactory viewModelFactory;
 
         public FileMenuViewModel(IDataService theDataService,
-                                 WorkspaceMapper theWorkspaceMapper,
                                  IAppRuntime theAppRuntime,
                                  TitleBarViewModel theTitleBarViewModel,
                                  IViewModelFactory theViewModelFactory)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceMapper != null);
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
             this.dataService = theDataService;
-            this._workspaceMapper = theWorkspaceMapper;
             this.appRuntime = theAppRuntime;
             this.titleBar = theTitleBarViewModel;
             this.viewModelFactory = theViewModelFactory;
@@ -91,7 +87,6 @@ namespace Workbench.ViewModels
         {
             if (!PromptToSave()) return;
             Workspace = this.viewModelFactory.CreateWorkspace();
-            Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 
@@ -102,7 +97,6 @@ namespace Workbench.ViewModels
         {
             if (!PromptToSave()) return;
 
-            // Show Open File dialog
             var openFileDialog = new OpenFileDialog
             {
                 Filter = this.appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
@@ -110,7 +104,10 @@ namespace Workbench.ViewModels
                 RestoreDirectory = true
             };
 
-            if (openFileDialog.ShowDialog().GetValueOrDefault() != true)
+            // Show Open File dialog
+            var openResult = openFileDialog.ShowDialog();
+
+            if (!openResult.GetValueOrDefault())
             {
                 // Open has been cancelled
                 return;
@@ -118,11 +115,9 @@ namespace Workbench.ViewModels
 
             try
             {
-                var workspaceModel = this.dataService.Open(openFileDialog.FileName);
-                Workspace = this._workspaceMapper.MapFrom(workspaceModel);
-#if false
-                Workspace.SelectedDisplay = "Editor";
-#endif
+                // Read a new workspace model
+                this.dataService.Open(openFileDialog.FileName);
+                Workspace = this.viewModelFactory.CreateWorkspace();
             }
             catch (Exception e)
             {
@@ -130,7 +125,6 @@ namespace Workbench.ViewModels
             }
 
             this.appRuntime.CurrentFileName = openFileDialog.FileName;
-            Workspace.IsDirty = false;
             this.titleBar.UpdateTitle();
         }
 

@@ -19,7 +19,7 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
         }
 
-        public SingletonVariableModel SingletonVariable { get; set; }
+        public SingletonVariableModel SingletonVariable { get; }
 
         public override void Edit()
         {

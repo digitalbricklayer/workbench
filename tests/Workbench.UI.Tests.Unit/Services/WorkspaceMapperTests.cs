@@ -11,7 +11,6 @@ namespace Workbench.UI.Tests.Unit.Services
     public class WorkspaceMapperTests
     {
         [Test]
-        [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
         {
             var sut = CreateSut();
@@ -20,7 +19,6 @@ namespace Workbench.UI.Tests.Unit.Services
         }
 
         [Test]
-        [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void MapFrom_With_Valid_Model_Returns_Expected_Domains()
         {
             var sut = CreateSut();
@@ -29,7 +27,6 @@ namespace Workbench.UI.Tests.Unit.Services
         }
 
         [Test]
-        [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void MapFrom_With_Valid_Model_Returns_Expected_Constraints()
         {
             var sut = CreateSut();
@@ -38,7 +35,6 @@ namespace Workbench.UI.Tests.Unit.Services
         }
 
         [Test]
-        [Ignore("Synchronizing view model state to the model is currently broken.")]
         public void MapFrom_With_Valid_Model_Sets_Expected_Workspace_Model()
         {
             var sut = CreateSut();
@@ -46,22 +42,20 @@ namespace Workbench.UI.Tests.Unit.Services
             Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
         }
 
-        private WorkAreaMapper CreateSut()
+        private WorkspaceMapper CreateSut()
         {
-            return new WorkAreaMapper(CreateSolutionMapper(),
-                                      CreateDisplayMapper(),
-                                      CreateViewModelFactoryMock().Object);
+            return new WorkspaceMapper(CreateDisplayMapper(),
+                                       CreateViewModelFactoryMock().Object);
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var mock = new Mock<IViewModelFactory>();
-            mock.Setup(_ => _.CreateWorkArea())
-                .Returns(new WorkAreaViewModel(CreateDataService(),
-                                               CreateWindowManager(),
-                                               CreateEventAggregator(),
-                                               mock.Object,
-                                               new ModelEditorTabViewModel(CreateDataService())));
+            mock.Setup(_ => _.CreateWorkspace())
+                .Returns(new WorkspaceViewModel(CreateDataService(),
+                                                CreateWindowManager(),
+                                                CreateEventAggregator(),
+                                                mock.Object));
 
             return mock;
         }
@@ -74,12 +68,6 @@ namespace Workbench.UI.Tests.Unit.Services
                                      CreateViewModelFactoryMock().Object,
                                      this.viewModelService,
                                      CreateDataService());
-        }
-
-        private SolutionMapper CreateSolutionMapper()
-        {
-            return new SolutionMapper(this.viewModelService,
-                                      CreateEventAggregator());
         }
 
         private DomainMapper CreateDomainMapper()

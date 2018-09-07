@@ -283,7 +283,6 @@
     <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
     <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
     <Compile Include="Services\DataService.cs" />
-    <Compile Include="Services\DisplayMapper.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IViewModelService.cs" />
     <Compile Include="Services\IViewModelFactory.cs" />
@@ -323,11 +322,6 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ViewModelService.cs" />
-    <Compile Include="Services\ConstraintMapper.cs" />
-    <Compile Include="Services\DomainMapper.cs" />
-    <Compile Include="Services\SolutionMapper.cs" />
-    <Compile Include="Services\VariableMapper.cs" />
-    <Compile Include="Services\WorkspaceMapper.cs" />
     <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
     <Compile Include="ViewModels\DomainModelItemViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

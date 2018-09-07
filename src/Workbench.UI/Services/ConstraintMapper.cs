@@ -1,11 +1,9 @@
 using System;
 using System.Diagnostics;
-using Workbench.Core.Models;
-using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
-#if false
+#if true
     /// <summary>
     /// Maps a constraint model into a view model.
     /// </summary>
@@ -16,7 +14,7 @@ namespace Workbench.Services
         public ConstraintMapper(IViewModelService theService)
         {
             if (theService == null)
-                throw new ArgumentNullException("theService");
+                throw new ArgumentNullException(nameof(theService));
             this.cache = theService;
         }
 
