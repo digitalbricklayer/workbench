@@ -29,13 +29,14 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             _eventAggregatorMock = CreateEventAggregatorMock();
             _viewModelFactoryMock = CreateViewModelFactoryMock();
         }
-    
+
         [Test]
         public void SolveModelWithValidModelDisplaysSolution()
         {
             var sut = CreateSut();
+            ScreenExtensions.TryActivate(sut);
             sut.SolveModel();
-            Assert.That(sut.ActiveItem.DisplayName, Is.EqualTo("Viewer"));
+            Assert.That(sut.ActiveItem, Is.InstanceOf<SolutionViewerTabViewModel>());
         }
 
         private WorkspaceViewModel CreateSut()
