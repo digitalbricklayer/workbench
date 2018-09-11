@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
 
