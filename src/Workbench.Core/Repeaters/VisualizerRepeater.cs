@@ -21,9 +21,8 @@ namespace Workbench.Core.Repeaters
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
-            if (theContext.Binding.Node.InnerExpression is MultiRepeaterStatementNode)
+            if (theContext.Binding.Node.InnerExpression is MultiRepeaterStatementNode repeaterStatement)
             {
-                var repeaterStatement = (MultiRepeaterStatementNode)theContext.Binding.Node.InnerExpression;
                 var statementNode = repeaterStatement.Statement;
                 if (!this.context.HasRepeaters)
                 {
@@ -106,7 +105,7 @@ namespace Workbench.Core.Repeaters
                     return numberLiteralNode.Value;
 
                 case ValueReferenceStatementNode valueReferenceStatementNode:
-                    return EvaluateValueReferenceExpression(theExpression.ValueReference);
+                    return EvaluateValueReferenceExpression(valueReferenceStatementNode);
 
                 case CounterReferenceNode counterReferenceNode:
                     var counterContext = this.context.GetCounterContextByName(counterReferenceNode.CounterName);
@@ -188,13 +187,13 @@ namespace Workbench.Core.Repeaters
         {
             switch (leftValue)
             {
-                case int number:
+                case int _:
                     return EvaluateNumberBinaryExpression(theOperator, Convert.ToInt32(leftValue), rightValue);
 
-                case char c:
+                case char _:
                     return EvaluateCharBinaryExpression(theOperator, Convert.ToChar(leftValue), rightValue);
 
-                case string s:
+                case string _:
                     return EvaluateStringBinaryExpression(theOperator, Convert.ToString(leftValue), rightValue);
 
                 default:

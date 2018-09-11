@@ -81,21 +81,21 @@ namespace Workbench.Core.Repeaters
                                                    lhsExpr,
                                                    constraintExpressionNode.InnerExpression.RightExpression.GetLiteral());
             }
-            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is ItemNameNode)
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is ItemNameNode node)
             {
                 var lhsVariableName = GetVariableNameFrom(constraintExpressionNode.InnerExpression.LeftExpression);
                 var lhsVariable = this.model.GetVariableByName(lhsVariableName);
                 var range = this.valueMapper.GetDomainValueFor(lhsVariable);
-                var modelValue = GetModelValueFrom(constraintExpressionNode.InnerExpression.RightExpression.InnerExpression as ItemNameNode);
+                var modelValue = GetModelValueFrom(node);
                 var solverValue = range.MapTo(modelValue);
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, solverValue);
             }
-            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is CharacterLiteralNode)
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is CharacterLiteralNode literalNode)
             {
                 var lhsVariableName = GetVariableNameFrom(constraintExpressionNode.InnerExpression.LeftExpression);
                 var lhsVariable = this.model.GetVariableByName(lhsVariableName);
                 var range = this.valueMapper.GetDomainValueFor(lhsVariable);
-                var modelValue = GetModelValueFrom(constraintExpressionNode.InnerExpression.RightExpression.InnerExpression as CharacterLiteralNode);
+                var modelValue = GetModelValueFrom(literalNode);
                 var solverValue = range.MapTo(modelValue);
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, solverValue);
             }
