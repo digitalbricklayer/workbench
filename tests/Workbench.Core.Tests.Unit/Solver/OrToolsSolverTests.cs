@@ -51,7 +51,7 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            var workspace = WorkspaceModel.Create("A test")
+            var workspace = new WorkspaceBuilder("A test")
                                           .AddSingleton("x", "1..9")
                                           .AddSingleton("y", "1..9")
                                           .AddAggregate("z", 1, "1..9")

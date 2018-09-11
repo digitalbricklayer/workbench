@@ -5,25 +5,13 @@ using System.Drawing;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// An individual cell in a row on a grid.
+    /// An individual cell in a row on a table.
     /// </summary>
     [Serializable]
     public class TableCellModel : AbstractModel
     {
         private Color backgroundColor;
         private string text;
-
-        /// <summary>
-        /// Initialize the cell with text and color.
-        /// </summary>
-        /// <param name="theText">Region name.</param>
-        /// <param name="theColor">Region color</param>
-        public TableCellModel(string theText, Color theColor)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theText));
-            Text = theText;
-            BackgroundColor = theColor;
-        }
 
         /// <summary>
         /// Initialize the cell with text.

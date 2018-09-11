@@ -76,27 +76,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Create a new workspace.
-        /// </summary>
-        /// <param name="theModelName">Name for the model.</param>
-        /// <returns>Fluent interface context.</returns>
-        public static WorkspaceContext Create(string theModelName)
-        {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theModelName));
-            var newWorkspace = new WorkspaceModel(new ModelName(theModelName));
-            return new WorkspaceContext(newWorkspace);
-        }
-
-        /// <summary>
-        /// Create a new workspace.
-        /// </summary>
-        /// <returns>Fluent interface context.</returns>
-        public static WorkspaceContext Create()
-        {
-            return new WorkspaceContext(new WorkspaceModel());
-        }
-
-        /// <summary>
         /// Solve the model.
         /// </summary>
         /// <returns>Solve result.</returns>

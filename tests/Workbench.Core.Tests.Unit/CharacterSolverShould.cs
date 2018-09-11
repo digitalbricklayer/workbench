@@ -46,7 +46,7 @@ namespace Workbench.Core.Tests.Unit
 
         private static WorkspaceModel CreateWorkspace()
         {
-            var workspace = WorkspaceModel.Create("A made up character range test")
+            var workspace = new WorkspaceBuilder("A made up character range test")
                                           .AddAggregate("a", 26, "'a'..'z'")
                                           .AddSingleton("b", "'a'..'z'")
                                           .WithConstraintAllDifferent("a")

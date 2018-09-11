@@ -64,7 +64,7 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            var workspace = WorkspaceModel.Create("A test")
+            var workspace = new WorkspaceBuilder("A test")
                                           .WithSharedDomain("a", "1..9")
                                           .AddSingleton("x", "$a")
                                           .AddSingleton("y", "$a")

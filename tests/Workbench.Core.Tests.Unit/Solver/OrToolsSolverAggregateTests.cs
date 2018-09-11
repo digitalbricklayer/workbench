@@ -71,7 +71,7 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            var workspace = WorkspaceModel.Create("An aggregate test")
+            var workspace = new WorkspaceBuilder("An aggregate test")
                                           .AddAggregate("c", 10, "1..9")
                                           .WithConstraintExpression("$c[0] < $c[9]")
                                           .WithConstraintExpression("$c[1] > $c[8]")

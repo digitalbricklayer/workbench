@@ -50,7 +50,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeValidModel()
         {
-            var workspace = WorkspaceModel.Create("A valid model")
+            var workspace = new WorkspaceBuilder("A valid model")
                                           .AddSingleton("x", "1..9")
                                           .AddAggregate("y", 10, "1..9")
                                           .WithConstraintExpression("x > y")

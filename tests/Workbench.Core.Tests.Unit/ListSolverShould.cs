@@ -42,7 +42,7 @@ namespace Workbench.Core.Tests.Unit
 
         private static WorkspaceModel CreateWorkspace()
         {
-            var workspace = WorkspaceModel.Create("A contrived list test")
+            var workspace = new WorkspaceBuilder("A contrived list test")
                                           .AddAggregate("a", 3, "bob, jim, kate")
                                           .AddSingleton("c", "sun, moon, sky")
                                           .WithConstraintAllDifferent("a")

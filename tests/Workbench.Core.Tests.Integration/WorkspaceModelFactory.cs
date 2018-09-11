@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Workbench.Core;
 using Workbench.Core.Models;
 
 namespace Workbench.UI.Tests.Integration
@@ -16,7 +17,7 @@ namespace Workbench.UI.Tests.Integration
         /// <returns>A simple workspace model.</returns>
         internal WorkspaceModel Create()
         {
-            var newWorkspace = WorkspaceModel.Create()
+            var newWorkspace = new WorkspaceBuilder()
                                              .AddSingleton("x", "z")
                                              .AddAggregate("y", 10, "1..9")
                                              .WithConstraintExpression("x > 1")

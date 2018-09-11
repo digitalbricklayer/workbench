@@ -47,7 +47,7 @@ namespace Workbench.Core.Tests.Unit.Solver
 
         private static ModelModel MakeModel()
         {
-            var workspace = WorkspaceModel.Create("A test")
+            var workspace = new WorkspaceBuilder("A test")
                                           .WithSharedDomain("a", "1..9")
                                           .AddAggregate("x", 10, "1..10")
                                           .WithConstraintAllDifferent("x")

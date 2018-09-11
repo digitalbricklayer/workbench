@@ -1,4 +1,5 @@
-﻿using Workbench.Core.Models;
+﻿using Workbench.Core;
+using Workbench.Core.Models;
 
 namespace Workbench.UI.Tests.Unit
 {
@@ -13,7 +14,7 @@ namespace Workbench.UI.Tests.Unit
         /// <returns>Workspace model with test data.</returns>
         internal static WorkspaceModel Create()
         {
-            return WorkspaceModel.Create()
+            return new WorkspaceBuilder()
                                  .AddSingleton("x", "1..10")
                                  .AddAggregate("y", 10, "$z")
                                  .WithConstraintExpression("$x > 1")

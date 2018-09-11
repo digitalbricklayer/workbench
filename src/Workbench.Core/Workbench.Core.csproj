@@ -262,7 +262,6 @@
     <Compile Include="Models\GraphicModel.cs" />
     <Compile Include="Models\AbstractModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />
-    <Compile Include="Models\WorkspaceContext.cs" />
     <Compile Include="Models\ModelModel.cs" />
     <Compile Include="Models\RangeExpression.cs" />
     <Compile Include="Models\SolutionModel.cs" />
@@ -324,6 +323,7 @@
     <Compile Include="Solver\VariableConverter.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluator.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluatorContext.cs" />
+    <Compile Include="WorkspaceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

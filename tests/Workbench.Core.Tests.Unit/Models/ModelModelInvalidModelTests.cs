@@ -52,7 +52,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeModelWithMissingVariable()
         {
-            var workspace = WorkspaceModel.Create("An invalid model")
+            var workspace = new WorkspaceBuilder("An invalid model")
                                           .AddSingleton("x", "1..9")
                                           .AddSingleton("y", "1..9")
                                           .WithConstraintExpression("$x > $z")
@@ -63,7 +63,7 @@ namespace Workbench.Core.Tests.Unit.Models
 
         private static ModelModel MakeModelWithMissingSharedDomain()
         {
-            var workspace = WorkspaceModel.Create("A model missing shared domain")
+            var workspace = new WorkspaceBuilder("A model missing shared domain")
                                           .WithSharedDomain("a", "1..10")
                                           .AddSingleton("x", "$b")
                                           .AddSingleton("y", "1..9")

@@ -46,7 +46,7 @@ namespace Workbench.Core.Tests.Unit
 
         private static WorkspaceModel CreateWorkspace()
         {
-            var workspace = WorkspaceModel.Create("Australia Map Coloring Model")
+            var workspace = new WorkspaceBuilder("Australia Map Coloring Model")
                                           .WithSharedDomain("colors", "red, green, blue")
                                           .AddSingleton("wa", "$colors")
                                           .AddSingleton("nt", "$colors")
@@ -63,13 +63,13 @@ namespace Workbench.Core.Tests.Unit
                                           .WithConstraintExpression("$nsw <> $sa")
                                           .WithConstraintExpression("$nsw <> $v")
                                           .WithConstraintExpression("$sa <> $v")
-                                          .WithVisualizerBinding("states(row:1,column:2,Text:<wa>)")
-                                          .WithVisualizerBinding("states(row:2,column:2,Text:<nt>)")
-                                          .WithVisualizerBinding("states(row:3,column:2,Text:<sa>)")
-                                          .WithVisualizerBinding("states(row:4,column:2,Text:<q>)")
-                                          .WithVisualizerBinding("states(row:5,column:2,Text:<nsw>)")
-                                          .WithVisualizerBinding("states(row:6,column:2,Text:<v>)")
-                                          .WithVisualizerBinding("states(row:7,column:2,Text:<t>)")
+                                          .WithBinding("states(row:1,column:2,Text:<wa>)")
+                                          .WithBinding("states(row:2,column:2,Text:<nt>)")
+                                          .WithBinding("states(row:3,column:2,Text:<sa>)")
+                                          .WithBinding("states(row:4,column:2,Text:<q>)")
+                                          .WithBinding("states(row:5,column:2,Text:<nsw>)")
+                                          .WithBinding("states(row:6,column:2,Text:<v>)")
+                                          .WithBinding("states(row:7,column:2,Text:<t>)")
                                           .WithTable(CreateTable())
                                           .Build();
 
@@ -78,14 +78,22 @@ namespace Workbench.Core.Tests.Unit
 
         private static TableTabModel CreateTable()
         {
-            var newTable = new TableModel(new ModelName("states"), new[] { "Text", "Color" }, new[] { new TableRowModel("WA", ""),
+            var newTable = new TableModel(new ModelName("states"), new[] { "Text", "Color" }, CreateTableRows());
+            return new TableTabModel(newTable, new WorkspaceTabTitle("Australian States"));
+        }
+
+        private static TableRowModel[] CreateTableRows()
+        {
+            return new[]
+            {
+                new TableRowModel("WA", ""),
                 new TableRowModel("NT", ""),
                 new TableRowModel("SA", ""),
                 new TableRowModel("Q", ""),
                 new TableRowModel("NSW", ""),
                 new TableRowModel("V",  ""),
-                new TableRowModel("T", "") });
-            return new TableTabModel(newTable, new WorkspaceTabTitle());
+                new TableRowModel("T", "")
+            };
         }
     }
 }

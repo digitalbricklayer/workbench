@@ -17,7 +17,7 @@ namespace Workbench.Core.Tests.Unit.Models
         public void Create_Workspace_With_Name_Returns_Model_With_Expected_Name()
         {
             const string ExpectedModelName = "The expected model name";
-            var sut = WorkspaceModel.Create(ExpectedModelName)
+            var sut = new WorkspaceBuilder(ExpectedModelName)
                                     .AddSingleton("x", "1..10")
                                     .WithConstraintExpression("x > 1")
                                     .Build();

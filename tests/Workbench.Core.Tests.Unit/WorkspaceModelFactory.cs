@@ -13,7 +13,7 @@ namespace Workbench.Core.Tests.Unit
         /// <returns>A simple workspace model.</returns>
         internal static WorkspaceModel Create()
         {
-            return WorkspaceModel.Create()
+            return new WorkspaceBuilder()
                                  .AddSingleton("x", "z")
                                  .AddAggregate("y", 10, "1..9")
                                  .WithConstraintExpression("x > 1")
