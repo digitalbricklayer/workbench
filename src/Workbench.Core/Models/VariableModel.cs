@@ -10,21 +10,23 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VariableModel : Model
     {
+        private WorkspaceModel workspace;
         private ModelModel model;
         private VariableDomainExpressionModel domainExpression;
         private ModelName name;
 
         /// <summary>
-        /// Initializes a variable with a variable name and domain expression.
+        /// Initializes a variable with a workspace, variable name and domain expression.
         /// </summary>
-        protected VariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
+        protected VariableModel(WorkspaceModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
             : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(variableName != null);
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
 
-            Model = theModel;
+            Workspace = theModel;
+            Model = theModel.Model;
             this.name = variableName;
             DomainExpression = theDomainExpression;
         }
@@ -52,6 +54,20 @@ namespace Workbench.Core.Models
             set
             {
                 domainExpression = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the workspace the variable is assigned.
+        /// </summary>
+        public WorkspaceModel Workspace
+        {
+            get { return this.workspace; }
+            internal set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.workspace = value;
                 OnPropertyChanged();
             }
         }

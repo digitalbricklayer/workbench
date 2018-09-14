@@ -39,7 +39,7 @@ namespace Workbench.Core
             Contract.Assume(this.model != null);
             Contract.Assume(this.variableName != null);
 
-            return new AggregateVariableModel(this.model, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
+            return new AggregateVariableModel(this.model.Workspace, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
         }
 
         private VariableDomainExpressionModel GetExpressionOrDefault()

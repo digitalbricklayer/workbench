@@ -273,6 +273,8 @@ namespace Workbench.Core.Models
         /// <returns>Cell matching the column and row indexes.</returns>
         public TableCellModel GetCellBy(int rowIndex, int columnIndex)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(rowIndex > 0 && rowIndex <= Rows.Count);
+            Contract.Requires<ArgumentOutOfRangeException>(columnIndex > 0 && columnIndex <= Columns.Count);
             var row = this.rows[rowIndex - 1];
             return row.Cells[columnIndex - 1];
         }
@@ -280,11 +282,23 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get row at the row index.
         /// </summary>
-        /// <param name="rowIndex">Row index.</param>
+        /// <param name="rowIndex">One based row index.</param>
         /// <returns>Row at the row index.</returns>
         public TableRowModel GetRowAt(int rowIndex)
         {
-            return Rows[rowIndex];
+            Contract.Requires<ArgumentOutOfRangeException>(rowIndex > 0 && rowIndex <= Rows.Count);
+            return Rows[rowIndex - 1];
+        }
+
+        /// <summary>
+        /// Get column at the column index.
+        /// </summary>
+        /// <param name="columnIndex">One based column index.</param>
+        /// <returns>Column at the column index.</returns>
+        public TableColumnModel GetColumnAt(int columnIndex)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(columnIndex > 0 && columnIndex <= Columns.Count);
+            return Columns[columnIndex - 1];
         }
 
         /// <summary>

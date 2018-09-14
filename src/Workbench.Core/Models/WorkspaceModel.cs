@@ -22,6 +22,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theModelName != null);
 
             Model = new ModelModel(theModelName);
+            Model.Workspace = this;
             Solution = new SolutionModel(Model);
             Display = new DisplayModel(Model);
         }
@@ -32,6 +33,7 @@ namespace Workbench.Core.Models
         public WorkspaceModel()
         {
             Model = new ModelModel();
+            Model.Workspace = this;
             Solution = new SolutionModel(Model);
             Display = new DisplayModel(Model);
         }

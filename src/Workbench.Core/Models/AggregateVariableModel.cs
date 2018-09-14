@@ -10,10 +10,6 @@ namespace Workbench.Core.Models
     /// <summary>
     /// An aggregate variable can hold zero or more variables.
     /// </summary>
-    /// <remarks>
-    /// TODO: please fix the internal variable. It should not be the same as a singleton.
-    /// And certainly not a graphic.
-    /// </remarks>
     [Serializable]
     public class AggregateVariableModel : VariableModel
     {
@@ -25,7 +21,7 @@ namespace Workbench.Core.Models
         private VariableModel[] variables;
         private VariableDomainExpressionModel domainExpression;
 
-        public AggregateVariableModel(ModelModel theModel, ModelName newVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
+        public AggregateVariableModel(WorkspaceModel theModel, ModelName newVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
             : base(theModel, newVariableName, theDomainExpression)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -40,10 +36,11 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initialize an aggregate variable with a name.
+        /// Initialize an aggregate variable with workspace and a name.
         /// </summary>
+        /// <param name="theModel">Workspace the variable belongs.</param>
         /// <param name="newName">New variable name.</param>
-        public AggregateVariableModel(ModelModel theModel, ModelName newName)
+        public AggregateVariableModel(WorkspaceModel theModel, ModelName newName)
             : this(theModel, newName, DefaultSize, new VariableDomainExpressionModel())
         {
         }
@@ -200,7 +197,7 @@ namespace Workbench.Core.Models
         /// <returns>Domain range.</returns>
         private DomainValue GetRangeFrom(VariableDomainExpressionModel theDomainExpression)
         {
-            var evaluatorContext = new VariableDomainExpressionEvaluatorContext(theDomainExpression.Node, Model);
+            var evaluatorContext = new VariableDomainExpressionEvaluatorContext(theDomainExpression.Node, Workspace);
             return VariableDomainExpressionEvaluator.Evaluate(evaluatorContext);
         }
     }

@@ -101,6 +101,7 @@
     <Compile Include="Parsers\ContraintExpressionParserWithExpanderShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserShould.cs" />
+    <Compile Include="Parsers\VariableDomainExpressionParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Solver\OrToolsSolverExpressionTests.cs" />
     <Compile Include="Solver\OrToolsSolverSimpleTests.cs" />
     <Compile Include="Solver\OrToolsSolverTests.cs" />
+    <Compile Include="TableDomainSolverShould.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

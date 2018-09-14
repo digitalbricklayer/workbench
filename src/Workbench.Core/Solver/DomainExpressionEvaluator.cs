@@ -55,6 +55,40 @@ namespace Workbench.Core.Solver
             return evaluator.EvaluateReference(theExpressionNode, theModel);
         }
 
+        /// <summary>
+        /// Evaluate a table range expression.
+        /// </summary>
+        /// <param name="theExpressionNode">The table range expression node.</param>
+        /// <param name="theWorkspace">The workspace.</param>
+        /// <returns>A domain value.</returns>
+        internal DomainValue Evaluate(TableRangeNode theExpressionNode, WorkspaceModel theWorkspace)
+        {
+            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+
+            Contract.Assume(!string.IsNullOrWhiteSpace(theExpressionNode.TableReferenceNode.Name));
+            var theTableTab = (TableTabModel) theWorkspace.GetVisualizerBy(theExpressionNode.TableReferenceNode.Name);
+            var valueList = new List<string>();
+
+            var theTable = theTableTab.Table;
+            if (theExpressionNode.ColumnIndex.Value == theExpressionNode.RowIndex.Value)
+            {
+                // A row / column that is the same references the entire column
+                var allRows = theTable.GetRows();
+                foreach (var aRow in allRows)
+                {
+                    var rowCell = aRow.GetCellAt(theExpressionNode.ColumnIndex.Value);
+                    valueList.Add(rowCell.Text);
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("Not quite gotten around to this expression just yet.");
+            }
+
+            return new TableDomainValue(valueList, theExpressionNode);
+        }
+
         private DomainValue EvaluateNode(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
         {
             var lhsBand = EvaluateBand(theExpressionNode.LeftExpression, theModel);

@@ -10,42 +10,42 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void InitializeAggregateWithValidNameSetsExpectedNameInVariable()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"));
             Assert.That(sut.Name, Is.EqualTo(new ModelName("x")));
         }
 
         [Test]
         public void InitializeVariableWithEmptyExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"), 5, new VariableDomainExpressionModel());
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"), 5, new VariableDomainExpressionModel());
             Assert.That(sut.DomainExpression.IsEmpty, Is.True);
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWithWhitespace()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"), 2, new VariableDomainExpressionModel("   $A    "));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"), 2, new VariableDomainExpressionModel("   $A    "));
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithDomainReferenceRawExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"), 1, new VariableDomainExpressionModel("$A"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"), 1, new VariableDomainExpressionModel("$A"));
             Assert.That(sut.DomainExpression.DomainReference.DomainName.Name, Is.EqualTo("A"));
         }
 
         [Test]
         public void InitializeVariableWithInlineRawExpressionWoutWhitespace()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"), 10, new VariableDomainExpressionModel("1..10"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"), 10, new VariableDomainExpressionModel("1..10"));
             Assert.That(sut.DomainExpression.InlineDomain, Is.Not.Null);
         }
 
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueInsideAggregateDomain()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("A test"), 10, new VariableDomainExpressionModel("1..10"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("A test"), 10, new VariableDomainExpressionModel("1..10"));
             sut.Resize(10);
             sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
             var actualVariable = sut.GetVariableByIndex(9);
@@ -55,7 +55,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomain()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("A test"), 2, new VariableDomainExpressionModel("1..10"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("A test"), 2, new VariableDomainExpressionModel("1..10"));
             sut.Resize(10);
             sut.OverrideDomainTo(9, new VariableDomainExpressionModel("1..5"));
             Assert.Throws<ArgumentException>(() => sut.OverrideDomainTo(9, new VariableDomainExpressionModel("8..11")));
@@ -64,7 +64,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ChangeDomainOfAggregatedVariableWithValueOutsideAggregateDomainX()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("A test"), 1, new VariableDomainExpressionModel("1..10"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("A test"), 1, new VariableDomainExpressionModel("1..10"));
             sut.Resize(10);
             Assert.Throws<ArgumentOutOfRangeException>(() => sut.OverrideDomainTo(10, new VariableDomainExpressionModel("8..10")));
         }
@@ -72,14 +72,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateWithZeroThrowsArgumentOutOfRangeException()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"));
             Assert.Throws<ArgumentOutOfRangeException>(() => sut.Resize(0));
         }
 
         [Test]
         public void ResizeAggregateWithTenSetsNewSize()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"));
             sut.Resize(10);
             Assert.That(sut.AggregateCount, Is.EqualTo(10));
         }
@@ -87,7 +87,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateToGreaterSIzeAllVariablesNotNull()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"));
             sut.Resize(10);
             Assert.That(sut.Variables, Is.All.InstanceOf<VariableModel>());
         }
@@ -95,7 +95,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ResizeAggregateToSmallerSizeAllVariablesNotNull()
         {
-            var sut = new AggregateVariableModel(new ModelModel(), new ModelName("x"));
+            var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("x"));
             sut.Resize(10);
             sut.Resize(5);
             Assert.That(sut.Variables, Is.All.InstanceOf<VariableModel>());

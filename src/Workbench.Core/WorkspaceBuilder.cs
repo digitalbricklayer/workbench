@@ -67,7 +67,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize > 0);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newVariable = new AggregateVariableModel(this.workspace.Model, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
+            var newVariable = new AggregateVariableModel(this.workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddVariable(newVariable);
 
             return this;

@@ -23,7 +23,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             sut.AddRow(new TableRowModel("4", "5", "6"));
             sut.AddRow(new TableRowModel("7", "8", "9"));
 
-            var actualRow = sut.GetRowAt(1);
+            var actualRow = sut.GetRowAt(2);
             Assert.That(actualRow.Cells[2].Text, Is.EqualTo("6"));
         }
 
@@ -32,7 +32,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var sut = new TableViewModel(TableModel.Default);
 
-            var actualRow = sut.GetRowAt(1);
+            var actualRow = sut.GetRowAt(2);
             Assert.That(actualRow.Cells[1].Text, Is.Empty);
         }
     }

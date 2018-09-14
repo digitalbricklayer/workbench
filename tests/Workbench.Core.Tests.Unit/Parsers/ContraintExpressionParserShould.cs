@@ -62,7 +62,7 @@ namespace Workbench.Core.Tests.Unit.Parsers
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
-        private static ConstraintExpressionParser CreateSut()
+        private ConstraintExpressionParser CreateSut()
         {
             return new ConstraintExpressionParser();
         }

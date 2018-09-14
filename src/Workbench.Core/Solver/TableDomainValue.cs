@@ -8,19 +8,19 @@ using Workbench.Core.Nodes;
 namespace Workbench.Core.Solver
 {
     /// <summary>
-    /// List of values for a domain.
+    /// List of values taken from a table.
     /// </summary>
-    public class ListDomainValue : DomainValue
+    public class TableDomainValue : DomainValue
     {
         private readonly List<string> values;
-        private ListDomainExpressionNode expressionNode;
+        private TableRangeNode expressionNode;
 
         /// <summary>
-        /// Initialize a domain range with a list of values.
+        /// Initialize a table range with a list of values.
         /// </summary>
-        /// <param name="theList">List of values from the domain list.</param>
-        /// <param name="theNode">Domain list node.</param>
-        internal ListDomainValue(IEnumerable<string> theList, ListDomainExpressionNode theNode)
+        /// <param name="theList">List of values from the table.</param>
+        /// <param name="">High band.</param>
+        internal TableDomainValue(IEnumerable<string> theList, TableRangeNode theNode)
             : base(theNode)
         {
             Contract.Requires<ArgumentNullException>(theList != null);
@@ -31,11 +31,14 @@ namespace Workbench.Core.Solver
         }
 
         /// <summary>
-        /// Gets the values from the domain list.
+        /// Gets the values from the table.
         /// </summary>
         public IReadOnlyList<string> Values
         {
-            get { return new ReadOnlyCollection<string>(this.values); }
+            get
+            {
+                return new ReadOnlyCollection<string>(this.values);
+            }
         }
 
         public override Range GetRange()

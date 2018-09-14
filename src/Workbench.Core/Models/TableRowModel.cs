@@ -66,9 +66,14 @@ namespace Workbench.Core.Models
             return accumulator.AsReadOnly();
         }
 
+        /// <summary>
+        /// Get the cell at the index.
+        /// </summary>
+        /// <param name="index">One based column index.</param>
+        /// <returns>Cell located at the column index.</returns>
         public TableCellModel GetCellAt(int index)
         {
-            return this.cells[index];
+            return this.cells[index - 1];
         }
 
         public void UpdateCellsFrom(object[] rowItems)

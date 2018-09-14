@@ -12,7 +12,7 @@ namespace Workbench.Core.Solver
             Contract.Assert(!theVariable.DomainExpression.IsEmpty);
 
             var variableDomainExpressionRoot = theVariable.DomainExpression.Node;
-            var evaluatorContext = new VariableDomainExpressionEvaluatorContext(variableDomainExpressionRoot, theVariable.Model);
+            var evaluatorContext = new VariableDomainExpressionEvaluatorContext(variableDomainExpressionRoot, theVariable.Model.Workspace);
             return VariableDomainExpressionEvaluator.Evaluate(evaluatorContext);
         }
     }

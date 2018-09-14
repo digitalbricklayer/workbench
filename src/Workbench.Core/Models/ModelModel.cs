@@ -13,6 +13,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ModelModel : Model
     {
+        private WorkspaceModel workspace;
         private ObservableCollection<VariableModel> variables;
         private ObservableCollection<SingletonVariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
@@ -40,6 +41,20 @@ namespace Workbench.Core.Models
             Aggregates = new ObservableCollection<AggregateVariableModel>();
             Domains = new ObservableCollection<DomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
+        }
+
+        /// <summary>
+        /// Gets and sets the workspace the model belongs.
+        /// </summary>
+        public WorkspaceModel Workspace
+        {
+            get { return this.workspace; }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.workspace = value;
+                OnPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -149,6 +164,7 @@ namespace Workbench.Core.Models
 
             Variables.Add(newVariable);
             Singletons.Add(newVariable);
+            newVariable.Workspace = Workspace;
         }
 
         /// <summary>
@@ -166,6 +182,7 @@ namespace Workbench.Core.Models
 
             Variables.Add(newVariable);
             Aggregates.Add(newVariable);
+            newVariable.Workspace = Workspace;
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace Workbench.Core.Tests.Unit.Models
             var sut = TableModel.Default;
             sut.AddColumnAfter(0, new TableColumnModel("Test"));
             sut.AddRowAfter(0, new TableRowModel());
-            var testRow = sut.GetRowAt(1);
+            var testRow = sut.GetRowAt(2);
             var a = sut.GetCellBy(2, 1);
             a.Text = "a";
             var b = sut.GetCellBy(2, 2);

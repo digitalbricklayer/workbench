@@ -219,6 +219,8 @@
     <Compile Include="Nodes\RangeDomainExpressionNode.cs" />
     <Compile Include="Nodes\SharedDomainReferenceNode.cs" />
     <Compile Include="Nodes\StatementListNode.cs" />
+    <Compile Include="Nodes\TableRangeNode.cs" />
+    <Compile Include="Nodes\TableReferenceNode.cs" />
     <Compile Include="Nodes\VariableDomainExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerBinaryExpressionNode.cs" />
     <Compile Include="Nodes\CallArgumentNameNode.cs" />
@@ -248,7 +250,7 @@
     <Compile Include="Nodes\VisualizerBindingExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerNameReferenceNode.cs" />
     <Compile Include="Parsers\ConstraintExpressionParser.cs" />
-    <Compile Include="Grammars\ConstraintGrammar.cs" />
+    <Compile Include="Grammars\ConstraintExpressionGrammar.cs" />
     <Compile Include="Models\ChessboardModel.cs" />
     <Compile Include="Models\ChessboardTabModel.cs" />
     <Compile Include="Models\ChessPieceModel.cs" />
@@ -303,6 +305,7 @@
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\ConstraintConverter.cs" />
+    <Compile Include="Solver\TableDomainValue.cs" />
     <Compile Include="Solver\Range.cs" />
     <Compile Include="Solver\DomainExpressionEvaluator.cs" />
     <Compile Include="Solver\DomainExpressionEvaluatorContext.cs" />

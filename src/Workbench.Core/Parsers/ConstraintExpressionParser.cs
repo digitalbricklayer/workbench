@@ -8,7 +8,7 @@ namespace Workbench.Core.Parsers
 {
     public sealed class ConstraintExpressionParser
     {
-        private readonly ConstraintGrammar grammar = new ConstraintGrammar();
+        private readonly ConstraintExpressionGrammar grammar = new ConstraintExpressionGrammar();
 
         /// <summary>
         /// Parse a raw constraint expression.
