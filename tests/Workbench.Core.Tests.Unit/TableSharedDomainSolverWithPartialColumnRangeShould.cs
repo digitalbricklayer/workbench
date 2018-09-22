@@ -39,7 +39,7 @@ namespace Workbench.Core.Tests.Unit
         {
             return new WorkspaceBuilder("A contrived table domain test")
                         .AddSingleton("a", "$a")
-                        .WithSharedDomain("a", "workers!Name1,Name2,Name3,Name4")
+                        .WithSharedDomain("a", "workers!Name1:Name4")
                         .WithConstraintExpression("$a <> Morse")
                         .WithConstraintExpression("$a <> Lewis")
                         .WithConstraintExpression("$a <> Doyle")
