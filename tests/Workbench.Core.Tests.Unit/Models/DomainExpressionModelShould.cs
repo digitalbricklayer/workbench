@@ -45,14 +45,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ParseExpressionWithListInnerIsListNode()
         {
-            var sut = new DomainExpressionModel("bob, jim, simon");
+            var sut = new DomainExpressionModel("\"bob\", \"jim\", \"simon\"");
             Assert.That(sut.Node.Inner, Is.InstanceOf<ListDomainExpressionNode>());
         }
 
         [Test]
         public void ParseExpressionWithListInnerIsListNode2()
         {
-            var sut = new DomainExpressionModel("bob, jim, simon");
+            var sut = new DomainExpressionModel("\"bob\", \"jim\", \"simon\"");
             var listExpressionNode = (ListDomainExpressionNode) sut.Node.Inner;
             var firstListValue = listExpressionNode.Items.Values[0];
             Assert.That(firstListValue.Value, Is.EqualTo("bob"));

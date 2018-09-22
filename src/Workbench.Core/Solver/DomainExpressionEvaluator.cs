@@ -45,15 +45,15 @@ namespace Workbench.Core.Solver
         /// Evaluate a shared domain reference.
         /// </summary>
         /// <param name="theExpressionNode">Shared domain reference node.</param>
-        /// <param name="theModel">The model.</param>
+        /// <param name="theWorkspace">The model.</param>
         /// <returns>Domain value.</returns>
-        internal static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
+        internal static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             var evaluator = new DomainExpressionEvaluator();
-            return evaluator.EvaluateReference(theExpressionNode, theModel);
+            return evaluator.EvaluateReference(theExpressionNode, theWorkspace);
         }
 
         /// <summary>
@@ -103,12 +103,12 @@ namespace Workbench.Core.Solver
             return new ListDomainValue(valueList, theExpressionNode);
         }
 
-        private DomainValue EvaluateReference(SharedDomainReferenceNode theExpressionNode, ModelModel theModel)
+        private DomainValue EvaluateReference(SharedDomainReferenceNode theExpressionNode, WorkspaceModel theWorkspace)
         {
             var sharedDomainName = theExpressionNode.DomainName;
-            var sharedDomainModel = theModel.GetSharedDomainByName(sharedDomainName.Name);
+            var sharedDomainModel = theWorkspace.Model.GetSharedDomainByName(sharedDomainName.Name);
 
-            var evaluatorContext = new SharedDomainExpressionEvaluatorContext(sharedDomainModel.Expression.Node, theModel);
+            var evaluatorContext = new SharedDomainExpressionEvaluatorContext(sharedDomainModel.Expression.Node, theWorkspace);
             return SharedDomainExpressionEvaluator.Evaluate(evaluatorContext);
         }
 

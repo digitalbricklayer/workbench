@@ -101,6 +101,7 @@
     <Compile Include="Parsers\ContraintExpressionParserWithExpanderShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserShould.cs" />
+    <Compile Include="Parsers\SharedDomainExpressionParserShould.cs" />
     <Compile Include="Parsers\VariableDomainExpressionParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
@@ -113,9 +114,12 @@
     <Compile Include="Solver\OrToolsSolverExpressionTests.cs" />
     <Compile Include="Solver\OrToolsSolverSimpleTests.cs" />
     <Compile Include="Solver\OrToolsSolverTests.cs" />
-    <Compile Include="TableDomainSolverWithCellListShould.cs" />
-    <Compile Include="TableDomainSolverWithPartialColumnRangeShould.cs" />
-    <Compile Include="TableDomainSolverWithWholeColumnRangeShould.cs" />
+    <Compile Include="TableSharedDomainSolverWithCellListShould.cs" />
+    <Compile Include="TableVariableDomainSolverWithCellListShould.cs" />
+    <Compile Include="TableSharedDomainSolverWithPartialColumnRangeShould.cs" />
+    <Compile Include="TableVariableDomainSolverWithPartialColumnRangeShould.cs" />
+    <Compile Include="TableSharedDomainSolverWithWholeColumnRangeShould.cs" />
+    <Compile Include="TableVariableDomainSolverWithWholeColumnRangeShould.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

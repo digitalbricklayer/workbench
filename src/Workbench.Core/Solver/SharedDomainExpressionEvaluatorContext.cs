@@ -7,16 +7,17 @@ namespace Workbench.Core.Solver
 {
     internal class SharedDomainExpressionEvaluatorContext
     {
-        public SharedDomainExpressionNode DomainExpression { get; private set; }
-        public ModelModel Model { get; private set; }
+        internal SharedDomainExpressionNode DomainExpression { get; private set; }
+        internal ModelModel Model => Workspace.Model;
+        internal WorkspaceModel Workspace { get; private set; }
 
-        internal SharedDomainExpressionEvaluatorContext(SharedDomainExpressionNode theExpressionNode, ModelModel theModel)
+        internal SharedDomainExpressionEvaluatorContext(SharedDomainExpressionNode theExpressionNode, WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             DomainExpression = theExpressionNode;
-            Model = theModel;
+            Workspace = theWorkspace;
         }
     }
 }

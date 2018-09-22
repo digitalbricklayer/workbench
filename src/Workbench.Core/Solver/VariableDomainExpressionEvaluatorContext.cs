@@ -9,15 +9,15 @@ namespace Workbench.Core.Solver
     {
         internal VariableDomainExpressionNode DomainExpression { get; private set; }
         internal ModelModel Model => Workspace.Model;
-        public WorkspaceModel Workspace { get; private set; }
+        internal WorkspaceModel Workspace { get; private set; }
 
-        internal VariableDomainExpressionEvaluatorContext(VariableDomainExpressionNode theDomainExpression, WorkspaceModel theModel)
+        internal VariableDomainExpressionEvaluatorContext(VariableDomainExpressionNode theDomainExpression, WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theDomainExpression != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
             DomainExpression = theDomainExpression;
-            Workspace = theModel;
+            Workspace = theWorkspace;
         }
     }
 }

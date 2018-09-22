@@ -35,6 +35,9 @@ namespace Workbench.Core.Solver
                 case ListDomainExpressionNode listDomainExpressionNode:
                     return DomainExpressionEvaluator.Evaluate(listDomainExpressionNode);
 
+                case TableExpressionNode tableRangeNode:
+                    return new DomainExpressionEvaluator().Evaluate(tableRangeNode, Context.Workspace);
+
                 default:
                     throw new NotImplementedException("Unknown domain expression.");
             }

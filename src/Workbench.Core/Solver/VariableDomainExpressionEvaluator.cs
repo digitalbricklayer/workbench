@@ -15,7 +15,7 @@ namespace Workbench.Core.Solver
             switch (theDomainExpression.Inner)
             {
                 case SharedDomainReferenceNode domainReferenceNode:
-                    return DomainExpressionEvaluator.Evaluate(domainReferenceNode, theContext.Model);
+                    return DomainExpressionEvaluator.Evaluate(domainReferenceNode, theContext.Workspace);
 
                 case RangeDomainExpressionNode rangeExpressionNode:
                     return DomainExpressionEvaluator.Evaluate(rangeExpressionNode, theContext.Model);

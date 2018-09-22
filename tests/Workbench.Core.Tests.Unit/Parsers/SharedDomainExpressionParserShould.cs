@@ -3,7 +3,7 @@ using Workbench.Core.Parsers;
 
 namespace Workbench.Core.Tests.Unit.Parsers
 {
-    public class VariableDomainExpressionParserShould
+    public class SharedDomainExpressionParserShould
     {
         [TestCase("")]
         [TestCase("workers!Names:Names")]
@@ -11,7 +11,6 @@ namespace Workbench.Core.Tests.Unit.Parsers
         [TestCase("workers!Names1,Names2,Names3")]
         [TestCase("1..10")]
         [TestCase("\"bob\", \"jim\", \"sue\"")]
-        [TestCase("$a")]
         public void ParseWithValidTableReferenceReturnsStatusSuccess(string variableDomainExpression)
         {
             var sut = CreateSut();
@@ -19,9 +18,9 @@ namespace Workbench.Core.Tests.Unit.Parsers
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 
-        private VariableDomainExpressionParser CreateSut()
+        private SharedDomainExpressionParser CreateSut()
         {
-            return new VariableDomainExpressionParser();
+            return new SharedDomainExpressionParser();
         }
     }
 }

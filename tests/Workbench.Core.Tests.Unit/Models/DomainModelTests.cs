@@ -34,7 +34,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_List_Expression_Parses_Expected_Inner()
         {
-            var sut = new DomainModel(new DomainExpressionModel("rita, sue, bob"));
+            var sut = new DomainModel(new DomainExpressionModel("\"rita\", \"sue\", \"bob\""));
             var rangeExpressionNode = (ListDomainExpressionNode)sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.Items.Values, Is.All.Not.Null);
             Assert.That(rangeExpressionNode.Items.Values, Is.All.InstanceOf<ItemNameNode>());
