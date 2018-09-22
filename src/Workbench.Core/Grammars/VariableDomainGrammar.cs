@@ -20,7 +20,7 @@ namespace Workbench.Core.Grammars
             var OPEN_ARG = ToTerm("(");
             var CLOSE_ARG = ToTerm(")");
             var TABLE_REFERENCE_MARKER = ToTerm("!");
-            var TABLE_INDEX_SEPERATOR = ToTerm(":");
+            var TABLE_RANGE_SEPERATOR = ToTerm(":");
 
             // Terminals
             var numberLiteral = new NumberLiteral("number literal", NumberOptions.IntOnly, typeof (NumberLiteralNode));
@@ -64,7 +64,7 @@ namespace Workbench.Core.Grammars
             bandExpression.Rule = numberLiteral | functionCall | characterLiteral;
             rangeDomainExpression.Rule = bandExpression + RANGE + bandExpression;
             sharedDomainReference.Rule = domainName;
-            cellRangeExpression.Rule = tableCellReference + TABLE_INDEX_SEPERATOR + tableCellReference;
+            cellRangeExpression.Rule = tableCellReference + TABLE_RANGE_SEPERATOR + tableCellReference;
             cellListExpression.Rule = MakePlusRule(cellListExpression, COMMA, tableCellReference);
             cellExpression.Rule = cellRangeExpression | cellListExpression;
             tableExpression.Rule = tableReference + TABLE_REFERENCE_MARKER + cellExpression;
@@ -74,7 +74,7 @@ namespace Workbench.Core.Grammars
 
             MarkPunctuation(RANGE, COMMA);
             MarkPunctuation(OPEN_ARG, CLOSE_ARG);
-            MarkPunctuation(TABLE_REFERENCE_MARKER, TABLE_INDEX_SEPERATOR);
+            MarkPunctuation(TABLE_REFERENCE_MARKER, TABLE_RANGE_SEPERATOR);
             MarkTransient(cellExpression);
 
             RegisterBracePair("(", ")");
