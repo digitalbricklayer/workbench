@@ -38,8 +38,8 @@ namespace Workbench.Core.Tests.Unit
         private WorkspaceModel CreateWorkspace()
         {
             return new WorkspaceBuilder("A contrived table shared domain test")
-                        .AddSingleton("a", "$a")
-                        .WithSharedDomain("a", "workers!Name1,Name2,Name3,Name4")
+                        .AddSingleton("a", "$workers")
+                        .WithSharedDomain("workers", "workers!Name1,Name2,Name3,Name4")
                         .WithConstraintExpression("$a <> Morse")
                         .WithConstraintExpression("$a <> Lewis")
                         .WithConstraintExpression("$a <> Doyle")
