@@ -7,7 +7,7 @@ namespace Workbench.Core.Tests.Unit
     /// <summary>
     /// Placeholder for a well known test that will use the table derived domain values successfully.
     /// </summary>
-    public class TableDomainSolverShould
+    public class TableDomainSolverWithCellListShould
     {
         /// <summary>
         /// Gets or sets the test subject.
@@ -38,7 +38,7 @@ namespace Workbench.Core.Tests.Unit
         private WorkspaceModel CreateWorkspace()
         {
             return new WorkspaceBuilder("A contrived table domain test")
-                        .AddSingleton("a", "workers!1:1")
+                        .AddSingleton("a", "workers!Name1,Name2,Name3,Name4")
                         .WithConstraintExpression("$a <> Morse")
                         .WithConstraintExpression("$a <> Lewis")
                         .WithConstraintExpression("$a <> Doyle")
@@ -53,7 +53,15 @@ namespace Workbench.Core.Tests.Unit
 
         private static TableModel CreateTable()
         {
-            return new TableModel(new ModelName("workers"), new []{"Workers"}, CreateWorkerRows());
+            return new TableModel(new ModelName("workers"), CreateWorkerColumns(), CreateWorkerRows());
+        }
+
+        private static TableColumnModel[] CreateWorkerColumns()
+        {
+            return new []
+            {
+                new TableColumnModel("Name")
+            };
         }
 
         private static TableRowModel[] CreateWorkerRows()

@@ -1,4 +1,5 @@
-﻿using Irony.Ast;
+﻿using System.Linq;
+using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
 
@@ -14,6 +15,8 @@ namespace Workbench.Core.Nodes
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
+            // A variable domain expression can be empty and still be perfectly valid...
+            if (!treeNode.ChildNodes.Any()) return;
             Inner = AddChild("inner", treeNode.ChildNodes[0]);
         }
     }

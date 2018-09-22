@@ -5,7 +5,10 @@ namespace Workbench.Core.Tests.Unit.Parsers
 {
     public class VariableDomainExpressionParserShould
     {
-        [TestCase("workers!1:1")]
+        [TestCase("")]
+        [TestCase("workers!Names:Names")]
+        [TestCase("workers!Names1:Names10")]
+        [TestCase("workers!Names1,Names2,Names3")]
         [TestCase("1..10")]
         [TestCase("\"bob\", \"jim\", \"sue\"")]
         public void ParseWithValidTableReferenceReturnsStatusSuccess(string variableDomainExpression)

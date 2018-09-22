@@ -21,7 +21,7 @@ namespace Workbench.Core.Solver
         /// <param name="theList">List of values from the domain list.</param>
         /// <param name="theNode">Domain list node.</param>
         internal ListDomainValue(IEnumerable<string> theList, ListDomainExpressionNode theNode)
-            : base(theNode)
+            : base()
         {
             Contract.Requires<ArgumentNullException>(theList != null);
             Contract.Requires<ArgumentNullException>(theNode != null);

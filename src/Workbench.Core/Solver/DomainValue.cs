@@ -1,9 +1,4 @@
-﻿using Irony.Interpreter.Ast;
-using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Nodes;
-
-namespace Workbench.Core.Solver
+﻿namespace Workbench.Core.Solver
 {
     /// <summary>
     /// Base class for all domain values.
@@ -13,18 +8,9 @@ namespace Workbench.Core.Solver
         /// <summary>
         /// Initialize the domain value with a AST node representing the domain expression.
         /// </summary>
-        /// <param name="theNode">The domain expression.</param>
-        protected DomainValue(AstNode theNode)
+        protected DomainValue()
         {
-            Contract.Requires<ArgumentNullException>(theNode != null);
-
-            Node = theNode;
         }
-
-        /// <summary>
-        /// Gets the AST node associated with the domain value.
-        /// </summary>
-        public AstNode Node { get; private set; }
 
         /// <summary>
         /// Get the domain range.

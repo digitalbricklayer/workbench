@@ -9,7 +9,7 @@ namespace Workbench.Core.Models
     public class TableColumnData
     {
         private readonly TableColumnModel column;
-        private readonly IReadOnlyCollection<TableCellModel> cells;
+        private readonly IList<TableCellModel> cells;
 
         public TableColumnData(TableColumnModel theColumn, IEnumerable<TableCellModel> theColumnCells)
         {
@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(theColumnCells != null);
 
             this.column = theColumn;
-            this.cells = new ReadOnlyCollection<TableCellModel>(theColumnCells.ToList());
+            this.cells = new List<TableCellModel>(theColumnCells);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                return this.cells;
+                return new ReadOnlyCollection<TableCellModel>(this.cells);
             }
         }
 
@@ -49,6 +49,20 @@ namespace Workbench.Core.Models
         public IReadOnlyCollection<TableCellModel> GetCells()
         {
             return new ReadOnlyCollection<TableCellModel>(this.cells.ToList());
+        }
+
+        /// <summary>
+        /// Get the cell at the one based index.
+        /// </summary>
+        /// <param name="cellIndex">One based index.</param>
+        /// <returns>Cell at the index location.</returns>
+        public TableCellModel GetCellAt(int cellIndex)
+        {
+#if WEIRD_COMPILER_ERROR
+            // Fails with "Member 'Workbench.Core.Models.TableColumnData.cells' has less visibility than the enclosing method 'Workbench.Core.Models.TableColumnData.GetCellAt(System.Int32)'."
+            Contract.Requires<ArgumentOutOfRangeException>(cellIndex > 0 && cellIndex <= this.cells.Count);
+#endif
+            return this.cells[cellIndex - 1];
         }
     }
 }

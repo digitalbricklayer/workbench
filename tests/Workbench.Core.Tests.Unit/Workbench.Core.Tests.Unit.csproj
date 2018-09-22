@@ -113,7 +113,9 @@
     <Compile Include="Solver\OrToolsSolverExpressionTests.cs" />
     <Compile Include="Solver\OrToolsSolverSimpleTests.cs" />
     <Compile Include="Solver\OrToolsSolverTests.cs" />
-    <Compile Include="TableDomainSolverShould.cs" />
+    <Compile Include="TableDomainSolverWithCellListShould.cs" />
+    <Compile Include="TableDomainSolverWithPartialColumnRangeShould.cs" />
+    <Compile Include="TableDomainSolverWithWholeColumnRangeShould.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

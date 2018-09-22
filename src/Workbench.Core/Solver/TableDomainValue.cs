@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solver
 {
@@ -13,21 +12,17 @@ namespace Workbench.Core.Solver
     public class TableDomainValue : DomainValue
     {
         private readonly List<string> values;
-        private TableRangeNode expressionNode;
 
         /// <summary>
         /// Initialize a table range with a list of values.
         /// </summary>
         /// <param name="theList">List of values from the table.</param>
         /// <param name="">High band.</param>
-        internal TableDomainValue(IEnumerable<string> theList, TableRangeNode theNode)
-            : base(theNode)
+        internal TableDomainValue(IEnumerable<string> theList)
         {
             Contract.Requires<ArgumentNullException>(theList != null);
-            Contract.Requires<ArgumentNullException>(theNode != null);
 
             this.values = new List<string>(theList);
-            this.expressionNode = theNode;
         }
 
         /// <summary>

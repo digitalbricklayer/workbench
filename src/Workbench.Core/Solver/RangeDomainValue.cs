@@ -17,7 +17,7 @@ namespace Workbench.Core.Solver
         /// <param name="low">Low band.</param>
         /// <param name="high">High band.</param>
         internal RangeDomainValue(long low, long high, RangeDomainExpressionNode theNode)
-            : base(theNode)
+            : base()
         {
             Lower = low;
             Upper = high;

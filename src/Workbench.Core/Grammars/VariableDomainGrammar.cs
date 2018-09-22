@@ -35,9 +35,10 @@ namespace Workbench.Core.Grammars
             var domainName = new IdentifierTerminal("domain name");
             domainName.AddPrefix("$", IdOptions.NameIncludesPrefix);
             domainName.AstConfig.NodeType = typeof(DomainNameNode);
-            var tableIndex = new NumberLiteral("table index", NumberOptions.IntOnly, typeof(NumberLiteralNode));
-            var tableReference = new IdentifierTerminal("table reference", IdOptions.IsNotKeyword);
-            tableReference.AstConfig.NodeType = typeof(TableReferenceNode);
+            var tableCellReference = new IdentifierTerminal("table cell reference");
+            tableCellReference.AstConfig.NodeType = typeof(TableCellReferenceNode);
+            var cellReference = new IdentifierTerminal("cell reference", IdOptions.IsNotKeyword);
+            cellReference.AstConfig.NodeType = typeof(TableReferenceNode);
 
             // Non-terminals
             var domainExpression = new NonTerminal("domainExpression", typeof (VariableDomainExpressionNode));
@@ -49,7 +50,10 @@ namespace Workbench.Core.Grammars
             var functionCallArgumentList = new NonTerminal("function call arguments", typeof (FunctionArgumentListNode));
             var functionCallArgument = new NonTerminal("function argument", typeof (FunctionCallArgumentNode));
             var sharedDomainReference = new NonTerminal("shared domain reference", typeof(SharedDomainReferenceNode));
-            var tableRange = new NonTerminal("table range", typeof(TableRangeNode));
+            var tableExpression = new NonTerminal("table range", typeof(TableExpressionNode));
+            var cellExpression = new NonTerminal("cell expression", typeof(CellExpressionNode));
+            var cellRangeExpression = new NonTerminal("cell range", typeof(TableRangeExpressionNode));
+            var cellListExpression = new NonTerminal("cell list", typeof(TableListExpressionNode));
 
             // BNF rules
             itemsList.Rule = MakePlusRule(itemsList, COMMA, item);
@@ -60,14 +64,18 @@ namespace Workbench.Core.Grammars
             bandExpression.Rule = numberLiteral | functionCall | characterLiteral;
             rangeDomainExpression.Rule = bandExpression + RANGE + bandExpression;
             sharedDomainReference.Rule = domainName;
-            tableRange.Rule = tableReference + TABLE_COLUMN_SPECIFIER + tableIndex + TABLE_INDEX_SEPERATOR + tableIndex;
-            domainExpression.Rule = NewLine | rangeDomainExpression | sharedDomainReference| listDomainExpression | tableRange;
+            cellRangeExpression.Rule = tableCellReference + TABLE_INDEX_SEPERATOR + tableCellReference;
+            cellListExpression.Rule = MakePlusRule(cellListExpression, COMMA, tableCellReference);
+            cellExpression.Rule = cellRangeExpression | cellListExpression;
+            tableExpression.Rule = cellReference + TABLE_COLUMN_SPECIFIER + cellExpression;
+            domainExpression.Rule = NewLine | rangeDomainExpression | sharedDomainReference| listDomainExpression | tableExpression;
 
             Root = domainExpression;
 
             MarkPunctuation(RANGE, COMMA);
             MarkPunctuation(OPEN_ARG, CLOSE_ARG);
             MarkPunctuation(TABLE_COLUMN_SPECIFIER, TABLE_INDEX_SEPERATOR);
+            MarkTransient(cellExpression);
 
             RegisterBracePair("(", ")");
         }

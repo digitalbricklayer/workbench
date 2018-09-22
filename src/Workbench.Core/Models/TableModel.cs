@@ -41,7 +41,31 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initalize a table with empty rows and columns.
+        /// Initialize a table with columns and rows.
+        /// </summary>
+        /// <param name="theName">Table name.</param>
+        /// <param name="theColumns">Columns.</param>
+        /// <param name="theRows">Rows.</param>
+        public TableModel(ModelName theName, TableColumnModel[] theColumns, TableRowModel[] theRows)
+            : base(theName)
+        {
+            Rows = new ObservableCollection<TableRowModel>();
+            Columns = new ObservableCollection<TableColumnModel>();
+
+            foreach (var aColumn in theColumns)
+            {
+                AppendColumn(aColumn);
+            }
+            this.columnCount = theColumns.Length;
+            foreach (var row in theRows)
+            {
+                AppendRow(row);
+            }
+            this.rowCount = theRows.Length;
+        }
+
+        /// <summary>
+        /// Initialize a table with empty rows and columns.
         /// </summary>
         public TableModel()
         {
@@ -341,7 +365,7 @@ namespace Workbench.Core.Models
             var accumulator = new List<TableCellModel>();
             foreach (var row in Rows)
             {
-                var x = row.GetCellAt(theColumn.Index - 1);
+                var x = row.GetCellAt(theColumn.Index);
                 accumulator.Add(x);
             }
 

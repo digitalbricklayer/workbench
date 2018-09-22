@@ -203,6 +203,7 @@
     <Compile Include="Models\WorkspaceTabTitle.cs" />
     <Compile Include="Models\VisualizerUpdateContext.cs" />
     <Compile Include="Nodes\BandExpressionNode.cs" />
+    <Compile Include="Nodes\CellExpressionNode.cs" />
     <Compile Include="Nodes\CharacterLiteralNode.cs" />
     <Compile Include="Nodes\SharedDomainExpressionNode.cs" />
     <Compile Include="Nodes\DomainNameNode.cs" />
@@ -219,7 +220,10 @@
     <Compile Include="Nodes\RangeDomainExpressionNode.cs" />
     <Compile Include="Nodes\SharedDomainReferenceNode.cs" />
     <Compile Include="Nodes\StatementListNode.cs" />
-    <Compile Include="Nodes\TableRangeNode.cs" />
+    <Compile Include="Nodes\TableCellReferenceNode.cs" />
+    <Compile Include="Nodes\TableExpressionNode.cs" />
+    <Compile Include="Nodes\TableListExpressionNode.cs" />
+    <Compile Include="Nodes\TableRangeExpressionNode.cs" />
     <Compile Include="Nodes\TableReferenceNode.cs" />
     <Compile Include="Nodes\VariableDomainExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerBinaryExpressionNode.cs" />
