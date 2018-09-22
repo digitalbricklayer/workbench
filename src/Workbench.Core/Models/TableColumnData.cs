@@ -8,39 +8,27 @@ namespace Workbench.Core.Models
 {
     public class TableColumnData
     {
-        private readonly TableColumnModel column;
-        private readonly IList<TableCellModel> cells;
+        private readonly TableColumnModel _column;
+        private readonly IList<TableCellModel> _cells;
 
         public TableColumnData(TableColumnModel theColumn, IEnumerable<TableCellModel> theColumnCells)
         {
             Contract.Requires<ArgumentException>(theColumn != null);
             Contract.Requires<ArgumentException>(theColumnCells != null);
 
-            this.column = theColumn;
-            this.cells = new List<TableCellModel>(theColumnCells);
+            _column = theColumn;
+            _cells = new List<TableCellModel>(theColumnCells);
         }
 
         /// <summary>
         /// Gets the column.
         /// </summary>
-        public TableColumnModel Column
-        {
-            get
-            {
-                return this.column;
-            }
-        }
+        public TableColumnModel Column => _column;
 
         /// <summary>
         /// Gets the cells in the column.
         /// </summary>
-        public IReadOnlyCollection<TableCellModel> Cells
-        {
-            get
-            {
-                return new ReadOnlyCollection<TableCellModel>(this.cells);
-            }
-        }
+        public IReadOnlyCollection<TableCellModel> Cells => new ReadOnlyCollection<TableCellModel>(_cells);
 
         /// <summary>
         /// Get the cells in the column.
@@ -48,7 +36,7 @@ namespace Workbench.Core.Models
         /// <returns>Cells in the column.</returns>
         public IReadOnlyCollection<TableCellModel> GetCells()
         {
-            return new ReadOnlyCollection<TableCellModel>(this.cells.ToList());
+            return new ReadOnlyCollection<TableCellModel>(_cells.ToList());
         }
 
         /// <summary>
@@ -60,9 +48,9 @@ namespace Workbench.Core.Models
         {
 #if WEIRD_COMPILER_ERROR
             // Fails with "Member 'Workbench.Core.Models.TableColumnData.cells' has less visibility than the enclosing method 'Workbench.Core.Models.TableColumnData.GetCellAt(System.Int32)'."
-            Contract.Requires<ArgumentOutOfRangeException>(cellIndex > 0 && cellIndex <= this.cells.Count);
+            Contract.Requires<ArgumentOutOfRangeException>(cellIndex > 0 && cellIndex <= _cells.Count);
 #endif
-            return this.cells[cellIndex - 1];
+            return _cells[cellIndex - 1];
         }
     }
 }

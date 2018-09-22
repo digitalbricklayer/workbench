@@ -19,7 +19,7 @@ namespace Workbench.Core.Grammars
             var COMMA = ToTerm(",");
             var OPEN_ARG = ToTerm("(");
             var CLOSE_ARG = ToTerm(")");
-            var TABLE_COLUMN_SPECIFIER = ToTerm("!");
+            var TABLE_REFERENCE_MARKER = ToTerm("!");
             var TABLE_INDEX_SEPERATOR = ToTerm(":");
 
             // Terminals
@@ -37,8 +37,8 @@ namespace Workbench.Core.Grammars
             domainName.AstConfig.NodeType = typeof(DomainNameNode);
             var tableCellReference = new IdentifierTerminal("table cell reference");
             tableCellReference.AstConfig.NodeType = typeof(TableCellReferenceNode);
-            var cellReference = new IdentifierTerminal("cell reference", IdOptions.IsNotKeyword);
-            cellReference.AstConfig.NodeType = typeof(TableReferenceNode);
+            var tableReference = new IdentifierTerminal("cell reference", IdOptions.IsNotKeyword);
+            tableReference.AstConfig.NodeType = typeof(TableReferenceNode);
 
             // Non-terminals
             var domainExpression = new NonTerminal("domainExpression", typeof (VariableDomainExpressionNode));
@@ -67,14 +67,14 @@ namespace Workbench.Core.Grammars
             cellRangeExpression.Rule = tableCellReference + TABLE_INDEX_SEPERATOR + tableCellReference;
             cellListExpression.Rule = MakePlusRule(cellListExpression, COMMA, tableCellReference);
             cellExpression.Rule = cellRangeExpression | cellListExpression;
-            tableExpression.Rule = cellReference + TABLE_COLUMN_SPECIFIER + cellExpression;
+            tableExpression.Rule = tableReference + TABLE_REFERENCE_MARKER + cellExpression;
             domainExpression.Rule = NewLine | rangeDomainExpression | sharedDomainReference| listDomainExpression | tableExpression;
 
             Root = domainExpression;
 
             MarkPunctuation(RANGE, COMMA);
             MarkPunctuation(OPEN_ARG, CLOSE_ARG);
-            MarkPunctuation(TABLE_COLUMN_SPECIFIER, TABLE_INDEX_SEPERATOR);
+            MarkPunctuation(TABLE_REFERENCE_MARKER, TABLE_INDEX_SEPERATOR);
             MarkTransient(cellExpression);
 
             RegisterBracePair("(", ")");
