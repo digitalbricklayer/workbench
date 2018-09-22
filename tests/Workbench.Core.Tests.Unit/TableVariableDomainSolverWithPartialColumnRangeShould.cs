@@ -17,7 +17,7 @@ namespace Workbench.Core.Tests.Unit
         [SetUp]
         public void Initialize()
         {
-            Subject = CreateWorkspace();
+            Subject = new ContrivedTableSharedDomainWorkspaceBuilder().CreateWorkspace();
         }
 
         [Test]
@@ -33,46 +33,6 @@ namespace Workbench.Core.Tests.Unit
             var actualResult = Subject.Solve();
             var aLabel = actualResult.Snapshot.GetLabelByVariableName("a");
             Assert.That(aLabel.Value, Is.EqualTo("Bodie"));
-        }
-
-        private WorkspaceModel CreateWorkspace()
-        {
-            return new WorkspaceBuilder("A contrived table domain test")
-                        .AddSingleton("a", "workers!Name1:Name4")
-                        .WithConstraintExpression("$a <> Morse")
-                        .WithConstraintExpression("$a <> Lewis")
-                        .WithConstraintExpression("$a <> Doyle")
-                        .WithTable(CreateTableTab())
-                        .Build();
-        }
-
-        private static TableTabModel CreateTableTab()
-        {
-            return new TableTabModel(CreateTable(), new WorkspaceTabTitle("Table containing the domain"));
-        }
-
-        private static TableModel CreateTable()
-        {
-            return new TableModel(new ModelName("workers"), CreateWorkerColumns(), CreateWorkerRows());
-        }
-
-        private static TableColumnModel[] CreateWorkerColumns()
-        {
-            return new []
-            {
-                new TableColumnModel("Name")
-            };
-        }
-
-        private static TableRowModel[] CreateWorkerRows()
-        {
-            return new []
-            {
-                new TableRowModel("Morse"),
-                new TableRowModel("Lewis"),
-                new TableRowModel("Bodie"),
-                new TableRowModel("Doyle"),
-            };
         }
     }
 }
