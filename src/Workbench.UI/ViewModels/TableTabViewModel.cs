@@ -182,7 +182,7 @@ namespace Workbench.ViewModels
         {
             base.OnInitialize();
             Table = new TableViewModel(Model.Table);
-            Details = new TableDetailsViewModel();
+            Details = new TableDetailsViewModel(_windowManager);
             Items.AddRange(new IScreen[] { Table, Details });
             Table.PropertyChanged += OnPropertyChanged;
         }
@@ -205,7 +205,7 @@ namespace Workbench.ViewModels
         {
             if (Table.SelectedRow == null || Table.SelectedColumn == null) return;
             var selectedCell = Model.Table.GetCellBy(Table.SelectedRow.Value + 1, Table.SelectedColumn.Value + 1);
-            Details = new TableDetailsViewModel(selectedCell);
+            Details = new TableDetailsViewModel(selectedCell, _windowManager);
             var selectedColumn = Model.Table.GetColumnAt(Table.SelectedColumn.Value + 1);
             Details.Column = selectedColumn.Name;
             Details.Row = Convert.ToString(Table.SelectedRow.Value + 1);

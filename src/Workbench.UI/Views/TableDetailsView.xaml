@@ -27,17 +27,25 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0">Background</Label>
-            <TextBox x:Name="BackgroundColor" Grid.Column="1"/>
+            <TextBlock x:Name="BackgroundColorExpression" Grid.Column="1"/>
+            <Button x:Name="EditBackground" Grid.Column="2" Width="48" Height="48">
+                <Image Source="/ConstraintWorkbench;component/Images/pencil_small.png"/>
+            </Button>
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0">Text</Label>
-            <TextBox x:Name="Text" Grid.Column="1"/>
+            <TextBlock x:Name="TextExpression" Grid.Column="1"/>
+            <Button x:Name="EditText" Grid.Column="2" Width="48" Height="48">
+                <Image Source="/ConstraintWorkbench;component/Images/pencil_small.png"/>
+            </Button>
         </Grid>
     </StackPanel>
 

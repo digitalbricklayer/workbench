@@ -15,15 +15,18 @@ namespace Workbench.ViewModels
         private string _backgroundColorExpression;
         private string _textExpression;
         private readonly TableCellModel _selectedCell;
+        private readonly IWindowManager _windowManager;
 
         /// <summary>
         /// Initialize a table details view model with the selected cell.
         /// </summary>
-        public TableDetailsViewModel(TableCellModel theSelectedCell)
+        public TableDetailsViewModel(TableCellModel theSelectedCell, IWindowManager theWindowManager)
         {
             Contract.Requires<ArgumentNullException>(theSelectedCell != null);
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
             _selectedCell = theSelectedCell;
+            _windowManager = theWindowManager;
             DisplayName = "Details";
             Column = "Name";
             Row = "1";
@@ -32,10 +35,13 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Initialize a table details view model without a selected cell or range of cells.
+        /// Initialize a table details view model with a window manager.
         /// </summary>
-        public TableDetailsViewModel()
+        /// <param name="theWindowManager">The window manager.</param>
+        public TableDetailsViewModel(IWindowManager theWindowManager)
         {
+            Contract.Requires<ArgumentNullException>(theWindowManager != null);
+            _windowManager = theWindowManager;
             DisplayName = string.Empty;
             Column = string.Empty;
             Row = string.Empty;
@@ -81,6 +87,24 @@ namespace Workbench.ViewModels
                 _textExpression = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public void EditText()
+        {
+            var expressionEditor = new PropertyExpressionEditorViewModel();
+            expressionEditor.Expression = TextExpression;
+            var status = _windowManager.ShowDialog(expressionEditor);
+            if (status.HasValue && !status.Value) return;
+            TextExpression = expressionEditor.Expression;
+        }
+
+        public void EditBackground()
+        {
+            var expressionEditor = new PropertyExpressionEditorViewModel();
+            expressionEditor.Expression = BackgroundColorExpression;
+            var status = _windowManager.ShowDialog(expressionEditor);
+            if (status.HasValue && !status.Value) return;
+            BackgroundColorExpression = expressionEditor.Expression;
         }
     }
 }

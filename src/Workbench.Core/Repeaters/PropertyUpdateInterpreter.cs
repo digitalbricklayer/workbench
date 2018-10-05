@@ -11,13 +11,11 @@ namespace Workbench.Core.Repeaters
     /// </summary>
     internal class PropertyUpdateInterpreter
     {
-        private readonly PropertyUpdateContext _context;
         private readonly SolutionSnapshot _snapshot;
 
         internal PropertyUpdateInterpreter(PropertyUpdateContext theContext)
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
-            _context = theContext;
             _snapshot = theContext.Snapshot;
         }
 
@@ -138,14 +136,14 @@ namespace Workbench.Core.Repeaters
         {
             switch (leftValue)
             {
-                case int _:
-                    return EvaluateNumberBinaryExpression(theOperator, Convert.ToInt32(leftValue), rightValue);
+                case int leftValueAsInt:
+                    return EvaluateNumberBinaryExpression(theOperator, leftValueAsInt, rightValue);
 
-                case char _:
-                    return EvaluateCharBinaryExpression(theOperator, Convert.ToChar(leftValue), rightValue);
+                case char leftValueAsChar:
+                    return EvaluateCharBinaryExpression(theOperator, leftValueAsChar, rightValue);
 
-                case string _:
-                    return EvaluateStringBinaryExpression(theOperator, Convert.ToString(leftValue), rightValue);
+                case string leftValueAsString:
+                    return EvaluateStringBinaryExpression(theOperator, leftValueAsString, rightValue);
 
                 default:
                     throw new NotImplementedException("Unknown value type.");

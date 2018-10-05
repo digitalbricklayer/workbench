@@ -219,6 +219,7 @@
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\TableDetailsViewModel.cs" />
     <Compile Include="ViewModels\TabNameEditorViewModel.cs" />
+    <Compile Include="ViewModels\PropertyExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\TabTitleEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\IWorkspaceTabViewModel.cs" />
@@ -247,6 +248,9 @@
     </Compile>
     <Compile Include="Views\TableDetailsView.xaml.cs">
       <DependentUpon>TableDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertyExpressionEditorView.xaml.cs">
+      <DependentUpon>PropertyExpressionEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabNameEditorView.xaml.cs">
       <DependentUpon>TabNameEditorView.xaml</DependentUpon>
@@ -391,6 +395,10 @@
     <Page Include="Views\TableDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertyExpressionEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TabNameEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
