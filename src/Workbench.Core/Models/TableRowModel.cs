@@ -27,6 +27,19 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Initialize a row with cells.
+        /// </summary>
+        /// <param name="cellData">Cells to insert into the row.</param>
+        public TableRowModel(params TableCellModel[] cellData)
+            : this()
+        {
+            foreach (var cellContent in cellData)
+            {
+                AddCell(cellContent);
+            }
+        }
+
+        /// <summary>
         /// Initialize a row with default values.
         /// </summary>
         public TableRowModel()

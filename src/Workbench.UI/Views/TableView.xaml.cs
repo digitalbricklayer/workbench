@@ -17,6 +17,7 @@ namespace Workbench.Views
         private void OnSelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             var dataGrid = sender as DataGrid;
+            Contract.Assert(dataGrid != null);
             var columnIndex = dataGrid.CurrentCell.Column.DisplayIndex;
             var rowIndex = dataGrid.Items.IndexOf(dataGrid.CurrentItem);
             var tableViewModel = DataContext as TableViewModel;

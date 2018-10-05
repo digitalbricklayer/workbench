@@ -14,7 +14,7 @@ namespace Workbench.Core.Models
     public class DisplayModel : AbstractModel
     {
         private readonly List<VisualizerBindingExpressionModel> bindings;
-        private ObservableCollection<VisualizerModel> visualizers;
+        private List<VisualizerModel> visualizers;
         private readonly ModelModel model;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
 
-            Visualizers = new ObservableCollection<VisualizerModel>();
+            Visualizers = new List<VisualizerModel>();
             this.bindings = new List<VisualizerBindingExpressionModel>();
             this.model = theModel;
         }
@@ -33,7 +33,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the visualizer collection.
         /// </summary>
-        public ObservableCollection<VisualizerModel> Visualizers
+        public List<VisualizerModel> Visualizers
         {
             get => this.visualizers;
             private set
@@ -90,6 +90,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot.Snapshot, this, binding, this.model)));
+            this.visualizers.ForEach(visualizer => visualizer.UpdateWith(new PropertyUpdateContext(theSnapshot.Snapshot, this, this.model)));
         }
 
         /// <summary>

@@ -112,5 +112,15 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
             return Table.GetColumnDataByName(columnName);
         }
+
+
+        /// <summary>
+        /// Update a table with a property update.
+        /// </summary>
+        /// <param name="theUpdateContext">Property update context.</param>
+        public override void UpdateWith(PropertyUpdateContext theUpdateContext)
+        {
+            Table.UpdateWith(theUpdateContext);
+        }
     }
 }

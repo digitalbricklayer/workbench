@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Models
 {
@@ -246,6 +247,10 @@ namespace Workbench.Core.Models
             this.rowCount--;
         }
 
+        /// <summary>
+        /// Delete the currently selected column.
+        /// </summary>
+        /// <param name="columnToDeleteIndex">Column to delete index.</param>
         public void DeleteColumnSelected(int columnToDeleteIndex)
         {
             Columns.RemoveAt(columnToDeleteIndex);
@@ -290,7 +295,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the row by x, y co-ordinate.
+        /// Get the row by the row and column indexes.
         /// </summary>
         /// <param name="rowIndex">One based row index.</param>
         /// <param name="columnIndex">One based column index.</param>
@@ -382,6 +387,28 @@ namespace Workbench.Core.Models
             }
             Columns.Insert(this.columnCount, theColumn);
             this.columnCount++;
+        }
+
+        public void UpdateWith(PropertyUpdateContext theUpdateContext)
+        {
+            foreach (var aRow in Rows)
+            {
+                foreach (var aCell in aRow.Cells)
+                {
+                    if (!aCell.TextExpression.IsEmpty)
+                    {
+                        var textExpression = aCell.TextExpression;
+                        var x = textExpression.ExecuteWith(theUpdateContext);
+                        aCell.Text = Convert.ToString(x);
+                    }
+
+                    if (!aCell.BackgroundColorExpression.IsEmpty)
+                    {
+                        var colorExpression = aCell.BackgroundColorExpression;
+                        colorExpression.ExecuteWith(theUpdateContext);
+                    }
+                }
+            }
         }
     }
 }

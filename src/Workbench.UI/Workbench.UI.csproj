@@ -180,8 +180,10 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -215,6 +217,7 @@
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
+    <Compile Include="ViewModels\TableDetailsViewModel.cs" />
     <Compile Include="ViewModels\TabNameEditorViewModel.cs" />
     <Compile Include="ViewModels\TabTitleEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
@@ -241,6 +244,9 @@
     </Compile>
     <Compile Include="Views\ChessboardView.xaml.cs">
       <DependentUpon>ChessboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TableDetailsView.xaml.cs">
+      <DependentUpon>TableDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabNameEditorView.xaml.cs">
       <DependentUpon>TabNameEditorView.xaml</DependentUpon>
@@ -379,6 +385,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ChessboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TableDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

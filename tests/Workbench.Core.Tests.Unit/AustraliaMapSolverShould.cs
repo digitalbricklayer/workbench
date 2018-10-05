@@ -63,13 +63,6 @@ namespace Workbench.Core.Tests.Unit
                         .WithConstraintExpression("$nsw <> $sa")
                         .WithConstraintExpression("$nsw <> $v")
                         .WithConstraintExpression("$sa <> $v")
-                        .WithBinding("states(row:1,column:2,Text:<wa>)")
-                        .WithBinding("states(row:2,column:2,Text:<nt>)")
-                        .WithBinding("states(row:3,column:2,Text:<sa>)")
-                        .WithBinding("states(row:4,column:2,Text:<q>)")
-                        .WithBinding("states(row:5,column:2,Text:<nsw>)")
-                        .WithBinding("states(row:6,column:2,Text:<v>)")
-                        .WithBinding("states(row:7,column:2,Text:<t>)")
                         .WithTable(CreateTable())
                         .Build();
         }
@@ -84,13 +77,13 @@ namespace Workbench.Core.Tests.Unit
         {
             return new[]
             {
-                new TableRowModel("WA", ""),
-                new TableRowModel("NT", ""),
-                new TableRowModel("SA", ""),
-                new TableRowModel("Q", ""),
-                new TableRowModel("NSW", ""),
-                new TableRowModel("V",  ""),
-                new TableRowModel("T", "")
+                new TableRowModel(new TableCellModel("WA"), new TableCellModel("", "<wa>")),
+                new TableRowModel(new TableCellModel("NT"), new TableCellModel("", "<nt>")),
+                new TableRowModel(new TableCellModel("SA"), new TableCellModel("", "<sa>")),
+                new TableRowModel(new TableCellModel("Q"), new TableCellModel("", "<q>")),
+                new TableRowModel(new TableCellModel("NSW"), new TableCellModel("", "<nsw>")),
+                new TableRowModel(new TableCellModel("V"), new TableCellModel("", "<v>")),
+                new TableRowModel(new TableCellModel("T"), new TableCellModel("", "<t>")),
             };
         }
     }

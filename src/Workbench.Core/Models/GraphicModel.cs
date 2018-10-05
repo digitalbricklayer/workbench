@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 
 namespace Workbench.Core.Models
 {
@@ -7,18 +6,6 @@ namespace Workbench.Core.Models
     public abstract class GraphicModel : AbstractModel
     {
         private Model model;
-
-        /// <summary>
-        /// Initialize a graphic model with a model and location.
-        /// </summary>
-        /// <param name="theModel">Model the graphic represents.</param>
-        /// <param name="location">Location of the graphic.</param>
-        protected GraphicModel(Model theModel, Point location)
-            : this(theModel)
-        {
-            X = location.X;
-            Y = location.Y;
-        }
 
         /// <summary>
         /// Initialize a graphic model with a model.
@@ -53,6 +40,15 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theCall">Call arguments.</param>
         public virtual void UpdateWith(VisualizerCall theCall)
+        {
+            // Default implementation. Override as appropriate.
+        }
+
+        /// <summary>
+        /// Update a graphic with a property update.
+        /// </summary>
+        /// <param name="theUpdateContext">Property update context.</param>
+        public virtual void UpdateWith(PropertyUpdateContext theUpdateContext)
         {
             // Default implementation. Override as appropriate.
         }

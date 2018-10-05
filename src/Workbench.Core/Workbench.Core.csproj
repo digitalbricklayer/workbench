@@ -175,6 +175,7 @@
     <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
+    <Compile Include="Grammars\PropertyBindingGrammar.cs" />
     <Compile Include="Grammars\VisualizerBindingGrammar.cs" />
     <Compile Include="Models\AggregateVariableModel.cs" />
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelName.cs" />
     <Compile Include="Models\LabelModel.cs" />
+    <Compile Include="Models\PropertyUpdateContext.cs" />
     <Compile Include="Models\TableCellModel.cs" />
     <Compile Include="Models\TableColumnData.cs" />
     <Compile Include="Models\TableColumnModel.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="Models\SolutionSnapshot.cs" />
     <Compile Include="Models\ValueModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
+    <Compile Include="Models\PropertyUpdateExpressionModel.cs" />
     <Compile Include="Models\VisualizerBindingExpressionModel.cs" />
     <Compile Include="Models\VisualizerCall.cs" />
     <Compile Include="Models\WorkspaceTabTitle.cs" />
@@ -238,6 +241,7 @@
     <Compile Include="Nodes\ExpanderCountNode.cs" />
     <Compile Include="Nodes\ExpanderScopeNode.cs" />
     <Compile Include="Nodes\ExpanderStatementNode.cs" />
+    <Compile Include="Nodes\PropertyUpdateExpressionNode.cs" />
     <Compile Include="Nodes\VisualizerExpressionNode.cs" />
     <Compile Include="Nodes\IfStatementNode.cs" />
     <Compile Include="Nodes\InfixStatementNode.cs" />
@@ -285,10 +289,12 @@
     <Compile Include="Nodes\SubscriptNode.cs" />
     <Compile Include="Nodes\VariableExpressionOperatorType.cs" />
     <Compile Include="Nodes\VariableNameNode.cs" />
+    <Compile Include="Parsers\ExpressionParser.cs" />
     <Compile Include="Parsers\VariableDomainExpressionParser.cs" />
     <Compile Include="Parsers\SharedDomainExpressionParser.cs" />
     <Compile Include="Parsers\ParseResult.cs" />
     <Compile Include="Parsers\ParseStatus.cs" />
+    <Compile Include="Parsers\PropertyBindingExpressionParser.cs" />
     <Compile Include="Parsers\VisualizerBindingExpressionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repeaters\FunctionInvocationContext.cs" />
@@ -304,6 +310,7 @@
     <Compile Include="Repeaters\RangeIterator.cs" />
     <Compile Include="Repeaters\ConstraintRepeater.cs" />
     <Compile Include="Repeaters\ConstraintRepeaterContext.cs" />
+    <Compile Include="Repeaters\PropertyUpdateInterpreter.cs" />
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />

@@ -8,13 +8,13 @@ namespace Workbench.Core.Nodes
     {
         public VisualizerBinaryExpressionNode Expression { get; private set; }
 
-        public CallStatementNode Statement { get; set; }
+        public AstNode Statement { get; set; }
 
         public override void Init(AstContext context, ParseTreeNode treeNode)
         {
             base.Init(context, treeNode);
             Expression = (VisualizerBinaryExpressionNode) AddChild("Inner", treeNode.ChildNodes[0]);
-            Statement = (CallStatementNode) AddChild("statement", treeNode.ChildNodes[1]);
+            Statement = AddChild("statement", treeNode.ChildNodes[1]);
         }
     }
 }

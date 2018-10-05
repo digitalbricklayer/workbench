@@ -5,7 +5,7 @@ using Workbench.Core.Solver;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A solution to a model.
+    /// One solution to a model.
     /// </summary>
     [Serializable]
     public class SolutionModel : AbstractModel
@@ -13,7 +13,7 @@ namespace Workbench.Core.Models
         private SolutionSnapshot snapshot;
 
         /// <summary>
-        /// Initialize the solution with the model.
+        /// Initialize the solution with the model and snapshot.
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         /// <param name="theSnapshot">Solution snapshot.</param>

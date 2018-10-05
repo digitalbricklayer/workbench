@@ -202,7 +202,7 @@ namespace Workbench.ViewModels
             _dataTable.AcceptChanges();
             /*
              * May seem excessive, but just removing the column from the existing
-             * data table does not propogate the change to the data grid control. Copying
+             * data table does not propagate the change to the data grid control. Copying
              * the data table and then re-binding does the trick. Performance may be
              * somewhat hampered.
              */

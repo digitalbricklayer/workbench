@@ -11,14 +11,14 @@ namespace Workbench.Core.Solver
     /// </summary>
     internal class SnapshotExtractor
     {
-        private OrToolsCache orToolsCache;
-        private ValueMapper valueMapper;
-        private SolutionSnapshot snapshot;
+        private readonly OrToolsCache orToolsCache;
+        private readonly ValueMapper valueMapper;
+        private readonly SolutionSnapshot snapshot;
 
         /// <summary>
-        /// Initialize a snapshot extractor with a or-tools cache and a value mapper.
+        /// Initialize a snapshot extractor with an or-tools cache and a value mapper.
         /// </summary>
-        /// <param name="theOrToolsCache">Or-tools cache.</param>
+        /// <param name="theOrToolsCache">or-tools cache.</param>
         /// <param name="theValueMapper">Value mapper between domain and solver values.</param>
         internal SnapshotExtractor(OrToolsCache theOrToolsCache, ValueMapper theValueMapper)
         {

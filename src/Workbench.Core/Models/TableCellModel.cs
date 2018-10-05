@@ -5,13 +5,31 @@ using System.Drawing;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// An individual cell in a row on a table.
+    /// An individual cell in a table.
     /// </summary>
     [Serializable]
     public class TableCellModel : AbstractModel
     {
-        private Color backgroundColor;
-        private string text;
+        private Color _backgroundColor;
+        private string _text;
+        private PropertyUpdateExpressionModel _backgroundColorExpression;
+        private PropertyUpdateExpressionModel _textExpression;
+
+        /// <summary>
+        /// Initialize the cell with text and text visualizer expression.
+        /// </summary>
+        /// <param name="theText">Cell text.</param>
+        /// <param name="theTextExpression">Visualizer expression bound to the text property.</param>
+        public TableCellModel(string theText, string theTextExpression)
+        {
+            Contract.Requires<ArgumentNullException>(theText != null);
+            Contract.Requires<ArgumentNullException>(theTextExpression != null);
+
+            Text = theText;
+            TextExpression = new PropertyUpdateExpressionModel(theTextExpression);
+            BackgroundColor = Color.White;
+            BackgroundColorExpression = new PropertyUpdateExpressionModel();
+        }
 
         /// <summary>
         /// Initialize the cell with text.
@@ -20,8 +38,11 @@ namespace Workbench.Core.Models
         public TableCellModel(string theText)
         {
             Contract.Requires<ArgumentNullException>(theText != null);
-            this.text = theText;
+
+            Text = theText;
+            TextExpression = new PropertyUpdateExpressionModel();
             BackgroundColor = Color.White;
+            BackgroundColorExpression = new PropertyUpdateExpressionModel();
         }
 
         /// <summary>
@@ -30,7 +51,9 @@ namespace Workbench.Core.Models
         public TableCellModel()
         {
             BackgroundColor = Color.White;
+            BackgroundColorExpression = new PropertyUpdateExpressionModel();
             Text = string.Empty;
+            BackgroundColorExpression = new PropertyUpdateExpressionModel();
         }
 
         /// <summary>
@@ -38,11 +61,25 @@ namespace Workbench.Core.Models
         /// </summary>
         public string Text
         {
-            get { return this.text; }
+            get { return _text; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.text = value;
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text visualizer property expression.
+        /// </summary>
+        public PropertyUpdateExpressionModel TextExpression
+        {
+            get => _textExpression;
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _textExpression = value;
                 OnPropertyChanged();
             }
         }
@@ -52,10 +89,24 @@ namespace Workbench.Core.Models
         /// </summary>
         public Color BackgroundColor
         {
-            get { return this.backgroundColor; }
+            get { return _backgroundColor; }
             set
             {
-                this.backgroundColor = value;
+                _backgroundColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the back ground color visualizer expression.
+        /// </summary>
+        public PropertyUpdateExpressionModel BackgroundColorExpression
+        {
+            get => _backgroundColorExpression;
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _backgroundColorExpression = value;
                 OnPropertyChanged();
             }
         }

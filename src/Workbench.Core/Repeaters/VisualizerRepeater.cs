@@ -11,13 +11,13 @@ namespace Workbench.Core.Repeaters
         private VisualizerRepeaterContext context;
         private readonly SolutionSnapshot snapshot;
 
-        public VisualizerRepeater(SolutionSnapshot theSnapshot)
+        internal VisualizerRepeater(SolutionSnapshot theSnapshot)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.snapshot = theSnapshot;
         }
 
-        public void Process(VisualizerRepeaterContext theContext)
+        internal void Process(VisualizerRepeaterContext theContext)
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
@@ -46,7 +46,7 @@ namespace Workbench.Core.Repeaters
             }
         }
 
-        public VisualizerRepeaterContext CreateContextFrom(VisualizerUpdateContext theContext)
+        internal VisualizerRepeaterContext CreateContextFrom(VisualizerUpdateContext theContext)
         {
             return new VisualizerRepeaterContext(theContext);
         }
@@ -81,7 +81,7 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentNullException>(ifStatementNode != null);
             if (EvaluateIfStatementCondition(ifStatementNode.Expression))
             {
-                ProcessCallStatement(ifStatementNode.Statement);
+                ProcessCallStatement(ifStatementNode.Statement as CallStatementNode);
             }
         }
 

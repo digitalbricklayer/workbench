@@ -32,8 +32,26 @@
             </Border>
         </Grid>
 
-        <ContentControl x:Name="Table"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Table panel -->
+            <ContentControl x:Name="Table"/>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+
+            <!-- Table property details -->
+            <ContentControl x:Name="Details"  Grid.Column="2" />
+
+        </Grid>
     </DockPanel>
 
 </UserControl>

@@ -102,6 +102,7 @@
     <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
     <Compile Include="Parsers\ContraintExpressionParserShould.cs" />
     <Compile Include="Parsers\SharedDomainExpressionParserShould.cs" />
+    <Compile Include="Parsers\PropertyValueExpressionParserShould.cs" />
     <Compile Include="Parsers\VariableDomainExpressionParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />

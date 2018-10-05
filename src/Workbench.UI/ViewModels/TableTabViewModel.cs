@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -15,6 +16,7 @@ namespace Workbench.ViewModels
         private string _title;
         private readonly IWindowManager _windowManager;
         private string _text;
+        private TableDetailsViewModel _details;
 
         public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator, IWindowManager theWindowManager)
         {
@@ -25,7 +27,6 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
             Title = TabText = Name = DisplayName = theTableModel.Name;
             Model = theTableModel;
-            Table = new TableViewModel(theTableModel.Table);
         }
 
         /// <summary>
@@ -37,6 +38,19 @@ namespace Workbench.ViewModels
         /// Gets the table tab model.
         /// </summary>
         public TableTabModel Model { get; }
+
+        /// <summary>
+        /// Gets or sets the table details.
+        /// </summary>
+        public TableDetailsViewModel Details
+        {
+            get => _details;
+            set
+            {
+                _details = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the table name.
@@ -162,6 +176,39 @@ namespace Workbench.ViewModels
             var status = _windowManager.ShowDialog(nameEditor);
             if (status.HasValue && !status.Value) return;
             Name = nameEditor.TabName;
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            Table = new TableViewModel(Model.Table);
+            Details = new TableDetailsViewModel();
+            Items.AddRange(new IScreen[] { Table, Details });
+            Table.PropertyChanged += OnPropertyChanged;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "SelectedColumn":
+                    ChangeCellDetails();
+                    break;
+
+                case "SelectedRow":
+                    ChangeCellDetails();
+                    break;
+            }
+        }
+
+        private void ChangeCellDetails()
+        {
+            if (Table.SelectedRow == null || Table.SelectedColumn == null) return;
+            var selectedCell = Model.Table.GetCellBy(Table.SelectedRow.Value + 1, Table.SelectedColumn.Value + 1);
+            Details = new TableDetailsViewModel(selectedCell);
+            var selectedColumn = Model.Table.GetColumnAt(Table.SelectedColumn.Value + 1);
+            Details.Column = selectedColumn.Name;
+            Details.Row = Convert.ToString(Table.SelectedRow.Value + 1);
         }
     }
 }

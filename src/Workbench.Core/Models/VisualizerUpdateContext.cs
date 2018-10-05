@@ -10,6 +10,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
             Contract.Requires<ArgumentNullException>(theDisplay != null);
             Contract.Requires<ArgumentNullException>(theBinding != null);
+            Contract.Requires<ArgumentNullException>(theModel != null);
 
             Snapshot = theSnapshot;
             Display = theDisplay;
