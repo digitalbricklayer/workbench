@@ -18,7 +18,7 @@ namespace Workbench.ViewModels
         private readonly IWindowManager _windowManager;
 
         /// <summary>
-        /// Initialize a table details view model with the selected cell.
+        /// Initialize a table details view model with the selected cell and a window manager.
         /// </summary>
         public TableDetailsViewModel(TableCellModel theSelectedCell, IWindowManager theWindowManager)
         {
@@ -75,6 +75,7 @@ namespace Workbench.ViewModels
             set
             {
                 _backgroundColorExpression = value;
+                if (_selectedCell != null) _selectedCell.BackgroundColorExpression.Text = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -85,6 +86,7 @@ namespace Workbench.ViewModels
             set
             {
                 _textExpression = value;
+                if (_selectedCell != null) _selectedCell.TextExpression.Text = value;
                 NotifyOfPropertyChange();
             }
         }

@@ -53,7 +53,7 @@ namespace Workbench.Core.Models
             BackgroundColor = Color.White;
             BackgroundColorExpression = new PropertyUpdateExpressionModel();
             Text = string.Empty;
-            BackgroundColorExpression = new PropertyUpdateExpressionModel();
+            TextExpression = new PropertyUpdateExpressionModel();
         }
 
         /// <summary>

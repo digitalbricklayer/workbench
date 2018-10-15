@@ -141,6 +141,11 @@ namespace Workbench.ViewModels
             DeleteRowFromTable(SelectedRow.Value);
         }
 
+        public void UpdateFromModel()
+        {
+            CloneData();
+        }
+
         public void Dispose()
         {
             _dataTable?.Dispose();

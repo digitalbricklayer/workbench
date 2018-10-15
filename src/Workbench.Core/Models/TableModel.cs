@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Models
 {
@@ -398,8 +397,8 @@ namespace Workbench.Core.Models
                     if (!aCell.TextExpression.IsEmpty)
                     {
                         var textExpression = aCell.TextExpression;
-                        var x = textExpression.ExecuteWith(theUpdateContext);
-                        aCell.Text = Convert.ToString(x);
+                        var textExpressionResult = textExpression.ExecuteWith(theUpdateContext);
+                        aCell.Text = Convert.ToString(textExpressionResult);
                     }
 
                     if (!aCell.BackgroundColorExpression.IsEmpty)

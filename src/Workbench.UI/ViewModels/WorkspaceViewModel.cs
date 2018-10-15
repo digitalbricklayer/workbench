@@ -112,6 +112,10 @@ namespace Workbench.ViewModels
             if (!isModelValid) return SolveResult.InvalidModel;
             var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
+            foreach (var anItem in TableTabs)
+            {
+                anItem.UpdateFromModel();
+            }
             DisplaySolution(WorkspaceModel.Solution);
             _eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
 
@@ -190,6 +194,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newChessboard != null);
             var newChessboardTab = new ChessboardTabViewModel(new ChessboardTabModel(newChessboard, new WorkspaceTabTitle("board1")), _windowManager);
+            WorkspaceModel.Display.AddVisualizer(newChessboardTab.Model);
             ChessboardTabs.Add(newChessboardTab);
             ActivateItem(newChessboardTab);
             IsDirty = true;
@@ -204,6 +209,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newTable != null);
 
             var newTableTab = new TableTabViewModel(new TableTabModel(TableModel.Default, new WorkspaceTabTitle("Table")), _eventAggregator, _windowManager);
+            WorkspaceModel.Display.AddVisualizer(newTableTab.Model);
             TableTabs.Add(newTableTab);
             ActivateItem(newTableTab);
             IsDirty = true;

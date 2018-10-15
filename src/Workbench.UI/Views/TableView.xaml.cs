@@ -18,6 +18,7 @@ namespace Workbench.Views
         {
             var dataGrid = sender as DataGrid;
             Contract.Assert(dataGrid != null);
+            if (dataGrid.CurrentCell.Column == null) return;
             var columnIndex = dataGrid.CurrentCell.Column.DisplayIndex;
             var rowIndex = dataGrid.Items.IndexOf(dataGrid.CurrentItem);
             var tableViewModel = DataContext as TableViewModel;

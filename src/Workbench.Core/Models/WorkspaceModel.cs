@@ -110,7 +110,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(theSolveResult != null);
             Display.UpdateFrom(theSolveResult);
-            Solution.UpdateSolutionFrom(theSolveResult);
+            Solution.UpdateFrom(theSolveResult);
         }
 
         /// <summary>

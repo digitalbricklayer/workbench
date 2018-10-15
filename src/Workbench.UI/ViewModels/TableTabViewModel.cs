@@ -210,5 +210,10 @@ namespace Workbench.ViewModels
             Details.Column = selectedColumn.Name;
             Details.Row = Convert.ToString(Table.SelectedRow.Value + 1);
         }
+
+        public void UpdateFromModel()
+        {
+            Table.UpdateFromModel();
+        }
     }
 }

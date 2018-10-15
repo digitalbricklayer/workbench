@@ -85,12 +85,12 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Update the solution from a snapshot.
         /// </summary>
-        /// <param name="theSnapshot">Solution snapshot.</param>
-        public void UpdateFrom(SolveResult theSnapshot)
+        /// <param name="theResult">Solution snapshot.</param>
+        public void UpdateFrom(SolveResult theResult)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theSnapshot.Snapshot, this, binding, this.model)));
-            this.visualizers.ForEach(visualizer => visualizer.UpdateWith(new PropertyUpdateContext(theSnapshot.Snapshot, this, this.model)));
+            Contract.Requires<ArgumentNullException>(theResult != null);
+            this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theResult.Snapshot, this, binding, this.model)));
+            Visualizers.ForEach(visualizer => visualizer.UpdateWith(new PropertyUpdateContext(theResult.Snapshot, this, this.model)));
         }
 
         /// <summary>
