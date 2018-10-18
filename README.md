@@ -7,10 +7,10 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 
 ## Project manifesto
 * **Technical level** - the user of the software should require a technical level at or below that of an average spreadsheet user;
-* **Build a playground** - the user should have a constraint workbench in which they are able to model various types of constraint problems and then able to solve them in an interactive manner and present the results;
+* **Build a playground** - the user should be able to model various types of constraint problems and then able to solve them in an interactive manner and present the results;
 * **Solution display** - should be configurable, taking a technical model and displaying the resulting solution in a manner that makes sense to the user;
 * **No programming** - absolutely no programming. There are plenty of development environments available, there is no need to build yet another one here;
-* **Optimisation** - The user should be able to optimise the solution interactively.
+* **Optimization** - The user should be able to optimize the solution interactively.
 
 ## Current State
 
