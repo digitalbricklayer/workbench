@@ -15,6 +15,19 @@ namespace Workbench.Core.Models
         private DisplayModel display;
 
         /// <summary>
+        /// Initialize a workspace with a model.
+        /// </summary>
+        public WorkspaceModel(ModelModel theModel)
+        {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
+            Model = theModel;
+            Model.Workspace = this;
+            Solution = new SolutionModel(Model);
+            Display = new DisplayModel(Model);
+        }
+
+        /// <summary>
         /// Initialize a workspace with a model name.
         /// </summary>
         public WorkspaceModel(ModelName theModelName)

@@ -17,7 +17,7 @@ namespace Workbench.UI.Tests.Integration
         /// <returns>A simple workspace model.</returns>
         internal WorkspaceModel Create()
         {
-            var newWorkspace = new WorkspaceBuilder()
+            var newWorkspace = new WorkspaceBuilder("An example model for no particular purpose.")
                                              .AddSingleton("x", "z")
                                              .AddAggregate("y", 10, "1..9")
                                              .WithConstraintExpression("x > 1")

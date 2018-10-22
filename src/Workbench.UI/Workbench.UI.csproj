@@ -215,6 +215,8 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="Services\XmlWorkspaceReader.cs" />
+    <Compile Include="Services\XmlWorkspaceWriter.cs" />
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\TableDetailsViewModel.cs" />
@@ -289,9 +291,7 @@
     <Compile Include="Messages\SingletonVariableAddedMessage.cs" />
     <Compile Include="Messages\VariableDeletedMessage.cs" />
     <Compile Include="Messages\VariableRenamedMessage.cs" />
-    <Compile Include="Services\BinaryFileWorkspaceReader.cs" />
-    <Compile Include="Services\BinaryFileWorkspaceReaderWriter.cs" />
-    <Compile Include="Services\BinaryFileWorkspaceWriter.cs" />
+    <Compile Include="Services\WorkspaceReaderWriter.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IViewModelService.cs" />

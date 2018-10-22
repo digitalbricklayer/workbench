@@ -17,11 +17,11 @@ namespace Workbench.Bootstrapper
         {
             kernel.Register(Component.For<IDataService, DataService>()
                                      .LifeStyle.Singleton,
-                            Component.For<IWorkspaceReaderWriter, BinaryFileWorkspaceReaderWriter>()
+                            Component.For<IWorkspaceReaderWriter, WorkspaceReaderWriter>()
                                      .LifeStyle.Transient,
-                            Component.For<IWorkspaceReader, BinaryFileWorkspaceReader>()
+                            Component.For<IWorkspaceReader, XmlWorkspaceReader>()
                                      .LifeStyle.Transient,
-                            Component.For<IWorkspaceWriter, BinaryFileWorkspaceWriter>()
+                            Component.For<IWorkspaceWriter, XmlWorkspaceWriter>()
                                      .LifeStyle.Transient);
         }
     }
