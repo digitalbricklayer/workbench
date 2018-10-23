@@ -83,9 +83,18 @@ namespace Workbench.UI.Tests.Unit.ViewModels
 
         private WorkspaceViewModel CreateSut()
         {
-            var workspaceViewModel = new WorkspaceViewModel(CreateDataService(), CreateWindowManagerMock().Object, this._eventAggregatorMock.Object, CreateViewModelFactoryMock().Object);
+            var workspaceViewModel = new WorkspaceViewModel(CreateDataService(),
+                                                            CreateWindowManagerMock().Object,
+                                                            _eventAggregatorMock.Object,
+                                                            CreateViewModelFactoryMock().Object,
+                                                            CreateModelValidator());
 
             return workspaceViewModel;
+        }
+
+        private ModelValidatorViewModel CreateModelValidator()
+        {
+            return new ModelValidatorViewModel(CreateWindowManagerMock().Object, CreateDataService());
         }
 
         private IDataService CreateDataService()

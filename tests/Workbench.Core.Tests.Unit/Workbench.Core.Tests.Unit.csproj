@@ -92,9 +92,10 @@
     <Compile Include="Models\DomainExpressionModelShould.cs" />
     <Compile Include="Models\ExpressionConstraintModelTests.cs" />
     <Compile Include="Models\DomainModelTests.cs" />
+    <Compile Include="ModelValidatorValidModelTests.cs" />
     <Compile Include="Models\TableModelShould.cs" />
-    <Compile Include="Models\ModelModelEmptyTests.cs" />
-    <Compile Include="Models\ModelModelInvalidModelTests.cs" />
+    <Compile Include="ModelValidatorEmptyModelTests.cs" />
+    <Compile Include="ModelValidatorInvalidModelTests.cs" />
     <Compile Include="Models\ModelModelTests.cs" />
     <Compile Include="Models\SingletonVariableModelTests.cs" />
     <Compile Include="Models\WorkspaceTests.cs" />

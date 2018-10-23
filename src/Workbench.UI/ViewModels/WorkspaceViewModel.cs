@@ -9,16 +9,17 @@ using Workbench.Services;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the aplication work area.
+    /// View model for the application work area.
     /// </summary>
     public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private bool isDirty;
+        private bool _isDirty;
         private readonly IEventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;
         private ModelEditorTabViewModel _modelEditor;
         private readonly IViewModelFactory _viewModelFactory;
         private SolutionViewerTabViewModel _solutionViewer;
+        private readonly ModelValidatorViewModel _modelValidator;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -26,16 +27,19 @@ namespace Workbench.ViewModels
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,
                                   IEventAggregator theEventAggregator,
-                                  IViewModelFactory theViewModelFactory)
+                                  IViewModelFactory theViewModelFactory,
+                                  ModelValidatorViewModel theModelValidatorViewModel)
         {
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
+            Contract.Requires<ArgumentNullException>(theModelValidatorViewModel != null);
 
             _eventAggregator = theEventAggregator;
             _windowManager = theWindowManager;
             _viewModelFactory = theViewModelFactory;
+            _modelValidator = theModelValidatorViewModel;
 
             WorkspaceModel = theDataService.GetWorkspace();
             Solution = WorkspaceModel.Solution;
@@ -94,11 +98,11 @@ namespace Workbench.ViewModels
         /// </summary>
         public bool IsDirty
         {
-            get { return this.isDirty; }
+            get => _isDirty;
             set
             {
-                if (this.isDirty == value) return;
-                this.isDirty = value;
+                if (_isDirty == value) return;
+                _isDirty = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -108,7 +112,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public SolveResult SolveModel()
         {
-            var isModelValid = Validate();
+            var isModelValid = _modelValidator.Validate();
             if (!isModelValid) return SolveResult.InvalidModel;
             var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
@@ -253,53 +257,6 @@ namespace Workbench.ViewModels
 
             ActivateItem(SolutionViewer);
             SolutionViewer.BindTo(theSolution);
-        }
-
-        /// <summary>
-        /// Solve the model.
-        /// </summary>
-        private bool Validate()
-        {
-            var validationContext = new ModelValidationContext();
-            var isModelValid = WorkspaceModel.Model.Validate(validationContext);
-            if (isModelValid) return true;
-            Contract.Assume(validationContext.HasErrors);
-            DisplayErrorDialog(validationContext);
-
-            return false;
-        }
-
-        /// <summary>
-        /// Display a dialog box with a display of all of the model errors.
-        /// </summary>
-        /// <param name="theContext">Validation context.</param>
-        private void DisplayErrorDialog(ModelValidationContext theContext)
-        {
-            var errorsViewModel = CreateModelErrorsFrom(theContext);
-            _windowManager.ShowDialog(errorsViewModel);
-        }
-
-        /// <summary>
-        /// Create a model errros view model from a model.
-        /// </summary>
-        /// <param name="theContext">Validation context.</param>
-        /// <returns>View model with all errors in the model.</returns>
-        private static ModelErrorsViewModel CreateModelErrorsFrom(ModelValidationContext theContext)
-        {
-            Contract.Requires<ArgumentNullException>(theContext != null);
-            Contract.Requires<InvalidOperationException>(theContext.HasErrors);
-
-            var errorsViewModel = new ModelErrorsViewModel();
-            foreach (var error in theContext.Errors)
-            {
-                var errorViewModel = new ModelErrorViewModel
-                {
-                    Message = error
-                };
-                errorsViewModel.Errors.Add(errorViewModel);
-            }
-
-            return errorsViewModel;
         }
 
         [ContractInvariantMethod]

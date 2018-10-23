@@ -188,6 +188,7 @@
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelName.cs" />
     <Compile Include="Models\LabelModel.cs" />
+    <Compile Include="ModelValidator.cs" />
     <Compile Include="Models\PropertyUpdateContext.cs" />
     <Compile Include="Models\TableCellModel.cs" />
     <Compile Include="Models\TableColumnData.cs" />
@@ -195,7 +196,7 @@
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\TableRowModel.cs" />
     <Compile Include="Models\TableTabModel.cs" />
-    <Compile Include="Models\ModelValidationContext.cs" />
+    <Compile Include="ModelValidationContext.cs" />
     <Compile Include="Models\SingletonVariableModel.cs" />
     <Compile Include="Models\SolutionSnapshot.cs" />
     <Compile Include="Models\ValueModel.cs" />

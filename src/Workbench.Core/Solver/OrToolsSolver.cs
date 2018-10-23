@@ -22,8 +22,7 @@ namespace Workbench.Core.Solver
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
 
-            var validateContext = new ModelValidationContext();
-            if (!theModel.Validate(validateContext)) return SolveResult.InvalidModel;
+            if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
 
             // A model with zero variables crashes the or-tools solver...
             if (theModel.Variables.Count == 0) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());

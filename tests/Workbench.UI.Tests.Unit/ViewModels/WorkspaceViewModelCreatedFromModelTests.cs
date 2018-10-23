@@ -55,7 +55,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             return new WorkspaceViewModel(_dataServiceMock.Object,
                                           _windowManagerMock.Object,
                                           _eventAggregatorMock.Object,
-                                          _viewModelFactoryMock.Object);
+                                          _viewModelFactoryMock.Object,
+                                          new ModelValidatorViewModel(_windowManagerMock.Object, _dataServiceMock.Object));
         }
 
         private Mock<IEventAggregator> CreateEventAggregatorMock()

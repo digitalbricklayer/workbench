@@ -22,32 +22,6 @@ namespace Workbench.Core.Tests.Unit.Models
             Assert.That(xVariable.Model, Is.SameAs(sut));
         }
 
-        [Test]
-        public void ValidateWithAValidModelReturnsTrue()
-        {
-            var sut = MakeValidModel();
-            var actualValidationResult = sut.Validate();
-            Assert.That(actualValidationResult, Is.True);
-        }
-
-        [Test]
-        public void ValidateWithAValidModelDoesNotPopulateErrors()
-        {
-            var sut = MakeValidModel();
-            var validationContext = new ModelValidationContext();
-            sut.Validate(validationContext);
-            Assert.That(validationContext.Errors, Is.Empty);
-        }
-
-        [Test]
-        public void ValidateWithAValidModelHasErrorsReturnsTrue()
-        {
-            var sut = MakeValidModel();
-            var validationContext = new ModelValidationContext();
-            sut.Validate(validationContext);
-            Assert.That(validationContext.HasErrors, Is.False);
-        }
-
         private static ModelModel MakeValidModel()
         {
             var workspace = new WorkspaceBuilder("A valid model")

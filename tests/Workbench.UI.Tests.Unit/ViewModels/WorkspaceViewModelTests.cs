@@ -41,7 +41,8 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var newWorkspace = new WorkspaceViewModel(this.dataService,
                                                       this.windowManagerMock.Object,
                                                       this.eventAggregator,
-                                                      CreateViewModelFactoryMock().Object);
+                                                      CreateViewModelFactoryMock().Object,
+                                                      CreateModelValidator());
             ScreenExtensions.TryActivate(newWorkspace);
             newWorkspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                             .WithDomain("1..2")
@@ -65,6 +66,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IWorkspaceReaderWriter> CreateWorkspaceReaderWriterMock()
         {
             return new Mock<IWorkspaceReaderWriter>();
+        }
+
+        private ModelValidatorViewModel CreateModelValidator()
+        {
+            return new ModelValidatorViewModel(this.windowManagerMock.Object, this.dataService);
         }
     }
 }

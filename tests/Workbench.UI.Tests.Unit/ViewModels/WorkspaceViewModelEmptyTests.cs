@@ -19,12 +19,13 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             ScreenExtensions.TryDeactivate(sut, true);
         }
 
-        private static WorkspaceViewModel CreateValidWorkspace()
+        private WorkspaceViewModel CreateValidWorkspace()
         {
             var workspaceViewModel = new WorkspaceViewModel(CreateDataService(),
                                                             CreateWindowManager(),
                                                             CreateEventAggregator(),
-                                                            CreateViewModelFactory().Object);
+                                                            CreateViewModelFactory().Object,
+                                                            CreateModelValidator());
             return workspaceViewModel;
         }
 
@@ -49,6 +50,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private static IWindowManager CreateWindowManager()
         {
             return new Mock<IWindowManager>().Object;
+        }
+
+        private ModelValidatorViewModel CreateModelValidator()
+        {
+            return new ModelValidatorViewModel(CreateWindowManager(), CreateDataService());
         }
     }
 }

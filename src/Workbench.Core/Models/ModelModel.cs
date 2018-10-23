@@ -232,29 +232,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Validate the model and ensure consistency between the domains and variables.
-        /// </summary>
-        /// <returns>True if the model is valid, False if it is not valid.</returns>
-        public bool Validate()
-        {
-            return Validate(new ModelValidationContext());
-        }
-
-        /// <summary>
-        /// Validate the model and ensure consistency between the domains and variables.
-        /// <remarks>Populates errors into the <see cref="ModelValidationContext"/> class.</remarks>
-        /// </summary>
-        /// <returns>True if the model is valid, False if it is not valid.</returns>
-        public bool Validate(ModelValidationContext validateContext)
-        {
-            Contract.Requires<ArgumentNullException>(validateContext != null);
-
-            var expressionsValid = ValidateConstraints(validateContext);
-            if (!expressionsValid) return false;
-            return ValidateSharedDomains(validateContext);
-        }
-
-        /// <summary>
         /// Get the shared domain matching the given name.
         /// </summary>
         /// <param name="theSharedDomainName">Shared domain name.</param>
@@ -276,41 +253,6 @@ namespace Workbench.Core.Models
             {
                 return solver.Solve(this);
             }
-        }
-
-        private bool ValidateConstraints(ModelValidationContext validateContext)
-        {
-            return Constraints.All(aConstraint => ValidateConstraint(aConstraint, validateContext));
-        }
-
-        private bool ValidateConstraint(ConstraintModel aConstraint, ModelValidationContext theContext)
-        {
-            return aConstraint.Validate(this, theContext);
-        }
-
-        private bool ValidateSharedDomains(ModelValidationContext validateContext)
-        {
-            foreach (var variable in Variables)
-            {
-                if (variable.DomainExpression == null)
-                {
-                    validateContext.AddError("Missing domain");
-                    return false;
-                }
-
-                // Make sure the domain is a shared domain...
-                if (variable.DomainExpression.DomainReference == null)
-                    continue;
-
-                var sharedDomain = this.GetSharedDomainByName(variable.DomainExpression.DomainReference.DomainName.Name);
-                if (sharedDomain == null)
-                {
-                    validateContext.AddError($"Missing shared domain {variable.DomainExpression.DomainReference.DomainName.Name}");
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

@@ -39,8 +39,10 @@ namespace Workbench.Bootstrapper
                                      .LifeStyle.Singleton,
                             Component.For<TitleBarViewModel>()
                                      .LifeStyle.Singleton,
+                            Component.For<ModelValidatorViewModel>()
+                                     .LifeStyle.Transient,
                             Types.FromThisAssembly()
-                                 .BasedOn<IWorkspaceTabViewModel>());
+                                     .BasedOn<IWorkspaceTabViewModel>());
         }
     }
 }
