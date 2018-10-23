@@ -9,8 +9,7 @@ namespace Workbench.Core.Tests.Unit
         [Test]
         public void AnEmptyModelIsAValidModel()
         {
-            var sut = MakeEmptyModel();
-            var actualValidationResult = new ModelValidator(sut).Validate();
+            var actualValidationResult = new ModelValidator(MakeEmptyModel()).Validate();
             Assert.That(actualValidationResult, Is.True);
         }
 
