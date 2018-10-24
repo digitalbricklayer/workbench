@@ -3,7 +3,7 @@ using Workbench.Core.Models;
 
 namespace Workbench.Core.Tests.Unit
 {
-    public abstract class ModelValidatorTestsBase
+    public abstract class ModelValidatorWithInvalidModelTests
     {
         [Test]
         public void ValidateReturnsFalse()

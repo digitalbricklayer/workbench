@@ -4,7 +4,7 @@ using Workbench.Core.Models;
 namespace Workbench.Core.Tests.Unit
 {
     [TestFixture]
-    public class ModelValidatorModelMissingSharedDomainTests : ModelValidatorTestsBase
+    public class ModelValidatorModelWithConstraintExpressionHasMissingSharedDomainReferenceTests : ModelValidatorWithInvalidModelTests
     {
         protected override ModelModel CreateModel()
         {
