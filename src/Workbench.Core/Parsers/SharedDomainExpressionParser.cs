@@ -4,7 +4,10 @@ using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Parsers
 {
-    public class SharedDomainExpressionParser : ExpressionParser<SharedDomainExpressionNode>
+    /// <summary>
+    /// Parser for the shared domain expression language.
+    /// </summary>
+    public sealed class SharedDomainExpressionParser : ExpressionParser<SharedDomainExpressionNode>
     {
         /// <summary>
         /// Parse a raw domain expression.
@@ -15,7 +18,17 @@ namespace Workbench.Core.Parsers
         {
             var language = new LanguageData(new SharedDomainGrammar());
             var parser = new Parser(language);
+            // 1. first pass: use the Irony grammar
             var parseTree = parser.Parse(rawExpression);
+#if false
+            if (!parseTree.HasErrors())
+            {
+                // 2. second pass: find non grammatical errors
+                var sharedDomainExpressionNode = (SharedDomainExpressionNode) parseTree.Root.AstNode;
+                var variableReferenceCaptureVisitor = new ConstraintVariableReferenceCaptureVisitor();
+                sharedDomainExpressionNode.AcceptVisitor(variableReferenceCaptureVisitor);
+            }
+#endif
 
             return CreateResultFrom(parseTree);
         }

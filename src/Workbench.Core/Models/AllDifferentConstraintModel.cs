@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Workbench.Core.Models
 {
@@ -55,7 +56,19 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
-            return !string.IsNullOrWhiteSpace(Expression.Text);
+            if (string.IsNullOrWhiteSpace(Expression.Text))
+            {
+                theContext.AddError("Missing aggregate variable");
+                return false;
+            }
+
+            if (theModel.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(Expression.Text)) == null)
+            {
+                theContext.AddError($"Missing aggregate variable {Expression.Text}");
+                return false;
+            }
+
+            return true;
         }
     }
 }

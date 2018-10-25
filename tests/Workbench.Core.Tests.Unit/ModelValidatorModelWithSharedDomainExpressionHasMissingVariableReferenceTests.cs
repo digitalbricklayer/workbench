@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit
             var workspace = new WorkspaceBuilder("Model with missing invalid variable reference in the shared domain $z")
                 .AddSingleton("x", "1..10")
                 .AddSingleton("y", "$z")
-                .WithSharedDomain("z", "1..size($nothere)")
+                .WithSharedDomain("z", "1..size(nothere)")
                 .WithConstraintExpression("$x > $y")
                 .Build();
 
