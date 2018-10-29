@@ -55,19 +55,6 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Validate the constraint.
-        /// </summary>
-        /// <param name="theModel">Model to validate.</param>
-        /// <returns>
-        /// Return true if the constraint is valid, return false if 
-        /// the constraint is not valid.
-        /// </returns>
-        public override bool Validate(ModelModel theModel)
-        {
-            return Validate(theModel, new ModelValidationContext());
-        }
-
-        /// <summary>
         /// Validate the constraint expression.
         /// </summary>
         /// <param name="theModel">Model to validate.</param>

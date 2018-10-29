@@ -42,18 +42,6 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public override bool Validate(ModelModel theModel)
-        {
-            return Validate(theModel, new ModelValidationContext());
-        }
-
-        /// <summary>
-        /// Validate the all different constraint.
-        /// </summary>
-        /// <returns>
-        /// Return true if the constraint is valid, return false if 
-        /// the constraint is not valid.
-        /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
             if (string.IsNullOrWhiteSpace(Expression.Text))

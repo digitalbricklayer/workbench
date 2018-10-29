@@ -338,6 +338,7 @@
     <Compile Include="Solver\VariableConverter.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluator.cs" />
     <Compile Include="Solver\VariableDomainExpressionEvaluatorContext.cs" />
+    <Compile Include="TableCellReferenceCaptureVisitor.cs" />
     <Compile Include="WorkspaceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

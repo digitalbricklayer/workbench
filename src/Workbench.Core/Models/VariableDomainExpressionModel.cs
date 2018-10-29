@@ -25,16 +25,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Initialize a variable domain expression with a domain expression unit.
-        /// </summary>
-        /// <param name="theDomainExpressionUnit">Domain expression unit.</param>
-        public VariableDomainExpressionModel(VariableDomainExpressionNode theDomainExpressionUnit)
-        {
-            Node = theDomainExpressionUnit;
-        }
-
-        /// <summary>
-        /// Initialize a variable domain expression with default values.
+        /// Initialize a variable domain expression with an empty expression.
         /// </summary>
         public VariableDomainExpressionModel()
         {

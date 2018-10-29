@@ -6,13 +6,6 @@
     public abstract class DomainValue
     {
         /// <summary>
-        /// Initialize the domain value with a AST node representing the domain expression.
-        /// </summary>
-        protected DomainValue()
-        {
-        }
-
-        /// <summary>
         /// Get the domain range.
         /// </summary>
         /// <returns>Domain range.</returns>

@@ -29,7 +29,10 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public abstract bool Validate(ModelModel theModel);
+        public virtual bool Validate(ModelModel theModel)
+        {
+            return Validate(theModel, new ModelValidationContext());
+        }
 
         /// <summary>
         /// Validate the constraint placing errors into the validation context.

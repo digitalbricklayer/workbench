@@ -92,6 +92,7 @@
     <Compile Include="Models\DomainExpressionModelShould.cs" />
     <Compile Include="Models\ExpressionConstraintModelTests.cs" />
     <Compile Include="Models\DomainModelTests.cs" />
+    <Compile Include="ModelValidatorModelWithInlineDomainHasMissingTableReferenceTests.cs" />
     <Compile Include="ModelValidatorModelWithConstraintExpressionHasMissingSharedDomainReferenceTests.cs" />
     <Compile Include="ModelValidatorModelWithAllDifferentConstraintExpressionHasMissingVariableReferenceTests.cs" />
     <Compile Include="ModelValidatorWithInvalidModelTests.cs" />
