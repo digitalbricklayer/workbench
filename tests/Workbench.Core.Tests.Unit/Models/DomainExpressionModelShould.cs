@@ -10,14 +10,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ParseExpressionWithRangeInnerIsRangeNode()
         {
-            var sut = new DomainExpressionModel("    1..9     ");
+            var sut = new SharedDomainExpressionModel("    1..9     ");
             Assert.That(sut.Node.Inner, Is.InstanceOf<RangeDomainExpressionNode>());
         }
 
         [Test]
         public void ParseExpressionWithRhsNumberLiteral()
         {
-            var sut = new DomainExpressionModel("    1..9     ");
+            var sut = new SharedDomainExpressionModel("    1..9     ");
             var rangeExpressionNode = (RangeDomainExpressionNode)sut.Node.Inner;
             Assert.That(rangeExpressionNode.RightExpression.Inner, Is.InstanceOf<NumberLiteralNode>());
             var rightBandLiteral = (NumberLiteralNode) rangeExpressionNode.RightExpression.Inner;
@@ -27,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ParseExpressionWithLhsNumberLiteral()
         {
-            var sut = new DomainExpressionModel("    1..9     ");
+            var sut = new SharedDomainExpressionModel("    1..9     ");
             var rangeExpressionNode = (RangeDomainExpressionNode)sut.Node.Inner;
             Assert.That(rangeExpressionNode.LeftExpression.Inner, Is.InstanceOf<NumberLiteralNode>());
             var leftBandLiteral = (NumberLiteralNode) rangeExpressionNode.LeftExpression.Inner;
@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ParseExpressionWithSizeFunctionCall()
         {
-            var sut = new DomainExpressionModel("1..size(x)");
+            var sut = new SharedDomainExpressionModel("1..size(x)");
             var rangeExpressionNode = (RangeDomainExpressionNode)sut.Node.Inner;
             Assert.That(rangeExpressionNode.RightExpression.Inner, Is.InstanceOf(typeof(FunctionInvocationNode)));
         }
@@ -45,14 +45,14 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void ParseExpressionWithListInnerIsListNode()
         {
-            var sut = new DomainExpressionModel("\"bob\", \"jim\", \"simon\"");
+            var sut = new SharedDomainExpressionModel("\"bob\", \"jim\", \"simon\"");
             Assert.That(sut.Node.Inner, Is.InstanceOf<ListDomainExpressionNode>());
         }
 
         [Test]
         public void ParseExpressionWithListInnerIsListNode2()
         {
-            var sut = new DomainExpressionModel("\"bob\", \"jim\", \"simon\"");
+            var sut = new SharedDomainExpressionModel("\"bob\", \"jim\", \"simon\"");
             var listExpressionNode = (ListDomainExpressionNode) sut.Node.Inner;
             var firstListValue = listExpressionNode.Items.Values[0];
             Assert.That(firstListValue.Value, Is.EqualTo("bob"));

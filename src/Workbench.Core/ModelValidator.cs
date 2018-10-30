@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
@@ -37,9 +38,20 @@ namespace Workbench.Core
         {
             Contract.Requires<ArgumentNullException>(validateContext != null);
 
+            var returnCodes = new List<bool>();
             var constraintsValid = ValidateConstraints(validateContext);
-            if (!constraintsValid) return false;
-            return ValidateVariables(validateContext);
+            returnCodes.Add(constraintsValid);
+            var variablesValid = ValidateVariables(validateContext);
+            returnCodes.Add(variablesValid);
+            var sharedDomainsValid = ValidateSharedDomains(validateContext);
+            returnCodes.Add(sharedDomainsValid);
+
+            return returnCodes.All(status => status);
+        }
+
+        private bool ValidateSharedDomains(ModelValidationContext validateContext)
+        {
+            return _model.Domains.All(aDomain => aDomain.Validate(_model, validateContext));
         }
 
         private bool ValidateConstraints(ModelValidationContext validateContext)

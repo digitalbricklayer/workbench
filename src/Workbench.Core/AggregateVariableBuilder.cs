@@ -8,7 +8,7 @@ namespace Workbench.Core
         private ModelName variableName;
         private ModelModel model;
         private int? size;
-        private VariableDomainExpressionModel domain;
+        private InlineDomainModel domain;
 
         public AggregateVariableBuilder WithName(string theVariableName)
         {
@@ -18,7 +18,7 @@ namespace Workbench.Core
 
         public AggregateVariableBuilder WithDomain(string theExpression)
         {
-            this.domain = new VariableDomainExpressionModel(theExpression);
+            this.domain = new InlineDomainModel(theExpression);
             return this;
         }
 
@@ -39,12 +39,12 @@ namespace Workbench.Core
             Contract.Assume(this.model != null);
             Contract.Assume(this.variableName != null);
 
-            return new AggregateVariableModel(this.model.Workspace, this.variableName, GetSizeOrDefault(), GetExpressionOrDefault());
+            return new AggregateVariableModel(this.model.Workspace, this.variableName, GetSizeOrDefault(), GetDomainOrDefault());
         }
 
-        private VariableDomainExpressionModel GetExpressionOrDefault()
+        private InlineDomainModel GetDomainOrDefault()
         {
-            return this.domain ?? new VariableDomainExpressionModel();
+            return this.domain ?? new InlineDomainModel();
         }
 
         private int GetSizeOrDefault()

@@ -171,7 +171,7 @@
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AllDifferentConstraintBuilder.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
-    <Compile Include="DomainBuilder.cs" />
+    <Compile Include="SharedDomainBuilder.cs" />
     <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />
     <Compile Include="Grammars\VariableDomainGrammar.cs" />
@@ -183,7 +183,8 @@
     <Compile Include="Models\CallArgument.cs" />
     <Compile Include="Models\CompoundLabelModel.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
-    <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Models\InlineDomainModel.cs" />
+    <Compile Include="Models\SharedDomainModel.cs" />
     <Compile Include="Models\ExpressionConstraintModel.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelName.cs" />
@@ -269,7 +270,7 @@
     <Compile Include="Models\SingletonLabelModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
-    <Compile Include="Models\DomainExpressionModel.cs" />
+    <Compile Include="Models\SharedDomainExpressionModel.cs" />
     <Compile Include="Models\GraphicModel.cs" />
     <Compile Include="Models\AbstractModel.cs" />
     <Compile Include="Models\VisualizerModel.cs" />

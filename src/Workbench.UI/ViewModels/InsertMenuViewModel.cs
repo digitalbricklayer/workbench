@@ -149,7 +149,7 @@ namespace Workbench.ViewModels
             var domainEditorViewModel = new DomainEditorViewModel();
             var x = this.windowManager.ShowDialog(domainEditorViewModel);
             if (!x.HasValue) return;
-            this.Workspace.AddDomain(new DomainBuilder().WithName(domainEditorViewModel.DomainName)
+            this.Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
                                                         .WithDomain(domainEditorViewModel.DomainExpression)
                                                         .Build());
             this.titleBar.UpdateTitle();

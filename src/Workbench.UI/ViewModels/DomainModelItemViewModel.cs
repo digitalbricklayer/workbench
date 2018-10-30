@@ -14,7 +14,7 @@ namespace Workbench.ViewModels
 
         private string _expressionText;
 
-        public DomainModelItemViewModel(DomainModel theDomain, IWindowManager theWindowManager)
+        public DomainModelItemViewModel(SharedDomainModel theDomain, IWindowManager theWindowManager)
             : base(theDomain)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
@@ -26,7 +26,7 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
         }
 
-        public DomainModel Domain { get; set; }
+        public SharedDomainModel Domain { get; set; }
 
         /// <summary>
         /// Gets or sets the domain expression.

@@ -9,7 +9,7 @@ namespace Workbench.Core.Models
         private string _name;
 
         /// <summary>
-        /// Initializes a new model name with a default name.
+        /// Initializes a new model name with a name.
         /// </summary>
         /// <param name="theName"></param>
         public ModelName(string theName)

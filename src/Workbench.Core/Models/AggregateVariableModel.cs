@@ -19,17 +19,17 @@ namespace Workbench.Core.Models
         public const int DefaultSize = 1;
 
         private VariableModel[] variables;
-        private VariableDomainExpressionModel domainExpression;
+        private InlineDomainModel domain;
 
-        public AggregateVariableModel(WorkspaceModel theModel, ModelName newVariableName, int aggregateSize, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel, newVariableName, theDomainExpression)
+        public AggregateVariableModel(WorkspaceModel theModel, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
+            : base(theModel, newVariableName, theDomain)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(newVariableName != null);
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= DefaultSize);
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
+            Contract.Requires<ArgumentNullException>(theDomain != null);
 
-            DomainExpression = theDomainExpression;
+            Domain = theDomain;
             this.variables = new VariableModel[aggregateSize];
             for (var i = 0; i < aggregateSize; i++)
                 this.variables[i] = CreateNewVariableAt(i + 1);
@@ -41,7 +41,7 @@ namespace Workbench.Core.Models
         /// <param name="theModel">Workspace the variable belongs.</param>
         /// <param name="newName">New variable name.</param>
         public AggregateVariableModel(WorkspaceModel theModel, ModelName newName)
-            : this(theModel, newName, DefaultSize, new VariableDomainExpressionModel())
+            : this(theModel, newName, DefaultSize, new InlineDomainModel())
         {
         }
 
@@ -90,22 +90,30 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets or sets the variable domain expression.
+        /// Gets or sets the variable domain.
         /// </summary>
-        public new VariableDomainExpressionModel DomainExpression
+        public new InlineDomainModel Domain
         {
-            get { return this.domainExpression; }
+            get { return this.domain; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
 
-                this.domainExpression = value;
-                base.DomainExpression = value;
+                this.domain = value;
+                base.Domain = value;
                 if (Variables == null) return;
                 foreach (var variableModel in Variables)
-                    variableModel.DomainExpression = this.domainExpression;
+                    variableModel.Domain = this.domain;
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the variable domain expression.
+        /// </summary>
+        public new VariableDomainExpressionModel DomainExpression
+        {
+            get { return this.Domain.Expression; }
         }
 
         /// <summary>
@@ -174,7 +182,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
 
-            return new SingletonVariableModel(Model, GetVariableNameFor(index), DomainExpression);
+            return new SingletonVariableModel(Model, GetVariableNameFor(index), Domain);
         }
 
         /// <summary>

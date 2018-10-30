@@ -104,7 +104,7 @@ namespace Workbench.Services
                             }
                         }
 
-                        _model.AddSharedDomain(new DomainModel(new ModelName(domainName), new DomainExpressionModel(expression)));
+                        _model.AddSharedDomain(new SharedDomainModel(new ModelName(domainName), new SharedDomainExpressionModel(expression)));
                         break;
 
                     default:
@@ -232,7 +232,7 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddVariable(new SingletonVariableModel(_model, new ModelName(constraintName), new VariableDomainExpressionModel(expression)));
+            _model.AddVariable(new SingletonVariableModel(_model, new ModelName(constraintName), new InlineDomainModel(expression)));
         }
 
         private void ReadAggregateVariable(XmlNode constraintNode)
@@ -253,7 +253,7 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddVariable(new AggregateVariableModel(_model.Workspace, new ModelName(constraintName), Convert.ToInt32(constraintSize), new VariableDomainExpressionModel(expression)));
+            _model.AddVariable(new AggregateVariableModel(_model.Workspace, new ModelName(constraintName), Convert.ToInt32(constraintSize), new InlineDomainModel(expression)));
         }
     }
 }

@@ -158,7 +158,7 @@ namespace Workbench.ViewModels
         /// Create a new domain at a specific location.
         /// </summary>
         /// <param name="newDomain">New domain.</param>
-        public void AddDomain(DomainModel newDomain)
+        public void AddDomain(SharedDomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
 

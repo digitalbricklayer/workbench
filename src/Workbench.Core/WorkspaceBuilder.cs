@@ -48,7 +48,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newVariable = new SingletonVariableModel(this.workspace.Model, new ModelName(theVariableName), new VariableDomainExpressionModel(theDomainExpression));
+            var newVariable = new SingletonVariableModel(this.workspace.Model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
             this.workspace.Model.AddVariable(newVariable);
 
             return this;
@@ -67,7 +67,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize > 0);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newVariable = new AggregateVariableModel(this.workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new VariableDomainExpressionModel(newDomainExpression));
+            var newVariable = new AggregateVariableModel(this.workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
             this.workspace.Model.AddVariable(newVariable);
 
             return this;
@@ -78,13 +78,13 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newDomain = new DomainModel(new ModelName(newDomainName), new DomainExpressionModel(newDomainExpression));
+            var newDomain = new SharedDomainModel(new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddSharedDomain(newDomain);
 
             return this;
         }
 
-        public WorkspaceBuilder WithSharedDomain(DomainModel theDomain)
+        public WorkspaceBuilder WithSharedDomain(SharedDomainModel theDomain)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);

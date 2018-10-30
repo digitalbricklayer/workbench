@@ -7,7 +7,7 @@ namespace Workbench.Core
     {
         private ModelName variableName;
         private ModelModel model;
-        private VariableDomainExpressionModel domain;
+        private InlineDomainModel domain;
 
         public SingletonVariableBuilder WithName(string theVariableName)
         {
@@ -17,7 +17,7 @@ namespace Workbench.Core
 
         public SingletonVariableBuilder WithDomain(string theExpression)
         {
-            this.domain = new VariableDomainExpressionModel(theExpression);
+            this.domain = new InlineDomainModel(theExpression);
             return this;
         }
 
@@ -32,12 +32,12 @@ namespace Workbench.Core
             Contract.Assume(this.model != null);
             Contract.Assume(this.variableName != null);
 
-            return new SingletonVariableModel(this.model, this.variableName, GetExpressionOrDefault());
+            return new SingletonVariableModel(this.model, this.variableName, GetDomainOrDefault());
         }
 
-        private VariableDomainExpressionModel GetExpressionOrDefault()
+        private InlineDomainModel GetDomainOrDefault()
         {
-            return this.domain ?? new VariableDomainExpressionModel();
+            return this.domain ?? new InlineDomainModel();
         }
     }
 }

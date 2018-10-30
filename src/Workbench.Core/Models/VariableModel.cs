@@ -12,21 +12,21 @@ namespace Workbench.Core.Models
     {
         private WorkspaceModel workspace;
         private ModelModel model;
-        private VariableDomainExpressionModel domainExpression;
+        private InlineDomainModel _domain;
 
         /// <summary>
         /// Initializes a variable with a workspace, variable name and domain expression.
         /// </summary>
-        protected VariableModel(WorkspaceModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
+        protected VariableModel(WorkspaceModel theModel, ModelName variableName, InlineDomainModel theDomain)
             : base(variableName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(variableName != null);
-            Contract.Requires<ArgumentNullException>(theDomainExpression != null);
+            Contract.Requires<ArgumentNullException>(theDomain != null);
 
             Workspace = theModel;
             Model = theModel.Model;
-            DomainExpression = theDomainExpression;
+            Domain = theDomain;
         }
 
         /// <summary>
@@ -43,14 +43,27 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Gets or sets the variable domain.
+        /// </summary>
+        public InlineDomainModel Domain
+        {
+            get => _domain;
+            set
+            {
+                _domain = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the variable domain expression.
         /// </summary>
         public VariableDomainExpressionModel DomainExpression
         {
-            get { return domainExpression; }
+            get { return _domain.Expression; }
             set
             {
-                domainExpression = value;
+                _domain.Expression = value;
                 OnPropertyChanged();
             }
         }
@@ -112,7 +125,7 @@ namespace Workbench.Core.Models
         public override void AssignIdentity()
         {
             base.AssignIdentity();
-            DomainExpression.AssignIdentity();
+            Domain.AssignIdentity();
         }
 
         /// <summary>
@@ -143,10 +156,10 @@ namespace Workbench.Core.Models
 
             var tableReferenceValid = ValidateTableReferences(theModel, theContext);
             if (!tableReferenceValid) return false;
-            return ValidateSharedDomainReferences(theModel, theContext);
+            return ValidateDomainReferences(theModel, theContext);
         }
 
-        private bool ValidateSharedDomainReferences(ModelModel theModel, ModelValidationContext validateContext)
+        private bool ValidateDomainReferences(ModelModel theModel, ModelValidationContext validateContext)
         {
             if (DomainExpression == null)
             {

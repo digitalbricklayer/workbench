@@ -11,8 +11,8 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableModel(ModelModel theModel, ModelName variableName, VariableDomainExpressionModel theDomainExpression)
-            : base(theModel.Workspace, variableName, theDomainExpression)
+        public SingletonVariableModel(ModelModel theModel, ModelName variableName, InlineDomainModel theDomain)
+            : base(theModel.Workspace, variableName, theDomain)
         {
         }
 
@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         /// Initialize a variable with a variable name.
         /// </summary>
         public SingletonVariableModel(ModelModel theModel, ModelName variableName)
-            : base(theModel, variableName)
+            : base(theModel.Workspace, variableName, new InlineDomainModel())
         {
         }
 

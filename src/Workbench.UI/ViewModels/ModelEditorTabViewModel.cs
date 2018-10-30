@@ -214,7 +214,7 @@ namespace Workbench.ViewModels
         /// Add a new domain to the model.
         /// </summary>
         /// <param name="newDomainModel">New domain.</param>
-        public void AddDomain(DomainModel newDomainModel)
+        public void AddDomain(SharedDomainModel newDomainModel)
         {
             Contract.Requires<ArgumentNullException>(newDomainModel != null);
 
@@ -360,7 +360,7 @@ namespace Workbench.ViewModels
         /// Add a new domain to the model model.
         /// </summary>
         /// <param name="newDomainModel">New domain view model.</param>
-        private void AddDomainToModel(DomainModel newDomainModel)
+        private void AddDomainToModel(SharedDomainModel newDomainModel)
         {
             Contract.Assert(newDomainModel != null);
 
@@ -435,7 +435,7 @@ namespace Workbench.ViewModels
             var domainEditorViewModel = new DomainEditorViewModel();
             var x = _windowManager.ShowDialog(domainEditorViewModel);
             if (!x.HasValue) return;
-            Workspace.AddDomain(new DomainBuilder().WithName(domainEditorViewModel.DomainName)
+            Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
                                                   .WithDomain(domainEditorViewModel.DomainExpression)
                                                   .Build());
         }

@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<VariableModel> variables;
         private ObservableCollection<SingletonVariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
-        private ObservableCollection<DomainModel> domains;
+        private ObservableCollection<SharedDomainModel> domains;
         private ObservableCollection<ConstraintModel> constraints;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Workbench.Core.Models
             Variables = new ObservableCollection<VariableModel>();
             Singletons = new ObservableCollection<SingletonVariableModel>();
             Aggregates = new ObservableCollection<AggregateVariableModel>();
-            Domains = new ObservableCollection<DomainModel>();
+            Domains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
         }
 
@@ -102,7 +102,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public ObservableCollection<DomainModel> Domains
+        public ObservableCollection<SharedDomainModel> Domains
         {
             get { return this.domains; }
             set
@@ -196,7 +196,7 @@ namespace Workbench.Core.Models
             Variables.Remove(variableToDelete);
         }
 
-        public void AddSharedDomain(DomainModel newDomain)
+        public void AddSharedDomain(SharedDomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);
             Contract.Assume(newDomain.Name != null);
@@ -212,7 +212,7 @@ namespace Workbench.Core.Models
         /// Delete the domain from the model.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainModel domainToDelete)
+        public void DeleteDomain(SharedDomainModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
@@ -236,7 +236,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theSharedDomainName">Shared domain name.</param>
         /// <returns>Shared domain matching the name.</returns>
-        public DomainModel GetSharedDomainByName(string theSharedDomainName)
+        public SharedDomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
             return Domains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
