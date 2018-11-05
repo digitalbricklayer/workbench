@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public class SharedDomainModel : Model
+    public class SharedDomainModel : DomainModel
     {
         private SharedDomainExpressionModel _expression;
 

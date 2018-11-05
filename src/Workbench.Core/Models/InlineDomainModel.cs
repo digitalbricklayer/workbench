@@ -3,7 +3,7 @@
 namespace Workbench.Core.Models
 {
     [Serializable]
-    public class InlineDomainModel : AbstractModel
+    public class InlineDomainModel : DomainModel
     {
         private VariableDomainExpressionModel _expression;
 

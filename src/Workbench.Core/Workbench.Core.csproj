@@ -171,6 +171,7 @@
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AllDifferentConstraintBuilder.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
+    <Compile Include="Models\DomainModel.cs" />
     <Compile Include="SharedDomainBuilder.cs" />
     <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />
