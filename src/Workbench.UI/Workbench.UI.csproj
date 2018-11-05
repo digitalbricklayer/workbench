@@ -215,6 +215,8 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="Validation\Utils.cs" />
+    <Compile Include="Validation\Validation.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
     <Compile Include="Services\XmlWorkspaceWriter.cs" />
@@ -233,6 +235,8 @@
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\TableTabViewModel.cs" />
+    <Compile Include="ViewModels\ValidatingConductor.cs" />
+    <Compile Include="ViewModels\ValidatingScreen.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
