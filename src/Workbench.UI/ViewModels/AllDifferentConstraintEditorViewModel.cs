@@ -1,14 +1,15 @@
-﻿using Caliburn.Micro;
+﻿using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
-    public class AllDifferentConstraintEditorViewModel : Screen
+    public class AllDifferentConstraintEditorViewModel : DialogViewModel
     {
         private string _constraintName;
         private string _constraintExpression;
 
         public AllDifferentConstraintEditorViewModel()
         {
+            Validator = new AllDifferentConstraintEditorViewModelValidator();
             ConstraintName = string.Empty;
             ConstraintExpression = string.Empty;
         }
@@ -31,14 +32,6 @@ namespace Workbench.ViewModels
                 _constraintExpression = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void AcceptButton()
-        {
-            TryClose(true);
         }
     }
 }

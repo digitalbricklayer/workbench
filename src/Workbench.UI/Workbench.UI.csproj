@@ -225,6 +225,7 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="Validators\AllDifferentConstraintEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
