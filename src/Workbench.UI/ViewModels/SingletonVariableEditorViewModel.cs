@@ -1,8 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
-    public class SingletonVariableEditorViewModel : Screen
+    public class SingletonVariableEditorViewModel : DialogViewModel
     {
         private string _variableName;
         private string _domainExpression;
@@ -12,6 +12,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public SingletonVariableEditorViewModel()
         {
+            Validator = new SingletonVariableEditorViewModelValidator();
             VariableName = string.Empty;
             DomainExpression = string.Empty;
         }
@@ -40,14 +41,6 @@ namespace Workbench.ViewModels
                 _domainExpression = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void AcceptButton()
-        {
-            TryClose(true);
         }
     }
 }

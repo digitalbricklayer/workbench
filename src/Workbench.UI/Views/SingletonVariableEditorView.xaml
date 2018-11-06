@@ -6,6 +6,20 @@
         Title="Singleton Variable Editor"
         Height="174.138" Width="482.636">
 
+    <Window.Resources>
+        <Style x:Key="EditorTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="Green" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                    </Trigger.Setters>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -22,22 +36,16 @@
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
                 <Label >Variable name:</Label>
-                <TextBox Name="VariableName" MinWidth="250"/>
+                <TextBox Name="VariableName" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Domain Expression:</Label>
-                <TextBox Name="DomainExpression" MinWidth="250"/>
+                <TextBox Name="DomainExpression" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
             </StackPanel>
         </StackPanel>
 
-        <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button IsDefault="True" Name="btnDialogOk" MinWidth="60" Margin="0,0,10,0" Content="_OK">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="AcceptButton" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button IsDefault="True" Name="Accept" MinWidth="60" Margin="0,0,10,0">_OK</Button>
             <Button IsCancel="True" MinWidth="60">_Cancel</Button>
         </WrapPanel>
     </Grid>
