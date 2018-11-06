@@ -1,8 +1,12 @@
 ﻿using Workbench.Core.Models;
+using Workbench.ViewModels.Validators;
 
 namespace Workbench.ViewModels
 {
-    public class AggregateVariableEditorViewModel : ValidatingScreen
+    /// <summary>
+    /// Dialog based editor for an aggregate variable.
+    /// </summary>
+    public sealed class AggregateVariableEditorViewModel : DialogViewModel
     {
         private string _variableName;
         private string _domainExpression;
@@ -13,9 +17,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public AggregateVariableEditorViewModel()
         {
-            AddValidationRule(() => VariableName).Condition(() => string.IsNullOrWhiteSpace(VariableName)).Message("Variable name must not be blank");
-            AddValidationRule(() => DomainExpression).Condition(() => string.IsNullOrWhiteSpace(DomainExpression)).Message("Domain expression must not be empty");
-            AddValidationRule(() => Size).Condition(() => Size <= 0).Message("Size must be at least one");
+            Validator = new AggregateVariableEditorViewModelValidator();
             VariableName = string.Empty;
             DomainExpression = string.Empty;
             Size = AggregateVariableModel.DefaultSize;
@@ -31,7 +33,6 @@ namespace Workbench.ViewModels
             {
                 _variableName = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(CanAccept));
             }
         }
 
@@ -45,7 +46,6 @@ namespace Workbench.ViewModels
             {
                 _domainExpression = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(CanAccept));
             }
         }
 
@@ -59,21 +59,7 @@ namespace Workbench.ViewModels
             {
                 _size = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(CanAccept));
             }
-        }
-
-        /// <summary>
-        /// Can Accept be executed.
-        /// </summary>
-        public bool CanAccept => !HasError;
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void Accept()
-        {
-            TryClose(true);
         }
     }
 }

@@ -177,11 +177,21 @@
     <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentValidation.8.0.100\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -215,8 +225,7 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
-    <Compile Include="Validation\Utils.cs" />
-    <Compile Include="Validation\Validation.cs" />
+    <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
     <Compile Include="Services\XmlWorkspaceWriter.cs" />
@@ -235,8 +244,7 @@
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\TableTabViewModel.cs" />
-    <Compile Include="ViewModels\ValidatingConductor.cs" />
-    <Compile Include="ViewModels\ValidatingScreen.cs" />
+    <Compile Include="ViewModels\Validators\AggregateVariableEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
@@ -337,7 +345,6 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ViewModelService.cs" />
-    <Compile Include="ViewModels\AggregateVariableResizeViewModel.cs" />
     <Compile Include="ViewModels\DomainModelItemViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
@@ -347,9 +354,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\WorkspaceViewModel.cs" />
-    <Compile Include="Views\AggregateVariableResizeView.xaml.cs">
-      <DependentUpon>AggregateVariableResizeView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ModelErrorsView.xaml.cs">
       <DependentUpon>ModelErrorsView.xaml</DependentUpon>
     </Compile>
@@ -456,10 +460,6 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AggregateVariableResizeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ModelErrorsView.xaml">
       <SubType>Designer</SubType>
