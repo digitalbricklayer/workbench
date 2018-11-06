@@ -5,7 +5,7 @@
         Height="202.472" Width="482.636" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
 
     <Window.Resources>
-        <Style x:Key="TextBoxTextStyle" TargetType="TextBox">
+        <Style x:Key="EditorTextBoxStyle" TargetType="TextBox">
             <Setter Property="Foreground" Value="Green" />
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -34,15 +34,15 @@
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
                 <Label>Variable Name:</Label>
-                <TextBox Name="VariableName" MinWidth="250" Style="{StaticResource TextBoxTextStyle}"/>
+                <TextBox Name="VariableName" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Domain Expression:</Label>
-                <TextBox Name="DomainExpression" MinWidth="250" Style="{StaticResource TextBoxTextStyle}"/>
+                <TextBox Name="DomainExpression" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label>Size:</Label>
-                <TextBox Name="Size" MinWidth="250" Style="{StaticResource TextBoxTextStyle}"/>
+                <TextBox Name="Size" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
             </StackPanel>
         </StackPanel>
 

@@ -8,13 +8,13 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for a domain.
     /// </summary>
-    public sealed class DomainModelItemViewModel : ModelItemViewModel
+    public sealed class SharedDomainModelItemViewModel : ModelItemViewModel
     {
         private readonly IWindowManager _windowManager;
 
         private string _expressionText;
 
-        public DomainModelItemViewModel(SharedDomainModel theDomain, IWindowManager theWindowManager)
+        public SharedDomainModelItemViewModel(SharedDomainModel theDomain, IWindowManager theWindowManager)
             : base(theDomain)
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
@@ -42,7 +42,7 @@ namespace Workbench.ViewModels
 
         public override void Edit()
         {
-            var domainEditorViewModel = new DomainEditorViewModel();
+            var domainEditorViewModel = new SharedDomainEditorViewModel();
             domainEditorViewModel.DomainName = Domain.Name;
             domainEditorViewModel.DomainExpression = Domain.Expression.Text;
             var result = _windowManager.ShowDialog(domainEditorViewModel);

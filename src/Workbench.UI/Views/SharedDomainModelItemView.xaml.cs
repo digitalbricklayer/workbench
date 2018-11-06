@@ -3,11 +3,11 @@
 namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for DomainModelItemView.xaml
+    /// Interaction logic for SharedDomainModelItemView.xaml
     /// </summary>
-    public partial class DomainModelItemView : UserControl
+    public partial class SharedDomainModelItemView : UserControl
     {
-        public DomainModelItemView()
+        public SharedDomainModelItemView()
         {
             InitializeComponent();
         }

@@ -45,7 +45,7 @@ namespace Workbench.ViewModels
             DisplayName = "Model";
             ModelModel = theDataService.GetWorkspace().Model;
             Variables = new BindableCollection<VariableModelItemViewModel>();
-            Domains = new BindableCollection<DomainModelItemViewModel>();
+            Domains = new BindableCollection<SharedDomainModelItemViewModel>();
             Constraints = new BindableCollection<ConstraintModelItemViewModel>();
             AddSingletonVariableCommand =  new CommandHandler(AddSingletonVariableAction);
             AddAggregateVariableCommand = new CommandHandler(AddAggregateVariableAction);
@@ -77,7 +77,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the collection of domains.
         /// </summary>
-        public IObservableCollection<DomainModelItemViewModel> Domains { get; private set; }
+        public IObservableCollection<SharedDomainModelItemViewModel> Domains { get; private set; }
 
         /// <summary>
         /// Gets the collection of constraints.
@@ -218,7 +218,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newDomainModel != null);
 
-            var newDomainItem = new DomainModelItemViewModel(newDomainModel, _windowManager);
+            var newDomainItem = new SharedDomainModelItemViewModel(newDomainModel, _windowManager);
             FixupDomain(newDomainItem);
             AddDomainToModel(newDomainModel);
         }
@@ -268,7 +268,7 @@ namespace Workbench.ViewModels
         /// Delete the domain.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
-        public void DeleteDomain(DomainModelItemViewModel domainToDelete)
+        public void DeleteDomain(SharedDomainModelItemViewModel domainToDelete)
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
@@ -335,7 +335,7 @@ namespace Workbench.ViewModels
         /// Used when mapping the model to a view model.
         /// </remarks>
         /// <param name="domainViewModel">Domain view model.</param>
-        internal void FixupDomain(DomainModelItemViewModel domainViewModel)
+        internal void FixupDomain(SharedDomainModelItemViewModel domainViewModel)
         {
             Contract.Requires<ArgumentNullException>(domainViewModel != null);
             Domains.Add(domainViewModel);
@@ -401,7 +401,7 @@ namespace Workbench.ViewModels
             ModelModel.DeleteVariable(variableToDelete.Variable);
         }
 
-        private void DeleteDomainFromModel(DomainModelItemViewModel domainToDelete)
+        private void DeleteDomainFromModel(SharedDomainModelItemViewModel domainToDelete)
         {
             Contract.Assert(domainToDelete.Model != null);
             ModelModel.DeleteDomain(domainToDelete.Domain);
@@ -432,7 +432,7 @@ namespace Workbench.ViewModels
 
         private void AddDomainAction()
         {
-            var domainEditorViewModel = new DomainEditorViewModel();
+            var domainEditorViewModel = new SharedDomainEditorViewModel();
             var x = _windowManager.ShowDialog(domainEditorViewModel);
             if (!x.GetValueOrDefault()) return;
             Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
@@ -480,7 +480,7 @@ namespace Workbench.ViewModels
                     DeleteConstraint(constraintItem);
                     break;
 
-                case DomainModelItemViewModel domainItem:
+                case SharedDomainModelItemViewModel domainItem:
                     DeleteDomain(domainItem);
                     break;
 

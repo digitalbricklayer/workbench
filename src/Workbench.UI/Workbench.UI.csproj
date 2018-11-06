@@ -238,13 +238,14 @@
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\IWorkspaceTabViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
-    <Compile Include="ViewModels\DomainEditorViewModel.cs" />
+    <Compile Include="ViewModels\SharedDomainEditorViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\SolutionStatsPanelViewModel.cs" />
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\TableTabViewModel.cs" />
     <Compile Include="ViewModels\Validators\AggregateVariableEditorViewModelValidator.cs" />
+    <Compile Include="ViewModels\Validators\SharedDomainEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
@@ -279,8 +280,8 @@
     <Compile Include="Views\ExpressionConstraintEditorView.xaml.cs">
       <DependentUpon>ExpressionConstraintEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DomainEditorView.xaml.cs">
-      <DependentUpon>DomainEditorView.xaml</DependentUpon>
+    <Compile Include="Views\SharedDomainEditorView.xaml.cs">
+      <DependentUpon>SharedDomainEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectors\LabelDataTemplateSelector.cs" />
     <Compile Include="Views\SingletonVariableEditorView.xaml.cs">
@@ -292,8 +293,8 @@
     <Compile Include="Views\AggregateVariableModelItemView.xaml.cs">
       <DependentUpon>AggregateVariableModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DomainModelItemView.xaml.cs">
-      <DependentUpon>DomainModelItemView.xaml</DependentUpon>
+    <Compile Include="Views\SharedDomainModelItemView.xaml.cs">
+      <DependentUpon>SharedDomainModelItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\DefaultDataService.cs" />
     <Compile Include="Services\DefaultViewModelService.cs" />
@@ -345,7 +346,7 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ViewModelService.cs" />
-    <Compile Include="ViewModels\DomainModelItemViewModel.cs" />
+    <Compile Include="ViewModels\SharedDomainModelItemViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorViewModel.cs" />
@@ -425,7 +426,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DomainEditorView.xaml">
+    <Page Include="Views\SharedDomainEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -441,7 +442,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DomainModelItemView.xaml">
+    <Page Include="Views\SharedDomainModelItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

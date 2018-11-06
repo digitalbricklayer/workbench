@@ -1,8 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using Workbench.ViewModels.Validators;
 
 namespace Workbench.ViewModels
 {
-    public class DomainEditorViewModel : Screen
+    public class SharedDomainEditorViewModel : DialogViewModel
     {
         private string _domainName;
         private string _domainExpression;
@@ -10,8 +10,9 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize the domain edit with default values.
         /// </summary>
-        public DomainEditorViewModel()
+        public SharedDomainEditorViewModel()
         {
+            Validator = new SharedDomainEditorViewModelValidator();
             DomainName = string.Empty;
             DomainExpression = string.Empty;
         }
@@ -40,14 +41,6 @@ namespace Workbench.ViewModels
                 _domainExpression = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void AcceptButton()
-        {
-            TryClose(true);
         }
     }
 }

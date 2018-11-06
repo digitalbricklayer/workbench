@@ -5,9 +5,9 @@ namespace Workbench.Views
     /// <summary>
     /// Interaction logic for SingletonVariableEditorView.xaml
     /// </summary>
-    public partial class DomainEditorView : Window
+    public partial class SharedDomainEditorView : Window
     {
-        public DomainEditorView()
+        public SharedDomainEditorView()
         {
             InitializeComponent();
         }

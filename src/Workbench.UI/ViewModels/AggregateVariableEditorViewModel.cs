@@ -50,7 +50,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the domain expression.
+        /// Gets or sets the size of the aggregate.
         /// </summary>
         public int Size
         {

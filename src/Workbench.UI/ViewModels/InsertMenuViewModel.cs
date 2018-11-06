@@ -146,7 +146,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddDomainAction()
         {
-            var domainEditorViewModel = new DomainEditorViewModel();
+            var domainEditorViewModel = new SharedDomainEditorViewModel();
             var x = this.windowManager.ShowDialog(domainEditorViewModel);
             if (!x.HasValue) return;
             this.Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
