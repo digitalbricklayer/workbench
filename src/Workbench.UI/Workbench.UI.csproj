@@ -244,8 +244,8 @@
     <Compile Include="ViewModels\SolutionViewerPanelViewModel.cs" />
     <Compile Include="ViewModels\TableMenuViewModel.cs" />
     <Compile Include="ViewModels\TableTabViewModel.cs" />
-    <Compile Include="ViewModels\Validators\AggregateVariableEditorViewModelValidator.cs" />
-    <Compile Include="ViewModels\Validators\SharedDomainEditorViewModelValidator.cs" />
+    <Compile Include="Validators\AggregateVariableEditorViewModelValidator.cs" />
+    <Compile Include="Validators\SharedDomainEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>

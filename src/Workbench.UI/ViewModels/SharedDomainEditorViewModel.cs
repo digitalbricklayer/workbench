@@ -1,4 +1,4 @@
-﻿using Workbench.ViewModels.Validators;
+﻿using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -8,7 +8,7 @@ namespace Workbench.ViewModels
         private string _domainExpression;
 
         /// <summary>
-        /// Initialize the domain edit with default values.
+        /// Initialize the shared domain editor with default values.
         /// </summary>
         public SharedDomainEditorViewModel()
         {

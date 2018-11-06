@@ -1,5 +1,5 @@
 ﻿using Workbench.Core.Models;
-using Workbench.ViewModels.Validators;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using Workbench.ViewModels;
 
-namespace Workbench.ViewModels.Validators
+namespace Workbench.Validators
 {
     /// <summary>
     /// Validator for the shared domain editor view model.
