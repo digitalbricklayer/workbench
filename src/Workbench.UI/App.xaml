@@ -6,7 +6,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <bootstrapper:Bootstrapper x:Key="bootstrapper" />
+                    <bootstrapper:Bootstrapper x:Key="Bootstrapper" />
+					<ResourceDictionary x:Key="Theme" Source="Themes/Generic.xaml" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

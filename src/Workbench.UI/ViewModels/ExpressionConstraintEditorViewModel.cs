@@ -2,7 +2,7 @@
 
 namespace Workbench.ViewModels
 {
-    public class ExpressionConstraintEditorViewModel : Screen
+    public class ExpressionConstraintEditorViewModel : DialogViewModel
     {
         private string _constraintName;
         private string _constraintExpression;
@@ -31,14 +31,6 @@ namespace Workbench.ViewModels
                 _constraintExpression = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void AcceptButton()
-        {
-            TryClose(true);
         }
     }
 }
