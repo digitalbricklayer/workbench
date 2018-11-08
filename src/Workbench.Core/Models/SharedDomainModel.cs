@@ -7,16 +7,32 @@ namespace Workbench.Core.Models
     public class SharedDomainModel : DomainModel
     {
         private SharedDomainExpressionModel _expression;
+        private ModelModel _parent;
 
         /// <summary>
         /// Initialize a shared domain with a name and domain expression.
         /// </summary>
-        public SharedDomainModel(ModelName theName, SharedDomainExpressionModel theExpression)
+        public SharedDomainModel(ModelModel theModel, ModelName theName, SharedDomainExpressionModel theExpression)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theName != null);
             Contract.Requires<ArgumentNullException>(theExpression != null);
+            Parent = theModel;
             _expression = theExpression;
+        }
+
+        /// <summary>
+        /// Gets the parent model.
+        /// </summary>
+        public ModelModel Parent
+        {
+            get => _parent;
+            private set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _parent = value;
+            }
         }
 
         /// <summary>
@@ -41,6 +57,10 @@ namespace Workbench.Core.Models
         /// </returns>
         public bool Validate(ModelModel theModel, ModelValidationContext validateContext)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(validateContext != null);
+
+            // The Node will not be null when the parser has created the AST root node
             if (Expression.Node == null) return false;
 
             return ValidateTableReferences(theModel, validateContext);

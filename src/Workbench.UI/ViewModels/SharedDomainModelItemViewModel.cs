@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -11,7 +12,6 @@ namespace Workbench.ViewModels
     public sealed class SharedDomainModelItemViewModel : ModelItemViewModel
     {
         private readonly IWindowManager _windowManager;
-
         private string _expressionText;
 
         public SharedDomainModelItemViewModel(SharedDomainModel theDomain, IWindowManager theWindowManager)
@@ -20,23 +20,24 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theDomain != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            Validator = new SharedDomainModelItemViewModelValidator();
             Domain = theDomain;
             DisplayName = theDomain.Name;
             ExpressionText = theDomain.Expression.Text;
             _windowManager = theWindowManager;
         }
 
-        public SharedDomainModel Domain { get; set; }
+        public SharedDomainModel Domain { get; private set; }
 
         /// <summary>
         /// Gets or sets the domain expression.
         /// </summary>
         public string ExpressionText
         {
-            get { return this._expressionText; }
+            get { return _expressionText; }
             set
             {
-                Set(ref this._expressionText, value);
+                Set(ref _expressionText, value);
             }
         }
 
@@ -46,7 +47,7 @@ namespace Workbench.ViewModels
             domainEditorViewModel.DomainName = Domain.Name;
             domainEditorViewModel.DomainExpression = Domain.Expression.Text;
             var result = _windowManager.ShowDialog(domainEditorViewModel);
-            if (!result.HasValue) return;
+            if (!result.GetValueOrDefault()) return;
             DisplayName = Domain.Name.Text = domainEditorViewModel.DomainName;
             ExpressionText = Domain.Expression.Text = domainEditorViewModel.DomainExpression;
         }

@@ -29,7 +29,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                                          .WithModel(Workspace.WorkspaceModel.Model)
                                                                          .Build());
             Workspace.AddAggregateVariable(new AggregateVariableBuilder().WithName("y")
-                                                                         .WithModel(Workspace.WorkspaceModel.Model)
+                                                                         .Inside(Workspace.WorkspaceModel.Model)
                                                                          .WithSize(2)
                                                                          .WithDomain("1..10")
                                                                          .Build());
@@ -66,7 +66,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void AddWithValidAggregatorVariablePublishesVariableAddedMessage()
         {
             Workspace.AddAggregateVariable(new AggregateVariableBuilder().WithName("z")
-                                                                         .WithModel(Workspace.WorkspaceModel.Model)
+                                                                         .Inside(Workspace.WorkspaceModel.Model)
                                                                          .Build());
             _eventAggregatorMock.Verify(_ => _.Publish(It.Is<AggregateVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);

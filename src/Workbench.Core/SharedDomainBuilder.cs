@@ -1,4 +1,5 @@
-﻿using Workbench.Core.Models;
+﻿using System;
+using Workbench.Core.Models;
 
 namespace Workbench.Core
 {
@@ -6,6 +7,7 @@ namespace Workbench.Core
     {
         private ModelName domainName;
         private SharedDomainExpressionModel expression;
+        private ModelModel _model;
 
         public SharedDomainBuilder WithName(string theVariableName)
         {
@@ -19,9 +21,16 @@ namespace Workbench.Core
             return this;
         }
 
+        public SharedDomainBuilder Inside(ModelModel theModel)
+        {
+            _model = theModel;
+            return this;
+        }
+
         public SharedDomainModel Build()
         {
-            return new SharedDomainModel(GetNameOrDefault(), GetExpressionOrDefault());
+            if (_model == null) throw new Exception("A model must be provided when building a shared domain.");
+            return new SharedDomainModel(_model, GetNameOrDefault(), GetExpressionOrDefault());
         }
 
         private ModelName GetNameOrDefault()

@@ -426,7 +426,7 @@ namespace Workbench.ViewModels
             Workspace.AddAggregateVariable(new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
                                                                         .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
                                                                         .WithSize(aggregateVariableEditorViewModel.Size)
-                                                                        .WithModel(Workspace.WorkspaceModel.Model)
+                                                                        .Inside(Workspace.WorkspaceModel.Model)
                                                                         .Build());
         }
 
@@ -436,8 +436,9 @@ namespace Workbench.ViewModels
             var x = _windowManager.ShowDialog(domainEditorViewModel);
             if (!x.GetValueOrDefault()) return;
             Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
-                                                  .WithDomain(domainEditorViewModel.DomainExpression)
-                                                  .Build());
+                                                         .Inside(Workspace.WorkspaceModel.Model)
+                                                         .WithDomain(domainEditorViewModel.DomainExpression)
+                                                         .Build());
         }
 
         private void AddExpressionConstraintAction()

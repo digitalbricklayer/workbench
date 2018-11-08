@@ -10,7 +10,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Upper_Band()
         {
-            var sut = new SharedDomainModel(new ModelName("A domain"), new SharedDomainExpressionModel("    1..9     "));
+            var sut = new SharedDomainModel(new ModelModel(), new ModelName("A domain"), new SharedDomainExpressionModel("    1..9     "));
             var rangeExpressionNode = (RangeDomainExpressionNode) sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.LeftExpression, Is.InstanceOf<BandExpressionNode>());
         }
@@ -18,7 +18,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_Raw_Expression_Parses_Expected_Lower_Band()
         {
-            var sut = new SharedDomainModel(new ModelName("A domain"), new SharedDomainExpressionModel("    1..9     "));
+            var sut = new SharedDomainModel(new ModelModel(), new ModelName("A domain"), new SharedDomainExpressionModel("    1..9     "));
             var rangeExpressionNode = (RangeDomainExpressionNode) sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.RightExpression, Is.InstanceOf<BandExpressionNode>());
         }
@@ -26,7 +26,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_Character_Range_Parses_Expected_Lower_Band()
         {
-            var sut = new SharedDomainModel(new ModelName("A domain"), new SharedDomainExpressionModel("    'a'..'z'     "));
+            var sut = new SharedDomainModel(new ModelModel(), new ModelName("A domain"), new SharedDomainExpressionModel("    'a'..'z'     "));
             var rangeExpressionNode = (RangeDomainExpressionNode)sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.RightExpression, Is.InstanceOf<BandExpressionNode>());
         }
@@ -34,7 +34,7 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Initialize_With_List_Expression_Parses_Expected_Inner()
         {
-            var sut = new SharedDomainModel(new ModelName("A domain"), new SharedDomainExpressionModel("\"rita\", \"sue\", \"bob\""));
+            var sut = new SharedDomainModel(new ModelModel(), new ModelName("A domain"), new SharedDomainExpressionModel("\"rita\", \"sue\", \"bob\""));
             var rangeExpressionNode = (ListDomainExpressionNode)sut.Expression.Node.Inner;
             Assert.That(rangeExpressionNode.Items.Values, Is.All.Not.Null);
             Assert.That(rangeExpressionNode.Items.Values, Is.All.InstanceOf<ItemNameNode>());

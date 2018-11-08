@@ -78,7 +78,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newDomain = new SharedDomainModel(new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
+            var newDomain = new SharedDomainModel(this.workspace.Model, new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
             this.workspace.Model.AddSharedDomain(newDomain);
 
             return this;

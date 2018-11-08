@@ -88,7 +88,7 @@ namespace Workbench.ViewModels
         {
             var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
             var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
-            if (!x.HasValue) return;
+            if (!x.GetValueOrDefault()) return;
             this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                               .WithDomain(singletonVariableEditorViewModel.DomainExpression)
                                                                               .WithModel(Workspace.WorkspaceModel.Model)
@@ -103,11 +103,11 @@ namespace Workbench.ViewModels
         {
             var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
             var x = this.windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!x.HasValue) return;
+            if (!x.GetValueOrDefault()) return;
             var newAggregate = new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
                                                              .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
                                                              .WithSize(aggregateVariableEditorViewModel.Size)
-                                                             .WithModel(Workspace.WorkspaceModel.Model)
+                                                             .Inside(Workspace.WorkspaceModel.Model)
                                                              .Build();
             this.Workspace.AddAggregateVariable(newAggregate);
             this.titleBar.UpdateTitle();
@@ -120,7 +120,7 @@ namespace Workbench.ViewModels
         {
             var expressionConstraintEditorViewModel = new ExpressionConstraintEditorViewModel();
             var x = this.windowManager.ShowDialog(expressionConstraintEditorViewModel);
-            if (!x.HasValue) return;
+            if (!x.GetValueOrDefault()) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditorViewModel.ConstraintName)
                                                                                .WithExpression(expressionConstraintEditorViewModel.ConstraintExpression)
                                                                                .Build());
@@ -134,7 +134,7 @@ namespace Workbench.ViewModels
         {
             var allDifferentConstraintEditorViewModel = new AllDifferentConstraintEditorViewModel();
             var x = this.windowManager.ShowDialog(allDifferentConstraintEditorViewModel);
-            if (!x.HasValue) return;
+            if (!x.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditorViewModel.ConstraintName)
                                                                                    .WithExpression(allDifferentConstraintEditorViewModel.ConstraintExpression)
                                                                                    .Build());
@@ -148,10 +148,11 @@ namespace Workbench.ViewModels
         {
             var domainEditorViewModel = new SharedDomainEditorViewModel();
             var x = this.windowManager.ShowDialog(domainEditorViewModel);
-            if (!x.HasValue) return;
+            if (!x.GetValueOrDefault()) return;
             this.Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
-                                                        .WithDomain(domainEditorViewModel.DomainExpression)
-                                                        .Build());
+                                                              .Inside(Workspace.WorkspaceModel.Model)
+                                                              .WithDomain(domainEditorViewModel.DomainExpression)
+                                                              .Build());
             this.titleBar.UpdateTitle();
         }
 

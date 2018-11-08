@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theName">Domain name.</param>
         protected DomainModel(ModelName theName)
-        : base(theName)
+            : base(theName)
         {
             Contract.Requires<ArgumentNullException>(theName != null);
         }

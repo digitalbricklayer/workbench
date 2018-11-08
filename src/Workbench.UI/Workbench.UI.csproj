@@ -225,7 +225,16 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="Services\XmlConstraintReader.cs" />
+    <Compile Include="Services\XmlConstraintWriter.cs" />
+    <Compile Include="Services\XmlDomainReader.cs" />
+    <Compile Include="Services\XmlDomainWriter.cs" />
+    <Compile Include="Services\XmlModelReader.cs" />
+    <Compile Include="Services\XmlModelWriter.cs" />
+    <Compile Include="Services\XmlVariableReader.cs" />
+    <Compile Include="Services\XmlVariableWriter.cs" />
     <Compile Include="Validators\AllDifferentConstraintEditorViewModelValidator.cs" />
+    <Compile Include="Validators\SharedDomainModelItemViewModelValidator.cs" />
     <Compile Include="Validators\SingletonVariableEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />

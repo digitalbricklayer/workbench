@@ -22,7 +22,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public AggregateVariableBuilder WithModel(ModelModel theModel)
+        public AggregateVariableBuilder Inside(ModelModel theModel)
         {
             this.model = theModel;
             return this;
