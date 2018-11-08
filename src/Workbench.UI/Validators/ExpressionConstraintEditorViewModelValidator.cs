@@ -13,8 +13,8 @@ namespace Workbench.Validators
         /// </summary>
         public ExpressionConstraintEditorViewModelValidator()
         {
-            RuleFor(variable => variable.ConstraintName).NotEmpty().NotNull();
-            RuleFor(variable => variable.ConstraintExpression).NotNull().NotEmpty();
+            RuleFor(variable => variable.ConstraintName).NotNull().NotEmpty();
+            RuleFor(variable => variable.ConstraintExpression).NotNull();
         }
     }
 }

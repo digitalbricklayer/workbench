@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -15,12 +16,16 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theAggregateVariableModel != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            Validator = new AggregateVariableModelItemViewModelValidator();
             AggregateVariable = theAggregateVariableModel;
             _windowManager = theWindowManager;
             Variables = new BindableCollection<VariableModelItemViewModel>();
         }
 
-        public AggregateVariableModel AggregateVariable { get; set; }
+        /// <summary>
+        /// Gets the aggregate variable model.
+        /// </summary>
+        public AggregateVariableModel AggregateVariable { get; private set; }
 
         /// <summary>
         /// Gets the variables inside the aggregate.

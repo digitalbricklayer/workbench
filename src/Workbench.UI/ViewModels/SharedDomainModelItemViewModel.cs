@@ -7,7 +7,7 @@ using Workbench.Validators;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for a domain.
+    /// View model for a shared domain.
     /// </summary>
     public sealed class SharedDomainModelItemViewModel : ModelItemViewModel
     {
@@ -27,6 +27,9 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
         }
 
+        /// <summary>
+        /// Gets the shared domain model.
+        /// </summary>
         public SharedDomainModel Domain { get; private set; }
 
         /// <summary>

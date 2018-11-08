@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -15,10 +16,14 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theSingletonVariableModel != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            Validator = new SingletonVariableModelItemViewModelValidator();
             SingletonVariable = theSingletonVariableModel;
             _windowManager = theWindowManager;
         }
 
+        /// <summary>
+        /// Gets the singleton variable model.
+        /// </summary>
         public SingletonVariableModel SingletonVariable { get; }
 
         public override void Edit()

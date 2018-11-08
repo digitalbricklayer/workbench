@@ -14,7 +14,7 @@ namespace Workbench.Validators
         public SharedDomainEditorViewModelValidator()
         {
             RuleFor(domain => domain.DomainName).NotEmpty().NotNull();
-            RuleFor(domain => domain.DomainExpression).NotEmpty().NotNull();
+            RuleFor(domain => domain.DomainExpression).NotNull();
         }
     }
 }

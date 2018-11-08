@@ -11,7 +11,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = MakeValidModel();
             var xVariable = sut.GetVariableByName("x");
-            Assert.That(xVariable.Model, Is.SameAs(sut));
+            Assert.That(xVariable.Parent, Is.SameAs(sut));
         }
 
         [Test]
@@ -19,7 +19,7 @@ namespace Workbench.Core.Tests.Unit.Models
         {
             var sut = MakeValidModel();
             var xVariable = sut.GetVariableByName("y");
-            Assert.That(xVariable.Model, Is.SameAs(sut));
+            Assert.That(xVariable.Parent, Is.SameAs(sut));
         }
 
         private static ModelModel MakeValidModel()

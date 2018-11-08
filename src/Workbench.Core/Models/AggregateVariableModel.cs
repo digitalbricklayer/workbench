@@ -182,7 +182,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
 
-            return new SingletonVariableModel(Model, GetVariableNameFor(index), Domain);
+            return new SingletonVariableModel(Parent, GetVariableNameFor(index), Domain);
         }
 
         /// <summary>

@@ -13,8 +13,8 @@ namespace Workbench.Validators
         /// </summary>
         public SingletonVariableEditorViewModelValidator()
         {
-            RuleFor(variable => variable.VariableName).NotEmpty().NotNull();
-            RuleFor(variable => variable.DomainExpression).NotNull().NotEmpty();
+            RuleFor(variable => variable.VariableName).NotNull().NotEmpty();
+            RuleFor(variable => variable.DomainExpression).NotNull();
         }
     }
 }

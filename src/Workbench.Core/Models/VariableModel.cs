@@ -25,7 +25,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theDomain != null);
 
             Workspace = theModel;
-            Model = theModel.Model;
+            Parent = theModel.Model;
             Domain = theDomain;
         }
 
@@ -38,7 +38,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(variableName != null);
 
-            Model = theModel;
+            Parent = theModel;
             DomainExpression = new VariableDomainExpressionModel();
         }
 
@@ -85,7 +85,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Get the model that the variable is assigned.
         /// </summary>
-        public ModelModel Model
+        public ModelModel Parent
         {
             get { return this.model; }
             internal set
@@ -152,6 +152,7 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theContext != null);
 
+            // The Node will be null if the parser failed
             if (DomainExpression.Node == null) return false;
 
             var tableReferenceValid = ValidateTableReferences(theModel, theContext);

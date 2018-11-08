@@ -13,9 +13,9 @@ namespace Workbench.Validators
         /// </summary>
         public AggregateVariableEditorViewModelValidator()
         {
-            RuleFor(variable => variable.VariableName).NotEmpty().NotNull();
+            RuleFor(variable => variable.VariableName).NotNull().NotEmpty();
             RuleFor(variable => variable.Size).NotEmpty().GreaterThan(0);
-            RuleFor(variable => variable.DomainExpression).NotNull().NotEmpty();
+            RuleFor(variable => variable.DomainExpression).NotNull();
         }
     }
 }
