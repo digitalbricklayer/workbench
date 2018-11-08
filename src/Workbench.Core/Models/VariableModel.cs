@@ -11,7 +11,6 @@ namespace Workbench.Core.Models
     public abstract class VariableModel : Model
     {
         private WorkspaceModel workspace;
-        private ModelModel model;
         private InlineDomainModel _domain;
 
         /// <summary>
@@ -78,20 +77,6 @@ namespace Workbench.Core.Models
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 this.workspace = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Get the model that the variable is assigned.
-        /// </summary>
-        public ModelModel Parent
-        {
-            get { return this.model; }
-            internal set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                this.model = value;
                 OnPropertyChanged();
             }
         }

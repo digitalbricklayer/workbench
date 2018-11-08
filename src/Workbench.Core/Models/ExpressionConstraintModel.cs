@@ -11,7 +11,6 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ExpressionConstraintModel : ConstraintModel
     {
-        private ModelModel _parent;
         private ConstraintExpressionModel expression;
 
         public ExpressionConstraintModel(ModelModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
@@ -46,19 +45,6 @@ namespace Workbench.Core.Models
             : base(new ModelName())
         {
             this.expression = new ConstraintExpressionModel();
-        }
-
-        /// <summary>
-        /// Gets the model parent.
-        /// </summary>
-        public ModelModel Parent
-        {
-            get => _parent;
-            private set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                _parent = value;
-            }
         }
 
         /// <summary>

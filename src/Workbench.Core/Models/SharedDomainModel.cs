@@ -7,7 +7,6 @@ namespace Workbench.Core.Models
     public class SharedDomainModel : DomainModel
     {
         private SharedDomainExpressionModel _expression;
-        private ModelModel _parent;
 
         /// <summary>
         /// Initialize a shared domain with a name and domain expression.
@@ -20,19 +19,6 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theExpression != null);
             Parent = theModel;
             _expression = theExpression;
-        }
-
-        /// <summary>
-        /// Gets the parent model.
-        /// </summary>
-        public ModelModel Parent
-        {
-            get => _parent;
-            private set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                _parent = value;
-            }
         }
 
         /// <summary>

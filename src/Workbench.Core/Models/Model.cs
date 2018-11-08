@@ -10,6 +10,7 @@ namespace Workbench.Core.Models
     public abstract class Model : AbstractModel
     {
         private ModelName _name;
+        private ModelModel _parent;
 
         /// <summary>
         /// Initialize a model entity with a name.
@@ -40,6 +41,19 @@ namespace Workbench.Core.Models
                 Contract.Requires<ArgumentNullException>(value != null);
                 _name = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets the parent model.
+        /// </summary>
+        public ModelModel Parent
+        {
+            get => _parent;
+            protected set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _parent = value;
             }
         }
     }

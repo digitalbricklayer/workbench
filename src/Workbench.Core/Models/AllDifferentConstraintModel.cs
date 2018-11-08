@@ -15,7 +15,6 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AllDifferentConstraintModel : ConstraintModel
     {
-        private ModelModel _parent;
         private AllDifferentConstraintExpressionModel _expression;
 
         public AllDifferentConstraintModel(ModelModel theModel, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
@@ -41,19 +40,6 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(theModel != null);
             Parent = theModel;
             Expression = new AllDifferentConstraintExpressionModel();
-        }
-
-        /// <summary>
-        /// Gets the model parent.
-        /// </summary>
-        public ModelModel Parent
-        {
-            get => _parent;
-            private set
-            {
-                Contract.Requires<ArgumentNullException>(value != null);
-                _parent = value;
-            }
         }
 
         /// <summary>
