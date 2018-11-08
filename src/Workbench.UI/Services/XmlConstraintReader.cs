@@ -50,7 +50,7 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddConstraint(new ExpressionConstraintModel(new ModelName(constraintName), new ConstraintExpressionModel(expression)));
+            _model.AddConstraint(new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression)));
         }
 
         private void ReadExpressionConstraint(XmlNode constraintNode)
@@ -69,7 +69,7 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddConstraint(new ExpressionConstraintModel(new ModelName(constraintName), new ConstraintExpressionModel(expression)));
+            _model.AddConstraint(new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression)));
         }
     }
 }

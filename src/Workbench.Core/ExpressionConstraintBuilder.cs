@@ -6,6 +6,7 @@ namespace Workbench.Core
     {
         private ConstraintExpressionModel expression = new ConstraintExpressionModel();
         private ModelName name = new ModelName("New Constraint");
+        private ModelModel _model;
 
         public ExpressionConstraintBuilder WithName(string theName)
         {
@@ -19,9 +20,15 @@ namespace Workbench.Core
             return this;
         }
 
+        public ExpressionConstraintBuilder Inside(ModelModel theModel)
+        {
+            _model = theModel;
+            return this;
+        }
+
         public ExpressionConstraintModel Build()
         {
-            return new ExpressionConstraintModel(this.name, this.expression);
+            return new ExpressionConstraintModel(_model, this.name, this.expression);
         }
     }
 }

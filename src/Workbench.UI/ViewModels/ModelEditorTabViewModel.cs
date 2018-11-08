@@ -414,7 +414,7 @@ namespace Workbench.ViewModels
             if (!x.GetValueOrDefault()) return;
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                         .WithDomain(singletonVariableEditorViewModel.DomainExpression)
-                                                                        .WithModel(Workspace.WorkspaceModel.Model)
+                                                                        .Inside(Workspace.WorkspaceModel.Model)
                                                                         .Build());
         }
 
@@ -447,6 +447,7 @@ namespace Workbench.ViewModels
             var x = _windowManager.ShowDialog(expressionConstraintEditViewModel);
             if (!x.GetValueOrDefault()) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditViewModel.ConstraintName)
+                                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                                                .WithExpression(expressionConstraintEditViewModel.ConstraintExpression)
                                                                                .Build());
         }
@@ -458,6 +459,7 @@ namespace Workbench.ViewModels
             if (!x.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
                                                                                    .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
+                                                                                   .Inside(Workspace.WorkspaceModel.Model)
                                                                                    .Build());
         }
 

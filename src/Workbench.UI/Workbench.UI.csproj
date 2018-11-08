@@ -233,6 +233,8 @@
     <Compile Include="Services\XmlModelWriter.cs" />
     <Compile Include="Services\XmlVariableReader.cs" />
     <Compile Include="Services\XmlVariableWriter.cs" />
+    <Compile Include="Validators\ExpressionConstraintModelItemViewModelValidator.cs" />
+    <Compile Include="Validators\AllDifferentConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\SingletonVariableModelItemViewModelValidator.cs" />
     <Compile Include="Validators\AllDifferentConstraintEditorViewModelValidator.cs" />
     <Compile Include="Validators\AggregateVariableModelItemViewModelValidator.cs" />

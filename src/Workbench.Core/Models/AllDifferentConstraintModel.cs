@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -14,26 +15,59 @@ namespace Workbench.Core.Models
     [Serializable]
     public class AllDifferentConstraintModel : ConstraintModel
     {
-        public AllDifferentConstraintModel(ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
+        private ModelModel _parent;
+        private AllDifferentConstraintExpressionModel _expression;
+
+        public AllDifferentConstraintModel(ModelModel theModel, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theName != null);
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
+            Parent = theModel;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(ModelModel theModel, AllDifferentConstraintExpressionModel theExpressionModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
+            Parent = theModel;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel()
+        public AllDifferentConstraintModel(ModelModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+            Parent = theModel;
             Expression = new AllDifferentConstraintExpressionModel();
+        }
+
+        /// <summary>
+        /// Gets the model parent.
+        /// </summary>
+        public ModelModel Parent
+        {
+            get => _parent;
+            private set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _parent = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the expression model.
         /// </summary>
-        public AllDifferentConstraintExpressionModel Expression { get; set; }
+        public AllDifferentConstraintExpressionModel Expression
+        {
+            get => _expression;
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _expression = value;
+            }
+        }
 
         /// <summary>
         /// Validate the all different constraint.

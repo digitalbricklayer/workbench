@@ -26,7 +26,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             ScreenExtensions.TryActivate(Workspace);
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                          .WithDomain("1..10")
-                                                                         .WithModel(Workspace.WorkspaceModel.Model)
+                                                                         .Inside(Workspace.WorkspaceModel.Model)
                                                                          .Build());
             Workspace.AddAggregateVariable(new AggregateVariableBuilder().WithName("y")
                                                                          .Inside(Workspace.WorkspaceModel.Model)
@@ -34,8 +34,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                                          .WithDomain("1..10")
                                                                          .Build());
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$x > 1")
+                                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                                                .Build());
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithExpression("$y[0] <> $y[1]")
+                                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                                                .Build());
         }
 
@@ -56,7 +58,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void AddWithValidSingletonVariablePublishesVariableAddedMessage()
         {
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("z")
-                                                                         .WithModel(Workspace.WorkspaceModel.Model)
+                                                                         .Inside(Workspace.WorkspaceModel.Model)
                                                                          .Build());
             _eventAggregatorMock.Verify(_ => _.Publish(It.Is<SingletonVariableAddedMessage>(msg => msg.NewVariableName == "z"), It.IsAny<Action<System.Action>>()),
                                             Times.Once);

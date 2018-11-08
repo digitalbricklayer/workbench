@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -9,6 +9,7 @@ namespace Workbench.ViewModels
 
         public ExpressionConstraintEditorViewModel()
         {
+            Validator = new ExpressionConstraintEditorViewModelValidator();
             ConstraintName = string.Empty;
             ConstraintExpression = string.Empty;
         }

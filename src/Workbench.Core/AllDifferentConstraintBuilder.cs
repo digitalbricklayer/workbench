@@ -6,6 +6,7 @@ namespace Workbench.Core
     {
         private AllDifferentConstraintExpressionModel expression = new AllDifferentConstraintExpressionModel();
         private ModelName name = new ModelName("New Constraint");
+        private ModelModel _model;
 
         public AllDifferentConstraintBuilder WithName(string theName)
         {
@@ -19,9 +20,15 @@ namespace Workbench.Core
             return this;
         }
 
+        public AllDifferentConstraintBuilder Inside(ModelModel theModel)
+        {
+            _model = theModel;
+            return this;
+        }
+
         public AllDifferentConstraintModel Build()
         {
-            return new AllDifferentConstraintModel(this.name, this.expression);
+            return new AllDifferentConstraintModel(_model, this.name, this.expression);
         }
     }
 }

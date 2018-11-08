@@ -91,7 +91,7 @@ namespace Workbench.ViewModels
             if (!x.GetValueOrDefault()) return;
             this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                               .WithDomain(singletonVariableEditorViewModel.DomainExpression)
-                                                                              .WithModel(Workspace.WorkspaceModel.Model)
+                                                                              .Inside(Workspace.WorkspaceModel.Model)
                                                                               .Build());
             this.titleBar.UpdateTitle();
         }
@@ -122,6 +122,7 @@ namespace Workbench.ViewModels
             var x = this.windowManager.ShowDialog(expressionConstraintEditorViewModel);
             if (!x.GetValueOrDefault()) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditorViewModel.ConstraintName)
+                                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                                                .WithExpression(expressionConstraintEditorViewModel.ConstraintExpression)
                                                                                .Build());
             this.titleBar.UpdateTitle();
@@ -137,6 +138,7 @@ namespace Workbench.ViewModels
             if (!x.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditorViewModel.ConstraintName)
                                                                                    .WithExpression(allDifferentConstraintEditorViewModel.ConstraintExpression)
+                                                                                   .Inside(Workspace.WorkspaceModel.Model)
                                                                                    .Build());
             this.titleBar.UpdateTitle();
         }

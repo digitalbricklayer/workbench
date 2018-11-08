@@ -11,27 +11,34 @@ namespace Workbench.Core.Models
     [Serializable]
     public class ExpressionConstraintModel : ConstraintModel
     {
+        private ModelModel _parent;
         private ConstraintExpressionModel expression;
 
-        public ExpressionConstraintModel(ModelName theName, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(ModelModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theName != null);
             Contract.Requires<ArgumentNullException>(theExpression != null);
+            Parent = theModel;
             this.expression = theExpression;
         }
 
-        public ExpressionConstraintModel(ModelName theName)
+        public ExpressionConstraintModel(ModelModel theModel, ModelName theName)
             : base(theName)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theName != null);
+            Parent = theModel;
             this.expression = new ConstraintExpressionModel();
         }
 
-        public ExpressionConstraintModel(ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(ModelModel theModel, ConstraintExpressionModel theExpression)
             : base(new ModelName())
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theExpression != null);
+            Parent = theModel;
             this.expression = theExpression;
         }
 
@@ -39,6 +46,19 @@ namespace Workbench.Core.Models
             : base(new ModelName())
         {
             this.expression = new ConstraintExpressionModel();
+        }
+
+        /// <summary>
+        /// Gets the model parent.
+        /// </summary>
+        public ModelModel Parent
+        {
+            get => _parent;
+            private set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _parent = value;
+            }
         }
 
         /// <summary>

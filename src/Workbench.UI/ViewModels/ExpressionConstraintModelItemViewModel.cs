@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -15,13 +16,14 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theExpressionConstraint != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            Validator = new ExpressionConstraintModelItemViewModelValidator();
             ExpressionText = theExpressionConstraint.Expression.Text;
             ExpressionConstraint = theExpressionConstraint;
             _windowManager = theWindowManager;
         }
 
         /// <summary>
-        /// Gets or sets the constraint model.
+        /// Gets or sets the expression constraint model.
         /// </summary>
         public ExpressionConstraintModel ExpressionConstraint { get; }
 

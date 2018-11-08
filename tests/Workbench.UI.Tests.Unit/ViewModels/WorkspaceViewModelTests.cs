@@ -46,9 +46,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             ScreenExtensions.TryActivate(newWorkspace);
             newWorkspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                             .WithDomain("1..2")
-                                                                            .WithModel(newWorkspace.WorkspaceModel.Model)
+                                                                            .Inside(newWorkspace.WorkspaceModel.Model)
                                                                             .Build());
             newWorkspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName("X")
+                                                                                  .Inside(newWorkspace.WorkspaceModel.Model)
                                                                                   .WithExpression("$x > 1")
                                                                                   .Build());
 

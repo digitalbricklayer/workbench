@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
@@ -18,6 +19,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theAllDifferentModel != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
+            Validator = new AllDifferentConstraintModelItemViewModelValidator();
             AllDifferentConstraint = theAllDifferentModel;
             DisplayName = AllDifferentConstraint.Name;
             ExpressionText = AllDifferentConstraint.Expression.Text;
@@ -25,7 +27,7 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the constraint model.
+        /// Gets or sets the all different constraint model.
         /// </summary>
         public AllDifferentConstraintModel AllDifferentConstraint { get; }
 

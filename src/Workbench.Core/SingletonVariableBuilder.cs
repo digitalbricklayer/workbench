@@ -21,7 +21,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public SingletonVariableBuilder WithModel(ModelModel theModel)
+        public SingletonVariableBuilder Inside(ModelModel theModel)
         {
             this.model = theModel;
             return this;
