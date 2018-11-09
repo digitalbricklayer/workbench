@@ -4,7 +4,21 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
         Title="Name Editor"
-        Height="154.034" Width="364">
+        Height="154.034" Width="398.658">
+
+    <Window.Resources>
+        <Style x:Key="EditorTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="Green" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                    </Trigger.Setters>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
@@ -20,16 +34,10 @@
         <Image Source="pack://application:,,,/ConstraintWorkbench;component/Images/question2.png" Width="32" Height="32" Grid.RowSpan="2" Margin="20,0" />
 
         <Label Grid.Column="1">Name:</Label>
-        <TextBox Name="columnTextEditor" Grid.Column="1" Grid.Row="1" MinWidth="250" Text="{Binding TabName}"/>
+        <TextBox Name="TabName" Grid.Column="1" Grid.Row="1" MinWidth="250" Style="{StaticResource EditorTextBoxStyle}"/>
 
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,16,0,-1" Grid.Column="1">
-            <Button IsDefault="True" Name="btnDialogOk" MinWidth="60" Margin="0,0,10,0" Content="_OK">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="AcceptButton" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+            <Button IsDefault="True" Name="Accept" MinWidth="60" Margin="0,0,10,0">_OK</Button>
             <Button IsCancel="True" MinWidth="60">_Cancel</Button>
         </WrapPanel>
     </Grid>
