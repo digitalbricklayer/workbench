@@ -1,13 +1,18 @@
-using Caliburn.Micro;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
     /// View model for the tab title editor dialog box.
     /// </summary>
-    public class TabTitleEditorViewModel : Screen
+    public class TabTitleEditorViewModel : DialogViewModel
     {
         private string _tabTitle;
+
+        public TabTitleEditorViewModel()
+        {
+            Validator = new TabTitleEditorValidator();
+        }
 
         /// <summary>
         /// Gets or sets the tab title.
@@ -20,14 +25,6 @@ namespace Workbench.ViewModels
                 _tabTitle = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        /// <summary>
-        /// Okay button clicked.
-        /// </summary>
-        public void AcceptButton()
-        {
-            TryClose(true);
         }
     }
 }

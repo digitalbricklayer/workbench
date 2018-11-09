@@ -241,6 +241,7 @@
     <Compile Include="Validators\SharedDomainModelItemViewModelValidator.cs" />
     <Compile Include="Validators\SingletonVariableEditorViewModelValidator.cs" />
     <Compile Include="Validators\TabNameValidator.cs" />
+    <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
