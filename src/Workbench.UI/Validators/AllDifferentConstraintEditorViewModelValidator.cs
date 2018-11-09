@@ -14,7 +14,7 @@ namespace Workbench.Validators
         public AllDifferentConstraintEditorViewModelValidator()
         {
             RuleFor(constraint => constraint.ConstraintName).NotNull().NotEmpty();
-            RuleFor(constraint => constraint.ConstraintExpression).NotNull().NotEmpty();
+            RuleFor(constraint => constraint.ConstraintExpression).NotNull();
         }
     }
 }
