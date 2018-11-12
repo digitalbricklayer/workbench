@@ -33,13 +33,13 @@ namespace Workbench.ViewModels
 
         public override void Edit()
         {
-            var allDifferentConstraintEditor = new AllDifferentConstraintEditorViewModel();
+            var allDifferentConstraintEditor = new AllDifferentConstraintEditorViewModel(AllDifferentConstraint.Parent);
             allDifferentConstraintEditor.ConstraintName = AllDifferentConstraint.Name;
-            allDifferentConstraintEditor.ConstraintExpression = AllDifferentConstraint.Expression.Text;
+            allDifferentConstraintEditor.SelectedVariable = AllDifferentConstraint.Expression.Text;
             var result = _windowManager.ShowDialog(allDifferentConstraintEditor);
             if (!result.HasValue) return;
             DisplayName = AllDifferentConstraint.Name.Text = allDifferentConstraintEditor.ConstraintName;
-            ExpressionText = AllDifferentConstraint.Expression.Text = allDifferentConstraintEditor.ConstraintExpression;
+            ExpressionText = AllDifferentConstraint.Expression.Text = allDifferentConstraintEditor.SelectedVariable;
         }
     }
 }

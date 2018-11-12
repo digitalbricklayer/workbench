@@ -7,7 +7,7 @@ using FluentValidation;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// Base class for all dialog view models supporting data validation and property notification.
+    /// Base class for all dialog view models with optional data validation and property notification.
     /// </summary>
     public abstract class DialogViewModel : Screen, IDataErrorInfo
     {
@@ -27,7 +27,7 @@ namespace Workbench.ViewModels
         public IValidator Validator { get; protected set; }
 
         /// <summary>
-        /// Can Accept be executed.
+        /// Gets whether Accept can be executed.
         /// </summary>
         public bool CanAccept => Error == string.Empty;
 

@@ -454,11 +454,11 @@ namespace Workbench.ViewModels
 
         private void AddAllDifferentConstraintAction()
         {
-            var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditorViewModel();
-            var x = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditorViewModel(Workspace.WorkspaceModel.Model);
+            var result = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
+            if (!result.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
-                                                                                   .WithExpression(allDifferentConstraintEditViewModel.ConstraintExpression)
+                                                                                   .WithExpression(allDifferentConstraintEditViewModel.SelectedVariable)
                                                                                    .Inside(Workspace.WorkspaceModel.Model)
                                                                                    .Build());
         }

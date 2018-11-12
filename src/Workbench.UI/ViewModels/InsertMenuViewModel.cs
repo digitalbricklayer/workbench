@@ -133,11 +133,11 @@ namespace Workbench.ViewModels
         /// </summary>
         private void AddAllDifferentConstraintAction()
         {
-            var allDifferentConstraintEditorViewModel = new AllDifferentConstraintEditorViewModel();
-            var x = this.windowManager.ShowDialog(allDifferentConstraintEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var allDifferentConstraintEditorViewModel = new AllDifferentConstraintEditorViewModel(Workspace.WorkspaceModel.Model);
+            var result = this.windowManager.ShowDialog(allDifferentConstraintEditorViewModel);
+            if (!result.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditorViewModel.ConstraintName)
-                                                                                   .WithExpression(allDifferentConstraintEditorViewModel.ConstraintExpression)
+                                                                                   .WithExpression(allDifferentConstraintEditorViewModel.SelectedVariable)
                                                                                    .Inside(Workspace.WorkspaceModel.Model)
                                                                                    .Build());
             this.titleBar.UpdateTitle();
