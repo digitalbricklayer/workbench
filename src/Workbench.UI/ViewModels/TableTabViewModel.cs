@@ -25,7 +25,8 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
             _windowManager = theWindowManager;
-            Title = TabText = Name = DisplayName = theTableModel.Name;
+            TabText = Name = DisplayName = theTableModel.Name;
+            Title = theTableModel.Title.Text;
             Model = theTableModel;
         }
 

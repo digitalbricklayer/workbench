@@ -212,7 +212,15 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newTable != null);
 
-            var newTableTab = new TableTabViewModel(new TableTabModel(TableModel.Default, new WorkspaceTabTitle("Table")), _eventAggregator, _windowManager);
+            var newTabDetailsViewModel = new NewTabDetailsViewModel();
+            var result = _windowManager.ShowDialog(newTabDetailsViewModel);
+            if (!result.GetValueOrDefault()) return;
+            var tableModel = TableModel.Default;
+            tableModel.Name = new ModelName(newTabDetailsViewModel.TabName);
+            var newTableTab = new TableTabViewModel(new TableTabModel(tableModel,
+                                                    new WorkspaceTabTitle(newTabDetailsViewModel.TabDescription)),
+                                                    _eventAggregator,
+                                                    _windowManager);
             WorkspaceModel.Display.AddVisualizer(newTableTab.Model);
             TableTabs.Add(newTableTab);
             ActivateItem(newTableTab);
