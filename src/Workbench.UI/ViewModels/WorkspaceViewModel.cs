@@ -13,13 +13,13 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private bool _isDirty;
         private readonly IEventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;
         private ModelEditorTabViewModel _modelEditor;
         private readonly IViewModelFactory _viewModelFactory;
         private SolutionViewerTabViewModel _solutionViewer;
         private readonly ModelValidatorViewModel _modelValidator;
+        private WorkspaceDocumentViewModel _document;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -45,6 +45,19 @@ namespace Workbench.ViewModels
             Solution = WorkspaceModel.Solution;
             ChessboardTabs = new BindableCollection<ChessboardTabViewModel>();
             TableTabs = new BindableCollection<TableTabViewModel>();
+        }
+
+        /// <summary>
+        /// Gets or sets the workspace document.
+        /// </summary>
+        public WorkspaceDocumentViewModel Document
+        {
+            get => _document;
+            set
+            {
+                _document = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         /// <summary>
@@ -94,20 +107,6 @@ namespace Workbench.ViewModels
         public SolutionModel Solution { get; }
 
         /// <summary>
-        /// Gets or sets the work area dirty flag.
-        /// </summary>
-        public bool IsDirty
-        {
-            get => _isDirty;
-            set
-            {
-                if (_isDirty == value) return;
-                _isDirty = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        /// <summary>
         /// Solve the constraint model.
         /// </summary>
         public SolveResult SolveModel()
@@ -136,7 +135,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
             ModelEditor.AddSingletonVariable(newVariable);
-            IsDirty = true;
             _eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
         }
 
@@ -150,7 +148,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newVariable != null);
 
             ModelEditor.AddAggregateVariable(newVariable);
-            IsDirty = true;
             _eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
         }
 
@@ -163,7 +160,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newDomain != null);
 
             ModelEditor.AddDomain(newDomain);
-            IsDirty = true;
         }
 
         /// <summary>
@@ -175,7 +171,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
             ModelEditor.AddConstraint(newConstraint);
-            IsDirty = true;
         }
 
         /// <summary>
@@ -187,7 +182,6 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
             ModelEditor.AddConstraint(newConstraint);
-            IsDirty = true;
         }
 
         /// <summary>
@@ -201,7 +195,6 @@ namespace Workbench.ViewModels
             WorkspaceModel.Display.AddVisualizer(newChessboardTab.Model);
             ChessboardTabs.Add(newChessboardTab);
             ActivateItem(newChessboardTab);
-            IsDirty = true;
         }
 
         /// <summary>
@@ -224,7 +217,6 @@ namespace Workbench.ViewModels
             WorkspaceModel.Display.AddVisualizer(newTableTab.Model);
             TableTabs.Add(newTableTab);
             ActivateItem(newTableTab);
-            IsDirty = true;
         }
 
         public void BindTo(SolutionModel theSolution)

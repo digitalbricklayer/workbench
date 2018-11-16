@@ -17,6 +17,14 @@ namespace Workbench.Services
         }
 
         /// <inheritdoc />
+        public WorkspaceDocumentViewModel CreateDocument()
+        {
+            var newDocument = IoC.Get<WorkspaceDocumentViewModel>();
+
+            return newDocument;
+        }
+
+        /// <inheritdoc />
         public ModelEditorTabViewModel CreateModelEditor()
         {
             var newModelEditor = IoC.Get<ModelEditorTabViewModel>();

@@ -8,7 +8,7 @@ using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class InsertMenuViewModel
+    public class InsertMenuViewModel : Screen
     {
         private readonly IAppRuntime appRuntime;
         private readonly TitleBarViewModel titleBar;

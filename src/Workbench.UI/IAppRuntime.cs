@@ -13,6 +13,11 @@ namespace Workbench
         WorkspaceViewModel Workspace { get; set; }
 
         /// <summary>
+        /// Gets or sets the current workspace document.
+        /// </summary>
+        WorkspaceDocumentViewModel CurrentDocument { get; set; }
+
+        /// <summary>
         /// Gets the shell view model.
         /// </summary>
         ShellViewModel Shell { get; set; }
@@ -38,6 +43,7 @@ namespace Workbench
         private string _currentFileName;
         private ShellViewModel _shell;
         private WorkspaceViewModel _workspace;
+        private WorkspaceDocumentViewModel _currentDocument;
 
         public WorkspaceViewModel Workspace
         {
@@ -50,6 +56,20 @@ namespace Workbench
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 _workspace = value;
+            }
+        }
+
+        public WorkspaceDocumentViewModel CurrentDocument
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<WorkspaceDocumentViewModel>() != null);
+                return _currentDocument;
+            }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _currentDocument = value;
             }
         }
 

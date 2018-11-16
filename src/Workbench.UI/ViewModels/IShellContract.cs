@@ -10,6 +10,7 @@ namespace Workbench.ViewModels
     internal abstract class IShellContract : IShell
     {
         private WorkspaceViewModel _workspace;
+        private WorkspaceDocumentViewModel _currentDocument;
 
         public WorkspaceViewModel Workspace
         {
@@ -23,6 +24,25 @@ namespace Workbench.ViewModels
                 Contract.Requires<ArgumentNullException>(value != null);
                 this._workspace = value;
             }
+        }
+
+        public WorkspaceDocumentViewModel CurrentDocument
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<WorkspaceDocumentViewModel>() != null);
+                return _currentDocument;
+            }
+
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _currentDocument = value;
+            }
+        }
+
+        public void Close()
+        {
         }
     }
 }

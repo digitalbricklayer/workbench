@@ -9,5 +9,15 @@ namespace Workbench.ViewModels
         /// Gets or sets the work area.
         /// </summary>
         WorkspaceViewModel Workspace { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current workspace document.
+        /// </summary>
+        WorkspaceDocumentViewModel CurrentDocument { get; set; }
+
+        /// <summary>
+        /// Close the shell.
+        /// </summary>
+        void Close();
     }
 }

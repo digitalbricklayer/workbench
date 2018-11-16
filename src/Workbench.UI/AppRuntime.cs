@@ -23,6 +23,11 @@ namespace Workbench
         public WorkspaceViewModel Workspace { get; set; }
 
         /// <summary>
+        /// Gets or sets the current document.
+        /// </summary>
+        public WorkspaceDocumentViewModel CurrentDocument { get; set; }
+
+        /// <summary>
         /// Gets the shell view model.
         /// </summary>
         public ShellViewModel Shell { get; set; }

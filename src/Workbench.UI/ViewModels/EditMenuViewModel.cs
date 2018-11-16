@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
-    public sealed class EditMenuViewModel
+    public sealed class EditMenuViewModel : Screen
     {
         private readonly IAppRuntime appRuntime;
 

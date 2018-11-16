@@ -1,44 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the main shell window.
+    /// View model for the shell of the main window.
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
-        private WorkspaceViewModel _workspace;
-        private ApplicationMenuViewModel applicationMenu;
-        private readonly IAppRuntime appRuntime;
-        private TitleBarViewModel titleBar;
+        private ApplicationMenuViewModel _applicationMenu;
+        private readonly IAppRuntime _appRuntime;
+        private WorkspaceDocumentViewModel _currentDocument;
 
         /// <summary>
         /// Initialize a shell view model with an application runtime, workspace view 
         /// model, application menu view model and title bar view model.
         /// </summary>
         /// <param name="theAppRuntime">Application runtime.</param>
-        /// <param name="theWorkspaceViewModel">Workspace view model.</param>
+        /// <param name="theCurrentWorkspaceDocument">Current workspace document.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
-        /// <param name="theTitleBarViewModel">Title bar view model.</param>
         public ShellViewModel(IAppRuntime theAppRuntime,
-                              WorkspaceViewModel theWorkspaceViewModel,
-                              ApplicationMenuViewModel theApplicationMenuViewModel,
-                              TitleBarViewModel theTitleBarViewModel)
+                              WorkspaceDocumentViewModel theCurrentWorkspaceDocument,
+                              ApplicationMenuViewModel theApplicationMenuViewModel)
         {
             Contract.Requires<ArgumentNullException>(theAppRuntime != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
+            Contract.Requires<ArgumentNullException>(theCurrentWorkspaceDocument != null);
             Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
-            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
 
-            this.appRuntime = theAppRuntime;
-            this.appRuntime.Shell = this;
-            Workspace = theWorkspaceViewModel;
+            _appRuntime = theAppRuntime;
+            _appRuntime.Shell = this;
+            CurrentDocument = theCurrentWorkspaceDocument;
             ApplicationMenu = theApplicationMenuViewModel;
-            TitleBar = theTitleBarViewModel;
-            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, TitleBar };
+            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };
             Items.AddRange(shellSubScreens);
         }
 
@@ -47,11 +43,25 @@ namespace Workbench.ViewModels
         /// </summary>
         public ApplicationMenuViewModel ApplicationMenu
         {
-            get { return this.applicationMenu; }
+            get => _applicationMenu;
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.applicationMenu = value;
+                _applicationMenu = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the current workspace document.
+        /// </summary>
+        public WorkspaceDocumentViewModel CurrentDocument
+        {
+            get => _currentDocument;
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                _currentDocument = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -61,25 +71,21 @@ namespace Workbench.ViewModels
         /// </summary>
         public WorkspaceViewModel Workspace
         {
-            get { return this._workspace; }
+            get => CurrentDocument.Workspace;
             set
             {
-                this._workspace = value;
+                Contract.Requires<ArgumentNullException>(value != null);
+                CurrentDocument.Workspace = value;
                 NotifyOfPropertyChange();
             }
         }
 
         /// <summary>
-        /// Gets or sets the title bar view model.
+        /// Close the shell.
         /// </summary>
-        public TitleBarViewModel TitleBar
+        public void Close()
         {
-            get { return this.titleBar; }
-            set
-            {
-                this.titleBar = value;
-                NotifyOfPropertyChange();
-            }
+            Application.Current?.MainWindow?.Close();
         }
     }
 }

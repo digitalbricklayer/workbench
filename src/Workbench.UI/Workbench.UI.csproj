@@ -225,6 +225,7 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="IMainWindow.cs" />
     <Compile Include="Services\XmlConstraintReader.cs" />
     <Compile Include="Services\XmlConstraintWriter.cs" />
     <Compile Include="Services\XmlDomainReader.cs" />
@@ -244,6 +245,8 @@
     <Compile Include="Validators\TabNameValidator.cs" />
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
+    <Compile Include="ViewModels\DocumentPathViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
     <Compile Include="Services\XmlWorkspaceWriter.cs" />
@@ -266,6 +269,7 @@
     <Compile Include="Validators\AggregateVariableEditorViewModelValidator.cs" />
     <Compile Include="Validators\SharedDomainEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
+    <Compile Include="ViewModels\WorkspaceDocumentViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
     </Compile>
@@ -280,6 +284,9 @@
     </Compile>
     <Compile Include="Views\ChessboardView.xaml.cs">
       <DependentUpon>ChessboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableDetailsView.xaml.cs">
       <DependentUpon>TableDetailsView.xaml</DependentUpon>
@@ -318,7 +325,6 @@
     <Compile Include="Views\SharedDomainModelItemView.xaml.cs">
       <DependentUpon>SharedDomainModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\DefaultDataService.cs" />
     <Compile Include="Services\DefaultViewModelService.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
@@ -423,6 +429,10 @@
     <Page Include="Views\ChessboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TableDetailsView.xaml">
       <SubType>Designer</SubType>

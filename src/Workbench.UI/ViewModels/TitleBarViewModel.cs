@@ -53,7 +53,7 @@ namespace Workbench.ViewModels
 
             newTitle += Path.GetFileName(this.appRuntime.CurrentFileName);
 
-            if (this.Workspace.IsDirty)
+            if (this.appRuntime.CurrentDocument.IsDirty)
             {
                 newTitle += " *";
             }

@@ -1,13 +1,12 @@
 using System;
 using System.Diagnostics.Contracts;
-using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
+using Caliburn.Micro;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public sealed class FileMenuViewModel
+    public sealed class FileMenuViewModel : Screen
     {
         private readonly IDataService dataService;
         private readonly IAppRuntime appRuntime;
@@ -43,6 +42,8 @@ namespace Workbench.ViewModels
             get { return this.appRuntime.Workspace; }
             set { this.appRuntime.Workspace = value; }
         }
+
+        public WorkspaceDocumentViewModel CurrentDocument => this.appRuntime.CurrentDocument;
 
         /// <summary>
         /// Gets the shell view model.
@@ -85,9 +86,8 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            if (!PromptToSave()) return;
-            Workspace = this.viewModelFactory.CreateWorkspace();
-            this.titleBar.UpdateTitle();
+            var newDocument = this.viewModelFactory.CreateDocument();
+            newDocument.New();
         }
 
         /// <summary>
@@ -95,37 +95,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileOpenAction()
         {
-            if (!PromptToSave()) return;
-
-            var openFileDialog = new OpenFileDialog
-            {
-                Filter = this.appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
-                DefaultExt = "dpf",
-                RestoreDirectory = true
-            };
-
-            // Show Open File dialog
-            var openResult = openFileDialog.ShowDialog();
-
-            if (!openResult.GetValueOrDefault())
-            {
-                // Open has been cancelled
-                return;
-            }
-
-            try
-            {
-                // Read a new workspace model
-                this.dataService.Open(openFileDialog.FileName);
-                Workspace = this.viewModelFactory.CreateWorkspace();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            this.appRuntime.CurrentFileName = openFileDialog.FileName;
-            this.titleBar.UpdateTitle();
+            CurrentDocument.Open();
         }
 
         /// <summary>
@@ -133,13 +103,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileSaveAction()
         {
-            if (string.IsNullOrEmpty(this.appRuntime.CurrentFileName))
-            {
-                this.FileSaveAsAction();
-                return;
-            }
-
-            Save(this.appRuntime.CurrentFileName);
+            CurrentDocument.Save();
         }
 
         /// <summary>
@@ -147,22 +111,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileSaveAsAction()
         {
-            // Show Save File dialog
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = this.appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
-                OverwritePrompt = true,
-                DefaultExt = "dpf",
-                RestoreDirectory = true
-            };
-
-            var result = saveFileDialog.ShowDialog();
-
-            if (result.GetValueOrDefault() != true)
-                return;
-
-            // Save
-            this.Save(saveFileDialog.FileName);
+            CurrentDocument.SaveAs();
         }
 
         /// <summary>
@@ -170,85 +119,12 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileExitAction()
         {
-            if (!PromptToSave())
+            if (!CurrentDocument.TrySave())
             {
                 return;
             }
 
-            Application.Current.MainWindow.Close();
-        }
-
-        /// <summary>
-        /// Prompt to save and make Save operation if necessary.
-        /// </summary>
-        /// <returns>
-        /// true - caller can continue (open new file, close program etc.
-        /// false - caller should cancel current operation.
-        /// </returns>
-        private bool PromptToSave()
-        {
-            if (!this.Workspace.IsDirty)
-            {
-                // Nothing to save... file is up-to-date
-                return true;
-            }
-
-            var result = MessageBox.Show(Application.Current.MainWindow,
-                                         "Do you want to save changes?",
-                                         "Dyna",
-                                         MessageBoxButton.YesNoCancel,
-                                         MessageBoxImage.Question,
-                                         MessageBoxResult.Yes);
-
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    return this.Save(this.appRuntime.CurrentFileName);
-
-                case MessageBoxResult.No:
-                    // User wishes to discard changes
-                    return true;
-
-                case MessageBoxResult.Cancel:
-                    return false;
-
-                default:
-                    return true;
-            }
-        }
-
-        /// <summary>
-        /// Save the workspace to a file.
-        /// </summary>
-        private bool Save(string file)
-        {
-            try
-            {
-                this.dataService.Save(file);
-            }
-            catch (Exception e)
-            {
-                this.ShowError(e.Message);
-                return false;
-            }
-
-            this.appRuntime.CurrentFileName = file;
-            Workspace.IsDirty = false;
-            this.titleBar.UpdateTitle();
-
-            return true;
-        }
-
-        /// <summary>
-        /// Show an error message.
-        /// </summary>
-        private void ShowError(string message)
-        {
-            MessageBox.Show(Application.Current.MainWindow,
-                            message,
-                            this.appRuntime.ApplicationName,
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Error);
+            appRuntime.Shell.Close();
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace Workbench.Views
+﻿namespace Workbench.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ShellView.xaml
     /// </summary>
-    public partial class ShellView : Window
+    public partial class ShellView
     {
         public ShellView()
         {

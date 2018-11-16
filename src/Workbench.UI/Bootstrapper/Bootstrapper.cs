@@ -37,7 +37,7 @@ namespace Workbench.Bootstrapper
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            DisplayRootViewFor<IShell>();
+            DisplayRootViewFor<IMainWindow>();
         }
 
         protected override object GetInstance(Type service, string key)
