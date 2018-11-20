@@ -14,7 +14,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
     [TestFixture]
     public class WorkspaceViewModelTests
     {
-        private IAppRuntime _appRuntime;
         private IDataService dataService;
         private Mock<IWindowManager> windowManagerMock;
         private IEventAggregator eventAggregator;
@@ -22,7 +21,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [SetUp]
         public void Initialize()
         {
-            _appRuntime = new AppRuntime();
             this.dataService = new DataService(CreateWorkspaceReaderWriterMock().Object);
             this.windowManagerMock = new Mock<IWindowManager>();
             this.eventAggregator = new EventAggregator();
@@ -60,7 +58,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(_appRuntime, this.dataService, this.windowManagerMock.Object, this.eventAggregator));
+                                .Returns(new ModelEditorTabViewModel(Mock.Of<IShell>(), this.dataService, this.windowManagerMock.Object, this.eventAggregator));
             return viewModelFactoryMock;
         }
 

@@ -17,7 +17,6 @@ namespace Workbench.ViewModels
     {
         private ICommand _addSingletonVariableCommand;
         private ICommand _addAggregateVariableCommand;
-        private readonly IAppRuntime _appRuntime;
         private readonly IWindowManager _windowManager;
         private readonly IEventAggregator _eventAggregator;
         private ICommand _addDomainCommand;
@@ -25,21 +24,22 @@ namespace Workbench.ViewModels
         private ICommand _addAllDifferentConstraintCommand;
         private ICommand _editCommand;
         private CommandHandler _deleteCommand;
+        private readonly IShell _shell;
 
         /// <summary>
         /// Initialize a solution designer view model with default values.
         /// </summary>
-        public ModelEditorTabViewModel(IAppRuntime theAppRuntime,
+        public ModelEditorTabViewModel(IShell theShell,
                                        IDataService theDataService,
                                        IWindowManager theWindowManager,
                                        IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
+            Contract.Requires<ArgumentNullException>(theShell != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
-            _appRuntime = theAppRuntime;
+            _shell = theShell;
             _windowManager = theWindowManager;
             _eventAggregator = theEventAggregator;
             DisplayName = "Model";
@@ -57,12 +57,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets the work area view model.
+        /// Gets the workspace view model.
         /// </summary>
-        public WorkspaceViewModel Workspace
-        {
-            get { return _appRuntime.Workspace; }
-        }
+        public WorkspaceViewModel Workspace => _shell.Workspace;
 
         /// <summary>
         /// Gets or sets the model model.

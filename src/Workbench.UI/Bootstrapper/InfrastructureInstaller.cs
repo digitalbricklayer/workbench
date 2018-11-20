@@ -15,9 +15,7 @@ namespace Workbench.Bootstrapper
         /// <param name="kernel">The kernel.</param>
         public void Register(IKernelInternal kernel)
         {
-            kernel.Register(Component.For<IAppRuntime, AppRuntime>()
-                                     .LifeStyle.Singleton,
-                            Component.For<IViewModelFactory, ViewModelFactory>()
+            kernel.Register(Component.For<IViewModelFactory, ViewModelFactory>()
                                      .LifeStyle.Transient);
         }
     }

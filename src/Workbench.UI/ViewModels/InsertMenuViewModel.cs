@@ -4,30 +4,25 @@ using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public class InsertMenuViewModel : Screen
+    public class InsertMenuViewModel : MenuViewModel
     {
-        private readonly IAppRuntime appRuntime;
-        private readonly TitleBarViewModel titleBar;
         private readonly IWindowManager windowManager;
+        private readonly IEventAggregator eventAggregator;
 
-        public InsertMenuViewModel(IAppRuntime theAppRuntime,
-                                   TitleBarViewModel theTitleBarViewModel,
-                                   IEventAggregator theEventAggregator,
+        public InsertMenuViewModel(IEventAggregator theEventAggregator,
                                    IDataService theDataService,
                                    IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
-            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
-            this.appRuntime = theAppRuntime;
-            this.titleBar = theTitleBarViewModel;
             this.windowManager = theWindowManager;
+            this.eventAggregator = theEventAggregator;
 
             AddSingletonVariableCommand = new CommandHandler(AddSingletonVariableAction);
             AddAggregateVariableCommand = new CommandHandler(AddAggregateVariableAction);
@@ -36,14 +31,6 @@ namespace Workbench.ViewModels
             AddDomainCommand = new CommandHandler(AddDomainAction);
             AddTableCommand = new CommandHandler(AddTableAction);
             AddChessboardCommand = new CommandHandler(AddChessboardAction);
-        }
-
-        /// <summary>
-        /// Gets the work area view model.
-        /// </summary>
-        public WorkspaceViewModel Workspace
-        {
-            get { return this.appRuntime.Workspace; }
         }
 
         /// <summary>
@@ -87,13 +74,14 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableAction()
         {
             var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
-            var x = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
-            this.Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
-                                                                              .WithDomain(singletonVariableEditorViewModel.DomainExpression)
-                                                                              .Inside(Workspace.WorkspaceModel.Model)
-                                                                              .Build());
-            this.titleBar.UpdateTitle();
+            var dialogResult = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
+            if (!dialogResult.GetValueOrDefault()) return;
+            var singletonVariableModel = new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
+                                                                       .WithDomain(singletonVariableEditorViewModel.DomainExpression)
+                                                                       .Inside(Workspace.WorkspaceModel.Model)
+                                                                       .Build();
+            this.Workspace.AddSingletonVariable(singletonVariableModel);
+            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(singletonVariableModel));
         }
 
         /// <summary>
@@ -102,15 +90,15 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableAction()
         {
             var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
-            var x = this.windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var dialogResult = this.windowManager.ShowDialog(aggregateVariableEditorViewModel);
+            if (!dialogResult.GetValueOrDefault()) return;
             var newAggregate = new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
                                                              .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
                                                              .WithSize(aggregateVariableEditorViewModel.Size)
                                                              .Inside(Workspace.WorkspaceModel.Model)
                                                              .Build();
             this.Workspace.AddAggregateVariable(newAggregate);
-            this.titleBar.UpdateTitle();
+            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newAggregate));
         }
 
         /// <summary>
@@ -125,7 +113,6 @@ namespace Workbench.ViewModels
                                                                                .Inside(Workspace.WorkspaceModel.Model)
                                                                                .WithExpression(expressionConstraintEditorViewModel.ConstraintExpression)
                                                                                .Build());
-            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -140,7 +127,6 @@ namespace Workbench.ViewModels
                                                                                    .WithExpression(allDifferentConstraintEditorViewModel.SelectedVariable)
                                                                                    .Inside(Workspace.WorkspaceModel.Model)
                                                                                    .Build());
-            this.titleBar.UpdateTitle();
         }
 
         /// <summary>
@@ -155,7 +141,6 @@ namespace Workbench.ViewModels
                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                               .WithDomain(domainEditorViewModel.DomainExpression)
                                                               .Build());
-            this.titleBar.UpdateTitle();
         }
 
         private void AddTableAction()

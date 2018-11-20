@@ -8,7 +8,7 @@ namespace Workbench.Messages
     /// <summary>
     /// Message sent when a new singleton variable is added to the model.
     /// </summary>
-    public class SingletonVariableAddedMessage
+    public class SingletonVariableAddedMessage : WorkspaceChangedMessage
     {
         /// <summary>
         /// Initialize a new singleton variable added message with the new variable.

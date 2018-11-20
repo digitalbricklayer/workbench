@@ -8,7 +8,7 @@ namespace Workbench.Messages
     /// <summary>
     /// Message sent when the model has been solved.
     /// </summary>
-    public class ModelSolvedMessage
+    public class ModelSolvedMessage : WorkspaceChangedMessage
     {
         /// <summary>
         /// Initialize a model solved message with the solve attempt result.

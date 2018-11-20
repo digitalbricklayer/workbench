@@ -18,8 +18,7 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="theShell">The shell implementing the application.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
-        public MainWindowViewModel(IShell theShell,
-                                   TitleBarViewModel theTitleBarViewModel)
+        public MainWindowViewModel(IShell theShell, TitleBarViewModel theTitleBarViewModel)
         {
             Contract.Requires<ArgumentNullException>(theShell != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);

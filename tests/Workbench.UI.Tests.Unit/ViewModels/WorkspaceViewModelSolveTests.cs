@@ -13,7 +13,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
     public class WorkspaceViewModelSolveTests
     {
         private Mock<IEventAggregator> _eventAggregatorMock;
-        private readonly IAppRuntime _appRuntime = new AppRuntime();
 
         public WorkspaceViewModel Workspace { get; private set; }
 
@@ -22,7 +21,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             _eventAggregatorMock = new Mock<IEventAggregator>();
             Workspace = CreateSut();
-            _appRuntime.Workspace = Workspace;
             ScreenExtensions.TryActivate(Workspace);
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                          .WithDomain("1..10")
@@ -118,7 +116,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(_appRuntime, CreateDataService(), CreateWindowManagerMock().Object, _eventAggregatorMock.Object));
+                                .Returns(new ModelEditorTabViewModel(Mock.Of<IShell>(), CreateDataService(), CreateWindowManagerMock().Object, _eventAggregatorMock.Object));
             return viewModelFactoryMock;
         }
     }

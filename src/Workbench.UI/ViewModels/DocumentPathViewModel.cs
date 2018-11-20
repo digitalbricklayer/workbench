@@ -16,7 +16,7 @@ namespace Workbench.ViewModels
         public DocumentPathViewModel(string thePath)
         {
             Contract.Requires(!string.IsNullOrWhiteSpace(thePath));
-            Path = thePath;
+            FullPath = thePath;
         }
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace Workbench.ViewModels
         /// </summary>
         public DocumentPathViewModel()
         {
-            Path = string.Empty;
+            FullPath = string.Empty;
         }
 
         /// <summary>
         /// Gets or sets the path to the document.
         /// </summary>
-        public string Path
+        public string FullPath
         {
             get => _path;
             set
@@ -43,6 +43,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the path has been set.
         /// </summary>
-        public bool IsEmpty => !string.IsNullOrWhiteSpace(Path);
+        public bool IsEmpty => !string.IsNullOrWhiteSpace(FullPath);
     }
 }

@@ -12,26 +12,19 @@ namespace Workbench.ViewModels
     public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
         private ApplicationMenuViewModel _applicationMenu;
-        private readonly IAppRuntime _appRuntime;
         private WorkspaceDocumentViewModel _currentDocument;
 
         /// <summary>
         /// Initialize a shell view model with an application runtime, workspace view 
         /// model, application menu view model and title bar view model.
         /// </summary>
-        /// <param name="theAppRuntime">Application runtime.</param>
         /// <param name="theCurrentWorkspaceDocument">Current workspace document.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
-        public ShellViewModel(IAppRuntime theAppRuntime,
-                              WorkspaceDocumentViewModel theCurrentWorkspaceDocument,
-                              ApplicationMenuViewModel theApplicationMenuViewModel)
+        public ShellViewModel(WorkspaceDocumentViewModel theCurrentWorkspaceDocument, ApplicationMenuViewModel theApplicationMenuViewModel)
         {
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
             Contract.Requires<ArgumentNullException>(theCurrentWorkspaceDocument != null);
             Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
 
-            _appRuntime = theAppRuntime;
-            _appRuntime.Shell = this;
             CurrentDocument = theCurrentWorkspaceDocument;
             ApplicationMenu = theApplicationMenuViewModel;
             var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };

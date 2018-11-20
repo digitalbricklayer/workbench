@@ -226,6 +226,11 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="IMainWindow.cs" />
+    <Compile Include="Messages\DocumentCreatedMessage.cs" />
+    <Compile Include="Messages\DocumentChangedMessage.cs" />
+    <Compile Include="Messages\DocumentOpenedMessage.cs" />
+    <Compile Include="Messages\DocumentSavedMessage.cs" />
+    <Compile Include="Messages\WorkspaceChangedMessage.cs" />
     <Compile Include="Services\XmlConstraintReader.cs" />
     <Compile Include="Services\XmlConstraintWriter.cs" />
     <Compile Include="Services\XmlDomainReader.cs" />
@@ -247,6 +252,7 @@
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
     <Compile Include="Services\XmlWorkspaceReader.cs" />
     <Compile Include="Services\XmlWorkspaceWriter.cs" />

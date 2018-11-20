@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Win32;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -15,28 +16,27 @@ namespace Workbench.ViewModels
         private WorkspaceViewModel _workspace;
         private DocumentPathViewModel _path;
         private bool _isDirty;
-        private readonly IAppRuntime _appRuntime;
         private readonly IDataService _dataService;
-        private readonly TitleBarViewModel _titleBar;
+        private bool _isNew;
+        private readonly IEventAggregator _eventAggregator;
 
         /// <summary>
         /// Initialize the workspace document view model with a workspace.
         /// </summary>
         /// <param name="theWorkspaceViewModel">Workspace view model.</param>
-        public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel,
-                                          IAppRuntime theAppRuntime,
-                                          IDataService theDataService,
-                                          TitleBarViewModel theTitleBar)
+        /// <param name="theDataService">Data service.</param>
+        /// <param name="theEventAggregator">Event aggregator.</param>
+        public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel, IDataService theDataService, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
+//            Contract.Requires<ArgumentNullException>(theShell != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theTitleBar != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             Workspace = theWorkspaceViewModel;
-            _appRuntime = theAppRuntime;
+//            _shell = theShell;
             _dataService = theDataService;
-            _titleBar = theTitleBar;
+            _eventAggregator = theEventAggregator;
         }
 
         /// <summary>
@@ -67,7 +67,20 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the work area dirty flag.
+        /// Gets or sets the document new flag.
+        /// </summary>
+        public bool IsNew
+        {
+            get => _isNew;
+            set
+            {
+                _isNew = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the document dirty flag.
         /// </summary>
         public bool IsDirty
         {
@@ -86,13 +99,15 @@ namespace Workbench.ViewModels
         public void New()
         {
             if (!TrySave()) return;
-            _appRuntime.CurrentDocument = this;
-            Workspace = _appRuntime.Workspace;
-            _titleBar.UpdateTitle();
+//            _shell.CurrentDocument = this;
+//            Workspace = _shell.Workspace;
+            IsNew = true;
+            IsDirty = false;
+            _eventAggregator.PublishOnUIThread(new DocumentCreatedMessage(this));
         }
 
         /// <summary>
-        /// Handle the "File|Open" menu item.
+        /// Open the workspace document.
         /// </summary>
         public void Open()
         {
@@ -100,7 +115,7 @@ namespace Workbench.ViewModels
 
             var openFileDialog = new OpenFileDialog
             {
-                Filter = _appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
+                Filter = "Constraint Capers Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
                 DefaultExt = "dpf",
                 RestoreDirectory = true
             };
@@ -118,16 +133,16 @@ namespace Workbench.ViewModels
             {
                 // Read a new workspace model
                 _dataService.Open(openFileDialog.FileName);
-                _appRuntime.CurrentDocument = this;
-                Workspace = _appRuntime.Workspace;
+//               _shell.CurrentDocument = this;
+//                Workspace = _shell.Workspace;
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
             }
 
-            _appRuntime.CurrentFileName = openFileDialog.FileName;
-            _titleBar.UpdateTitle();
+            Path = new DocumentPathViewModel(openFileDialog.FileName);
+            _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(this));
         }
 
         /// <summary>
@@ -141,7 +156,7 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            Save(_appRuntime.CurrentFileName);
+            Save(Path.FullPath);
         }
 
         /// <summary>
@@ -152,7 +167,7 @@ namespace Workbench.ViewModels
             // Show Save File dialog
             var saveFileDialog = new SaveFileDialog
             {
-                Filter = _appRuntime.ApplicationName + " (*.dpf)|*.dpf|All Files|*.*",
+                Filter = "Constraint Capers Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
                 DefaultExt = "dpf",
                 RestoreDirectory = true
@@ -160,11 +175,10 @@ namespace Workbench.ViewModels
 
             var result = saveFileDialog.ShowDialog();
 
-            if (result.GetValueOrDefault() != true)
-                return;
+            if (!result.GetValueOrDefault()) return;
 
             // Save
-            this.Save(saveFileDialog.FileName);
+            Save(saveFileDialog.FileName);
         }
 
         /// <summary>
@@ -184,7 +198,7 @@ namespace Workbench.ViewModels
 
             var result = MessageBox.Show(Application.Current.MainWindow,
                                          "Do you want to save changes?",
-                                         "Dyna",
+                                         "Constraint Capers Workbench",
                                          MessageBoxButton.YesNoCancel,
                                          MessageBoxImage.Question,
                                          MessageBoxResult.Yes);
@@ -192,7 +206,7 @@ namespace Workbench.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    return this.Save(_appRuntime.CurrentFileName);
+                    return this.Save(Path.FullPath);
 
                 case MessageBoxResult.No:
                     // User wishes to discard changes
@@ -221,9 +235,8 @@ namespace Workbench.ViewModels
                 return false;
             }
 
-            _appRuntime.CurrentFileName = file;
-            _appRuntime.CurrentDocument.IsDirty = false;
-            _titleBar.UpdateTitle();
+            IsDirty = false;
+            _eventAggregator.PublishOnUIThread(new DocumentSavedMessage(this));
 
             return true;
         }
@@ -235,7 +248,7 @@ namespace Workbench.ViewModels
         {
             MessageBox.Show(Application.Current.MainWindow,
                             message,
-                            _appRuntime.ApplicationName,
+                            "Constraint Capers Workbench",
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
         }

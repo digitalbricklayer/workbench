@@ -1,59 +1,24 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Windows.Input;
-using Caliburn.Micro;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
-    public sealed class FileMenuViewModel : Screen
+    public sealed class FileMenuViewModel : MenuViewModel
     {
-        private readonly IDataService dataService;
-        private readonly IAppRuntime appRuntime;
-        private readonly TitleBarViewModel titleBar;
-        private readonly IViewModelFactory viewModelFactory;
+        private readonly IViewModelFactory _viewModelFactory;
 
-        public FileMenuViewModel(IDataService theDataService,
-                                 IAppRuntime theAppRuntime,
-                                 TitleBarViewModel theTitleBarViewModel,
-                                 IViewModelFactory theViewModelFactory)
+        public FileMenuViewModel(IViewModelFactory theViewModelFactory)
         {
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
-            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this.dataService = theDataService;
-            this.appRuntime = theAppRuntime;
-            this.titleBar = theTitleBarViewModel;
-            this.viewModelFactory = theViewModelFactory;
+            _viewModelFactory = theViewModelFactory;
             NewCommand = new CommandHandler(FileNewAction);
             OpenCommand = new CommandHandler(FileOpenAction);
             SaveCommand = new CommandHandler(FileSaveAction);
             SaveAsCommand = new CommandHandler(FileSaveAsAction);
             ExitCommand = new CommandHandler(FileExitAction);
-        }
-
-        /// <summary>
-        /// Gets the work area view model.
-        /// </summary>
-        public WorkspaceViewModel Workspace
-        {
-            get { return this.appRuntime.Workspace; }
-            set { this.appRuntime.Workspace = value; }
-        }
-
-        public WorkspaceDocumentViewModel CurrentDocument => this.appRuntime.CurrentDocument;
-
-        /// <summary>
-        /// Gets the shell view model.
-        /// </summary>
-        public ShellViewModel Shell
-        {
-            get
-            {
-                return this.appRuntime.Shell;
-            }
         }
 
         /// <summary>
@@ -86,7 +51,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            var newDocument = this.viewModelFactory.CreateDocument();
+            var newDocument = _viewModelFactory.CreateDocument();
             newDocument.New();
         }
 
@@ -124,7 +89,7 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            appRuntime.Shell.Close();
+            Shell.Close();
         }
     }
 }

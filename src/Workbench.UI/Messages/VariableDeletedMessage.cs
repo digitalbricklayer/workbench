@@ -7,7 +7,7 @@ namespace Workbench.Messages
     /// <summary>
     /// Message sent when a variable is deleted from the model.
     /// </summary>
-    public class VariableDeletedMessage
+    public class VariableDeletedMessage : WorkspaceChangedMessage
     {
         /// <summary>
         /// Initialize a variable deleted message with the deleted variable.

@@ -7,7 +7,7 @@ namespace Workbench.Messages
     /// <summary>
     /// Message sent when a new aggregate variable is added to the model.
     /// </summary>
-    public class AggregateVariableAddedMessage
+    public class AggregateVariableAddedMessage : WorkspaceChangedMessage
     {
         /// <summary>
         /// Initialize the new aggregate added message with the new aggregate variable.

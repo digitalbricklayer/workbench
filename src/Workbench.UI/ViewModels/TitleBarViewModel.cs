@@ -2,63 +2,82 @@ using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using Caliburn.Micro;
+using Workbench.Messages;
 
 namespace Workbench.ViewModels
 {
-    public class TitleBarViewModel : Screen
+    /// <summary>
+    /// Title bar in the main window.
+    /// </summary>
+    public class TitleBarViewModel : Screen, IHandle<DocumentChangedMessage>, IHandle<WorkspaceChangedMessage>
     {
-        private string title = string.Empty;
-        private readonly IAppRuntime appRuntime;
+        private string _title;
+        private WorkspaceDocumentViewModel _currentDocument;
 
-        public TitleBarViewModel(IAppRuntime theAppRuntime,
-                                 WorkspaceViewModel theWorkspaceViewModel)
+        /// <summary>
+        /// Initialize a title bar view model with default values.
+        /// </summary>
+        public TitleBarViewModel()
         {
-            Contract.Requires<ArgumentNullException>(theAppRuntime != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
-
-            this.appRuntime = theAppRuntime;
-            Workspace = theWorkspaceViewModel;
-			UpdateTitle();
+            Title = string.Empty;
         }
-
-        public WorkspaceViewModel Workspace { get; private set; }
 
         /// <summary>
         /// Gets or sets the main window title.
         /// </summary>
         public string Title
         {
-            get { return this.title; }
+            get => _title;
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.title = value;
+                _title = value;
                 NotifyOfPropertyChange();
             }
         }
 
         /// <summary>
+        /// Hand the document change messages.
+        /// </summary>
+        /// <param name="theMessage">Document changed message.</param>
+        public void Handle(DocumentChangedMessage theMessage)
+        {
+            _currentDocument = theMessage.Document;
+            UpdateTitle();
+        }
+
+        /// <summary>
+        /// Handle workspace change messages.
+        /// </summary>
+        /// <param name="message">Change message.</param>
+        public void Handle(WorkspaceChangedMessage message)
+        {
+            Contract.Assert(_currentDocument != null);
+            UpdateTitle();
+        }
+
+        /// <summary>
         /// Update main window title.
         /// </summary>
-        public void UpdateTitle()
+        private void UpdateTitle()
         {
-            var newTitle = this.appRuntime.ApplicationName + " - ";
+            var newTitle = "Constraint Capers Workbench" + " - ";
 
-            if (string.IsNullOrEmpty(this.appRuntime.CurrentFileName))
+            if (_currentDocument.IsNew)
             {
                 newTitle += "Untitled";
-                this.Title = newTitle;
+                Title = newTitle;
                 return;
             }
 
-            newTitle += Path.GetFileName(this.appRuntime.CurrentFileName);
+            newTitle += Path.GetFileName(_currentDocument.Path.FullPath);
 
-            if (this.appRuntime.CurrentDocument.IsDirty)
+            if (_currentDocument.IsDirty)
             {
                 newTitle += " *";
             }
 
-            this.Title = newTitle;
+            Title = newTitle;
         }
     }
 }

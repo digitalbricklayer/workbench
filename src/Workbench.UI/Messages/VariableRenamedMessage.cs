@@ -7,7 +7,7 @@ namespace Workbench.Messages
     /// <summary>
     /// Message sent when a variable has been renamed.
     /// </summary>
-    public class VariableRenamedMessage
+    public class VariableRenamedMessage : WorkspaceChangedMessage
     {
         /// <summary>
         /// Initialize a new variable renamed message with the old variable name and the 
