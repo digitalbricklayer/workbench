@@ -17,9 +17,11 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a title bar view model with default values.
         /// </summary>
-        public TitleBarViewModel()
+        public TitleBarViewModel(IEventAggregator theEventAggregator)
         {
-            Title = string.Empty;
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            theEventAggregator.Subscribe(this);
+            Title = "Constraint Capers Workbench" + " - " + "Untitled";
         }
 
         /// <summary>
