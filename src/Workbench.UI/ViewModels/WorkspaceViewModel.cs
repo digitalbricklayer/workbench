@@ -19,7 +19,6 @@ namespace Workbench.ViewModels
         private readonly IViewModelFactory _viewModelFactory;
         private SolutionViewerTabViewModel _solutionViewer;
         private readonly ModelValidatorViewModel _modelValidator;
-        private WorkspaceDocumentViewModel _document;
 
         /// <summary>
         /// Initialize a work area view model with a data service, window manager and event aggregator.
@@ -45,19 +44,6 @@ namespace Workbench.ViewModels
             Solution = WorkspaceModel.Solution;
             ChessboardTabs = new BindableCollection<ChessboardTabViewModel>();
             TableTabs = new BindableCollection<TableTabViewModel>();
-        }
-
-        /// <summary>
-        /// Gets or sets the workspace document.
-        /// </summary>
-        public WorkspaceDocumentViewModel Document
-        {
-            get => _document;
-            set
-            {
-                _document = value;
-                NotifyOfPropertyChange();
-            }
         }
 
         /// <summary>

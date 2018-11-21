@@ -231,6 +231,12 @@
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
     <Compile Include="Messages\DocumentSavedMessage.cs" />
     <Compile Include="Messages\WorkspaceChangedMessage.cs" />
+    <Compile Include="Services\ConstraintLoader.cs" />
+    <Compile Include="Services\IWorkspaceLoader.cs" />
+    <Compile Include="Services\ModelEditorLoader.cs" />
+    <Compile Include="Services\SharedDomainLoader.cs" />
+    <Compile Include="Services\VariableLoader.cs" />
+    <Compile Include="Services\WorkspaceLoader.cs" />
     <Compile Include="Services\XmlConstraintReader.cs" />
     <Compile Include="Services\XmlConstraintWriter.cs" />
     <Compile Include="Services\XmlDomainReader.cs" />
@@ -331,7 +337,6 @@
     <Compile Include="Views\SharedDomainModelItemView.xaml.cs">
       <DependentUpon>SharedDomainModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\DefaultViewModelService.cs" />
     <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
@@ -379,7 +384,6 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ViewModelService.cs" />
     <Compile Include="ViewModels\SharedDomainModelItemViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ModelErrorsViewModel.cs" />

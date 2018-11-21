@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<VariableModel> variables;
         private ObservableCollection<SingletonVariableModel> singletons;
         private ObservableCollection<AggregateVariableModel> aggregates;
-        private ObservableCollection<SharedDomainModel> domains;
+        private ObservableCollection<SharedDomainModel> _sharedDomains;
         private ObservableCollection<ConstraintModel> constraints;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Workbench.Core.Models
             Variables = new ObservableCollection<VariableModel>();
             Singletons = new ObservableCollection<SingletonVariableModel>();
             Aggregates = new ObservableCollection<AggregateVariableModel>();
-            Domains = new ObservableCollection<SharedDomainModel>();
+            SharedDomains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
         }
 
@@ -102,13 +102,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the domains.
         /// </summary>
-        public ObservableCollection<SharedDomainModel> Domains
+        public ObservableCollection<SharedDomainModel> SharedDomains
         {
-            get { return this.domains; }
+            get { return this._sharedDomains; }
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.domains = value;
+                this._sharedDomains = value;
                 OnPropertyChanged();
             }
         }
@@ -205,7 +205,7 @@ namespace Workbench.Core.Models
             {
                 newDomain.AssignIdentity();
             }
-            Domains.Add(newDomain);
+            SharedDomains.Add(newDomain);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
-            Domains.Remove(domainToDelete);
+            SharedDomains.Remove(domainToDelete);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Workbench.Core.Models
         public SharedDomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
-            return Domains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
+            return SharedDomains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
         }
 
         /// <summary>

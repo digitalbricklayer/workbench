@@ -15,8 +15,12 @@ namespace Workbench.Bootstrapper
         /// <param name="kernel">The kernel.</param>
         public void Register(IKernelInternal kernel)
         {
-            kernel.Register(Component.For<IViewModelFactory, ViewModelFactory>()
-                                     .LifeStyle.Transient);
+            kernel.Register(Component.For<IViewModelFactory, ViewModelFactory>().LifeStyle.Transient,
+                            Component.For<ModelEditorLoader>().LifeStyle.Transient,
+                            Component.For<SharedDomainLoader>().LifeStyle.Transient,
+                            Component.For<ConstraintLoader>().LifeStyle.Transient,
+                            Component.For<VariableLoader>().LifeStyle.Transient,
+                            Component.For<IWorkspaceLoader, WorkspaceLoader>().LifeStyle.Transient);
         }
     }
 }

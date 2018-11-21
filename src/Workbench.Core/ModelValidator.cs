@@ -51,7 +51,7 @@ namespace Workbench.Core
 
         private bool ValidateSharedDomains(ModelValidationContext validateContext)
         {
-            return _model.Domains.All(aDomain => aDomain.Validate(_model, validateContext));
+            return _model.SharedDomains.All(aDomain => aDomain.Validate(_model, validateContext));
         }
 
         private bool ValidateConstraints(ModelValidationContext validateContext)

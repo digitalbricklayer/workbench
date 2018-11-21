@@ -17,7 +17,7 @@ namespace Workbench.Services
         internal void Write(XmlElement modelRoot)
         {
             var domainsRoot = _document.CreateElement("domains");
-            foreach (var aDomain in _model.Domains)
+            foreach (var aDomain in _model.SharedDomains)
             {
                 var domainElement = _document.CreateElement("domain");
                 var nameAttribute = _document.CreateAttribute("name");

@@ -19,6 +19,7 @@ namespace Workbench.ViewModels
         private readonly IDataService _dataService;
         private bool _isNew;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IWorkspaceLoader _workspaceLoader;
 
         /// <summary>
         /// Initialize the workspace document view model with a workspace.
@@ -26,15 +27,21 @@ namespace Workbench.ViewModels
         /// <param name="theWorkspaceViewModel">Workspace view model.</param>
         /// <param name="theDataService">Data service.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
-        public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel, IDataService theDataService, IEventAggregator theEventAggregator)
+        /// <param name="theWorkspaceLoader">Workspace loader.</param>
+        public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel,
+                                          IDataService theDataService,
+                                          IEventAggregator theEventAggregator,
+                                          IWorkspaceLoader theWorkspaceLoader)
         {
             Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
+            Contract.Requires<ArgumentNullException>(theWorkspaceLoader != null);
 
             Workspace = theWorkspaceViewModel;
             _dataService = theDataService;
             _eventAggregator = theEventAggregator;
+            _workspaceLoader = theWorkspaceLoader;
         }
 
         /// <summary>
@@ -125,17 +132,9 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            try
-            {
-                // Read a new workspace model
-                _dataService.Open(openFileDialog.FileName);
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
             Path = new DocumentPathViewModel(openFileDialog.FileName);
+            DoLoad();
+
             _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(this));
         }
 
@@ -245,6 +244,20 @@ namespace Workbench.ViewModels
                             "Constraint Capers Workbench",
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
+        }
+
+        private void DoLoad()
+        {
+            try
+            {
+                // Read a new workspace model from file
+                var newWorkspace = _dataService.Open(Path.FullPath);
+                Workspace = _workspaceLoader.Load(newWorkspace);
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
         }
     }
 }
