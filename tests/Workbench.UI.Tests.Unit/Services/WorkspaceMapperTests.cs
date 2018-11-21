@@ -14,7 +14,7 @@ namespace Workbench.UI.Tests.Unit.Services
         public void MapFrom_With_Valid_Model_Returns_Expected_Variables()
         {
             var sut = CreateSut();
-            var actualWorkAreaModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            var actualWorkAreaModel = sut.Load(WorkspaceModelFactory.Create());
             Assert.That(actualWorkAreaModel.ModelEditor.Variables.Count, Is.EqualTo(2));
         }
 
@@ -22,7 +22,7 @@ namespace Workbench.UI.Tests.Unit.Services
         public void MapFrom_With_Valid_Model_Returns_Expected_Domains()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel.ModelEditor.Domains.Count, Is.EqualTo(1));
         }
 
@@ -30,7 +30,7 @@ namespace Workbench.UI.Tests.Unit.Services
         public void MapFrom_With_Valid_Model_Returns_Expected_Constraints()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel.ModelEditor.Constraints.Count, Is.EqualTo(1));
         }
 
@@ -38,14 +38,19 @@ namespace Workbench.UI.Tests.Unit.Services
         public void MapFrom_With_Valid_Model_Sets_Expected_Workspace_Model()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.MapFrom(WorkspaceModelFactory.Create());
+            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
             Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
         }
 
-        private WorkspaceMapper CreateSut()
+        private WorkspaceLoader CreateSut()
         {
-            return new WorkspaceMapper(CreateDisplayMapper(),
+            return new WorkspaceLoader(CreateModelEditorLoader(),
                                        CreateViewModelFactoryMock().Object);
+        }
+
+        private ModelEditorLoader CreateModelEditorLoader()
+        {
+            return new ModelEditorLoader(CreateVariableMapper(), CreateConstraintMapper(), CreateDomainMapper(), CreateViewModelFactoryMock().Object);
         }
 
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
@@ -60,30 +65,19 @@ namespace Workbench.UI.Tests.Unit.Services
             return mock;
         }
 
-        private DisplayMapper CreateDisplayMapper()
+        private SharedDomainLoader CreateDomainMapper()
         {
-            return new DisplayMapper(CreateVariableMapper(),
-                                     CreateConstraintMapper(),
-                                     CreateDomainMapper(),
-                                     CreateViewModelFactoryMock().Object,
-                                     this.viewModelService,
-                                     CreateDataService());
+            return new SharedDomainLoader(CreateWindowManager());
         }
 
-        private DomainMapper CreateDomainMapper()
+        private ConstraintLoader CreateConstraintMapper()
         {
-            return new DomainMapper(this.viewModelService);
+            return new ConstraintLoader(CreateWindowManager());
         }
 
-        private ConstraintMapper CreateConstraintMapper()
+        private VariableLoader CreateVariableMapper()
         {
-            return new ConstraintMapper(this.viewModelService);
-        }
-
-        private VariableMapper CreateVariableMapper()
-        {
-            return new VariableMapper(this.viewModelService,
-                                      CreateEventAggregator());
+            return new VariableLoader(CreateWindowManager());
         }
 
         private static IDataService CreateDataService()

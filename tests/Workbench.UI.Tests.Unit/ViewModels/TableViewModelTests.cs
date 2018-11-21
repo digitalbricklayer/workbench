@@ -1,6 +1,4 @@
 ﻿using System.Threading;
-using Caliburn.Micro;
-using Moq;
 using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
