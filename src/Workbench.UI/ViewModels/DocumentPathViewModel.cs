@@ -43,6 +43,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets whether the path has been set.
         /// </summary>
-        public bool IsEmpty => !string.IsNullOrWhiteSpace(FullPath);
+        public bool IsEmpty => string.IsNullOrWhiteSpace(FullPath);
     }
 }
