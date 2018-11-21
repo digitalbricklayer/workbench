@@ -29,12 +29,10 @@ namespace Workbench.ViewModels
         public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel, IDataService theDataService, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
-//            Contract.Requires<ArgumentNullException>(theShell != null);
             Contract.Requires<ArgumentNullException>(theDataService != null);
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             Workspace = theWorkspaceViewModel;
-//            _shell = theShell;
             _dataService = theDataService;
             _eventAggregator = theEventAggregator;
         }
@@ -99,8 +97,6 @@ namespace Workbench.ViewModels
         public void New()
         {
             if (!TrySave()) return;
-//            _shell.CurrentDocument = this;
-//            Workspace = _shell.Workspace;
             IsNew = true;
             IsDirty = false;
             _eventAggregator.PublishOnUIThread(new DocumentCreatedMessage(this));
@@ -133,8 +129,6 @@ namespace Workbench.ViewModels
             {
                 // Read a new workspace model
                 _dataService.Open(openFileDialog.FileName);
-//               _shell.CurrentDocument = this;
-//                Workspace = _shell.Workspace;
             }
             catch (Exception e)
             {
