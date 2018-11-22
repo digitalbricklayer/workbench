@@ -232,8 +232,10 @@
     <Compile Include="Messages\DocumentSavedMessage.cs" />
     <Compile Include="Messages\WorkspaceChangedMessage.cs" />
     <Compile Include="Services\ConstraintLoader.cs" />
+    <Compile Include="Services\IResourceManager.cs" />
     <Compile Include="Services\IWorkspaceLoader.cs" />
     <Compile Include="Services\ModelEditorLoader.cs" />
+    <Compile Include="Services\ResourceManager.cs" />
     <Compile Include="Services\SharedDomainLoader.cs" />
     <Compile Include="Services\VariableLoader.cs" />
     <Compile Include="Services\WorkspaceLoader.cs" />

@@ -20,7 +20,8 @@ namespace Workbench.Bootstrapper
                             Component.For<SharedDomainLoader>().LifeStyle.Transient,
                             Component.For<ConstraintLoader>().LifeStyle.Transient,
                             Component.For<VariableLoader>().LifeStyle.Transient,
-                            Component.For<IWorkspaceLoader, WorkspaceLoader>().LifeStyle.Transient);
+                            Component.For<IWorkspaceLoader, WorkspaceLoader>().LifeStyle.Transient,
+                            Component.For<IResourceManager, ResourceManager>().LifeStyle.Singleton);
         }
     }
 }

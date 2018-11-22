@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.Windows.Media;
 using Caliburn.Micro;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
@@ -12,21 +15,39 @@ namespace Workbench.ViewModels
     {
         private IShell _shell;
         private TitleBarViewModel _titleBar;
+        private ImageSource _icon;
+        private readonly IResourceManager _resourceManager;
 
         /// <summary>
         /// Initialize the main window view model with a shell and title bar.
         /// </summary>
         /// <param name="theShell">The shell implementing the application.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
-        public MainWindowViewModel(IShell theShell, TitleBarViewModel theTitleBarViewModel)
+        /// <param name="theResourceManager">Resource manager.</param>
+        public MainWindowViewModel(IShell theShell, TitleBarViewModel theTitleBarViewModel, IResourceManager theResourceManager)
         {
             Contract.Requires<ArgumentNullException>(theShell != null);
             Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
+            Contract.Requires<ArgumentNullException>(theResourceManager != null);
 
             Shell = theShell;
             TitleBar = theTitleBarViewModel;
+            _resourceManager = theResourceManager;
             var subScreens = new List<object> { Shell, TitleBar };
             Items.AddRange(subScreens);
+        }
+
+		/// <summary>
+        /// 
+        /// </summary>
+        public ImageSource Icon
+        {
+            get => _icon;
+		    set
+            {
+                _icon = value;
+                NotifyOfPropertyChange(() => Icon);
+            }
         }
 
         /// <summary>
@@ -54,6 +75,21 @@ namespace Workbench.ViewModels
                 _titleBar = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        /// <summary>
+        /// Main window is closing.
+        /// </summary>
+        /// <param name="cancelEventArgs">Cancel event arguments.</param>
+        public void OnClose(CancelEventArgs cancelEventArgs)
+        {
+            //Shell.TryClose();
+        }
+
+        protected override void OnInitialize()
+        {
+            _icon = _resourceManager.GetBitmap("Images/AppIcon.ico");
+            base.OnInitialize();
         }
     }
 }
