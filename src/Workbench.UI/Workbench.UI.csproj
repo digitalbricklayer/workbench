@@ -259,6 +259,7 @@
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
+    <Compile Include="ViewModels\ExitConfirmationViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
@@ -298,6 +299,9 @@
     </Compile>
     <Compile Include="Views\ChessboardView.xaml.cs">
       <DependentUpon>ChessboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExitConfirmationView.xaml.cs">
+      <DependentUpon>ExitConfirmationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
@@ -439,6 +443,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ChessboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExitConfirmationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

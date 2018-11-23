@@ -84,9 +84,20 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileExitAction()
         {
-            if (!CurrentDocument.TrySave())
+            // If the document is in a pristine state with no changes, exit the application
+            if (CurrentDocument.IsNew)
             {
+                Shell.Close();
                 return;
+            }
+
+            if (CurrentDocument.IsDirty)
+            {
+                if (!CurrentDocument.TrySave())
+                {
+                    // The user cancelled exit
+                    return;
+                }
             }
 
             Shell.Close();

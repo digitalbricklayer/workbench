@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using Caliburn.Micro;
@@ -13,6 +14,7 @@ namespace Workbench.ViewModels
     {
         private ApplicationMenuViewModel _applicationMenu;
         private WorkspaceDocumentViewModel _currentDocument;
+        private bool _isClosing;
 
         /// <summary>
         /// Initialize a shell view model with an application runtime, workspace view 
@@ -73,12 +75,67 @@ namespace Workbench.ViewModels
             }
         }
 
+        public void Close()
+        {
+            _isClosing = true;
+            Application.Current?.MainWindow?.Close();
+        }
+
         /// <summary>
         /// Close the shell.
         /// </summary>
-        public void Close()
+        public void Close(CancelEventArgs cancelEventArgs)
         {
-            Application.Current?.MainWindow?.Close();
+            // The document is a new document with no changes or the user initiated application close, exit the application
+            if (CurrentDocument.IsNew || _isClosing)
+            {
+                cancelEventArgs.Cancel = false;
+                return;
+            }
+
+			// If the document has changes that have not been saved to the disk, ask the user if they wish to save the changes
+            if (CurrentDocument.IsDirty)
+            {
+                do
+                {
+                    var result = MessageBox.Show("Would you like to save your changes?",
+                                                 "Constraint Workbench",
+                                                 MessageBoxButton.YesNoCancel);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            // The user wishes to save the document
+                            var isCancelled = CurrentDocument.Save();
+                            if (!isCancelled)
+                            {
+                                // The user cancelled the save, give the 3 options again
+                                continue;
+                            }
+
+                            cancelEventArgs.Cancel = false;
+                            return;
+
+                        case MessageBoxResult.No:
+                            // The user does not wish to save the document, exit the application
+                            cancelEventArgs.Cancel = false;
+                            return;
+
+                        case MessageBoxResult.Cancel:
+                            // The user selected the cancel option. Do not exit the application
+                            cancelEventArgs.Cancel = true;
+                            return;
+                    }
+                } while (true);
+            }
+
+            // If the document isn't dirty, exit the application
+            cancelEventArgs.Cancel = false;
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            CurrentDocument.New();
         }
     }
 }

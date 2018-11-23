@@ -42,7 +42,7 @@ namespace Workbench.Services
         /// <param name="file">Path to the file.</param>
         public void Save(string file)
         {
-            Contract.Assume(this.currentWorkspace != null);
+            Contract.Assert(this.currentWorkspace != null);
 
             this.readerWriter.Write(file, this.currentWorkspace);
         }

@@ -17,12 +17,9 @@ namespace Workbench.Bootstrapper
         /// <param name="kernel">The kernel.</param>
         public void Register(IKernelInternal kernel)
         {
-            kernel.Register(Component.For<IShell, ShellViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<IMainWindow, MainWindowViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<WorkspaceDocumentViewModel>()
-                                     .LifeStyle.Transient,
+            kernel.Register(Component.For<IShell, ShellViewModel>().LifeStyle.Singleton,
+                            Component.For<IMainWindow, MainWindowViewModel>().LifeStyle.Singleton,
+                            Component.For<WorkspaceDocumentViewModel>().LifeStyle.Singleton,
                             Component.For<WorkspaceViewModel>()
                                      .LifeStyle.Singleton,
                             Component.For<ChessboardTabViewModel>()

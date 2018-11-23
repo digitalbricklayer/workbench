@@ -11,13 +11,13 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Workspace document view model.
     /// </summary>
-    public class WorkspaceDocumentViewModel : Screen
+    public class WorkspaceDocumentViewModel : Screen, IHandle<WorkspaceChangedMessage>
     {
         private WorkspaceViewModel _workspace;
         private DocumentPathViewModel _path;
         private bool _isDirty;
         private readonly IDataService _dataService;
-        private bool _isNew;
+        private bool _isNew = true;
         private readonly IEventAggregator _eventAggregator;
         private readonly IWorkspaceLoader _workspaceLoader;
 
@@ -39,6 +39,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theWorkspaceLoader != null);
 
             Workspace = theWorkspaceViewModel;
+            Path = new DocumentPathViewModel();
             _dataService = theDataService;
             _eventAggregator = theEventAggregator;
             _workspaceLoader = theWorkspaceLoader;
@@ -114,11 +115,11 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Open()
         {
-            if (!TrySave()) return;
+            if (!Save()) return;
 
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Constraint Capers Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
+                Filter = "Constraint Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
                 DefaultExt = "dpf",
                 RestoreDirectory = true
             };
@@ -141,26 +142,27 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Handle the "File|Save" menu item.
         /// </summary>
-        public void Save()
+        public bool Save()
         {
             if (Path.IsEmpty)
             {
-                SaveAs();
-                return;
+                var isCancelled = SaveAs();
+                return isCancelled;
             }
 
-            Save(Path.FullPath);
+            DoSave(Path.FullPath);
+			return false;
         }
 
         /// <summary>
         /// Handle the "File|Save As" menu item.
         /// </summary>
-        public void SaveAs()
+        public bool SaveAs()
         {
             // Show Save File dialog
             var saveFileDialog = new SaveFileDialog
             {
-                Filter = "Constraint Capers Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
+                Filter = "Constraint Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
                 DefaultExt = "dpf",
                 RestoreDirectory = true
@@ -168,10 +170,12 @@ namespace Workbench.ViewModels
 
             var result = saveFileDialog.ShowDialog();
 
-            if (!result.GetValueOrDefault()) return;
+            if (!result.GetValueOrDefault()) return true;
+
+            Path = new DocumentPathViewModel(saveFileDialog.FileName);
 
             // Save
-            Save(saveFileDialog.FileName);
+            return DoSave(saveFileDialog.FileName);
         }
 
         /// <summary>
@@ -191,7 +195,7 @@ namespace Workbench.ViewModels
 
             var result = MessageBox.Show(Application.Current.MainWindow,
                                          "Do you want to save changes?",
-                                         "Constraint Capers Workbench",
+                                         "Constraint Workbench",
                                          MessageBoxButton.YesNoCancel,
                                          MessageBoxImage.Question,
                                          MessageBoxResult.Yes);
@@ -199,7 +203,7 @@ namespace Workbench.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    return this.Save(Path.FullPath);
+                    return Save();
 
                 case MessageBoxResult.No:
                     // User wishes to discard changes
@@ -213,10 +217,15 @@ namespace Workbench.ViewModels
             }
         }
 
+        public void Handle(WorkspaceChangedMessage message)
+        {
+            DoDocumentChange();
+        }
+
         /// <summary>
         /// Save the workspace document to a file.
         /// </summary>
-        private bool Save(string file)
+        private bool DoSave(string file)
         {
             try
             {
@@ -241,7 +250,7 @@ namespace Workbench.ViewModels
         {
             MessageBox.Show(Application.Current.MainWindow,
                             message,
-                            "Constraint Capers Workbench",
+                            "Constraint Workbench",
                             MessageBoxButton.OK,
                             MessageBoxImage.Error);
         }
@@ -258,6 +267,18 @@ namespace Workbench.ViewModels
             {
                 ShowError(e.Message);
             }
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            _eventAggregator.Subscribe(this);
+        }
+
+        private void DoDocumentChange()
+        {
+            IsNew = false;
+            IsDirty = true;
         }
     }
 }

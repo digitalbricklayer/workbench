@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.ComponentModel;
+using System.Diagnostics.Contracts;
 
 namespace Workbench.ViewModels
 {
@@ -14,6 +15,11 @@ namespace Workbench.ViewModels
         /// Gets or sets the current workspace document.
         /// </summary>
         WorkspaceDocumentViewModel CurrentDocument { get; set; }
+
+        /// <summary>
+        /// Close the shell with the option to cancel.
+        /// </summary>
+        void Close(CancelEventArgs cancelEventArgs);
 
         /// <summary>
         /// Close the shell.

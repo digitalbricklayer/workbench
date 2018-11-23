@@ -19,7 +19,7 @@ namespace Workbench.ViewModels
         private readonly IResourceManager _resourceManager;
 
         /// <summary>
-        /// Initialize the main window view model with a shell and title bar.
+        /// Initialize the main window view model with a shell, title bar and resource manager.
         /// </summary>
         /// <param name="theShell">The shell implementing the application.</param>
         /// <param name="theTitleBarViewModel">Title bar view model.</param>
@@ -38,15 +38,16 @@ namespace Workbench.ViewModels
         }
 
 		/// <summary>
-        /// 
+        /// Gets or sets the application icon.
         /// </summary>
         public ImageSource Icon
         {
             get => _icon;
 		    set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 _icon = value;
-                NotifyOfPropertyChange(() => Icon);
+                NotifyOfPropertyChange();
             }
         }
 
@@ -58,6 +59,7 @@ namespace Workbench.ViewModels
             get => _shell;
             set
             {
+                Contract.Requires<ArgumentNullException>(value != null);
                 _shell = value;
                 NotifyOfPropertyChange();
             }
@@ -83,12 +85,12 @@ namespace Workbench.ViewModels
         /// <param name="cancelEventArgs">Cancel event arguments.</param>
         public void OnClose(CancelEventArgs cancelEventArgs)
         {
-            //Shell.TryClose();
+            Shell.Close(cancelEventArgs);
         }
 
         protected override void OnInitialize()
         {
-            _icon = _resourceManager.GetBitmap("Images/AppIcon.ico");
+            Icon = _resourceManager.GetBitmap("Images/AppIcon.ico");
             base.OnInitialize();
         }
     }

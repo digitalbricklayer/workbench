@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics.Contracts;
 
 namespace Workbench.ViewModels
@@ -39,6 +40,10 @@ namespace Workbench.ViewModels
                 Contract.Requires<ArgumentNullException>(value != null);
                 _currentDocument = value;
             }
+        }
+
+        public void Close(CancelEventArgs cancelEventArgs)
+        {
         }
 
         public void Close()

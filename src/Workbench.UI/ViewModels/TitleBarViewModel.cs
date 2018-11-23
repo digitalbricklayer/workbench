@@ -9,19 +9,22 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Title bar in the main window.
     /// </summary>
-    public class TitleBarViewModel : Screen, IHandle<DocumentChangedMessage>, IHandle<WorkspaceChangedMessage>
+    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>
     {
         private string _title;
-        private WorkspaceDocumentViewModel _currentDocument;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IShell _shell;
 
         /// <summary>
         /// Initialize a title bar view model with default values.
         /// </summary>
-        public TitleBarViewModel(IEventAggregator theEventAggregator)
+        public TitleBarViewModel(IShell theShell, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            theEventAggregator.Subscribe(this);
-            Title = "Constraint Capers Workbench" + " - " + "Untitled";
+            Contract.Requires<ArgumentNullException>(theShell != null);
+            _eventAggregator = theEventAggregator;
+            _shell = theShell;
+            Title = "Constraint Workbench" + " - " + "Untitled";
         }
 
         /// <summary>
@@ -39,22 +42,11 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Hand the document change messages.
-        /// </summary>
-        /// <param name="theMessage">Document changed message.</param>
-        public void Handle(DocumentChangedMessage theMessage)
-        {
-            _currentDocument = theMessage.Document;
-            UpdateTitle();
-        }
-
-        /// <summary>
         /// Handle workspace change messages.
         /// </summary>
         /// <param name="message">Change message.</param>
         public void Handle(WorkspaceChangedMessage message)
         {
-            Contract.Assert(_currentDocument != null);
             UpdateTitle();
         }
 
@@ -63,23 +55,34 @@ namespace Workbench.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var newTitle = "Constraint Capers Workbench" + " - ";
+            var newTitle = "Constraint Workbench" + " - ";
 
-            if (_currentDocument.IsNew)
+            if (_shell.CurrentDocument.IsNew || _shell.CurrentDocument.Path.IsEmpty)
             {
                 newTitle += "Untitled";
                 Title = newTitle;
                 return;
             }
 
-            newTitle += Path.GetFileName(_currentDocument.Path.FullPath);
+            if (!_shell.CurrentDocument.Path.IsEmpty)
+            {
+                newTitle += Path.GetFileName(_shell.CurrentDocument.Path.FullPath);
+                Title = newTitle;
+                return;
+            }
 
-            if (_currentDocument.IsDirty)
+            if (_shell.CurrentDocument.IsDirty)
             {
                 newTitle += " *";
             }
 
             Title = newTitle;
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            _eventAggregator.Subscribe(this);
         }
     }
 }
