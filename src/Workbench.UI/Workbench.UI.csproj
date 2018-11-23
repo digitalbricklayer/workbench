@@ -214,7 +214,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppRuntime.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\CaliburnInfrastructureInstaller.cs" />
     <Compile Include="Bootstrapper\CommandInstaller.cs" />
@@ -343,7 +342,6 @@
     <Compile Include="Views\SharedDomainModelItemView.xaml.cs">
       <DependentUpon>SharedDomainModelItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IAppRuntime.cs" />
     <Compile Include="Loggers\DebugLogger.cs" />
     <Compile Include="Messages\AggregateVariableAddedMessage.cs" />
     <Compile Include="Messages\ModelSolvedMessage.cs" />
