@@ -20,6 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.Core", "src\Workb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.Core.Tests.Unit", "tests\Workbench.Core.Tests.Unit\Workbench.Core.Tests.Unit.csproj", "{B8A6ABDC-586B-434E-A9EE-2B922F8F6237}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D61BC6CB-E4B5-4D28-8282-447D3E1D2A4F}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
