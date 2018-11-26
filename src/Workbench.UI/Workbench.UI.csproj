@@ -225,6 +225,8 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="IMainWindow.cs" />
+    <Compile Include="IShell.cs" />
+    <Compile Include="IShellContract.cs" />
     <Compile Include="Messages\DocumentCreatedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
@@ -363,8 +365,6 @@
     <Compile Include="ViewModels\ExpressionConstraintModelItemViewModel.cs" />
     <Compile Include="ViewModels\FileMenuViewModel.cs" />
     <Compile Include="ViewModels\InsertMenuViewModel.cs" />
-    <Compile Include="ViewModels\IShell.cs" />
-    <Compile Include="ViewModels\IShellContract.cs" />
     <Compile Include="ViewModels\SingletonVariableModelItemViewModel.cs" />
     <Compile Include="ViewModels\TableViewModel.cs" />
     <Compile Include="ViewModels\ModelMenuViewModel.cs" />
