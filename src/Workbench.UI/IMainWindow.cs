@@ -1,7 +1,9 @@
-﻿using Workbench.ViewModels;
+﻿using System.Diagnostics.Contracts;
+using Workbench.ViewModels;
 
 namespace Workbench
 {
+    [ContractClass(typeof(IMainWindowContract))]
     public interface IMainWindow
     {
         /// <summary>

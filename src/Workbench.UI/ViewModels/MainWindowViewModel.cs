@@ -85,7 +85,7 @@ namespace Workbench.ViewModels
         /// <param name="cancelEventArgs">Cancel event arguments.</param>
         public void OnClose(CancelEventArgs cancelEventArgs)
         {
-            Shell.Close(cancelEventArgs);
+            Shell.OnClose(cancelEventArgs);
         }
 
         protected override void OnInitialize()

@@ -84,7 +84,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Close the shell.
         /// </summary>
-        public void Close(CancelEventArgs cancelEventArgs)
+        public void OnClose(CancelEventArgs cancelEventArgs)
         {
             // The document is a new document with no changes or the user initiated application close, exit the application
             if (CurrentDocument.IsNew || _isClosing)

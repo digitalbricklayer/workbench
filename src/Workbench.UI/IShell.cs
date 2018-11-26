@@ -20,7 +20,7 @@ namespace Workbench
         /// <summary>
         /// Close the shell with the option to cancel.
         /// </summary>
-        void Close(CancelEventArgs cancelEventArgs);
+        void OnClose(CancelEventArgs cancelEventArgs);
 
         /// <summary>
         /// Close the shell.

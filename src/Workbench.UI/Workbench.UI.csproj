@@ -225,6 +225,7 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
     <Compile Include="IMainWindow.cs" />
+    <Compile Include="IMainWindowContract.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="IShellContract.cs" />
     <Compile Include="Messages\DocumentCreatedMessage.cs" />
