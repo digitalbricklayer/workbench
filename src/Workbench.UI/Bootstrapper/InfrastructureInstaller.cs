@@ -21,7 +21,8 @@ namespace Workbench.Bootstrapper
                             Component.For<ConstraintLoader>().LifeStyle.Transient,
                             Component.For<VariableLoader>().LifeStyle.Transient,
                             Component.For<IWorkspaceLoader, WorkspaceLoader>().LifeStyle.Transient,
-                            Component.For<IResourceManager, ResourceManager>().LifeStyle.Singleton);
+                            Component.For<IResourceManager, ResourceManager>().LifeStyle.Singleton,
+                            Component.For<IDocumentManager, DocumentManager>().LifeStyle.Singleton);
         }
     }
 }

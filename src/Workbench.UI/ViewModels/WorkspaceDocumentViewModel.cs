@@ -104,7 +104,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void New()
         {
-            if (!TrySave()) return;
             IsNew = true;
             IsDirty = false;
             _eventAggregator.PublishOnUIThread(new DocumentCreatedMessage(this));
@@ -115,7 +114,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Open()
         {
-            if (!Save()) return;
+            if (!Close()) return;
 
             var openFileDialog = new OpenFileDialog
             {
@@ -137,6 +136,22 @@ namespace Workbench.ViewModels
             DoLoad();
 
             _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(this));
+        }
+
+        /// <summary>
+        /// Close the document.
+        /// </summary>
+        /// <returns>True if the document was saved successfully, False if the
+        /// save was cancelled by the user.</returns>
+        public bool Close()
+        {
+            var isSaved = TrySave();
+            if (isSaved)
+            {
+                _eventAggregator.PublishOnUIThread(new DocumentClosedMessage(this));
+            }
+
+            return isSaved;
         }
 
         /// <summary>
@@ -179,13 +194,28 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Handle the workspace changed message.
+        /// </summary>
+        /// <param name="message"></param>
+        public void Handle(WorkspaceChangedMessage message)
+        {
+            DoDocumentChange();
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            _eventAggregator.Subscribe(this);
+        }
+
+        /// <summary>
         /// Prompt to save and make Save operation if necessary.
         /// </summary>
         /// <returns>
         /// true - caller can continue (open new file, close program etc.
         /// false - caller should cancel current operation.
         /// </returns>
-        public bool TrySave()
+        private bool TrySave()
         {
             if (!IsDirty)
             {
@@ -215,11 +245,6 @@ namespace Workbench.ViewModels
                 default:
                     return true;
             }
-        }
-
-        public void Handle(WorkspaceChangedMessage message)
-        {
-            DoDocumentChange();
         }
 
         /// <summary>
@@ -267,12 +292,6 @@ namespace Workbench.ViewModels
             {
                 ShowError(e.Message);
             }
-        }
-
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            _eventAggregator.Subscribe(this);
         }
 
         private void DoDocumentChange()

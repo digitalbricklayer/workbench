@@ -7,13 +7,13 @@ namespace Workbench.ViewModels
 {
     public sealed class FileMenuViewModel : MenuViewModel
     {
-        private readonly IViewModelFactory _viewModelFactory;
+        private readonly IDocumentManager _documentManager;
 
-        public FileMenuViewModel(IViewModelFactory theViewModelFactory)
+        public FileMenuViewModel(IDocumentManager theDocumentManager)
         {
-            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
+            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
 
-            _viewModelFactory = theViewModelFactory;
+            _documentManager = theDocumentManager;
             NewCommand = new CommandHandler(FileNewAction);
             OpenCommand = new CommandHandler(FileOpenAction);
             SaveCommand = new CommandHandler(FileSaveAction);
@@ -51,8 +51,10 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            var newDocument = _viewModelFactory.CreateDocument();
+            if (!_documentManager.CloseDocument()) return;
+            var newDocument = _documentManager.CreateDocument();
             newDocument.New();
+            Shell.OpenDocument(newDocument);
         }
 
         /// <summary>
@@ -91,14 +93,8 @@ namespace Workbench.ViewModels
                 return;
             }
 
-            if (CurrentDocument.IsDirty)
-            {
-                if (!CurrentDocument.TrySave())
-                {
-                    // The user cancelled exit
-                    return;
-                }
-            }
+            // Close will return false if the user cancels the document close
+            if (!CurrentDocument.Close()) return;
 
             Shell.Close();
         }

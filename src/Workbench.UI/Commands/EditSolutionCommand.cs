@@ -10,23 +10,23 @@ namespace Workbench.Commands
 {
     public class EditSolutionCommand : CommandBase
     {
-        private readonly IWindowManager windowManager;
+        private readonly IWindowManager _windowManager;
         private readonly WorkspaceViewModel _workspace;
 
-        public EditSolutionCommand(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
+        public EditSolutionCommand(IWindowManager theWindowManager, WorkspaceDocumentViewModel theDocument)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
+            Contract.Requires<ArgumentNullException>(theDocument != null);
 
-            this.windowManager = theWindowManager;
-            this._workspace = theWorkspace;
+            _windowManager = theWindowManager;
+            _workspace = theDocument.Workspace;
         }
 
         public override void Execute(object parameter)
         {
             var solutionEditorViewModel = new SolutionEditorViewModel();
             solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(null);
-            var showDialogResult = this.windowManager.ShowDialog(solutionEditorViewModel);
+            var showDialogResult = this._windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.GetValueOrDefault())
             {
                 UpdateBindingsFrom(solutionEditorViewModel.BindingExpressions);

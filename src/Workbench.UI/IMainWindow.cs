@@ -12,8 +12,8 @@ namespace Workbench
         IShell Shell { get; set; }
 
         /// <summary>
-        /// Gets or sets the title bar view model.
+        /// Gets or sets the title bar.
         /// </summary>
-        TitleBarViewModel TitleBar { get; set; }
+        ITitleBar TitleBar { get; set; }
     }
 }

@@ -26,5 +26,11 @@ namespace Workbench
         /// Close the shell.
         /// </summary>
         void Close();
+
+        /// <summary>
+        /// Open the document.
+        /// </summary>
+        /// <param name="theDocument">Workspace document.</param>
+        void OpenDocument(WorkspaceDocumentViewModel theDocument);
     }
 }

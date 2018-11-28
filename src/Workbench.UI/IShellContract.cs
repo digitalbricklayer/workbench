@@ -50,5 +50,10 @@ namespace Workbench
         public void Close()
         {
         }
+
+        public void OpenDocument(WorkspaceDocumentViewModel theDocument)
+        {
+            Contract.Requires<ArgumentNullException>(theDocument != null);
+        }
     }
 }

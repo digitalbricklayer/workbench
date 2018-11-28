@@ -11,7 +11,7 @@ namespace Workbench.Services
     public class WorkspaceLoader : IWorkspaceLoader
     {
         private readonly ModelEditorLoader _modelEditorLoader;
-        private readonly IViewModelFactory viewModelFactory;
+        private readonly IViewModelFactory _viewModelFactory;
 
         /// <summary>
         /// Initialize the model editor loader with a window manager and view model factory.
@@ -21,8 +21,8 @@ namespace Workbench.Services
             Contract.Requires<ArgumentNullException>(theModelEditorLoader != null);
             Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
 
-            this._modelEditorLoader = theModelEditorLoader;
-            this.viewModelFactory = theViewModelFactory;
+            _modelEditorLoader = theModelEditorLoader;
+            _viewModelFactory = theViewModelFactory;
         }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace Workbench.Services
         /// <returns>Workspace view model.</returns>
         public WorkspaceViewModel Load(WorkspaceModel theWorkspaceModel)
         {
-            var workAreaViewModel = this.viewModelFactory.CreateWorkspace();
-            workAreaViewModel.ModelEditor = _modelEditorLoader.MapFrom(theWorkspaceModel);
+            var workspaceViewModel = _viewModelFactory.CreateWorkspace();
+            workspaceViewModel.ModelEditor = _modelEditorLoader.MapFrom(theWorkspaceModel);
 
-            return workAreaViewModel;
+            return workspaceViewModel;
         }
     }
 }

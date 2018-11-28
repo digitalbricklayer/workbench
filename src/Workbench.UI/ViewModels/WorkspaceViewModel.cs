@@ -21,7 +21,7 @@ namespace Workbench.ViewModels
         private readonly ModelValidatorViewModel _modelValidator;
 
         /// <summary>
-        /// Initialize a work area view model with a data service, window manager and event aggregator.
+        /// Initialize a workspace view model with a data service, window manager and event aggregator.
         /// </summary>
         public WorkspaceViewModel(IDataService theDataService,
                                   IWindowManager theWindowManager,

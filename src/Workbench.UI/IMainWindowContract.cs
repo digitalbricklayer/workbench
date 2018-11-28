@@ -8,7 +8,7 @@ namespace Workbench
     internal abstract class IMainWindowContract : IMainWindow
     {
         private IShell _shell;
-        private TitleBarViewModel _titleBar;
+        private ITitleBar _titleBar;
 
         public IShell Shell
         {
@@ -25,11 +25,11 @@ namespace Workbench
             }
         }
 
-        public TitleBarViewModel TitleBar
+        public ITitleBar TitleBar
         {
             get
             {
-                Contract.Ensures(Contract.Result<TitleBarViewModel>() != null);
+                Contract.Ensures(Contract.Result<ITitleBar>() != null);
                 return _titleBar;
             }
 

@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Title bar in the main window.
     /// </summary>
-    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>
+    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>, ITitleBar
     {
         private string _title;
         private readonly IEventAggregator _eventAggregator;

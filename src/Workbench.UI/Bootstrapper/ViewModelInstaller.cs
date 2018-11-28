@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
-using Castle.MicroKernel;
+﻿using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Workbench.ViewModels;
 
@@ -19,31 +17,19 @@ namespace Workbench.Bootstrapper
         {
             kernel.Register(Component.For<IShell, ShellViewModel>().LifeStyle.Singleton,
                             Component.For<IMainWindow, MainWindowViewModel>().LifeStyle.Singleton,
-                            Component.For<WorkspaceDocumentViewModel>().LifeStyle.Singleton,
-                            Component.For<WorkspaceViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<ChessboardTabViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<ApplicationMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<FileMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<EditMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<InsertMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<ModelMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<SolutionMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<TableMenuViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<TitleBarViewModel>()
-                                     .LifeStyle.Singleton,
-                            Component.For<ModelValidatorViewModel>()
-                                     .LifeStyle.Transient,
-                            Types.FromThisAssembly()
-                                     .BasedOn<IWorkspaceTabViewModel>());
+                            Component.For<WorkspaceDocumentViewModel>().LifeStyle.Transient,
+                            Component.For<WorkspaceViewModel>().LifeStyle.Transient,
+                            Component.For<ChessboardTabViewModel>().LifeStyle.Transient,
+                            Component.For<ApplicationMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<FileMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<EditMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<InsertMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<ModelMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<SolutionMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<TableMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<ITitleBar, TitleBarViewModel>().LifeStyle.Singleton,
+                            Component.For<ModelValidatorViewModel>().LifeStyle.Transient,
+                            Types.FromThisAssembly().BasedOn<IWorkspaceTabViewModel>());
         }
     }
 }

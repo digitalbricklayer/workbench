@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using Caliburn.Micro;
+using Workbench.Services;
 
 namespace Workbench.ViewModels
 {
@@ -12,25 +13,25 @@ namespace Workbench.ViewModels
     /// </summary>
     public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
+        private readonly IDocumentManager _documentManager;
         private ApplicationMenuViewModel _applicationMenu;
         private WorkspaceDocumentViewModel _currentDocument;
+        private WorkspaceViewModel _workspace;
         private bool _isClosing;
 
         /// <summary>
         /// Initialize a shell view model with an application runtime, workspace view 
         /// model, application menu view model and title bar view model.
         /// </summary>
-        /// <param name="theCurrentWorkspaceDocument">Current workspace document.</param>
+        /// <param name="theDocumentManager">Document manager.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
-        public ShellViewModel(WorkspaceDocumentViewModel theCurrentWorkspaceDocument, ApplicationMenuViewModel theApplicationMenuViewModel)
+        public ShellViewModel(IDocumentManager theDocumentManager, ApplicationMenuViewModel theApplicationMenuViewModel)
         {
-            Contract.Requires<ArgumentNullException>(theCurrentWorkspaceDocument != null);
+            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
             Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
 
-            CurrentDocument = theCurrentWorkspaceDocument;
+            _documentManager = theDocumentManager;
             ApplicationMenu = theApplicationMenuViewModel;
-            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };
-            Items.AddRange(shellSubScreens);
         }
 
         /// <summary>
@@ -66,23 +67,38 @@ namespace Workbench.ViewModels
         /// </summary>
         public WorkspaceViewModel Workspace
         {
-            get => CurrentDocument.Workspace;
+            get => _workspace;
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                CurrentDocument.Workspace = value;
+                _workspace = value;
                 NotifyOfPropertyChange();
             }
         }
 
+        /// <summary>
+        /// Close the application.
+        /// </summary>
         public void Close()
         {
             _isClosing = true;
+            // Closing the main window will raise the closing event for the main application window.
             Application.Current?.MainWindow?.Close();
         }
 
+        public void OpenDocument(WorkspaceDocumentViewModel theDocument)
+        {
+            // Close the old document
+            DeactivateItem(CurrentDocument, close: true);
+            DeactivateItem(Workspace, close: true);
+            CurrentDocument = theDocument;
+            ActivateItem(CurrentDocument);
+            Workspace = theDocument.Workspace;
+            ActivateItem(Workspace);
+        }
+
         /// <summary>
-        /// Close the shell.
+        /// Handler for the shell closing event.
         /// </summary>
         public void OnClose(CancelEventArgs cancelEventArgs)
         {
@@ -132,9 +148,13 @@ namespace Workbench.ViewModels
             cancelEventArgs.Cancel = false;
         }
 
-        protected override void OnActivate()
+        protected override void OnInitialize()
         {
-            base.OnActivate();
+            base.OnInitialize();
+            CurrentDocument = _documentManager.CreateDocument();
+            Workspace = CurrentDocument.Workspace;
+            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };
+            Items.AddRange(shellSubScreens);
             CurrentDocument.New();
         }
     }

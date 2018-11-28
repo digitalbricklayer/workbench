@@ -228,12 +228,15 @@
     <Compile Include="IMainWindowContract.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="IShellContract.cs" />
+    <Compile Include="Messages\DocumentClosedMessage.cs" />
     <Compile Include="Messages\DocumentCreatedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
     <Compile Include="Messages\DocumentSavedMessage.cs" />
     <Compile Include="Messages\WorkspaceChangedMessage.cs" />
     <Compile Include="Services\ConstraintLoader.cs" />
+    <Compile Include="Services\DocumentManager.cs" />
+    <Compile Include="Services\IDocumentManager.cs" />
     <Compile Include="Services\IResourceManager.cs" />
     <Compile Include="Services\IWorkspaceLoader.cs" />
     <Compile Include="Services\ModelEditorLoader.cs" />
@@ -261,6 +264,7 @@
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
+    <Compile Include="ViewModels\ITitleBar.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />

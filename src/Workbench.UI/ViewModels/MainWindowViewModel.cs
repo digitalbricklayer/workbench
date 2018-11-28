@@ -11,10 +11,10 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Main window view model.
     /// </summary>
-    public class MainWindowViewModel : Conductor<object>.Collection.AllActive, IMainWindow
+    public sealed class MainWindowViewModel : Conductor<object>.Collection.AllActive, IMainWindow
     {
         private IShell _shell;
-        private TitleBarViewModel _titleBar;
+        private ITitleBar _titleBar;
         private ImageSource _icon;
         private readonly IResourceManager _resourceManager;
 
@@ -22,16 +22,16 @@ namespace Workbench.ViewModels
         /// Initialize the main window view model with a shell, title bar and resource manager.
         /// </summary>
         /// <param name="theShell">The shell implementing the application.</param>
-        /// <param name="theTitleBarViewModel">Title bar view model.</param>
+        /// <param name="theTitleBar">The title bar.</param>
         /// <param name="theResourceManager">Resource manager.</param>
-        public MainWindowViewModel(IShell theShell, TitleBarViewModel theTitleBarViewModel, IResourceManager theResourceManager)
+        public MainWindowViewModel(IShell theShell, ITitleBar theTitleBar, IResourceManager theResourceManager)
         {
             Contract.Requires<ArgumentNullException>(theShell != null);
-            Contract.Requires<ArgumentNullException>(theTitleBarViewModel != null);
+            Contract.Requires<ArgumentNullException>(theTitleBar != null);
             Contract.Requires<ArgumentNullException>(theResourceManager != null);
 
             Shell = theShell;
-            TitleBar = theTitleBarViewModel;
+            TitleBar = theTitleBar;
             _resourceManager = theResourceManager;
             var subScreens = new List<object> { Shell, TitleBar };
             Items.AddRange(subScreens);
@@ -66,9 +66,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets the title bar view model.
+        /// Gets or sets the title bar.
         /// </summary>
-        public TitleBarViewModel TitleBar
+        public ITitleBar TitleBar
         {
             get => _titleBar;
             set
