@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.Contracts;
 using Workbench.ViewModels;
 
 namespace Workbench.Messages
@@ -15,6 +17,7 @@ namespace Workbench.Messages
         /// <param name="theDocumentViewModel">Document view model</param>
         protected DocumentChangedMessage(WorkspaceDocumentViewModel theDocumentViewModel)
         {
+            Contract.Requires<ArgumentNullException>(theDocumentViewModel != null);
             Document = theDocumentViewModel;
         }
     }
