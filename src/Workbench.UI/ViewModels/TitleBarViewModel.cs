@@ -9,14 +9,14 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Title bar in the main window.
     /// </summary>
-    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>, ITitleBar
+    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>, IHandle<DocumentChangedMessage>, ITitleBar
     {
         private string _title;
         private readonly IEventAggregator _eventAggregator;
         private readonly IShell _shell;
 
         /// <summary>
-        /// Initialize a title bar view model with default values.
+        /// Initialize a title bar view model with a shell and event aggregator.
         /// </summary>
         public TitleBarViewModel(IShell theShell, IEventAggregator theEventAggregator)
         {
@@ -51,6 +51,15 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Handle document change messages
+        /// </summary>
+        /// <param name="message"></param>
+        public void Handle(DocumentChangedMessage message)
+        {
+            UpdateTitle();
+        }
+
+        /// <summary>
         /// Update main window title.
         /// </summary>
         private void UpdateTitle()
@@ -67,8 +76,6 @@ namespace Workbench.ViewModels
             if (!_shell.CurrentDocument.Path.IsEmpty)
             {
                 newTitle += Path.GetFileName(_shell.CurrentDocument.Path.FullPath);
-                Title = newTitle;
-                return;
             }
 
             if (_shell.CurrentDocument.IsDirty)
