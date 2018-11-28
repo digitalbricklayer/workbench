@@ -601,15 +601,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\LeftCurlyBracket.png" />
-    <Resource Include="Images\RightCurlyBracket.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\pencil_small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LeftSquareBracket.png" />
-    <Resource Include="Images\RightSquareBracket.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
