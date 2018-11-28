@@ -189,7 +189,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVariableModel != null);
 
-            var newSingletonVariableItem = new SingletonVariableModelItemViewModel(newVariableModel, _windowManager);
+            var newSingletonVariableItem = new SingletonVariableModelItemViewModel(newVariableModel, _windowManager, _eventAggregator);
             FixupSingletonVariable(newSingletonVariableItem);
             ModelModel.AddVariable(newVariableModel);
         }
@@ -202,7 +202,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(newVariableModel != null);
 
-            var newAggregateVariableItem = new AggregateVariableModelItemViewModel(newVariableModel, _windowManager);
+            var newAggregateVariableItem = new AggregateVariableModelItemViewModel(newVariableModel, _windowManager, _eventAggregator);
             FixupAggregateVariable(newAggregateVariableItem);
             ModelModel.AddVariable(newVariableModel);
         }

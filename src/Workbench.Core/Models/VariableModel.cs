@@ -10,7 +10,7 @@ namespace Workbench.Core.Models
     [Serializable]
     public abstract class VariableModel : Model
     {
-        private WorkspaceModel workspace;
+        private WorkspaceModel _workspace;
         private InlineDomainModel _domain;
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public VariableDomainExpressionModel DomainExpression
         {
-            get { return _domain.Expression; }
+            get => _domain.Expression;
             set
             {
                 _domain.Expression = value;
@@ -72,11 +72,11 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel Workspace
         {
-            get { return this.workspace; }
+            get => _workspace;
             internal set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.workspace = value;
+                _workspace = value;
                 OnPropertyChanged();
             }
         }

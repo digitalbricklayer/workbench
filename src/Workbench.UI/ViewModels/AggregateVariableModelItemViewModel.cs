@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Validators;
 
 namespace Workbench.ViewModels
@@ -9,15 +10,18 @@ namespace Workbench.ViewModels
     public class AggregateVariableModelItemViewModel : VariableModelItemViewModel
     {
         private readonly IWindowManager _windowManager;
+        private readonly IEventAggregator _eventAggregator;
 
-        public AggregateVariableModelItemViewModel(AggregateVariableModel theAggregateVariableModel, IWindowManager theWindowManager)
+        public AggregateVariableModelItemViewModel(AggregateVariableModel theAggregateVariableModel, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
             : base(theAggregateVariableModel)
         {
             Contract.Requires<ArgumentNullException>(theAggregateVariableModel != null);
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             Validator = new AggregateVariableModelItemViewModelValidator();
             AggregateVariable = theAggregateVariableModel;
+            _eventAggregator = theEventAggregator;
             _windowManager = theWindowManager;
             Variables = new BindableCollection<VariableModelItemViewModel>();
         }
@@ -37,7 +41,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public int VariableCount
         {
-            get { return AggregateVariable.AggregateCount; }
+            get => AggregateVariable.AggregateCount;
             set
             {
                 AggregateVariable.Resize(value);
@@ -51,12 +55,17 @@ namespace Workbench.ViewModels
             aggregateVariableEditorViewModel.VariableName = AggregateVariable.Name;
             aggregateVariableEditorViewModel.DomainExpression = AggregateVariable.DomainExpression.Text;
             aggregateVariableEditorViewModel.Size = AggregateVariable.AggregateCount;
+            var oldName = AggregateVariable.Name.Text;
             var result = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
             if (!result.HasValue) return;
             DisplayName = AggregateVariable.Name.Text = aggregateVariableEditorViewModel.VariableName;
             DomainExpressionText = AggregateVariable.DomainExpression.Text = aggregateVariableEditorViewModel.DomainExpression;
             VariableCount = aggregateVariableEditorViewModel.Size;
             AggregateVariable.Resize(aggregateVariableEditorViewModel.Size);
+            if (oldName != aggregateVariableEditorViewModel.VariableName)
+            {
+                _eventAggregator.PublishOnUIThread(new VariableRenamedMessage(new ModelName(oldName), AggregateVariable));
+            }
         }
     }
 }

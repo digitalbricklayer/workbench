@@ -11,17 +11,19 @@ namespace Workbench.Services
     public sealed class VariableLoader
     {
         private readonly IWindowManager _windowManager;
+        private readonly IEventAggregator _eventAggregator;
 
-        public VariableLoader(IWindowManager theWindowManager)
+        public VariableLoader(IWindowManager theWindowManager, IEventAggregator theEventAggregator)
         {
             _windowManager = theWindowManager;
+            _eventAggregator = theEventAggregator;
         }
 
         public SingletonVariableModelItemViewModel MapFrom(SingletonVariableModel theVariableModel)
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-            var variableViewModel = new SingletonVariableModelItemViewModel(theVariableModel, _windowManager);
+            var variableViewModel = new SingletonVariableModelItemViewModel(theVariableModel, _windowManager, _eventAggregator);
 
             return variableViewModel;
         }
@@ -30,7 +32,7 @@ namespace Workbench.Services
         {
             Debug.Assert(theVariableModel.HasIdentity);
 
-            var variableViewModel = new AggregateVariableModelItemViewModel(theVariableModel, _windowManager);
+            var variableViewModel = new AggregateVariableModelItemViewModel(theVariableModel, _windowManager, _eventAggregator);
 
             return variableViewModel;
         }
