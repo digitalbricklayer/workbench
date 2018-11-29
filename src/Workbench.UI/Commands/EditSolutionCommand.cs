@@ -44,18 +44,14 @@ namespace Workbench.Commands
                 if (visualizerEditor.Id == default(int))
                 {
                     // New expression
-#if false
                     var aNewExpression = new VisualizerBindingExpressionModel(visualizerEditor.Text);
                     this._workspace.Display.AddBindingEpxression(aNewExpression);
-#endif
                 }
                 else
                 {
                     // Update existing expression
-#if false
                     var visualizerBinding = this._workspace.Display.GetVisualizerBindingById(visualizerEditor.Id);
                     visualizerBinding.Text = visualizerEditor.Text;
-#endif
                 }
             }
         }
