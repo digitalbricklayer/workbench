@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Core.Solver;
@@ -9,7 +10,7 @@ using Workbench.Services;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the application work area.
+    /// View model for the application workspace.
     /// </summary>
     public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
     {
@@ -44,6 +45,7 @@ namespace Workbench.ViewModels
             Solution = WorkspaceModel.Solution;
             ChessboardTabs = new BindableCollection<ChessboardTabViewModel>();
             TableTabs = new BindableCollection<TableTabViewModel>();
+            Bindings = new BindableCollection<VisualizerBindingExpressionViewModel>();
         }
 
         /// <summary>
@@ -91,6 +93,11 @@ namespace Workbench.ViewModels
         /// Gets or sets the solution model.
         /// </summary>
         public SolutionModel Solution { get; }
+
+        /// <summary>
+        /// Gets the visualizer binding expressions.
+        /// </summary>
+        public BindableCollection<VisualizerBindingExpressionViewModel> Bindings { get; }
 
         /// <summary>
         /// Solve the constraint model.
@@ -217,6 +224,41 @@ namespace Workbench.ViewModels
             DeactivateItem(ActiveItem, true);
         }
 
+        /// <summary>
+        /// Add a new visualizer binding expression.
+        /// </summary>
+        /// <param name="aNewExpression">A new visualizer binding expression.</param>
+        public void AddBindingExpression(VisualizerBindingExpressionModel aNewExpression)
+        {
+            Contract.Requires<ArgumentNullException>(aNewExpression != null);
+            WorkspaceModel.AddBindingExpression(aNewExpression);
+            Bindings.Add(new VisualizerBindingExpressionViewModel(aNewExpression));
+        }
+
+        /// <summary>
+        /// Delete a visualizer binding expression.
+        /// </summary>
+        /// <param name="aVisualizerBinding">Visualizer binding to delete.</param>
+        public void DeleteBindingExpression(VisualizerBindingExpressionViewModel aVisualizerBinding)
+        {
+            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
+            WorkspaceModel.DeleteBindingExpression(aVisualizerBinding.VisualizerExpression);
+            var editorToDelete = GetBindingExpressionById(aVisualizerBinding.Id);
+            Contract.Assert(editorToDelete != null);
+            Bindings.Remove(editorToDelete);
+        }
+
+        /// <summary>
+        /// Get a visualizer binding expression using the identity.
+        /// </summary>
+        /// <param name="bindingExpressionId">Visualizer binding expression identity.</param>
+        /// <returns>Visualizer binding expression view model matching the identity.</returns>
+        public VisualizerBindingExpressionViewModel GetBindingExpressionById(int bindingExpressionId)
+        {
+            Contract.Requires<ArgumentException>(bindingExpressionId > 0, "An identity must be greater than zero.");
+            return Bindings.FirstOrDefault(binding => binding.Id == bindingExpressionId);
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
@@ -251,6 +293,7 @@ namespace Workbench.ViewModels
             Contract.Invariant(WorkspaceModel != null);
             Contract.Invariant(TableTabs != null);
             Contract.Invariant(ChessboardTabs != null);
+            Contract.Invariant(Bindings != null);
         }
     }
 }

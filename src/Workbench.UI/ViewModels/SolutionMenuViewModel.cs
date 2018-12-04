@@ -1,10 +1,6 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Commands;
-using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
@@ -24,6 +20,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the Solution|Edit Solution command.
         /// </summary>
-        public ICommand EditSolutionCommand { get; private set; }
+        public ICommand EditSolutionCommand { get; }
     }
 }

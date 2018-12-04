@@ -7,10 +7,18 @@ using FluentValidation;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// Base class for all dialog view models with optional data validation and property notification.
+    /// Base class for dialog view models with optional data validation and property notification.
     /// </summary>
     public abstract class DialogViewModel : Screen, IDataErrorInfo
     {
+        /// <summary>
+        /// Initialize an instance of the dialog view model with default values.
+        /// </summary>
+        protected DialogViewModel()
+        {
+            Validator = new Validators.EmptyValidator();
+        }
+
         /// <summary>
         /// Notify all observers of a change to a property value.
         /// </summary>

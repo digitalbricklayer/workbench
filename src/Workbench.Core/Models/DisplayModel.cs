@@ -97,7 +97,7 @@ namespace Workbench.Core.Models
         /// Add a new visualizer binding expression.
         /// </summary>
         /// <param name="newBindingExpression">New visualizer binding expression.</param>
-        public void AddBindingEpxression(VisualizerBindingExpressionModel newBindingExpression)
+        public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             newBindingExpression.AssignIdentity();
@@ -112,6 +112,16 @@ namespace Workbench.Core.Models
         public VisualizerBindingExpressionModel GetVisualizerBindingById(int id)
         {
             return Bindings.FirstOrDefault(binding => binding.Id == id);
+        }
+
+        /// <summary>
+        /// Delete the visualizer binding expression.
+        /// </summary>
+        /// <param name="aVisualizerBinding"></param>
+        public void DeleteBindingExpression(VisualizerBindingExpressionModel aVisualizerBinding)
+        {
+            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
+            this.bindings.Remove(aVisualizerBinding);
         }
     }
 }

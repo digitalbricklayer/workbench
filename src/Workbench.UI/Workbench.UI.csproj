@@ -255,6 +255,7 @@
     <Compile Include="Validators\ExpressionConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\AllDifferentConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\NewTabDetailsViewModelValidator.cs" />
+    <Compile Include="Validators\EmptyValidator.cs" />
     <Compile Include="Validators\SingletonVariableModelItemViewModelValidator.cs" />
     <Compile Include="Validators\AllDifferentConstraintEditorViewModelValidator.cs" />
     <Compile Include="Validators\AggregateVariableModelItemViewModelValidator.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Validators\SingletonVariableEditorViewModelValidator.cs" />
     <Compile Include="Validators\TabNameValidator.cs" />
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
+    <Compile Include="Validators\VisualizerExpressionValidator.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
     <Compile Include="ViewModels\ITitleBar.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\NewTabDetailsViewModel.cs" />
     <Compile Include="ViewModels\TableDetailsViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\TabNameEditorViewModel.cs" />
     <Compile Include="ViewModels\PropertyExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\TabTitleEditorViewModel.cs" />
@@ -288,7 +291,8 @@
     <Compile Include="ViewModels\TableTabViewModel.cs" />
     <Compile Include="Validators\AggregateVariableEditorViewModelValidator.cs" />
     <Compile Include="Validators\SharedDomainEditorViewModelValidator.cs" />
-    <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerExpressionItemViewModel.cs" />
+    <Compile Include="ViewModels\VisualizerBindingExpressionViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceDocumentViewModel.cs" />
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
@@ -316,6 +320,9 @@
     </Compile>
     <Compile Include="Views\NewTabDetailsView.xaml.cs">
       <DependentUpon>NewTabDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VisualizerExpressionEditorView.xaml.cs">
+      <DependentUpon>VisualizerExpressionEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabNameEditorView.xaml.cs">
       <DependentUpon>TabNameEditorView.xaml</DependentUpon>
@@ -421,6 +428,9 @@
     <Compile Include="Views\TableView.xaml.cs">
       <DependentUpon>TableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VisualizerExpressionItemView.xaml.cs">
+      <DependentUpon>VisualizerExpressionItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WorkspaceView.xaml.cs">
       <DependentUpon>WorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -457,6 +467,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\NewTabDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VisualizerExpressionEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -541,6 +555,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VisualizerExpressionItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

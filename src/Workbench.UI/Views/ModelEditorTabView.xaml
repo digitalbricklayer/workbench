@@ -6,10 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <UserControl.Resources>
-
-    </UserControl.Resources>
-
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Right" Margin="10,0">
             <StackPanel.Resources>
@@ -20,7 +16,7 @@
             <TextBlock FontWeight="Bold" Margin="0,0,0,10">Actions</TextBlock>
             <Button x:Name="AddSingleton" Command="{Binding AddSingletonVariableCommand}">Add Singleton Variable...</Button>
             <Button x:Name="AddAggregate" Command="{Binding AddAggregateVariableCommand}">Add Aggregate Variable...</Button>
-            <Button x:Name="AddExpresionConstraintButton" Command="{Binding AddExpressionConstraintCommand}">Add Expression Constraint...</Button>
+            <Button x:Name="AddExpressionConstraintButton" Command="{Binding AddExpressionConstraintCommand}">Add Expression Constraint...</Button>
             <Button x:Name="AddAllDifferentConstraintButton" Command="{Binding AddAllDifferentConstraintCommand}">Add 'All Different' Constraint...</Button>
             <Button x:Name="AddDomainButton" Command="{Binding AddDomainCommand}">Add Domain...</Button>
             <Button x:Name="EditButton" Command="{Binding EditCommand}">Edit...</Button>

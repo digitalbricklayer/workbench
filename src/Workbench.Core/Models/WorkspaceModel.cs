@@ -133,7 +133,17 @@ namespace Workbench.Core.Models
         public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
         {
             Contract.Requires<ArgumentNullException>(newBindingExpression != null);
-            Display.AddBindingEpxression(newBindingExpression);
+            Display.AddBindingExpression(newBindingExpression);
+        }
+
+        /// <summary>
+        /// Delete the visualizer binding from the workspace.
+        /// </summary>
+        /// <param name="aVisualizerBinding">Visualizer binding to delete.</param>
+        public void DeleteBindingExpression(VisualizerBindingExpressionModel aVisualizerBinding)
+        {
+            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
+            Display.DeleteBindingExpression(aVisualizerBinding);
         }
 
         /// <summary>

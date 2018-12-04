@@ -4,55 +4,69 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Services;
 using Workbench.ViewModels;
 
 namespace Workbench.Commands
 {
+    /// <summary>
+    /// Command for the Solution|Edit Solution menu item.
+    /// </summary>
     public class EditSolutionCommand : CommandBase
     {
         private readonly IWindowManager _windowManager;
-        private readonly WorkspaceViewModel _workspace;
+        private WorkspaceViewModel _workspace;
+        private readonly IDocumentManager _documentManager;
 
-        public EditSolutionCommand(IWindowManager theWindowManager, WorkspaceDocumentViewModel theDocument)
+        public EditSolutionCommand(IWindowManager theWindowManager, IDocumentManager theDocumentManager)
         {
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theDocument != null);
+            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
 
             _windowManager = theWindowManager;
-            _workspace = theDocument.Workspace;
+            _documentManager = theDocumentManager;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
+        /// <param name="parameter">Command parameter.</param>
         public override void Execute(object parameter)
         {
-            var solutionEditorViewModel = new SolutionEditorViewModel();
-            solutionEditorViewModel.BindingExpressions = CreateVisualizerCollectionFrom(null);
-            var showDialogResult = this._windowManager.ShowDialog(solutionEditorViewModel);
+            _workspace = _documentManager.CurrentDocument.Workspace;
+            var visualizerExpressionItems = CreateVisualizerCollectionFrom(_workspace.Bindings);
+            var solutionEditorViewModel = new SolutionEditorViewModel(visualizerExpressionItems, _windowManager);
+            var showDialogResult = _windowManager.ShowDialog(solutionEditorViewModel);
             if (showDialogResult.GetValueOrDefault())
             {
-                UpdateBindingsFrom(solutionEditorViewModel.BindingExpressions);
+                UpdateBindingsFrom(solutionEditorViewModel);
             }
         }
 
         /// <summary>
-        /// Update binding models from the visualizer expression editor view models.
+        /// Update visualizer bindings from the visualizer expression editor view models.
         /// </summary>
-        /// <param name="bindingExpressions">Binding expression editors.</param>
-        private void UpdateBindingsFrom(IEnumerable<VisualizerExpressionEditorViewModel> bindingExpressions)
+        /// <param name="solutionEditor">Binding expression editors.</param>
+        private void UpdateBindingsFrom(SolutionEditorViewModel solutionEditor)
         {
-            foreach (var visualizerEditor in bindingExpressions)
+            foreach (var visualizerEditorId in solutionEditor.Deleted)
             {
-                if (visualizerEditor.Id == default(int))
-                {
-                    // New expression
-                    var aNewExpression = new VisualizerBindingExpressionModel(visualizerEditor.Text);
-                    this._workspace.Display.AddBindingEpxression(aNewExpression);
-                }
-                else
-                {
-                    // Update existing expression
-                    var visualizerBinding = this._workspace.Display.GetVisualizerBindingById(visualizerEditor.Id);
-                    visualizerBinding.Text = visualizerEditor.Text;
-                }
+                var anUpdatedVisualizerBinding = _workspace.GetBindingExpressionById(visualizerEditorId);
+                _workspace.DeleteBindingExpression(anUpdatedVisualizerBinding);
+            }
+
+            foreach (var updatedExpressionEditor in solutionEditor.Updated)
+            {
+                // Update existing expression
+                var anUpdatedVisualizerBinding = _workspace.GetBindingExpressionById(updatedExpressionEditor.Id);
+                anUpdatedVisualizerBinding.Text = updatedExpressionEditor.Text;
+            }
+
+            foreach (var newExpressionEditor in solutionEditor.Added)
+            {
+                // Add new expression
+                var aNewExpression = new VisualizerBindingExpressionModel(newExpressionEditor.Text);
+                _workspace.AddBindingExpression(aNewExpression);
             }
         }
 
@@ -61,12 +75,12 @@ namespace Workbench.Commands
         /// </summary>
         /// <param name="bindings">Visualizer expression models.</param>
         /// <returns>View model editors for the expressions.</returns>
-        private ObservableCollection<VisualizerExpressionEditorViewModel> CreateVisualizerCollectionFrom(IEnumerable<VisualizerBindingExpressionModel> bindings)
+        private ObservableCollection<VisualizerExpressionItemViewModel> CreateVisualizerCollectionFrom(IEnumerable<VisualizerBindingExpressionViewModel> bindings)
         {
-            var visualizerExpressions = new ObservableCollection<VisualizerExpressionEditorViewModel>();
+            var visualizerExpressions = new ObservableCollection<VisualizerExpressionItemViewModel>();
             foreach (var binding in bindings)
             {
-                visualizerExpressions.Add(new VisualizerExpressionEditorViewModel(binding.Id, binding.Text));
+                visualizerExpressions.Add(new VisualizerExpressionItemViewModel(binding.Id, binding.Text));
             }
 
             return visualizerExpressions;

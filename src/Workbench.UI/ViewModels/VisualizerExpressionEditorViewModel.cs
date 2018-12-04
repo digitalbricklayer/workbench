@@ -1,48 +1,34 @@
-using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
-    public class VisualizerExpressionEditorViewModel : Screen
+    /// <summary>
+    /// View model for the visualizer expression editor dialog box.
+    /// </summary>
+    public sealed class VisualizerExpressionEditorViewModel : DialogViewModel
     {
-        private string text;
-
-        public VisualizerExpressionEditorViewModel(int id, string text)
-        {
-            Contract.Requires<ArgumentException>(id > 0);
-            Contract.Requires<ArgumentException>(text != null);
-            Id = id;
-            Text = text;
-        }
+        private string _expression;
 
         /// <summary>
-        /// Initialize a visualizer expression editor with a raw visualizer expression.
-        /// </summary>
-        /// <param name="rawVisualizerExpression">Raw visualizer expression.</param>
-        public VisualizerExpressionEditorViewModel(string rawVisualizerExpression)
-        {
-            Text = rawVisualizerExpression;
-        }
-
-        /// <summary>
-        /// Initialize a visualizer expression editor with default values.
+        /// Initialize a new visualizer expression editor view model with default values.
         /// </summary>
         public VisualizerExpressionEditorViewModel()
         {
-            Text = string.Empty;
+            Validator = new VisualizerExpressionValidator();
+            Expression = string.Empty;
         }
 
-        public string Text
+        /// <summary>
+        /// Gets or sets the tab title.
+        /// </summary>
+        public string Expression
         {
-            get { return this.text; }
+            get => _expression;
             set
             {
-                this.text = value;
+                _expression = value;
                 NotifyOfPropertyChange();
             }
         }
-
-        public int Id { get; private set; }
     }
 }
