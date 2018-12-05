@@ -40,42 +40,50 @@ namespace Workbench.Services
 
         private void ReadSingletonVariable(XmlNode constraintNode)
         {
+            var constraintIdAttribute = constraintNode.Attributes["id"];
+            var constraintId = constraintIdAttribute.Value;
             var constraintNameAttribute = constraintNode.Attributes["name"];
             var constraintName = constraintNameAttribute.Value;
-            var expression = string.Empty;
+            var domainExpression = string.Empty;
             for (var i = 0; i < constraintNode.ChildNodes.Count; i++)
             {
                 var childNode = constraintNode.ChildNodes[i];
                 switch (childNode.Name)
                 {
-                    case "expression":
-                        expression = childNode.InnerText;
+                    case "domain":
+                        domainExpression = childNode.InnerText;
                         break;
                 }
             }
 
-            _model.AddVariable(new SingletonVariableModel(_model, new ModelName(constraintName), new InlineDomainModel(expression)));
+            var variableModel = new SingletonVariableModel(_model, new ModelName(constraintName), new InlineDomainModel(domainExpression));
+            variableModel.Id = Convert.ToInt32(constraintId);
+            _model.AddVariable(variableModel);
         }
 
         private void ReadAggregateVariable(XmlNode constraintNode)
         {
+            var constraintIdAttribute = constraintNode.Attributes["id"];
+            var constraintId = constraintIdAttribute.Value;
             var constraintNameAttribute = constraintNode.Attributes["name"];
             var constraintName = constraintNameAttribute.Value;
             var constraintSizeAttribute = constraintNode.Attributes["size"];
             var constraintSize = constraintSizeAttribute.Value;
-            var expression = string.Empty;
+            var domainExpression = string.Empty;
             for (var i = 0; i < constraintNode.ChildNodes.Count; i++)
             {
                 var childNode = constraintNode.ChildNodes[i];
                 switch (childNode.Name)
                 {
-                    case "expression":
-                        expression = childNode.InnerText;
+                    case "domain":
+                        domainExpression = childNode.InnerText;
                         break;
                 }
             }
 
-            _model.AddVariable(new AggregateVariableModel(_model.Workspace, new ModelName(constraintName), Convert.ToInt32(constraintSize), new InlineDomainModel(expression)));
+            var variableModel = new AggregateVariableModel(_model.Workspace, new ModelName(constraintName), Convert.ToInt32(constraintSize), new InlineDomainModel(domainExpression));
+            variableModel.Id = Convert.ToInt32(constraintId);
+            _model.AddVariable(variableModel);
         }
     }
 }

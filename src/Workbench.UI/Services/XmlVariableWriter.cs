@@ -40,6 +40,9 @@ namespace Workbench.Services
         private void WriteVariable(SingletonVariableModel aVariable, XmlElement variablesRoot)
         {
             var variableElement = _document.CreateElement("singleton-variable");
+            var idAttribute = _document.CreateAttribute("id");
+            idAttribute.Value = Convert.ToString(aVariable.Id);
+            variableElement.Attributes.Append(idAttribute);
             var nameAttribute = _document.CreateAttribute("name");
             nameAttribute.Value = aVariable.Name;
             variableElement.Attributes.Append(nameAttribute);
@@ -53,6 +56,9 @@ namespace Workbench.Services
         private void WriteVariable(AggregateVariableModel aVariable, XmlElement variablesRoot)
         {
             var variableElement = _document.CreateElement("aggregate-variable");
+            var idAttribute = _document.CreateAttribute("id");
+            idAttribute.Value = Convert.ToString(aVariable.Id);
+            variableElement.Attributes.Append(idAttribute);
             var nameAttribute = _document.CreateAttribute("name");
             nameAttribute.Value = aVariable.Name;
             variableElement.Attributes.Append(nameAttribute);

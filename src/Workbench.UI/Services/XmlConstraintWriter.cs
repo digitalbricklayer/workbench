@@ -39,20 +39,26 @@ namespace Workbench.Services
 
         private void WriteConstraint(ExpressionConstraintModel expressionConstraint, XmlElement constraintsRoot)
         {
-            var expressionElement = _document.CreateElement("expression-constraint");
+            var expressionConstraintElement = _document.CreateElement("expression-constraint");
+            var idAttribute = _document.CreateAttribute("id");
+            idAttribute.Value = Convert.ToString(expressionConstraint.Id);
+            expressionConstraintElement.Attributes.Append(idAttribute);
             var nameAttribute = _document.CreateAttribute("name");
             nameAttribute.Value = expressionConstraint.Name;
-            expressionElement.Attributes.Append(nameAttribute);
-            var xElement = _document.CreateElement("expression");
+            expressionConstraintElement.Attributes.Append(nameAttribute);
+            var expressionElement = _document.CreateElement("expression");
             var encodedExpressionNode = _document.CreateCDataSection(expressionConstraint.Expression.Text);
-            xElement.AppendChild(encodedExpressionNode);
-            expressionElement.AppendChild(xElement);
-            constraintsRoot.AppendChild(expressionElement);
+            expressionElement.AppendChild(encodedExpressionNode);
+            expressionConstraintElement.AppendChild(expressionElement);
+            constraintsRoot.AppendChild(expressionConstraintElement);
         }
 
         private void WriteConstraint(AllDifferentConstraintModel allDifferentConstraint, XmlElement constraintsRoot)
         {
             var allDifferentElement = _document.CreateElement("all-different-constraint");
+            var idAttribute = _document.CreateAttribute("id");
+            idAttribute.Value = Convert.ToString(allDifferentConstraint.Id);
+            allDifferentElement.Attributes.Append(idAttribute);
             var nameAttribute = _document.CreateAttribute("name");
             nameAttribute.Value = allDifferentConstraint.Name;
             allDifferentElement.Attributes.Append(nameAttribute);

@@ -25,7 +25,7 @@ namespace Workbench.Services
             modelRoot.Attributes.Append(nameAttribute);
             new XmlVariableWriter(_document, _model).Write(modelRoot);
             new XmlConstraintWriter(_document, _model).Write(modelRoot);
-            new XmlDomainWriter(_document, _model).Write(modelRoot);
+            new XmlSharedDomainWriter(_document, _model).Write(modelRoot);
             workspaceRoot.AppendChild(modelRoot);
         }
     }

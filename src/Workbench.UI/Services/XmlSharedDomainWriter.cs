@@ -1,14 +1,15 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal class XmlDomainWriter
+    internal class XmlSharedDomainWriter
     {
         private readonly XmlDocument _document;
         private readonly ModelModel _model;
 
-        internal XmlDomainWriter(XmlDocument theDocument, ModelModel theModel)
+        internal XmlSharedDomainWriter(XmlDocument theDocument, ModelModel theModel)
         {
             _document = theDocument;
             _model = theModel;
@@ -20,6 +21,9 @@ namespace Workbench.Services
             foreach (var aDomain in _model.SharedDomains)
             {
                 var domainElement = _document.CreateElement("domain");
+                var idAttribute = _document.CreateAttribute("id");
+                idAttribute.Value = Convert.ToString(aDomain.Id);
+                domainElement.Attributes.Append(idAttribute);
                 var nameAttribute = _document.CreateAttribute("name");
                 nameAttribute.Value = aDomain.Name;
                 domainElement.Attributes.Append(nameAttribute);

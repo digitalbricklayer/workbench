@@ -4,11 +4,11 @@ using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal class XmlDomainReader
+    internal class XmlSharedDomainReader
     {
         private readonly ModelModel _model;
 
-        internal XmlDomainReader(ModelModel theModel)
+        internal XmlSharedDomainReader(ModelModel theModel)
         {
             _model = theModel;
         }
@@ -21,6 +21,8 @@ namespace Workbench.Services
                 switch (domainNode.Name)
                 {
                     case "domain":
+                        var domainIdAttribute = domainNode.Attributes["id"];
+                        var domainId = domainIdAttribute.Value;
                         var domainNameAttribute = domainNode.Attributes["name"];
                         var domainName = domainNameAttribute.Value;
                         var expression = string.Empty;
@@ -35,7 +37,9 @@ namespace Workbench.Services
                             }
                         }
 
-                        _model.AddSharedDomain(new SharedDomainModel(_model, new ModelName(domainName), new SharedDomainExpressionModel(expression)));
+                        var domainModel = new SharedDomainModel(_model, new ModelName(domainName), new SharedDomainExpressionModel(expression));
+                        domainModel.Id = Convert.ToInt32(domainId);
+                        _model.AddSharedDomain(domainModel);
                         break;
 
                     default:

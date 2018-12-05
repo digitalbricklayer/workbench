@@ -37,10 +37,8 @@ namespace Workbench.Commands
             var visualizerExpressionItems = CreateVisualizerCollectionFrom(_workspace.Bindings);
             var solutionEditorViewModel = new SolutionEditorViewModel(visualizerExpressionItems, _windowManager);
             var showDialogResult = _windowManager.ShowDialog(solutionEditorViewModel);
-            if (showDialogResult.GetValueOrDefault())
-            {
-                UpdateBindingsFrom(solutionEditorViewModel);
-            }
+            if (!showDialogResult.GetValueOrDefault()) return;
+			UpdateBindingsFrom(solutionEditorViewModel);
         }
 
         /// <summary>
@@ -71,9 +69,9 @@ namespace Workbench.Commands
         }
 
         /// <summary>
-        /// Create binding visualizer editor view models from the expression models.
+        /// Create binding visualizer editor view models from the expression view models.
         /// </summary>
-        /// <param name="bindings">Visualizer expression models.</param>
+        /// <param name="bindings">Visualizer expression view models.</param>
         /// <returns>View model editors for the expressions.</returns>
         private ObservableCollection<VisualizerExpressionItemViewModel> CreateVisualizerCollectionFrom(IEnumerable<VisualizerBindingExpressionViewModel> bindings)
         {

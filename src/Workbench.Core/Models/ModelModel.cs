@@ -135,6 +135,11 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(newConstraint != null);
 
+            if (!newConstraint.HasIdentity)
+            {
+                newConstraint.AssignIdentity();
+            }
+
             Constraints.Add(newConstraint);
         }
 
@@ -196,6 +201,10 @@ namespace Workbench.Core.Models
             Variables.Remove(variableToDelete);
         }
 
+        /// <summary>
+        /// Add a shared domain to the model.
+        /// </summary>
+        /// <param name="newDomain">New shared domain.</param>
         public void AddSharedDomain(SharedDomainModel newDomain)
         {
             Contract.Requires<ArgumentNullException>(newDomain != null);

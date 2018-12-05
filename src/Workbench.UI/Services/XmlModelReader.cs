@@ -29,7 +29,7 @@ namespace Workbench.Services
                         break;
 
                     case "domains":
-                        new XmlDomainReader(model).Read(childNode.ChildNodes);
+                        new XmlSharedDomainReader(model).Read(childNode.ChildNodes);
                         break;
 
                     case "variables":

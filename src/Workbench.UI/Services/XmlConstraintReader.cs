@@ -36,6 +36,8 @@ namespace Workbench.Services
 
         private void ReadAllDifferentConstraint(XmlNode constraintNode)
         {
+            var constraintIdAttribute = constraintNode.Attributes["id"];
+            var constraintId = constraintIdAttribute.Value;
             var constraintNameAttribute = constraintNode.Attributes["name"];
             var constraintName = constraintNameAttribute.Value;
             var expression = string.Empty;
@@ -50,11 +52,15 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddConstraint(new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression)));
+            var constraintModel = new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression));
+            constraintModel.Id = Convert.ToInt32(constraintId);
+            _model.AddConstraint(constraintModel);
         }
 
         private void ReadExpressionConstraint(XmlNode constraintNode)
         {
+            var constraintIdAttribute = constraintNode.Attributes["id"];
+            var constraintId = constraintIdAttribute.Value;
             var constraintNameAttribute = constraintNode.Attributes["name"];
             var constraintName = constraintNameAttribute.Value;
             var expression = string.Empty;
@@ -69,7 +75,9 @@ namespace Workbench.Services
                 }
             }
 
-            _model.AddConstraint(new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression)));
+            var constraintModel = new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression));
+            constraintModel.Id = Convert.ToInt32(constraintId);
+            _model.AddConstraint(constraintModel);
         }
     }
 }
