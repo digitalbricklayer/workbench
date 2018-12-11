@@ -5,6 +5,9 @@ using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
+    /// <summary>
+    /// Chessboard tab visualizer view model.
+    /// </summary>
     public sealed class ChessboardTabViewModel : Screen, IWorkspaceTabViewModel
     {
         private readonly IWindowManager _windowManager;
@@ -35,7 +38,7 @@ namespace Workbench.ViewModels
         public ChessboardTabModel Model { get; }
 
         /// <summary>
-        /// Gets or sets the table name.
+        /// Gets or sets the chessboard name.
         /// </summary>
         public string Name
         {
@@ -94,6 +97,7 @@ namespace Workbench.ViewModels
             var status = _windowManager.ShowDialog(titleEditor);
             if (status.HasValue && !status.Value) return;
             Title = titleEditor.TabTitle;
+            Model.Title.Text = Title;
         }
 
         public void EditName()
@@ -103,6 +107,15 @@ namespace Workbench.ViewModels
             var status = _windowManager.ShowDialog(nameEditor);
             if (status.HasValue && !status.Value) return;
             Name = nameEditor.TabName;
+            Model.Name = Name;
+        }
+
+        /// <summary>
+        /// Update the view model from the chessboard model.
+        /// </summary>
+        public void UpdateFromModel()
+        {
+            Board.UpdateFromModel();
         }
     }
 }

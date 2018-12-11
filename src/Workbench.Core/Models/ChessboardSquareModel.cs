@@ -33,11 +33,17 @@ namespace Workbench.Core.Models
             this.piece = new ChessPieceModel(theLocation, Player.White, PieceType.Empty);
         }
 
+        /// <summary>
+        /// Gets the piece.
+        /// </summary>
         public ChessPieceModel Piece
         {
             get { return piece; }
         }
 
+        /// <summary>
+        /// Gets the piece player.
+        /// </summary>
         public Player Player
         {
             get
@@ -55,13 +61,16 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the position in using a zero based index.
+        /// Gets the position using a zero based index.
         /// </summary>
         public Point Pos2
         {
             get { return new Point(location.X - 1, location.Y - 1); }
         }
 
+        /// <summary>
+        /// Gets the piece type.
+        /// </summary>
         public PieceType Type
         {
             get
@@ -85,7 +94,7 @@ namespace Workbench.Core.Models
         /// Create an empty chessboard square.
         /// </summary>
         /// <param name="theLocation">Location on the board.</param>
-        /// <returns>Empty boad square.</returns>
+        /// <returns>Empty board square.</returns>
         public static ChessboardSquareModel CreateEmpty(Point theLocation)
         {
             return new ChessboardSquareModel(theLocation);
@@ -94,7 +103,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Create a chessboard square with a piece occupying it.
         /// </summary>
-        /// <param name="thePiece">Peice.</param>
+        /// <param name="thePiece">Piece.</param>
         /// <returns>Board square with a piece occupying it.</returns>
         public static ChessboardSquareModel CreateWith(ChessPieceModel thePiece)
         {

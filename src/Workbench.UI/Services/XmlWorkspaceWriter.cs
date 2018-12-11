@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
@@ -11,10 +12,14 @@ namespace Workbench.Services
         public void Write(string filename, WorkspaceModel theWorkspace)
         {
             var workspaceDocument = new XmlDocument();
-            var workspaceRoot = workspaceDocument.CreateElement("workspace");
-            workspaceDocument.AppendChild(workspaceRoot);
-            new XmlModelWriter(workspaceDocument, theWorkspace.Model).Write(workspaceRoot);
-            workspaceDocument.Save(filename);
+			using (var fileStream = new FileStream(filename, FileMode.Create))
+			{
+				var workspaceRoot = workspaceDocument.CreateElement("workspace");
+				workspaceDocument.AppendChild(workspaceRoot);
+				new XmlModelWriter(workspaceDocument, theWorkspace.Model).Write(workspaceRoot);
+				new XmlDisplayWriter(workspaceDocument, theWorkspace.Display).Write(workspaceRoot);
+				workspaceDocument.Save(fileStream);
+			}
         }
     }
 }

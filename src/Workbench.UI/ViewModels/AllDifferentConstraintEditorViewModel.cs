@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 using Workbench.Validators;
 
@@ -12,21 +14,20 @@ namespace Workbench.ViewModels
         private string _constraintName;
         private string _selectedVariable;
         private ObservableCollection<string> _variables;
+        private readonly ModelModel _model;
 
         /// <summary>
         /// Initialize an all different constraint editor view model with the model.
         /// </summary>
         public AllDifferentConstraintEditorViewModel(ModelModel theModel)
         {
+            Contract.Requires<ArgumentNullException>(theModel != null);
+
+            _model = theModel;
             Validator = new AllDifferentConstraintEditorViewModelValidator();
             ConstraintName = string.Empty;
             SelectedVariable = string.Empty;
             Variables = new ObservableCollection<string>();
-            Variables.Add(string.Empty);
-            foreach (var anAggregateVariable in theModel.Aggregates)
-            {
-                Variables.Add(anAggregateVariable.Name);
-            }
         }
 
         /// <summary>
@@ -65,6 +66,17 @@ namespace Workbench.ViewModels
             {
                 _variables = value; 
                 NotifyOfPropertyChange();
+            }
+        }
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            // Give the user the option not to select anything
+            Variables.Add(string.Empty);
+            foreach (var anAggregateVariable in _model.Aggregates)
+            {
+                Variables.Add(anAggregateVariable.Name);
             }
         }
     }

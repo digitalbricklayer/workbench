@@ -17,7 +17,6 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theBoard"></param>
         /// <param name="theTitle"></param>
-        /// <param name="theName">Text of the chessboard.</param>
         public ChessboardTabModel(ChessboardModel theBoard, WorkspaceTabTitle theTitle)
             : base(theBoard, theTitle)
         {

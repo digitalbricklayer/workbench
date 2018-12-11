@@ -8,7 +8,7 @@ namespace Workbench.Services
     /// <summary>
     /// Load the model editor view model synchronized with the model.
     /// </summary>
-    public class ModelEditorLoader
+    public sealed class ModelEditorLoader
     {
         private readonly VariableLoader _variableLoader;
         private readonly SharedDomainLoader _sharedDomainLoader;
@@ -32,41 +32,58 @@ namespace Workbench.Services
         }
 
         /// <summary>
-        /// Map a display model to a solution designer view model.
+        /// Load a model editor from the workspace model.
         /// </summary>
         /// <param name="theWorkspace">Workspace model.</param>
         /// <returns>Model editor tab view model.</returns>
-        public ModelEditorTabViewModel MapFrom(WorkspaceModel theWorkspace)
+        public ModelEditorTabViewModel LoadFrom(WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
 
-            var newDesignerViewModel = _viewModelFactory.CreateModelEditor();
+            var newModelEditor = _viewModelFactory.CreateModelEditor();
 
+            LoadSharedDomains(theWorkspace, newModelEditor);
+            LoadConstraints(theWorkspace, newModelEditor);
+            LoadSingletonVariables(theWorkspace, newModelEditor);
+            LoadAggregateVariables(theWorkspace, newModelEditor);
+
+            return newModelEditor;
+        }
+
+        private void LoadAggregateVariables(WorkspaceModel theWorkspace, ModelEditorTabViewModel newModelEditor)
+        {
+            foreach (var aggregateModel in theWorkspace.Model.Aggregates)
+            {
+                var variableViewModel = _variableLoader.MapFrom(aggregateModel);
+                newModelEditor.FixupAggregateVariable(variableViewModel);
+            }
+        }
+
+        private void LoadSingletonVariables(WorkspaceModel theWorkspace, ModelEditorTabViewModel newModelEditor)
+        {
+            foreach (var variableModel in theWorkspace.Model.Singletons)
+            {
+                var variableViewModel = _variableLoader.MapFrom(variableModel);
+                newModelEditor.FixupSingletonVariable(variableViewModel);
+            }
+        }
+
+        private void LoadConstraints(WorkspaceModel theWorkspace, ModelEditorTabViewModel newModelEditor)
+        {
+            foreach (var constraintModel in theWorkspace.Model.Constraints)
+            {
+                var constraintViewModel = _constraintLoader.MapFrom(constraintModel);
+                newModelEditor.FixupConstraint(constraintViewModel);
+            }
+        }
+
+        private void LoadSharedDomains(WorkspaceModel theWorkspace, ModelEditorTabViewModel newDesignerViewModel)
+        {
             foreach (var domainModel in theWorkspace.Model.SharedDomains)
             {
                 var domainViewModel = _sharedDomainLoader.MapFrom(domainModel);
                 newDesignerViewModel.FixupDomain(domainViewModel);
             }
-
-            foreach (var constraintModel in theWorkspace.Model.Constraints)
-            {
-                var constraintViewModel = _constraintLoader.MapFrom(constraintModel);
-                newDesignerViewModel.FixupConstraint(constraintViewModel);
-            }
-
-            foreach (var variableModel in theWorkspace.Model.Singletons)
-            {
-                var variableViewModel = _variableLoader.MapFrom(variableModel);
-                newDesignerViewModel.FixupSingletonVariable(variableViewModel);
-            }
-
-            foreach (var aggregateModel in theWorkspace.Model.Aggregates)
-            {
-                var variableViewModel = _variableLoader.MapFrom(aggregateModel);
-                newDesignerViewModel.FixupAggregateVariable(variableViewModel);
-            }
-
-            return newDesignerViewModel;
         }
     }
 }

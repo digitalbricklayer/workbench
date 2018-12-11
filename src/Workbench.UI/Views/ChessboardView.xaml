@@ -145,7 +145,7 @@
     </UserControl.Resources>
 
     <Viewbox>
-        <ItemsControl Name="ChessBoard" ItemsSource="{Binding Model.Pieces}">
+        <ItemsControl Name="ChessBoard" ItemsSource="{Binding Squares}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Width="8" Height="8" Background="{StaticResource Checkerboard}"/>

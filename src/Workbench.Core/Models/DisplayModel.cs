@@ -83,9 +83,9 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Update the solution from a snapshot.
+        /// Update the solution from the result of solving the model.
         /// </summary>
-        /// <param name="theResult">Solution snapshot.</param>
+        /// <param name="theResult">Solve result.</param>
         public void UpdateFrom(SolveResult theResult)
         {
             Contract.Requires<ArgumentNullException>(theResult != null);

@@ -179,8 +179,7 @@ namespace Workbench.ViewModels
             {
                 Filter = "Constraint Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
                 OverwritePrompt = true,
-                DefaultExt = "dpf",
-                RestoreDirectory = true
+                DefaultExt = "dpf"
             };
 
             var result = saveFileDialog.ShowDialog();

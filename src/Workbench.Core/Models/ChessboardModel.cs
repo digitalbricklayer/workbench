@@ -14,22 +14,26 @@ namespace Workbench.Core.Models
     public class ChessboardModel : Model
     {
         private const int DefaultSize = 8;
-        private ObservableCollection<ChessboardSquareModel> pieces;
-        private int size = DefaultSize;
- 
+        private ObservableCollection<ChessboardSquareModel> _squares;
+        private int _size = DefaultSize;
+
+        /// <summary>
+        /// Initialize a chessboard with a name.
+        /// </summary>
+        /// <param name="modelName"></param>
+        public ChessboardModel(ModelName modelName)
+            : base(modelName)
+        {
+            Squares = new ObservableCollection<ChessboardSquareModel>();
+            InitializeBoard();
+        }
+
         /// <summary>
         /// Initialize a chessboard with default values.
         /// </summary>
         public ChessboardModel()
         {
-            this.pieces = new ObservableCollection<ChessboardSquareModel>();
-            InitializeBoard();
-        }
-
-        public ChessboardModel(ModelName modelName)
-            : base(modelName)
-        {
-            this.pieces = new ObservableCollection<ChessboardSquareModel>();
+            Squares = new ObservableCollection<ChessboardSquareModel>();
             InitializeBoard();
         }
 
@@ -38,10 +42,10 @@ namespace Workbench.Core.Models
         /// </summary>
         public int Size
         {
-            get { return this.size; }
+            get => _size;
             set
             {
-                this.size = value;
+                _size = value;
                 OnPropertyChanged();
             }
         }
@@ -49,13 +53,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the chess pieces.
         /// </summary>
-        public ObservableCollection<ChessboardSquareModel> Pieces
+        public ObservableCollection<ChessboardSquareModel> Squares
         {
-            get { return this.pieces; }
+            get => _squares;
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
-                this.pieces = value;
+                _squares = value;
                 OnPropertyChanged();
             }
         }
@@ -69,8 +73,8 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(newSquare != null);
             Contract.Requires<ArgumentException>(newSquare.Piece.Type != PieceType.Empty);
             // Convert a x, y coordinate into a one dimensional array index
-            var index = Convert.ToInt32(((newSquare.Pos.X - 1) * Size) + (newSquare.Pos.Y - 1));
-            Pieces[index] = newSquare;
+            var index = Convert.ToInt32((newSquare.Pos.X - 1) * Size + (newSquare.Pos.Y - 1));
+            Squares[index] = newSquare;
         }
 
         /// <summary>
@@ -80,8 +84,8 @@ namespace Workbench.Core.Models
         /// <returns>Collection of matching squares.</returns>
         public IReadOnlyCollection<ChessboardSquareModel> GetSquaresOccupiedBy(PieceType theTypeOfPiece)
         {
-            return this.Pieces.Where(square => square.Piece.Type == theTypeOfPiece)
-                              .ToList();
+            return Squares.Where(square => square.Piece.Type == theTypeOfPiece)
+                         .ToList();
         }
 
         private void InitializeBoard()
@@ -92,8 +96,8 @@ namespace Workbench.Core.Models
                 {
                     // An empty space on the board.
                     var squareLocation = new Point(col, row);
-                    var newPiece = ChessboardSquareModel.CreateEmpty(squareLocation);
-                    Pieces.Add(newPiece);
+                    var newSquare = ChessboardSquareModel.CreateEmpty(squareLocation);
+                    Squares.Add(newSquare);
                 }
             }
         }

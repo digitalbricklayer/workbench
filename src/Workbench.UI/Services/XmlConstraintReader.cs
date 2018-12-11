@@ -52,7 +52,9 @@ namespace Workbench.Services
                 }
             }
 
-            var constraintModel = new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression));
+            var constraintModel = new AllDifferentConstraintModel(_model,
+                                                                  new ModelName(constraintName),
+                                                                  new AllDifferentConstraintExpressionModel(expression));
             constraintModel.Id = Convert.ToInt32(constraintId);
             _model.AddConstraint(constraintModel);
         }
@@ -75,7 +77,9 @@ namespace Workbench.Services
                 }
             }
 
-            var constraintModel = new ExpressionConstraintModel(_model, new ModelName(constraintName), new ConstraintExpressionModel(expression));
+            var constraintModel = new ExpressionConstraintModel(_model,
+                                                                new ModelName(constraintName),
+                                                                new ConstraintExpressionModel(expression));
             constraintModel.Id = Convert.ToInt32(constraintId);
             _model.AddConstraint(constraintModel);
         }

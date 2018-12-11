@@ -80,12 +80,12 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Gets all chessboard visualizers.
+        /// Gets all chessboard tab visualizers.
         /// </summary>
         public BindableCollection<ChessboardTabViewModel> ChessboardTabs { get; }
 
         /// <summary>
-        /// Gets all table visualizers.
+        /// Gets all table tab visualizers.
         /// </summary>
         public BindableCollection<TableTabViewModel> TableTabs { get; }
 
@@ -108,10 +108,7 @@ namespace Workbench.ViewModels
             if (!isModelValid) return SolveResult.InvalidModel;
             var solveResult = WorkspaceModel.Solve();
             if (!solveResult.IsSuccess) return SolveResult.Failed;
-            foreach (var anItem in TableTabs)
-            {
-                anItem.UpdateFromModel();
-            }
+            UpdateVisualizers();
             DisplaySolution(WorkspaceModel.Solution);
             _eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
 
@@ -186,8 +183,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(newChessboard != null);
             var newChessboardTab = new ChessboardTabViewModel(new ChessboardTabModel(newChessboard, new WorkspaceTabTitle("board1")), _windowManager);
             WorkspaceModel.Display.AddVisualizer(newChessboardTab.Model);
-            ChessboardTabs.Add(newChessboardTab);
-            ActivateItem(newChessboardTab);
+            LoadChessboardTab(newChessboardTab);
         }
 
         /// <summary>
@@ -232,7 +228,7 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(aNewExpression != null);
             WorkspaceModel.AddBindingExpression(aNewExpression);
-            Bindings.Add(new VisualizerBindingExpressionViewModel(aNewExpression));
+            LoadBindingExpression(new VisualizerBindingExpressionViewModel(aNewExpression));
         }
 
         /// <summary>
@@ -246,6 +242,30 @@ namespace Workbench.ViewModels
             var editorToDelete = GetBindingExpressionById(aVisualizerBinding.Id);
             Contract.Assert(editorToDelete != null);
             Bindings.Remove(editorToDelete);
+        }
+
+        /// <summary>
+        /// Load a binding expression into the view model.
+        /// </summary>
+        /// <param name="anExpression">A binding expression to add to the workspace may be a new binding or one loaded from the model.</param>
+        internal void LoadBindingExpression(VisualizerBindingExpressionViewModel anExpression)
+        {
+            Contract.Requires<ArgumentNullException>(anExpression != null);
+            Bindings.Add(anExpression);
+        }
+
+        /// <summary>
+        /// Load a chessboard tab into the view model.
+        /// </summary>
+        /// <param name="aChessboardTab">A chessboard tab to add to the workspace may be a new chessboard or one loaded from the model.</param>
+        internal void LoadChessboardTab(ChessboardTabViewModel aChessboardTab)
+        {
+            Contract.Requires<ArgumentNullException>(aChessboardTab != null);
+            ChessboardTabs.Add(aChessboardTab);
+            if (IsActive)
+            {
+                ActivateItem(aChessboardTab);
+            }
         }
 
         /// <summary>
@@ -265,6 +285,10 @@ namespace Workbench.ViewModels
             // The model editor is always present in the workspace
             ModelEditor = _viewModelFactory.CreateModelEditor();
             Items.Add(ModelEditor);
+            foreach (var aChessboardTab in ChessboardTabs)
+            {
+                Items.Add(aChessboardTab);
+            }
         }
 
         /// <summary>
@@ -285,6 +309,28 @@ namespace Workbench.ViewModels
 
             ActivateItem(SolutionViewer);
             SolutionViewer.BindTo(theSolution);
+        }
+
+        private void UpdateVisualizers()
+        {
+            UpdateTables();
+            UpdateChessboards();
+        }
+
+        private void UpdateChessboards()
+        {
+            foreach (var aChessboardTab in ChessboardTabs)
+            {
+                aChessboardTab.UpdateFromModel();
+            }
+        }
+
+        private void UpdateTables()
+        {
+            foreach (var aTableTab in TableTabs)
+            {
+                aTableTab.UpdateFromModel();
+            }
         }
 
         [ContractInvariantMethod]

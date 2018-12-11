@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using Caliburn.Micro;
+using Workbench.Messages;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -11,9 +12,10 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the shell of the main window.
     /// </summary>
-    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
+    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell, IHandle<DocumentOpenedMessage>
     {
         private readonly IDocumentManager _documentManager;
+        private readonly IEventAggregator _eventAggregator;
         private ApplicationMenuViewModel _applicationMenu;
         private WorkspaceDocumentViewModel _currentDocument;
         private WorkspaceViewModel _workspace;
@@ -25,13 +27,16 @@ namespace Workbench.ViewModels
         /// </summary>
         /// <param name="theDocumentManager">Document manager.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
-        public ShellViewModel(IDocumentManager theDocumentManager, ApplicationMenuViewModel theApplicationMenuViewModel)
+        /// <param name="theEventAggregator">Event aggregator.</param>
+        public ShellViewModel(IDocumentManager theDocumentManager, ApplicationMenuViewModel theApplicationMenuViewModel, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theDocumentManager != null);
             Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
+            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
 
             _documentManager = theDocumentManager;
             ApplicationMenu = theApplicationMenuViewModel;
+            _eventAggregator = theEventAggregator;
         }
 
         /// <summary>
@@ -148,6 +153,18 @@ namespace Workbench.ViewModels
             cancelEventArgs.Cancel = false;
         }
 
+        /// <summary>
+        /// Handle the document opened message.
+        /// </summary>
+        /// <param name="documentOpenedMessage">Document opened message.</param>
+        public void Handle(DocumentOpenedMessage documentOpenedMessage)
+        {
+            CurrentDocument = documentOpenedMessage.Document;
+            Workspace = documentOpenedMessage.Workspace;
+            ActivateItem(CurrentDocument);
+            ActivateItem(Workspace);
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
@@ -156,6 +173,7 @@ namespace Workbench.ViewModels
             var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };
             Items.AddRange(shellSubScreens);
             CurrentDocument.New();
+            _eventAggregator.Subscribe(this);
         }
     }
 }

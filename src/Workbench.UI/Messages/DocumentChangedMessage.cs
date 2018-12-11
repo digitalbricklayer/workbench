@@ -9,7 +9,15 @@ namespace Workbench.Messages
     /// </summary>
     public abstract class DocumentChangedMessage
     {
+        /// <summary>
+        /// Gets the changed document.
+        /// </summary>
         public WorkspaceDocumentViewModel Document { get; }
+
+        /// <summary>
+        /// Gets the workspace inside the changed document.
+        /// </summary>
+        public WorkspaceViewModel Workspace => Document.Workspace;
 
         /// <summary>
         /// Initialize the document message with a document.
