@@ -251,6 +251,7 @@
     <Compile Include="Services\XmlConstraintReader.cs" />
     <Compile Include="Services\XmlConstraintWriter.cs" />
     <Compile Include="Services\XmlDisplayReader.cs" />
+    <Compile Include="Services\XmlDocumentWriter.cs" />
     <Compile Include="Services\XmlSharedDomainReader.cs" />
     <Compile Include="Services\XmlSharedDomainWriter.cs" />
     <Compile Include="Services\XmlModelReader.cs" />

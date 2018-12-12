@@ -1,34 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal class XmlSharedDomainWriter
+    internal class XmlSharedDomainWriter : XmlDocumentWriter<IList<SharedDomainModel>>
     {
-        private readonly XmlDocument _document;
-        private readonly ModelModel _model;
-
-        internal XmlSharedDomainWriter(XmlDocument theDocument, ModelModel theModel)
+        internal XmlSharedDomainWriter(XmlDocument theDocument, ObservableCollection<SharedDomainModel> theSharedDomains)
+            : base(theDocument, theSharedDomains)
         {
-            _document = theDocument;
-            _model = theModel;
         }
 
         internal void Write(XmlElement modelRoot)
         {
-            var domainsRoot = _document.CreateElement("domains");
-            foreach (var aDomain in _model.SharedDomains)
+            var domainsRoot = Document.CreateElement("domains");
+            foreach (var aDomain in Subject)
             {
-                var domainElement = _document.CreateElement("domain");
-                var idAttribute = _document.CreateAttribute("id");
+                var domainElement = Document.CreateElement("domain");
+                var idAttribute = Document.CreateAttribute("id");
                 idAttribute.Value = Convert.ToString(aDomain.Id);
                 domainElement.Attributes.Append(idAttribute);
-                var nameAttribute = _document.CreateAttribute("name");
-                nameAttribute.Value = aDomain.Name;
-                domainElement.Attributes.Append(nameAttribute);
-                var expressionElement = _document.CreateElement("expression");
-                var encodedExpressionNode = _document.CreateCDataSection(aDomain.Expression.Text);
+                var nameElement = Document.CreateElement("name");
+                var encodedNameNode = Document.CreateCDataSection(aDomain.Name);
+                nameElement.AppendChild(encodedNameNode);
+                domainElement.AppendChild(nameElement);
+                var expressionElement = Document.CreateElement("expression");
+                var encodedExpressionNode = Document.CreateCDataSection(aDomain.Expression.Text);
                 expressionElement.AppendChild(encodedExpressionNode);
                 domainElement.AppendChild(expressionElement);
                 domainsRoot.AppendChild(domainElement);

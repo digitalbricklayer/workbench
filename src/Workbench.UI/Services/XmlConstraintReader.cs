@@ -38,14 +38,17 @@ namespace Workbench.Services
         {
             var constraintIdAttribute = constraintNode.Attributes["id"];
             var constraintId = constraintIdAttribute.Value;
-            var constraintNameAttribute = constraintNode.Attributes["name"];
-            var constraintName = constraintNameAttribute.Value;
+            var constraintName = string.Empty;
             var expression = string.Empty;
             for (var i = 0; i < constraintNode.ChildNodes.Count; i++)
             {
                 var childNode = constraintNode.ChildNodes[i];
                 switch (childNode.Name)
                 {
+                    case "name":
+                        constraintName = childNode.InnerText;
+                        break;
+
                     case "expression":
                         expression = childNode.InnerText;
                         break;
@@ -63,14 +66,17 @@ namespace Workbench.Services
         {
             var constraintIdAttribute = constraintNode.Attributes["id"];
             var constraintId = constraintIdAttribute.Value;
-            var constraintNameAttribute = constraintNode.Attributes["name"];
-            var constraintName = constraintNameAttribute.Value;
+            var constraintName = string.Empty;
             var expression = string.Empty;
             for (var i = 0; i < constraintNode.ChildNodes.Count; i++)
             {
                 var childNode = constraintNode.ChildNodes[i];
                 switch (childNode.Name)
                 {
+                    case "name":
+                        constraintName = childNode.InnerText;
+                        break;
+
                     case "expression":
                         expression = childNode.InnerText;
                         break;

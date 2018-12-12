@@ -1,28 +1,20 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Xml;
+﻿using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal sealed class XmlDisplayWriter
+    internal sealed class XmlDisplayWriter : XmlDocumentWriter<DisplayModel>
     {
-        private readonly DisplayModel _display;
-        private readonly XmlDocument _document;
-
         internal XmlDisplayWriter(XmlDocument theDocument, DisplayModel theDisplay)
+            : base(theDocument, theDisplay)
         {
-            Contract.Requires<ArgumentNullException>(theDocument != null);
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
-            _display = theDisplay;
-            _document = theDocument;
         }
 
         internal void Write(XmlElement workspaceRoot)
         {
-            var displayRoot = _document.CreateElement("display");
-            new XmlVisualizerBindingWriter(_document, _display).Write(displayRoot);
-            new XmlVisualizerWriter(_document, _display).Write(displayRoot);
+            var displayRoot = Document.CreateElement("display");
+            new XmlVisualizerBindingWriter(Document, Subject.Bindings).Write(displayRoot);
+            new XmlVisualizerWriter(Document, Subject.Visualizers).Write(displayRoot);
             workspaceRoot.AppendChild(displayRoot);
         }
     }

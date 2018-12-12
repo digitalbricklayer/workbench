@@ -6,26 +6,23 @@ namespace Workbench.Services
     /// <summary>
     /// Class for writing a model to XML.
     /// </summary>
-    internal class XmlModelWriter
+    internal class XmlModelWriter : XmlDocumentWriter<ModelModel>
     {
-        private readonly XmlDocument _document;
-        private readonly ModelModel _model;
-
         internal XmlModelWriter(XmlDocument theDocument, ModelModel theModel)
+            : base(theDocument, theModel)
         {
-            _document = theDocument;
-            _model = theModel;
         }
 
         internal void Write(XmlElement workspaceRoot)
         {
-            var modelRoot = _document.CreateElement("model");
-            var nameAttribute = _document.CreateAttribute("name");
-            nameAttribute.Value = _model.Name.Text;
-            modelRoot.Attributes.Append(nameAttribute);
-            new XmlVariableWriter(_document, _model).Write(modelRoot);
-            new XmlConstraintWriter(_document, _model).Write(modelRoot);
-            new XmlSharedDomainWriter(_document, _model).Write(modelRoot);
+            var modelRoot = Document.CreateElement("model");
+            var nameElement = Document.CreateElement("name");
+            var encodedNameNode = Document.CreateCDataSection(Subject.Name);
+            nameElement.AppendChild(encodedNameNode);
+            modelRoot.AppendChild(nameElement);
+            new XmlVariableWriter(Document, Subject.Variables).Write(modelRoot);
+            new XmlConstraintWriter(Document, Subject.Constraints).Write(modelRoot);
+            new XmlSharedDomainWriter(Document, Subject.SharedDomains).Write(modelRoot);
             workspaceRoot.AppendChild(modelRoot);
         }
     }

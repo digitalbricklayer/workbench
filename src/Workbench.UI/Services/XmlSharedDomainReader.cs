@@ -23,14 +23,17 @@ namespace Workbench.Services
                     case "domain":
                         var domainIdAttribute = domainNode.Attributes["id"];
                         var domainId = domainIdAttribute.Value;
-                        var domainNameAttribute = domainNode.Attributes["name"];
-                        var domainName = domainNameAttribute.Value;
+                        var domainName = string.Empty;
                         var expression = string.Empty;
                         for (var z = 0; z < domainNode.ChildNodes.Count; z++)
                         {
                             var childNode = domainNode.ChildNodes[z];
                             switch (childNode.Name)
                             {
+                                case "name":
+                                    domainName = childNode.InnerText;
+                                    break;
+
                                 case "expression":
                                     expression = childNode.InnerText;
                                     break;

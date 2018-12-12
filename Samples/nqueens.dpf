@@ -1,21 +1,27 @@
 <workspace>
-  <model name="">
+  <model>
+	<name><![CDATA[]]></name>
     <variables>
-      <aggregate-variable id="1" name="cols" size="8">
+      <aggregate-variable id="1" size="8">
+		<name><![CDATA[cols]]></name>
         <domain><![CDATA[1..8]]></domain>
       </aggregate-variable>
     </variables>
     <constraints>
-      <all-different-constraint id="3" name="queens cannot share same column">
+      <all-different-constraint id="3">
+		<name><![CDATA[queens cannot share same column]]></name>
         <expression><![CDATA[cols]]></expression>
       </all-different-constraint>
-      <expression-constraint id="4" name="1">
+      <expression-constraint id="4">
+		<name><![CDATA[1]]></name>
         <expression><![CDATA[$cols[i] <> $cols[j] | i,j in size(cols),i]]></expression>
       </expression-constraint>
-      <expression-constraint id="5" name="2">
+      <expression-constraint id="5">
+		<name><![CDATA[2]]></name>
         <expression><![CDATA[$cols[i] + i <> $cols[j] + j | i,j in size(cols),i]]></expression>
       </expression-constraint>
-      <expression-constraint id="6" name="3">
+      <expression-constraint id="6">
+		<name><![CDATA[3]]></name>
         <expression><![CDATA[$cols[i] - i <> $cols[j] - j | i,j in size(cols),i]]></expression>
       </expression-constraint>
     </constraints>

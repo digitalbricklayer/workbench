@@ -8,22 +8,23 @@ namespace Workbench.Services
     {
         private readonly WorkspaceModel _workspace;
 
-        public XmlModelReader(WorkspaceModel theWorkspace)
+        internal XmlModelReader(WorkspaceModel theWorkspace)
         {
             _workspace = theWorkspace;
         }
 
         internal ModelModel Read(XmlNode theModelNode)
         {
-            var modelNameAttribute = theModelNode.Attributes["name"];
-            var modelName = modelNameAttribute.Value;
-            _workspace.Model.Name = new ModelName(modelName);
             var model = _workspace.Model;
             for (var i = 0; i < theModelNode.ChildNodes.Count; i++)
             {
                 var childNode = theModelNode.ChildNodes[i];
                 switch (childNode.Name.ToLower())
                 {
+                    case "name":
+                        _workspace.Model.Name = new ModelName(childNode.InnerText);
+                        break;
+
                     case "constraints":
                         new XmlConstraintReader(model).Read(childNode.ChildNodes);
                         break;
@@ -33,7 +34,7 @@ namespace Workbench.Services
                         break;
 
                     case "variables":
-                        new XmlVariableReader(_workspace).Read(childNode.ChildNodes);
+                        new XmlVariableReader(model).Read(childNode.ChildNodes);
                         break;
 
                     default:

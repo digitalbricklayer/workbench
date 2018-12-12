@@ -5,17 +5,17 @@ using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    public sealed class XmlDisplayReader
+    internal sealed class XmlDisplayReader
     {
         private readonly WorkspaceModel _workspace;
 
-        public XmlDisplayReader(WorkspaceModel theWorkspace)
+        internal XmlDisplayReader(WorkspaceModel theWorkspace)
         {
             Contract.Requires<ArgumentNullException>(theWorkspace != null);
             _workspace = theWorkspace;
         }
 
-        public DisplayModel Read(XmlNode displayNode)
+        internal DisplayModel Read(XmlNode displayNode)
         {
             Contract.Requires<ArgumentNullException>(displayNode != null);
 

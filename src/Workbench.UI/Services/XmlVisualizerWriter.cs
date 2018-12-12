@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -8,28 +8,22 @@ namespace Workbench.Services
     /// <summary>
     /// Write the visualizers to the XML document.
     /// </summary>
-    internal sealed class XmlVisualizerWriter
+    internal sealed class XmlVisualizerWriter : XmlDocumentWriter<IList<VisualizerModel>>
     {
-        private readonly XmlDocument _document;
-        private readonly DisplayModel _display;
-
-        internal XmlVisualizerWriter(XmlDocument theDocument, DisplayModel theDisplay)
+        internal XmlVisualizerWriter(XmlDocument theDocument, IList<VisualizerModel> theVisualizers)
+            : base(theDocument, theVisualizers)
         {
-            Contract.Requires<ArgumentNullException>(theDocument != null);
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
-            _display = theDisplay;
-            _document = theDocument;
         }
 
         internal void Write(XmlElement displayRoot)
         {
-            var visualizersRoot = _document.CreateElement("visualizers");
-            foreach (var aVisualizer in _display.Visualizers)
+            var visualizersRoot = Document.CreateElement("visualizers");
+            foreach (var aVisualizer in Subject)
             {
                 switch (aVisualizer)
                 {
                     case ChessboardTabModel aChessboardTab:
-                        new XmlChessboardVisualizerWriter(_document, aChessboardTab).Write(visualizersRoot);
+                        new XmlChessboardVisualizerWriter(Document, aChessboardTab).Write(visualizersRoot);
                         break;
 
                     case TableTabModel _:

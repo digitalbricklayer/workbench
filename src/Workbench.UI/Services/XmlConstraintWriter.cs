@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal class XmlConstraintWriter
+    internal class XmlConstraintWriter : XmlDocumentWriter<IList<ConstraintModel>>
     {
-        private readonly XmlDocument _document;
-        private readonly ModelModel _model;
-
-        internal XmlConstraintWriter(XmlDocument theDocument, ModelModel theModel)
+        internal XmlConstraintWriter(XmlDocument theDocument, IList<ConstraintModel> theConstraints)
+            : base(theDocument, theConstraints)
         {
-            _document = theDocument;
-            _model = theModel;
         }
 
         internal void Write(XmlElement modelRoot)
         {
-            var constraintsRoot = _document.CreateElement("constraints");
-            foreach (var aConstraint in _model.Constraints)
+            var constraintsRoot = Document.CreateElement("constraints");
+            foreach (var aConstraint in Subject)
             {
                 switch (aConstraint)
                 {
@@ -39,15 +36,16 @@ namespace Workbench.Services
 
         private void WriteConstraint(ExpressionConstraintModel expressionConstraint, XmlElement constraintsRoot)
         {
-            var expressionConstraintElement = _document.CreateElement("expression-constraint");
-            var idAttribute = _document.CreateAttribute("id");
+            var expressionConstraintElement = Document.CreateElement("expression-constraint");
+            var idAttribute = Document.CreateAttribute("id");
             idAttribute.Value = Convert.ToString(expressionConstraint.Id);
             expressionConstraintElement.Attributes.Append(idAttribute);
-            var nameAttribute = _document.CreateAttribute("name");
-            nameAttribute.Value = expressionConstraint.Name;
-            expressionConstraintElement.Attributes.Append(nameAttribute);
-            var expressionElement = _document.CreateElement("expression");
-            var encodedExpressionNode = _document.CreateCDataSection(expressionConstraint.Expression.Text);
+            var nameElement = Document.CreateElement("name");
+            var encodedNameNode = Document.CreateCDataSection(expressionConstraint.Name);
+            nameElement.AppendChild(encodedNameNode);
+            expressionConstraintElement.AppendChild(nameElement);
+            var expressionElement = Document.CreateElement("expression");
+            var encodedExpressionNode = Document.CreateCDataSection(expressionConstraint.Expression.Text);
             expressionElement.AppendChild(encodedExpressionNode);
             expressionConstraintElement.AppendChild(expressionElement);
             constraintsRoot.AppendChild(expressionConstraintElement);
@@ -55,15 +53,16 @@ namespace Workbench.Services
 
         private void WriteConstraint(AllDifferentConstraintModel allDifferentConstraint, XmlElement constraintsRoot)
         {
-            var allDifferentElement = _document.CreateElement("all-different-constraint");
-            var idAttribute = _document.CreateAttribute("id");
+            var allDifferentElement = Document.CreateElement("all-different-constraint");
+            var idAttribute = Document.CreateAttribute("id");
             idAttribute.Value = Convert.ToString(allDifferentConstraint.Id);
             allDifferentElement.Attributes.Append(idAttribute);
-            var nameAttribute = _document.CreateAttribute("name");
-            nameAttribute.Value = allDifferentConstraint.Name;
-            allDifferentElement.Attributes.Append(nameAttribute);
-            var expressionElement = _document.CreateElement("expression");
-            var encodedExpressionNode = _document.CreateCDataSection(allDifferentConstraint.Expression.Text);
+            var nameElement = Document.CreateElement("name");
+            var encodedNameNode = Document.CreateCDataSection(allDifferentConstraint.Name);
+            nameElement.AppendChild(encodedNameNode);
+            allDifferentElement.AppendChild(nameElement);
+            var expressionElement = Document.CreateElement("expression");
+            var encodedExpressionNode = Document.CreateCDataSection(allDifferentConstraint.Expression.Text);
             expressionElement.AppendChild(encodedExpressionNode);
             allDifferentElement.AppendChild(expressionElement);
             constraintsRoot.AppendChild(allDifferentElement);

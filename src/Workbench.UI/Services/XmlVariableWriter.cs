@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
-    internal class XmlVariableWriter
+    internal class XmlVariableWriter : XmlDocumentWriter<IList<VariableModel>>
     {
-        private readonly XmlDocument _document;
-        private readonly ModelModel _model;
-
-        public XmlVariableWriter(XmlDocument theDocument, ModelModel theModel)
+        internal XmlVariableWriter(XmlDocument theDocument, IList<VariableModel> theVariables)
+            : base(theDocument, theVariables)
         {
-            _document = theDocument;
-            _model = theModel;
         }
 
-        public void Write(XmlElement modelRoot)
+        internal void Write(XmlElement modelRoot)
         {
-            var variablesRoot = _document.CreateElement("variables");
-            foreach (var aVariable in _model.Variables)
+            var variablesRoot = Document.CreateElement("variables");
+            foreach (var aVariable in Subject)
             {
                 switch (aVariable)
                 {
@@ -39,15 +36,16 @@ namespace Workbench.Services
 
         private void WriteVariable(SingletonVariableModel aVariable, XmlElement variablesRoot)
         {
-            var variableElement = _document.CreateElement("singleton-variable");
-            var idAttribute = _document.CreateAttribute("id");
+            var variableElement = Document.CreateElement("singleton-variable");
+            var idAttribute = Document.CreateAttribute("id");
             idAttribute.Value = Convert.ToString(aVariable.Id);
             variableElement.Attributes.Append(idAttribute);
-            var nameAttribute = _document.CreateAttribute("name");
-            nameAttribute.Value = aVariable.Name;
-            variableElement.Attributes.Append(nameAttribute);
-            var domainElement = _document.CreateElement("domain");
-            var encodedDomainNode = _document.CreateCDataSection(aVariable.DomainExpression.Text);
+            var nameElement = Document.CreateElement("name");
+            var encodedNameNode = Document.CreateCDataSection(aVariable.Name);
+            nameElement.AppendChild(encodedNameNode);
+            variableElement.AppendChild(nameElement);
+            var domainElement = Document.CreateElement("domain");
+            var encodedDomainNode = Document.CreateCDataSection(aVariable.DomainExpression.Text);
             domainElement.AppendChild(encodedDomainNode);
             variableElement.AppendChild(domainElement);
             variablesRoot.AppendChild(variableElement);
@@ -55,18 +53,19 @@ namespace Workbench.Services
 
         private void WriteVariable(AggregateVariableModel aVariable, XmlElement variablesRoot)
         {
-            var variableElement = _document.CreateElement("aggregate-variable");
-            var idAttribute = _document.CreateAttribute("id");
+            var variableElement = Document.CreateElement("aggregate-variable");
+            var idAttribute = Document.CreateAttribute("id");
             idAttribute.Value = Convert.ToString(aVariable.Id);
             variableElement.Attributes.Append(idAttribute);
-            var nameAttribute = _document.CreateAttribute("name");
-            nameAttribute.Value = aVariable.Name;
-            variableElement.Attributes.Append(nameAttribute);
-            var sizeAttribute = _document.CreateAttribute("size");
+            var nameElement = Document.CreateElement("name");
+            var encodedNameNode = Document.CreateCDataSection(aVariable.Name);
+            nameElement.AppendChild(encodedNameNode);
+            variableElement.AppendChild(nameElement);
+            var sizeAttribute = Document.CreateAttribute("size");
             sizeAttribute.Value = Convert.ToString(aVariable.GetSize());
             variableElement.Attributes.Append(sizeAttribute);
-            var domainElement = _document.CreateElement("domain");
-            var encodedDomainNode = _document.CreateCDataSection(aVariable.DomainExpression.Text);
+            var domainElement = Document.CreateElement("domain");
+            var encodedDomainNode = Document.CreateCDataSection(aVariable.DomainExpression.Text);
             domainElement.AppendChild(encodedDomainNode);
             variableElement.AppendChild(domainElement);
             variablesRoot.AppendChild(variableElement);

@@ -15,9 +15,9 @@ namespace Workbench.Services
 			using (var fileStream = new FileStream(filename, FileMode.Create))
 			{
 				var workspaceRoot = workspaceDocument.CreateElement("workspace");
-				workspaceDocument.AppendChild(workspaceRoot);
 				new XmlModelWriter(workspaceDocument, theWorkspace.Model).Write(workspaceRoot);
 				new XmlDisplayWriter(workspaceDocument, theWorkspace.Display).Write(workspaceRoot);
+				workspaceDocument.AppendChild(workspaceRoot);
 				workspaceDocument.Save(fileStream);
 			}
         }
