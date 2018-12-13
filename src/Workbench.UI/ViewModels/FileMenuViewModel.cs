@@ -51,7 +51,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileNewAction()
         {
-            if (!_documentManager.CloseDocument()) return;
+            if (!Shell.CloseDocument()) return;
             var newDocument = _documentManager.CreateDocument();
             newDocument.New();
             Shell.OpenDocument(newDocument);
@@ -62,7 +62,10 @@ namespace Workbench.ViewModels
         /// </summary>
         private void FileOpenAction()
         {
-            CurrentDocument.Open();
+            if (!Shell.CloseDocument()) return;
+            var newDocument = _documentManager.CreateDocument();
+            newDocument.Open();
+            Shell.OpenDocument(newDocument);
         }
 
         /// <summary>

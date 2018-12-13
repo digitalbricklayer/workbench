@@ -32,5 +32,7 @@ namespace Workbench
         /// </summary>
         /// <param name="theDocument">Workspace document.</param>
         void OpenDocument(WorkspaceDocumentViewModel theDocument);
+
+        bool CloseDocument();
     }
 }

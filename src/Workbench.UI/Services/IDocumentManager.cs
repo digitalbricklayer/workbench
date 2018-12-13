@@ -2,6 +2,9 @@
 
 namespace Workbench.Services
 {
+    /// <summary>
+    /// Contract for the document manager.
+    /// </summary>
     public interface IDocumentManager
     {
         /// <summary>
@@ -13,11 +16,5 @@ namespace Workbench.Services
         /// Create a new document.
         /// </summary>
         WorkspaceDocumentViewModel CreateDocument();
-
-        /// <summary>
-        /// Close a document.
-        /// </summary>
-        /// <returns>True if the document was successfully closed or False if the user cancelled the operation.</returns>
-        bool CloseDocument();
     }
 }

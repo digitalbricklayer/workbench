@@ -229,7 +229,6 @@
     <Compile Include="IShell.cs" />
     <Compile Include="IShellContract.cs" />
     <Compile Include="Messages\DocumentClosedMessage.cs" />
-    <Compile Include="Messages\DocumentCreatedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
     <Compile Include="Messages\DocumentSavedMessage.cs" />

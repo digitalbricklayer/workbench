@@ -44,17 +44,5 @@ namespace Workbench.Services
 
             return CurrentDocument;
         }
-
-        /// <summary>
-        /// Close the current document.
-        /// </summary>
-        public bool CloseDocument()
-        {
-            var closeStatus = CurrentDocument.Close();
-            // Did the user cancel the close?
-            if (!closeStatus) return false;
-            _currentDocument = null;
-            return true;
-        }
     }
 }

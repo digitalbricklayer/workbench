@@ -9,7 +9,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Title bar in the main window.
     /// </summary>
-    public class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>, IHandle<DocumentChangedMessage>, ITitleBar
+    public sealed class TitleBarViewModel : Screen, IHandle<WorkspaceChangedMessage>, IHandle<DocumentChangedMessage>, ITitleBar
     {
         private string _title;
         private readonly IEventAggregator _eventAggregator;
@@ -24,7 +24,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theShell != null);
             _eventAggregator = theEventAggregator;
             _shell = theShell;
-            Title = "Constraint Workbench" + " - " + "Untitled";
+            Title = "Workbench" + " - " + "Untitled";
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var newTitle = "Constraint Workbench" + " - ";
+            var newTitle = "Workbench" + " - ";
 
             if (_shell.CurrentDocument.IsNew || _shell.CurrentDocument.Path.IsEmpty)
             {

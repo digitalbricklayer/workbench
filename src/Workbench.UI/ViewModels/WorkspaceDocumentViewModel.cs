@@ -106,7 +106,6 @@ namespace Workbench.ViewModels
         {
             IsNew = true;
             IsDirty = false;
-            _eventAggregator.PublishOnUIThread(new DocumentCreatedMessage(this));
         }
 
         /// <summary>
@@ -114,8 +113,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Open()
         {
-            if (!Close()) return;
-
             var openFileDialog = new OpenFileDialog
             {
                 Filter = "Constraint Workbench" + " (*.dpf)|*.dpf|All Files|*.*",
@@ -134,8 +131,6 @@ namespace Workbench.ViewModels
 
             Path = new DocumentPathViewModel(openFileDialog.FileName);
             DoLoad();
-
-            _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(this));
         }
 
         /// <summary>
@@ -145,13 +140,7 @@ namespace Workbench.ViewModels
         /// save was cancelled by the user.</returns>
         public bool Close()
         {
-            var isSaved = TrySave();
-            if (isSaved)
-            {
-                _eventAggregator.PublishOnUIThread(new DocumentClosedMessage(this));
-            }
-
-            return isSaved;
+            return TrySave();
         }
 
         /// <summary>
@@ -286,6 +275,8 @@ namespace Workbench.ViewModels
                 // Read a new workspace model from file
                 var newWorkspace = _dataService.Open(Path.FullPath);
                 Workspace = _workspaceLoader.Load(newWorkspace);
+                IsNew = false;
+                IsDirty = false;
             }
             catch (Exception e)
             {

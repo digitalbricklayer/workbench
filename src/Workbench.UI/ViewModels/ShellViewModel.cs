@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Windows;
@@ -10,12 +9,13 @@ using Workbench.Services;
 namespace Workbench.ViewModels
 {
     /// <summary>
-    /// View model for the shell of the main window.
+    /// View model for the shell inside the main window. The shell is responsible
+    /// for managing single document interface.
     /// </summary>
-    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell, IHandle<DocumentOpenedMessage>
+    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
     {
-        private readonly IDocumentManager _documentManager;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IDocumentManager _documentManager;
         private ApplicationMenuViewModel _applicationMenu;
         private WorkspaceDocumentViewModel _currentDocument;
         private WorkspaceViewModel _workspace;
@@ -61,7 +61,6 @@ namespace Workbench.ViewModels
             get => _currentDocument;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _currentDocument = value;
                 NotifyOfPropertyChange();
             }
@@ -91,15 +90,33 @@ namespace Workbench.ViewModels
             Application.Current?.MainWindow?.Close();
         }
 
+        /// <summary>
+        /// Open the workspace document.
+        /// </summary>
+        /// <param name="theDocument">Workspace document.</param>
         public void OpenDocument(WorkspaceDocumentViewModel theDocument)
         {
-            // Close the old document
-            DeactivateItem(CurrentDocument, close: true);
-            DeactivateItem(Workspace, close: true);
             CurrentDocument = theDocument;
             ActivateItem(CurrentDocument);
             Workspace = theDocument.Workspace;
             ActivateItem(Workspace);
+            _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(CurrentDocument));
+        }
+
+        /// <summary>
+        /// Close the current document.
+        /// </summary>
+        /// <returns>True if the document was successfully closed, false if cancelled.</returns>
+        public bool CloseDocument()
+        {
+            var closeStatus = CurrentDocument.Close();
+            // Did the user cancel the close?
+            if (!closeStatus) return false;
+            DeactivateItem(CurrentDocument, close: true);
+            DeactivateItem(Workspace, close: true);
+            _eventAggregator.PublishOnUIThread(new DocumentClosedMessage(CurrentDocument));
+            CurrentDocument = null;
+            return true;
         }
 
         /// <summary>
@@ -153,26 +170,13 @@ namespace Workbench.ViewModels
             cancelEventArgs.Cancel = false;
         }
 
-        /// <summary>
-        /// Handle the document opened message.
-        /// </summary>
-        /// <param name="documentOpenedMessage">Document opened message.</param>
-        public void Handle(DocumentOpenedMessage documentOpenedMessage)
-        {
-            CurrentDocument = documentOpenedMessage.Document;
-            Workspace = documentOpenedMessage.Workspace;
-            ActivateItem(CurrentDocument);
-            ActivateItem(Workspace);
-        }
-
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            CurrentDocument = _documentManager.CreateDocument();
-            Workspace = CurrentDocument.Workspace;
-            var shellSubScreens = new List<Screen> { Workspace, ApplicationMenu, CurrentDocument };
-            Items.AddRange(shellSubScreens);
-            CurrentDocument.New();
+            var newDocument = _documentManager.CreateDocument();
+            newDocument.New();
+            OpenDocument(newDocument);
+            Items.Add(ApplicationMenu);
             _eventAggregator.Subscribe(this);
         }
     }

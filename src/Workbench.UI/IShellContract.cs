@@ -38,7 +38,6 @@ namespace Workbench
 
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _currentDocument = value;
             }
         }
@@ -54,6 +53,11 @@ namespace Workbench
         public void OpenDocument(WorkspaceDocumentViewModel theDocument)
         {
             Contract.Requires<ArgumentNullException>(theDocument != null);
+        }
+
+        public bool CloseDocument()
+        {
+            return default(bool);
         }
     }
 }
