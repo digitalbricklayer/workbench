@@ -1,4 +1,4 @@
-# Constraint Capers Workbench
+# Workbench
 A tool to explore how to model a constraint satisfaction problem with an engine for solving it and presenting a solution. Uses the [Google or-tools](https://developers.google.com/optimization/) for solving the problem.
 
 The program idea is outlined in [The strange case of the missing application](http://techteapot.com/strange-case-of-the-missing-application/). The Workbench is an attempt to build the missing application, to see if such a thing exists, or has *any* utility. In the past whenever I've tried to come up with a suitable interface I've always eventually come up with something a lot like a spreadsheet. Just goes to show just how good a paradigm the spreadsheet is.
