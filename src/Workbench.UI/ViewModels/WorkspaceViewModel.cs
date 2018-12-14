@@ -215,6 +215,19 @@ namespace Workbench.ViewModels
         {
             Contract.Requires<ArgumentNullException>(tabToClose != null);
             Contract.Assert(tabToClose.CloseTabIsVisible, "Should not be asked to close tabs that are not closable");
+            switch (tabToClose)
+            {
+                case ChessboardTabViewModel chessboardTab:
+                    ChessboardTabs.Remove(chessboardTab);
+                    break;
+
+                case TableTabViewModel tableTab:
+                    TableTabs.Remove(tableTab);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
             DeactivateItem(tabToClose, true);
         }
 
