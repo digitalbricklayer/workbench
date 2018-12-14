@@ -208,10 +208,6 @@ namespace Workbench.ViewModels
             ActivateItem(newTableTab);
         }
 
-        public void BindTo(SolutionModel theSolution)
-        {
-        }
-
         /// <summary>
         /// Close the tab as initiated by the user.
         /// </summary>
@@ -299,7 +295,6 @@ namespace Workbench.ViewModels
         /// <param name="theSolution">A valid solution.</param>
         private void DisplaySolution(SolutionModel theSolution)
         {
-            BindTo(theSolution);
             /*
              * There is only ever one solution viewer, so re-use the same
              * view model if it already exists.
