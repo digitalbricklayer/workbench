@@ -27,7 +27,7 @@
                         <!-- The grid will not appear (collapsed) if the tab cannot be closed -->
                         <Grid Visibility="{Binding CloseTabIsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                             <!-- The tab close button -->
-                            <Button x:Name="CloseTab" Content="x" cal:Message.Attach="CloseTab" />
+                            <Button x:Name="CloseTab" Cursor="Hand" Focusable="False" Content="X" cal:Message.Attach="[Click] = [CloseTab($this)]" />
                         </Grid>
                     </StackPanel>
                 </DataTemplate>

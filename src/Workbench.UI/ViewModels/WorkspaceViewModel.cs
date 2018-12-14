@@ -12,7 +12,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the application workspace.
     /// </summary>
-    public sealed class WorkspaceViewModel : Conductor<IScreen>.Collection.OneActive
+    public sealed class WorkspaceViewModel : Conductor<IWorkspaceTabViewModel>.Collection.OneActive
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;
@@ -213,11 +213,13 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Close the tab initiated by the user.
+        /// Close the tab as initiated by the user.
         /// </summary>
-        public void CloseTab()
+        public void CloseTab(IWorkspaceTabViewModel tabToClose)
         {
-            DeactivateItem(ActiveItem, true);
+            Contract.Requires<ArgumentNullException>(tabToClose != null);
+            Contract.Assert(tabToClose.CloseTabIsVisible, "Should not be asked to close tabs that are not closable");
+            DeactivateItem(tabToClose, true);
         }
 
         /// <summary>
