@@ -81,6 +81,15 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                         Times.Once);
         }
 
+        [Test]
+        public void DeleteWithValidVariableDeletesVariableFromModel()
+        {
+            var variableToDelete = Workspace.ModelEditor.GetVariableByName("x");
+            Workspace.ModelEditor.DeleteVariable(variableToDelete);
+            var deletedVariable = Workspace.WorkspaceModel.Model.GetVariableByName("x");
+            Assert.That(deletedVariable, Is.Null, "Deleted variable should not exist any more.");
+        }
+
         private WorkspaceViewModel CreateSut()
         {
             var workspaceViewModel = new WorkspaceViewModel(CreateDataService(),
