@@ -4,6 +4,7 @@ using Workbench.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Workbench.Core;
+using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
 
@@ -50,6 +51,14 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var actualStatus = Workspace.SolveModel();
             Assert.That(actualStatus.IsSuccess, Is.True);
+        }
+
+        [Test]
+        public void SolveWithValidModelPublishesModelSolvedMessage()
+        {
+            Workspace.SolveModel();
+            _eventAggregatorMock.Verify(_ => _.Publish(It.Is<ModelSolvedMessage>(msg => msg.Result.Status == SolveStatus.Success), It.IsAny<Action<System.Action>>()),
+                                        Times.Once);
         }
 
         [Test]
