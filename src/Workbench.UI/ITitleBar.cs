@@ -1,4 +1,4 @@
-﻿namespace Workbench.ViewModels
+﻿namespace Workbench
 {
     public interface ITitleBar
     {

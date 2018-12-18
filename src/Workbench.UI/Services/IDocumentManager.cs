@@ -1,6 +1,4 @@
-﻿using Workbench.ViewModels;
-
-namespace Workbench.Services
+﻿namespace Workbench.Services
 {
     /// <summary>
     /// Contract for the document manager.
@@ -10,11 +8,11 @@ namespace Workbench.Services
         /// <summary>
         /// Gets the current document.
         /// </summary>
-        WorkspaceDocumentViewModel CurrentDocument { get; }
+        IWorkspaceDocument CurrentDocument { get; }
 
         /// <summary>
         /// Create a new document.
         /// </summary>
-        WorkspaceDocumentViewModel CreateDocument();
+        IWorkspaceDocument CreateDocument();
     }
 }

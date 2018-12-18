@@ -12,7 +12,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the application workspace.
     /// </summary>
-    public sealed class WorkspaceViewModel : Conductor<IWorkspaceTabViewModel>.Collection.OneActive
+    public sealed class WorkspaceViewModel : Conductor<IWorkspaceTabViewModel>.Collection.OneActive, IWorkspace
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;

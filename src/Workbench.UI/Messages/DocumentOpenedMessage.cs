@@ -1,6 +1,4 @@
-﻿using Workbench.ViewModels;
-
-namespace Workbench.Messages
+﻿namespace Workbench.Messages
 {
     /// <summary>
     /// Message sent when a document is opened. The document may be a new
@@ -13,7 +11,7 @@ namespace Workbench.Messages
         /// Initialize a document opened message with an instance of the document that was opened.
         /// </summary>
         /// <param name="theDocumentViewModel"></param>
-        public DocumentOpenedMessage(WorkspaceDocumentViewModel theDocumentViewModel)
+        public DocumentOpenedMessage(IWorkspaceDocument theDocumentViewModel)
             : base(theDocumentViewModel)
         {
         }

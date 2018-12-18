@@ -11,14 +11,14 @@ namespace Workbench
     [ContractClassFor(typeof(IShell))]
     internal abstract class IShellContract : IShell
     {
-        private WorkspaceViewModel _workspace;
-        private WorkspaceDocumentViewModel _currentDocument;
+        private IWorkspace _workspace;
+        private IWorkspaceDocument _currentDocument;
 
-        public WorkspaceViewModel Workspace
+        public IWorkspace Workspace
         {
             get
             {
-                Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
+                Contract.Ensures(Contract.Result<IWorkspace>() != null);
                 return _workspace;
             }
             set
@@ -28,11 +28,11 @@ namespace Workbench
             }
         }
 
-        public WorkspaceDocumentViewModel CurrentDocument
+        public IWorkspaceDocument CurrentDocument
         {
             get
             {
-                Contract.Ensures(Contract.Result<WorkspaceDocumentViewModel>() != null);
+                Contract.Ensures(Contract.Result<IWorkspaceDocument>() != null);
                 return _currentDocument;
             }
 
@@ -50,7 +50,7 @@ namespace Workbench
         {
         }
 
-        public void OpenDocument(WorkspaceDocumentViewModel theDocument)
+        public void OpenDocument(IWorkspaceDocument theDocument)
         {
             Contract.Requires<ArgumentNullException>(theDocument != null);
         }

@@ -10,15 +10,15 @@ namespace Workbench.ViewModels
 {
     /// <summary>
     /// View model for the shell inside the main window. The shell is responsible
-    /// for managing single document interface.
+    /// for managing the single document interface.
     /// </summary>
-    public sealed class ShellViewModel : Conductor<Screen>.Collection.AllActive, IShell
+    public sealed class ShellViewModel : Conductor<IScreen>.Collection.AllActive, IShell
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IDocumentManager _documentManager;
-        private ApplicationMenuViewModel _applicationMenu;
-        private WorkspaceDocumentViewModel _currentDocument;
-        private WorkspaceViewModel _workspace;
+        private IApplicationMenu _applicationMenu;
+        private IWorkspaceDocument _currentDocument;
+        private IWorkspace _workspace;
         private bool _isClosing;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Workbench.ViewModels
         /// <param name="theDocumentManager">Document manager.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
-        public ShellViewModel(IDocumentManager theDocumentManager, ApplicationMenuViewModel theApplicationMenuViewModel, IEventAggregator theEventAggregator)
+        public ShellViewModel(IDocumentManager theDocumentManager, IApplicationMenu theApplicationMenuViewModel, IEventAggregator theEventAggregator)
         {
             Contract.Requires<ArgumentNullException>(theDocumentManager != null);
             Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
@@ -42,7 +42,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the application menu.
         /// </summary>
-        public ApplicationMenuViewModel ApplicationMenu
+        public IApplicationMenu ApplicationMenu
         {
             get => _applicationMenu;
             set
@@ -56,7 +56,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the current workspace document.
         /// </summary>
-        public WorkspaceDocumentViewModel CurrentDocument
+        public IWorkspaceDocument CurrentDocument
         {
             get => _currentDocument;
             set
@@ -69,7 +69,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public IWorkspace Workspace
         {
             get => _workspace;
             set
@@ -94,7 +94,7 @@ namespace Workbench.ViewModels
         /// Open the workspace document.
         /// </summary>
         /// <param name="theDocument">Workspace document.</param>
-        public void OpenDocument(WorkspaceDocumentViewModel theDocument)
+        public void OpenDocument(IWorkspaceDocument theDocument)
         {
             CurrentDocument = theDocument;
             ActivateItem(CurrentDocument);
@@ -173,10 +173,10 @@ namespace Workbench.ViewModels
         protected override void OnInitialize()
         {
             base.OnInitialize();
+            Items.Add(ApplicationMenu);
             var newDocument = _documentManager.CreateDocument();
             newDocument.New();
             OpenDocument(newDocument);
-            Items.Add(ApplicationMenu);
             _eventAggregator.Subscribe(this);
         }
     }

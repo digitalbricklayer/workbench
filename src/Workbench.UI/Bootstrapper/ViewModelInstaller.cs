@@ -17,10 +17,10 @@ namespace Workbench.Bootstrapper
         {
             kernel.Register(Component.For<IShell, ShellViewModel>().LifeStyle.Singleton,
                             Component.For<IMainWindow, MainWindowViewModel>().LifeStyle.Singleton,
-                            Component.For<WorkspaceDocumentViewModel>().LifeStyle.Transient,
+                            Component.For<IWorkspaceDocument, WorkspaceDocumentViewModel>().LifeStyle.Transient,
                             Component.For<WorkspaceViewModel>().LifeStyle.Transient,
                             Component.For<ChessboardTabViewModel>().LifeStyle.Transient,
-                            Component.For<ApplicationMenuViewModel>().LifeStyle.Singleton,
+                            Component.For<IApplicationMenu, ApplicationMenuViewModel>().LifeStyle.Singleton,
                             Component.For<FileMenuViewModel>().LifeStyle.Singleton,
                             Component.For<EditMenuViewModel>().LifeStyle.Singleton,
                             Component.For<InsertMenuViewModel>().LifeStyle.Singleton,

@@ -107,6 +107,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\WorkspaceLoaderTests.cs" />
     <Compile Include="ViewModels\ExpressionConstraintModelItemViewModelTests.cs" />
+    <Compile Include="ViewModels\ShellViewModelShould.cs" />
     <Compile Include="ViewModels\TableViewModelTests.cs" />
     <Compile Include="ViewModels\DocumentPathViewModelShould.cs" />
     <Compile Include="ViewModels\WorkspaceViewModelCreatedFromModelTests.cs" />

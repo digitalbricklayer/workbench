@@ -4,7 +4,7 @@ namespace Workbench.ViewModels
 {
     public abstract class MenuViewModel : Screen
     {
-        public WorkspaceDocumentViewModel CurrentDocument => Shell.CurrentDocument;
+        public IWorkspaceDocument CurrentDocument => Shell.CurrentDocument;
 
         /// <summary>
         /// Gets the shell view model.
@@ -14,6 +14,6 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the workspace view model.
         /// </summary>
-        public WorkspaceViewModel Workspace => Shell.Workspace;
+        public IWorkspace Workspace => Shell.Workspace;
     }
 }

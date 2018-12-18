@@ -11,9 +11,9 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Workspace document view model.
     /// </summary>
-    public class WorkspaceDocumentViewModel : Screen, IHandle<WorkspaceChangedMessage>
+    public class WorkspaceDocumentViewModel : Screen, IHandle<WorkspaceChangedMessage>, IWorkspaceDocument
     {
-        private WorkspaceViewModel _workspace;
+        private IWorkspace _workspace;
         private DocumentPathViewModel _path;
         private bool _isDirty;
         private readonly IDataService _dataService;
@@ -28,7 +28,7 @@ namespace Workbench.ViewModels
         /// <param name="theDataService">Data service.</param>
         /// <param name="theEventAggregator">Event aggregator.</param>
         /// <param name="theWorkspaceLoader">Workspace loader.</param>
-        public WorkspaceDocumentViewModel(WorkspaceViewModel theWorkspaceViewModel,
+        public WorkspaceDocumentViewModel(IWorkspace theWorkspaceViewModel,
                                           IDataService theDataService,
                                           IEventAggregator theEventAggregator,
                                           IWorkspaceLoader theWorkspaceLoader)
@@ -48,7 +48,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets or sets the workspace.
         /// </summary>
-        public WorkspaceViewModel Workspace
+        public IWorkspace Workspace
         {
             get => _workspace;
             set

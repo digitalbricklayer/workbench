@@ -1,4 +1,4 @@
-﻿namespace Workbench.ViewModels
+﻿namespace Workbench
 {
     /// <summary>
     /// Interface to mark workspace tab view models.

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
@@ -9,7 +8,7 @@ namespace Workbench.Services
     /// </summary>
     public class DocumentManager : IDocumentManager
     {
-        private WorkspaceDocumentViewModel _currentDocument;
+        private IWorkspaceDocument _currentDocument;
         private readonly IViewModelFactory _viewModelFactory;
 
         /// <summary>
@@ -25,7 +24,7 @@ namespace Workbench.Services
         /// <summary>
         /// Gets or sets the current document.
         /// </summary>
-        public WorkspaceDocumentViewModel CurrentDocument
+        public IWorkspaceDocument CurrentDocument
         {
             get => _currentDocument;
             private set
@@ -38,7 +37,7 @@ namespace Workbench.Services
         /// <summary>
         /// Create a new document.
         /// </summary>
-        public WorkspaceDocumentViewModel CreateDocument()
+        public IWorkspaceDocument CreateDocument()
         {
             CurrentDocument = _viewModelFactory.CreateDocument();
 

@@ -15,7 +15,7 @@ namespace Workbench.Commands
     public class EditSolutionCommand : CommandBase
     {
         private readonly IWindowManager _windowManager;
-        private WorkspaceViewModel _workspace;
+        private IWorkspace _workspace;
         private readonly IDocumentManager _documentManager;
 
         public EditSolutionCommand(IWindowManager theWindowManager, IDocumentManager theDocumentManager)

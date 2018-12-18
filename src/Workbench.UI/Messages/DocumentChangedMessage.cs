@@ -12,18 +12,18 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the changed document.
         /// </summary>
-        public WorkspaceDocumentViewModel Document { get; }
+        public IWorkspaceDocument Document { get; }
 
         /// <summary>
         /// Gets the workspace inside the changed document.
         /// </summary>
-        public WorkspaceViewModel Workspace => Document.Workspace;
+        public IWorkspace Workspace => Document.Workspace;
 
         /// <summary>
         /// Initialize the document message with a document.
         /// </summary>
         /// <param name="theDocumentViewModel">Document view model</param>
-        protected DocumentChangedMessage(WorkspaceDocumentViewModel theDocumentViewModel)
+        protected DocumentChangedMessage(IWorkspaceDocument theDocumentViewModel)
         {
             Contract.Requires<ArgumentNullException>(theDocumentViewModel != null);
             Document = theDocumentViewModel;

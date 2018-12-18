@@ -224,10 +224,13 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EditSolutionCommand.cs" />
+    <Compile Include="IApplicationMenu.cs" />
     <Compile Include="IMainWindow.cs" />
     <Compile Include="IMainWindowContract.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="IShellContract.cs" />
+    <Compile Include="IWorkspace.cs" />
+    <Compile Include="IWorkspaceDocument.cs" />
     <Compile Include="Messages\DocumentClosedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
@@ -277,7 +280,7 @@
     <Compile Include="ViewModels\ChessboardSquareViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
-    <Compile Include="ViewModels\ITitleBar.cs" />
+    <Compile Include="ITitleBar.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\ModelValidatorViewModel.cs" />
@@ -292,7 +295,7 @@
     <Compile Include="ViewModels\PropertyExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\TabTitleEditorViewModel.cs" />
     <Compile Include="ViewModels\ExpressionConstraintEditorViewModel.cs" />
-    <Compile Include="ViewModels\IWorkspaceTabViewModel.cs" />
+    <Compile Include="IWorkspaceTabViewModel.cs" />
     <Compile Include="ViewModels\AggregateVariableEditorViewModel.cs" />
     <Compile Include="ViewModels\SharedDomainEditorViewModel.cs" />
     <Compile Include="ViewModels\SingletonVariableEditorViewModel.cs" />

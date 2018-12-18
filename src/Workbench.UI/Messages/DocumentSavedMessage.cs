@@ -1,10 +1,8 @@
-﻿using Workbench.ViewModels;
-
-namespace Workbench.Messages
+﻿namespace Workbench.Messages
 {
     public sealed class DocumentSavedMessage : DocumentChangedMessage
     {
-        public DocumentSavedMessage(WorkspaceDocumentViewModel theDocumentViewModel)
+        public DocumentSavedMessage(IWorkspaceDocument theDocumentViewModel)
             : base(theDocumentViewModel)
         {
         }

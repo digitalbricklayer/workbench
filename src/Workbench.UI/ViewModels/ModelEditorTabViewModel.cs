@@ -59,7 +59,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the workspace view model.
         /// </summary>
-        public WorkspaceViewModel Workspace => _shell.Workspace;
+        public IWorkspace Workspace => _shell.Workspace;
 
         /// <summary>
         /// Gets or sets the model model.

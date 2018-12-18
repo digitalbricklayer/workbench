@@ -7,7 +7,7 @@ namespace Workbench.ViewModels
     /// <summary>
     /// Application menu view model.
     /// </summary>
-    public sealed class ApplicationMenuViewModel : Conductor<IScreen>.Collection.AllActive
+    public sealed class ApplicationMenuViewModel : Conductor<IScreen>.Collection.AllActive, IApplicationMenu
     {
         public ApplicationMenuViewModel(FileMenuViewModel theFileMenu,
                                         ModelMenuViewModel theModelMenu,
