@@ -1,6 +1,8 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
+using Workbench.Messages;
 using Workbench.Services;
 using Workbench.ViewModels;
 
@@ -63,12 +65,30 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         }
 
         [Test]
+        public void OpenDocumentPublishesDocumentOpenedMessage()
+        {
+            var newDocument = CreateWorkspaceDocument();
+            Shell.OpenDocument(newDocument);
+            _eventAggregatorMock.Verify(aggregator => aggregator.Publish(It.IsAny<DocumentOpenedMessage>(), It.IsAny<Action<System.Action>>()), Times.AtLeastOnce);
+            Shell.CloseDocument();
+        }
+
+        [Test]
         public void OpenDocumentCurrentDocumentWorkspaceNotNull()
         {
             var newDocument = CreateWorkspaceDocument();
             Shell.OpenDocument(newDocument);
             Assert.That(newDocument.Workspace, Is.Not.Null);
             Shell.CloseDocument();
+        }
+
+        [Test]
+        public void CloseDocumentPublishesDocumentClosedMessage()
+        {
+            var newDocument = CreateWorkspaceDocument();
+            Shell.OpenDocument(newDocument);
+            Shell.CloseDocument();
+            _eventAggregatorMock.Verify(aggregator => aggregator.Publish(It.IsAny<DocumentClosedMessage>(), It.IsAny<Action<System.Action>>()), Times.AtLeastOnce);
         }
 
         private ShellViewModel CreateSut()
@@ -100,10 +120,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private WorkspaceViewModel CreateWorkspace()
         {
             return new WorkspaceViewModel(_dataServiceMock.Object,
-                _windowManagerMock.Object,
-                _eventAggregatorMock.Object,
-                _viewModelFactoryMock.Object,
-                new ModelValidatorViewModel(_windowManagerMock.Object, _dataServiceMock.Object));
+                                          _windowManagerMock.Object,
+                                          _eventAggregatorMock.Object,
+                                          _viewModelFactoryMock.Object,
+                                          new ModelValidatorViewModel(_windowManagerMock.Object, _dataServiceMock.Object));
         }
 
         private Mock<IEventAggregator> CreateEventAggregatorMock()
