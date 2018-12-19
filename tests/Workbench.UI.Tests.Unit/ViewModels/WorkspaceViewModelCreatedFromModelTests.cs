@@ -46,7 +46,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             Subject.SolveModel();
             var solutionViewerTab = Subject.ActiveItem as SolutionViewerTabViewModel;
-            if (solutionViewerTab == null) Assert.Fail("Active tab is not the correct one.");
             Assert.That(solutionViewerTab.Viewer.Labels, Is.Not.Empty);
         }
 
