@@ -3,6 +3,9 @@ using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
+    /// <summary>
+    /// Contract for a workspace loader.
+    /// </summary>
     public interface IWorkspaceLoader
     {
         /// <summary>

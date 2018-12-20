@@ -26,14 +26,14 @@ namespace Workbench.Services
 
         public BitmapImage GetBitmap(string relativeUri, string assemblyName)
         {
-            var s = GetStream(relativeUri, assemblyName);
-            if (s == null) return null;
+            var bitmapStream = GetStream(relativeUri, assemblyName);
+            if (bitmapStream == null) return null;
 
-            using (s)
+            using (bitmapStream)
             {
                 var bmp = new BitmapImage();
                 bmp.BeginInit();
-                bmp.StreamSource = s;
+                bmp.StreamSource = bitmapStream;
                 bmp.EndInit();
                 bmp.Freeze();
                 return bmp;
