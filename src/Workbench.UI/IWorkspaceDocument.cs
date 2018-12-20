@@ -13,7 +13,7 @@ namespace Workbench
         IWorkspace Workspace { get; }
 
         /// <summary>
-        /// Gets or sets the document path.
+        /// Gets the document path.
         /// </summary>
         DocumentPathViewModel Path { get; }
 

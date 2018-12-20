@@ -22,8 +22,7 @@ namespace Workbench.ViewModels
         private bool _isClosing;
 
         /// <summary>
-        /// Initialize a shell view model with an application runtime, workspace view 
-        /// model, application menu view model and title bar view model.
+        /// Initialize a shell view model with a document manager, application menu view model and event aggregator.
         /// </summary>
         /// <param name="theDocumentManager">Document manager.</param>
         /// <param name="theApplicationMenuViewModel">Application menu view model.</param>

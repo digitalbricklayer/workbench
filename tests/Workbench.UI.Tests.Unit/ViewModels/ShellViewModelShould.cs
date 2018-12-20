@@ -23,7 +23,6 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [SetUp]
         public void Initialize()
         {
-            _eventAggregatorMock = new Mock<IEventAggregator>();
             _documentManagerMock = CreateDocumentManagerMock();
             _dataServiceMock = CreateDataServiceMock();
             _windowManagerMock = new Mock<IWindowManager>();

@@ -27,7 +27,7 @@ namespace Workbench.Services
         public IWorkspaceDocument CurrentDocument
         {
             get => _currentDocument;
-            private set
+            set
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 _currentDocument = value;
