@@ -144,8 +144,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Handle the "File|Save" menu item.
+        /// Save the document to a file and if the document is not tied to a file yet ask the user for the file to save the document to.
         /// </summary>
+        /// <returns>True if the document was saved successfully, false if the user cancelled.</returns>
         public bool Save()
         {
             if (Path.IsEmpty)
@@ -159,8 +160,9 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
-        /// Handle the "File|Save As" menu item.
+        /// Ask the user for a file to save the document to and then save the document to that file.
         /// </summary>
+        /// <returns>True if the document was saved successfully, false if the user cancelled.</returns>
         public bool SaveAs()
         {
             // Show Save File dialog

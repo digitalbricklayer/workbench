@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
 
 namespace Workbench
 {
