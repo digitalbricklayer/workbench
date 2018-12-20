@@ -52,7 +52,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             var sut = new TitleBarViewModel(_shell, _eventAggregatorMock.Object);
             ScreenExtensions.TryActivate(sut);
             var theOpenedDocument = CreateOpenWorkspaceDocument();
-            _shell.CurrentDocument = theOpenedDocument;
+            _shell.OpenDocument(theOpenedDocument);
             sut.Handle(new DocumentOpenedMessage(theOpenedDocument));
             Assert.That(sut.Title, Does.EndWith(@"nqueens.dps").IgnoreCase);
             ScreenExtensions.TryDeactivate(sut, close: true);
