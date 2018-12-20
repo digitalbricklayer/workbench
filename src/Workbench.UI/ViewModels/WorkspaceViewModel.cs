@@ -122,8 +122,6 @@ namespace Workbench.ViewModels
         /// <returns>New singleton variable view model.</returns>
         public void AddSingletonVariable(SingletonVariableModel newVariable)
         {
-            Contract.Requires<ArgumentNullException>(newVariable != null);
-
             ModelEditor.AddSingletonVariable(newVariable);
             _eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
         }
@@ -135,8 +133,6 @@ namespace Workbench.ViewModels
         /// <returns>New aggregate variable view model.</returns>
         public void AddAggregateVariable(AggregateVariableModel newVariable)
         {
-            Contract.Requires<ArgumentNullException>(newVariable != null);
-
             ModelEditor.AddAggregateVariable(newVariable);
             _eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
         }
@@ -147,8 +143,6 @@ namespace Workbench.ViewModels
         /// <param name="newDomain">New domain.</param>
         public void AddDomain(SharedDomainModel newDomain)
         {
-            Contract.Requires<ArgumentNullException>(newDomain != null);
-
             ModelEditor.AddDomain(newDomain);
         }
 
@@ -158,8 +152,6 @@ namespace Workbench.ViewModels
         /// <param name="newConstraint">New constraint name.</param>
         public void AddExpressionConstraint(ExpressionConstraintModel newConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newConstraint != null);
-
             ModelEditor.AddConstraint(newConstraint);
         }
 
@@ -169,8 +161,6 @@ namespace Workbench.ViewModels
         /// <param name="newConstraint">New all different constraint.</param>
         public void AddAllDifferentConstraint(AllDifferentConstraintModel newConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newConstraint != null);
-
             ModelEditor.AddConstraint(newConstraint);
         }
 
@@ -180,7 +170,6 @@ namespace Workbench.ViewModels
         /// <param name="newChessboard">New chessboard tab.</param>
         public void AddChessboardTab(ChessboardModel newChessboard)
         {
-            Contract.Requires<ArgumentNullException>(newChessboard != null);
             var newChessboardTab = new ChessboardTabViewModel(new ChessboardTabModel(newChessboard, new WorkspaceTabTitle("board1")), _windowManager);
             WorkspaceModel.Display.AddVisualizer(newChessboardTab.Model);
             LoadChessboardTab(newChessboardTab);
@@ -192,8 +181,6 @@ namespace Workbench.ViewModels
         /// <param name="newTable">New table.</param>
         public void AddTableTab(TableModel newTable)
         {
-            Contract.Requires<ArgumentNullException>(newTable != null);
-
             var newTabDetailsViewModel = new NewTabDetailsViewModel();
             var result = _windowManager.ShowDialog(newTabDetailsViewModel);
             if (!result.GetValueOrDefault()) return;
@@ -213,8 +200,8 @@ namespace Workbench.ViewModels
         /// </summary>
         public void CloseTab(IWorkspaceTabViewModel tabToClose)
         {
-            Contract.Requires<ArgumentNullException>(tabToClose != null);
             Contract.Assert(tabToClose.CloseTabIsVisible, "Should not be asked to close tabs that are not closable");
+
             switch (tabToClose)
             {
                 case ChessboardTabViewModel chessboardTab:
@@ -237,7 +224,6 @@ namespace Workbench.ViewModels
         /// <param name="aNewExpression">A new visualizer binding expression.</param>
         public void AddBindingExpression(VisualizerBindingExpressionModel aNewExpression)
         {
-            Contract.Requires<ArgumentNullException>(aNewExpression != null);
             WorkspaceModel.AddBindingExpression(aNewExpression);
             LoadBindingExpression(new VisualizerBindingExpressionViewModel(aNewExpression));
         }
@@ -248,7 +234,6 @@ namespace Workbench.ViewModels
         /// <param name="aVisualizerBinding">Visualizer binding to delete.</param>
         public void DeleteBindingExpression(VisualizerBindingExpressionViewModel aVisualizerBinding)
         {
-            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
             WorkspaceModel.DeleteBindingExpression(aVisualizerBinding.VisualizerExpression);
             var editorToDelete = GetBindingExpressionById(aVisualizerBinding.Id);
             Contract.Assert(editorToDelete != null);
@@ -286,7 +271,6 @@ namespace Workbench.ViewModels
         /// <returns>Visualizer binding expression view model matching the identity.</returns>
         public VisualizerBindingExpressionViewModel GetBindingExpressionById(int bindingExpressionId)
         {
-            Contract.Requires<ArgumentException>(bindingExpressionId > 0, "An identity must be greater than zero.");
             return Bindings.FirstOrDefault(binding => binding.Id == bindingExpressionId);
         }
 

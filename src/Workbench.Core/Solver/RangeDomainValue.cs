@@ -9,7 +9,7 @@ namespace Workbench.Core.Solver
     /// </summary>
     public class RangeDomainValue : DomainValue
     {
-        private RangeDomainExpressionNode expressionNode;
+        private readonly RangeDomainExpressionNode expressionNode;
 
         /// <summary>
         /// Initialize a domain range with a low and high band.
@@ -46,8 +46,6 @@ namespace Workbench.Core.Solver
         /// <returns>True if intersects. False if it does not intersect.</returns>
         public override bool IntersectsWith(DomainValue theDomainValue)
         {
-            Contract.Requires<ArgumentNullException>(theDomainValue != null);
-
             var otherModel = (RangeDomainValue) theDomainValue;
             return otherModel.Upper <= Upper && otherModel.Lower >= Lower;
         }

@@ -45,7 +45,6 @@ namespace Workbench.ViewModels
             get => _icon;
 		    set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _icon = value;
                 NotifyOfPropertyChange();
             }
@@ -59,7 +58,6 @@ namespace Workbench.ViewModels
             get => _shell;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _shell = value;
                 NotifyOfPropertyChange();
             }
@@ -73,7 +71,6 @@ namespace Workbench.ViewModels
             get => _titleBar;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _titleBar = value;
                 NotifyOfPropertyChange();
             }

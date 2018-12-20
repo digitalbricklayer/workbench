@@ -71,9 +71,6 @@ namespace Workbench.Core.Models
         /// </returns>
         public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theContext != null);
-
             if (Expression.Node == null) return false;
 
             var variableCaptureVisitor = new ConstraintVariableReferenceCaptureVisitor();

@@ -35,7 +35,6 @@ namespace Workbench.ViewModels
             get => _title;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _title = value;
                 NotifyOfPropertyChange();
             }

@@ -13,7 +13,7 @@ namespace Workbench.Core.Solver
     public class ListDomainValue : DomainValue
     {
         private readonly List<string> values;
-        private ListDomainExpressionNode expressionNode;
+        private readonly ListDomainExpressionNode expressionNode;
 
         /// <summary>
         /// Initialize a domain range with a list of values.
@@ -51,8 +51,6 @@ namespace Workbench.Core.Solver
         /// <returns>True if intersects. False if it does not intersect.</returns>
         public override bool IntersectsWith(DomainValue theDomainValue)
         {
-            Contract.Requires<ArgumentNullException>(theDomainValue != null);
-
             var otherModel = (ListDomainValue) theDomainValue;
 #if false
             return otherModel.Upper <= Upper && otherModel.Lower >= Lower;

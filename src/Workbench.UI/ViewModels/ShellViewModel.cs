@@ -46,7 +46,6 @@ namespace Workbench.ViewModels
             get => _applicationMenu;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _applicationMenu = value;
                 NotifyOfPropertyChange();
             }
@@ -73,7 +72,6 @@ namespace Workbench.ViewModels
             get => _workspace;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _workspace = value;
                 NotifyOfPropertyChange();
             }

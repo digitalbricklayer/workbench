@@ -26,7 +26,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the chessboard model.
         /// </summary>
-        public ChessboardModel Model
+        public new ChessboardModel Model
         {
             get
             {
