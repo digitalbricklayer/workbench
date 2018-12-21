@@ -7,6 +7,9 @@ using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
+    /// <summary>
+    /// Singleton variable item inside the model editor.
+    /// </summary>
     public sealed class SingletonVariableModelItemViewModel : VariableModelItemViewModel
     {
         private readonly IWindowManager _windowManager;

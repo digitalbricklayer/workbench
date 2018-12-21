@@ -59,5 +59,50 @@ namespace Workbench.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workbench.
+        /// </summary>
+        internal static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workbench - Untitled.
+        /// </summary>
+        internal static string MainWindowDefaultTitle {
+            get {
+                return ResourceManager.GetString("MainWindowDefaultTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *.
+        /// </summary>
+        internal static string TitleDirtyFileDesignator {
+            get {
+                return ResourceManager.GetString("TitleDirtyFileDesignator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -.
+        /// </summary>
+        internal static string TitleNameFileSeperator {
+            get {
+                return ResourceManager.GetString("TitleNameFileSeperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        internal static string TitleUntitledFileTitle {
+            get {
+                return ResourceManager.GetString("TitleUntitledFileTitle", resourceCulture);
+            }
+        }
     }
 }

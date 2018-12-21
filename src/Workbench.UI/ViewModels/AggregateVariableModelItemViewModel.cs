@@ -7,6 +7,9 @@ using Workbench.Validators;
 
 namespace Workbench.ViewModels
 {
+    /// <summary>
+    /// Aggregate variable item inside the model editor.
+    /// </summary>
     public class AggregateVariableModelItemViewModel : VariableModelItemViewModel
     {
         private readonly IWindowManager _windowManager;
@@ -57,7 +60,7 @@ namespace Workbench.ViewModels
             aggregateVariableEditorViewModel.Size = AggregateVariable.AggregateCount;
             var oldName = AggregateVariable.Name.Text;
             var result = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!result.HasValue) return;
+            if (!result.GetValueOrDefault()) return;
             DisplayName = AggregateVariable.Name.Text = aggregateVariableEditorViewModel.VariableName;
             DomainExpressionText = AggregateVariable.DomainExpression.Text = aggregateVariableEditorViewModel.DomainExpression;
             VariableCount = aggregateVariableEditorViewModel.Size;

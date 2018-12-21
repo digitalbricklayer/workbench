@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using Caliburn.Micro;
 using Workbench.Messages;
+using Workbench.Properties;
 
 namespace Workbench.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theShell != null);
             _eventAggregator = theEventAggregator;
             _shell = theShell;
-            Title = "Workbench" + " - " + "Untitled";
+            Title = Resources.MainWindowDefaultTitle;
         }
 
         /// <summary>
@@ -63,11 +64,11 @@ namespace Workbench.ViewModels
         /// </summary>
         private void UpdateTitle()
         {
-            var newTitle = "Workbench" + " - ";
+            var newTitle = Resources.ApplicationName + " " + Resources.TitleNameFileSeperator + " ";
 
             if (_shell.CurrentDocument.IsNew || _shell.CurrentDocument.Path.IsEmpty)
             {
-                newTitle += "Untitled";
+                newTitle += Resources.TitleUntitledFileTitle;
                 Title = newTitle;
                 return;
             }
@@ -79,7 +80,7 @@ namespace Workbench.ViewModels
 
             if (_shell.CurrentDocument.IsDirty)
             {
-                newTitle += " *";
+                newTitle += " " + Resources.TitleDirtyFileDesignator;
             }
 
             Title = newTitle;
