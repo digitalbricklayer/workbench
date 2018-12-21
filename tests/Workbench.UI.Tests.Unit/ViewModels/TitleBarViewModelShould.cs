@@ -1,6 +1,7 @@
 using Caliburn.Micro;
 using Moq;
 using NUnit.Framework;
+using Workbench.Core.Models;
 using Workbench.Messages;
 using Workbench.Services;
 using Workbench.ViewModels;
@@ -55,6 +56,18 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             _shell.OpenDocument(theOpenedDocument);
             sut.Handle(new DocumentOpenedMessage(theOpenedDocument));
             Assert.That(sut.Title, Does.EndWith(@"nqueens.dps").IgnoreCase);
+            ScreenExtensions.TryDeactivate(sut, close: true);
+        }
+
+        [Test]
+        public void HandleWithWorkspaceChangedMessageChangesTitle()
+        {
+            var sut = new TitleBarViewModel(_shell, _eventAggregatorMock.Object);
+            ScreenExtensions.TryActivate(sut);
+            var theOpenedDocument = CreateDirtyWorkspaceDocument();
+            _shell.OpenDocument(theOpenedDocument);
+            sut.Handle(new VariableDeletedMessage(CreatedDeletedVariable()));
+            Assert.That(sut.Title, Does.EndWith(@"*").IgnoreCase);
             ScreenExtensions.TryDeactivate(sut, close: true);
         }
 
@@ -118,6 +131,22 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             theOpenDocument.IsNew = false;
 
             return theOpenDocument;
+        }
+
+        private WorkspaceDocumentViewModel CreateDirtyWorkspaceDocument()
+        {
+            var theDirtyDocument = new WorkspaceDocumentViewModel(CreateWorkspace(), _dataServiceMock.Object, _eventAggregatorMock.Object, _workspaceLoader.Object);
+            theDirtyDocument.Path = new DocumentPathViewModel(@"c:\some\folder\or\other\nqueens.dps");
+            theDirtyDocument.IsNew = false;
+            theDirtyDocument.IsDirty = true;
+
+            return theDirtyDocument;
+        }
+
+        private static VariableModel CreatedDeletedVariable()
+        {
+            var x = WorkspaceModelFactory.Create();
+            return x.Model.GetVariableByName("x");
         }
     }
 }
