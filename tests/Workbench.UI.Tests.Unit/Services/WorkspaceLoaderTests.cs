@@ -14,32 +14,32 @@ namespace Workbench.UI.Tests.Unit.Services
         public void Load_With_Valid_Model_Returns_Expected_Variables()
         {
             var sut = CreateSut();
-            var actualWorkAreaModel = sut.Load(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkAreaModel.ModelEditor.Variables.Count, Is.EqualTo(2));
+            var actualWorkspaceViewModel = sut.Load(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceViewModel.ModelEditor.Variables.Count, Is.EqualTo(2));
         }
 
         [Test]
         public void Load_With_Valid_Model_Returns_Expected_Domains()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.ModelEditor.Domains.Count, Is.EqualTo(1));
+            var actualWorkspaceViewModel = sut.Load(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceViewModel.ModelEditor.Domains.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Load_With_Valid_Model_Returns_Expected_Constraints()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.ModelEditor.Constraints.Count, Is.EqualTo(1));
+            var actualWorkspaceViewModel = sut.Load(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceViewModel.ModelEditor.Constraints.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void Load_With_Valid_Model_Sets_Expected_Workspace_Model()
         {
             var sut = CreateSut();
-            var actualWorkspaceModel = sut.Load(WorkspaceModelFactory.Create());
-            Assert.That(actualWorkspaceModel.WorkspaceModel, Is.Not.Null);
+            var actualWorkspaceViewModel = sut.Load(WorkspaceModelFactory.Create());
+            Assert.That(actualWorkspaceViewModel.WorkspaceModel, Is.Not.Null);
         }
 
         private WorkspaceLoader CreateSut()

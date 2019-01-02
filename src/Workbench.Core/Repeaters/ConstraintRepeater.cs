@@ -10,7 +10,7 @@ using Workbench.Core.Solver;
 namespace Workbench.Core.Repeaters
 {
     /// <summary>
-    /// Process a constraint repeater by expanding the expression the 
+    /// Process a constraint repeater by expanding the expression an 
     /// appropriate number of times.
     /// </summary>
     internal class ConstraintRepeater

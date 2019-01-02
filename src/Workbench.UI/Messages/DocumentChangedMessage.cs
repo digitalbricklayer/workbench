@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
 
 namespace Workbench.Messages
 {

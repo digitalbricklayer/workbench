@@ -1,6 +1,9 @@
 ﻿namespace Workbench.Messages
 {
-    public class WorkspaceChangedMessage
+    /// <summary>
+    /// Base for all workspace messages.
+    /// </summary>
+    public abstract class WorkspaceChangedMessage
     {
     }
 }
