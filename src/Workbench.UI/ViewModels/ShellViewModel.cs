@@ -172,7 +172,6 @@ namespace Workbench.ViewModels
             base.OnInitialize();
             Items.Add(ApplicationMenu);
             var newDocument = _documentManager.CreateDocument();
-            newDocument.New();
             OpenDocument(newDocument);
             _eventAggregator.Subscribe(this);
         }

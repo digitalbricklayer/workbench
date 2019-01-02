@@ -39,7 +39,9 @@ namespace Workbench.Services
         /// </summary>
         public IWorkspaceDocument CreateDocument()
         {
-            CurrentDocument = _viewModelFactory.CreateDocument();
+            var newDocument = _viewModelFactory.CreateDocument();
+            newDocument.New();
+            CurrentDocument = newDocument;
 
             return CurrentDocument;
         }
