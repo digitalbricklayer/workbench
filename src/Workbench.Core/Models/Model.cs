@@ -10,7 +10,7 @@ namespace Workbench.Core.Models
     public abstract class Model : AbstractModel
     {
         private ModelName _name;
-        private ModelModel _parent;
+        private BundleModel _parent;
 
         /// <summary>
         /// Initialize a model entity with a name.
@@ -45,9 +45,10 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the parent model.
+        /// Gets the parent bundle.
         /// </summary>
-        public ModelModel Parent
+        /// <remarks>A bundle with a null parent is the model.</remarks>
+        public BundleModel Parent
         {
             get => _parent;
             protected set
@@ -55,6 +56,35 @@ namespace Workbench.Core.Models
                 Contract.Requires<ArgumentNullException>(value != null);
                 _parent = value;
             }
+        }
+
+        /// <summary>
+        /// Get the model model that the model is part of.
+        /// </summary>
+        /// <returns>Model model the model is a part.</returns>
+        public ModelModel GetModel()
+        {
+            // The root bundle is the model.
+            var rootModel = FindRoot();
+            Contract.Assert(rootModel != null, "Every model must have a valid root");
+            return rootModel as ModelModel;
+        }
+
+        /// <summary>
+        /// Find the root model.
+        /// </summary>
+        /// <returns>Root bundle.</returns>
+        public Model FindRoot()
+        {
+            var currentBundle = this;
+            var parentBundle = Parent;
+            while (parentBundle != null)
+            {
+                currentBundle = parentBundle;
+                parentBundle = parentBundle.Parent;
+            }
+
+            return currentBundle;
         }
     }
 }

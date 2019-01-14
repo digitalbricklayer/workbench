@@ -3,7 +3,7 @@
 namespace Workbench
 {
     /// <summary>
-    /// Contract for the main application menu
+    /// Contract for the main application menu.
     /// </summary>
     public interface IApplicationMenu : IScreen
     {

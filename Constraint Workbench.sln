@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96D48A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.UI.Tests.Integration", "tests\Workbench.Core.Tests.Integration\Workbench.UI.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.UI.Tests.Integration", "tests\Workbench.UI.Tests.Integration\Workbench.UI.Tests.Integration.csproj", "{E1E117C3-891F-4727-B3B4-621EB417E3BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workbench.Core", "src\Workbench.Core\Workbench.Core.csproj", "{BDFDA6E8-2BB7-425E-AF10-47BCD2CC3DBC}"
 EndProject

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Workbench.Core.Models;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
@@ -30,6 +31,14 @@ namespace Workbench.Services
             var newModelEditor = IoC.Get<ModelEditorTabViewModel>();
 
             return newModelEditor;
+        }
+
+        /// <inheritdoc />
+        public BundleEditorViewModel CreateBundleEditor()
+        {
+            var newBundleEditor = IoC.Get<BundleEditorViewModel>();
+
+            return newBundleEditor;
         }
     }
 }

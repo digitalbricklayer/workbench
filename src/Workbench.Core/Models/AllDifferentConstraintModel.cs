@@ -17,28 +17,28 @@ namespace Workbench.Core.Models
     {
         private AllDifferentConstraintExpressionModel _expression;
 
-        public AllDifferentConstraintModel(ModelModel theModel, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleModel theBundle, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theBundle != null);
             Contract.Requires<ArgumentNullException>(theName != null);
             Contract.Requires<ArgumentNullException>(theExpressionModel != null);
-            Parent = theModel;
+            Parent = theBundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(ModelModel theModel, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleModel theBundle, AllDifferentConstraintExpressionModel theExpressionModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theBundle != null);
             Contract.Requires<ArgumentNullException>(theExpressionModel != null);
-            Parent = theModel;
+            Parent = theBundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(ModelModel theModel)
+        public AllDifferentConstraintModel(BundleModel theBundle)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Parent = theModel;
+            Contract.Requires<ArgumentNullException>(theBundle != null);
+            Parent = theBundle;
             Expression = new AllDifferentConstraintExpressionModel();
         }
 

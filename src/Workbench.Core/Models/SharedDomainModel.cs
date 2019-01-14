@@ -11,13 +11,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a shared domain with a name and domain expression.
         /// </summary>
-        public SharedDomainModel(ModelModel theModel, ModelName theName, SharedDomainExpressionModel theExpression)
+        public SharedDomainModel(BundleModel theBundle, ModelName theName, SharedDomainExpressionModel theExpression)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
+            Contract.Requires<ArgumentNullException>(theBundle != null);
             Contract.Requires<ArgumentNullException>(theName != null);
             Contract.Requires<ArgumentNullException>(theExpression != null);
-            Parent = theModel;
+            Parent = theBundle;
             _expression = theExpression;
         }
 

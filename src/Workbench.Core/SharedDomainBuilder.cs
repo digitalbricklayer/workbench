@@ -7,7 +7,7 @@ namespace Workbench.Core
     {
         private ModelName domainName;
         private SharedDomainExpressionModel expression;
-        private ModelModel _model;
+        private BundleModel _bundle;
 
         public SharedDomainBuilder WithName(string theVariableName)
         {
@@ -21,16 +21,16 @@ namespace Workbench.Core
             return this;
         }
 
-        public SharedDomainBuilder Inside(ModelModel theModel)
+        public SharedDomainBuilder Inside(BundleModel theModel)
         {
-            _model = theModel;
+            _bundle = theModel;
             return this;
         }
 
         public SharedDomainModel Build()
         {
-            if (_model == null) throw new Exception("A model must be provided when building a shared domain.");
-            return new SharedDomainModel(_model, GetNameOrDefault(), GetExpressionOrDefault());
+            if (_bundle == null) throw new Exception("A model must be provided when building a shared domain.");
+            return new SharedDomainModel(_bundle, GetNameOrDefault(), GetExpressionOrDefault());
         }
 
         private ModelName GetNameOrDefault()

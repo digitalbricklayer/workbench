@@ -123,6 +123,9 @@
   <data name="MainWindowDefaultTitle" xml:space="preserve">
     <value>Workbench - Untitled</value>
   </data>
+  <data name="ModelEditorTabName" xml:space="preserve">
+    <value>Model</value>
+  </data>
   <data name="TitleDirtyFileDesignator" xml:space="preserve">
     <value>*</value>
   </data>

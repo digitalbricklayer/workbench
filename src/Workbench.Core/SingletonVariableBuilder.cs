@@ -6,7 +6,7 @@ namespace Workbench.Core
     public sealed class SingletonVariableBuilder
     {
         private ModelName variableName;
-        private ModelModel model;
+        private BundleModel bundle;
         private InlineDomainModel domain;
 
         public SingletonVariableBuilder WithName(string theVariableName)
@@ -21,18 +21,18 @@ namespace Workbench.Core
             return this;
         }
 
-        public SingletonVariableBuilder Inside(ModelModel theModel)
+        public SingletonVariableBuilder Inside(BundleModel theBundle)
         {
-            this.model = theModel;
+            this.bundle = theBundle;
             return this;
         }
 
         public SingletonVariableModel Build()
         {
-            Contract.Assume(this.model != null);
+            Contract.Assume(this.bundle != null);
             Contract.Assume(this.variableName != null);
 
-            return new SingletonVariableModel(this.model, this.variableName, GetDomainOrDefault());
+            return new SingletonVariableModel(this.bundle, this.variableName, GetDomainOrDefault());
         }
 
         private InlineDomainModel GetDomainOrDefault()

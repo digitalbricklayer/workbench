@@ -6,7 +6,7 @@ using Workbench.ViewModels;
 namespace Workbench
 {
     /// <summary>
-    /// Contract for the workspace view model.
+    /// Contract for the workspace.
     /// </summary>
     public interface IWorkspace : IScreen
     {

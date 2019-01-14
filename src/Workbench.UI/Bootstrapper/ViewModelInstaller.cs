@@ -29,6 +29,7 @@ namespace Workbench.Bootstrapper
                             Component.For<TableMenuViewModel>().LifeStyle.Singleton,
                             Component.For<ITitleBar, TitleBarViewModel>().LifeStyle.Singleton,
                             Component.For<ModelValidatorViewModel>().LifeStyle.Transient,
+                            Component.For<BundleEditorViewModel>().LifeStyle.Transient,
                             Types.FromThisAssembly().BasedOn<IWorkspaceTabViewModel>());
         }
     }

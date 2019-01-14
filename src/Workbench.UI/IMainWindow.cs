@@ -2,6 +2,9 @@
 
 namespace Workbench
 {
+    /// <summary>
+    /// Contract for the main application window.
+    /// </summary>
     [ContractClass(typeof(IMainWindowContract))]
     public interface IMainWindow
     {

@@ -17,7 +17,7 @@ namespace Workbench.Validators
         private bool ValidateExpression(AllDifferentConstraintModelItemViewModel allDifferentConstraintModelItem, string rawDomainExpression)
         {
             var allDifferentConstraint = allDifferentConstraintModelItem.AllDifferentConstraint;
-            return allDifferentConstraint.Validate(allDifferentConstraint.Parent);
+            return allDifferentConstraint.Validate(allDifferentConstraint.GetModel());
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Diagnostics.Contracts;
 
 namespace Workbench
 {
+    /// <summary>
+    /// Contract for the inside of the main window.
+    /// </summary>
     [ContractClass(typeof(IShellContract))]
     public interface IShell
     {
@@ -17,7 +20,7 @@ namespace Workbench
         IWorkspaceDocument CurrentDocument { get; set; }
 
         /// <summary>
-        /// Close the shell with the option to cancel.
+        /// The shell is closing with an option to cancel if the user wishes.
         /// </summary>
         void OnClose(CancelEventArgs cancelEventArgs);
 
@@ -27,7 +30,7 @@ namespace Workbench
         void Close();
 
         /// <summary>
-        /// Open the workspace document.
+        /// Open the document.
         /// </summary>
         /// <param name="theDocument">Workspace document.</param>
         /// <returns>True if the document was successfully saved, false if the user cancelled the operation.</returns>
@@ -36,7 +39,6 @@ namespace Workbench
         /// <summary>
         /// Close the current document.
         /// </summary>
-        /// <returns></returns>
         /// <returns>True if the document was successfully saved, false if the user cancelled the operation.</returns>
         bool CloseDocument();
     }

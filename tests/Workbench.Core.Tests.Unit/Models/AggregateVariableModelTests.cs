@@ -43,6 +43,19 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
+        public void GetModelReturnsModel()
+        {
+            var workspace = new WorkspaceModel();
+            var sut = new AggregateVariableBuilder().Inside(workspace.Model)
+                                                    .WithName("x")
+                                                    .WithDomain("1..10")
+                                                    .WithSize(10)
+                                                    .Build();
+            var actualModel = sut.GetModel();
+            Assert.That(actualModel, Is.InstanceOf<ModelModel>());
+        }
+
+        [Test]
         public void ChangeDomainOfAggregatedVariableWithValueInsideAggregateDomain()
         {
             var sut = new AggregateVariableModel(new WorkspaceModel(), new ModelName("A test"), 10, new InlineDomainModel("1..10"));

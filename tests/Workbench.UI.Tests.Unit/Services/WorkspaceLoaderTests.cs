@@ -64,11 +64,10 @@ namespace Workbench.UI.Tests.Unit.Services
                                                                 viewModelFactoryMock.Object,
                                                                 new ModelValidatorViewModel(CreateWindowManager(),
                                                                                             CreateDataService())));
+            viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
+                                .Returns(new BundleEditorViewModel(new BundleModel(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
             viewModelFactoryMock.Setup(factory => factory.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(Mock.Of<IShell>(),
-                                                                     CreateDataService(),
-                                                                     CreateWindowManager(),
-                                                                     CreateEventAggregator()));
+                                .Returns(new ModelEditorTabViewModel(CreateDataService(), CreateEventAggregator(), CreateWindowManager()));
 
             return viewModelFactoryMock;
         }

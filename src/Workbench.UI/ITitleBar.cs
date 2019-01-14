@@ -1,5 +1,8 @@
 ﻿namespace Workbench
 {
+    /// <summary>
+    /// Contract for the application title bar.
+    /// </summary>
     public interface ITitleBar
     {
         /// <summary>

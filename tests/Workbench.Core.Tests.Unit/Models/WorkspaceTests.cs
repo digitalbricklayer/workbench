@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Workbench.Core.Models;
 
 namespace Workbench.Core.Tests.Unit.Models
 {
@@ -16,12 +15,12 @@ namespace Workbench.Core.Tests.Unit.Models
         [Test]
         public void Create_Workspace_With_Name_Returns_Model_With_Expected_Name()
         {
-            const string ExpectedModelName = "The expected model name";
-            var sut = new WorkspaceBuilder(ExpectedModelName)
+            const string expectedModelName = "The expected model name";
+            var sut = new WorkspaceBuilder(expectedModelName)
                                     .AddSingleton("x", "1..10")
                                     .WithConstraintExpression("x > 1")
                                     .Build();
-            Assert.That(sut.Model.Name.Text, Is.EqualTo(ExpectedModelName));
+            Assert.That(sut.Model.Name.Text, Is.EqualTo(expectedModelName));
         }
     }
 }

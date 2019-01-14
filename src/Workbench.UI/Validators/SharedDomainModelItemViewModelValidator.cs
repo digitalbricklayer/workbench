@@ -18,7 +18,7 @@ namespace Workbench.Validators
         private bool ValidateExpression(SharedDomainModelItemViewModel sharedDomainModelItem, string rawDomainExpression)
         {
             var sharedDomain = sharedDomainModelItem.Domain;
-            return sharedDomain.Validate(sharedDomain.Parent, new ModelValidationContext());
+            return sharedDomain.Validate(sharedDomain.GetModel(), new ModelValidationContext());
         }
     }
 }

@@ -23,6 +23,12 @@ namespace Workbench.Services
         /// </summary>
         /// <returns>New model editor view model.</returns>
         ModelEditorTabViewModel CreateModelEditor();
+
+        /// <summary>
+        /// Create a new bundle editor view model.
+        /// </summary>
+        /// <returns>A new bundle editor.</returns>
+        BundleEditorViewModel CreateBundleEditor();
     }
 
     /// <summary>
@@ -47,6 +53,12 @@ namespace Workbench.Services
         {
             Contract.Ensures(Contract.Result<ModelEditorTabViewModel>() != null);
             return default(ModelEditorTabViewModel);
+        }
+
+        public BundleEditorViewModel CreateBundleEditor()
+        {
+            Contract.Ensures(Contract.Result<BundleEditorViewModel>() != null);
+            return default(BundleEditorViewModel);
         }
     }
 }

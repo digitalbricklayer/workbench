@@ -79,6 +79,15 @@ namespace Workbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model.
+        /// </summary>
+        internal static string ModelEditorTabName {
+            get {
+                return ResourceManager.GetString("ModelEditorTabName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to *.
         /// </summary>
         internal static string TitleDirtyFileDesignator {

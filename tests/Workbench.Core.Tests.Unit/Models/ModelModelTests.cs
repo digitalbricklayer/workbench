@@ -22,6 +22,14 @@ namespace Workbench.Core.Tests.Unit.Models
             Assert.That(xVariable.Parent, Is.SameAs(sut));
         }
 
+        [Test]
+        public void FindRootReturnsModel()
+        {
+            var sut = MakeValidModel();
+            var actualRoot = sut.FindRoot();
+            Assert.That(actualRoot, Is.SameAs(sut));
+        }
+
         private static ModelModel MakeValidModel()
         {
             var workspace = new WorkspaceBuilder("A valid model")

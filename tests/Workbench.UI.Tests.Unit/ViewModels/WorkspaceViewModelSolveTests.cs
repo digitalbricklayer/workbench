@@ -4,6 +4,7 @@ using Workbench.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Workbench.Core;
+using Workbench.Core.Models;
 using Workbench.Core.Solver;
 using Workbench.Messages;
 using Workbench.Services;
@@ -20,7 +21,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         [SetUp]
         public void Initialize()
         {
-            _eventAggregatorMock = new Mock<IEventAggregator>();
+            _eventAggregatorMock = CreateEventAggregatorMock();
             Workspace = CreateSut();
             ScreenExtensions.TryActivate(Workspace);
             Workspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
@@ -133,9 +134,17 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
+            viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
+                                .Returns(new BundleEditorViewModel(new BundleModel(), CreateDataService(), CreateWindowManagerMock().Object, _eventAggregatorMock.Object));
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(Mock.Of<IShell>(), CreateDataService(), CreateWindowManagerMock().Object, _eventAggregatorMock.Object));
+                                .Returns(new ModelEditorTabViewModel(CreateDataService(), _eventAggregatorMock.Object, CreateWindowManagerMock().Object));
+
             return viewModelFactoryMock;
+        }
+
+        private Mock<IEventAggregator> CreateEventAggregatorMock()
+        {
+            return new Mock<IEventAggregator>();
         }
     }
 }

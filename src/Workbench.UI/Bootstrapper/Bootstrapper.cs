@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Castle.Windsor;
-using Workbench.ViewModels;
 using Workbench.Loggers;
 
 namespace Workbench.Bootstrapper

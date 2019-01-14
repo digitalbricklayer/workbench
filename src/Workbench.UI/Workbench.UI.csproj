@@ -278,6 +278,9 @@
     <Compile Include="Validators\TabNameValidator.cs" />
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="Validators\VisualizerExpressionValidator.cs" />
+    <Compile Include="ViewModels\BucketModelItemViewModel.cs" />
+    <Compile Include="ViewModels\BundleModelItemViewModel.cs" />
+    <Compile Include="ViewModels\BundleEditorViewModel.cs" />
     <Compile Include="ViewModels\ChessboardSquareViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
@@ -326,6 +329,9 @@
     </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BundleEditorView.xaml.cs">
+      <DependentUpon>BundleEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableDetailsView.xaml.cs">
       <DependentUpon>TableDetailsView.xaml</DependentUpon>
@@ -470,6 +476,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BundleEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

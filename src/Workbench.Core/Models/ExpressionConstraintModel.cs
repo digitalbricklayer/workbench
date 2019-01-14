@@ -13,7 +13,7 @@ namespace Workbench.Core.Models
     {
         private ConstraintExpressionModel expression;
 
-        public ExpressionConstraintModel(ModelModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(BundleModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
