@@ -126,6 +126,9 @@
   <data name="ModelEditorTabName" xml:space="preserve">
     <value>Model</value>
   </data>
+  <data name="ModelRootName" xml:space="preserve">
+    <value>Model</value>
+  </data>
   <data name="TitleDirtyFileDesignator" xml:space="preserve">
     <value>*</value>
   </data>

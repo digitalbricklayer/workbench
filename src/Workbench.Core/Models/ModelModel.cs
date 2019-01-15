@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Solver;
 
@@ -17,9 +16,8 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theName">Model name.</param>
         public ModelModel(ModelName theName)
-            : this()
+            : base(theName)
         {
-            Name = theName;
         }
 
         /// <summary>
@@ -27,12 +25,6 @@ namespace Workbench.Core.Models
         /// </summary>
         public ModelModel()
         {
-            Name = new ModelName();
-            Variables = new ObservableCollection<VariableModel>();
-            Singletons = new ObservableCollection<SingletonVariableModel>();
-            Aggregates = new ObservableCollection<AggregateVariableModel>();
-            SharedDomains = new ObservableCollection<SharedDomainModel>();
-            Constraints = new ObservableCollection<ConstraintModel>();
         }
 
         /// <summary>

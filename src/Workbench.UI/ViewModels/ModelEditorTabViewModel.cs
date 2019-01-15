@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
+using Workbench.Messages;
 using Workbench.Properties;
 using Workbench.Services;
 
@@ -11,10 +12,15 @@ namespace Workbench.ViewModels
     /// <summary>
     /// View model for the model editor tab.
     /// </summary>
-    public sealed class ModelEditorTabViewModel : Conductor<BundleEditorViewModel>.Collection.OneActive, IWorkspaceTabViewModel
+    public sealed class ModelEditorTabViewModel : Conductor<BundleEditorViewModel>.Collection.OneActive,
+                                                  IWorkspaceTabViewModel,
+                                                  IHandle<BundleAddedMessage>,
+                                                  IHandle<BundleDeletedMessage>
     {
         private readonly BundleEditorViewModel _rootBundleEditor;
         private readonly IDataService _dataService;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IWindowManager _windowManager;
         private IObservableCollection<string> _bundleNames = new BindableCollection<string>();
         private string _selectedBundleName;
 
@@ -28,12 +34,14 @@ namespace Workbench.ViewModels
             Contract.Requires<ArgumentNullException>(theWindowManager != null);
 
             _dataService = theDataService;
+            _eventAggregator = theEventAggregator;
+            _windowManager = theWindowManager;
             ModelModel = _dataService.GetWorkspace().Model;
             _rootBundleEditor = new BundleEditorViewModel(ModelModel, theDataService, theWindowManager, theEventAggregator);
             ActivateItem(_rootBundleEditor);
-            Items.AddRange(Bundles);
-            SelectedBundleName = "Root";
-            BundleNames.Add("Root");
+            SelectedBundleName = Resources.ModelRootName;
+            BundleNames.Add(Resources.ModelRootName);
+            _eventAggregator.Subscribe(this);
         }
 
         /// <summary>
@@ -64,7 +72,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the bundles in the currently selected bundle.
         /// </summary>
-        public IObservableCollection<BundleEditorViewModel> Bundles => ActiveItem.Bundles;
+        public IObservableCollection<BundleModelItemViewModel> Bundles => ActiveItem.Bundles;
 
         /// <summary>
         /// Gets or sets the tab text.
@@ -87,23 +95,32 @@ namespace Workbench.ViewModels
             get => _selectedBundleName;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(value));
                 _selectedBundleName = value;
-                if (_selectedBundleName == "Root")
+                if (_selectedBundleName == Resources.ModelRootName)
                 {
                     ChangeActiveItem(_rootBundleEditor, closePrevious:false);
                 }
                 else
                 {
-                    var bundleEditor = Bundles.First(bundle => bundle.DisplayName == _selectedBundleName);
-                    ChangeActiveItem(bundleEditor, closePrevious: false);
+                    var existingBundleEditor = FindBundleEditor(_selectedBundleName);
+                    if (existingBundleEditor != null)
+                    {
+                        ChangeActiveItem(existingBundleEditor, closePrevious: false);
+                    }
+                    else
+                    {
+                        var bundleModel = ModelModel.GetBundleByName(_selectedBundleName);
+                        var newBundleEditor = new BundleEditorViewModel(bundleModel, _dataService, _windowManager, _eventAggregator);
+                        ChangeActiveItem(newBundleEditor, closePrevious: false);
+                    }
                 }
                 NotifyOfPropertyChange();
             }
         }
 
         /// <summary>
-        /// Gets the available bundles.
+        /// Gets the available bundle names.
         /// </summary>
         public IObservableCollection<string> BundleNames
         {
@@ -150,6 +167,22 @@ namespace Workbench.ViewModels
             ActiveItem.DeleteVariable(variableToDelete);
         }
 
+        public void EditBundle(BundleModel bundleToEdit)
+        {
+            var newBundleEditor = new BundleEditorViewModel(bundleToEdit, _dataService, _windowManager, _eventAggregator);
+            ActivateItem(newBundleEditor);
+        }
+
+        public void Handle(BundleAddedMessage message)
+        {
+            BundleNames.Add(message.BundleAdded.Name);
+        }
+
+        public void Handle(BundleDeletedMessage message)
+        {
+            BundleNames.Remove(message.BundleDeleted.Name);
+        }
+
         internal void FixupAggregateVariable(AggregateVariableModelItemViewModel variableViewModel)
         {
             ActiveItem.FixupAggregateVariable(variableViewModel);
@@ -174,6 +207,16 @@ namespace Workbench.ViewModels
         {
             DisplayName = Resources.ModelEditorTabName;
             base.OnInitialize();
+        }
+
+        /// <summary>
+        /// Find the existing bundle editor matching the bundle name.
+        /// </summary>
+        /// <param name="bundleName">Bundle name.</param>
+        /// <returns>Bundle editor.</returns>
+        private BundleEditorViewModel FindBundleEditor(string bundleName)
+        {
+            return Items.FirstOrDefault(editor => editor.Bundle.Name == bundleName);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Workbench.ViewModels
             Variables = new BindableCollection<VariableModelItemViewModel>();
             Domains = new BindableCollection<SharedDomainModelItemViewModel>();
             Constraints = new BindableCollection<ConstraintModelItemViewModel>();
-            Bundles = new BindableCollection<BundleEditorViewModel>();
+            Bundles = new BindableCollection<BundleModelItemViewModel>();
             AddSingletonVariableCommand = new CommandHandler(AddSingletonVariableAction);
             AddAggregateVariableCommand = new CommandHandler(AddAggregateVariableAction);
             AddDomainCommand = new CommandHandler(AddDomainAction);
@@ -79,7 +79,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets all of the sub-bundles.
         /// </summary>
-        public IObservableCollection<BundleEditorViewModel> Bundles { get; }
+        public IObservableCollection<BundleModelItemViewModel> Bundles { get; }
 
         /// <summary>
         /// Gets or sets the Add singleton variable command.
@@ -255,6 +255,18 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Add a new bundle to the current bundle.
+        /// </summary>
+        /// <param name="newBundleModel">New bundle.</param>
+        public void AddBundle(BundleModel newBundleModel)
+        {
+            var newBundleItem = new BundleModelItemViewModel(newBundleModel, Parent as ModelEditorTabViewModel);
+            FixupBundle(newBundleItem);
+            AddBundleToModel(newBundleItem);
+            _eventAggregator.PublishOnUIThread(new BundleAddedMessage(newBundleModel));
+        }
+
+        /// <summary>
         /// Delete the variable.
         /// </summary>
         /// <param name="variableToDelete">Variable to delete.</param>
@@ -293,6 +305,20 @@ namespace Workbench.ViewModels
             Constraints.Remove(constraintToDelete);
             DeactivateItem(constraintToDelete, close: true);
             DeleteConstraintFromModel(constraintToDelete);
+        }
+
+        /// <summary>
+        /// Delete the bundle.
+        /// </summary>
+        /// <param name="bundleToDelete">Bundle to delete.</param>
+        public void DeleteBundle(BundleModelItemViewModel bundleToDelete)
+        {
+            Contract.Requires<ArgumentNullException>(bundleToDelete != null);
+
+            Bundles.Remove(bundleToDelete);
+            DeactivateItem(bundleToDelete, close: true);
+            DeleteBundleFromModel(bundleToDelete);
+            _eventAggregator.PublishOnUIThread(new BundleDeletedMessage(bundleToDelete.Bundle));
         }
 
         /// <summary>
@@ -362,6 +388,17 @@ namespace Workbench.ViewModels
         }
 
         /// <summary>
+        /// Fixes up a bundle view model into the model.
+        /// </summary>
+        /// <param name="bundleItem">New bundle model item.</param>
+        internal void FixupBundle(BundleModelItemViewModel bundleItem)
+        {
+            Contract.Requires<ArgumentNullException>(bundleItem != null);
+            Bundles.Add(bundleItem);
+            ActivateItem(bundleItem);
+        }
+
+        /// <summary>
         /// Add a new domain to the model model.
         /// </summary>
         /// <param name="newDomainModel">New domain view model.</param>
@@ -410,6 +447,12 @@ namespace Workbench.ViewModels
         {
             Contract.Assert(domainToDelete.Model != null);
             Bundle.DeleteDomain(domainToDelete.Domain);
+        }
+
+        private void DeleteBundleFromModel(BundleModelItemViewModel bundleToDelete)
+        {
+            Contract.Assert(bundleToDelete.Model != null);
+            Bundle.DeleteBundle(bundleToDelete.Bundle);
         }
 
         private void AddSingletonVariableAction()
@@ -470,7 +513,10 @@ namespace Workbench.ViewModels
 
         private void AddBundleAction()
         {
-            throw new NotImplementedException();
+            var bundleNameEditorViewModel = new BundleNameEditorViewModel();
+            var result = _windowManager.ShowDialog(bundleNameEditorViewModel);
+            if (!result.GetValueOrDefault()) return;
+            AddBundle(new BundleModel(new ModelName(bundleNameEditorViewModel.BundleName)));
         }
 
         private void AddBucketAction()
@@ -502,9 +548,19 @@ namespace Workbench.ViewModels
                     DeleteDomain(domainItem);
                     break;
 
+                case BundleModelItemViewModel bundleItem:
+                    DeleteBundle(bundleItem);
+                    break;
+
                 default:
                     throw new NotImplementedException("Unknown item.");
             }
+        }
+
+        private void AddBundleToModel(BundleModelItemViewModel newBundleItem)
+        {
+            Contract.Assert(newBundleItem.Bundle != null);
+            Bundle.AddBundle(newBundleItem.Bundle);
         }
 
         private bool IsItemSelected(object parameter)

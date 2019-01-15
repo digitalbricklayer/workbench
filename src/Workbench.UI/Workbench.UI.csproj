@@ -232,6 +232,8 @@
     <Compile Include="IShellContract.cs" />
     <Compile Include="IWorkspace.cs" />
     <Compile Include="IWorkspaceDocument.cs" />
+    <Compile Include="Messages\BundleAddedMessage.cs" />
+    <Compile Include="Messages\BundleDeletedMessage.cs" />
     <Compile Include="Messages\DocumentClosedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
@@ -266,6 +268,8 @@
     <Compile Include="Services\XmlVisualizerBindingReader.cs" />
     <Compile Include="Services\XmlVisualizerBindingWriter.cs" />
     <Compile Include="Services\XmlVisualizerWriter.cs" />
+    <Compile Include="Validators\BundleModelItemValidator.cs" />
+    <Compile Include="Validators\BundleNameEditorViewModelValidator.cs" />
     <Compile Include="Validators\ExpressionConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\AllDifferentConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\NewTabDetailsViewModelValidator.cs" />
@@ -293,6 +297,7 @@
     <Compile Include="ViewModels\ChessboardTabViewModel.cs" />
     <Compile Include="ViewModels\AllDifferentConstraintEditorViewModel.cs" />
     <Compile Include="ViewModels\NewTabDetailsViewModel.cs" />
+    <Compile Include="ViewModels\BundleNameEditorViewModel.cs" />
     <Compile Include="ViewModels\TableDetailsViewModel.cs" />
     <Compile Include="ViewModels\VisualizerExpressionEditorViewModel.cs" />
     <Compile Include="ViewModels\TabNameEditorViewModel.cs" />
@@ -332,6 +337,12 @@
     </Compile>
     <Compile Include="Views\BundleEditorView.xaml.cs">
       <DependentUpon>BundleEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BundleNameEditorView.xaml.cs">
+      <DependentUpon>BundleNameEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BundleModelItemView.xaml.cs">
+      <DependentUpon>BundleModelItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TableDetailsView.xaml.cs">
       <DependentUpon>TableDetailsView.xaml</DependentUpon>
@@ -480,6 +491,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BundleEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BundleNameEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BundleModelItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

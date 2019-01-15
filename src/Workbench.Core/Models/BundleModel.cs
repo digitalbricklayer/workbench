@@ -6,7 +6,7 @@ using System.Linq;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A bucket is a composable repository of sub-buckets, constraints, variables and shared domains.
+    /// A bundle is a composable repository of sub-bundles, constraints, variables and shared domains.
     /// </summary>
     public class BundleModel : Model
     {
@@ -16,6 +16,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<AggregateVariableModel> aggregates;
         private ObservableCollection<SharedDomainModel> _sharedDomains;
         private ObservableCollection<ConstraintModel> constraints;
+        private ObservableCollection<BundleModel> bundles;
 
         /// <summary>
         /// Initialize a bundle with a name.
@@ -38,6 +39,7 @@ namespace Workbench.Core.Models
             Aggregates = new ObservableCollection<AggregateVariableModel>();
             SharedDomains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
+            Bundles = new ObservableCollection<BundleModel>();
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the constraints.
+        /// Gets or sets the constraint collection.
         /// </summary>
         public ObservableCollection<ConstraintModel> Constraints
         {
@@ -120,6 +122,20 @@ namespace Workbench.Core.Models
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 this.constraints = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the bundle collection.
+        /// </summary>
+        public ObservableCollection<BundleModel> Bundles
+        {
+            get { return this.bundles;}
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.bundles = value;
                 OnPropertyChanged();
             }
         }
@@ -215,6 +231,23 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Add a new bundle to the bundle.
+        /// </summary>
+        /// <param name="newBundle">new bundle.</param>
+        public void AddBundle(BundleModel newBundle)
+        {
+            Contract.Requires<ArgumentNullException>(newBundle != null);
+            Contract.Assume(newBundle.Name != null);
+            if (!newBundle.HasIdentity)
+            {
+                newBundle.AssignIdentity();
+            }
+
+            newBundle.Parent = this;
+            Bundles.Add(newBundle);
+        }
+
+        /// <summary>
         /// Delete the domain from the model.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
@@ -223,6 +256,16 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentNullException>(domainToDelete != null);
 
             SharedDomains.Remove(domainToDelete);
+        }
+
+        /// <summary>
+        /// Delete the bundle from the model.
+        /// </summary>
+        /// <param name="bundleToDelete">Bundle to delete.</param>
+        public void DeleteBundle(BundleModel bundleToDelete)
+        {
+            Contract.Requires<ArgumentNullException>(bundleToDelete != null);
+            Bundles.Remove(bundleToDelete);
         }
 
         /// <summary>
@@ -246,6 +289,25 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
             return SharedDomains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
+        }
+
+        /// <summary>
+        /// Get the bundle matching the name.
+        /// </summary>
+        /// <param name="bundleName">Name of the bundle.</param>
+        /// <returns>Bundle matching the name.</returns>
+        public BundleModel GetBundleByName(string bundleName)
+        {
+            foreach (var bundle in Bundles)
+            {
+                // Is the bundle the one we're looking for?
+                if (bundle.Name == bundleName) return bundle;
+                // Check sub-bundles to see if it is there...
+                var x = bundle.GetBundleByName(bundleName);
+                if (x != null) return x;
+            }
+
+            return null;
         }
     }
 }

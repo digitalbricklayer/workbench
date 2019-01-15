@@ -88,6 +88,15 @@ namespace Workbench.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model.
+        /// </summary>
+        internal static string ModelRootName {
+            get {
+                return ResourceManager.GetString("ModelRootName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to *.
         /// </summary>
         internal static string TitleDirtyFileDesignator {
