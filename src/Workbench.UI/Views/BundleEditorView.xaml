@@ -13,7 +13,10 @@
                     <Setter Property="Margin" Value="0,0,0,5" />
                 </Style>
             </StackPanel.Resources>
-            <TextBlock FontWeight="Bold" Margin="0,0,0,10">Actions</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="DisplayName" FontWeight="Bold" Width="100" Margin="0,0,0,10"/>
+                <Button x:Name="EditName" Command="{Binding EditNameCommand}">Edit...</Button>
+            </StackPanel>
             <Button x:Name="AddSingleton" Command="{Binding AddSingletonVariableCommand}">Add Singleton Variable...</Button>
             <Button x:Name="AddAggregate" Command="{Binding AddAggregateVariableCommand}">Add Aggregate Variable...</Button>
             <Button x:Name="AddExpressionConstraintButton" Command="{Binding AddExpressionConstraintCommand}">Add Expression Constraint...</Button>

@@ -234,6 +234,7 @@
     <Compile Include="IWorkspaceDocument.cs" />
     <Compile Include="Messages\BundleAddedMessage.cs" />
     <Compile Include="Messages\BundleDeletedMessage.cs" />
+    <Compile Include="Messages\BundleRenamedMessage.cs" />
     <Compile Include="Messages\DocumentClosedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />

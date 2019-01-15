@@ -15,7 +15,8 @@ namespace Workbench.ViewModels
     public sealed class ModelEditorTabViewModel : Conductor<BundleEditorViewModel>.Collection.OneActive,
                                                   IWorkspaceTabViewModel,
                                                   IHandle<BundleAddedMessage>,
-                                                  IHandle<BundleDeletedMessage>
+                                                  IHandle<BundleDeletedMessage>,
+                                                  IHandle<BundleRenamedMessage>
     {
         private readonly BundleEditorViewModel _rootBundleEditor;
         private readonly IDataService _dataService;
@@ -176,6 +177,12 @@ namespace Workbench.ViewModels
         public void Handle(BundleAddedMessage message)
         {
             BundleNames.Add(message.BundleAdded.Name);
+        }
+
+        public void Handle(BundleRenamedMessage message)
+        {
+            var nameIndex = BundleNames.IndexOf(message.OldName);
+            BundleNames[nameIndex] = message.BundleRenamed.Name.Text;
         }
 
         public void Handle(BundleDeletedMessage message)

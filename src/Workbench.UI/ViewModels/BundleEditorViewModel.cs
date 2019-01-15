@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Workbench.Core;
 using Workbench.Core.Models;
 using Workbench.Messages;
+using Workbench.Properties;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -26,6 +27,7 @@ namespace Workbench.ViewModels
         private ICommand _addBucketCommand;
         private ICommand _addBundleCommand;
         private ICommand _deleteCommand;
+        private ICommand _editNameCommand;
 
         /// <summary>
         /// Initialize a bundle editor view model with the bundle model, data service, window manager and event aggregator.
@@ -40,7 +42,7 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
             _eventAggregator = theEventAggregator;
             Bundle = theBundle;
-            DisplayName = Bundle.Name;
+            DisplayName = GetBundleName();
             Variables = new BindableCollection<VariableModelItemViewModel>();
             Domains = new BindableCollection<SharedDomainModelItemViewModel>();
             Constraints = new BindableCollection<ConstraintModelItemViewModel>();
@@ -54,7 +56,13 @@ namespace Workbench.ViewModels
             AddBundleCommand = new CommandHandler(AddBundleAction);
             EditCommand = new CommandHandler(EditAction, IsItemSelected);
             DeleteCommand = new CommandHandler(DeleteAction, IsItemSelected);
+            EditNameCommand = new CommandHandler(EditNameAction, x => !IsModel);
         }
+
+        /// <summary>
+        /// Gets whether the bundle is the root model.
+        /// </summary>
+        public bool IsModel => Bundle is ModelModel;
 
         /// <summary>
         /// Gets the bundle model currently being edited.
@@ -185,6 +193,19 @@ namespace Workbench.ViewModels
             set
             {
                 _deleteCommand = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the edit bundle name command.
+        /// </summary>
+        public ICommand EditNameCommand
+        {
+            get => _editNameCommand;
+            set
+            {
+                _editNameCommand = value; 
                 NotifyOfPropertyChange();
             }
         }
@@ -557,6 +578,18 @@ namespace Workbench.ViewModels
             }
         }
 
+        private void EditNameAction()
+        {
+            var oldName = Bundle.Name.Text;
+            var bundleNameEditorViewModel = new BundleNameEditorViewModel();
+            bundleNameEditorViewModel.BundleName = Bundle.Name.Text;
+            var result = _windowManager.ShowDialog(bundleNameEditorViewModel);
+            if (!result.GetValueOrDefault()) return;
+            if (oldName == bundleNameEditorViewModel.BundleName) return;
+            Bundle.Name.Text = DisplayName = bundleNameEditorViewModel.BundleName;
+            _eventAggregator.PublishOnUIThread(new BundleRenamedMessage(oldName, Bundle));
+        }
+
         private void AddBundleToModel(BundleModelItemViewModel newBundleItem)
         {
             Contract.Assert(newBundleItem.Bundle != null);
@@ -566,6 +599,12 @@ namespace Workbench.ViewModels
         private bool IsItemSelected(object parameter)
         {
             return ActiveItem != null;
+        }
+
+        private string GetBundleName()
+        {
+            if (IsModel) return Resources.ModelRootName;
+            return Bundle.Name;
         }
 
         [ContractInvariantMethod]
