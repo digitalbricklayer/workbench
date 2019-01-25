@@ -84,6 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterRangeComparer.cs" />
+    <Compile Include="TournamentSolverUsingRegularElementsShould.cs" />
+    <Compile Include="TournamentSolverShould.cs" />
     <Compile Include="ListSolverShould.cs" />
     <Compile Include="CharacterSolverShould.cs" />
     <Compile Include="EightQueensSolverShould.cs" />

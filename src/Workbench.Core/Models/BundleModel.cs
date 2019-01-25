@@ -17,6 +17,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<SharedDomainModel> _sharedDomains;
         private ObservableCollection<ConstraintModel> constraints;
         private ObservableCollection<BundleModel> bundles;
+        private ObservableCollection<BucketModel> _buckets;
 
         /// <summary>
         /// Initialize a bundle with a name.
@@ -40,6 +41,7 @@ namespace Workbench.Core.Models
             SharedDomains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
             Bundles = new ObservableCollection<BundleModel>();
+            Buckets = new ObservableCollection<BucketModel>();
         }
 
         /// <summary>
@@ -136,6 +138,19 @@ namespace Workbench.Core.Models
             {
                 Contract.Requires<ArgumentNullException>(value != null);
                 this.bundles = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the buckets collection.
+        /// </summary>
+        public ObservableCollection<BucketModel> Buckets
+        {
+            get => _buckets;
+            set
+            {
+                _buckets = value;
                 OnPropertyChanged();
             }
         }
@@ -245,6 +260,23 @@ namespace Workbench.Core.Models
 
             newBundle.Parent = this;
             Bundles.Add(newBundle);
+        }
+
+        /// <summary>
+        /// Add a new bucket to the bundle.
+        /// </summary>
+        /// <param name="newBucket">New bucket.</param>
+        public void AddBucket(BucketModel newBucket)
+        {
+            Contract.Requires<ArgumentNullException>(newBucket != null);
+            Contract.Assume(newBucket.Name != null);
+
+            if (!newBucket.HasIdentity)
+            {
+                newBucket.AssignIdentity();
+            }
+
+            Buckets.Add(newBucket);
         }
 
         /// <summary>

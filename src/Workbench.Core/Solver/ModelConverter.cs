@@ -9,8 +9,8 @@ namespace Workbench.Core.Solver
     /// </summary>
     internal class ModelConverter
     {
-        private ConstraintConverter constraintConverter;
-        private VariableConverter variableConverter;
+        private readonly ConstraintConverter constraintConverter;
+        private readonly VariableConverter variableConverter;
 
         /// <summary>
         /// Initialize the model converter with a Google or-tools solver.

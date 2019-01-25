@@ -41,9 +41,9 @@ namespace Workbench.Core.Solver
             if (!solveResult) return SolveResult.Failed;
 
             var snapshotExtractor = new SnapshotExtractor(this.orToolsCache, this.valueMapper);
-            var theSolutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
-            theSolutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
-            return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
+            var solutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
+            solutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
+            return new SolveResult(SolveStatus.Success, solutionSnapshot);
         }
 
         /// <summary>

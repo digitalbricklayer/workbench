@@ -36,8 +36,8 @@ namespace Workbench.Core.Solver
         internal void ProcessConstraint(AllDifferentConstraintModel allDifferentConstraint)
         {
             Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
-            var theVector = this.cache.GetVectorByName(allDifferentConstraint.Expression.Text);
-            var orAllDifferentConstraint = this.solver.MakeAllDifferent(theVector);
+            var variableToConstrain = this.cache.GetVectorByName(allDifferentConstraint.Expression.Text);
+            var orAllDifferentConstraint = this.solver.MakeAllDifferent(variableToConstrain);
             this.solver.Add(orAllDifferentConstraint);
         }
     }
