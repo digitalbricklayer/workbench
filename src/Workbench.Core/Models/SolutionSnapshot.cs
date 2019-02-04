@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -13,15 +14,17 @@ namespace Workbench.Core.Models
     {
         private readonly List<SingletonLabelModel> singletonLabels;
         private readonly List<CompoundLabelModel> compoundLabels;
+        private readonly List<BucketLabelModel> bucketLabels;
         private TimeSpan duration;
 
         /// <summary>
         /// Initialize a solution snapshot with singleton labels, compound labels and the solution duration.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonValues, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
+        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonLabels, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
         {
-            this.singletonLabels = new List<SingletonLabelModel>(theSingletonValues);
+            this.singletonLabels = new List<SingletonLabelModel>(theSingletonLabels);
             this.compoundLabels = new List<CompoundLabelModel>(theCompoundLabels);
+            this.bucketLabels = new List<BucketLabelModel>();
 	        this.duration = theDuration;
         }
 
@@ -32,10 +35,11 @@ namespace Workbench.Core.Models
         {
             this.singletonLabels = new List<SingletonLabelModel>();
             this.compoundLabels = new List<CompoundLabelModel>();
+            this.bucketLabels = new List<BucketLabelModel>();
         }
 
         /// <summary>
-        /// Gets the singleton variable values.
+        /// Gets the singleton variable labels.
         /// </summary>
         public IReadOnlyCollection<SingletonLabelModel> SingletonLabels
         {
@@ -47,7 +51,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Gets the aggregate variable values.
+        /// Gets the aggregate variable labels.
         /// </summary>
         public IReadOnlyCollection<CompoundLabelModel> AggregateLabels
         {
@@ -57,6 +61,11 @@ namespace Workbench.Core.Models
                 return this.compoundLabels.ToList();
             }
         }
+
+        /// <summary>
+        /// Gets the bucket labels.
+        /// </summary>
+        public IReadOnlyCollection<BucketLabelModel> BucketLabels => new ReadOnlyCollection<BucketLabelModel>(this.bucketLabels);
 
         /// <summary>
         /// Gets the time taken to solve the model.
@@ -70,8 +79,8 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Add a label to the snapshot.
         /// </summary>
-        /// <param name="newSingletonLabel">Singleton value.</param>
-        internal void AddSingletonValue(SingletonLabelModel newSingletonLabel)
+        /// <param name="newSingletonLabel">Singleton label.</param>
+        internal void AddSingletonLabel(SingletonLabelModel newSingletonLabel)
         {
             Contract.Requires<ArgumentNullException>(newSingletonLabel != null);
             this.singletonLabels.Add(newSingletonLabel);
@@ -80,11 +89,21 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Add a compound label to the snapshot.
         /// </summary>
-        /// <param name="newCompoundLabel">Aggregate value.</param>
-        internal void AddAggregateValue(CompoundLabelModel newCompoundLabel)
+        /// <param name="newCompoundLabel">Aggregate label.</param>
+        internal void AddAggregateLabel(CompoundLabelModel newCompoundLabel)
         {
             Contract.Requires<ArgumentNullException>(newCompoundLabel != null);
             this.compoundLabels.Add(newCompoundLabel);
+        }
+
+        /// <summary>
+        /// Add bucket label.
+        /// </summary>
+        /// <param name="bucketLabel">Bucket label.</param>
+        internal void AddBucketLabel(BucketLabelModel bucketLabel)
+        {
+            Contract.Requires<ArgumentNullException>(bucketLabel != null);
+            this.bucketLabels.Add(bucketLabel);
         }
 
         /// <summary>

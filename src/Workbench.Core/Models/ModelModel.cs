@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
     [Serializable]
-    public class ModelModel : Model
+    public sealed class ModelModel : Model
     {
         private WorkspaceModel workspace;
         private ObservableCollection<VariableModel> variables;
@@ -19,6 +19,8 @@ namespace Workbench.Core.Models
         private ObservableCollection<AggregateVariableModel> aggregates;
         private ObservableCollection<SharedDomainModel> _sharedDomains;
         private ObservableCollection<ConstraintModel> constraints;
+        private ObservableCollection<BundleModel> bundles;
+        private ObservableCollection<BucketModel> _buckets;
 
         /// <summary>
         /// Initialize a model with a name.
@@ -41,6 +43,8 @@ namespace Workbench.Core.Models
             Aggregates = new ObservableCollection<AggregateVariableModel>();
             SharedDomains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
+            Bundles = new ObservableCollection<BundleModel>();
+            Buckets = new ObservableCollection<BucketModel>();
         }
 
         /// <summary>
@@ -126,6 +130,38 @@ namespace Workbench.Core.Models
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the bundle collection.
+        /// </summary>
+        public ObservableCollection<BundleModel> Bundles
+        {
+            get { return this.bundles; }
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                this.bundles = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the buckets collection.
+        /// </summary>
+        public ObservableCollection<BucketModel> Buckets
+        {
+            get => _buckets;
+            set
+            {
+                _buckets = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the model has anything to solve.
+        /// </summary>
+        public bool IsEmpty => Variables.Count == 0 && Buckets.Count == 0;
 
         /// <summary>
         /// Add a new constraint to the model.
@@ -218,6 +254,38 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
+        /// Add a new bundle to the model.
+        /// </summary>
+        /// <param name="newBundle">New bundle.</param>
+        public void AddBundle(BundleModel newBundle)
+        {
+            Contract.Requires<ArgumentNullException>(newBundle != null);
+            Contract.Assume(newBundle.Name != null);
+            if (!newBundle.HasIdentity)
+            {
+                newBundle.AssignIdentity();
+            }
+
+            Bundles.Add(newBundle);
+        }
+
+        /// <summary>
+        /// Add a new bucket to the model.
+        /// </summary>
+        /// <param name="bucket">New bucket.</param>
+        public void AddBucket(BucketModel bucket)
+        {
+            Contract.Requires<ArgumentNullException>(bucket != null);
+            Contract.Assume(bucket.Name != null);
+            if (!bucket.HasIdentity)
+            {
+                bucket.AssignIdentity();
+            }
+
+            Buckets.Add(bucket);
+        }
+
+        /// <summary>
         /// Delete the domain from the model.
         /// </summary>
         /// <param name="domainToDelete">Domain to delete.</param>
@@ -248,7 +316,18 @@ namespace Workbench.Core.Models
         public SharedDomainModel GetSharedDomainByName(string theSharedDomainName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
-            return SharedDomains.FirstOrDefault(x => x.Name.IsEqualTo(theSharedDomainName));
+            return SharedDomains.FirstOrDefault(sharedDomain => sharedDomain.Name.IsEqualTo(theSharedDomainName));
+        }
+
+        /// <summary>
+        /// Get the bundle with the matching bundle name.
+        /// </summary>
+        /// <param name="bundleName">Name of the bundle to find.</param>
+        /// <returns>Bundle matching the name.</returns>
+        public BundleModel GetBundleByName(string bundleName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bundleName));
+            return Bundles.FirstOrDefault(bundle => bundle.Name.IsEqualTo(bundleName));
         }
 
         /// <summary>

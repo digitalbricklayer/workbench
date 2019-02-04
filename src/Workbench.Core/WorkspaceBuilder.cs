@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
@@ -17,7 +18,7 @@ namespace Workbench.Core
         public WorkspaceBuilder(string theModelName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theModelName));
-            this._workspace = new WorkspaceModel(new ModelName(theModelName));
+            _workspace = new WorkspaceModel(new ModelName(theModelName));
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace Workbench.Core
         public WorkspaceBuilder(ModelName theModelName)
         {
             Contract.Requires<ArgumentNullException>(theModelName != null);
-            this._workspace = new WorkspaceModel(theModelName);
+            _workspace = new WorkspaceModel(theModelName);
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace Workbench.Core
         /// </summary>
         public WorkspaceBuilder()
         {
-            this._workspace = new WorkspaceModel();
+            _workspace = new WorkspaceModel();
         }
 
         /// <summary>
@@ -48,8 +49,8 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newVariable = new SingletonVariableModel(this._workspace.Model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
-            this._workspace.Model.AddVariable(newVariable);
+            var newVariable = new SingletonVariableModel(_workspace.Model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
+            _workspace.Model.AddVariable(newVariable);
 
             return this;
         }
@@ -67,8 +68,28 @@ namespace Workbench.Core
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize > 0);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var newVariable = new AggregateVariableModel(this._workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
-            this._workspace.Model.AddVariable(newVariable);
+            var newVariable = new AggregateVariableModel(_workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
+            _workspace.Model.AddVariable(newVariable);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Add an aggregate variable.
+        /// </summary>
+        /// <param name="action">User supplied action.</param>
+        /// <returns>Workspace context.</returns>
+        public WorkspaceBuilder AddAggregate(Action<AggregateVariableConfiguration> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
+            var variableConfig = CreateDefaultAggregateVariableConfig();
+
+            action(variableConfig);
+
+            var newVariable = variableConfig.Build();
+            _workspace.Model.AddVariable(newVariable);
 
             return this;
         }
@@ -79,7 +100,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
             var newDomain = new SharedDomainModel(_workspace.Model, new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
-            this._workspace.Model.AddSharedDomain(newDomain);
+            _workspace.Model.AddSharedDomain(newDomain);
 
             return this;
         }
@@ -88,7 +109,7 @@ namespace Workbench.Core
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            this._workspace.Model.AddSharedDomain(theDomain);
+            _workspace.Model.AddSharedDomain(theDomain);
             return this;
         }
 
@@ -96,8 +117,8 @@ namespace Workbench.Core
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theConstraintExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
-            var theConstraintModel = new ExpressionConstraintModel(_workspace.Model, new ConstraintExpressionModel(theConstraintExpression));
-            this._workspace.Model.AddConstraint(theConstraintModel);
+            var constraintModel = new ExpressionConstraintModel(_workspace.Model, new ConstraintExpressionModel(theConstraintExpression));
+            _workspace.Model.AddConstraint(constraintModel);
             return this;
         }
 
@@ -106,7 +127,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
             var newConstraint = new AllDifferentConstraintModel(_workspace.Model, new AllDifferentConstraintExpressionModel(theExpression));
-            this._workspace.Model.AddConstraint(newConstraint);
+            _workspace.Model.AddConstraint(newConstraint);
             return this;
         }
 
@@ -115,9 +136,9 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVisualizerName));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
 
-            var theChessboard = new ChessboardModel(new ModelName(theVisualizerName));
-            var theChessboardVisualizer = new ChessboardTabModel(theChessboard, new WorkspaceTabTitle());
-            this._workspace.AddVisualizer(theChessboardVisualizer);
+            var chessboard = new ChessboardModel(new ModelName(theVisualizerName));
+            var chessboardVisualizer = new ChessboardTabModel(chessboard, new WorkspaceTabTitle());
+            _workspace.AddVisualizer(chessboardVisualizer);
             return this;
         }
 
@@ -126,7 +147,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theBindingExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
 
-            this._workspace.AddBindingExpression(new VisualizerBindingExpressionModel(theBindingExpression));
+            _workspace.AddBindingExpression(new VisualizerBindingExpressionModel(theBindingExpression));
             return this;
         }
 
@@ -135,14 +156,164 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(theTab != null);
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
 
-            this._workspace.AddVisualizer(theTab);
+            _workspace.AddVisualizer(theTab);
+            return this;
+        }
+
+        public WorkspaceBuilder AddBundle(Action<BundleConfiguration> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
+            var bundleConfiguration = new BundleConfiguration(_workspace);
+
+            action(bundleConfiguration);
+
+            var newBundle = bundleConfiguration.Build();
+            _workspace.Model.AddBundle(newBundle);
+
+            return this;
+        }
+
+        private AggregateVariableConfiguration CreateDefaultAggregateVariableConfig()
+        {
+            return new AggregateVariableConfiguration(_workspace);
+        }
+
+        public WorkspaceBuilder AddBucket(Action<BucketConfiguration> action)
+        {
+            Contract.Requires<ArgumentNullException>(action != null);
+            Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
+            var bundleConfiguration = new BucketConfiguration(_workspace);
+
+            action(bundleConfiguration);
+
+            var newBundle = bundleConfiguration.Build();
+            _workspace.Model.AddBucket(newBundle);
+
             return this;
         }
 
         public WorkspaceModel Build()
         {
             Contract.Ensures(Contract.Result<WorkspaceModel>() != null);
-            return this._workspace;
+            return _workspace;
+        }
+    }
+
+    public sealed class BucketConfiguration
+    {
+        private string _name;
+        private string _bundleName;
+        private int _size;
+        private readonly WorkspaceModel _workspace;
+
+        public BucketConfiguration(WorkspaceModel workspace)
+        {
+            Contract.Requires<ArgumentNullException>(workspace != null);
+            _workspace = workspace;
+            _name = string.Empty;
+            _bundleName = string.Empty;
+            _size = 1;
+        }
+
+        public BucketConfiguration WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
+        public BucketConfiguration WithSize(int size)
+        {
+            _size = size;
+            return this;
+        }
+
+        public BucketConfiguration WithContents(string bundleName)
+        {
+            _bundleName = bundleName;
+            return this;
+        }
+
+        public BucketModel Build()
+        {
+            var bundle = _workspace.Model.GetBundleByName(_bundleName);
+            return new BucketModel(new ModelName(_name), _size, bundle);
+        }
+    }
+
+    public sealed class BundleConfiguration
+    {
+        private string _name;
+        private readonly List<SingletonVariableModel> _singletons;
+        private readonly WorkspaceModel _workspace;
+
+        public BundleConfiguration(WorkspaceModel workspace)
+        {
+            Contract.Requires<ArgumentNullException>(workspace != null);
+            _workspace = workspace;
+            _singletons = new List<SingletonVariableModel>();
+        }
+
+        public BundleConfiguration WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
+        public BundleConfiguration AddSingleton(string variableName, string domainExpression)
+        {
+            _singletons.Add(new SingletonVariableModel(_workspace.Model, new ModelName(variableName), new InlineDomainModel(domainExpression)));
+            return this;
+        }
+
+        public BundleModel Build()
+        {
+            var newBundle = new BundleModel(new ModelName(_name));
+            foreach (var aSingleton in _singletons)
+            {
+                newBundle.AddSingleton(aSingleton);
+            }
+
+            return newBundle;
+        }
+    }
+
+    public sealed class AggregateVariableConfiguration
+    {
+        private string _name;
+        private int _size;
+        private string _domainExpression;
+        private readonly WorkspaceModel _workspace;
+
+        public AggregateVariableConfiguration(WorkspaceModel workspace)
+        {
+            Contract.Requires<ArgumentNullException>(workspace != null);
+            _workspace = workspace;
+        }
+
+        public void WithName(string variableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            _name = variableName;
+        }
+
+        public void WithSize(int variableSize)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(variableSize > 0);
+            _size = variableSize;
+        }
+
+        public void WithDomain(string domainExpression)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(domainExpression));
+            _domainExpression = domainExpression;
+        }
+
+        public AggregateVariableModel Build()
+        {
+            return new AggregateVariableModel(_workspace, new ModelName(_name), _size, new InlineDomainModel(_domainExpression));
         }
     }
 }

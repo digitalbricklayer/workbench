@@ -9,8 +9,9 @@ namespace Workbench.Core.Solver
     /// </summary>
     internal class ModelConverter
     {
-        private ConstraintConverter constraintConverter;
-        private VariableConverter variableConverter;
+        private readonly ConstraintConverter constraintConverter;
+        private readonly VariableConverter variableConverter;
+        private readonly BucketConverter bucketConverter;
 
         /// <summary>
         /// Initialize the model converter with a Google or-tools solver.
@@ -22,6 +23,7 @@ namespace Workbench.Core.Solver
 
             this.constraintConverter = new ConstraintConverter(theSolver, theCache, valueMapper);
             this.variableConverter = new VariableConverter(theSolver, theCache, valueMapper);
+            this.bucketConverter = new BucketConverter(theSolver, theCache, valueMapper);
         }
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace Workbench.Core.Solver
             Contract.Assume(this.variableConverter != null);
 
             this.variableConverter.ConvertVariables(theModel);
+            this.bucketConverter.ConvertBuckets(theModel);
             this.constraintConverter.ProcessConstraints(theModel);
         }
     }

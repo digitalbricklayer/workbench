@@ -35,7 +35,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public virtual ModelName Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 Contract.Requires<ArgumentNullException>(value != null);

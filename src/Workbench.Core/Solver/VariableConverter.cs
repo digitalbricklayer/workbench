@@ -44,12 +44,12 @@ namespace Workbench.Core.Solver
         {
             foreach (var aggregate in theModel.Aggregates)
             {
-                var theVariableBand = VariableBandEvaluator.GetVariableBand(aggregate);
-                this.valueMapper.AddVariableDomainValue(aggregate, theVariableBand);
-                var theVariableRange = theVariableBand.GetRange();
+                var variableBand = VariableBandEvaluator.GetVariableBand(aggregate);
+                this.valueMapper.AddVariableDomainValue(aggregate, variableBand);
+                var variableRange = variableBand.GetRange();
                 var orVariableVector = this.solver.MakeIntVarArray(aggregate.AggregateCount,
-                                                                   theVariableRange.Lower,
-                                                                   theVariableRange.Upper,
+                                                                   variableRange.Lower,
+                                                                   variableRange.Upper,
                                                                    aggregate.Name.Text);
                 this.cache.AddAggregate(aggregate.Name.Text,
                                         new Tuple<AggregateVariableModel, IntVarVector>(aggregate, orVariableVector));
@@ -64,8 +64,8 @@ namespace Workbench.Core.Solver
         {
             foreach (var variable in theModel.Singletons)
             {
-                var theVariableBand = VariableBandEvaluator.GetVariableBand(variable);
-                this.valueMapper.AddVariableDomainValue(variable, theVariableBand);
+                var variableBand = VariableBandEvaluator.GetVariableBand(variable);
+                this.valueMapper.AddVariableDomainValue(variable, variableBand);
                 var orVariable = ProcessVariable(variable);
                 this.cache.AddSingleton(variable.Name.Text, new Tuple<SingletonVariableModel, IntVar>(variable, orVariable));
             }
@@ -73,9 +73,9 @@ namespace Workbench.Core.Solver
 
         private IntVar ProcessVariable(VariableModel variable)
         {
-            var theVariableBand = VariableBandEvaluator.GetVariableBand(variable);
-            var theVariableRange = theVariableBand.GetRange();
-            var orVariable = solver.MakeIntVar(theVariableRange.Lower, theVariableRange.Upper, variable.Name.Text);
+            var variableBand = VariableBandEvaluator.GetVariableBand(variable);
+            var variableRange = variableBand.GetRange();
+            var orVariable = solver.MakeIntVar(variableRange.Lower, variableRange.Upper, variable.Name.Text);
             this.cache.AddVariable(orVariable);
 
             return orVariable;

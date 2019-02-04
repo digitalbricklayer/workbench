@@ -39,52 +39,74 @@ namespace Workbench.Core.Solver
         {
             Contract.Requires<ArgumentNullException>(theSolutionCollector != null);
 
-            ExtractSingletonValuesFrom(theSolutionCollector);
-            ExtractAggregateValuesFrom(theSolutionCollector);
+            ExtractSingletonLabelsFrom(theSolutionCollector);
+            ExtractAggregateLabelsFrom(theSolutionCollector);
+            ExtractBucketLabelsFrom(theSolutionCollector);
 
             return this.snapshot;
         }
 
-        private void ExtractAggregateValuesFrom(SolutionCollector theSolutionCollector)
+        private void ExtractAggregateLabelsFrom(SolutionCollector theSolutionCollector)
         {
             foreach (var aggregateTuple in this.orToolsCache.AggregateVariableMap)
             {
                 var newValueBindings = new List<ValueModel>();
                 var orVariables = aggregateTuple.Value.Item2;
-                var variableCounter = 1;
                 foreach (var orVariable in orVariables)
                 {
                     var solverValue = theSolutionCollector.Value(0, orVariable);
-                    var modelValue = ConvertSolverValueToModel(aggregateTuple.Value.Item1, variableCounter, solverValue);
+                    var modelValue = ConvertSolverValueToModel(aggregateTuple.Value.Item1, solverValue);
                     newValueBindings.Add(new ValueModel(modelValue));
-                    variableCounter++;
                 }
                 var newCompoundLabel = new CompoundLabelModel(aggregateTuple.Value.Item1, newValueBindings);
-                this.snapshot.AddAggregateValue(newCompoundLabel);
+                this.snapshot.AddAggregateLabel(newCompoundLabel);
             }
         }
 
-        private void ExtractSingletonValuesFrom(SolutionCollector theSolutionCollector)
+        private void ExtractSingletonLabelsFrom(SolutionCollector theSolutionCollector)
         {
             foreach (var variableTuple in this.orToolsCache.SingletonVariableMap)
             {
                 var solverValue = theSolutionCollector.Value(0, variableTuple.Value.Item2);
                 var modelValue = ConvertSolverValueToModel(variableTuple.Value.Item1, solverValue);
                 var newValue = new SingletonLabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
-                this.snapshot.AddSingletonValue(newValue);
+                this.snapshot.AddSingletonLabel(newValue);
             }
+        }
+
+        private void ExtractBucketLabelsFrom(SolutionCollector solutionCollector)
+        {
+            foreach (var bucketTuple in this.orToolsCache.BucketMap)
+            {
+                var newValueBindings = new List<ValueModel>();
+                var bucketVariableMap = bucketTuple.Value;
+                foreach (var variableMap in bucketVariableMap.GetVariableMaps())
+                {
+                    var solverValue = solutionCollector.Value(0, variableMap.SolverVariable);
+                    var modelValue = ConvertSolverValueToModel(bucketTuple.Value.Bucket, solverValue);
+                    newValueBindings.Add(new ValueModel(modelValue));
+                }
+                var bucketLabel = new BucketLabelModel(bucketTuple.Value.Bucket, newValueBindings);
+                this.snapshot.AddBucketLabel(bucketLabel);
+            }
+        }
+
+        private object ConvertSolverValueToModel(BucketModel bucket, long solverValue)
+        {
+            var variableDomainValue = this.valueMapper.GetDomainValueFor(bucket);
+            return variableDomainValue.MapFrom(solverValue);
         }
 
         private object ConvertSolverValueToModel(SingletonVariableModel theVariable, long solverValue)
         {
-            var theVariableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
-            return theVariableDomainValue.MapFrom(solverValue);
+            var variableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
+            return variableDomainValue.MapFrom(solverValue);
         }
 
-        private object ConvertSolverValueToModel(AggregateVariableModel theVariable, int index, long solverValue)
+        private object ConvertSolverValueToModel(AggregateVariableModel theVariable, long solverValue)
         {
-            var theVariableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
-            return theVariableDomainValue.MapFrom(solverValue);
+            var variableDomainValue = this.valueMapper.GetDomainValueFor(theVariable);
+            return variableDomainValue.MapFrom(solverValue);
         }
     }
 }

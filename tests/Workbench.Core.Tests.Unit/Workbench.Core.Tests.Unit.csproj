@@ -128,6 +128,7 @@
     <Compile Include="TableVariableDomainSolverWithPartialColumnRangeShould.cs" />
     <Compile Include="TableSharedDomainSolverWithWholeColumnRangeShould.cs" />
     <Compile Include="TableVariableDomainSolverWithWholeColumnRangeShould.cs" />
+    <Compile Include="SimpleTournamentSolverShould.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

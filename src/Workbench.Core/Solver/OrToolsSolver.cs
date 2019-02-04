@@ -25,7 +25,7 @@ namespace Workbench.Core.Solver
             if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
 
             // A model with zero variables crashes the or-tools solver...
-            if (theModel.Variables.Count == 0) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());
+            if (theModel.IsEmpty) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());
 
             this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name.Text);
 
@@ -41,9 +41,9 @@ namespace Workbench.Core.Solver
             if (!solveResult) return SolveResult.Failed;
 
             var snapshotExtractor = new SnapshotExtractor(this.orToolsCache, this.valueMapper);
-            var theSolutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
-            theSolutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
-            return new SolveResult(SolveStatus.Success, theSolutionSnapshot);
+            var solutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
+            solutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
+            return new SolveResult(SolveStatus.Success, solutionSnapshot);
         }
 
         /// <summary>
@@ -66,6 +66,12 @@ namespace Workbench.Core.Solver
                 var variablesInsideAggregate = variableTuple.Value.Item2;
                 foreach (var intVar in variablesInsideAggregate)
                     collector.Add(intVar);
+            }
+            foreach (var bucketTuple in this.orToolsCache.BucketMap)
+            {
+                var bucketMaps = bucketTuple.Value.GetVariableMaps();
+                foreach (var bucketMap in bucketMaps)
+                    collector.Add(bucketMap.SolverVariable);
             }
 
             return collector;

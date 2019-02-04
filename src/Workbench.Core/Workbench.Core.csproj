@@ -172,6 +172,9 @@
     <Compile Include="AggregateVariableBuilder.cs" />
     <Compile Include="AllDifferentConstraintBuilder.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
+    <Compile Include="Models\BucketLabelModel.cs" />
+    <Compile Include="Models\BucketModel.cs" />
+    <Compile Include="Models\BundleModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="SharedDomainBuilder.cs" />
     <Compile Include="ExpressionConstraintBuilder.cs" />
@@ -319,6 +322,7 @@
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solver\BucketConverter.cs" />
     <Compile Include="Solver\ConstraintConverter.cs" />
     <Compile Include="Solver\TableDomainValue.cs" />
     <Compile Include="Solver\Range.cs" />

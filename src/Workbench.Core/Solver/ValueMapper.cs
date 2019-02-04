@@ -10,7 +10,15 @@ namespace Workbench.Core.Solver
     /// </summary>
     internal class ValueMapper
     {
-        private Dictionary<string, DomainValue> valueVariableDictionary = new Dictionary<string, DomainValue>();
+        private readonly Dictionary<string, DomainValue> valueVariableDictionary = new Dictionary<string, DomainValue>();
+        private readonly Dictionary<string, DomainValue> valueBucketMap = new Dictionary<string, DomainValue>();
+
+        internal DomainValue GetDomainValueFor(BucketModel theBucket)
+        {
+            Contract.Requires<ArgumentNullException>(theBucket != null);
+
+            return this.valueBucketMap[theBucket.Name];
+        }
 
         internal DomainValue GetDomainValueFor(VariableModel theVariable)
         {
@@ -33,6 +41,15 @@ namespace Workbench.Core.Solver
             Contract.Requires<ArgumentNullException>(theVariableBand != null);
 
             this.valueVariableDictionary.Add(theAggregate.Name.Text, theVariableBand);
+        }
+
+        internal void AddBucketDomainValue(BucketModel bucket, DomainValue variableBand)
+        {
+            Contract.Requires<ArgumentNullException>(bucket != null);
+            Contract.Requires<ArgumentNullException>(variableBand != null);
+
+            if (!this.valueBucketMap.ContainsKey(bucket.Name))
+                this.valueBucketMap.Add(bucket.Name, variableBand);
         }
     }
 }
