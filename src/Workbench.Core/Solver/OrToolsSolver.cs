@@ -69,9 +69,14 @@ namespace Workbench.Core.Solver
             }
             foreach (var bucketTuple in this.orToolsCache.BucketMap)
             {
-                var bucketMaps = bucketTuple.Value.GetVariableMaps();
-                foreach (var bucketMap in bucketMaps)
-                    collector.Add(bucketMap.SolverVariable);
+                var bundleMaps = bucketTuple.Value.GetBundleMaps();
+                foreach (var bundleMap in bundleMaps)
+                {
+                    foreach (var singletonVariableMap in bundleMap.GetVariableMaps())
+                    {
+                        collector.Add(singletonVariableMap.SolverVariable);
+                    }
+                }
             }
 
             return collector;

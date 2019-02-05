@@ -43,9 +43,10 @@ namespace Workbench.Core.Solver
 
         private void ConvertBucket(BucketModel bucket)
         {
-            var variableMap = new BucketVariableMap(bucket);
+            var bucketMap = new BucketVariableMap(bucket);
             for (var i = 0; i < bucket.Size; i++)
             {
+                var bundleMap = new BundleMap(bucket.Bundle);
                 foreach (var singleton in bucket.Bundle.Singletons)
                 {
                     var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
@@ -53,11 +54,13 @@ namespace Workbench.Core.Solver
                     var variableRange = variableBand.GetRange();
                     var orToolsVariableName = CreateOrToolsVariableNameFrom(bucket, i, singleton);
                     var orVariable = _solver.MakeIntVar(variableRange.Lower, variableRange.Upper, orToolsVariableName);
-                    variableMap.Add(singleton, orVariable);
+                    bundleMap.Add(singleton, orVariable);
                     _cache.AddVariable(orVariable);
                 }
+
+                bucketMap.Add(bundleMap);
             }
-            _cache.AddBucket(bucket.Name, variableMap);
+            _cache.AddBucket(bucket.Name, bucketMap);
         }
 
         private static string CreateOrToolsVariableNameFrom(BucketModel bucket, int index, SingletonVariableModel singletonVariable)

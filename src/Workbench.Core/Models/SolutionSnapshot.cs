@@ -127,5 +127,15 @@ namespace Workbench.Core.Models
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
             return this.singletonLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
         }
+
+        /// <summary>
+        /// Get the bucket label matching the bucket name.
+        /// </summary>
+        /// <param name="bucketName">Bucket name.</param>
+        /// <returns>Label for the named bucket.</returns>
+        public BucketLabelModel GetBucketLabelByName(string bucketName)
+        {
+            return this.bucketLabels.FirstOrDefault(bucketLabel => bucketLabel.Bucket.Name == bucketName);
+        }
     }
 }

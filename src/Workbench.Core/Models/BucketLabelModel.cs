@@ -6,15 +6,15 @@ namespace Workbench.Core.Models
 {
     public sealed class BucketLabelModel
     {
-        public BucketLabelModel(BucketModel bucket, IReadOnlyCollection<ValueModel> values)
+        public BucketLabelModel(BucketModel bucket, IReadOnlyCollection<BundleLabelModel> bundleLabels)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
-            Contract.Requires<ArgumentNullException>(values != null);
+            Contract.Requires<ArgumentNullException>(bundleLabels != null);
             Bucket = bucket;
-            Values = values;
+            BundleLabels = bundleLabels;
         }
 
-        public IReadOnlyCollection<ValueModel> Values { get; }
+        public IReadOnlyCollection<BundleLabelModel> BundleLabels { get; }
 
         public BucketModel Bucket { get; }
     }

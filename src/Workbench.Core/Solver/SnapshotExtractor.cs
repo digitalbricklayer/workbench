@@ -78,17 +78,27 @@ namespace Workbench.Core.Solver
         {
             foreach (var bucketTuple in this.orToolsCache.BucketMap)
             {
-                var newValueBindings = new List<ValueModel>();
-                var bucketVariableMap = bucketTuple.Value;
-                foreach (var variableMap in bucketVariableMap.GetVariableMaps())
+                ExtractBucketLabelFrom(solutionCollector, bucketTuple.Value);
+            }
+        }
+
+        private void ExtractBucketLabelFrom(SolutionCollector solutionCollector, BucketVariableMap bucketVariableMap)
+        {
+            var bundleLabels = new List<BundleLabelModel>();
+            foreach (var bundleMap in bucketVariableMap.GetBundleMaps())
+            {
+                var variableLabels = new List<SingletonLabelModel>();
+                foreach (var variableMap in bundleMap.GetVariableMaps())
                 {
                     var solverValue = solutionCollector.Value(0, variableMap.SolverVariable);
-                    var modelValue = ConvertSolverValueToModel(bucketTuple.Value.Bucket, solverValue);
-                    newValueBindings.Add(new ValueModel(modelValue));
+                    var modelValue = ConvertSolverValueToModel(bucketVariableMap.Bucket, solverValue);
+                    variableLabels.Add(new SingletonLabelModel(variableMap.ModelVariable, new ValueModel(modelValue)));
                 }
-                var bucketLabel = new BucketLabelModel(bucketTuple.Value.Bucket, newValueBindings);
-                this.snapshot.AddBucketLabel(bucketLabel);
+                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Bundle, variableLabels));
             }
+
+            var bucketLabel = new BucketLabelModel(bucketVariableMap.Bucket, bundleLabels);
+            this.snapshot.AddBucketLabel(bucketLabel);
         }
 
         private object ConvertSolverValueToModel(BucketModel bucket, long solverValue)

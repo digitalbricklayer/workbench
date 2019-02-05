@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
@@ -68,31 +69,54 @@ namespace Workbench.Core.Solver
 
     internal sealed class BucketVariableMap
     {
-        private readonly List<BucketMap> _variableMap;
+        private readonly List<BundleMap> _bundleMaps;
 
         internal BucketVariableMap(BucketModel bucket)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
             Bucket = bucket;
-            _variableMap = new List<BucketMap>();
+            _bundleMaps = new List<BundleMap>();
         }
 
         internal BucketModel Bucket { get; }
 
-        internal void Add(SingletonVariableModel singletonVariable, IntVar orVariable)
+        internal IReadOnlyCollection<BundleMap> GetBundleMaps()
         {
-            _variableMap.Add(new BucketMap(singletonVariable, orVariable));
+            return new ReadOnlyCollection<BundleMap>(_bundleMaps);
         }
 
-        internal IReadOnlyCollection<BucketMap> GetVariableMaps()
+        internal void Add(BundleMap bundleMap)
         {
-            return new ReadOnlyCollection<BucketMap>(_variableMap);
+            _bundleMaps.Add(bundleMap);
         }
     }
 
-    internal sealed class BucketMap
+    internal class BundleMap
     {
-        internal BucketMap(SingletonVariableModel modelVariable, IntVar solverVariable)
+        private readonly List<SingletonVariableMap> _variableMap;
+
+        internal BundleMap(BundleModel bundle)
+        {
+            Bundle = bundle;
+            _variableMap = new List<SingletonVariableMap>();
+        }
+
+        internal BundleModel Bundle { get; }
+
+        internal IReadOnlyCollection<SingletonVariableMap> GetVariableMaps()
+        {
+            return new ReadOnlyCollection<SingletonVariableMap>(_variableMap);
+        }
+
+        internal void Add(SingletonVariableModel singletonVariable, IntVar orVariable)
+        {
+            _variableMap.Add(new SingletonVariableMap(singletonVariable, orVariable));
+        }
+    }
+
+    internal sealed class SingletonVariableMap
+    {
+        internal SingletonVariableMap(SingletonVariableModel modelVariable, IntVar solverVariable)
         {
             Contract.Requires<ArgumentNullException>(modelVariable != null);
             SolverVariable = solverVariable;
