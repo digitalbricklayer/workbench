@@ -31,8 +31,11 @@ namespace Workbench.Core.Repeaters
             Contract.Assume(this.context != null);
             Contract.Assert(this.context.FunctionInvocation.FunctionName == "size");
             var variableName = this.context.FunctionInvocation.ArgumentList.Arguments.First();
-            var theVariable = this.context.Model.GetVariableByName(variableName.Value.Value);
-            return Convert.ToInt32(theVariable.GetSize());
+            var variable = this.context.Model.GetVariableByName(variableName.Value.Value);
+            if (variable != null)
+                return Convert.ToInt32(variable.GetSize());
+            var bucket = this.context.Model.GetBucketByName(variableName.Value.Value);
+            return Convert.ToInt32(bucket.GetSize());
         }
     }
 }

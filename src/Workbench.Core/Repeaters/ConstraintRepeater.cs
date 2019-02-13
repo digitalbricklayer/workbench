@@ -70,7 +70,17 @@ namespace Workbench.Core.Repeaters
                 var rhsExpr = GetExpressionFrom(constraintExpressionNode.InnerExpression.RightExpression);
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, rhsExpr);
             }
-            else if (constraintExpressionNode.InnerExpression.RightExpression.IsVarable)
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is BucketVariableReferenceExpressionNode)
+            {
+                var rhsExpr = GetExpressionFrom(constraintExpressionNode.InnerExpression.RightExpression);
+                newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, rhsExpr);
+            }
+            else if (constraintExpressionNode.InnerExpression.RightExpression.IsVariable)
+            {
+                var rhsVariable = GetVariableFrom(constraintExpressionNode.InnerExpression.RightExpression);
+                newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, rhsVariable);
+            }
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is BucketVariableReferenceNode)
             {
                 var rhsVariable = GetVariableFrom(constraintExpressionNode.InnerExpression.RightExpression);
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, rhsVariable);
@@ -204,14 +214,20 @@ namespace Workbench.Core.Repeaters
         {
             Debug.Assert(!theExpression.IsLiteral);
 
-            if (theExpression.IsSingletonReference)
+            switch (theExpression.InnerExpression)
             {
-                var singletonVariableReference = (SingletonVariableReferenceNode)theExpression.InnerExpression;
-                return this.cache.GetSingletonVariableByName(singletonVariableReference.VariableName);
-            }
+                case SingletonVariableReferenceNode singletonVariableReferenceNode:
+                    return this.cache.GetSingletonVariableByName(singletonVariableReferenceNode.VariableName);
 
-            var aggregateVariableReference = (AggregateVariableReferenceNode)theExpression.InnerExpression;
-            return this.cache.GetAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.SubscriptStatement.Subscript);
+                case AggregateVariableReferenceNode aggregateVariableReference:
+                    return this.cache.GetAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.SubscriptStatement.Subscript);
+
+                case BucketVariableReferenceNode bucketVariableReference:
+                    return this.cache.GetBucketVariableByName(bucketVariableReference.BucketName, bucketVariableReference.SubscriptStatement.Subscript, bucketVariableReference.VariableName);
+
+                default:
+                    throw new NotImplementedException("Unknown variable expression.");
+            }
         }
 
         private IntExpr GetVariableFrom(AggregateVariableReferenceExpressionNode aggregateExpression)

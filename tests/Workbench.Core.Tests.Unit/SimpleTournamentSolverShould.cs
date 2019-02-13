@@ -47,6 +47,7 @@ namespace Workbench.Core.Tests.Unit
         {
             return new WorkspaceBuilder("Simple Tournament Schedule")
                         .WithSharedDomain("teams", "1..4")
+                        .WithConstraintExpression("%week[i].home <> %week[i].away | i in size(week)")
                         .AddBundle(bundle =>
                         {
                             bundle.WithName("match");

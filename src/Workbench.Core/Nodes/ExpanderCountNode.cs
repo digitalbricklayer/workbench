@@ -31,8 +31,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var literal = InnerExpression as IntegerLiteralNode;
-                return literal != null;
+                return InnerExpression is IntegerLiteralNode;
             }
         }
 
@@ -40,8 +39,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var counterReference = InnerExpression as CounterReferenceNode;
-                return counterReference != null;
+                return InnerExpression is CounterReferenceNode;
             }
         }
 
@@ -49,8 +47,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var functionInvocation = InnerExpression as FunctionInvocationNode;
-                return functionInvocation != null;
+                return InnerExpression is FunctionInvocationNode;
             }
         }
 

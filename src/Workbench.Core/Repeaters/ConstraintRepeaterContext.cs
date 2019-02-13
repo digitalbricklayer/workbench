@@ -159,14 +159,22 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentNullException>(countNode != null);
             Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
 
-            if (countNode.IsLiteral) return new LiteralLimitValueSource(countNode.Literal);
-            if (countNode.IsFunctionInvocation)
+            switch (countNode.InnerExpression)
             {
-                var functionInvocationContext = new FunctionInvocationContext(countNode.FunctionInvocation, Model);
-                return new FunctionInvocationValueSource(functionInvocationContext);
+                case IntegerLiteralNode literalNode:
+                    return new LiteralLimitValueSource(literalNode);
+
+                case FunctionInvocationNode functionInvocationNode:
+                    var functionInvocationContext = new FunctionInvocationContext(functionInvocationNode, Model);
+                    return new FunctionInvocationValueSource(functionInvocationContext);
+
+                case CounterReferenceNode counterReferenceNode:
+                    var counterReference = Counters.First(counter => counter.CounterName == counterReferenceNode.CounterName);
+                    return new CounterLimitValueSource(counterReference);
+
+                default:
+                    throw new NotImplementedException("Unknown count expression.");
             }
-            var theCounter = Counters.First(counter => counter.CounterName == countNode.CounterReference.CounterName);
-            return new CounterLimitValueSource(theCounter);
         }
     }
 }

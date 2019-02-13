@@ -13,7 +13,7 @@ namespace Workbench.Core.Solver
         private readonly Dictionary<string, DomainValue> valueVariableDictionary = new Dictionary<string, DomainValue>();
         private readonly Dictionary<string, DomainValue> valueBucketMap = new Dictionary<string, DomainValue>();
 
-        internal DomainValue GetDomainValueFor(BucketModel theBucket)
+        internal DomainValue GetDomainValueFor(BucketVariableModel theBucket)
         {
             Contract.Requires<ArgumentNullException>(theBucket != null);
 
@@ -43,7 +43,7 @@ namespace Workbench.Core.Solver
             this.valueVariableDictionary.Add(theAggregate.Name.Text, theVariableBand);
         }
 
-        internal void AddBucketDomainValue(BucketModel bucket, DomainValue variableBand)
+        internal void AddBucketDomainValue(BucketVariableModel bucket, DomainValue variableBand)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
             Contract.Requires<ArgumentNullException>(variableBand != null);

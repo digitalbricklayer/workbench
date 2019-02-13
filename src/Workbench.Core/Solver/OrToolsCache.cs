@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -65,20 +65,28 @@ namespace Workbench.Core.Solver
             var orVariables = this.aggregateVariableMap[theVariableName].Item2;
             return orVariables[index];
         }
+
+        internal IntVar GetBucketVariableByName(string bucketName, int index, string variableName)
+        {
+            var bucketVariableMap = this.bucketMap[bucketName];
+            var bundleMap = bucketVariableMap.GetBundleVariableAt(index);
+            var variableMap = bundleMap.GetVariableByName(variableName);
+            return variableMap.SolverVariable;
+        }
     }
 
     internal sealed class BucketVariableMap
     {
         private readonly List<BundleMap> _bundleMaps;
 
-        internal BucketVariableMap(BucketModel bucket)
+        internal BucketVariableMap(BucketVariableModel bucket)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
             Bucket = bucket;
             _bundleMaps = new List<BundleMap>();
         }
 
-        internal BucketModel Bucket { get; }
+        internal BucketVariableModel Bucket { get; }
 
         internal IReadOnlyCollection<BundleMap> GetBundleMaps()
         {
@@ -88,6 +96,11 @@ namespace Workbench.Core.Solver
         internal void Add(BundleMap bundleMap)
         {
             _bundleMaps.Add(bundleMap);
+        }
+
+        internal BundleMap GetBundleVariableAt(int index)
+        {
+            return _bundleMaps.ElementAt(index);
         }
     }
 
@@ -111,6 +124,11 @@ namespace Workbench.Core.Solver
         internal void Add(SingletonVariableModel singletonVariable, IntVar orVariable)
         {
             _variableMap.Add(new SingletonVariableMap(singletonVariable, orVariable));
+        }
+
+        internal SingletonVariableMap GetVariableByName(string variableName)
+        {
+            return _variableMap.FirstOrDefault(variableMap => variableMap.ModelVariable.Name.IsEqualTo(variableName));
         }
     }
 

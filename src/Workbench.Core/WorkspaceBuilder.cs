@@ -236,10 +236,10 @@ namespace Workbench.Core
             return this;
         }
 
-        public BucketModel Build()
+        public BucketVariableModel Build()
         {
             var bundle = _workspace.Model.GetBundleByName(_bundleName);
-            return new BucketModel(new ModelName(_name), _size, bundle);
+            return new BucketVariableModel(_workspace, new ModelName(_name), _size, bundle);
         }
     }
 

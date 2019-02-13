@@ -15,8 +15,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var singleton = InnerExpression as SingletonVariableReferenceNode;
-                return singleton != null;
+                return InnerExpression is SingletonVariableReferenceNode;
             }
         }
 
@@ -24,12 +23,11 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var aggregate = InnerExpression as AggregateVariableReferenceNode;
-                return aggregate != null;
+                return InnerExpression is AggregateVariableReferenceNode;
             }
         }
 
-        public bool IsVarable => IsSingletonReference || IsAggregateReference;
+        public bool IsVariable => IsSingletonReference || IsAggregateReference;
 
         public bool IsExpression => IsSingletonExpression || IsAggregateExpression;
 
@@ -37,8 +35,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var singletonExpression = InnerExpression as SingletonVariableReferenceExpressionNode;
-                return singletonExpression != null;
+                return InnerExpression is SingletonVariableReferenceExpressionNode;
             }
         }
 
@@ -46,8 +43,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                var aggregateExpression = InnerExpression as AggregateVariableReferenceExpressionNode;
-                return aggregateExpression != null;
+                return InnerExpression is AggregateVariableReferenceExpressionNode;
             }
         }
 
@@ -59,7 +55,7 @@ namespace Workbench.Core.Nodes
 
         public int GetLiteral()
         {
-            Debug.Assert(!IsVarable);
+            Debug.Assert(!IsVariable);
             var literalNode = InnerExpression as IntegerLiteralNode;
             Debug.Assert(literalNode != null);
             return literalNode.Value;

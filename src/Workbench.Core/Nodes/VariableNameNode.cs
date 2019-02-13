@@ -5,7 +5,7 @@ using Irony.Interpreter.Ast;
 
 namespace Workbench.Core.Nodes
 {
-    public class VariableNameNode : AstNode
+    public sealed class VariableNameNode : AstNode
     {
         public string Name { get; private set; }
 

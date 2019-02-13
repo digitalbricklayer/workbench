@@ -41,7 +41,7 @@ namespace Workbench.Core.Solver
             }
         }
 
-        private void ConvertBucket(BucketModel bucket)
+        private void ConvertBucket(BucketVariableModel bucket)
         {
             var bucketMap = new BucketVariableMap(bucket);
             for (var i = 0; i < bucket.Size; i++)
@@ -63,7 +63,7 @@ namespace Workbench.Core.Solver
             _cache.AddBucket(bucket.Name, bucketMap);
         }
 
-        private static string CreateOrToolsVariableNameFrom(BucketModel bucket, int index, SingletonVariableModel singletonVariable)
+        private static string CreateOrToolsVariableNameFrom(BucketVariableModel bucket, int index, SingletonVariableModel singletonVariable)
         {
             return bucket.Name + "_" + Convert.ToString(index) + "_" + singletonVariable.Name;
         }

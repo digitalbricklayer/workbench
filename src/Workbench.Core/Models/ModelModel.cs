@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         private ObservableCollection<SharedDomainModel> _sharedDomains;
         private ObservableCollection<ConstraintModel> constraints;
         private ObservableCollection<BundleModel> bundles;
-        private ObservableCollection<BucketModel> _buckets;
+        private ObservableCollection<BucketVariableModel> _buckets;
 
         /// <summary>
         /// Initialize a model with a name.
@@ -44,7 +44,7 @@ namespace Workbench.Core.Models
             SharedDomains = new ObservableCollection<SharedDomainModel>();
             Constraints = new ObservableCollection<ConstraintModel>();
             Bundles = new ObservableCollection<BundleModel>();
-            Buckets = new ObservableCollection<BucketModel>();
+            Buckets = new ObservableCollection<BucketVariableModel>();
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets or sets the buckets collection.
         /// </summary>
-        public ObservableCollection<BucketModel> Buckets
+        public ObservableCollection<BucketVariableModel> Buckets
         {
             get => _buckets;
             set
@@ -273,7 +273,7 @@ namespace Workbench.Core.Models
         /// Add a new bucket to the model.
         /// </summary>
         /// <param name="bucket">New bucket.</param>
-        public void AddBucket(BucketModel bucket)
+        public void AddBucket(BucketVariableModel bucket)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
             Contract.Assume(bucket.Name != null);
@@ -328,6 +328,17 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bundleName));
             return Bundles.FirstOrDefault(bundle => bundle.Name.IsEqualTo(bundleName));
+        }
+
+        /// <summary>
+        /// Get the bucket variable with the matching name.
+        /// </summary>
+        /// <param name="bucketVariableName">Name of the bucket variable to find.</param>
+        /// <returns>Bucket matching the name.</returns>
+        public BucketVariableModel GetBucketByName(string bucketVariableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketVariableName));
+            return Buckets.FirstOrDefault(bucket => bucket.Name.IsEqualTo(bucketVariableName));
         }
 
         /// <summary>

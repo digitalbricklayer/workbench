@@ -101,7 +101,7 @@ namespace Workbench.Core.Solver
             this.snapshot.AddBucketLabel(bucketLabel);
         }
 
-        private object ConvertSolverValueToModel(BucketModel bucket, long solverValue)
+        private object ConvertSolverValueToModel(BucketVariableModel bucket, long solverValue)
         {
             var variableDomainValue = this.valueMapper.GetDomainValueFor(bucket);
             return variableDomainValue.MapFrom(solverValue);

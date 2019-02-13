@@ -42,6 +42,9 @@ namespace Workbench.Core.Grammars
             var variableName = new IdentifierTerminal("variable name");
             variableName.AstConfig.NodeType = typeof(VariableNameNode);
             variableName.AddPrefix("$", IdOptions.IsNotKeyword);
+            var bucketName = new IdentifierTerminal( "bucket name");
+            bucketName.AstConfig.NodeType = typeof(BucketNameNode);
+            bucketName.AddPrefix("%", IdOptions.IsNotKeyword);
             var counterReference = new IdentifierTerminal("counter reference");
             counterReference.AstConfig.NodeType = typeof(CounterReferenceNode);
             var counterDeclaration = new IdentifierTerminal("counter declaration");
@@ -59,6 +62,8 @@ namespace Workbench.Core.Grammars
             var aggregateVariableReferenceExpression = new NonTerminal("aggregate expression", typeof(AggregateVariableReferenceExpressionNode));
             var singletonVariableReference = new NonTerminal("singletonVariableReference", typeof(SingletonVariableReferenceNode));
             var singletonVariableReferenceExpression = new NonTerminal("singleton expression", typeof(SingletonVariableReferenceExpressionNode));
+            var bucketVariableReference = new NonTerminal("bucket variable reference", typeof(BucketVariableReferenceNode));
+            var bucketVariableReferenceExpression = new NonTerminal("bucket variable expression", typeof(BucketVariableReferenceExpressionNode));
             var binaryOperators = new NonTerminal("binary operators", "operator");
             var expression = new NonTerminal("expression", typeof(ExpressionNode));
             var scopeLimitStatement = new NonTerminal("scope limit statement", typeof(ScopeLimitSatementNode));
@@ -88,6 +93,8 @@ namespace Workbench.Core.Grammars
             aggregateVariableReferenceExpression.Rule = aggregateVariableReference + infixOperators + infixStatement;
             singletonVariableReference.Rule = variableName;
             singletonVariableReferenceExpression.Rule = singletonVariableReference + infixOperators + infixStatement;
+            bucketVariableReference.Rule = bucketName + BRACKET_OPEN + subscriptStatement + BRACKET_CLOSE + ToTerm(".") + variableName;
+            bucketVariableReferenceExpression.Rule = bucketVariableReference + infixOperators + infixStatement;
 
             binaryOperators.Rule = EQUALS |
                                    NOT_EQUAL | ALT_NOT_EQUAL |
@@ -95,6 +102,7 @@ namespace Workbench.Core.Grammars
                                    GREATER | GREATER_EQUAL;
             expression.Rule = aggregateVariableReference | aggregateVariableReferenceExpression |
                               singletonVariableReference | singletonVariableReferenceExpression |
+                              bucketVariableReference | bucketVariableReferenceExpression |
                               numberLiteral |
                               characterLiteral |
                               itemName;

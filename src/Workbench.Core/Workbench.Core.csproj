@@ -173,10 +173,13 @@
     <Compile Include="AllDifferentConstraintBuilder.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
     <Compile Include="Models\BucketLabelModel.cs" />
-    <Compile Include="Models\BucketModel.cs" />
+    <Compile Include="Models\BucketVariableModel.cs" />
     <Compile Include="Models\BundleLabelModel.cs" />
     <Compile Include="Models\BundleModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
+    <Compile Include="Nodes\BucketNameNode.cs" />
+    <Compile Include="Nodes\BucketVariableReferenceNode.cs" />
+    <Compile Include="Nodes\BucketVariableReferenceExpressionNode.cs" />
     <Compile Include="SharedDomainBuilder.cs" />
     <Compile Include="ExpressionConstraintBuilder.cs" />
     <Compile Include="Grammars\SharedDomainGrammar.cs" />

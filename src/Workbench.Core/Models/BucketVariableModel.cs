@@ -4,17 +4,18 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A bucket is a container for bundles.
+    /// A bucket variable is a container for bundles.
     /// </summary>
-    public sealed class BucketModel : Model
+    public sealed class BucketVariableModel : Model
     {
         /// <summary>
         /// Initialize a bucket with a name, size and bundle name.
         /// </summary>
+        /// <param name="workspace">Workspace the variable resides.</param>
         /// <param name="name">Name of the bucket.</param>
         /// <param name="size">Size of the bucket.</param>
         /// <param name="bundle">Bundle contained within the bucket.</param>
-        public BucketModel(ModelName name, int size, BundleModel bundle)
+        public BucketVariableModel(WorkspaceModel workspace, ModelName name, int size, BundleModel bundle)
             : base(name)
         {
             Contract.Requires<ArgumentOutOfRangeException>(size > 0);
@@ -26,8 +27,9 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a bucket with a name.
         /// </summary>
+        /// <param name="workspace">Workspace the variable resides.</param>
         /// <param name="name">Bucket name.</param>
-        public BucketModel(ModelName name)
+        public BucketVariableModel(WorkspaceModel workspace, ModelName name)
             : base(name)
         {
         }
@@ -41,5 +43,14 @@ namespace Workbench.Core.Models
         /// Gets or sets the size of the bucket.
         /// </summary>
         public int Size { get; }
+
+        /// <summary>
+        /// Get the size of the bucket variable.
+        /// </summary>
+        /// <returns>Size of the bucket variable.</returns>
+        public long GetSize()
+        {
+            return Size;
+        }
     }
 }
