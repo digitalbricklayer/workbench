@@ -103,7 +103,7 @@
     <Compile Include="Models\SingletonVariableModelTests.cs" />
     <Compile Include="Models\WorkspaceTests.cs" />
     <Compile Include="Parsers\ConstraintExpressionParserWithExpanderShould.cs" />
-    <Compile Include="Parsers\ContraintExpressionParserWithEmptyStatetementShould.cs" />
+    <Compile Include="Parsers\ConstraintExpressionParserWithEmptyStatementShould.cs" />
     <Compile Include="Parsers\ConstraintExpressionParserShould.cs" />
     <Compile Include="Parsers\SharedDomainExpressionParserShould.cs" />
     <Compile Include="Parsers\PropertyValueExpressionParserShould.cs" />

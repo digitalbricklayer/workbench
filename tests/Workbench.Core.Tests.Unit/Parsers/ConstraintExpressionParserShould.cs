@@ -6,59 +6,17 @@ namespace Workbench.Core.Tests.Unit.Parsers
     [TestFixture]
     public class ConstraintExpressionParserShould
     {
-        [Test]
-        public void ParseWithValidGreaterThanExpressionReturnsStatusSuccess()
+        [TestCase("$x > 1")]
+        [TestCase("$x[1] != 1")]
+        [TestCase("1 <> $x[1]")]
+        [TestCase("$x[1] + 1 <> $x[1] + 1")]
+        [TestCase("$x + 1 <> 1")]
+        [TestCase("$x <> 'a'")]
+        [TestCase("$x <> john")]
+        public void ParseWithValidExpressionReturnsStatusSuccess(string constraintExpression)
         {
             var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x > 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidNotEqualExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x[1] != 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidBackwardsNotEqualExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("1 <> $x[1]");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidAggregateNotEqualToExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x[1] + 1 <> $x[1] + 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidSingletonNotEqualToExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x + 1 <> 1");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidCharacterLiteralNotEqualToExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x <> 'a'");
-            Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
-        }
-
-        [Test]
-        public void ParseWithValidItemNameNotEqualToExpressionReturnsStatusSuccess()
-        {
-            var sut = CreateSut();
-            var expressionParseResult = sut.Parse("$x <> john");
+            var expressionParseResult = sut.Parse(constraintExpression);
             Assert.That(expressionParseResult.Status, Is.EqualTo(ParseStatus.Success));
         }
 

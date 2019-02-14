@@ -20,22 +20,14 @@ namespace Workbench.Core.Tests.Unit
         }
 
         [Test]
-        public void SolveWithTournamentModelAssignsBucketLabels()
-        {
-            var sut = CreateWorkspace();
-            var actualResult = sut.Solve();
-            Assert.That(actualResult.Snapshot.BucketLabels, Is.Not.Empty);
-        }
-
-        [Test]
         public void SolveWithTournamentModelAssignsDifferentTeamToMatches()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var weekBucket = actualResult.Snapshot.GetBucketLabelByName("week");
-            var firstMatch = weekBucket.BundleLabels.First();
-            var homeTeamLabel = firstMatch.GetSingletonLabelByName("home");
-            var awayTeamLabel = firstMatch.GetSingletonLabelByName("away");
+            var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
+            var firstMatchLabel = weekBucketLabel.BundleLabels.First();
+            var homeTeamLabel = firstMatchLabel.GetSingletonLabelByName("home");
+            var awayTeamLabel = firstMatchLabel.GetSingletonLabelByName("away");
             Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
         }
 
