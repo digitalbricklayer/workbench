@@ -13,6 +13,10 @@ namespace Workbench.Core.Tests.Unit.Parsers
         [TestCase("$x + 1 <> 1")]
         [TestCase("$x <> 'a'")]
         [TestCase("$x <> john")]
+        [TestCase("$x < 10")]
+        [TestCase("$x <= 100")]
+        [TestCase("$x >= 230")]
+        [TestCase("$x = 230")]
         public void ParseWithValidExpressionReturnsStatusSuccess(string constraintExpression)
         {
             var sut = CreateSut();
