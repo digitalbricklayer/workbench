@@ -112,6 +112,7 @@
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solver\Ac1SolverShould.cs" />
     <Compile Include="Solver\OrToolsSolverWithMultiLevelRepeaterShould.cs" />
     <Compile Include="Solver\OrToolsSolverWithSingleLevelRepeaterShould.cs" />
     <Compile Include="Solver\OrToolsSolverAggregateTests.cs" />

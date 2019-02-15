@@ -325,9 +325,11 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="Solver\Ac1Solver.cs" />
     <Compile Include="Solver\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solver\BucketConverter.cs" />
     <Compile Include="Solver\ConstraintConverter.cs" />
+    <Compile Include="Solver\ISolvable.cs" />
     <Compile Include="Solver\TableDomainValue.cs" />
     <Compile Include="Solver\Range.cs" />
     <Compile Include="Solver\DomainExpressionEvaluator.cs" />

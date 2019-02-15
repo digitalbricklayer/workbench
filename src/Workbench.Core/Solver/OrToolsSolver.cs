@@ -8,7 +8,7 @@ namespace Workbench.Core.Solver
     /// <summary>
     /// Constraint solver implemented using Google or-tools library.
     /// </summary>
-    public class OrToolsSolver : IDisposable
+    public class OrToolsSolver : ISolvable, IDisposable
     {
         private Google.OrTools.ConstraintSolver.Solver solver;
         private readonly OrToolsCache orToolsCache = new OrToolsCache();
