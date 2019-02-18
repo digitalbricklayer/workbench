@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 
 namespace Workbench.Messages
 {

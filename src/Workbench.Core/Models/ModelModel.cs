@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Models
 {

@@ -4,7 +4,7 @@ using Workbench.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Workbench.Core;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 using Workbench.Messages;
 using Workbench.Services;
 

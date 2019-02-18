@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 using Workbench.ViewModels;
 
 namespace Workbench

@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 using Workbench.Messages;
 using Workbench.Services;
 

@@ -5,7 +5,7 @@ using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Repeaters
 {

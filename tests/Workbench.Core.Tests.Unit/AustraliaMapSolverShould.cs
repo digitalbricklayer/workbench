@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using Workbench.Core.Models;
-using Workbench.Core.Solver;
+using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Tests.Unit
 {
