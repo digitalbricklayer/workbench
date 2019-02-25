@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -73,75 +70,5 @@ namespace Workbench.Core.Solvers
             var variableMap = bundleMap.GetVariableByName(variableName);
             return variableMap.SolverVariable;
         }
-    }
-
-    internal sealed class BucketVariableMap
-    {
-        private readonly List<BundleMap> _bundleMaps;
-
-        internal BucketVariableMap(BucketVariableModel bucket)
-        {
-            Contract.Requires<ArgumentNullException>(bucket != null);
-            Bucket = bucket;
-            _bundleMaps = new List<BundleMap>();
-        }
-
-        internal BucketVariableModel Bucket { get; }
-
-        internal IReadOnlyCollection<BundleMap> GetBundleMaps()
-        {
-            return new ReadOnlyCollection<BundleMap>(_bundleMaps);
-        }
-
-        internal void Add(BundleMap bundleMap)
-        {
-            _bundleMaps.Add(bundleMap);
-        }
-
-        internal BundleMap GetBundleVariableAt(int index)
-        {
-            return _bundleMaps.ElementAt(index);
-        }
-    }
-
-    internal class BundleMap
-    {
-        private readonly List<SingletonVariableMap> _variableMap;
-
-        internal BundleMap(BundleModel bundle)
-        {
-            Bundle = bundle;
-            _variableMap = new List<SingletonVariableMap>();
-        }
-
-        internal BundleModel Bundle { get; }
-
-        internal IReadOnlyCollection<SingletonVariableMap> GetVariableMaps()
-        {
-            return new ReadOnlyCollection<SingletonVariableMap>(_variableMap);
-        }
-
-        internal void Add(SingletonVariableModel singletonVariable, IntVar orVariable)
-        {
-            _variableMap.Add(new SingletonVariableMap(singletonVariable, orVariable));
-        }
-
-        internal SingletonVariableMap GetVariableByName(string variableName)
-        {
-            return _variableMap.FirstOrDefault(variableMap => variableMap.ModelVariable.Name.IsEqualTo(variableName));
-        }
-    }
-
-    internal sealed class SingletonVariableMap
-    {
-        internal SingletonVariableMap(SingletonVariableModel modelVariable, IntVar solverVariable)
-        {
-            Contract.Requires<ArgumentNullException>(modelVariable != null);
-            SolverVariable = solverVariable;
-            ModelVariable = modelVariable;
-        }
-
-        internal IntVar SolverVariable { get; }
-        internal SingletonVariableModel ModelVariable { get; }
     }
 }

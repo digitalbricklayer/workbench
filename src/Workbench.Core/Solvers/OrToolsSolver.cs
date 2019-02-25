@@ -10,14 +10,15 @@ namespace Workbench.Core.Solvers
     /// </summary>
     public class OrToolsSolver : ISolvable, IDisposable
     {
-        private Google.OrTools.ConstraintSolver.Solver solver;
+        private Solver solver;
         private readonly OrToolsCache orToolsCache = new OrToolsCache();
         private readonly ValueMapper valueMapper = new ValueMapper();
 
         /// <summary>
-        /// Solve the problem in the model.
+        /// Solve the model using the Google or-tools solver.
         /// </summary>
         /// <param name="theModel">The model to solve.</param>
+        /// <returns>Solve result.</returns>
         public SolveResult Solve(ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
@@ -27,15 +28,15 @@ namespace Workbench.Core.Solvers
             // A model with zero variables crashes the or-tools solver...
             if (theModel.IsEmpty) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());
 
-            this.solver = new Google.OrTools.ConstraintSolver.Solver(theModel.Name.Text);
+            this.solver = new Solver(theModel.Name.Text);
 
             var modelConverter = new ModelConverter(this.solver, this.orToolsCache, this.valueMapper);
             modelConverter.ConvertFrom(theModel);
 
             // Search
             var decisionBuilder = solver.MakePhase(this.orToolsCache.Variables,
-                                                   Google.OrTools.ConstraintSolver.Solver.CHOOSE_FIRST_UNBOUND,
-                                                   Google.OrTools.ConstraintSolver.Solver.INT_VALUE_DEFAULT);
+                                                   Solver.CHOOSE_FIRST_UNBOUND,
+                                                   Solver.INT_VALUE_DEFAULT);
             var collector = CreateCollector();
             var solveResult = this.solver.Solve(decisionBuilder, collector);
             if (!solveResult) return SolveResult.Failed;

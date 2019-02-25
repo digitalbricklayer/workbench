@@ -328,8 +328,12 @@
     <Compile Include="Solvers\Ac1Solver.cs" />
     <Compile Include="Solvers\AllDifferentConstraintConverter.cs" />
     <Compile Include="Solvers\BucketConverter.cs" />
+    <Compile Include="Solvers\BucketVariableMap.cs" />
+    <Compile Include="Solvers\BundleMap.cs" />
     <Compile Include="Solvers\ConstraintConverter.cs" />
+    <Compile Include="Solvers\ConstraintNetwork.cs" />
     <Compile Include="Solvers\ISolvable.cs" />
+    <Compile Include="Solvers\SingletonVariableMap.cs" />
     <Compile Include="Solvers\TableDomainValue.cs" />
     <Compile Include="Solvers\Range.cs" />
     <Compile Include="Solvers\DomainExpressionEvaluator.cs" />

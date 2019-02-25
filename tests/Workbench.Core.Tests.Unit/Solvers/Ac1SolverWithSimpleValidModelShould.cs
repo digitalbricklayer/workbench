@@ -11,19 +11,18 @@ namespace Workbench.Core.Tests.Unit.Solvers
         public void SolveReturningStatusSuccess()
         {
             var sut = new Ac1Solver();
-            var actualResult = sut.Solve(CreateModel());
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
-        private ModelModel CreateModel()
+        private WorkspaceModel CreateWorkspace()
         {
-            var a = new WorkspaceBuilder("Simplest Non-Empty Model Possible")
-                            .AddSingleton("A", "1..5")
-                            .AddSingleton("B", "1..10")
+            return new WorkspaceBuilder("Very simple model utilizing a binary constraint")
+                            .AddSingleton("A", "1..2")
+                            .AddSingleton("B", "1..2")
                             .WithConstraintExpression("$A > $B")
                             .Build();
-
-            return a.Model;
         }
     }
 }

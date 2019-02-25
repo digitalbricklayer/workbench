@@ -31,7 +31,7 @@ namespace Workbench.Core.Solvers
         public SolutionSnapshot Snapshot { get; private set; }
 
         /// <summary>
-        /// Initialize the soltion result with status and solution.
+        /// Initialize the solution result with status and solution.
         /// </summary>
         /// <param name="theStatus">Solve status.</param>
         /// <param name="theSnapshot">A solution snapshot.</param>
