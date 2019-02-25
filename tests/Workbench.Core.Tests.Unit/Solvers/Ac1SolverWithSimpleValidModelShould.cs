@@ -16,6 +16,18 @@ namespace Workbench.Core.Tests.Unit.Solvers
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
+        [Test]
+        public void SolveReturningLabelsInValidRange()
+        {
+            var sut = new Ac1Solver();
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
+            var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
+            var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
+            Assert.That(aLabel.GetValueAsInt(), Is.InRange(1, 2));
+            Assert.That(bLabel.GetValueAsInt(), Is.InRange(1, 2));
+        }
+
         private WorkspaceModel CreateWorkspace()
         {
             return new WorkspaceBuilder("Very simple model utilizing a binary constraint")
