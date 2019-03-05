@@ -325,13 +325,19 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="Solvers\Ac1Cache.cs" />
     <Compile Include="Solvers\Ac1Solver.cs" />
     <Compile Include="Solvers\AllDifferentConstraintConverter.cs" />
+    <Compile Include="Solvers\ArcBuilder.cs" />
     <Compile Include="Solvers\BucketConverter.cs" />
     <Compile Include="Solvers\BucketVariableMap.cs" />
     <Compile Include="Solvers\BundleMap.cs" />
     <Compile Include="Solvers\ConstraintConverter.cs" />
+    <Compile Include="Solvers\ConstraintExpression.cs" />
     <Compile Include="Solvers\ConstraintNetwork.cs" />
+    <Compile Include="Solvers\ConstraintNetworkBuilder.cs" />
+    <Compile Include="Solvers\DomainRange.cs" />
+    <Compile Include="Solvers\IntegerVariable.cs" />
     <Compile Include="Solvers\ISolvable.cs" />
     <Compile Include="Solvers\SingletonVariableMap.cs" />
     <Compile Include="Solvers\TableDomainValue.cs" />
@@ -350,6 +356,7 @@
     <Compile Include="Solvers\SnapshotExtractor.cs" />
     <Compile Include="Solvers\SolveResult.cs" />
     <Compile Include="Solvers\SolveStatus.cs" />
+    <Compile Include="Solvers\ValueEvaluator.cs" />
     <Compile Include="Solvers\ValueMapper.cs" />
     <Compile Include="Solvers\VariableBandEvaluator.cs" />
     <Compile Include="Solvers\VariableConverter.cs" />
