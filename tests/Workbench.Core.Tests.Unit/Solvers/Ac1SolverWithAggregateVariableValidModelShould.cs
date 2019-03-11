@@ -17,15 +17,23 @@ namespace Workbench.Core.Tests.Unit.Solvers
         }
 
         [Test]
-        public void SolveReturningLabelValuesInValidRange()
+        public void SolveReturningLabelInValidRange()
         {
             var sut = new Ac1Solver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
             Assert.That(colsLabel.Values, Is.All.InRange(1, 4));
-            Assert.That(colsLabel.GetValueAt(1), Is.GreaterThan(colsLabel.GetValueAt(3)));
+        }
 
+        [Test]
+        public void SolveReturningLabelSatisfiesConstraint()
+        {
+            var sut = new Ac1Solver();
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
+            var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
+            Assert.That(colsLabel.GetValueAt(1), Is.GreaterThan(colsLabel.GetValueAt(3)));
         }
 
         private WorkspaceModel CreateWorkspace()

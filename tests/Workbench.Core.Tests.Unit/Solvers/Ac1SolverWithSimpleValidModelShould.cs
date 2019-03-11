@@ -17,15 +17,43 @@ namespace Workbench.Core.Tests.Unit.Solvers
         }
 
         [Test]
-        public void SolveReturningLabelsInValidRange()
+        public void SolveReturningLabelAInValidRange()
+        {
+            var sut = new Ac1Solver();
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
+            var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
+            Assert.That(aLabel.GetValueAsInt(), Is.InRange(1, 4));
+        }
+
+        [Test]
+        public void SolveReturningLabelBInValidRange()
+        {
+            var sut = new Ac1Solver();
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
+            var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
+            Assert.That(bLabel.GetValueAsInt(), Is.InRange(1, 4));
+        }
+
+        [Test]
+        public void SolveReturningLabelCInValidRange()
+        {
+            var sut = new Ac1Solver();
+            var simpleModel = CreateWorkspace().Model;
+            var actualResult = sut.Solve(simpleModel);
+            var cLabel = actualResult.Snapshot.GetLabelByVariableName("C");
+            Assert.That(cLabel.GetValueAsInt(), Is.InRange(1, 4));
+        }
+
+        [Test]
+        public void SolveReturningLabelsSatisfyConstraint()
         {
             var sut = new Ac1Solver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
             var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
-            Assert.That(aLabel.GetValueAsInt(), Is.InRange(1, 4));
-            Assert.That(bLabel.GetValueAsInt(), Is.InRange(1, 4));
             Assert.That(aLabel.GetValueAsInt(), Is.GreaterThan(bLabel.GetValueAsInt()));
         }
 
@@ -34,6 +62,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             return new WorkspaceBuilder("Very simple model utilizing a binary constraint")
                             .AddSingleton("A", "1..4")
                             .AddSingleton("B", "1..4")
+                            .AddSingleton("C", "1..4")
                             .WithConstraintExpression("$A > $B")
                             .Build();
         }
