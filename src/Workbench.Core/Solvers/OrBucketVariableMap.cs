@@ -7,30 +7,30 @@ using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
-    internal sealed class BucketVariableMap
+    internal sealed class OrBucketVariableMap
     {
-        private readonly List<BundleMap> _bundleMaps;
+        private readonly List<OrBundleMap> _bundleMaps;
 
-        internal BucketVariableMap(BucketVariableModel bucket)
+        internal OrBucketVariableMap(BucketVariableModel bucket)
         {
             Contract.Requires<ArgumentNullException>(bucket != null);
             Bucket = bucket;
-            _bundleMaps = new List<BundleMap>();
+            _bundleMaps = new List<OrBundleMap>();
         }
 
         internal BucketVariableModel Bucket { get; }
 
-        internal IReadOnlyCollection<BundleMap> GetBundleMaps()
+        internal IReadOnlyCollection<OrBundleMap> GetBundleMaps()
         {
-            return new ReadOnlyCollection<BundleMap>(_bundleMaps);
+            return new ReadOnlyCollection<OrBundleMap>(_bundleMaps);
         }
 
-        internal void Add(BundleMap bundleMap)
+        internal void Add(OrBundleMap bundleMap)
         {
             _bundleMaps.Add(bundleMap);
         }
 
-        internal BundleMap GetBundleVariableAt(int index)
+        internal OrBundleMap GetBundleVariableAt(int index)
         {
             return _bundleMaps.ElementAt(index);
         }

@@ -3,7 +3,7 @@
 namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// Interface for all solvers to implement.
+    /// Interface for all solvers.
     /// </summary>
     public interface ISolvable
     {

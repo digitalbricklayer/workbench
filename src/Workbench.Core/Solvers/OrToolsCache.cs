@@ -12,20 +12,20 @@ namespace Workbench.Core.Solvers
     {
         private readonly Dictionary<string, Tuple<SingletonVariableModel, IntVar>> singletonVariableMap;
         private readonly Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> aggregateVariableMap;
-        private readonly Dictionary<string, BucketVariableMap> bucketMap;
+        private readonly Dictionary<string, OrBucketVariableMap> bucketMap;
 
         internal OrToolsCache()
         {
             this.singletonVariableMap = new Dictionary<string, Tuple<SingletonVariableModel, IntVar>>();
             this.aggregateVariableMap = new Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>>();
-            this.bucketMap = new Dictionary<string, BucketVariableMap>();
+            this.bucketMap = new Dictionary<string, OrBucketVariableMap>();
             Variables = new IntVarVector();
         }
 
         internal Dictionary<string, Tuple<SingletonVariableModel, IntVar>> SingletonVariableMap => this.singletonVariableMap;
         internal Dictionary<string, Tuple<AggregateVariableModel, IntVarVector>> AggregateVariableMap => this.aggregateVariableMap;
         internal IntVarVector Variables { get; private set; }
-        internal Dictionary<string, BucketVariableMap> BucketMap => this.bucketMap;
+        internal Dictionary<string, OrBucketVariableMap> BucketMap => this.bucketMap;
 
         internal void AddVariable(IntVar orVar)
         {
@@ -42,7 +42,7 @@ namespace Workbench.Core.Solvers
             this.singletonVariableMap.Add(name, tuple);
         }
 
-        internal void AddBucket(string name, BucketVariableMap variableMap)
+        internal void AddBucket(string name, OrBucketVariableMap variableMap)
         {
             this.bucketMap.Add(name, variableMap);
         }

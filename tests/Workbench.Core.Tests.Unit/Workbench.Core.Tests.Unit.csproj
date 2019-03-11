@@ -113,6 +113,7 @@
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solvers\Ac1SolverWithSimpleUnsolvableModelShould.cs" />
+    <Compile Include="Solvers\Ac1SolverWithAggregateVariableValidModelShould.cs" />
     <Compile Include="Solvers\Ac1SolverWithSimpleValidModelShould.cs" />
     <Compile Include="Solvers\OrToolsSolverWithMultiLevelRepeaterShould.cs" />
     <Compile Include="Solvers\OrToolsSolverWithSingleLevelRepeaterShould.cs" />

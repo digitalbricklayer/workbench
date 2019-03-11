@@ -82,7 +82,7 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        private void ExtractBucketLabelFrom(SolutionCollector solutionCollector, BucketVariableMap bucketVariableMap)
+        private void ExtractBucketLabelFrom(SolutionCollector solutionCollector, OrBucketVariableMap bucketVariableMap)
         {
             var bundleLabels = new List<BundleLabelModel>();
             foreach (var bundleMap in bucketVariableMap.GetBundleMaps())

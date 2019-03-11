@@ -1,74 +1,78 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Workbench.Core.Solvers
 {
+    /// <summary>
+    /// A constraint network made up of arcs.
+    /// </summary>
     internal sealed class ConstraintNetwork
     {
         private readonly List<Arc> _arcs;
+        private readonly List<IntegerVariable> _singletonVariables;
+        private readonly List<AggregateIntegerVariable> _aggregateVariables;
 
+        /// <summary>
+        /// Initialize a constraint network with default values.
+        /// </summary>
         internal ConstraintNetwork()
         {
             _arcs = new List<Arc>();
+            _singletonVariables = new List<IntegerVariable>();
+            _aggregateVariables = new List<AggregateIntegerVariable>();
         }
 
+        /// <summary>
+        /// Gets whether the constraint network has been solved successfully.
+        /// </summary>
         internal bool IsSolved
         {
             get { return _arcs.TrueForAll(arc => arc.IsSolved); }
         }
 
+        /// <summary>
+        /// Get all of the arcs in the constraint network.
+        /// </summary>
+        /// <returns>Array of all of the arcs.</returns>
         internal Arc[] ToArray()
         {
             return _arcs.ToArray();
         }
 
+        internal void AddVariable(IntegerVariable variable)
+        {
+            _singletonVariables.Add(variable);
+        }
+
+        internal void AddVariable(AggregateIntegerVariable variable)
+        {
+            _aggregateVariables.Add(variable);
+        }
+
+        /// <summary>
+        /// Add an arc to the network.
+        /// </summary>
+        /// <param name="arc">Arc to add.</param>
         internal void AddArc(Arc arc)
         {
             _arcs.Add(arc);
         }
 
-        internal IEnumerable<IntegerVariable> GetSingletonVariables()
+        /// <summary>
+        /// Get all singleton variables inside the constraint network.
+        /// </summary>
+        /// <returns>All singleton variables in a read only collection.</returns>
+        internal IReadOnlyCollection<IntegerVariable> GetSingletonVariables()
         {
-            var variables = new HashSet<IntegerVariable>(new IntegerVariableComparer());
-            foreach (var arc in _arcs)
-            {
-                variables.Add(arc.Left);
-                variables.Add(arc.Right);
-            }
-            return variables;
-        }
-    }
-
-    internal class IntegerVariableComparer : IEqualityComparer<IntegerVariable>
-    {
-        public bool Equals(IntegerVariable x, IntegerVariable y)
-        {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            if (y == null) throw new ArgumentNullException(nameof(y));
-            return x.Name == y.Name;
+            return _singletonVariables.AsReadOnly();
         }
 
-        public int GetHashCode(IntegerVariable obj)
+        /// <summary>
+        /// Get all aggregate variables inside the constraint network.
+        /// </summary>
+        /// <returns>All aggregate variables in a read only collection.</returns>
+        internal IReadOnlyCollection<AggregateIntegerVariable> GetAggregateVariables()
         {
-            return obj.GetHashCode();
+            return _aggregateVariables.AsReadOnly();
         }
-    }
-
-    internal sealed class Arc
-    {
-        internal Arc(IntegerVariable left, IntegerVariable right, ConstraintExpression constraint)
-        {
-            Left = left;
-            Right = right;
-            Constraint = constraint;
-        }
-
-        internal IntegerVariable Left { get; }
-
-        internal IntegerVariable Right { get; }
-
-        internal ConstraintExpression Constraint { get; }
-        internal bool IsSolved => !Left.Domain.IsEmpty && !Right.Domain.IsEmpty;
     }
 }

@@ -6,29 +6,29 @@ using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
-    internal class BundleMap
+    internal class OrBundleMap
     {
-        private readonly List<SingletonVariableMap> _variableMap;
+        private readonly List<OrSingletonVariableMap> _variableMap;
 
-        internal BundleMap(BundleModel bundle)
+        internal OrBundleMap(BundleModel bundle)
         {
             Bundle = bundle;
-            _variableMap = new List<SingletonVariableMap>();
+            _variableMap = new List<OrSingletonVariableMap>();
         }
 
         internal BundleModel Bundle { get; }
 
-        internal IReadOnlyCollection<SingletonVariableMap> GetVariableMaps()
+        internal IReadOnlyCollection<OrSingletonVariableMap> GetVariableMaps()
         {
-            return new ReadOnlyCollection<SingletonVariableMap>(_variableMap);
+            return new ReadOnlyCollection<OrSingletonVariableMap>(_variableMap);
         }
 
         internal void Add(SingletonVariableModel singletonVariable, IntVar orVariable)
         {
-            _variableMap.Add(new SingletonVariableMap(singletonVariable, orVariable));
+            _variableMap.Add(new OrSingletonVariableMap(singletonVariable, orVariable));
         }
 
-        internal SingletonVariableMap GetVariableByName(string variableName)
+        internal OrSingletonVariableMap GetVariableByName(string variableName)
         {
             return _variableMap.FirstOrDefault(variableMap => variableMap.ModelVariable.Name.IsEqualTo(variableName));
         }

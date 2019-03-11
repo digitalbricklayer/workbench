@@ -10,7 +10,7 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal class VariableConverter
     {
-        private readonly Google.OrTools.ConstraintSolver.Solver solver;
+        private readonly Solver solver;
         private readonly OrToolsCache cache;
         private readonly ValueMapper valueMapper;
 

@@ -5,9 +5,9 @@ using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
-    internal sealed class SingletonVariableMap
+    internal sealed class OrSingletonVariableMap
     {
-        internal SingletonVariableMap(SingletonVariableModel modelVariable, IntVar solverVariable)
+        internal OrSingletonVariableMap(SingletonVariableModel modelVariable, IntVar solverVariable)
         {
             Contract.Requires<ArgumentNullException>(modelVariable != null);
             SolverVariable = solverVariable;

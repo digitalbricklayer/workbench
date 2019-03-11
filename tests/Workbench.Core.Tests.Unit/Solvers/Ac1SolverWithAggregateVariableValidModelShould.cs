@@ -5,7 +5,7 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class Ac1SolverWithSimpleValidModelShould
+    public class Ac1SolverWithAggregateVariableValidModelShould
     {
         [Test]
         public void SolveReturningStatusSuccess()
@@ -17,24 +17,22 @@ namespace Workbench.Core.Tests.Unit.Solvers
         }
 
         [Test]
-        public void SolveReturningLabelsInValidRange()
+        public void SolveReturningLabelValuesInValidRange()
         {
             var sut = new Ac1Solver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
-            var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
-            Assert.That(aLabel.GetValueAsInt(), Is.InRange(1, 4));
-            Assert.That(bLabel.GetValueAsInt(), Is.InRange(1, 4));
-            Assert.That(aLabel.GetValueAsInt(), Is.GreaterThan(bLabel.GetValueAsInt()));
+            var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
+            Assert.That(colsLabel.Values, Is.All.InRange(1, 4));
+            Assert.That(colsLabel.GetValueAt(1), Is.GreaterThan(colsLabel.GetValueAt(3)));
+
         }
 
         private WorkspaceModel CreateWorkspace()
         {
-            return new WorkspaceBuilder("Very simple model utilizing a binary constraint")
-                            .AddSingleton("A", "1..4")
-                            .AddSingleton("B", "1..4")
-                            .WithConstraintExpression("$A > $B")
+            return new WorkspaceBuilder("Very simple aggregate variable model utilizing a binary constraint")
+                            .AddAggregate("cols", 4, "1..size(cols)")
+                            .WithConstraintExpression("$cols[1] > $cols[3]")
                             .Build();
         }
     }

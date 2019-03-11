@@ -29,7 +29,6 @@ namespace Workbench.Core.Solvers
             // Create constraint network
             var constraintNetwork = new ConstraintNetworkBuilder(_cache).Build(theModel);
 
-            // Reduce the network to arc consistency
             bool domainChanged;
 
             // Time how long it takes to get a solution
@@ -119,7 +118,7 @@ namespace Workbench.Core.Solvers
         private SolutionSnapshot CreateSnapshotFrom(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
         {
             return new SolutionSnapshot(ExtractSingletonLabelsFrom(constraintNetwork),
-                                        Enumerable.Empty<CompoundLabelModel>(),
+                                        ExtractAggregateLabelsFrom(constraintNetwork),
                                         elapsedTime);
         }
 
@@ -130,12 +129,34 @@ namespace Workbench.Core.Solvers
 
             foreach (var variable in allVariables)
             {
-                var variableModel = _cache.SingletonVariableMap[variable.Name].Item1;
+                var variableModel = _cache.GetModelSingletonVariableByName(variable.Name);
                 var label = new SingletonLabelModel(variableModel, new ValueModel(variable.Domain.PossibleValues.First()));
                 labelAccumulator.Add(label);
             }
 
             return labelAccumulator;
+        }
+
+        private IEnumerable<CompoundLabelModel> ExtractAggregateLabelsFrom(ConstraintNetwork constraintNetwork)
+        {
+            var compoundLabelAccumulator = new List<CompoundLabelModel>();
+            var allAggregateVariables = constraintNetwork.GetAggregateVariables();
+
+            foreach (var aggregateVariable in allAggregateVariables)
+            {
+                var internalAccumulator = new List<ValueModel>();
+                var solverVariable = _cache.GetSolverAggregateVariableByName(aggregateVariable.Name);
+                var modelVariable = _cache.GetModelAggregateVariableByName(aggregateVariable.Name);
+                foreach (var variable in solverVariable.Variables)
+                {
+                    internalAccumulator.Add(new ValueModel(variable.Domain.PossibleValues.First()));
+                }
+
+                var label = new CompoundLabelModel(modelVariable, internalAccumulator);
+                compoundLabelAccumulator.Add(label);
+            }
+
+            return compoundLabelAccumulator;
         }
     }
 }

@@ -25,7 +25,11 @@ namespace Workbench.Core.Solvers
             switch (expressionNode.InnerExpression)
             {
                 case SingletonVariableReferenceNode singletonVariableReference:
-                    return _cache.GetVariableByName(singletonVariableReference.VariableName);
+                    return _cache.GetSolverSingletonVariableByName(singletonVariableReference.VariableName);
+
+                case AggregateVariableReferenceNode aggregateVariableReference:
+                    return _cache.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName,
+                                                                   aggregateVariableReference.SubscriptStatement.Subscript);
 
                 default:
                     throw new NotImplementedException();

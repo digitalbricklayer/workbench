@@ -43,10 +43,10 @@ namespace Workbench.Core.Solvers
 
         private void ConvertBucket(BucketVariableModel bucket)
         {
-            var bucketMap = new BucketVariableMap(bucket);
+            var bucketMap = new OrBucketVariableMap(bucket);
             for (var i = 0; i < bucket.Size; i++)
             {
-                var bundleMap = new BundleMap(bucket.Bundle);
+                var bundleMap = new OrBundleMap(bucket.Bundle);
                 foreach (var singleton in bucket.Bundle.Singletons)
                 {
                     var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
