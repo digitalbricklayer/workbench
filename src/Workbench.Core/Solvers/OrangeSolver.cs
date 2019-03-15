@@ -80,10 +80,7 @@ namespace Workbench.Core.Solvers
                 }
             }
 
-            foreach (var valueToRemove in valuesToRemove)
-            {
-                leftVariable.Domain.Remove(valueToRemove);
-            }
+            valuesToRemove.ForEach(valueToRemove => leftVariable.Domain.Remove(valueToRemove));
 
             return isDomainChanged;
         }
@@ -102,10 +99,7 @@ namespace Workbench.Core.Solvers
                 }
             }
 
-            foreach (var valueToRemove in valuesToRemove)
-            {
-                rightVariable.Domain.Remove(valueToRemove);
-            }
+            valuesToRemove.ForEach(valueToRemove => rightVariable.Domain.Remove(valueToRemove));
 
             return isDomainChanged;
         }
