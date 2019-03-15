@@ -69,42 +69,38 @@ namespace Workbench.Core.Solvers
         private bool ReviseLeft(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
         {
             var expressionEvaluator = new ValueEvaluator(leftVariable, rightVariable, expression);
-            var isDomainChanged = false;
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in leftVariable.Domain.PossibleValues)
             {
                 if (!expressionEvaluator.EvaluateLeft(possibleValue))
                 {
                     valuesToRemove.Add(possibleValue);
-                    isDomainChanged = true;
                 }
             }
 
             valuesToRemove.ForEach(valueToRemove => leftVariable.Domain.Remove(valueToRemove));
 
-            return isDomainChanged;
+            return valuesToRemove.Any();
         }
 
         private bool ReviseRight(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
         {
             var expressionEvaluator = new ValueEvaluator(leftVariable, rightVariable, expression);
-            var isDomainChanged = false;
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in rightVariable.Domain.PossibleValues)
             {
                 if (!expressionEvaluator.EvaluateRight(possibleValue))
                 {
                     valuesToRemove.Add(possibleValue);
-                    isDomainChanged = true;
                 }
             }
 
             valuesToRemove.ForEach(valueToRemove => rightVariable.Domain.Remove(valueToRemove));
 
-            return isDomainChanged;
+            return valuesToRemove.Any();
         }
-		
-		private SolveResult CreateSolveResult(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
+
+        private SolveResult CreateSolveResult(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
 		{
             return new SolveResult(SolveStatus.Success, CreateSnapshotFrom(constraintNetwork, elapsedTime));
 		}

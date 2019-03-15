@@ -9,9 +9,10 @@ namespace Workbench.Core.Tests.Unit.Solvers
     /// </summary>
     /// <remarks>This model is likely to be beyond the first iteration of the solver
     /// due to the ternary constraints and the fact that I don't know how to handle those
-    /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.htmlThis may
-    /// be a possible answer.</remarks>
+    /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.html 
+    /// This may be a possible answer.</remarks>
     [TestFixture]
+    [Ignore("Ternary constraints are not implemented yet")]
     public class OrangeSolverWithSimpleUnsolvableModelShould
     {
         [Test]
