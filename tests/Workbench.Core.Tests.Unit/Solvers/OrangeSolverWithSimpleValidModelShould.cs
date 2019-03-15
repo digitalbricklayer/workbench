@@ -5,12 +5,12 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class Ac1SolverWithSimpleValidModelShould
+    public class OrangeSolverWithSimpleValidModelShould
     {
         [Test]
         public void SolveReturningStatusSuccess()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
@@ -19,7 +19,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveReturningLabelAInValidRange()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
@@ -29,7 +29,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveReturningLabelBInValidRange()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
@@ -39,7 +39,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveReturningLabelCInValidRange()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var cLabel = actualResult.Snapshot.GetLabelByVariableName("C");
@@ -49,7 +49,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveReturningLabelsSatisfyConstraint()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");

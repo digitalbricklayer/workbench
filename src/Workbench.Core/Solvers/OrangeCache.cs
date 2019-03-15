@@ -8,27 +8,27 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Cache to track model elements to solver equivalents.
     /// </summary>
-    internal class Ac1Cache
+    internal class OrangeCache
     {
-        private readonly Dictionary<string, Ac1SingletonVariableMap> _singletonVariableMap;
-        private readonly Dictionary<string, Ac1AggregateVariableMap> _aggregateVariableMap;
+        private readonly Dictionary<string, OrangeSingletonVariableMap> _singletonVariableMap;
+        private readonly Dictionary<string, OrangeAggregateVariableMap> _aggregateVariableMap;
 
         /// <summary>
         /// Initialize a cache with default values.
         /// </summary>
-        internal Ac1Cache()
+        internal OrangeCache()
         {
-            _singletonVariableMap = new Dictionary<string, Ac1SingletonVariableMap>();
-            _aggregateVariableMap = new Dictionary<string, Ac1AggregateVariableMap>();
+            _singletonVariableMap = new Dictionary<string, OrangeSingletonVariableMap>();
+            _aggregateVariableMap = new Dictionary<string, OrangeAggregateVariableMap>();
         }
 
-        internal void AddSingleton(string name, Ac1SingletonVariableMap singletonVariableMap)
+        internal void AddSingleton(string name, OrangeSingletonVariableMap singletonVariableMap)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _singletonVariableMap.Add(name, singletonVariableMap);
         }
 
-        internal void AddAggregate(string name, Ac1AggregateVariableMap aggregateVariableMap)
+        internal void AddAggregate(string name, OrangeAggregateVariableMap aggregateVariableMap)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _aggregateVariableMap.Add(name, aggregateVariableMap);

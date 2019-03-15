@@ -6,9 +6,9 @@ namespace Workbench.Core.Solvers
 {
     internal sealed class ArcBuilder
     {
-        private readonly Ac1Cache _cache;
+        private readonly OrangeCache _cache;
 
-        internal ArcBuilder(Ac1Cache cache)
+        internal ArcBuilder(OrangeCache cache)
         {
             _cache = cache;
         }

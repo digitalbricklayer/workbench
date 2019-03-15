@@ -5,12 +5,12 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class Ac1SolverWithAggregateVariableValidModelShould
+    public class OrangeSolverWithExpressionConstraintRepeaterShould
     {
         [Test]
         public void SolveReturningStatusSuccess()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
@@ -19,28 +19,30 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveReturningLabelInValidRange()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
-            Assert.That(colsLabel.Values, Is.All.InRange(1, 4));
+            Assert.That(colsLabel.Values, Is.All.InRange(2, colsLabel.Values.Count));
         }
 
         [Test]
-        public void SolveReturningLabelSatisfiesConstraint()
+        public void SolveReturningLabelSatisfyingConstraint()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
-            Assert.That(colsLabel.GetValueAt(1), Is.GreaterThan(colsLabel.GetValueAt(3)));
+            var xLabel = actualResult.Snapshot.GetLabelByVariableName("x");
+            Assert.That(colsLabel.Values, Is.All.GreaterThan(xLabel.Value));
         }
 
         private WorkspaceModel CreateWorkspace()
         {
-            return new WorkspaceBuilder("Very simple aggregate variable model utilizing a binary constraint")
+            return new WorkspaceBuilder("Very simple aggregate variable model utilizing a constraint repeater expression constraint")
                             .AddAggregate("cols", 4, "1..size(cols)")
-                            .WithConstraintExpression("$cols[1] > $cols[3]")
+                            .AddSingleton("x", "1..4")
+                            .WithConstraintExpression("$cols[i] > $x | i in size(cols)")
                             .Build();
         }
     }

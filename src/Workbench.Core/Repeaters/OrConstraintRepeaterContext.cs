@@ -8,7 +8,7 @@ using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Repeaters
 {
-    internal class ConstraintRepeaterContext
+    internal class OrConstraintRepeaterContext
     {
         private readonly IList<CounterContext> counters;
         private bool firstIterationPassed;
@@ -18,7 +18,7 @@ namespace Workbench.Core.Repeaters
         /// </summary>
         /// <param name="theConstraint">Expression constraint.</param>
         /// <param name="theModel">Model</param>
-        public ConstraintRepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
+        public OrConstraintRepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
             Constraint = theConstraint;

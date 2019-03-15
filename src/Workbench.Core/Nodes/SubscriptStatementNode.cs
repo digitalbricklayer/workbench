@@ -9,23 +9,9 @@ namespace Workbench.Core.Nodes
     {
         public AstNode InnerExpression { get; private set; }
 
-        public bool IsSubscript
-        {
-            get
-            {
-                var literal = InnerExpression as SubscriptNode;
-                return literal != null;
-            }
-        }
+        public bool IsSubscript => InnerExpression is SubscriptNode;
 
-        public bool IsCounterReference
-        {
-            get
-            {
-                var counterReference = InnerExpression as CounterReferenceNode;
-                return counterReference != null;
-            }
-        }
+        public bool IsCounterReference => InnerExpression is CounterReferenceNode;
 
         public int Subscript
         {

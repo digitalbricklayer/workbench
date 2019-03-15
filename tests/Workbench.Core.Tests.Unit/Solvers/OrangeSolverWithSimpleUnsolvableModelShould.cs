@@ -12,12 +12,12 @@ namespace Workbench.Core.Tests.Unit.Solvers
     /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.htmlThis may
     /// be a possible answer.</remarks>
     [TestFixture]
-    public class Ac1SolverWithSimpleUnsolvableModelShould
+    public class OrangeSolverWithSimpleUnsolvableModelShould
     {
         [Test]
         public void SolveReturningStatusFail()
         {
-            var sut = new Ac1Solver();
+            var sut = new OrangeSolver();
             var actualResult = sut.Solve(CreateModel());
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Fail));
         }

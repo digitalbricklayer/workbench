@@ -7,9 +7,9 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Map singleton variables in the model to their equivalent in the solver representation.
     /// </summary>
-    internal sealed class Ac1SingletonVariableMap
+    internal sealed class OrangeSingletonVariableMap
     {
-        internal Ac1SingletonVariableMap(SingletonVariableModel modelVariable, IntegerVariable solverVariable)
+        internal OrangeSingletonVariableMap(SingletonVariableModel modelVariable, IntegerVariable solverVariable)
         {
             Contract.Requires<ArgumentNullException>(modelVariable != null);
             Contract.Requires<ArgumentNullException>(solverVariable != null);

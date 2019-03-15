@@ -13,15 +13,15 @@ namespace Workbench.Core.Repeaters
     /// Process a constraint repeater by expanding the expression an 
     /// appropriate number of times.
     /// </summary>
-    internal class ConstraintRepeater
+    internal class OrConstraintRepeater
     {
-        private ConstraintRepeaterContext context;
+        private OrConstraintRepeaterContext context;
         private readonly OrToolsCache cache;
-        private readonly Google.OrTools.ConstraintSolver.Solver solver;
+        private readonly Solver solver;
         private readonly ModelModel model;
         private readonly ValueMapper valueMapper;
 
-        internal ConstraintRepeater(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel, ValueMapper theValueMapper)
+        internal OrConstraintRepeater(Solver theSolver, OrToolsCache theCache, ModelModel theModel, ValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
@@ -34,7 +34,7 @@ namespace Workbench.Core.Repeaters
             this.valueMapper = theValueMapper;
         }
 
-        internal void Process(ConstraintRepeaterContext theContext)
+        internal void Process(OrConstraintRepeaterContext theContext)
         {
             Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
@@ -44,19 +44,19 @@ namespace Workbench.Core.Repeaters
             }
             else
             {
-                var expressionTemplateWoutExpanderText = StripExpanderFrom(theContext.Constraint.Expression.Text);
+                var expressionTemplateWithoutExpanderText = StripExpanderFrom(theContext.Constraint.Expression.Text);
                 while (theContext.Next())
                 {
-                    var expressionText = InsertCounterValuesInto(expressionTemplateWoutExpanderText);
+                    var expressionText = InsertCounterValuesInto(expressionTemplateWithoutExpanderText);
                     var expandedConstraintExpressionResult = new ConstraintExpressionParser().Parse(expressionText);
                     ProcessSimpleConstraint(expandedConstraintExpressionResult.Root);
                 }
             }
         }
 
-        internal ConstraintRepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
+        internal OrConstraintRepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
         {
-            return new ConstraintRepeaterContext(constraint, this.model);
+            return new OrConstraintRepeaterContext(constraint, this.model);
         }
 
         private void ProcessSimpleConstraint(ConstraintExpressionNode constraintExpressionNode)

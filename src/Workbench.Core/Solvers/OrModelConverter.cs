@@ -9,7 +9,7 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal class ModelConverter
     {
-        private readonly ConstraintConverter constraintConverter;
+        private readonly OrConstraintConverter constraintConverter;
         private readonly VariableConverter variableConverter;
         private readonly BucketConverter bucketConverter;
 
@@ -21,7 +21,7 @@ namespace Workbench.Core.Solvers
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);
 
-            this.constraintConverter = new ConstraintConverter(theSolver, theCache, valueMapper);
+            this.constraintConverter = new OrConstraintConverter(theSolver, theCache, valueMapper);
             this.variableConverter = new VariableConverter(theSolver, theCache, valueMapper);
             this.bucketConverter = new BucketConverter(theSolver, theCache, valueMapper);
         }

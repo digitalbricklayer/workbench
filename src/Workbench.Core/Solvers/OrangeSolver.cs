@@ -8,12 +8,12 @@ using Workbench.Core.Models;
 namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// Implementation of the solver using the AC-1 algorithm.
+    /// Implementation of the orange solver.
     /// </summary>
-    public class Ac1Solver : ISolvable
+    public class OrangeSolver : ISolvable
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly Ac1Cache _cache = new Ac1Cache();
+        private readonly OrangeCache _cache = new OrangeCache();
 
         /// <summary>
         /// Solve the model using the AC-1 algorithm.

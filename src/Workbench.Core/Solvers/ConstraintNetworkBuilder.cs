@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Workbench.Core.Models;
+using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Solvers
 {
@@ -9,14 +10,15 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class ConstraintNetworkBuilder
     {
-        private readonly Ac1Cache _cache;
+        private readonly OrangeCache _cache;
         private ConstraintNetwork _constraintNetwork;
+        private readonly ValueMapper _valueMapper = new ValueMapper();
 
         /// <summary>
         /// Initialize a constraint network builder with a cache.
         /// </summary>
         /// <param name="cache">Cache to track model elements to solver equivalents.</param>
-        internal ConstraintNetworkBuilder(Ac1Cache cache)
+        internal ConstraintNetworkBuilder(OrangeCache cache)
         {
             _cache = cache;
         }
@@ -24,29 +26,45 @@ namespace Workbench.Core.Solvers
         internal ConstraintNetwork Build(ModelModel model)
         {
             CacheVariables(model);
-            _constraintNetwork = CreateConstraintNetwork(model);
+            _constraintNetwork = CreateConstraintNetwork();
+            PopulateConstraintNetwork(model);
             CreateVariables(model);
 
             return _constraintNetwork;
         }
 
-        private ConstraintNetwork CreateConstraintNetwork(ModelModel model)
+        private ConstraintNetwork CreateConstraintNetwork()
         {
-            var constraintNetwork = new ConstraintNetwork();
+            return new ConstraintNetwork();
+        }
+
+        private void PopulateConstraintNetwork(ModelModel model)
+        {
             foreach (var constraint in model.Constraints)
             {
                 switch (constraint)
                 {
                     case ExpressionConstraintModel expressionConstraint:
-                        constraintNetwork.AddArc(new ArcBuilder(_cache).Build(expressionConstraint));
+                        CreateArcFrom(expressionConstraint);
                         break;
 
                     default:
                         throw new NotImplementedException();
                 }
             }
+        }
 
-            return constraintNetwork;
+        private void CreateArcFrom(ExpressionConstraintModel constraint)
+        {
+            if (constraint.Expression.Node.HasExpander)
+            {
+                var repeater = new OrangeConstraintRepeater(_constraintNetwork, _cache, constraint.Parent, _valueMapper);
+                repeater.Process(repeater.CreateContextFrom(constraint));
+            }
+            else
+            {
+                _constraintNetwork.AddArc(new ArcBuilder(_cache).Build(constraint));
+            }
         }
 
         private void CacheVariables(ModelModel model)
@@ -58,13 +76,13 @@ namespace Workbench.Core.Solvers
                     case SingletonVariableModel singletonVariable:
                         var integerVariable = CreateIntegerVariableFrom(singletonVariable);
                         _cache.AddSingleton(singletonVariable.Name,
-                                            new Ac1SingletonVariableMap(singletonVariable, integerVariable));
+                                            new OrangeSingletonVariableMap(singletonVariable, integerVariable));
                         break;
 
                     case AggregateVariableModel aggregateVariable:
                         var aggregateIntegerVariable = CreateIntegerVariableFrom(aggregateVariable);
                         _cache.AddAggregate(aggregateVariable.Name,
-                                            new Ac1AggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
+                                            new OrangeAggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
                         break;
 
                     default:
