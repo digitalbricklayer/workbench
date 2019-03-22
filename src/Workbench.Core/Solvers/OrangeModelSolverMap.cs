@@ -6,9 +6,9 @@ using Workbench.Core.Models;
 namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// Cache to track model elements to solver equivalents.
+    /// Cache to map model elements to solver equivalents for the Orange solver.
     /// </summary>
-    internal class OrangeCache
+    internal class OrangeModelSolverMap
     {
         private readonly Dictionary<string, OrangeSingletonVariableMap> _singletonVariableMap;
         private readonly Dictionary<string, OrangeAggregateVariableMap> _aggregateVariableMap;
@@ -16,7 +16,7 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Initialize a cache with default values.
         /// </summary>
-        internal OrangeCache()
+        internal OrangeModelSolverMap()
         {
             _singletonVariableMap = new Dictionary<string, OrangeSingletonVariableMap>();
             _aggregateVariableMap = new Dictionary<string, OrangeAggregateVariableMap>();

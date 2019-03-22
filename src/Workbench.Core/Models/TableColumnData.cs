@@ -46,7 +46,7 @@ namespace Workbench.Core.Models
         /// <returns>Cell at the index location.</returns>
         public TableCellModel GetCellAt(int cellIndex)
         {
-#if WEIRD_COMPILER_ERROR
+#if WEIRD_COMPILER_ERROR_FIXED
             // Fails with "Member 'Workbench.Core.Models.TableColumnData.cells' has less visibility than the enclosing method 'Workbench.Core.Models.TableColumnData.GetCellAt(System.Int32)'."
             Contract.Requires<ArgumentOutOfRangeException>(cellIndex > 0 && cellIndex <= _cells.Count);
 #endif

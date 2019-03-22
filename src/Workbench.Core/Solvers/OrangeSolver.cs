@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Workbench.Core.Solvers
     public class OrangeSolver : ISolvable
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly OrangeCache _cache = new OrangeCache();
+        private readonly OrangeModelSolverMap _modelSolverMap = new OrangeModelSolverMap();
 
         /// <summary>
         /// Solve the model using the AC-1 algorithm.
@@ -27,7 +28,7 @@ namespace Workbench.Core.Solvers
             if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
 
             // Create constraint network
-            var constraintNetwork = new ConstraintNetworkBuilder(_cache).Build(theModel);
+            var constraintNetwork = new ConstraintNetworkBuilder(_modelSolverMap).Build(theModel);
 
             bool domainChanged;
 
@@ -57,10 +58,24 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.ToArray())
             {
-                // Revise the left variable domain
-                domainChanged |= ReviseLeft(arc.Left, arc.Right, arc.Constraint);
-                // Revise the right variable domain
-                domainChanged |= ReviseRight(arc.Left, arc.Right, arc.Constraint);
+                if (arc.A is VariableNode && arc.B is VariableNode)
+                {
+                    var leftVariableNode = (VariableNode) arc.A;
+                    var rightVariableNode = (VariableNode) arc.B;
+
+                    // Revise the left variable domain
+                    domainChanged |= ReviseLeft(leftVariableNode.Variable, rightVariableNode.Variable, arc.Constraint);
+                    // Revise the right variable domain
+                    domainChanged |= ReviseRight(leftVariableNode.Variable, rightVariableNode.Variable, arc.Constraint);
+                }
+                else if (arc.A is VariableNode && arc.B is LiteralNode)
+                {
+                    var leftVariableNode = (VariableNode) arc.A;
+                    var literalNode = (LiteralNode) arc.B;
+
+                    // Revise the left variable domain, the right is a literal
+                    domainChanged |= Revise(leftVariableNode.Variable, literalNode, arc.Constraint);
+                }
             }
 
             return domainChanged;
@@ -68,7 +83,7 @@ namespace Workbench.Core.Solvers
 
         private bool ReviseLeft(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
         {
-            var expressionEvaluator = new ValueEvaluator(leftVariable, rightVariable, expression);
+            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, rightVariable.Domain.PossibleValues, expression);
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in leftVariable.Domain.PossibleValues)
             {
@@ -85,7 +100,7 @@ namespace Workbench.Core.Solvers
 
         private bool ReviseRight(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
         {
-            var expressionEvaluator = new ValueEvaluator(leftVariable, rightVariable, expression);
+            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, rightVariable.Domain.PossibleValues, expression);
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in rightVariable.Domain.PossibleValues)
             {
@@ -96,6 +111,24 @@ namespace Workbench.Core.Solvers
             }
 
             valuesToRemove.ForEach(valueToRemove => rightVariable.Domain.Remove(valueToRemove));
+
+            return valuesToRemove.Any();
+        }
+
+        private bool Revise(IntegerVariable leftVariable, LiteralNode rightLiteral, ConstraintExpression expression)
+        {
+            var literalValue = new ReadOnlyCollection<int>(new List<int>{rightLiteral.Literal});
+            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, literalValue, expression);
+            var valuesToRemove = new List<int>();
+            foreach (var possibleValue in leftVariable.Domain.PossibleValues)
+            {
+                if (!expressionEvaluator.EvaluateLeft(possibleValue))
+                {
+                    valuesToRemove.Add(possibleValue);
+                }
+            }
+
+            valuesToRemove.ForEach(valueToRemove => leftVariable.Domain.Remove(valueToRemove));
 
             return valuesToRemove.Any();
         }
@@ -119,7 +152,7 @@ namespace Workbench.Core.Solvers
 
             foreach (var variable in allVariables)
             {
-                var variableModel = _cache.GetModelSingletonVariableByName(variable.Name);
+                var variableModel = _modelSolverMap.GetModelSingletonVariableByName(variable.Name);
                 var label = new SingletonLabelModel(variableModel, new ValueModel(variable.Domain.PossibleValues.First()));
                 labelAccumulator.Add(label);
             }
@@ -135,8 +168,8 @@ namespace Workbench.Core.Solvers
             foreach (var aggregateVariable in allAggregateVariables)
             {
                 var internalAccumulator = new List<ValueModel>();
-                var solverVariable = _cache.GetSolverAggregateVariableByName(aggregateVariable.Name);
-                var modelVariable = _cache.GetModelAggregateVariableByName(aggregateVariable.Name);
+                var solverVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariable.Name);
+                var modelVariable = _modelSolverMap.GetModelAggregateVariableByName(aggregateVariable.Name);
                 foreach (var variable in solverVariable.Variables)
                 {
                     internalAccumulator.Add(new ValueModel(variable.Domain.PossibleValues.First()));

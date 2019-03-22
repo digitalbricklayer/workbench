@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -8,14 +10,19 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class ValueEvaluator
     {
-        private readonly IntegerVariable _leftVariable;
-        private readonly IntegerVariable _rightVariable;
+        private readonly IReadOnlyCollection<int> _leftPossibleValues;
+        private readonly IReadOnlyCollection<int> _rightPossibleValues;
         private readonly ConstraintExpression _expression;
 
-        internal ValueEvaluator(IntegerVariable left, IntegerVariable right, ConstraintExpression constraint)
+        internal ValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, IReadOnlyCollection<int> rightPossibleValues, ConstraintExpression constraint)
         {
-            _leftVariable = left;
-            _rightVariable = right;
+            Contract.Requires<ArgumentNullException>(leftPossibleValues != null);
+            Contract.Requires<ArgumentNullException>(rightPossibleValues != null);
+            Contract.Requires<ArgumentNullException>(constraint != null);
+            Contract.Requires<ArgumentException>(!constraint.Node.HasExpander, "Expander should have been fully expanded into simple constraint(s)");
+
+            _leftPossibleValues = leftPossibleValues;
+            _rightPossibleValues = rightPossibleValues;
             _expression = constraint;
         }
 
@@ -26,9 +33,7 @@ namespace Workbench.Core.Solvers
         /// <returns>True if the value is compatible with the expression or False if it is not compatible.</returns>
         internal bool EvaluateLeft(int leftValue)
         {
-            if (_expression.Node.HasExpander) throw new NotImplementedException();
-
-            foreach (var otherPossibleValue in _rightVariable.Domain.PossibleValues)
+            foreach (var otherPossibleValue in _rightPossibleValues)
             {
                 switch (_expression.Node.InnerExpression.Operator)
                 {
@@ -67,9 +72,7 @@ namespace Workbench.Core.Solvers
         /// <returns>True if the value is compatible with the expression or False if it is not compatible.</returns>
         internal bool EvaluateRight(int rightValue)
         {
-            if (_expression.Node.HasExpander) throw new NotImplementedException();
-
-            foreach (var otherPossibleValue in _leftVariable.Domain.PossibleValues)
+            foreach (var otherPossibleValue in _leftPossibleValues)
             {
                 switch (_expression.Node.InnerExpression.Operator)
                 {

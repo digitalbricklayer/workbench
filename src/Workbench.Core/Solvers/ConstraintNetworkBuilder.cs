@@ -10,17 +10,17 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class ConstraintNetworkBuilder
     {
-        private readonly OrangeCache _cache;
+        private readonly OrangeModelSolverMap _modelSolverMap;
         private ConstraintNetwork _constraintNetwork;
         private readonly ValueMapper _valueMapper = new ValueMapper();
 
         /// <summary>
         /// Initialize a constraint network builder with a cache.
         /// </summary>
-        /// <param name="cache">Cache to track model elements to solver equivalents.</param>
-        internal ConstraintNetworkBuilder(OrangeCache cache)
+        /// <param name="modelSolverMap">Cache to track model elements to solver equivalents.</param>
+        internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap)
         {
-            _cache = cache;
+            _modelSolverMap = modelSolverMap;
         }
 
         internal ConstraintNetwork Build(ModelModel model)
@@ -58,12 +58,13 @@ namespace Workbench.Core.Solvers
         {
             if (constraint.Expression.Node.HasExpander)
             {
-                var repeater = new OrangeConstraintRepeater(_constraintNetwork, _cache, constraint.Parent, _valueMapper);
+                // Process the constraint repeater adding arcs as necessary
+                var repeater = new OrangeConstraintRepeater(_constraintNetwork, _modelSolverMap, constraint.Parent, _valueMapper);
                 repeater.Process(repeater.CreateContextFrom(constraint));
             }
             else
             {
-                _constraintNetwork.AddArc(new ArcBuilder(_cache).Build(constraint));
+                _constraintNetwork.AddArc(new ArcBuilder(_modelSolverMap).Build(constraint));
             }
         }
 
@@ -75,13 +76,13 @@ namespace Workbench.Core.Solvers
                 {
                     case SingletonVariableModel singletonVariable:
                         var integerVariable = CreateIntegerVariableFrom(singletonVariable);
-                        _cache.AddSingleton(singletonVariable.Name,
+                        _modelSolverMap.AddSingleton(singletonVariable.Name,
                                             new OrangeSingletonVariableMap(singletonVariable, integerVariable));
                         break;
 
                     case AggregateVariableModel aggregateVariable:
                         var aggregateIntegerVariable = CreateIntegerVariableFrom(aggregateVariable);
-                        _cache.AddAggregate(aggregateVariable.Name,
+                        _modelSolverMap.AddAggregate(aggregateVariable.Name,
                                             new OrangeAggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
                         break;
 
@@ -98,12 +99,12 @@ namespace Workbench.Core.Solvers
                 switch (variable)
                 {
                     case SingletonVariableModel singletonVariable:
-                        var integerVariable = _cache.GetSolverSingletonVariableByName(singletonVariable.Name);
+                        var integerVariable = _modelSolverMap.GetSolverSingletonVariableByName(singletonVariable.Name);
                         _constraintNetwork.AddVariable(integerVariable);
                         break;
 
                     case AggregateVariableModel aggregateVariable:
-                        var aggregateIntegerVariable = _cache.GetSolverAggregateVariableByName(aggregateVariable.Name);
+                        var aggregateIntegerVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariable.Name);
                         _constraintNetwork.AddVariable(aggregateIntegerVariable);
                         break;
 

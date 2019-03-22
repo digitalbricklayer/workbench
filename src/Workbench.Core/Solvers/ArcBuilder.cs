@@ -6,39 +6,57 @@ namespace Workbench.Core.Solvers
 {
     internal sealed class ArcBuilder
     {
-        private readonly OrangeCache _cache;
+        private readonly OrangeModelSolverMap _modelSolverMap;
 
-        internal ArcBuilder(OrangeCache cache)
+        /// <summary>
+        /// Initialize an arc builder with a model solver map.
+        /// </summary>
+        /// <param name="modelSolverMap">Map between solver and model entities.</param>
+        internal ArcBuilder(OrangeModelSolverMap modelSolverMap)
         {
-            _cache = cache;
+            _modelSolverMap = modelSolverMap;
         }
 
         internal Arc Build(ExpressionConstraintModel expressionConstraint)
         {
-            return new Arc(GetVariableFrom(expressionConstraint.Expression.Node.InnerExpression.LeftExpression),
-                      GetVariableFrom(expressionConstraint.Expression.Node.InnerExpression.RightExpression), 
-                           CreateConstraintFrom(expressionConstraint.Expression.Node));
+            return new Arc(CreateNodeFrom(expressionConstraint.Expression.Node.InnerExpression.LeftExpression),
+                           CreateNodeFrom(expressionConstraint.Expression.Node.InnerExpression.RightExpression), 
+                           CreateConnectorFrom(CreateConstraintFrom(expressionConstraint.Expression.Node)));
         }
 
-        private IntegerVariable GetVariableFrom(ExpressionNode expressionNode)
+        private ConstraintExpression CreateConstraintFrom(ConstraintExpressionNode binaryExpressionNode)
+        {
+            return new ConstraintExpression(binaryExpressionNode);
+        }
+
+        private NodeConnector CreateConnectorFrom(ConstraintExpression constraint)
+        {
+            return new NodeConnector(constraint);
+        }
+
+        private Node CreateNodeFrom(ExpressionNode expressionNode)
         {
             switch (expressionNode.InnerExpression)
             {
                 case SingletonVariableReferenceNode singletonVariableReference:
-                    return _cache.GetSolverSingletonVariableByName(singletonVariableReference.VariableName);
+                    return new VariableNode(_modelSolverMap.GetSolverSingletonVariableByName(singletonVariableReference.VariableName));
 
                 case AggregateVariableReferenceNode aggregateVariableReference:
-                    return _cache.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName,
-                                                                   aggregateVariableReference.SubscriptStatement.Subscript);
+                    var variable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName,
+                                                                                    aggregateVariableReference.SubscriptStatement.Subscript);
+                    return new VariableNode(variable);
+
+                case IntegerLiteralNode literalNode:
+                    return new LiteralNode(literalNode.Value);
 
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private ConstraintExpression CreateConstraintFrom(ConstraintExpressionNode binaryExpressionNode)
+        private Node CreateNodeFrom(IntegerVariable variable)
         {
-            return new ConstraintExpression(binaryExpressionNode);
+            return new VariableNode(variable);
         }
     }
 }

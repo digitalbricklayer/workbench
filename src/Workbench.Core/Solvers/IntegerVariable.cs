@@ -6,7 +6,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Integer variable used internally by the solver.
     /// </summary>
-    internal sealed class IntegerVariable
+    internal class IntegerVariable
     {
         /// <summary>
         /// Gets the domain range.

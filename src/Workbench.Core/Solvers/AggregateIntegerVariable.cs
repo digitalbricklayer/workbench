@@ -9,19 +9,9 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Aggregate Integer variable used internally by the solver.
     /// </summary>
-    internal sealed class AggregateIntegerVariable
+    internal sealed class AggregateIntegerVariable : IntegerVariable
     {
         private readonly IntegerVariable[] _variables;
-
-        /// <summary>
-        /// Gets the aggregate variable name.
-        /// </summary>
-        internal string Name { get; }
-
-        /// <summary>
-        /// Gets the domain range.
-        /// </summary>
-        internal DomainRange Domain { get; }
 
         /// <summary>
         /// Gets all of the internal variables.
@@ -35,12 +25,11 @@ namespace Workbench.Core.Solvers
         /// <param name="size">Size of the aggregate.</param>
         /// <param name="domain">Aggregate domain.</param>
         internal AggregateIntegerVariable(string variableName, int size, DomainRange domain)
+            : base(variableName, domain)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
             Contract.Requires<ArgumentOutOfRangeException>(size > 0);
 
-            Name = variableName;
-            Domain = domain;
             _variables = CreateVariables(size);
         }
 

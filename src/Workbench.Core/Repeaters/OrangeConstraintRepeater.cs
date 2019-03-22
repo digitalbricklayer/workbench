@@ -14,44 +14,46 @@ namespace Workbench.Core.Repeaters
     /// </summary>
     internal class OrangeConstraintRepeater
     {
-        private OrangeConstraintRepeaterContext context;
-        private readonly OrangeCache cache;
-        private readonly ModelModel model;
-        private readonly ValueMapper valueMapper;
+        private OrangeConstraintRepeaterContext _context;
+        private readonly OrangeModelSolverMap _modelSolverMap;
+        private readonly ModelModel _model;
+        private readonly ValueMapper _valueMapper;
         private readonly ConstraintNetwork _constraintNetwork;
 
-        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeCache cache, ModelModel theModel, ValueMapper theValueMapper)
+        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, ValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(constraintNetwork != null);
-            Contract.Requires<ArgumentNullException>(cache != null);
+            Contract.Requires<ArgumentNullException>(modelSolverMap != null);
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theValueMapper != null);
 
             _constraintNetwork = constraintNetwork;
-            this.cache = cache;
-            this.model = theModel;
-            this.valueMapper = theValueMapper;
+            _modelSolverMap = modelSolverMap;
+            _model = theModel;
+            _valueMapper = theValueMapper;
         }
 
-        internal void Process(OrangeConstraintRepeaterContext theContext)
+        internal void Process(OrangeConstraintRepeaterContext context)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
-            this.context = theContext;
-            var expressionTemplateWithoutExpanderText = StripExpanderFrom(theContext.Constraint.Expression.Text);
-            while (theContext.Next())
+            Contract.Requires<ArgumentNullException>(context != null);
+            Contract.Assert(context.HasRepeaters);
+
+            _context = context;
+            var expressionTemplateWithoutExpanderText = StripExpanderFrom(context.Constraint.Expression.Text);
+            while (context.Next())
             {
                 var expressionText = InsertCounterValuesInto(expressionTemplateWithoutExpanderText);
                 var expandedConstraintExpressionResult = new ConstraintExpressionParser().Parse(expressionText);
-                ProcessSimpleConstraint(expandedConstraintExpressionResult.Root);
+                ProcessConstraint(expandedConstraintExpressionResult.Root);
             }
         }
 
         internal OrangeConstraintRepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
         {
-            return new OrangeConstraintRepeaterContext(constraint, this.model);
+            return new OrangeConstraintRepeaterContext(constraint, _model);
         }
 
-        private void ProcessSimpleConstraint(ConstraintExpressionNode constraintExpressionNode)
+        private void ProcessConstraint(ConstraintExpressionNode constraintExpressionNode)
         {
             Contract.Requires<ArgumentNullException>(constraintExpressionNode != null);
 
@@ -60,23 +62,17 @@ namespace Workbench.Core.Repeaters
             if (constraintExpressionNode.InnerExpression.RightExpression.IsVariable)
             {
                 var rhsVariable = GetVariableFrom(constraintExpressionNode.InnerExpression.RightExpression);
-                newArc = CreateConstraintBy(constraintExpressionNode, lhsVariable, rhsVariable);
+                newArc = CreateArcFrom(constraintExpressionNode, lhsVariable, rhsVariable);
             }
-//            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is IntegerLiteralNode integerLiteral)
-//            {
-//                newArc = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator, lhsExpr, integerLiteral);
-//            }
+            else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is IntegerLiteralNode integerLiteral)
+            {
+                newArc = CreateArcFrom(constraintExpressionNode, lhsVariable, integerLiteral);
+            }
             else
             {
                 throw new NotImplementedException("Constraint expression not implemented.");
             }
             _constraintNetwork.AddArc(newArc);
-        }
-
-#if true
-        private Arc CreateConstraintBy(ConstraintExpressionNode constraintExpressionNode, IntegerVariable lhs, IntegerVariable rhs)
-        {
-            return new Arc(lhs, rhs, new ConstraintExpression(constraintExpressionNode));
         }
 
         private IntegerVariable GetExpressionFrom(ExpressionNode theExpression)
@@ -92,14 +88,14 @@ namespace Workbench.Core.Repeaters
             switch (theExpression.InnerExpression)
             {
                 case SingletonVariableReferenceNode singletonVariableReferenceNode:
-                    return this.cache.GetSolverSingletonVariableByName(singletonVariableReferenceNode.VariableName);
+                    return _modelSolverMap.GetSolverSingletonVariableByName(singletonVariableReferenceNode.VariableName);
 
                 case AggregateVariableReferenceNode aggregateVariableReference:
-                    return this.cache.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.SubscriptStatement.Subscript);
+                    return _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName, aggregateVariableReference.SubscriptStatement.Subscript);
 
 #if false
                 case BucketVariableReferenceNode bucketVariableReference:
-                    return this.cache.GetBucketVariableByName(bucketVariableReference.BucketName, bucketVariableReference.SubscriptStatement.Subscript, bucketVariableReference.VariableName);
+                    return cache.GetBucketVariableByName(bucketVariableReference.BucketName, bucketVariableReference.SubscriptStatement.Subscript, bucketVariableReference.VariableName);
 #endif
 
                 default:
@@ -119,7 +115,7 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionTemplateText));
 
             var accumulatingTemplateText = expressionTemplateText;
-            foreach (var aCounter in this.context.Counters)
+            foreach (var aCounter in _context.Counters)
             {
                 accumulatingTemplateText = InsertCounterValueInto(accumulatingTemplateText,
                     aCounter.CounterName,
@@ -140,7 +136,7 @@ namespace Workbench.Core.Repeaters
             Contract.Requires<ArgumentException>(infixStatement.IsCounterReference ||
                                                  infixStatement.IsLiteral);
             if (infixStatement.IsLiteral) return infixStatement.Literal.Value;
-            var counter = context.GetCounterContextByName(infixStatement.CounterReference.CounterName);
+            var counter = _context.GetCounterContextByName(infixStatement.CounterReference.CounterName);
             return counter.CurrentValue;
         }
 
@@ -165,9 +161,24 @@ namespace Workbench.Core.Repeaters
                     return aggregateVariableReferenceNode.VariableReference.VariableName;
 
                 default:
-                    throw new NotImplementedException("Unknown variable reference.");
+                    throw new NotImplementedException("Unknown variable reference type.");
             }
         }
-#endif
+
+        private Arc CreateArcFrom(ConstraintExpressionNode constraintExpressionNode, IntegerVariable lhs, IntegerLiteralNode integerLiteralNode)
+        {
+            var literal = GetLiteralFrom(integerLiteralNode);
+            return new Arc(new VariableNode(lhs), new LiteralNode(literal), new NodeConnector(new ConstraintExpression(constraintExpressionNode)));
+        }
+
+        private Arc CreateArcFrom(ConstraintExpressionNode constraintExpressionNode, IntegerVariable lhs, IntegerVariable rhs)
+        {
+            return new Arc(new VariableNode(lhs), new VariableNode(rhs), new NodeConnector(new ConstraintExpression(constraintExpressionNode)));
+        }
+
+        private int GetLiteralFrom(IntegerLiteralNode integerLiteralNode)
+        {
+            return new LiteralLimitValueSource(integerLiteralNode).GetValue();
+        }
     }
 }
