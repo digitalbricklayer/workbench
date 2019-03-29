@@ -187,7 +187,7 @@ namespace Workbench.Core.Repeaters
                 else
                 {
                     var aggregateExpression = (AggregateVariableReferenceExpressionNode)theExpression.InnerExpression;
-                    variableExpression = GetVariableFrom((AggregateVariableReferenceExpressionNode)theExpression.InnerExpression);
+                    variableExpression = GetVariableFrom(aggregateExpression);
                     op = aggregateExpression.Operator;
                     infixStatement = aggregateExpression.InfixStatement;
                 }

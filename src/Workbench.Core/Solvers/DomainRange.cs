@@ -37,5 +37,17 @@ namespace Workbench.Core.Solvers
         {
             _possibleValues.Remove(value);
         }
+
+        /// <summary>
+        /// Remove all values from the range.
+        /// </summary>
+        /// <param name="valuesToRemove">Values to remove.</param>
+        internal void RemoveAll(IEnumerable<int> valuesToRemove)
+        {
+            foreach (var value in valuesToRemove)
+            {
+                _possibleValues.Remove(value);
+            }
+        }
     }
 }

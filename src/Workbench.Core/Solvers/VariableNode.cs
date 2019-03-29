@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Solvers
 {
+#if false
     /// <summary>
     /// A node containing a variable.
     /// </summary>
@@ -30,5 +31,15 @@ namespace Workbench.Core.Solvers
         {
             return !Variable.Domain.IsEmpty;
         }
+
+        /// <summary>
+        /// Get the variable domain.
+        /// </summary>
+        /// <returns>Variable domain.</returns>
+        internal override DomainRange GetRange()
+        {
+            return Variable.Domain;
+        }
     }
+#endif
 }

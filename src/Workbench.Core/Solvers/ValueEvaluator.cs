@@ -6,22 +6,19 @@ using Workbench.Core.Nodes;
 namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// Evaluate domain values against a constraint expression.
+    /// Evaluate domain values on the left side of an expression against a constraint expression.
     /// </summary>
-    internal sealed class ValueEvaluator
+    internal sealed class LeftValueEvaluator
     {
-        private readonly IReadOnlyCollection<int> _leftPossibleValues;
-        private readonly IReadOnlyCollection<int> _rightPossibleValues;
         private readonly ConstraintExpression _expression;
+        private readonly IReadOnlyCollection<int> _rightPossibleValues;
 
-        internal ValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, IReadOnlyCollection<int> rightPossibleValues, ConstraintExpression constraint)
+        internal LeftValueEvaluator(IReadOnlyCollection<int> rightPossibleValues, ConstraintExpression constraint)
         {
-            Contract.Requires<ArgumentNullException>(leftPossibleValues != null);
             Contract.Requires<ArgumentNullException>(rightPossibleValues != null);
             Contract.Requires<ArgumentNullException>(constraint != null);
             Contract.Requires<ArgumentException>(!constraint.Node.HasExpander, "Expander should have been fully expanded into simple constraint(s)");
 
-            _leftPossibleValues = leftPossibleValues;
             _rightPossibleValues = rightPossibleValues;
             _expression = constraint;
         }
@@ -63,6 +60,25 @@ namespace Workbench.Core.Solvers
             }
 
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Evaluate domain values on the right side of an expression against a constraint expression.
+    /// </summary>
+    internal sealed class RightValueEvaluator
+    {
+        private readonly IReadOnlyCollection<int> _leftPossibleValues;
+        private readonly ConstraintExpression _expression;
+
+        internal RightValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, ConstraintExpression constraint)
+        {
+            Contract.Requires<ArgumentNullException>(leftPossibleValues != null);
+            Contract.Requires<ArgumentNullException>(constraint != null);
+            Contract.Requires<ArgumentException>(!constraint.Node.HasExpander, "Expander should have been fully expanded into simple constraint(s)");
+
+            _leftPossibleValues = leftPossibleValues;
+            _expression = constraint;
         }
 
         /// <summary>

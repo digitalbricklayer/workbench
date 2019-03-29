@@ -327,6 +327,7 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="Solvers\AggregateVariableExpressionNode.cs" />
     <Compile Include="Solvers\LiteralNode.cs" />
     <Compile Include="Solvers\Node.cs" />
     <Compile Include="Solvers\NodeConnector.cs" />

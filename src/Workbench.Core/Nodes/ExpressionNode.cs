@@ -9,7 +9,7 @@ namespace Workbench.Core.Nodes
     {
         public AstNode InnerExpression { get; private set; }
 
-        public bool IsLiteral => InnerExpression.IsConstant();
+        public bool IsLiteral => InnerExpression is IntegerLiteralNode;
 
         public bool IsSingletonReference
         {

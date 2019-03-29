@@ -25,17 +25,7 @@ namespace Workbench.Core.Solvers
             Connector = connector;
         }
 
-        /// <summary>
-        /// Gets the variable on the left side of the arc.
-        /// </summary>
-//        internal IntegerVariable Left => A.Variable;
-
         internal Node A { get; }
-
-        /// <summary>
-        /// Gets the variable on the right side of the arc.
-        /// </summary>
-//        internal IntegerVariable Right => B.Variable;
 
         internal Node B { get; }
 

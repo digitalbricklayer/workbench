@@ -26,7 +26,8 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal bool IsSolved
         {
-            get { return _arcs.TrueForAll(arc => arc.IsSolved); }
+            get { return _singletonVariables.TrueForAll(singleton => !singleton.Domain.IsEmpty) && 
+                         _aggregateVariables.TrueForAll(aggregate => !aggregate.Domain.IsEmpty); }
         }
 
         /// <summary>

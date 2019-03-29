@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-namespace Workbench.Core.Solvers
+﻿namespace Workbench.Core.Solvers
 {
+#if false
     /// <summary>
     /// A node containing a literal.
     /// </summary>
@@ -30,5 +28,11 @@ namespace Workbench.Core.Solvers
             // A literal is always solved.
             return true;
         }
+
+        internal override DomainRange GetRange()
+        {
+            return new DomainRange(new[]{Literal});
+        }
     }
+#endif
 }

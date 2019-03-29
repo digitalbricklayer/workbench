@@ -1,5 +1,4 @@
-﻿using System;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -17,11 +16,16 @@ namespace Workbench.Core.Solvers
             _modelSolverMap = modelSolverMap;
         }
 
-        internal Arc Build(ExpressionConstraintModel expressionConstraint)
+        /// <summary>
+        /// Build an arc from an expression constraint.
+        /// </summary>
+        /// <param name="expressionConstraintNode">Expression constraint node.</param>
+        /// <returns>Arc</returns>
+        internal Arc Build(ConstraintExpressionNode expressionConstraintNode)
         {
-            return new Arc(CreateNodeFrom(expressionConstraint.Expression.Node.InnerExpression.LeftExpression),
-                           CreateNodeFrom(expressionConstraint.Expression.Node.InnerExpression.RightExpression), 
-                           CreateConnectorFrom(CreateConstraintFrom(expressionConstraint.Expression.Node)));
+            return new Arc(new Node(expressionConstraintNode.InnerExpression.LeftExpression),
+                           new Node(expressionConstraintNode.InnerExpression.RightExpression), 
+                           CreateConnectorFrom(CreateConstraintFrom(expressionConstraintNode)));
         }
 
         private ConstraintExpression CreateConstraintFrom(ConstraintExpressionNode binaryExpressionNode)
@@ -32,31 +36,6 @@ namespace Workbench.Core.Solvers
         private NodeConnector CreateConnectorFrom(ConstraintExpression constraint)
         {
             return new NodeConnector(constraint);
-        }
-
-        private Node CreateNodeFrom(ExpressionNode expressionNode)
-        {
-            switch (expressionNode.InnerExpression)
-            {
-                case SingletonVariableReferenceNode singletonVariableReference:
-                    return new VariableNode(_modelSolverMap.GetSolverSingletonVariableByName(singletonVariableReference.VariableName));
-
-                case AggregateVariableReferenceNode aggregateVariableReference:
-                    var variable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariableReference.VariableName,
-                                                                                    aggregateVariableReference.SubscriptStatement.Subscript);
-                    return new VariableNode(variable);
-
-                case IntegerLiteralNode literalNode:
-                    return new LiteralNode(literalNode.Value);
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private Node CreateNodeFrom(IntegerVariable variable)
-        {
-            return new VariableNode(variable);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
+using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
 {
@@ -15,6 +16,15 @@ namespace Workbench.Core.Solvers
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly OrangeModelSolverMap _modelSolverMap = new OrangeModelSolverMap();
+        private readonly PossibleValueExtractor _domainExtractor;
+
+        /// <summary>
+        /// Initialize an orange solver with default values.
+        /// </summary>
+        public OrangeSolver()
+        {
+            _domainExtractor = new PossibleValueExtractor(_modelSolverMap);
+        }
 
         /// <summary>
         /// Solve the model using the AC-1 algorithm.
@@ -58,77 +68,69 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.ToArray())
             {
-                if (arc.A is VariableNode && arc.B is VariableNode)
+                if (arc.A.IsRevisable())
                 {
-                    var leftVariableNode = (VariableNode) arc.A;
-                    var rightVariableNode = (VariableNode) arc.B;
-
                     // Revise the left variable domain
-                    domainChanged |= ReviseLeft(leftVariableNode.Variable, rightVariableNode.Variable, arc.Constraint);
-                    // Revise the right variable domain
-                    domainChanged |= ReviseRight(leftVariableNode.Variable, rightVariableNode.Variable, arc.Constraint);
+                    domainChanged |= ReviseLeft(arc.A, arc.B, arc.Constraint);
                 }
-                else if (arc.A is VariableNode && arc.B is LiteralNode)
-                {
-                    var leftVariableNode = (VariableNode) arc.A;
-                    var literalNode = (LiteralNode) arc.B;
 
-                    // Revise the left variable domain, the right is a literal
-                    domainChanged |= Revise(leftVariableNode.Variable, literalNode, arc.Constraint);
+                if (arc.B.IsRevisable())
+                {
+                    // Revise the right variable domain
+                    domainChanged |= ReviseRight(arc.A, arc.B, arc.Constraint);
                 }
             }
 
             return domainChanged;
         }
 
-        private bool ReviseLeft(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
+        private bool ReviseLeft(Node leftNode, Node rightNode, ConstraintExpression expression)
         {
-            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, rightVariable.Domain.PossibleValues, expression);
-            var valuesToRemove = new List<int>();
-            foreach (var possibleValue in leftVariable.Domain.PossibleValues)
+            var leftDomainRange = _domainExtractor.ExtractFrom(leftNode);
+            IReadOnlyCollection<int> rightPossibleValues;
+            if (rightNode.IsRevisable())
             {
-                if (!expressionEvaluator.EvaluateLeft(possibleValue))
+                rightPossibleValues = _domainExtractor.ExtractFrom(rightNode).PossibleValues;
+            }
+            else
+            {
+                var rightLiteral = rightNode.Expression.GetLiteral();
+                rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { rightLiteral });
+            }
+            var valueEvaluator = new LeftValueEvaluator(rightPossibleValues, expression);
+            var valuesToRemove = new List<int>();
+            foreach (var possibleValue in leftDomainRange.PossibleValues)
+            {
+                var valueAdjuster = new ExpressionEvaluator(_modelSolverMap);
+                var evaluatedPossibleValue = valueAdjuster.Evaluate(expression.Node.InnerExpression.LeftExpression, possibleValue);
+                if (!valueEvaluator.EvaluateLeft(evaluatedPossibleValue))
                 {
                     valuesToRemove.Add(possibleValue);
                 }
             }
 
-            valuesToRemove.ForEach(valueToRemove => leftVariable.Domain.Remove(valueToRemove));
+            leftDomainRange.RemoveAll(valuesToRemove);
 
             return valuesToRemove.Any();
         }
 
-        private bool ReviseRight(IntegerVariable leftVariable, IntegerVariable rightVariable, ConstraintExpression expression)
+        private bool ReviseRight(Node leftNode, Node rightNode, ConstraintExpression expression)
         {
-            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, rightVariable.Domain.PossibleValues, expression);
+            var leftDomainRange = _domainExtractor.ExtractFrom(leftNode);
+            var rightDomainRange = _domainExtractor.ExtractFrom(rightNode);
+            var valueEvaluator = new RightValueEvaluator(leftDomainRange.PossibleValues, expression);
             var valuesToRemove = new List<int>();
-            foreach (var possibleValue in rightVariable.Domain.PossibleValues)
+            foreach (var possibleValue in rightDomainRange.PossibleValues)
             {
-                if (!expressionEvaluator.EvaluateRight(possibleValue))
+                var valueAdjuster = new ExpressionEvaluator(_modelSolverMap);
+                var evaluatedPossibleValue = valueAdjuster.Evaluate(expression.Node.InnerExpression.RightExpression, possibleValue);
+                if (!valueEvaluator.EvaluateRight(evaluatedPossibleValue))
                 {
                     valuesToRemove.Add(possibleValue);
                 }
             }
 
-            valuesToRemove.ForEach(valueToRemove => rightVariable.Domain.Remove(valueToRemove));
-
-            return valuesToRemove.Any();
-        }
-
-        private bool Revise(IntegerVariable leftVariable, LiteralNode rightLiteral, ConstraintExpression expression)
-        {
-            var literalValue = new ReadOnlyCollection<int>(new List<int>{rightLiteral.Literal});
-            var expressionEvaluator = new ValueEvaluator(leftVariable.Domain.PossibleValues, literalValue, expression);
-            var valuesToRemove = new List<int>();
-            foreach (var possibleValue in leftVariable.Domain.PossibleValues)
-            {
-                if (!expressionEvaluator.EvaluateLeft(possibleValue))
-                {
-                    valuesToRemove.Add(possibleValue);
-                }
-            }
-
-            valuesToRemove.ForEach(valueToRemove => leftVariable.Domain.Remove(valueToRemove));
+            rightDomainRange.RemoveAll(valuesToRemove);
 
             return valuesToRemove.Any();
         }
@@ -180,6 +182,108 @@ namespace Workbench.Core.Solvers
             }
 
             return compoundLabelAccumulator;
+        }
+    }
+
+    internal sealed class PossibleValueExtractor
+    {
+        private readonly OrangeModelSolverMap _map;
+
+        internal PossibleValueExtractor(OrangeModelSolverMap map)
+        {
+            Contract.Requires<ArgumentNullException>(map != null);
+            _map = map;
+        }
+
+        internal DomainRange ExtractFrom(Node node)
+        {
+            switch (node.Expression.InnerExpression)
+            {
+                case SingletonVariableReferenceExpressionNode singletonVariableReferenceExpressionNode:
+                    var x = _map.GetSolverSingletonVariableByName(singletonVariableReferenceExpressionNode.VariableReference.VariableName);
+                    return x.Domain;
+
+                case AggregateVariableReferenceExpressionNode aggregateVariableReferenceExpressionNode:
+                    return GetRangeFrom(aggregateVariableReferenceExpressionNode);
+
+                case SingletonVariableReferenceNode singletonVariableReferenceNode:
+                    var singletonSolverVariable = _map.GetSolverSingletonVariableByName(singletonVariableReferenceNode.VariableName);
+                    return singletonSolverVariable.Domain;
+
+                case AggregateVariableReferenceNode aggregateVariableReferenceNode:
+                    return GetRangeFrom(aggregateVariableReferenceNode);
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private DomainRange GetRangeFrom(AggregateVariableReferenceNode aggregateVariableReferenceNode)
+        {
+            var aggregateSolverVariable = _map.GetSolverAggregateVariableByName(aggregateVariableReferenceNode.VariableName);
+            var subscriptVariable = aggregateSolverVariable.GetAt(aggregateVariableReferenceNode.SubscriptStatement.Subscript);
+            return subscriptVariable.Domain;
+        }
+
+        private DomainRange GetRangeFrom(AggregateVariableReferenceExpressionNode aggregateVariableReferenceExpressionNode)
+        {
+            var subscriptVariable = _map.GetSolverAggregateVariableByName(aggregateVariableReferenceExpressionNode.VariableReference.VariableName,
+                                                                          aggregateVariableReferenceExpressionNode.VariableReference.SubscriptStatement.Subscript);
+            return subscriptVariable.Domain;
+        }
+    }
+
+    /// <summary>
+    /// Evaluate one side of a constraint expressions.
+    /// </summary>
+    internal sealed class ExpressionEvaluator
+    {
+        private readonly OrangeModelSolverMap _map;
+
+        internal ExpressionEvaluator(OrangeModelSolverMap map)
+        {
+            Contract.Requires<ArgumentNullException>(map != null);
+            _map = map;
+        }
+
+        internal int Evaluate(ExpressionNode expression, int possibleValue)
+        {
+            if (!expression.IsExpression) return possibleValue;
+
+            VariableExpressionOperatorType op;
+            InfixStatementNode infixStatement;
+            if (expression.IsSingletonExpression)
+            {
+                var singletonExpression = (SingletonVariableReferenceExpressionNode) expression.InnerExpression;
+                op = singletonExpression.Operator;
+                infixStatement = singletonExpression.InfixStatement;
+            }
+            else
+            {
+                var aggregateExpression = (AggregateVariableReferenceExpressionNode) expression.InnerExpression;
+                op = aggregateExpression.Operator;
+                infixStatement = aggregateExpression.InfixStatement;
+            }
+
+            switch (op)
+            {
+                case VariableExpressionOperatorType.Add:
+                    return possibleValue + GetValueFrom(infixStatement);
+
+                case VariableExpressionOperatorType.Subtract:
+                    return possibleValue - GetValueFrom(infixStatement);
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private int GetValueFrom(InfixStatementNode infixStatement)
+        {
+            Contract.Requires<ArgumentNullException>(infixStatement != null);
+            Contract.Assume(infixStatement.IsLiteral);
+
+            return infixStatement.Literal.Value;
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Workbench.Core.Solvers
             }
             else
             {
-                _constraintNetwork.AddArc(new ArcBuilder(_modelSolverMap).Build(constraint));
+                _constraintNetwork.AddArc(new ArcBuilder(_modelSolverMap).Build(constraint.Expression.Node));
             }
         }
 
@@ -77,13 +77,13 @@ namespace Workbench.Core.Solvers
                     case SingletonVariableModel singletonVariable:
                         var integerVariable = CreateIntegerVariableFrom(singletonVariable);
                         _modelSolverMap.AddSingleton(singletonVariable.Name,
-                                            new OrangeSingletonVariableMap(singletonVariable, integerVariable));
+                                                     new OrangeSingletonVariableMap(singletonVariable, integerVariable));
                         break;
 
                     case AggregateVariableModel aggregateVariable:
                         var aggregateIntegerVariable = CreateIntegerVariableFrom(aggregateVariable);
                         _modelSolverMap.AddAggregate(aggregateVariable.Name,
-                                            new OrangeAggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
+                                                     new OrangeAggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
                         break;
 
                     default:
