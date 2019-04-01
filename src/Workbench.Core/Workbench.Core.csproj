@@ -327,8 +327,6 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
-    <Compile Include="Solvers\AggregateVariableExpressionNode.cs" />
-    <Compile Include="Solvers\LiteralNode.cs" />
     <Compile Include="Solvers\Node.cs" />
     <Compile Include="Solvers\NodeConnector.cs" />
     <Compile Include="Solvers\OrangeAggregateVariableMap.cs" />
@@ -373,7 +371,6 @@
     <Compile Include="Solvers\VariableConverter.cs" />
     <Compile Include="Solvers\VariableDomainExpressionEvaluator.cs" />
     <Compile Include="Solvers\VariableDomainExpressionEvaluatorContext.cs" />
-    <Compile Include="Solvers\VariableNode.cs" />
     <Compile Include="TableCellReferenceCaptureVisitor.cs" />
     <Compile Include="WorkspaceBuilder.cs" />
   </ItemGroup>
