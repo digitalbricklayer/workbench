@@ -12,7 +12,6 @@ namespace Workbench.Core.Tests.Unit.Solvers
     /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.html 
     /// This may be a possible answer.</remarks>
     [TestFixture]
-    [Ignore("Ternary constraints are not implemented yet")]
     public class OrangeSolverWithSimpleUnsolvableModelShould
     {
         [Test]

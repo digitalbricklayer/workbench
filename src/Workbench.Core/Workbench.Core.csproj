@@ -327,6 +327,7 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="Solvers\ExpressionEvaluator.cs" />
     <Compile Include="Solvers\Node.cs" />
     <Compile Include="Solvers\NodeConnector.cs" />
     <Compile Include="Solvers\OrangeAggregateVariableMap.cs" />
@@ -349,6 +350,7 @@
     <Compile Include="Solvers\IntegerVariableComparer.cs" />
     <Compile Include="Solvers\ISolvable.cs" />
     <Compile Include="Solvers\OrSingletonVariableMap.cs" />
+    <Compile Include="Solvers\PossibleValueExtractor.cs" />
     <Compile Include="Solvers\TableDomainValue.cs" />
     <Compile Include="Solvers\Range.cs" />
     <Compile Include="Solvers\DomainExpressionEvaluator.cs" />

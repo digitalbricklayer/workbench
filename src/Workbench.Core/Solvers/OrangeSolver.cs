@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
-using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
 {
@@ -182,108 +181,6 @@ namespace Workbench.Core.Solvers
             }
 
             return compoundLabelAccumulator;
-        }
-    }
-
-    internal sealed class PossibleValueExtractor
-    {
-        private readonly OrangeModelSolverMap _map;
-
-        internal PossibleValueExtractor(OrangeModelSolverMap map)
-        {
-            Contract.Requires<ArgumentNullException>(map != null);
-            _map = map;
-        }
-
-        internal DomainRange ExtractFrom(Node node)
-        {
-            switch (node.Expression.InnerExpression)
-            {
-                case SingletonVariableReferenceExpressionNode singletonVariableReferenceExpressionNode:
-                    var x = _map.GetSolverSingletonVariableByName(singletonVariableReferenceExpressionNode.VariableReference.VariableName);
-                    return x.Domain;
-
-                case AggregateVariableReferenceExpressionNode aggregateVariableReferenceExpressionNode:
-                    return GetRangeFrom(aggregateVariableReferenceExpressionNode);
-
-                case SingletonVariableReferenceNode singletonVariableReferenceNode:
-                    var singletonSolverVariable = _map.GetSolverSingletonVariableByName(singletonVariableReferenceNode.VariableName);
-                    return singletonSolverVariable.Domain;
-
-                case AggregateVariableReferenceNode aggregateVariableReferenceNode:
-                    return GetRangeFrom(aggregateVariableReferenceNode);
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private DomainRange GetRangeFrom(AggregateVariableReferenceNode aggregateVariableReferenceNode)
-        {
-            var aggregateSolverVariable = _map.GetSolverAggregateVariableByName(aggregateVariableReferenceNode.VariableName);
-            var subscriptVariable = aggregateSolverVariable.GetAt(aggregateVariableReferenceNode.SubscriptStatement.Subscript);
-            return subscriptVariable.Domain;
-        }
-
-        private DomainRange GetRangeFrom(AggregateVariableReferenceExpressionNode aggregateVariableReferenceExpressionNode)
-        {
-            var subscriptVariable = _map.GetSolverAggregateVariableByName(aggregateVariableReferenceExpressionNode.VariableReference.VariableName,
-                                                                          aggregateVariableReferenceExpressionNode.VariableReference.SubscriptStatement.Subscript);
-            return subscriptVariable.Domain;
-        }
-    }
-
-    /// <summary>
-    /// Evaluate one side of a constraint expressions.
-    /// </summary>
-    internal sealed class ExpressionEvaluator
-    {
-        private readonly OrangeModelSolverMap _map;
-
-        internal ExpressionEvaluator(OrangeModelSolverMap map)
-        {
-            Contract.Requires<ArgumentNullException>(map != null);
-            _map = map;
-        }
-
-        internal int Evaluate(ExpressionNode expression, int possibleValue)
-        {
-            if (!expression.IsExpression) return possibleValue;
-
-            VariableExpressionOperatorType op;
-            InfixStatementNode infixStatement;
-            if (expression.IsSingletonExpression)
-            {
-                var singletonExpression = (SingletonVariableReferenceExpressionNode) expression.InnerExpression;
-                op = singletonExpression.Operator;
-                infixStatement = singletonExpression.InfixStatement;
-            }
-            else
-            {
-                var aggregateExpression = (AggregateVariableReferenceExpressionNode) expression.InnerExpression;
-                op = aggregateExpression.Operator;
-                infixStatement = aggregateExpression.InfixStatement;
-            }
-
-            switch (op)
-            {
-                case VariableExpressionOperatorType.Add:
-                    return possibleValue + GetValueFrom(infixStatement);
-
-                case VariableExpressionOperatorType.Subtract:
-                    return possibleValue - GetValueFrom(infixStatement);
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private int GetValueFrom(InfixStatementNode infixStatement)
-        {
-            Contract.Requires<ArgumentNullException>(infixStatement != null);
-            Contract.Assume(infixStatement.IsLiteral);
-
-            return infixStatement.Literal.Value;
         }
     }
 }
