@@ -67,16 +67,16 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.ToArray())
             {
-                if (arc.A.IsRevisable())
+                if (arc.Left.IsRevisable())
                 {
                     // Revise the left variable domain
-                    domainChanged |= ReviseLeft(arc.A, arc.B, arc.Constraint);
+                    domainChanged |= ReviseLeft(arc.Left, arc.Right, arc.Connector.Constraint);
                 }
 
-                if (arc.B.IsRevisable())
+                if (arc.Right.IsRevisable())
                 {
                     // Revise the right variable domain
-                    domainChanged |= ReviseRight(arc.A, arc.B, arc.Constraint);
+                    domainChanged |= ReviseRight(arc.Left, arc.Right, arc.Connector.Constraint);
                 }
             }
 

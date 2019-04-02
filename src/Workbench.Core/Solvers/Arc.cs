@@ -20,25 +20,24 @@ namespace Workbench.Core.Solvers
             Contract.Requires<ArgumentNullException>(right != null);
             Contract.Requires<ArgumentNullException>(connector != null);
 
-            A = left;
-            B = right;
+            Left = left;
+            Right = right;
             Connector = connector;
         }
 
-        internal Node A { get; }
-
-        internal Node B { get; }
+        /// <summary>
+        /// Gets the left node.
+        /// </summary>
+        internal Node Left { get; }
 
         /// <summary>
-        /// Gets the connecting constraint.
+        /// Gets the right node.
         /// </summary>
-        internal ConstraintExpression Constraint => Connector.Constraint;
+        internal Node Right { get; }
 
+        /// <summary>
+        /// Gets the connector.
+        /// </summary>
         internal NodeConnector Connector { get; }
-
-        /// <summary>
-        /// Gets whether the arc is solved.
-        /// </summary>
-        internal bool IsSolved => A.IsSolved() && B.IsSolved();
     }
 }
