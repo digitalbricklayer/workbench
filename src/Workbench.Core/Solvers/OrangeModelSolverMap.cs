@@ -12,6 +12,7 @@ namespace Workbench.Core.Solvers
     {
         private readonly Dictionary<string, OrangeSingletonVariableMap> _singletonVariableMap;
         private readonly Dictionary<string, OrangeAggregateVariableMap> _aggregateVariableMap;
+        private readonly Dictionary<string, Node> _nodeMap;
 
         /// <summary>
         /// Initialize a cache with default values.
@@ -20,6 +21,7 @@ namespace Workbench.Core.Solvers
         {
             _singletonVariableMap = new Dictionary<string, OrangeSingletonVariableMap>();
             _aggregateVariableMap = new Dictionary<string, OrangeAggregateVariableMap>();
+            _nodeMap = new Dictionary<string, Node>();
         }
 
         internal void AddSingleton(string name, OrangeSingletonVariableMap singletonVariableMap)
@@ -32,6 +34,17 @@ namespace Workbench.Core.Solvers
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _aggregateVariableMap.Add(name, aggregateVariableMap);
+        }
+
+        /// <summary>
+        /// Add a node to the map.
+        /// </summary>
+        /// <param name="name">Name of the variable inside the node.</param>
+        /// <param name="node">Node.</param>
+        internal void AddNode(string name, Node node)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+            _nodeMap.Add(name, node);
         }
 
         internal IntegerVariable GetSolverSingletonVariableByName(string variableName)
@@ -64,6 +77,17 @@ namespace Workbench.Core.Solvers
             if (!_aggregateVariableMap.ContainsKey(variableName))
                 throw new ArgumentException($"Unknown variable {variableName}");
             return _aggregateVariableMap[variableName].ModelVariable;
+        }
+
+        internal Node GetNodeByName(string variableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (_nodeMap.ContainsKey(variableName))
+            {
+                return _nodeMap[variableName];
+            }
+
+            return null;
         }
     }
 }

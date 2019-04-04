@@ -24,11 +24,11 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Extract possible values from the node.
         /// </summary>
-        /// <param name="node">Node from an arc.</param>
+        /// <param name="expression">Node from an arc.</param>
         /// <returns>Possible values for the node.</returns>
-        internal DomainRange ExtractFrom(Node node)
+        internal DomainRange ExtractFrom(ExpressionNode expression)
         {
-            switch (node.Expression.InnerExpression)
+            switch (expression.InnerExpression)
             {
                 case SingletonVariableReferenceExpressionNode singletonVariableReferenceExpressionNode:
                     var x = _modelSolverMap.GetSolverSingletonVariableByName(singletonVariableReferenceExpressionNode.VariableReference.VariableName);

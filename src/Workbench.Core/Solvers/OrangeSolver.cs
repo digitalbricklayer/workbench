@@ -67,13 +67,13 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.ToArray())
             {
-                if (arc.Left.IsRevisable())
+                if (!arc.Connector.Constraint.Node.InnerExpression.LeftExpression.IsLiteral)
                 {
                     // Revise the left variable domain
                     domainChanged |= ReviseLeft(arc.Left, arc.Right, arc.Connector.Constraint);
                 }
 
-                if (arc.Right.IsRevisable())
+                if (!arc.Connector.Constraint.Node.InnerExpression.RightExpression.IsLiteral)
                 {
                     // Revise the right variable domain
                     domainChanged |= ReviseRight(arc.Left, arc.Right, arc.Connector.Constraint);
@@ -85,15 +85,15 @@ namespace Workbench.Core.Solvers
 
         private bool ReviseLeft(Node leftNode, Node rightNode, ConstraintExpression expression)
         {
-            var leftDomainRange = _domainExtractor.ExtractFrom(leftNode);
+            var leftDomainRange = leftNode.Variable.Domain;
             IReadOnlyCollection<int> rightPossibleValues;
-            if (rightNode.IsRevisable())
+            if (!expression.Node.InnerExpression.RightExpression.IsLiteral)
             {
-                rightPossibleValues = _domainExtractor.ExtractFrom(rightNode).PossibleValues;
+                rightPossibleValues = rightNode.Variable.Domain.PossibleValues;
             }
             else
             {
-                var rightLiteral = rightNode.Expression.GetLiteral();
+                var rightLiteral = expression.Node.InnerExpression.RightExpression.GetLiteral();
                 rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { rightLiteral });
             }
             var valueEvaluator = new LeftValueEvaluator(rightPossibleValues, expression);
@@ -115,8 +115,8 @@ namespace Workbench.Core.Solvers
 
         private bool ReviseRight(Node leftNode, Node rightNode, ConstraintExpression expression)
         {
-            var leftDomainRange = _domainExtractor.ExtractFrom(leftNode);
-            var rightDomainRange = _domainExtractor.ExtractFrom(rightNode);
+            var leftDomainRange = leftNode.Variable.Domain;
+            var rightDomainRange = rightNode.Variable.Domain;
             var valueEvaluator = new RightValueEvaluator(leftDomainRange.PossibleValues, expression);
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in rightDomainRange.PossibleValues)
