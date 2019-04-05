@@ -39,5 +39,14 @@ namespace Workbench.Core.Solvers
         /// Gets the connector.
         /// </summary>
         internal NodeConnector Connector { get; }
+
+        /// <summary>
+        /// Is the arc consistent.
+        /// </summary>
+        /// <returns>True if the arc is consistent, False if the arc is not.</returns>
+        internal bool IsArcConsistent()
+        {
+            return Left.IsNodeConsistent() && Right.IsNodeConsistent();
+        }
     }
 }

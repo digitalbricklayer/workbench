@@ -18,5 +18,14 @@
         /// Gets the variable.
         /// </summary>
         internal IntegerVariable Variable { get; }
+
+        /// <summary>
+        /// Is the node node consistent.
+        /// </summary>
+        /// <returns>True if the node is node consistent or False if the node is not node consistent.</returns>
+        internal bool IsNodeConsistent()
+        {
+            return !Variable.Domain.IsEmpty;
+        }
     }
 }

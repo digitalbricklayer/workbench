@@ -24,10 +24,14 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Gets whether the constraint network has been solved successfully.
         /// </summary>
-        internal bool IsSolved
+        internal bool IsArcConsistent()
         {
-            get { return _singletonVariables.TrueForAll(singleton => !singleton.Domain.IsEmpty) && 
-                         _aggregateVariables.TrueForAll(aggregate => !aggregate.Domain.IsEmpty); }
+#if false
+            return _singletonVariables.TrueForAll(singleton => !singleton.Domain.IsEmpty) &&
+                   _aggregateVariables.TrueForAll(aggregate => !aggregate.Domain.IsEmpty);
+#else
+            return _arcs.TrueForAll(arc => arc.IsArcConsistent());
+#endif
         }
 
         /// <summary>

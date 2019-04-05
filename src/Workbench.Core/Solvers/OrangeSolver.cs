@@ -34,10 +34,14 @@ namespace Workbench.Core.Solvers
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
 
-            if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
+            var modelValidator = new ModelValidator(theModel);
+
+            if (!modelValidator.Validate()) return SolveResult.InvalidModel;
+
+            var constraintNetworkBuilder = new ConstraintNetworkBuilder(_modelSolverMap);
 
             // Create constraint network
-            var constraintNetwork = new ConstraintNetworkBuilder(_modelSolverMap).Build(theModel);
+            var constraintNetwork = constraintNetworkBuilder.Build(theModel);
 
             bool domainChanged;
 
@@ -52,7 +56,7 @@ namespace Workbench.Core.Solvers
 
             _stopwatch.Stop();
 
-			if (!constraintNetwork.IsSolved)
+			if (!constraintNetwork.IsArcConsistent())
 			{
 				return SolveResult.Failed;
 			}

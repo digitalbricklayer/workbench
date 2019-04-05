@@ -38,5 +38,10 @@ namespace Workbench.Core.Solvers
             Right = right;
             Constraint = constraint;
         }
+
+        /// <summary>
+        /// Gets whether the connector connects the same node.
+        /// </summary>
+        internal bool IsSelfReferential => ReferenceEquals(Left, Right);
     }
 }
