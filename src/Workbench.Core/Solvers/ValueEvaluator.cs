@@ -10,10 +10,10 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class LeftValueEvaluator
     {
-        private readonly ConstraintExpression _expression;
+        private readonly BinaryConstraintExpression _expression;
         private readonly IReadOnlyCollection<int> _rightPossibleValues;
 
-        internal LeftValueEvaluator(IReadOnlyCollection<int> rightPossibleValues, ConstraintExpression constraint)
+        internal LeftValueEvaluator(IReadOnlyCollection<int> rightPossibleValues, BinaryConstraintExpression constraint)
         {
             Contract.Requires<ArgumentNullException>(rightPossibleValues != null);
             Contract.Requires<ArgumentNullException>(constraint != null);
@@ -69,9 +69,9 @@ namespace Workbench.Core.Solvers
     internal sealed class RightValueEvaluator
     {
         private readonly IReadOnlyCollection<int> _leftPossibleValues;
-        private readonly ConstraintExpression _expression;
+        private readonly BinaryConstraintExpression _expression;
 
-        internal RightValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, ConstraintExpression constraint)
+        internal RightValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, BinaryConstraintExpression constraint)
         {
             Contract.Requires<ArgumentNullException>(leftPossibleValues != null);
             Contract.Requires<ArgumentNullException>(constraint != null);

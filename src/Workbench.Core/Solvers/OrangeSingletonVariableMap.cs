@@ -9,7 +9,7 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class OrangeSingletonVariableMap
     {
-        internal OrangeSingletonVariableMap(SingletonVariableModel modelVariable, IntegerVariable solverVariable)
+        internal OrangeSingletonVariableMap(SingletonVariableModel modelVariable, SolverVariable solverVariable)
         {
             Contract.Requires<ArgumentNullException>(modelVariable != null);
             Contract.Requires<ArgumentNullException>(solverVariable != null);
@@ -17,7 +17,7 @@ namespace Workbench.Core.Solvers
             ModelVariable = modelVariable;
         }
 
-        internal IntegerVariable SolverVariable { get; }
+        internal SolverVariable SolverVariable { get; }
         internal SingletonVariableModel ModelVariable { get; }
     }
 }

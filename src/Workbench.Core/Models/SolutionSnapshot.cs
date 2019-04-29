@@ -13,19 +13,17 @@ namespace Workbench.Core.Models
     public sealed class SolutionSnapshot
     {
         private readonly List<SingletonLabelModel> singletonLabels;
-        private readonly List<CompoundLabelModel> compoundLabels;
+        private readonly List<AggregateLabelModel> compoundLabels;
         private readonly List<BucketLabelModel> bucketLabels;
-        private TimeSpan duration;
 
         /// <summary>
         /// Initialize a solution snapshot with singleton labels, compound labels and the solution duration.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonLabels, IEnumerable<CompoundLabelModel> theCompoundLabels, TimeSpan theDuration)
+        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonLabels, IEnumerable<AggregateLabelModel> theCompoundLabels)
         {
             this.singletonLabels = new List<SingletonLabelModel>(theSingletonLabels);
-            this.compoundLabels = new List<CompoundLabelModel>(theCompoundLabels);
+            this.compoundLabels = new List<AggregateLabelModel>(theCompoundLabels);
             this.bucketLabels = new List<BucketLabelModel>();
-	        this.duration = theDuration;
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Workbench.Core.Models
         public SolutionSnapshot()
         {
             this.singletonLabels = new List<SingletonLabelModel>();
-            this.compoundLabels = new List<CompoundLabelModel>();
+            this.compoundLabels = new List<AggregateLabelModel>();
             this.bucketLabels = new List<BucketLabelModel>();
         }
 
@@ -53,11 +51,11 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Gets the aggregate variable labels.
         /// </summary>
-        public IReadOnlyCollection<CompoundLabelModel> AggregateLabels
+        public IReadOnlyCollection<AggregateLabelModel> AggregateLabels
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<CompoundLabelModel>>() != null);
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<AggregateLabelModel>>() != null);
                 return this.compoundLabels.ToList();
             }
         }
@@ -66,15 +64,6 @@ namespace Workbench.Core.Models
         /// Gets the bucket labels.
         /// </summary>
         public IReadOnlyCollection<BucketLabelModel> BucketLabels => new ReadOnlyCollection<BucketLabelModel>(this.bucketLabels);
-
-        /// <summary>
-        /// Gets the time taken to solve the model.
-        /// </summary>
-        public TimeSpan Duration
-        {
-            get { return this.duration; }
-            internal set { this.duration = value; }
-        }
 
         /// <summary>
         /// Add a label to the snapshot.
@@ -90,7 +79,7 @@ namespace Workbench.Core.Models
         /// Add a compound label to the snapshot.
         /// </summary>
         /// <param name="newCompoundLabel">Aggregate label.</param>
-        internal void AddAggregateLabel(CompoundLabelModel newCompoundLabel)
+        internal void AddAggregateLabel(AggregateLabelModel newCompoundLabel)
         {
             Contract.Requires<ArgumentNullException>(newCompoundLabel != null);
             this.compoundLabels.Add(newCompoundLabel);
@@ -111,7 +100,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theAggregateVariableName">Aggregate variable name.</param>
         /// <returns>Compound label for the aggregate variable.</returns>
-        public CompoundLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
+        public AggregateLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
             return this.compoundLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));

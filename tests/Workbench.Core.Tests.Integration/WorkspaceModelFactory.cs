@@ -25,8 +25,8 @@ namespace Workbench.UI.Tests.Integration
                                              .Build();
             var xVariable = newWorkspace.Model.GetVariableByName("x");
             var valueOfX = new SingletonLabelModel((SingletonVariableModel) xVariable, new ValueModel(1));
-            var snapshot = new SolutionSnapshot(new List<SingletonLabelModel> { valueOfX }, Enumerable.Empty<CompoundLabelModel>(), TimeSpan.Zero);
-            newWorkspace.Solution = new SolutionModel(newWorkspace.Model, snapshot);
+            var snapshot = new SolutionSnapshot(new List<SingletonLabelModel> { valueOfX }, Enumerable.Empty<AggregateLabelModel>());
+            newWorkspace.Solution = new SolutionModel(newWorkspace.Model, snapshot, TimeSpan.Zero);
 
             return newWorkspace;
         }

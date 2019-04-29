@@ -23,7 +23,7 @@ namespace Workbench.ViewModels
 
         public void BindTo(SolutionModel theSolution)
         {
-            Duration = theSolution.Snapshot.Duration;
+            Duration = theSolution.Duration;
         }
     }
 }

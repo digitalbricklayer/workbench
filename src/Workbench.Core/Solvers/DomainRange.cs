@@ -30,7 +30,7 @@ namespace Workbench.Core.Solvers
         internal IReadOnlyCollection<int> PossibleValues => _possibleValues.AsReadOnly();
 
         /// <summary>
-        /// Remove a possible value from the range.
+        /// Remove a value from the range.
         /// </summary>
         /// <param name="value">Value to be removed.</param>
         internal void Remove(int value)

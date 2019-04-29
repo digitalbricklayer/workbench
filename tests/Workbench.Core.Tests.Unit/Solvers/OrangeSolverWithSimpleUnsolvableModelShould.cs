@@ -12,7 +12,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
     /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.html 
     /// This may be a possible answer.</remarks>
     [TestFixture]
-    [Ignore("")]
+    [Ignore("Solver can't handle the equal and not equal constraint expressions yet")]
     public class OrangeSolverWithSimpleUnsolvableModelShould
     {
         [Test]

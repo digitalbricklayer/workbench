@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Solvers
 {
@@ -8,8 +10,8 @@ namespace Workbench.Core.Solvers
     internal sealed class ConstraintNetwork
     {
         private readonly List<Arc> _arcs;
-        private readonly List<IntegerVariable> _singletonVariables;
-        private readonly List<AggregateIntegerVariable> _aggregateVariables;
+        private readonly List<SolverVariable> _singletonVariables;
+        private readonly List<AggregateSolverVariable> _aggregateVariables;
 
         /// <summary>
         /// Initialize a constraint network with default values.
@@ -17,8 +19,8 @@ namespace Workbench.Core.Solvers
         internal ConstraintNetwork()
         {
             _arcs = new List<Arc>();
-            _singletonVariables = new List<IntegerVariable>();
-            _aggregateVariables = new List<AggregateIntegerVariable>();
+            _singletonVariables = new List<SolverVariable>();
+            _aggregateVariables = new List<AggregateSolverVariable>();
         }
 
         /// <summary>
@@ -26,12 +28,7 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal bool IsArcConsistent()
         {
-#if false
-            return _singletonVariables.TrueForAll(singleton => !singleton.Domain.IsEmpty) &&
-                   _aggregateVariables.TrueForAll(aggregate => !aggregate.Domain.IsEmpty);
-#else
             return _arcs.TrueForAll(arc => arc.IsArcConsistent());
-#endif
         }
 
         /// <summary>
@@ -43,12 +40,12 @@ namespace Workbench.Core.Solvers
             return _arcs.ToArray();
         }
 
-        internal void AddVariable(IntegerVariable variable)
+        internal void AddVariable(SolverVariable variable)
         {
             _singletonVariables.Add(variable);
         }
 
-        internal void AddVariable(AggregateIntegerVariable variable)
+        internal void AddVariable(AggregateSolverVariable variable)
         {
             _aggregateVariables.Add(variable);
         }
@@ -59,14 +56,25 @@ namespace Workbench.Core.Solvers
         /// <param name="arc">Arc to add.</param>
         internal void AddArc(Arc arc)
         {
+            Contract.Requires<ArgumentNullException>(arc != null);
             _arcs.Add(arc);
+        }
+
+        /// <summary>
+        /// Add an arc to the network.
+        /// </summary>
+        /// <param name="arcs">Arcs to add.</param>
+        internal void AddArc(IEnumerable<Arc> arcs)
+        {
+            Contract.Requires<ArgumentNullException>(arcs != null);
+            _arcs.AddRange(arcs);
         }
 
         /// <summary>
         /// Get all singleton variables inside the constraint network.
         /// </summary>
         /// <returns>All singleton variables in a read only collection.</returns>
-        internal IReadOnlyCollection<IntegerVariable> GetSingletonVariables()
+        internal IReadOnlyCollection<SolverVariable> GetSingletonVariables()
         {
             return _singletonVariables.AsReadOnly();
         }
@@ -75,7 +83,7 @@ namespace Workbench.Core.Solvers
         /// Get all aggregate variables inside the constraint network.
         /// </summary>
         /// <returns>All aggregate variables in a read only collection.</returns>
-        internal IReadOnlyCollection<AggregateIntegerVariable> GetAggregateVariables()
+        internal IReadOnlyCollection<AggregateSolverVariable> GetAggregateVariables()
         {
             return _aggregateVariables.AsReadOnly();
         }

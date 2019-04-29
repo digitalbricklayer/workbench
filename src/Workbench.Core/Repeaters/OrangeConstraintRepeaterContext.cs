@@ -17,12 +17,11 @@ namespace Workbench.Core.Repeaters
         /// Initialize a repeater context from the constraint.
         /// </summary>
         /// <param name="theConstraint">Expression constraint.</param>
-        /// <param name="theModel">Model</param>
-        public OrangeConstraintRepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
+        internal OrangeConstraintRepeaterContext(ExpressionConstraintModel theConstraint)
         {
             Contract.Requires<ArgumentNullException>(theConstraint != null);
             Constraint = theConstraint;
-            Model = theModel;
+            Model = theConstraint.Parent;
             this.counters = new List<CounterContext>();
             if (!theConstraint.Expression.Node.HasExpander) return;
             CreateCounterContextsFrom(theConstraint.Expression.Node.Expander);
@@ -31,7 +30,7 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Gets the counters.
         /// </summary>
-        public IReadOnlyCollection<CounterContext> Counters
+        internal IReadOnlyCollection<CounterContext> Counters
         {
             get { return new ReadOnlyCollection<CounterContext>(counters); }
         }
@@ -39,28 +38,28 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Gets whether there are any repeaters.
         /// </summary>
-        public bool HasRepeaters => Counters.Any();
+        internal bool HasRepeaters => Counters.Any();
 
         /// <summary>
         /// Gets the constraint.
         /// </summary>
-        public ExpressionConstraintModel Constraint { get; private set; }
+        internal ExpressionConstraintModel Constraint { get; private set; }
 
         /// <summary>
         /// Gets the model.
         /// </summary>
-        public ModelModel Model { get; private set; }
+        internal ModelModel Model { get; private set; }
 
         /// <summary>
         /// Move to the next counter value set.
         /// </summary>
         /// <returns>True if a new counter value is available. False if no new counter values are available.</returns>
-        public bool Next()
+        internal bool Next()
         {
-            if (!firstIterationPassed)
+            if (!this.firstIterationPassed)
             {
                 InitializeAllCounters();
-                firstIterationPassed = true;
+                this.firstIterationPassed = true;
 
                 return true;
             }
@@ -92,7 +91,7 @@ namespace Workbench.Core.Repeaters
         /// </summary>
         /// <param name="counterName">Counter name.</param>
         /// <returns>Counter context with the counter name.</returns>
-        public CounterContext GetCounterContextByName(string counterName)
+        internal CounterContext GetCounterContextByName(string counterName)
         {
             return Counters.First(_ => _.CounterName == counterName);
         }

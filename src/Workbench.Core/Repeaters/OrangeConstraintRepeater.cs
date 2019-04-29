@@ -18,6 +18,7 @@ namespace Workbench.Core.Repeaters
         private readonly ModelModel _model;
         private readonly ValueMapper _valueMapper;
         private readonly ConstraintNetwork _constraintNetwork;
+        private readonly ArcBuilder _arcBuilder;
 
         internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, ValueMapper theValueMapper)
         {
@@ -30,6 +31,7 @@ namespace Workbench.Core.Repeaters
             _modelSolverMap = modelSolverMap;
             _model = theModel;
             _valueMapper = theValueMapper;
+            _arcBuilder = new ArcBuilder(_modelSolverMap);
         }
 
         internal void Process(OrangeConstraintRepeaterContext context)
@@ -50,15 +52,15 @@ namespace Workbench.Core.Repeaters
 
         internal OrangeConstraintRepeaterContext CreateContextFrom(ExpressionConstraintModel constraint)
         {
-            return new OrangeConstraintRepeaterContext(constraint, _model);
+            return new OrangeConstraintRepeaterContext(constraint);
         }
 
         private void ProcessConstraint(ConstraintExpressionNode constraintExpressionNode)
         {
             Contract.Requires<ArgumentNullException>(constraintExpressionNode != null);
 
-            var newArc = new ArcBuilder(_modelSolverMap).Build(constraintExpressionNode);
-            _constraintNetwork.AddArc(newArc);
+            var newArcs = _arcBuilder.Build(constraintExpressionNode);
+            _constraintNetwork.AddArc(newArcs);
         }
 
         private string StripExpanderFrom(string expressionText)

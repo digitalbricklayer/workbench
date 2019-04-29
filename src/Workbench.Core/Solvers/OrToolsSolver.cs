@@ -26,7 +26,7 @@ namespace Workbench.Core.Solvers
             if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
 
             // A model with zero variables crashes the or-tools solver...
-            if (theModel.IsEmpty) return new SolveResult(SolveStatus.Success, new SolutionSnapshot());
+            if (theModel.IsEmpty) return new SolveResult(SolveStatus.Success, new SolutionSnapshot(), TimeSpan.Zero);
 
             this.solver = new Solver(theModel.Name.Text);
 
@@ -41,10 +41,10 @@ namespace Workbench.Core.Solvers
             var solveResult = this.solver.Solve(decisionBuilder, collector);
             if (!solveResult) return SolveResult.Failed;
 
-            var snapshotExtractor = new SnapshotExtractor(this.orToolsCache, this.valueMapper);
+            var snapshotExtractor = new OrSnapshotExtractor(this.orToolsCache, this.valueMapper);
             var solutionSnapshot = snapshotExtractor.ExtractValuesFrom(collector);
-            solutionSnapshot.Duration = TimeSpan.FromMilliseconds(this.solver.WallTime());
-            return new SolveResult(SolveStatus.Success, solutionSnapshot);
+
+            return new SolveResult(SolveStatus.Success, solutionSnapshot, TimeSpan.FromMilliseconds(this.solver.WallTime()));
         }
 
         /// <summary>

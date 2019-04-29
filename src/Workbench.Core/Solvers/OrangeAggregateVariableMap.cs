@@ -8,15 +8,15 @@ namespace Workbench.Core.Solvers
     internal sealed class OrangeAggregateVariableMap
     {
         internal AggregateVariableModel ModelVariable { get;  }
-        internal AggregateIntegerVariable SolverVariable { get; }
+        internal AggregateSolverVariable SolverVariable { get; }
 
-        internal OrangeAggregateVariableMap(AggregateVariableModel modelVariable, AggregateIntegerVariable solverVariable)
+        internal OrangeAggregateVariableMap(AggregateVariableModel modelVariable, AggregateSolverVariable solverVariable)
         {
             ModelVariable = modelVariable;
             SolverVariable = solverVariable;
         }
 
-        internal IntegerVariable GetAt(int index)
+        internal SolverVariable GetAt(int index)
         {
             return SolverVariable.GetAt(index);
         }

@@ -29,7 +29,7 @@
                         <TextBlock>&gt;</TextBlock>
                     </WrapPanel>
                 </DataTemplate>
-                <DataTemplate x:Key="compoundLabel" DataType="{x:Type models:CompoundLabelModel}">
+                <DataTemplate x:Key="compoundLabel" DataType="{x:Type models:AggregateLabelModel}">
                     <WrapPanel>
                         <TextBlock>&lt;</TextBlock>
                         <TextBlock Text="{Binding VariableName}" FontWeight="Bold"/>

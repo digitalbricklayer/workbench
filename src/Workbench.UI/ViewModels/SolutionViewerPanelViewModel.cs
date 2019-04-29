@@ -9,14 +9,14 @@ namespace Workbench.ViewModels
     public sealed class SolutionViewerPanelViewModel : Screen
     {
         private IObservableCollection<SingletonLabelModel> _singletonLabels;
-        private IObservableCollection<CompoundLabelModel> _compoundLabels;
+        private IObservableCollection<AggregateLabelModel> _compoundLabels;
         private IObservableCollection<LabelModel> _labels;
 
         public SolutionViewerPanelViewModel()
         {
             DisplayName = "Solution";
             _singletonLabels = new BindableCollection<SingletonLabelModel>();
-            _compoundLabels = new BindableCollection<CompoundLabelModel>();
+            _compoundLabels = new BindableCollection<AggregateLabelModel>();
             _labels = new BindableCollection<LabelModel>();
         }
 
@@ -37,7 +37,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the compound labels in the solution.
         /// </summary>
-        public IObservableCollection<CompoundLabelModel> CompoundLabels
+        public IObservableCollection<AggregateLabelModel> CompoundLabels
         {
             get { return _compoundLabels; }
             set
@@ -68,7 +68,7 @@ namespace Workbench.ViewModels
             allLabels.AddRange(theSolution.Snapshot.AggregateLabels);
             Labels = new BindableCollection<LabelModel>(allLabels);
             SingletonLabels = new BindableCollection<SingletonLabelModel>(theSolution.Snapshot.SingletonLabels);
-            CompoundLabels = new BindableCollection<CompoundLabelModel>(theSolution.Snapshot.AggregateLabels);
+            CompoundLabels = new BindableCollection<AggregateLabelModel>(theSolution.Snapshot.AggregateLabels);
         }
     }
 }

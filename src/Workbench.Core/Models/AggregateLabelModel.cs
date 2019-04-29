@@ -11,7 +11,7 @@ namespace Workbench.Core.Models
     /// A compound label matches the values bound to an aggregate variable with the variable itself.
     /// </summary>
     [Serializable]
-    public class CompoundLabelModel : LabelModel
+    public class AggregateLabelModel : LabelModel
     {
         private readonly List<ValueModel> values;
 
@@ -20,7 +20,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theAggregateVariable">Variable model.</param>
         /// <param name="theValues">Values to bind to the model.</param>
-        public CompoundLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
+        public AggregateLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
             : base(theAggregateVariable)
         {
             Contract.Requires<ArgumentNullException>(theAggregateVariable != null);

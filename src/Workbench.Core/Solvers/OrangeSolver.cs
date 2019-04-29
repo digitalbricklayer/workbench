@@ -14,14 +14,18 @@ namespace Workbench.Core.Solvers
     public class OrangeSolver : ISolvable
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly OrangeModelSolverMap _modelSolverMap = new OrangeModelSolverMap();
         private readonly PossibleValueExtractor _domainExtractor;
+        private readonly OrangeSnapshotExtractor _snapshotExtractor;
+        private readonly OrangeModelSolverMap _modelSolverMap;
+        private readonly ValueMapper _valueMapper = new ValueMapper();
 
         /// <summary>
         /// Initialize an orange solver with default values.
         /// </summary>
         public OrangeSolver()
         {
+            _modelSolverMap = new OrangeModelSolverMap();
+            _snapshotExtractor = new OrangeSnapshotExtractor(_modelSolverMap, _valueMapper);
             _domainExtractor = new PossibleValueExtractor(_modelSolverMap);
         }
 
@@ -38,7 +42,7 @@ namespace Workbench.Core.Solvers
 
             if (!modelValidator.Validate()) return SolveResult.InvalidModel;
 
-            var constraintNetworkBuilder = new ConstraintNetworkBuilder(_modelSolverMap);
+            var constraintNetworkBuilder = new ConstraintNetworkBuilder(_modelSolverMap, _valueMapper);
 
             // Create constraint network
             var constraintNetwork = constraintNetworkBuilder.Build(theModel);
@@ -71,23 +75,28 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.ToArray())
             {
-                if (!arc.Connector.Constraint.Node.InnerExpression.LeftExpression.IsLiteral)
+                // Arcs with ternary or unary expressions are pre-computed with one
+                // or more solution sets produced for the variables involved in the expression.
+                if (arc.IsPreComputed) continue;
+                var connector = arc.Connector as ConstraintExpressionConnector;
+                var constraint = connector.Constraint;
+                if (!constraint.Node.InnerExpression.LeftExpression.IsLiteral)
                 {
                     // Revise the left variable domain
-                    domainChanged |= ReviseLeft(arc.Left, arc.Right, arc.Connector.Constraint);
+                    domainChanged |= ReviseLeft(arc.Left as VariableNode, arc.Right as VariableNode, constraint);
                 }
 
-                if (!arc.Connector.Constraint.Node.InnerExpression.RightExpression.IsLiteral)
+                if (!constraint.Node.InnerExpression.RightExpression.IsLiteral)
                 {
                     // Revise the right variable domain
-                    domainChanged |= ReviseRight(arc.Left, arc.Right, arc.Connector.Constraint);
+                    domainChanged |= ReviseRight(arc.Left as VariableNode, arc.Right as VariableNode, constraint);
                 }
             }
 
             return domainChanged;
         }
 
-        private bool ReviseLeft(Node leftNode, Node rightNode, ConstraintExpression expression)
+        private bool ReviseLeft(VariableNode leftNode, VariableNode rightNode, BinaryConstraintExpression expression)
         {
             var leftDomainRange = leftNode.Variable.Domain;
             IReadOnlyCollection<int> rightPossibleValues;
@@ -117,7 +126,7 @@ namespace Workbench.Core.Solvers
             return valuesToRemove.Any();
         }
 
-        private bool ReviseRight(Node leftNode, Node rightNode, ConstraintExpression expression)
+        private bool ReviseRight(VariableNode leftNode, VariableNode rightNode, BinaryConstraintExpression expression)
         {
             var leftDomainRange = leftNode.Variable.Domain;
             var rightDomainRange = rightNode.Variable.Domain;
@@ -140,51 +149,7 @@ namespace Workbench.Core.Solvers
 
         private SolveResult CreateSolveResult(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
 		{
-            return new SolveResult(SolveStatus.Success, CreateSnapshotFrom(constraintNetwork, elapsedTime));
+            return new SolveResult(SolveStatus.Success, _snapshotExtractor.CreateSnapshotFrom(constraintNetwork), elapsedTime);
 		}
-
-        private SolutionSnapshot CreateSnapshotFrom(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
-        {
-            return new SolutionSnapshot(ExtractSingletonLabelsFrom(constraintNetwork),
-                                        ExtractAggregateLabelsFrom(constraintNetwork),
-                                        elapsedTime);
-        }
-
-        private IEnumerable<SingletonLabelModel> ExtractSingletonLabelsFrom(ConstraintNetwork constraintNetwork)
-        {
-            var labelAccumulator = new List<SingletonLabelModel>();
-            var allVariables = constraintNetwork.GetSingletonVariables();
-
-            foreach (var variable in allVariables)
-            {
-                var variableModel = _modelSolverMap.GetModelSingletonVariableByName(variable.Name);
-                var label = new SingletonLabelModel(variableModel, new ValueModel(variable.Domain.PossibleValues.First()));
-                labelAccumulator.Add(label);
-            }
-
-            return labelAccumulator;
-        }
-
-        private IEnumerable<CompoundLabelModel> ExtractAggregateLabelsFrom(ConstraintNetwork constraintNetwork)
-        {
-            var compoundLabelAccumulator = new List<CompoundLabelModel>();
-            var allAggregateVariables = constraintNetwork.GetAggregateVariables();
-
-            foreach (var aggregateVariable in allAggregateVariables)
-            {
-                var internalAccumulator = new List<ValueModel>();
-                var solverVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariable.Name);
-                var modelVariable = _modelSolverMap.GetModelAggregateVariableByName(aggregateVariable.Name);
-                foreach (var variable in solverVariable.Variables)
-                {
-                    internalAccumulator.Add(new ValueModel(variable.Domain.PossibleValues.First()));
-                }
-
-                var label = new CompoundLabelModel(modelVariable, internalAccumulator);
-                compoundLabelAccumulator.Add(label);
-            }
-
-            return compoundLabelAccumulator;
-        }
     }
 }

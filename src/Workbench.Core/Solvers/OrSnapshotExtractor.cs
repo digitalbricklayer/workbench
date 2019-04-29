@@ -9,7 +9,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Extract the snapshot from the or-tools solution.
     /// </summary>
-    internal class SnapshotExtractor
+    internal class OrSnapshotExtractor
     {
         private readonly OrToolsCache orToolsCache;
         private readonly ValueMapper valueMapper;
@@ -20,7 +20,7 @@ namespace Workbench.Core.Solvers
         /// </summary>
         /// <param name="theOrToolsCache">or-tools cache.</param>
         /// <param name="theValueMapper">Value mapper between domain and solver values.</param>
-        internal SnapshotExtractor(OrToolsCache theOrToolsCache, ValueMapper theValueMapper)
+        internal OrSnapshotExtractor(OrToolsCache theOrToolsCache, ValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theOrToolsCache != null);
             Contract.Requires<ArgumentNullException>(theValueMapper != null);
@@ -58,7 +58,7 @@ namespace Workbench.Core.Solvers
                     var modelValue = ConvertSolverValueToModel(aggregateTuple.Value.Item1, solverValue);
                     newValueBindings.Add(new ValueModel(modelValue));
                 }
-                var newCompoundLabel = new CompoundLabelModel(aggregateTuple.Value.Item1, newValueBindings);
+                var newCompoundLabel = new AggregateLabelModel(aggregateTuple.Value.Item1, newValueBindings);
                 this.snapshot.AddAggregateLabel(newCompoundLabel);
             }
         }

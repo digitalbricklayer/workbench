@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -17,20 +19,63 @@ namespace Workbench.Core.Solvers
         }
 
         /// <summary>
-        /// Build an arc from an expression constraint.
+        /// Build one or more arcs as necessary to represent the expression constraint.
         /// </summary>
         /// <param name="expressionConstraintNode">Expression constraint node.</param>
-        /// <returns>Arc</returns>
-        internal Arc Build(ConstraintExpressionNode expressionConstraintNode)
+        /// <returns>One or more arcs</returns>
+        internal IReadOnlyCollection<Arc> Build(ConstraintExpressionNode expressionConstraintNode)
+        {
+            switch (expressionConstraintNode.InnerExpression.Operator)
+            {
+                // Ternary operators
+                case OperatorType.Equals:
+                case OperatorType.NotEqual:
+                    return BuildTernaryExpression(expressionConstraintNode);
+
+                // Binary operators
+                default:
+                    return BuildBinaryExpression(expressionConstraintNode);
+            }
+        }
+
+        /// <summary>
+        /// Build one or more arcs from the ternary constraint expression.
+        /// </summary>
+        /// <remarks>
+        /// There will be more than one arc because binarization of the expression requires introducing an
+        /// encapsulated variable between the two variables involved in the expression.
+        /// </remarks>
+        /// <param name="expressionConstraintNode">Expression constraint abstract syntax tree.</param>
+        /// <returns>One or more arcs.</returns>
+        private IReadOnlyCollection<Arc> BuildTernaryExpression(ConstraintExpressionNode expressionConstraintNode)
+        {
+            var arcAccumulator = new List<Arc>();
+            var left = CreateNodeFrom(expressionConstraintNode.InnerExpression.LeftExpression);
+            var right = CreateNodeFrom(expressionConstraintNode.InnerExpression.RightExpression);
+            var encapsulatedVariable = new EncapsulatedVariable("U");
+            var encapsulatedVariableNode = new EncapsulatedVariableNode(encapsulatedVariable);
+            var arc1 = new Arc(left, encapsulatedVariableNode, new EncapsulatedVariableConnector(left, encapsulatedVariableNode, new EncapsulatedSelector(1)));
+            arcAccumulator.Add(arc1);
+            var arc2 = new Arc(right, encapsulatedVariableNode, new EncapsulatedVariableConnector(encapsulatedVariableNode, right, new EncapsulatedSelector(2)));
+            arcAccumulator.Add(arc2);
+            var ternaryConstraintExpression = new TernaryConstraintExpression(expressionConstraintNode, encapsulatedVariableNode, arc1, arc2);
+            var encapsulatedVariableDomainValue = ComputeEncapsulatedDomain(ternaryConstraintExpression);
+            var expressionSolution = new TernaryConstraintExpressionSolution(ternaryConstraintExpression, encapsulatedVariableDomainValue);
+            _modelSolverMap.AddTernaryExpressionSolution(expressionSolution);
+
+            return new ReadOnlyCollection<Arc>(arcAccumulator);
+        }
+
+        private IReadOnlyCollection<Arc> BuildBinaryExpression(ConstraintExpressionNode expressionConstraintNode)
         {
             var left = CreateNodeFrom(expressionConstraintNode.InnerExpression.LeftExpression);
             if (!expressionConstraintNode.InnerExpression.RightExpression.IsLiteral)
             {
                 var right = CreateNodeFrom(expressionConstraintNode.InnerExpression.RightExpression);
-                return new Arc(left, right, CreateConnectorFrom(left, right, CreateConstraintFrom(expressionConstraintNode)));
+                return new ReadOnlyCollection<Arc>(new[] {new Arc(left, right, CreateConnectorFrom(left, right, CreateConstraintFrom(expressionConstraintNode)))});
             }
 
-            return new Arc(left, left, CreateConnectorFrom(left, left, CreateConstraintFrom(expressionConstraintNode)));
+            return new ReadOnlyCollection<Arc>(new[] {new Arc(left, left, CreateConnectorFrom(left, left, CreateConstraintFrom(expressionConstraintNode)))});
         }
 
         private Node CreateNodeFrom(ExpressionNode expressionConstraintNode)
@@ -38,10 +83,10 @@ namespace Workbench.Core.Solvers
             var variable = ExtractVariableFrom(expressionConstraintNode);
             var existingNode = _modelSolverMap.GetNodeByName(variable.Name);
 
-            return existingNode ?? new Node(variable);
+            return existingNode ?? new VariableNode(variable);
         }
 
-        private IntegerVariable ExtractVariableFrom(ExpressionNode expressionConstraintNode)
+        private SolverVariable ExtractVariableFrom(ExpressionNode expressionConstraintNode)
         {
             switch (expressionConstraintNode.InnerExpression)
             {
@@ -64,14 +109,20 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        private ConstraintExpression CreateConstraintFrom(ConstraintExpressionNode binaryExpressionNode)
+        private BinaryConstraintExpression CreateConstraintFrom(ConstraintExpressionNode binaryExpressionNode)
         {
-            return new ConstraintExpression(binaryExpressionNode);
+            return new BinaryConstraintExpression(binaryExpressionNode);
         }
 
-        private NodeConnector CreateConnectorFrom(Node left, Node right, ConstraintExpression constraint)
+        private NodeConnector CreateConnectorFrom(Node left, Node right, BinaryConstraintExpression constraint)
         {
-            return new NodeConnector(left, right, constraint);
+            return new ConstraintExpressionConnector(left, right, constraint);
+        }
+
+        private static EncapsulatedVariableDomainValue ComputeEncapsulatedDomain(TernaryConstraintExpression ternaryConstraintExpression)
+        {
+            var encapsulatedVariableCalculator = new EncapsulatedVariablePermutationCalculator(ternaryConstraintExpression);
+            return encapsulatedVariableCalculator.Compute();
         }
     }
 }

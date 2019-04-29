@@ -1,28 +1,28 @@
 ﻿namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// A node in an arc.
+    /// A node containing a variable.
     /// </summary>
-    internal abstract class Node
+    internal sealed class VariableNode : Node
     {
-        /// <summary>
-        /// Initialize a node with content.
-        /// </summary>
-        /// <param name="content">Content of the node.</param>
-        internal Node(object content)
+        public VariableNode(SolverVariable variable)
+            : base(variable)
         {
-            Content = content;
+            Variable = variable;
         }
 
         /// <summary>
         /// Gets the variable.
         /// </summary>
-        internal object Content { get; }
+        internal SolverVariable Variable { get; }
 
         /// <summary>
         /// Is the node node consistent.
         /// </summary>
         /// <returns>True if the node is node consistent or False if the node is not node consistent.</returns>
-        internal abstract bool IsNodeConsistent();
+        internal override bool IsNodeConsistent()
+        {
+            return !Variable.Domain.IsEmpty;
+        }
     }
 }

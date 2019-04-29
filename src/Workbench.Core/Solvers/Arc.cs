@@ -41,6 +41,14 @@ namespace Workbench.Core.Solvers
         internal NodeConnector Connector { get; }
 
         /// <summary>
+        /// Gets whether the arc is pre-computed.
+        /// </summary>
+        /// <remarks>
+        /// An arc is pre-computed when it is a ternary or unary expression.
+        /// </remarks>
+        internal bool IsPreComputed => Connector is EncapsulatedVariableConnector;
+
+        /// <summary>
         /// Is the arc consistent.
         /// </summary>
         /// <returns>True if the arc is consistent, False if the arc is not.</returns>

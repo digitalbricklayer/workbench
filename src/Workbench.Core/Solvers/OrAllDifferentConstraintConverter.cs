@@ -8,7 +8,7 @@ namespace Workbench.Core.Solvers
     /// Convert the all different constraint model representation into a representation usable 
     /// by the or-tools solver.
     /// </summary>
-    internal class AllDifferentConstraintConverter
+    internal sealed class OrAllDifferentConstraintConverter
     {
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
@@ -20,7 +20,7 @@ namespace Workbench.Core.Solvers
         /// <param name="theSolver">Google or-tools solver instance.</param>
         /// <param name="theCache">Cache mapping between the model and Google or-tools solver.</param>
         /// <param name="theModel">Model.</param>
-        internal AllDifferentConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
+        internal OrAllDifferentConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);

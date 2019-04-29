@@ -115,6 +115,7 @@
     <Compile Include="Solvers\OrangeSolverWithComplexExpressionValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithLiteralValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithExpressionConstraintRepeaterShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithConstraintUsingEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithSimpleUnsolvableModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithAggregateVariableValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithSimpleValidModelShould.cs" />

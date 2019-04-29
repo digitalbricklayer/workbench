@@ -4,7 +4,7 @@ using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
-    internal class VariableBandEvaluator
+    internal static class VariableBandEvaluator
     {
         internal static DomainValue GetVariableBand(VariableModel theVariable)
         {

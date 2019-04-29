@@ -45,7 +45,7 @@ namespace Workbench.Core.Solvers
                         break;
 
                     case AllDifferentConstraintModel allDifferentConstraint:
-                        var allDifferentConstraintConverter = new AllDifferentConstraintConverter(this.solver, this.cache, theModel);
+                        var allDifferentConstraintConverter = new OrAllDifferentConstraintConverter(this.solver, this.cache, theModel);
                         allDifferentConstraintConverter.ProcessConstraint(allDifferentConstraint);
                         break;
 

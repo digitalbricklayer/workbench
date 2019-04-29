@@ -17,7 +17,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         /// <param name="theSnapshot">Solution snapshot.</param>
-        public SolutionModel(ModelModel theModel, SolutionSnapshot theSnapshot)
+        public SolutionModel(ModelModel theModel, SolutionSnapshot theSnapshot, TimeSpan duration)
         {
             Contract.Requires<ArgumentNullException>(theModel != null);
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
@@ -25,6 +25,7 @@ namespace Workbench.Core.Models
             Model = theModel;
             Snapshot = theSnapshot;
             Snapshot = new SolutionSnapshot();
+            Duration = duration;
         }
 
         /// <summary>
@@ -59,6 +60,11 @@ namespace Workbench.Core.Models
         public ModelModel Model { get; private set; }
 
         /// <summary>
+        /// Gets the time taken to solve the model.
+        /// </summary>
+        public TimeSpan Duration { get; }
+
+        /// <summary>
         /// Get the value matching the name.
         /// </summary>
         /// <param name="theVariableName">Text of the variable to find.</param>
@@ -74,7 +80,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariableName">Aggregate value.</param>
         /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
-        public CompoundLabelModel GetCompoundLabelByVariableName(string theVariableName)
+        public AggregateLabelModel GetCompoundLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             return Snapshot.GetCompoundLabelByVariableName(theVariableName);

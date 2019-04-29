@@ -12,20 +12,30 @@ namespace Workbench.Core.Solvers
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
         private ConstraintNetwork _constraintNetwork;
-        private readonly ValueMapper _valueMapper = new ValueMapper();
+        private readonly ValueMapper _valueMapper;
+        private readonly ArcBuilder _arcBuilder;
 
         /// <summary>
         /// Initialize a constraint network builder with a cache.
         /// </summary>
         /// <param name="modelSolverMap">Cache to track model elements to solver equivalents.</param>
-        internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap)
+        /// <param name="valueMapper">Solver to domain value mapper.</param>
+        internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap, ValueMapper valueMapper)
         {
             _modelSolverMap = modelSolverMap;
+            _arcBuilder = new ArcBuilder(_modelSolverMap);
+            _valueMapper = valueMapper;
         }
 
+        /// <summary>
+        /// Build a constraint network from the model.
+        /// </summary>
+        /// <param name="model">Constraint model.</param>
+        /// <returns>Constraint network.</returns>
         internal ConstraintNetwork Build(ModelModel model)
         {
-            CacheVariables(model);
+            MapVariables(model);
+            MapValues(model);
             _constraintNetwork = CreateConstraintNetwork();
             PopulateConstraintNetwork(model);
             CreateVariables(model);
@@ -64,11 +74,11 @@ namespace Workbench.Core.Solvers
             }
             else
             {
-                _constraintNetwork.AddArc(new ArcBuilder(_modelSolverMap).Build(constraint.Expression.Node));
+                _constraintNetwork.AddArc(_arcBuilder.Build(constraint.Expression.Node));
             }
         }
 
-        private void CacheVariables(ModelModel model)
+        private void MapVariables(ModelModel model)
         {
             foreach (var variable in model.Variables)
             {
@@ -84,6 +94,28 @@ namespace Workbench.Core.Solvers
                         var aggregateIntegerVariable = CreateIntegerVariableFrom(aggregateVariable);
                         _modelSolverMap.AddAggregate(aggregateVariable.Name,
                                                      new OrangeAggregateVariableMap(aggregateVariable, aggregateIntegerVariable));
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+        }
+
+        private void MapValues(ModelModel model)
+        {
+            foreach (var variable in model.Variables)
+            {
+                switch (variable)
+                {
+                    case SingletonVariableModel singletonVariable:
+                        var singletonVariableBand = VariableBandEvaluator.GetVariableBand(variable);
+                        _valueMapper.AddVariableDomainValue(singletonVariable, singletonVariableBand);
+                        break;
+
+                    case AggregateVariableModel aggregateVariable:
+                        var aggregateVariableBand = VariableBandEvaluator.GetVariableBand(aggregateVariable);
+                        _valueMapper.AddVariableDomainValue(aggregateVariable, aggregateVariableBand);
                         break;
 
                     default:
@@ -114,14 +146,14 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        private AggregateIntegerVariable CreateIntegerVariableFrom(AggregateVariableModel aggregateVariable)
+        private AggregateSolverVariable CreateIntegerVariableFrom(AggregateVariableModel aggregateVariable)
         {
-            return new AggregateIntegerVariable(aggregateVariable.Name, aggregateVariable.AggregateCount, CreateRangeFrom(aggregateVariable));
+            return new AggregateSolverVariable(aggregateVariable.Name, aggregateVariable.AggregateCount, CreateRangeFrom(aggregateVariable));
         }
 
-        private IntegerVariable CreateIntegerVariableFrom(SingletonVariableModel singletonVariable)
+        private SolverVariable CreateIntegerVariableFrom(SingletonVariableModel singletonVariable)
         {
-            return new IntegerVariable(singletonVariable.Name, CreateRangeFrom(singletonVariable));
+            return new SolverVariable(singletonVariable.Name, CreateRangeFrom(singletonVariable));
         }
 
         private DomainRange CreateRangeFrom(VariableModel variable)

@@ -9,14 +9,14 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Aggregate Integer variable used internally by the solver.
     /// </summary>
-    internal sealed class AggregateIntegerVariable : IntegerVariable
+    internal sealed class AggregateSolverVariable : SolverVariable
     {
-        private readonly IntegerVariable[] _variables;
+        private readonly SolverVariable[] _variables;
 
         /// <summary>
         /// Gets all of the internal variables.
         /// </summary>
-        internal IReadOnlyCollection<IntegerVariable> Variables => new ReadOnlyCollection<IntegerVariable>(_variables);
+        internal IReadOnlyCollection<SolverVariable> Variables => new ReadOnlyCollection<SolverVariable>(_variables);
 
         /// <summary>
         /// Initialize an aggregate integer variable with a name, size and domain.
@@ -24,7 +24,7 @@ namespace Workbench.Core.Solvers
         /// <param name="variableName">Variable name.</param>
         /// <param name="size">Size of the aggregate.</param>
         /// <param name="domain">Aggregate domain.</param>
-        internal AggregateIntegerVariable(string variableName, int size, DomainRange domain)
+        internal AggregateSolverVariable(string variableName, int size, DomainRange domain)
             : base(variableName, domain)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
@@ -38,21 +38,21 @@ namespace Workbench.Core.Solvers
         /// </summary>
         /// <param name="index">Index of the variable.</param>
         /// <returns>Integer variable.</returns>
-        internal IntegerVariable GetAt(int index)
+        internal SolverVariable GetAt(int index)
         {
             if (index < 0 || index >= _variables.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
             return _variables[index];
         }
 
-        private IntegerVariable[] CreateVariables(int size)
+        private SolverVariable[] CreateVariables(int size)
         {
-            var internalVariables = new List<IntegerVariable>();
+            var internalVariables = new List<SolverVariable>();
 
             // Populate the internal variables
             for (var i = 0; i < size; i++)
             {
-                internalVariables.Add(new IntegerVariable(GetVariableNameFor(i), CloneFrom(Domain)));
+                internalVariables.Add(new SolverVariable(GetVariableNameFor(i), CloneFrom(Domain)));
             }
 
             return internalVariables.ToArray();

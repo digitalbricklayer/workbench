@@ -19,7 +19,7 @@ namespace Workbench.Selectors
                 case SingletonLabelModel _:
                     return element.FindResource("singletonLabel") as DataTemplate;
 
-                case CompoundLabelModel _:
+                case AggregateLabelModel _:
                     return element.FindResource("compoundLabel") as DataTemplate;
 
                 default:

@@ -12,35 +12,31 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Gets the solution status.
         /// </summary>
-        public SolveStatus Status { get; private set; }
+        public SolveStatus Status { get; }
 
         /// <summary>
         /// Gets the time taken to solve the model.
         /// </summary>
-        public TimeSpan Duration
-        {
-            get
-            {
-                return this.Snapshot.Duration;
-            }
-        }
+        public TimeSpan Duration { get; }
 
         /// <summary>
         /// Gets the model solution.
         /// </summary>
-        public SolutionSnapshot Snapshot { get; private set; }
+        public SolutionSnapshot Snapshot { get; }
 
         /// <summary>
         /// Initialize the solution result with status and solution.
         /// </summary>
         /// <param name="theStatus">Solve status.</param>
         /// <param name="theSnapshot">A solution snapshot.</param>
-        public SolveResult(SolveStatus theStatus, SolutionSnapshot theSnapshot)
+        /// <param name="duration">Time taken to solve.</param>
+        public SolveResult(SolveStatus theStatus, SolutionSnapshot theSnapshot, TimeSpan duration)
         {
             Contract.Requires<ArgumentNullException>(theSnapshot != null);
 
             this.Status = theStatus;
             this.Snapshot = theSnapshot;
+            this.Duration = duration;
         }
 
         /// <summary>

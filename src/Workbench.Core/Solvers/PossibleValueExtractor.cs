@@ -59,7 +59,7 @@ namespace Workbench.Core.Solvers
         private DomainRange GetRangeFrom(AggregateVariableReferenceExpressionNode aggregateVariableReferenceExpressionNode)
         {
             var subscriptVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariableReferenceExpressionNode.VariableReference.VariableName,
-                aggregateVariableReferenceExpressionNode.VariableReference.SubscriptStatement.Subscript);
+                                                                                     aggregateVariableReferenceExpressionNode.VariableReference.SubscriptStatement.Subscript);
             return subscriptVariable.Domain;
         }
     }
