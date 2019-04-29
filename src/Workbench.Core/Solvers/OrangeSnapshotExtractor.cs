@@ -117,7 +117,7 @@ namespace Workbench.Core.Solvers
 
                 var rightArcConnector = ternaryConstraintExpressionSolution.Expression.RightArc.Connector as EncapsulatedVariableConnector;
                 Debug.Assert(rightArcConnector != null);
-                var rightArcVariableSelector = leftArcConnector.Selector;
+                var rightArcVariableSelector = rightArcConnector.Selector;
 
                 var rightArcLeftVariableNode = rightArcConnector.Left as VariableNode;
                 if (rightArcLeftVariableNode != null && rightArcLeftVariableNode.Variable.Name == solverVariable.Name)
