@@ -7,7 +7,7 @@ namespace Workbench.Core.Models
     /// A label matching a value bound to a singleton variable.
     /// </summary>
     [Serializable]
-    public class SingletonLabelModel : LabelModel
+    public class SingletonVariableLabelModel : LabelModel
     {
         private readonly ValueModel value;
 
@@ -16,7 +16,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theVariable">Variable model.</param>
         /// <param name="theValue">Value to bind to the model.</param>
-        public SingletonLabelModel(SingletonVariableModel theVariable, ValueModel theValue)
+        public SingletonVariableLabelModel(SingletonVariableModel theVariable, ValueModel theValue)
             : base(theVariable)
         {
             Contract.Requires<ArgumentNullException>(theVariable != null);
@@ -43,6 +43,11 @@ namespace Workbench.Core.Models
         public override string Text
         {
             get { return Value.ToString(); }
+        }
+
+        public override string ToString()
+        {
+            return $"<{VariableName},{Value}>";
         }
 
         /// <summary>

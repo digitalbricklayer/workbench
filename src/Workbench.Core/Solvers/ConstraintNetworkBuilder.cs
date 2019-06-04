@@ -36,16 +36,11 @@ namespace Workbench.Core.Solvers
         {
             MapVariables(model);
             MapValues(model);
-            _constraintNetwork = CreateConstraintNetwork();
+            _constraintNetwork = new ConstraintNetwork();
             PopulateConstraintNetwork(model);
             CreateVariables(model);
 
             return _constraintNetwork;
-        }
-
-        private ConstraintNetwork CreateConstraintNetwork()
-        {
-            return new ConstraintNetwork();
         }
 
         private void PopulateConstraintNetwork(ModelModel model)

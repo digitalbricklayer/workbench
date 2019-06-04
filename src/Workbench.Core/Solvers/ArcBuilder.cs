@@ -5,6 +5,9 @@ using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
 {
+    /// <summary>
+    /// Build one or more arcs from an expression constraint node.
+    /// </summary>
     internal sealed class ArcBuilder
     {
         private readonly OrangeModelSolverMap _modelSolverMap;

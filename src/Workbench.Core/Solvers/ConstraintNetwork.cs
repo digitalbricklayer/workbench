@@ -32,12 +32,12 @@ namespace Workbench.Core.Solvers
         }
 
         /// <summary>
-        /// Get all of the arcs in the constraint network.
+        /// Get all of arcs in the constraint network.
         /// </summary>
         /// <returns>Array of all of the arcs.</returns>
-        internal Arc[] ToArray()
+        internal IReadOnlyCollection<Arc> GetArcs()
         {
-            return _arcs.ToArray();
+            return _arcs.AsReadOnly();
         }
 
         internal void AddVariable(SolverVariable variable)
@@ -74,9 +74,29 @@ namespace Workbench.Core.Solvers
         /// Get all singleton variables inside the constraint network.
         /// </summary>
         /// <returns>All singleton variables in a read only collection.</returns>
-        internal IReadOnlyCollection<SolverVariable> GetSingletonVariables()
+        internal IReadOnlyCollection<object> GetSingletonVariables()
         {
-            return _singletonVariables.AsReadOnly();
+            var allVariablesIncEncapsulated = new List<object>();
+
+            foreach (var arc in _arcs)
+            {
+                if (arc.IsPreComputed)
+                {
+                    if (arc.Left.Content is EncapsulatedVariable leftEncapsulatedVariable)
+                    {
+                        allVariablesIncEncapsulated.Add(leftEncapsulatedVariable);
+                    }
+
+                    if (arc.Right.Content is EncapsulatedVariable rightEncapsulatedVariable)
+                    {
+                        allVariablesIncEncapsulated.Add(rightEncapsulatedVariable);
+                    }
+                }
+            }
+
+            allVariablesIncEncapsulated.AddRange(_singletonVariables);
+
+            return allVariablesIncEncapsulated;
         }
 
         /// <summary>

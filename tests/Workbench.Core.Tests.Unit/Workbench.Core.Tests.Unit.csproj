@@ -112,6 +112,7 @@
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintsUsingNotEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithConstraintUsingNotEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithComplexExpressionValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithLiteralValidModelShould.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Solvers\OrangeSolverWithConstraintUsingEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithSimpleUnsolvableModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithAggregateVariableValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithSimpleValidModelShould.cs" />
     <Compile Include="Solvers\OrToolsSolverWithMultiLevelRepeaterShould.cs" />
     <Compile Include="Solvers\OrToolsSolverWithSingleLevelRepeaterShould.cs" />

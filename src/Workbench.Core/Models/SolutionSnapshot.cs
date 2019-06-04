@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// One solution to the model.
+    /// Represents a single solution to the model.
     /// </summary>
     [Serializable]
     public sealed class SolutionSnapshot
     {
-        private readonly List<SingletonLabelModel> singletonLabels;
-        private readonly List<AggregateLabelModel> compoundLabels;
-        private readonly List<BucketLabelModel> bucketLabels;
+        private readonly List<SingletonVariableLabelModel> _singletonVariableLabels;
+        private readonly List<AggregateVariableLabelModel> _aggregateVariableLabels;
+        private readonly List<BucketLabelModel> _bucketLabels;
 
         /// <summary>
-        /// Initialize a solution snapshot with singleton labels, compound labels and the solution duration.
+        /// Initialize a solution snapshot with singleton labels and aggregate labels.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<SingletonLabelModel> theSingletonLabels, IEnumerable<AggregateLabelModel> theCompoundLabels)
+        public SolutionSnapshot(IEnumerable<SingletonVariableLabelModel> singletonVariableLabels, IEnumerable<AggregateVariableLabelModel> aggregateVariableLabel)
         {
-            this.singletonLabels = new List<SingletonLabelModel>(theSingletonLabels);
-            this.compoundLabels = new List<AggregateLabelModel>(theCompoundLabels);
-            this.bucketLabels = new List<BucketLabelModel>();
+            _singletonVariableLabels = new List<SingletonVariableLabelModel>(singletonVariableLabels);
+            _aggregateVariableLabels = new List<AggregateVariableLabelModel>(aggregateVariableLabel);
+            _bucketLabels = new List<BucketLabelModel>();
         }
 
         /// <summary>
@@ -31,58 +30,63 @@ namespace Workbench.Core.Models
         /// </summary>
         public SolutionSnapshot()
         {
-            this.singletonLabels = new List<SingletonLabelModel>();
-            this.compoundLabels = new List<AggregateLabelModel>();
-            this.bucketLabels = new List<BucketLabelModel>();
+            _singletonVariableLabels = new List<SingletonVariableLabelModel>();
+            _aggregateVariableLabels = new List<AggregateVariableLabelModel>();
+            _bucketLabels = new List<BucketLabelModel>();
         }
 
         /// <summary>
         /// Gets the singleton variable labels.
         /// </summary>
-        public IReadOnlyCollection<SingletonLabelModel> SingletonLabels
+        public IReadOnlyCollection<SingletonVariableLabelModel> SingletonLabels
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<SingletonLabelModel>>() != null);
-                return this.singletonLabels.ToList();
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<SingletonVariableLabelModel>>() != null);
+                return _singletonVariableLabels.ToList();
             }
         }
 
         /// <summary>
         /// Gets the aggregate variable labels.
         /// </summary>
-        public IReadOnlyCollection<AggregateLabelModel> AggregateLabels
+        public IReadOnlyCollection<AggregateVariableLabelModel> AggregateLabels
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<AggregateLabelModel>>() != null);
-                return this.compoundLabels.ToList();
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<AggregateVariableLabelModel>>() != null);
+                return _aggregateVariableLabels.ToList();
             }
         }
 
         /// <summary>
         /// Gets the bucket labels.
         /// </summary>
-        public IReadOnlyCollection<BucketLabelModel> BucketLabels => new ReadOnlyCollection<BucketLabelModel>(this.bucketLabels);
+        public IReadOnlyCollection<BucketLabelModel> BucketLabels => _bucketLabels.ToList();
+
+        /// <summary>
+        /// Gets an empty snapshot.
+        /// </summary>
+        public static SolutionSnapshot Empty => new SolutionSnapshot();
 
         /// <summary>
         /// Add a label to the snapshot.
         /// </summary>
-        /// <param name="newSingletonLabel">Singleton label.</param>
-        internal void AddSingletonLabel(SingletonLabelModel newSingletonLabel)
+        /// <param name="newSingletonVariableLabel">Singleton label.</param>
+        internal void AddSingletonLabel(SingletonVariableLabelModel newSingletonVariableLabel)
         {
-            Contract.Requires<ArgumentNullException>(newSingletonLabel != null);
-            this.singletonLabels.Add(newSingletonLabel);
+            Contract.Requires<ArgumentNullException>(newSingletonVariableLabel != null);
+            _singletonVariableLabels.Add(newSingletonVariableLabel);
         }
 
         /// <summary>
         /// Add a compound label to the snapshot.
         /// </summary>
-        /// <param name="newCompoundLabel">Aggregate label.</param>
-        internal void AddAggregateLabel(AggregateLabelModel newCompoundLabel)
+        /// <param name="newAggregateVariableLabel">Aggregate label.</param>
+        internal void AddAggregateLabel(AggregateVariableLabelModel newAggregateVariableLabel)
         {
-            Contract.Requires<ArgumentNullException>(newCompoundLabel != null);
-            this.compoundLabels.Add(newCompoundLabel);
+            Contract.Requires<ArgumentNullException>(newAggregateVariableLabel != null);
+            _aggregateVariableLabels.Add(newAggregateVariableLabel);
         }
 
         /// <summary>
@@ -92,7 +96,7 @@ namespace Workbench.Core.Models
         internal void AddBucketLabel(BucketLabelModel bucketLabel)
         {
             Contract.Requires<ArgumentNullException>(bucketLabel != null);
-            this.bucketLabels.Add(bucketLabel);
+            _bucketLabels.Add(bucketLabel);
         }
 
         /// <summary>
@@ -100,10 +104,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theAggregateVariableName">Aggregate variable name.</param>
         /// <returns>Compound label for the aggregate variable.</returns>
-        public AggregateLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
+        public AggregateVariableLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
-            return this.compoundLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));
+            return _aggregateVariableLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));
         }
 
         /// <summary>
@@ -111,10 +115,10 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="theSingletonVariableName">Singleton variable name.</param>
         /// <returns>Label for the singleton variable.</returns>
-        public SingletonLabelModel GetLabelByVariableName(string theSingletonVariableName)
+        public SingletonVariableLabelModel GetLabelByVariableName(string theSingletonVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
-            return this.singletonLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
+            return _singletonVariableLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
         }
 
         /// <summary>
@@ -124,7 +128,7 @@ namespace Workbench.Core.Models
         /// <returns>Label for the named bucket.</returns>
         public BucketLabelModel GetBucketLabelByName(string bucketName)
         {
-            return this.bucketLabels.FirstOrDefault(bucketLabel => bucketLabel.Bucket.Name == bucketName);
+            return _bucketLabels.FirstOrDefault(bucketLabel => bucketLabel.Bucket.Name == bucketName);
         }
     }
 }

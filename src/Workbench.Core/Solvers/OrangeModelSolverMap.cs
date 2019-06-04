@@ -149,5 +149,14 @@ namespace Workbench.Core.Solvers
                     throw new NotImplementedException();
             }
         }
+
+        /// <summary>
+        /// Get all ternary constraint expression solutions.
+        /// </summary>
+        /// <returns>All ternary constraint expression solutions.</returns>
+        internal IReadOnlyCollection<TernaryConstraintExpressionSolution> GetTernaryConstraintExpressionSolutions()
+        {
+            return _ternarySolutions.AsReadOnly();
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace Workbench.Core.Solvers
                     var modelValue = ConvertSolverValueToModel(aggregateTuple.Value.Item1, solverValue);
                     newValueBindings.Add(new ValueModel(modelValue));
                 }
-                var newCompoundLabel = new AggregateLabelModel(aggregateTuple.Value.Item1, newValueBindings);
+                var newCompoundLabel = new AggregateVariableLabelModel(aggregateTuple.Value.Item1, newValueBindings);
                 this.snapshot.AddAggregateLabel(newCompoundLabel);
             }
         }
@@ -69,7 +69,7 @@ namespace Workbench.Core.Solvers
             {
                 var solverValue = theSolutionCollector.Value(0, variableTuple.Value.Item2);
                 var modelValue = ConvertSolverValueToModel(variableTuple.Value.Item1, solverValue);
-                var newValue = new SingletonLabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
+                var newValue = new SingletonVariableLabelModel(variableTuple.Value.Item1, new ValueModel(modelValue));
                 this.snapshot.AddSingletonLabel(newValue);
             }
         }
@@ -87,12 +87,12 @@ namespace Workbench.Core.Solvers
             var bundleLabels = new List<BundleLabelModel>();
             foreach (var bundleMap in bucketVariableMap.GetBundleMaps())
             {
-                var variableLabels = new List<SingletonLabelModel>();
+                var variableLabels = new List<SingletonVariableLabelModel>();
                 foreach (var variableMap in bundleMap.GetVariableMaps())
                 {
                     var solverValue = solutionCollector.Value(0, variableMap.SolverVariable);
                     var modelValue = ConvertSolverValueToModel(bucketVariableMap.Bucket, solverValue);
-                    variableLabels.Add(new SingletonLabelModel(variableMap.ModelVariable, new ValueModel(modelValue)));
+                    variableLabels.Add(new SingletonVariableLabelModel(variableMap.ModelVariable, new ValueModel(modelValue)));
                 }
                 bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Bundle, variableLabels));
             }

@@ -192,7 +192,7 @@
     <Compile Include="Models\AllDifferentConstraintExpressionModel.cs" />
     <Compile Include="Models\AllDifferentConstraintModel.cs" />
     <Compile Include="Models\CallArgument.cs" />
-    <Compile Include="Models\AggregateLabelModel.cs" />
+    <Compile Include="Models\AggregateVariableLabelModel.cs" />
     <Compile Include="Models\ConstraintModel.cs" />
     <Compile Include="Models\InlineDomainModel.cs" />
     <Compile Include="Models\SharedDomainModel.cs" />
@@ -278,7 +278,7 @@
     <Compile Include="Models\ChessboardSquareModel.cs" />
     <Compile Include="Models\PieceType.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\SingletonLabelModel.cs" />
+    <Compile Include="Models\SingletonVariableLabelModel.cs" />
     <Compile Include="Models\ConstraintExpressionModel.cs" />
     <Compile Include="Models\DisplayModel.cs" />
     <Compile Include="Models\SharedDomainExpressionModel.cs" />
@@ -332,6 +332,7 @@
     <Compile Include="Solvers\EncapsulatedVariable.cs" />
     <Compile Include="Solvers\EncapsulatedVariableNode.cs" />
     <Compile Include="Solvers\ExpressionEvaluator.cs" />
+    <Compile Include="Solvers\LabelAssignment.cs" />
     <Compile Include="Solvers\Node.cs" />
     <Compile Include="Solvers\NodeConnector.cs" />
     <Compile Include="Solvers\OrangeAggregateVariableMap.cs" />
@@ -351,11 +352,11 @@
     <Compile Include="Solvers\ConstraintNetwork.cs" />
     <Compile Include="Solvers\ConstraintNetworkBuilder.cs" />
     <Compile Include="Solvers\DomainRange.cs" />
+    <Compile Include="Solvers\SnapshotLabelAssignment.cs" />
     <Compile Include="Solvers\SolverVariable.cs" />
-    <Compile Include="Solvers\IntegerVariableComparer.cs" />
+    <Compile Include="Solvers\SolverVariableComparer.cs" />
     <Compile Include="Solvers\ISolvable.cs" />
     <Compile Include="Solvers\OrSingletonVariableMap.cs" />
-    <Compile Include="Solvers\PossibleValueExtractor.cs" />
     <Compile Include="Solvers\TableDomainValue.cs" />
     <Compile Include="Solvers\Range.cs" />
     <Compile Include="Solvers\DomainExpressionEvaluator.cs" />
@@ -376,6 +377,7 @@
     <Compile Include="Solvers\TernaryConstraintExpressionSolution.cs" />
     <Compile Include="Solvers\ValueEvaluator.cs" />
     <Compile Include="Solvers\ValueMapper.cs" />
+    <Compile Include="Solvers\ValueSet.cs" />
     <Compile Include="Solvers\VariableBandEvaluator.cs" />
     <Compile Include="Solvers\VariableConverter.cs" />
     <Compile Include="Solvers\VariableDomainExpressionEvaluator.cs" />

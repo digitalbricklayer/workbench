@@ -11,10 +11,9 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Implementation of the orange solver.
     /// </summary>
-    public class OrangeSolver : ISolvable
+    public sealed class OrangeSolver : ISolvable
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly PossibleValueExtractor _domainExtractor;
         private readonly OrangeSnapshotExtractor _snapshotExtractor;
         private readonly OrangeModelSolverMap _modelSolverMap;
         private readonly ValueMapper _valueMapper = new ValueMapper();
@@ -26,7 +25,6 @@ namespace Workbench.Core.Solvers
         {
             _modelSolverMap = new OrangeModelSolverMap();
             _snapshotExtractor = new OrangeSnapshotExtractor(_modelSolverMap, _valueMapper);
-            _domainExtractor = new PossibleValueExtractor(_modelSolverMap);
         }
 
         /// <summary>
@@ -47,10 +45,10 @@ namespace Workbench.Core.Solvers
             // Create constraint network
             var constraintNetwork = constraintNetworkBuilder.Build(theModel);
 
-            bool domainChanged;
-
             // Time how long it takes to get a solution
             _stopwatch.Start();
+
+            bool domainChanged;
 
             // Keep revising the constraint network until no domains are altered
             do
@@ -60,24 +58,29 @@ namespace Workbench.Core.Solvers
 
             _stopwatch.Stop();
 
+            RemoveTernaryValuesInconsistentWithBinaryConstraints(constraintNetwork);
+
 			if (!constraintNetwork.IsArcConsistent())
 			{
 				return SolveResult.Failed;
 			}
 			
-            // Bind the variables to labels
-			return CreateSolveResult(constraintNetwork, _stopwatch.Elapsed);
+            // Bind the results to variables labels
+            var snapshotStatus = _snapshotExtractor.ExtractFrom(constraintNetwork, out var solutionSnapshot);
+
+            return snapshotStatus ? new SolveResult(SolveStatus.Success, solutionSnapshot, _stopwatch.Elapsed) : SolveResult.Failed;
         }
 
         private bool ReviseArcs(ConstraintNetwork constraintNetwork)
         {
             var domainChanged = false;
 
-            foreach (var arc in constraintNetwork.ToArray())
+            foreach (var arc in constraintNetwork.GetArcs())
             {
                 // Arcs with ternary or unary expressions are pre-computed with one
                 // or more solution sets produced for the variables involved in the expression.
                 if (arc.IsPreComputed) continue;
+
                 var connector = arc.Connector as ConstraintExpressionConnector;
                 var constraint = connector.Constraint;
                 if (!constraint.Node.InnerExpression.LeftExpression.IsLiteral)
@@ -109,6 +112,7 @@ namespace Workbench.Core.Solvers
                 var rightLiteral = expression.Node.InnerExpression.RightExpression.GetLiteral();
                 rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { rightLiteral });
             }
+
             var valueEvaluator = new LeftValueEvaluator(rightPossibleValues, expression);
             var valuesToRemove = new List<int>();
             foreach (var possibleValue in leftDomainRange.PossibleValues)
@@ -147,9 +151,55 @@ namespace Workbench.Core.Solvers
             return valuesToRemove.Any();
         }
 
-        private SolveResult CreateSolveResult(ConstraintNetwork constraintNetwork, TimeSpan elapsedTime)
-		{
-            return new SolveResult(SolveStatus.Success, _snapshotExtractor.CreateSnapshotFrom(constraintNetwork), elapsedTime);
-		}
+        /// <summary>
+        /// Remove values found during the ternary pre-calculation phase that are now
+        /// inconsistent with values discovered during the regular revising of
+        /// domains of the binary constraints.
+        /// </summary>
+        /// <param name="constraintNetwork">Constraint network.</param>
+        private void RemoveTernaryValuesInconsistentWithBinaryConstraints(ConstraintNetwork constraintNetwork)
+        {
+            var constraintExpressionSolutions = _modelSolverMap.GetTernaryConstraintExpressionSolutions();
+
+            foreach (var constraintExpressionSolution in constraintExpressionSolutions)
+            {
+                var leftVariable = constraintExpressionSolution.Expression.LeftArc.Left.Content as SolverVariable;
+                Debug.Assert(leftVariable != null);
+                var leftVariableDomain = leftVariable.Domain;
+                var leftVariableIndex = 1;      // Left variable is always in first index
+
+                RemoveTernaryValuesInconsistentWithBinaryConstraint(constraintExpressionSolution, leftVariableIndex, leftVariableDomain);
+
+                var rightVariable = constraintExpressionSolution.Expression.RightArc.Left.Content as SolverVariable;
+                Debug.Assert(rightVariable != null);
+                var rightVariableDomain = rightVariable.Domain;
+                var rightVariableIndex = 2;      // Right variable is always in second index
+
+                RemoveTernaryValuesInconsistentWithBinaryConstraint(constraintExpressionSolution, rightVariableIndex, rightVariableDomain);
+            }
+        }
+
+        private static void RemoveTernaryValuesInconsistentWithBinaryConstraint(TernaryConstraintExpressionSolution constraintExpressionSolution,
+                                                                                int variableIndex,
+                                                                                DomainRange variableDomain)
+        {
+            var valueSetsToRemove = new List<ValueSet>();
+
+            foreach (var valueSet in constraintExpressionSolution.DomainValue.GetSets())
+            {
+                // Make sure the set does not violate the domain values
+                var variableValue = valueSet.GetAt(variableIndex - 1);
+
+                if (variableDomain.PossibleValues.All(value => value != variableValue))
+                {
+                    valueSetsToRemove.Add(valueSet);
+                }
+            }
+
+            if (valueSetsToRemove.Any())
+            {
+                constraintExpressionSolution.DomainValue.RemoveSets(valueSetsToRemove);
+            }
+        }
     }
 }

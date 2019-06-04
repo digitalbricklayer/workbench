@@ -7,12 +7,13 @@ namespace Workbench.Core.Tests.Unit.Solvers
     /// <summary>
     /// Example model taken from Constraint Processing by Rina Dechter pg 52 para 2.
     /// </summary>
-    /// <remarks>This model is likely to be beyond the first iteration of the solver
+    /// <remarks>
+    /// This model is likely to be beyond the first iteration of the solver
     /// due to the ternary constraints and the fact that I don't know how to handle those
     /// yet. Binarization as explained here http://ktiml.mff.cuni.cz/~bartak/constraints/binary.html 
-    /// This may be a possible answer.</remarks>
+    /// This may be a possible answer.
+    /// </remarks>
     [TestFixture]
-    [Ignore("Solver can't handle the equal and not equal constraint expressions yet")]
     public class OrangeSolverWithSimpleUnsolvableModelShould
     {
         [Test]
@@ -26,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         private ModelModel CreateModel()
         {
             var a = new WorkspaceBuilder("Simple model with ternary operators that cannot be solved")
-                            .WithSharedDomain("D", "\"red\", \"blue\"")
+                            .WithSharedDomain("D", "\"red\", \"blue\", \"green\", \"purple\"")
                             .AddSingleton("x", "$D")
                             .AddSingleton("y", "$D")
                             .AddSingleton("z", "$D")

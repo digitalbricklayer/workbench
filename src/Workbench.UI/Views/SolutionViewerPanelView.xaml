@@ -20,7 +20,7 @@
                  SelectionMode="Single"
                  ItemTemplateSelector="{StaticResource labelDataTemplateSelector}">
             <ListBox.Resources>
-                <DataTemplate x:Key="singletonLabel" DataType="{x:Type models:SingletonLabelModel}">
+                <DataTemplate x:Key="singletonLabel" DataType="{x:Type models:SingletonVariableLabelModel}">
                     <WrapPanel>
                         <TextBlock>&lt;</TextBlock>
                         <TextBlock Text="{Binding VariableName}" FontWeight="Bold"/>
@@ -29,7 +29,7 @@
                         <TextBlock>&gt;</TextBlock>
                     </WrapPanel>
                 </DataTemplate>
-                <DataTemplate x:Key="compoundLabel" DataType="{x:Type models:AggregateLabelModel}">
+                <DataTemplate x:Key="compoundLabel" DataType="{x:Type models:AggregateVariableLabelModel}">
                     <WrapPanel>
                         <TextBlock>&lt;</TextBlock>
                         <TextBlock Text="{Binding VariableName}" FontWeight="Bold"/>

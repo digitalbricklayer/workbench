@@ -16,10 +16,10 @@ namespace Workbench.Selectors
 
             switch (item)
             {
-                case SingletonLabelModel _:
+                case SingletonVariableLabelModel _:
                     return element.FindResource("singletonLabel") as DataTemplate;
 
-                case AggregateLabelModel _:
+                case AggregateVariableLabelModel _:
                     return element.FindResource("compoundLabel") as DataTemplate;
 
                 default:

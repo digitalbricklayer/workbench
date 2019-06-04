@@ -6,7 +6,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Compares integer variables using the name as the referential attribute.
     /// </summary>
-    internal class IntegerVariableComparer : IEqualityComparer<SolverVariable>
+    internal class SolverVariableComparer : IEqualityComparer<SolverVariable>
     {
         public bool Equals(SolverVariable x, SolverVariable y)
         {

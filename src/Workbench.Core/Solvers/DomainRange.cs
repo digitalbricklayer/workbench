@@ -14,7 +14,7 @@ namespace Workbench.Core.Solvers
         /// Initialize a domain range with all possible values.
         /// </summary>
         /// <param name="allPossibleValues">All values a variable can be bound to.</param>
-        internal DomainRange(int[] allPossibleValues)
+        internal DomainRange(IEnumerable<int> allPossibleValues)
         {
             _possibleValues = new List<int>(allPossibleValues);
         }

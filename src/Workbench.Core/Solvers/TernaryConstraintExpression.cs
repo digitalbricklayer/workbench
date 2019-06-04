@@ -27,7 +27,7 @@ namespace Workbench.Core.Solvers
 
         internal IEnumerable<int> GetLeftSource()
         {
-            // The encapsulated variable sits on the right side of the left arc
+            // The encapsulated variable sits on the left side of the left arc
             switch (LeftArc.Connector.Left.Content)
             {
                 case SolverVariable integerVariable:
@@ -40,7 +40,7 @@ namespace Workbench.Core.Solvers
 
         internal IEnumerable<int> GetRightSource()
         {
-            // The encapsulated variable sits on the left side of the right arc
+            // The encapsulated variable sits on the right side of the right arc
             switch (RightArc.Connector.Right.Content)
             {
                 case SolverVariable integerVariable:

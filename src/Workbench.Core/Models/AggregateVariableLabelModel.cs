@@ -8,19 +8,19 @@ using System.Text;
 namespace Workbench.Core.Models
 {
     /// <summary>
-    /// A compound label matches the values bound to an aggregate variable with the variable itself.
+    /// An aggregate variable label matches the values bound to an aggregate variable with the variable itself.
     /// </summary>
     [Serializable]
-    public class AggregateLabelModel : LabelModel
+    public class AggregateVariableLabelModel : LabelModel
     {
         private readonly List<ValueModel> values;
 
         /// <summary>
-        /// Initialize a compound label with the variable and values.
+        /// Initialize an aggregate label with the variable and values.
         /// </summary>
         /// <param name="theAggregateVariable">Variable model.</param>
         /// <param name="theValues">Values to bind to the model.</param>
-        public AggregateLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
+        public AggregateVariableLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
             : base(theAggregateVariable)
         {
             Contract.Requires<ArgumentNullException>(theAggregateVariable != null);

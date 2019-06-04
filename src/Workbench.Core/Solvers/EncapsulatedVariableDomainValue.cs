@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -33,9 +30,9 @@ namespace Workbench.Core.Solvers
         /// Get all value sets.
         /// </summary>
         /// <returns>All value sets.</returns>
-        internal IEnumerable<ValueSet> GetSets()
+        internal IReadOnlyCollection<ValueSet> GetSets()
         {
-            return new ReadOnlyCollection<ValueSet>(_sets);
+            return _sets.AsReadOnly();
         }
 
         public override string ToString()
@@ -54,47 +51,13 @@ namespace Workbench.Core.Solvers
 
             return output.ToString();
         }
-    }
 
-    /// <summary>
-    /// A set of values that may be assigned to one or more variables.
-    /// </summary>
-    internal sealed class ValueSet
-    {
-        private readonly List<int> _values;
-
-        internal ValueSet(IEnumerable<int> variableValues)
+        internal void RemoveSets(IReadOnlyList<ValueSet> valueSetsToRemove)
         {
-            Contract.Requires<ArgumentNullException>(variableValues != null);
-
-            _values = new List<int>(variableValues);
-        }
-
-        internal int GetAt(int index)
-        {
-            if (index < 0 || index >= _values.Count)
-                throw new ArgumentOutOfRangeException(nameof(index));
-            return _values[index];
-        }
-
-        public override string ToString()
-        {
-            var output = new StringBuilder();
-            output.Append('(');
-
-            var i = 1;
-            foreach (var value in _values)
+            foreach (var valueSetToRemove in valueSetsToRemove)
             {
-                output.Append(value);
-                if (i < _values.Count)
-                    output.Append(",");
-                i++;
+                _sets.Remove(valueSetToRemove);
             }
-
-            output.Append(')');
-
-            return output.ToString();
         }
-
     }
 }
