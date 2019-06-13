@@ -20,8 +20,10 @@ namespace Workbench.Core.Solvers
 
         internal void AssignTo(SolverVariable variable, int value)
         {
+#if false
             if (_assignments.ContainsKey(variable.Name))
                 throw new ArgumentException("Variable already has a label assignment.", nameof(variable));
+#endif
             _assignments[variable.Name] = new LabelAssignment(variable, value);
             _unassignedVariables.Remove(variable);
         }

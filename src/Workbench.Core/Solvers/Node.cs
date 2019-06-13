@@ -1,7 +1,7 @@
 ﻿namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// A node in an arc.
+    /// A node participating in an arc.
     /// </summary>
     internal abstract class Node
     {

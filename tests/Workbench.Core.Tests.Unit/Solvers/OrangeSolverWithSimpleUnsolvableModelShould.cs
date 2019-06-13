@@ -27,7 +27,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         private ModelModel CreateModel()
         {
             var a = new WorkspaceBuilder("Simple model with ternary operators that cannot be solved")
-                            .WithSharedDomain("D", "\"red\", \"blue\", \"green\", \"purple\"")
+                            .WithSharedDomain("D", "\"red\", \"blue\"")
                             .AddSingleton("x", "$D")
                             .AddSingleton("y", "$D")
                             .AddSingleton("z", "$D")

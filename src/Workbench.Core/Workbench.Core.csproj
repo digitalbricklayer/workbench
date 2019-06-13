@@ -327,6 +327,9 @@
     <Compile Include="Repeaters\VisualizerRepeaterContext.cs" />
     <Compile Include="Repeaters\VisualizerRepeater.cs" />
     <Compile Include="SingletonVariableBuilder.cs" />
+    <Compile Include="Solvers\ConstraintExpressionConnector.cs" />
+    <Compile Include="Solvers\EncapsulatedSelector.cs" />
+    <Compile Include="Solvers\EncapsulatedVariableConnector.cs" />
     <Compile Include="Solvers\EncapsulatedVariablePermutationCalculator.cs" />
     <Compile Include="Solvers\EncapsulatedVariableDomainValue.cs" />
     <Compile Include="Solvers\EncapsulatedVariable.cs" />
@@ -375,10 +378,12 @@
     <Compile Include="Solvers\SolveStatus.cs" />
     <Compile Include="Solvers\TernaryConstraintExpression.cs" />
     <Compile Include="Solvers\TernaryConstraintExpressionSolution.cs" />
+    <Compile Include="Solvers\Value.cs" />
     <Compile Include="Solvers\ValueEvaluator.cs" />
     <Compile Include="Solvers\ValueMapper.cs" />
     <Compile Include="Solvers\ValueSet.cs" />
     <Compile Include="Solvers\VariableBandEvaluator.cs" />
+    <Compile Include="Solvers\VariableBase.cs" />
     <Compile Include="Solvers\VariableConverter.cs" />
     <Compile Include="Solvers\VariableDomainExpressionEvaluator.cs" />
     <Compile Include="Solvers\VariableDomainExpressionEvaluatorContext.cs" />

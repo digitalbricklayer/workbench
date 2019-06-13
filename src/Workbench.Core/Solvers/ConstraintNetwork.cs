@@ -74,9 +74,9 @@ namespace Workbench.Core.Solvers
         /// Get all singleton variables inside the constraint network.
         /// </summary>
         /// <returns>All singleton variables in a read only collection.</returns>
-        internal IReadOnlyCollection<object> GetSingletonVariables()
+        internal IReadOnlyCollection<VariableBase> GetVariables()
         {
-            var allVariablesIncEncapsulated = new List<object>();
+            var allVariablesIncEncapsulated = new List<VariableBase>();
 
             foreach (var arc in _arcs)
             {
@@ -84,19 +84,36 @@ namespace Workbench.Core.Solvers
                 {
                     if (arc.Left.Content is EncapsulatedVariable leftEncapsulatedVariable)
                     {
-                        allVariablesIncEncapsulated.Add(leftEncapsulatedVariable);
+                        if (!allVariablesIncEncapsulated.Contains(leftEncapsulatedVariable))
+                        {
+                            allVariablesIncEncapsulated.Add(leftEncapsulatedVariable);
+                        }
                     }
 
                     if (arc.Right.Content is EncapsulatedVariable rightEncapsulatedVariable)
                     {
-                        allVariablesIncEncapsulated.Add(rightEncapsulatedVariable);
+                        if (!allVariablesIncEncapsulated.Contains(rightEncapsulatedVariable))
+                        {
+                            allVariablesIncEncapsulated.Add(rightEncapsulatedVariable);
+                        }
                     }
                 }
             }
 
+#if true
             allVariablesIncEncapsulated.AddRange(_singletonVariables);
+#endif
 
             return allVariablesIncEncapsulated;
+        }
+
+        /// <summary>
+        /// Get all singleton variables inside the constraint network.
+        /// </summary>
+        /// <returns>All singleton variables in a read only collection.</returns>
+        internal IReadOnlyCollection<SolverVariable> GetSingletonVariables()
+        {
+            return _singletonVariables.AsReadOnly();
         }
 
         /// <summary>

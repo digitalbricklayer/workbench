@@ -63,6 +63,7 @@ namespace Workbench.Core.Solvers
             arcAccumulator.Add(arc2);
             var ternaryConstraintExpression = new TernaryConstraintExpression(expressionConstraintNode, encapsulatedVariableNode, arc1, arc2);
             var encapsulatedVariableDomainValue = ComputeEncapsulatedDomain(ternaryConstraintExpression);
+            encapsulatedVariable.DomainValue = encapsulatedVariableDomainValue;
             var expressionSolution = new TernaryConstraintExpressionSolution(ternaryConstraintExpression, encapsulatedVariableDomainValue);
             _modelSolverMap.AddTernaryExpressionSolution(expressionSolution);
 

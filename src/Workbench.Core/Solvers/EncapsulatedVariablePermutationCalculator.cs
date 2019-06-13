@@ -19,8 +19,10 @@ namespace Workbench.Core.Solvers
         internal EncapsulatedVariableDomainValue Compute()
         {
             var valueSetAccumulator = new List<ValueSet>();
-            var leftPossibleValues = _ternaryConstraint.GetLeftSource();
-            var rightPossibleValues = new List<int>(_ternaryConstraint.GetRightSource());
+            var leftSource = _ternaryConstraint.GetLeftSource();
+            var leftPossibleValues = leftSource.PossibleValues;
+            var rightSource = _ternaryConstraint.GetRightSource();
+            var rightPossibleValues = new List<int>(rightSource.PossibleValues);
 
             foreach (var leftPossibleValue in leftPossibleValues)
             {
@@ -31,7 +33,8 @@ namespace Workbench.Core.Solvers
                         case OperatorType.Equals:
                             if (leftPossibleValue == rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { leftPossibleValue, rightPossibleValue });
+                                var valueSet = new ValueSet(new[] { new Value(leftSource.VariableName, leftPossibleValue),
+                                                                                 new Value(rightSource.VariableName, rightPossibleValue) });
                                 valueSetAccumulator.Add(valueSet);
                             }
                             break;
@@ -39,7 +42,8 @@ namespace Workbench.Core.Solvers
                         case OperatorType.NotEqual:
                             if (leftPossibleValue != rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { leftPossibleValue, rightPossibleValue });
+                                var valueSet = new ValueSet(new[] { new Value(leftSource.VariableName, leftPossibleValue),
+                                                                                 new Value(rightSource.VariableName, rightPossibleValue) });
                                 valueSetAccumulator.Add(valueSet);
                             }
                             break;
@@ -52,5 +56,17 @@ namespace Workbench.Core.Solvers
 
             return new EncapsulatedVariableDomainValue(_ternaryConstraint.EncapsulatedVariable, valueSetAccumulator);
         }
+    }
+
+    internal sealed class Source
+    {
+        internal Source(string variableName, IEnumerable<int> possibleValues)
+        {
+            VariableName = variableName;
+            PossibleValues = possibleValues;
+        }
+
+        internal string VariableName { get; }
+        internal IEnumerable<int> PossibleValues { get; }
     }
 }

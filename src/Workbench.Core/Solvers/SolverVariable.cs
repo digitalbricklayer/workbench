@@ -7,7 +7,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Integer variable used internally by the solver.
     /// </summary>
-    internal class SolverVariable
+    internal class SolverVariable : VariableBase
     {
         /// <summary>
         /// Initialize a solver variable with a name and range.
@@ -15,10 +15,9 @@ namespace Workbench.Core.Solvers
         /// <param name="name">Variable name.</param>
         /// <param name="range">Domain range.</param>
         internal SolverVariable(string name, DomainRange range)
+            : base(name)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             Contract.Requires<ArgumentException>(range != null);
-            Name = name;
             Domain = range;
         }
 
@@ -28,17 +27,17 @@ namespace Workbench.Core.Solvers
         internal DomainRange Domain { get; }
 
         /// <summary>
-        /// Gets the variable name.
-        /// </summary>
-        internal string Name { get; }
-
-        /// <summary>
         /// Get all values that can be assigned to the variable.
         /// </summary>
         /// <returns>All values that can be assigned to the variable.</returns>
-        internal IEnumerable<int> GetCandidates()
+        internal IEnumerable<ValueSet> GetCandidates()
         {
-            return Domain.PossibleValues;
+            var valueBindingAccumulator = new List<ValueSet>();
+            foreach (var possibleValue in Domain.PossibleValues)
+            {
+                valueBindingAccumulator.Add(new ValueSet(new Value(Name, possibleValue)));
+            }
+            return valueBindingAccumulator.AsReadOnly();
         }
     }
 }

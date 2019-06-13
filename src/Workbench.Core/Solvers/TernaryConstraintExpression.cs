@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -25,26 +24,26 @@ namespace Workbench.Core.Solvers
 
         internal ConstraintExpressionNode ExpressionNode { get; set; }
 
-        internal IEnumerable<int> GetLeftSource()
+        internal Source GetLeftSource()
         {
             // The encapsulated variable sits on the left side of the left arc
             switch (LeftArc.Connector.Left.Content)
             {
-                case SolverVariable integerVariable:
-                    return integerVariable.Domain.PossibleValues;
+                case SolverVariable solverVariable:
+                    return new Source(solverVariable.Name, solverVariable.Domain.PossibleValues);
 
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        internal IEnumerable<int> GetRightSource()
+        internal Source GetRightSource()
         {
             // The encapsulated variable sits on the right side of the right arc
             switch (RightArc.Connector.Right.Content)
             {
-                case SolverVariable integerVariable:
-                    return integerVariable.Domain.PossibleValues;
+                case SolverVariable solverVariable:
+                    return new Source(solverVariable.Name, solverVariable.Domain.PossibleValues);
 
                 default:
                     throw new NotImplementedException();

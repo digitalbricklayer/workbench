@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Text;
 
 namespace Workbench.Core.Solvers
@@ -10,20 +12,33 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class ValueSet
     {
-        private readonly List<int> _values;
+        private readonly List<Value> _values;
 
-        internal ValueSet(IEnumerable<int> variableValues)
+        internal ValueSet(IEnumerable<Value> variableValues)
         {
             Contract.Requires<ArgumentNullException>(variableValues != null);
 
-            _values = new List<int>(variableValues);
+            _values = new List<Value>(variableValues);
+            Debug.Assert(IsAllUnique(_values));
         }
+
+        internal ValueSet(Value value)
+        {
+            _values = new List<Value> { value};
+        }
+
+        internal IEnumerable<Value> Values => _values;
 
         internal int GetAt(int index)
         {
             if (index < 0 || index >= _values.Count)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            return _values[index];
+            return _values[index].Content;
+        }
+
+        internal int GetValueFor(string variableName)
+        {
+            return _values.First(value => value.VariableName == variableName).Content;
         }
 
         public override string ToString()
@@ -45,5 +60,11 @@ namespace Workbench.Core.Solvers
             return output.ToString();
         }
 
+        private bool IsAllUnique(IEnumerable<Value> variableValues)
+        {
+            var allVariableNames = new HashSet<string>();
+
+            return variableValues.All(value => allVariableNames.Add(value.VariableName));
+        }
     }
 }

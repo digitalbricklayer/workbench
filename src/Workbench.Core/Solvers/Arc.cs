@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 namespace Workbench.Core.Solvers
 {
     /// <summary>
-    /// Arc connecting two variables inside a constraint network.
+    /// Arc connecting two nodes.
     /// </summary>
     internal sealed class Arc
     {

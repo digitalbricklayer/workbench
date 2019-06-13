@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Models;
@@ -12,7 +13,10 @@ namespace Workbench.Core.Solvers
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
         private readonly ValueMapper _valueMapper;
-        private IEnumerator<SolverVariable> _variableEnumerator;
+        private List<VariableBase> _variables;
+        private ConstraintNetwork _constraintNetwork;
+        private int _variablesTestedCount;
+        private int _currentVariableIndex;
 
         /// <summary>
         /// Initialize a snapshot extractor with a model solver map and value mapper.
@@ -39,54 +43,101 @@ namespace Workbench.Core.Solvers
 
             return true;
 #else
+            _constraintNetwork = constraintNetwork;
             return BacktrackingSearch(constraintNetwork, out solutionSnapshot);
 #endif
         }
 
         private bool BacktrackingSearch(ConstraintNetwork constraintNetwork, out SolutionSnapshot solutionSnapshot)
         {
-            var assignment = new SnapshotLabelAssignment(constraintNetwork.GetSingletonVariables());
-            _variableEnumerator = constraintNetwork.GetSingletonVariables().GetEnumerator();
-            var status = Backtrack(assignment, constraintNetwork);
+            var solverVariables = constraintNetwork.GetSingletonVariables();
+            var assignment = new SnapshotLabelAssignment(solverVariables);
+            _variables = new List<VariableBase>(constraintNetwork.GetVariables());
+            _currentVariableIndex = 0;
+            var status = Backtrack(-1, assignment, constraintNetwork);
 
             solutionSnapshot = status ? ConvertSnapshotFrom(assignment, constraintNetwork) : SolutionSnapshot.Empty;
 
             return status;
         }
 
-        private bool Backtrack(SnapshotLabelAssignment snapshotAssignment, ConstraintNetwork constraintNetwork)
+        private bool Backtrack(int currentVariableIndex, SnapshotLabelAssignment snapshotAssignment, ConstraintNetwork constraintNetwork)
         {
             // Label assignment has been successful...
-            if (snapshotAssignment.IsComplete()) return true;
+            if (snapshotAssignment.IsComplete() && AllVariablesTested(currentVariableIndex)) return true;
 
-            var currentVariable = SelectUnassignedVariable(constraintNetwork, snapshotAssignment);
+            // The unassigned variable may be a regular variable or an encapsulated variable
+            var currentVariable = SelectUnassignedVariable(currentVariableIndex, constraintNetwork, snapshotAssignment, out var variableIndex);
+
             Debug.Assert(currentVariable != null, "Snapshot is not complete so there must be more variables.");
             foreach (var value in OrderDomainValues(currentVariable, snapshotAssignment, constraintNetwork))
             {
-                if (IsConsistent(value, snapshotAssignment, currentVariable))
+                if (IsConsistent(value, snapshotAssignment, currentVariable, out var inconsistentValues))
                 {
-                    snapshotAssignment.AssignTo(currentVariable, value);
-                    var status = Backtrack(snapshotAssignment, constraintNetwork);
+                    foreach (var variableValue in value.Values)
+                    {
+                        var solverVariable = _modelSolverMap.GetSolverSingletonVariableByName(variableValue.VariableName);
+                        snapshotAssignment.AssignTo(solverVariable, variableValue.Content);
+                    }
+
+                    // Is this the final variable?
+                    if (AllVariablesTested(variableIndex)) return true;
+
+                    var status = Backtrack(variableIndex, snapshotAssignment, constraintNetwork);
                     if (status)
                     {
                         return true;
                     }
                 }
 
-                snapshotAssignment.Remove(currentVariable);
+                foreach (var variableValue in inconsistentValues)
+                {
+                    var solverVariable = _modelSolverMap.GetSolverSingletonVariableByName(variableValue.VariableName);
+                    snapshotAssignment.Remove(solverVariable);
+                }
             }
 
             return false;
         }
 
-        private IEnumerable<int> OrderDomainValues(SolverVariable variable, SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
+        private IEnumerable<ValueSet> OrderDomainValues(VariableBase variable, SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
         {
-            return variable.GetCandidates();
+            switch (variable)
+            {
+                case SolverVariable solverVariable:
+                    return solverVariable.GetCandidates();
+
+                case EncapsulatedVariable encapsulatedVariable:
+                    return encapsulatedVariable.GetCandidates();
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
-        private bool IsConsistent(int value, SnapshotLabelAssignment assignment, SolverVariable variable)
+        private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment, VariableBase variable, out List<Value> inconsistentValues)
         {
-            // Has the variable been assigned a value? If it hasn't then the value must be consistent
+            var inconsistentValueAccumulator = new List<Value>();
+
+            /*
+             * All variables in the set must be consistent, either not having been assigned
+             * a value or having a value that is consistent with the currently assigned value.
+             */
+            foreach (var value in valueSet.Values)
+            {
+                if (!IsConsistent(value, assignment, _modelSolverMap.GetSolverSingletonVariableByName(value.VariableName)))
+                {
+                    inconsistentValueAccumulator.Add(value);
+                }
+            }
+
+            inconsistentValues = inconsistentValueAccumulator;
+            return !inconsistentValueAccumulator.Any();
+        }
+
+        private bool IsConsistent(Value value, SnapshotLabelAssignment assignment, SolverVariable variable)
+        {
+            // Has the variable been assigned a value? If it has not, then the value must be consistent
             if (!assignment.IsAssigned(variable)) return true;
 
             var labelAssignment = assignment.GetAssignmentFor(variable);
@@ -95,15 +146,25 @@ namespace Workbench.Core.Solvers
              * The variable has been assigned a value, it is consistent if the
              * value is the same as the assigned value.
              */
-            if (labelAssignment.Value == value) return true;
-
-            return false;
+            return labelAssignment.Value == value.Content;
         }
 
-        private SolverVariable SelectUnassignedVariable(ConstraintNetwork constraintNetwork, SnapshotLabelAssignment assignment)
+        private bool AllVariablesTested(int variableIndex)
         {
-            _variableEnumerator.MoveNext();
-            return _variableEnumerator.Current;
+            return variableIndex + 1 >=_constraintNetwork.GetVariables().Count;
+        }
+
+        private VariableBase SelectUnassignedVariable(int currentVariableIndex, ConstraintNetwork constraintNetwork, SnapshotLabelAssignment assignment, out int variableIndex)
+        {
+            var nextVariableIndex = currentVariableIndex + 1;
+            Debug.Assert(nextVariableIndex < _variables.Count);
+            var nextAvailable =_variables[nextVariableIndex];
+            Debug.Assert(nextAvailable != null);
+            _variablesTestedCount++;
+
+            variableIndex = nextVariableIndex;
+
+            return nextAvailable;
         }
 
         private SolutionSnapshot ConvertSnapshotFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
@@ -131,10 +192,11 @@ namespace Workbench.Core.Solvers
             return labelAccumulator;
         }
 
+#if false
         private IEnumerable<SingletonVariableLabelModel> ExtractSingletonLabelsFrom(ConstraintNetwork constraintNetwork)
         {
             var labelAccumulator = new List<SingletonVariableLabelModel>();
-            var allSingletonVariables = constraintNetwork.GetSingletonVariables();
+            var allSingletonVariables = constraintNetwork.GetVariables();
 
             foreach (var variable in allSingletonVariables)
             {
@@ -180,7 +242,7 @@ namespace Workbench.Core.Solvers
 
         private IEnumerable<int> FindCandidateValuesFor(SolverVariable solverVariable, IEnumerable<TernaryConstraintExpressionSolution> ternaryConstraintExpressionSolutions)
         {
-            var allCandidates = solverVariable.GetCandidates();
+            var allCandidates = solverVariable.GetCandidates().Select(candidate => candidate.);
 
             if (FindTernaryCandidatesFor(solverVariable, ternaryConstraintExpressionSolutions, out var ternaryCandidates))
             {
@@ -260,6 +322,7 @@ namespace Workbench.Core.Solvers
             ternaryCandidates = candidateAccumulator;
             return ternaryCandidates.Any();
         }
+#endif
 
         private object ConvertSolverValueToModel(SingletonVariableModel theVariable, long solverValue)
         {
