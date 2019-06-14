@@ -114,26 +114,21 @@ namespace Workbench.Core.Solvers
 
         private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment, VariableBase variable, out List<Value> inconsistentValues)
         {
-            var inconsistentValueAccumulator = new List<Value>();
-
             /*
              * All variables in the set must be consistent, either not having been assigned
              * a value or having a value that is consistent with the currently assigned value.
              */
-            foreach (var value in valueSet.Values)
-            {
-                if (!IsConsistent(value, assignment, _modelSolverMap.GetSolverSingletonVariableByName(value.VariableName)))
-                {
-                    inconsistentValueAccumulator.Add(value);
-                }
-            }
-
+            var inconsistentValueAccumulator = valueSet.Values.Where(value => !IsConsistent(value, assignment))
+                                                              .ToList();
             inconsistentValues = inconsistentValueAccumulator;
+
             return !inconsistentValueAccumulator.Any();
         }
 
-        private bool IsConsistent(Value value, SnapshotLabelAssignment assignment, SolverVariable variable)
+        private bool IsConsistent(Value value, SnapshotLabelAssignment assignment)
         {
+            var variable = _modelSolverMap.GetSolverSingletonVariableByName(value.VariableName);
+
             // Has the variable been assigned a value? If it has not, then the value must be consistent
             if (!assignment.IsAssigned(variable)) return true;
 
