@@ -123,10 +123,10 @@ namespace Workbench.Core.Solvers
             return new ConstraintExpressionConnector(left, right, constraint);
         }
 
-        private static EncapsulatedVariableDomainValue ComputeEncapsulatedDomain(TernaryConstraintExpression ternaryConstraintExpression)
+        private EncapsulatedVariableDomainValue ComputeEncapsulatedDomain(TernaryConstraintExpression ternaryConstraintExpression)
         {
-            var encapsulatedVariableCalculator = new EncapsulatedVariablePermutationCalculator(ternaryConstraintExpression);
-            return encapsulatedVariableCalculator.Compute();
+            var encapsulatedVariableCalculator = new EncapsulatedVariablePermutationCalculator(_modelSolverMap);
+            return encapsulatedVariableCalculator.Compute(ternaryConstraintExpression);
         }
     }
 }

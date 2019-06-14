@@ -7,13 +7,14 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class Value
     {
-        internal Value(string variableName, int value)
+        internal Value(VariableBase variable, int value)
         {
-            VariableName = variableName;
+            Variable = variable;
             Content = value;
         }
 
-        internal string VariableName { get; }
+        internal VariableBase Variable { get; }
+        internal string VariableName => Variable.Name;
         internal int Content { get; }
 
         public override string ToString()

@@ -5,12 +5,12 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class OrToolsSolverAggregateTests
+    public class OrangeSolverAggregateTests
     {
         [Test]
         public void SolveWithModelReturnsStatusSuccess()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
@@ -20,7 +20,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithModelSatisfiesConstraints()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
@@ -33,7 +33,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithModelSatisfiesValueCount()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
@@ -45,7 +45,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithModelCreatesValidSolution()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
@@ -57,7 +57,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithSimpleAggregateModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 

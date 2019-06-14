@@ -5,13 +5,13 @@
     /// </summary>
     internal sealed class LabelAssignment
     {
-        internal LabelAssignment(SolverVariable variable, int value)
+        internal LabelAssignment(VariableBase variable, int value)
         {
             Variable = variable;
             Value = value;
         }
 
-        internal SolverVariable Variable { get; }
+        internal VariableBase Variable { get; }
         internal int Value { get; }
 
         /// <summary>Returns a string that represents the current object.</summary>

@@ -41,7 +41,7 @@ namespace Workbench.Core.Solvers
 
         private bool BacktrackingSearch(ConstraintNetwork constraintNetwork, out SolutionSnapshot solutionSnapshot)
         {
-            var solverVariables = constraintNetwork.GetSingletonVariables();
+            var solverVariables = constraintNetwork.GetSolverVariables();
             var assignment = new SnapshotLabelAssignment(solverVariables);
             _variables = new List<VariableBase>(constraintNetwork.GetVariables());
             var status = Backtrack(0, assignment, constraintNetwork);
@@ -63,13 +63,9 @@ namespace Workbench.Core.Solvers
 
             foreach (var value in OrderDomainValues(currentVariable, snapshotAssignment, constraintNetwork))
             {
-                if (IsConsistent(value, snapshotAssignment, currentVariable, out var inconsistentValues))
+                if (IsConsistent(value, snapshotAssignment, out var inconsistentValues))
                 {
-                    foreach (var variableValue in value.Values)
-                    {
-                        var solverVariable = _modelSolverMap.GetSolverSingletonVariableByName(variableValue.VariableName);
-                        snapshotAssignment.AssignTo(solverVariable, variableValue.Content);
-                    }
+                    snapshotAssignment.AssignTo(value);
 
                     // Is this the final variable?
                     if (AllVariablesTested(currentVariableIndex)) return true;
@@ -80,11 +76,7 @@ namespace Workbench.Core.Solvers
                     }
                 }
 
-                foreach (var variableValue in inconsistentValues)
-                {
-                    var solverVariable = _modelSolverMap.GetSolverSingletonVariableByName(variableValue.VariableName);
-                    snapshotAssignment.Remove(solverVariable);
-                }
+                snapshotAssignment.Remove(inconsistentValues);
             }
 
             return false;
@@ -105,7 +97,7 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment, VariableBase variable, out List<Value> inconsistentValues)
+        private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment, out List<Value> inconsistentValues)
         {
             /*
              * All variables in the set must be consistent, either not having been assigned
@@ -120,7 +112,7 @@ namespace Workbench.Core.Solvers
 
         private bool IsConsistent(Value value, SnapshotLabelAssignment assignment)
         {
-            var variable = _modelSolverMap.GetSolverSingletonVariableByName(value.VariableName);
+            var variable = value.Variable;
 
             // Has the variable been assigned a value? If it has not, then the value must be consistent
             if (!assignment.IsAssigned(variable)) return true;
@@ -179,11 +171,15 @@ namespace Workbench.Core.Solvers
             foreach (var aggregateSolverVariable in allAggregateVariables)
             {
                 var internalAccumulator = new List<ValueModel>();
-                var solverVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateSolverVariable.Name);
                 var aggregateVariableModel = _modelSolverMap.GetModelAggregateVariableByName(aggregateSolverVariable.Name);
-                foreach (var variable in solverVariable.Variables)
+                foreach (var variable in aggregateSolverVariable.Variables)
                 {
-                    internalAccumulator.Add(new ValueModel(variable.Domain.PossibleValues.First()));
+                    var solverVariable = _modelSolverMap.GetSolverVariableByName(variable.Name);
+                    var labelAssignment = assignment.GetAssignmentFor(solverVariable);
+                    var variableSolverValue = labelAssignment.Value;
+                    var variableModel = _modelSolverMap.GetInternalModelAggregateVariableByName(variable.Name);
+                    var variableModelValue = ConvertSolverValueToModel(variableModel, variableSolverValue);
+                    internalAccumulator.Add(new ValueModel(variableModelValue));
                 }
 
                 var label = new AggregateVariableLabelModel(aggregateVariableModel, internalAccumulator);
@@ -193,7 +189,7 @@ namespace Workbench.Core.Solvers
             return aggregatorLabelAccumulator;
         }
 
-        private object ConvertSolverValueToModel(SingletonVariableModel theVariable, long solverValue)
+        private object ConvertSolverValueToModel(VariableModel theVariable, long solverValue)
         {
             var variableDomainValue = _valueMapper.GetDomainValueFor(theVariable);
             return variableDomainValue.MapFrom(solverValue);

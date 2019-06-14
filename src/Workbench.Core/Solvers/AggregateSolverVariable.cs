@@ -68,7 +68,7 @@ namespace Workbench.Core.Solvers
             Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
             Contract.Assume(!string.IsNullOrWhiteSpace(Name));
 
-            return Name + index;
+            return Name + (index + 1);
         }
 
         private DomainRange CloneFrom(DomainRange template)

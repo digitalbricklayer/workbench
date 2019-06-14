@@ -7,34 +7,36 @@ namespace Workbench.Core.Solvers
 {
     internal sealed class EncapsulatedVariablePermutationCalculator
     {
-        private readonly TernaryConstraintExpression _ternaryConstraint;
+        private readonly OrangeModelSolverMap _modelSolverMap;
 
-        internal EncapsulatedVariablePermutationCalculator(TernaryConstraintExpression ternaryConstraint)
+        internal EncapsulatedVariablePermutationCalculator(OrangeModelSolverMap modelSolverMap)
+        {
+            Contract.Requires<ArgumentNullException>(modelSolverMap != null);
+
+            _modelSolverMap = modelSolverMap;
+        }
+
+        internal EncapsulatedVariableDomainValue Compute(TernaryConstraintExpression ternaryConstraint)
         {
             Contract.Requires<ArgumentNullException>(ternaryConstraint != null);
 
-            _ternaryConstraint = ternaryConstraint;
-        }
-
-        internal EncapsulatedVariableDomainValue Compute()
-        {
             var valueSetAccumulator = new List<ValueSet>();
-            var leftSource = _ternaryConstraint.GetLeftSource();
+            var leftSource = ternaryConstraint.GetLeftSource();
             var leftPossibleValues = leftSource.PossibleValues;
-            var rightSource = _ternaryConstraint.GetRightSource();
+            var rightSource = ternaryConstraint.GetRightSource();
             var rightPossibleValues = new List<int>(rightSource.PossibleValues);
 
             foreach (var leftPossibleValue in leftPossibleValues)
             {
                 foreach (var rightPossibleValue in rightPossibleValues)
                 {
-                    switch (_ternaryConstraint.ExpressionNode.InnerExpression.Operator)
+                    switch (ternaryConstraint.ExpressionNode.InnerExpression.Operator)
                     {
                         case OperatorType.Equals:
                             if (leftPossibleValue == rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { new Value(leftSource.VariableName, leftPossibleValue),
-                                                                                 new Value(rightSource.VariableName, rightPossibleValue) });
+                                var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
+                                                                                 new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
                                 valueSetAccumulator.Add(valueSet);
                             }
                             break;
@@ -42,8 +44,8 @@ namespace Workbench.Core.Solvers
                         case OperatorType.NotEqual:
                             if (leftPossibleValue != rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { new Value(leftSource.VariableName, leftPossibleValue),
-                                                                                 new Value(rightSource.VariableName, rightPossibleValue) });
+                                var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
+                                                                                 new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
                                 valueSetAccumulator.Add(valueSet);
                             }
                             break;
@@ -54,7 +56,7 @@ namespace Workbench.Core.Solvers
                 }
             }
 
-            return new EncapsulatedVariableDomainValue(_ternaryConstraint.EncapsulatedVariable, valueSetAccumulator);
+            return new EncapsulatedVariableDomainValue(ternaryConstraint.EncapsulatedVariable, valueSetAccumulator);
         }
     }
 

@@ -10,21 +10,30 @@ namespace Workbench.Core.Solvers
     internal sealed class SnapshotLabelAssignment
     {
         private readonly Dictionary<string, LabelAssignment> _assignments;
-        private readonly List<SolverVariable> _unassignedVariables;
+        private readonly List<VariableBase> _unassignedVariables;
 
-        internal SnapshotLabelAssignment(IEnumerable<SolverVariable> allVariables)
+        internal SnapshotLabelAssignment(IEnumerable<VariableBase> allVariables)
         {
             _assignments = new Dictionary<string, LabelAssignment>();
-            _unassignedVariables = new List<SolverVariable>(allVariables);
+            _unassignedVariables = new List<VariableBase>(allVariables);
         }
 
-        internal void AssignTo(SolverVariable variable, int value)
+        internal void AssignTo(ValueSet valueSet)
+        {
+            foreach (var variableValue in valueSet.Values)
+            {
+                var solverVariable = variableValue.Variable;
+                AssignTo(solverVariable, variableValue.Content);
+            }
+        }
+
+        internal void AssignTo(VariableBase variable, int value)
         {
             _assignments[variable.Name] = new LabelAssignment(variable, value);
             _unassignedVariables.Remove(variable);
         }
 
-        internal void Remove(SolverVariable variable)
+        internal void Remove(VariableBase variable)
         {
             if (!_assignments.ContainsKey(variable.Name))
                 throw new ArgumentException("Variable has no label assignment.", nameof(variable));
@@ -37,16 +46,25 @@ namespace Workbench.Core.Solvers
             return !_unassignedVariables.Any();
         }
 
-        internal bool IsAssigned(SolverVariable variable)
+        internal bool IsAssigned(VariableBase variable)
         {
             return _assignments.ContainsKey(variable.Name);
         }
 
-        public LabelAssignment GetAssignmentFor(SolverVariable variable)
+        internal LabelAssignment GetAssignmentFor(VariableBase variable)
         {
             if (!_assignments.ContainsKey(variable.Name))
                 throw new ArgumentException("Variable has no label assignment.", nameof(variable));
             return _assignments[variable.Name];
+        }
+
+        public void Remove(List<Value> inconsistentValues)
+        {
+            foreach (var variableValue in inconsistentValues)
+            {
+                var solverVariable = variableValue.Variable;
+                Remove(solverVariable);
+            }
         }
     }
 }

@@ -5,12 +5,13 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class OrToolsSolverAllDifferentTests
+    [Ignore("Orange hasn't implemented all different constraint.")]
+    public class OrangeSolverAllDifferentTests
     {
         [Test]
         public void SolveWithAllDifferentModelReturnsStatusSuccess()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -21,7 +22,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithAllDifferentModelSatisfiesConstraints()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -34,7 +35,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithAllDifferentModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 

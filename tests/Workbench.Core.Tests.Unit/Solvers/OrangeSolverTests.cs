@@ -5,12 +5,12 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class OrToolsSolverTests
+    public class OrangeSolverTests
     {
         [Test]
         public void Solve_With_Model_Returns_Status_Success()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -21,7 +21,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void Solve_With_Model_Satisfies_Constraint()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void Solve_With_Model_Solution_Within_Domain()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 

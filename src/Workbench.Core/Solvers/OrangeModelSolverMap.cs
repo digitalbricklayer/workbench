@@ -13,6 +13,8 @@ namespace Workbench.Core.Solvers
     {
         private readonly Dictionary<string, OrangeSingletonVariableMap> _singletonVariableMap;
         private readonly Dictionary<string, OrangeAggregateVariableMap> _aggregateVariableMap;
+        private readonly Dictionary<string, SolverVariable> _solverVariableMap;
+        private readonly Dictionary<string, VariableModel> _modelVariableMap;
         private readonly Dictionary<string, Node> _nodeMap;
         private readonly List<TernaryConstraintExpressionSolution> _ternarySolutions;
 
@@ -23,6 +25,8 @@ namespace Workbench.Core.Solvers
         {
             _singletonVariableMap = new Dictionary<string, OrangeSingletonVariableMap>();
             _aggregateVariableMap = new Dictionary<string, OrangeAggregateVariableMap>();
+            _solverVariableMap = new Dictionary<string, SolverVariable>();
+            _modelVariableMap = new Dictionary<string, VariableModel>();
             _nodeMap = new Dictionary<string, Node>();
             _ternarySolutions = new List<TernaryConstraintExpressionSolution>();
         }
@@ -31,12 +35,22 @@ namespace Workbench.Core.Solvers
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _singletonVariableMap.Add(name, singletonVariableMap);
+            _solverVariableMap.Add(name, singletonVariableMap.SolverVariable);
         }
 
         internal void AddAggregate(string name, OrangeAggregateVariableMap aggregateVariableMap)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _aggregateVariableMap.Add(name, aggregateVariableMap);
+            foreach (var solverVariable in aggregateVariableMap.SolverVariable.Variables)
+            {
+                _solverVariableMap.Add(solverVariable.Name, solverVariable);
+            }
+
+            foreach (var modelVariable in aggregateVariableMap.ModelVariable.Variables)
+            {
+                _modelVariableMap.Add(modelVariable.Name, modelVariable);
+            }
         }
 
         /// <summary>
@@ -80,6 +94,13 @@ namespace Workbench.Core.Solvers
             if (!_aggregateVariableMap.ContainsKey(variableName))
                 throw new ArgumentException($"Unknown variable {variableName}");
             return _aggregateVariableMap[variableName].ModelVariable;
+        }
+
+        internal VariableModel GetInternalModelAggregateVariableByName(string variableName)
+        {
+            if (!_modelVariableMap.ContainsKey(variableName))
+                throw new ArgumentException($"Unknown variable {variableName}");
+            return _modelVariableMap[variableName];
         }
 
         internal Node GetNodeByName(string variableName)
@@ -157,6 +178,11 @@ namespace Workbench.Core.Solvers
         internal IReadOnlyCollection<TernaryConstraintExpressionSolution> GetTernaryConstraintExpressionSolutions()
         {
             return _ternarySolutions.AsReadOnly();
+        }
+
+        internal SolverVariable GetSolverVariableByName(string variableName)
+        {
+            return _solverVariableMap[variableName];
         }
     }
 }

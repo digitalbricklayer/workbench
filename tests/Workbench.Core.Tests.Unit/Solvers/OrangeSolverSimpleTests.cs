@@ -1,17 +1,16 @@
 ﻿using NUnit.Framework;
-using System;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class OrToolsSolverExpressionTests
+    public class OrangeSolverSimpleTests
     {
         [Test]
-        public void SolveWithExpressionModelReturnsStatusSuccess()
+        public void Solve_With_Simple_Model_Returns_Status_Success()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -20,23 +19,23 @@ namespace Workbench.Core.Tests.Unit.Solvers
         }
 
         [Test]
-        public void SolveWithExpressionModelSatisfiesConstraints()
+        public void Solve_With_Simple_Model_Satisfies_Constraint()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
                 var actualSnapshot = actualResult.Snapshot;
                 var x = actualSnapshot.GetLabelByVariableName("x");
                 var y = actualSnapshot.GetLabelByVariableName("y");
-                Assert.That(x.GetValueAsInt() + 1, Is.Not.EqualTo(y.GetValueAsInt() - 1));
+                Assert.That(x.Value, Is.Not.EqualTo(y.Value));
             }
         }
 
         [Test]
-        public void SolveWithExpressionModelSolutionWithinDomain()
+        public void Solve_With_Simple_Model_Solution_Within_Domain()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
@@ -51,14 +50,15 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithSimpleModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrToolsSolver())
+            using (var sut = new OrangeSolver())
             {
                 var actualResult = sut.Solve(MakeModel());
 
                 var actualSnapshot = actualResult.Snapshot;
                 var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
+                var aggregateVariableCount = actualSnapshot.AggregateLabels.Count;
                 Assert.That(singletonVariableCount, Is.EqualTo(3));
-                Assert.That(actualSnapshot.AggregateLabels, Is.Empty);
+                Assert.That(aggregateVariableCount, Is.EqualTo(0));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
                                           .AddSingleton("x", "$a")
                                           .AddSingleton("y", "$a")
                                           .AddSingleton("z", "$a")
-                                          .WithConstraintExpression("$x + 1 != $y - 1")
+                                          .WithConstraintExpression("$x != $y")
                                           .WithConstraintExpression("$x <= $y")
                                           .WithConstraintExpression("$y = $z")
                                           .Build();

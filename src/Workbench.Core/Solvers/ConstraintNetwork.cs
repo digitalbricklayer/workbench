@@ -101,7 +101,14 @@ namespace Workbench.Core.Solvers
             }
 
             allVariablesIncEncapsulated.AddRange(_singletonVariables);
-            allVariablesIncEncapsulated.AddRange(_aggregateVariables);
+            foreach (var aggregateSolverVariable in _aggregateVariables)
+            {
+                foreach (var solverVariable in aggregateSolverVariable.Variables)
+                {
+                    allVariablesIncEncapsulated.Add(solverVariable);
+                }
+            }
+//            allVariablesIncEncapsulated.AddRange(_aggregateVariables);
 
             return allVariablesIncEncapsulated;
         }
@@ -122,6 +129,22 @@ namespace Workbench.Core.Solvers
         internal IReadOnlyCollection<AggregateSolverVariable> GetAggregateVariables()
         {
             return _aggregateVariables.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<SolverVariable> GetSolverVariables()
+        {
+            var allVariablesIncEncapsulated = new List<SolverVariable>();
+
+            allVariablesIncEncapsulated.AddRange(_singletonVariables);
+            foreach (var aggregateSolverVariable in _aggregateVariables)
+            {
+                foreach (var solverVariable in aggregateSolverVariable.Variables)
+                {
+                    allVariablesIncEncapsulated.Add(solverVariable);
+                }
+            }
+
+            return allVariablesIncEncapsulated.AsReadOnly();
         }
     }
 }

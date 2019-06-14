@@ -35,7 +35,7 @@ namespace Workbench.Core.Solvers
             var valueBindingAccumulator = new List<ValueSet>();
             foreach (var possibleValue in Domain.PossibleValues)
             {
-                valueBindingAccumulator.Add(new ValueSet(new Value(Name, possibleValue)));
+                valueBindingAccumulator.Add(new ValueSet(new Value(this, possibleValue)));
             }
             return valueBindingAccumulator.AsReadOnly();
         }

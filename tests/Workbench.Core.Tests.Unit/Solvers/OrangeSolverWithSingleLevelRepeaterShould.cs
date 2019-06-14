@@ -5,7 +5,7 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    public class OrToolsSolverWithSingleLevelRepeaterShould
+    public class OrangeSolverWithSingleLevelRepeaterShould
     {
         [Test]
         public void SolveWithRepeaterConstraintReturnsStatusSuccess()
@@ -30,9 +30,9 @@ namespace Workbench.Core.Tests.Unit.Solvers
             }
         }
 
-        private static OrToolsSolver CreateSolver()
+        private static OrangeSolver CreateSolver()
         {
-            return new OrToolsSolver();
+            return new OrangeSolver();
         }
 
         private static ModelModel MakeModel()

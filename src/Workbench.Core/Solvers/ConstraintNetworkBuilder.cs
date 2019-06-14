@@ -23,8 +23,8 @@ namespace Workbench.Core.Solvers
         internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap, ValueMapper valueMapper)
         {
             _modelSolverMap = modelSolverMap;
-            _arcBuilder = new ArcBuilder(_modelSolverMap);
             _valueMapper = valueMapper;
+            _arcBuilder = new ArcBuilder(_modelSolverMap);
         }
 
         /// <summary>
