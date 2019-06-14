@@ -15,8 +15,6 @@ namespace Workbench.Core.Solvers
         private readonly ValueMapper _valueMapper;
         private List<VariableBase> _variables;
         private ConstraintNetwork _constraintNetwork;
-        private int _variablesTestedCount;
-        private int _currentVariableIndex;
 
         /// <summary>
         /// Initialize a snapshot extractor with a model solver map and value mapper.
@@ -53,8 +51,7 @@ namespace Workbench.Core.Solvers
             var solverVariables = constraintNetwork.GetSingletonVariables();
             var assignment = new SnapshotLabelAssignment(solverVariables);
             _variables = new List<VariableBase>(constraintNetwork.GetVariables());
-            _currentVariableIndex = 0;
-            var status = Backtrack(-1, assignment, constraintNetwork);
+            var status = Backtrack(0, assignment, constraintNetwork);
 
             solutionSnapshot = status ? ConvertSnapshotFrom(assignment, constraintNetwork) : SolutionSnapshot.Empty;
 
@@ -67,9 +64,10 @@ namespace Workbench.Core.Solvers
             if (snapshotAssignment.IsComplete() && AllVariablesTested(currentVariableIndex)) return true;
 
             // The unassigned variable may be a regular variable or an encapsulated variable
-            var currentVariable = SelectUnassignedVariable(currentVariableIndex, constraintNetwork, snapshotAssignment, out var variableIndex);
+            var currentVariable = SelectUnassignedVariable(currentVariableIndex, constraintNetwork, snapshotAssignment);
 
             Debug.Assert(currentVariable != null, "Snapshot is not complete so there must be more variables.");
+
             foreach (var value in OrderDomainValues(currentVariable, snapshotAssignment, constraintNetwork))
             {
                 if (IsConsistent(value, snapshotAssignment, currentVariable, out var inconsistentValues))
@@ -81,10 +79,9 @@ namespace Workbench.Core.Solvers
                     }
 
                     // Is this the final variable?
-                    if (AllVariablesTested(variableIndex)) return true;
+                    if (AllVariablesTested(currentVariableIndex)) return true;
 
-                    var status = Backtrack(variableIndex, snapshotAssignment, constraintNetwork);
-                    if (status)
+                    if (Backtrack(currentVariableIndex + 1, snapshotAssignment, constraintNetwork))
                     {
                         return true;
                     }
@@ -154,17 +151,11 @@ namespace Workbench.Core.Solvers
             return variableIndex + 1 >=_constraintNetwork.GetVariables().Count;
         }
 
-        private VariableBase SelectUnassignedVariable(int currentVariableIndex, ConstraintNetwork constraintNetwork, SnapshotLabelAssignment assignment, out int variableIndex)
+        private VariableBase SelectUnassignedVariable(int currentVariableIndex, ConstraintNetwork constraintNetwork, SnapshotLabelAssignment assignment)
         {
-            var nextVariableIndex = currentVariableIndex + 1;
-            Debug.Assert(nextVariableIndex < _variables.Count);
-            var nextAvailable =_variables[nextVariableIndex];
-            Debug.Assert(nextAvailable != null);
-            _variablesTestedCount++;
+            Debug.Assert(currentVariableIndex < _variables.Count, "Backtracking must never attempt to go over the end of the variables.");
 
-            variableIndex = nextVariableIndex;
-
-            return nextAvailable;
+            return _variables[currentVariableIndex];
         }
 
         private SolutionSnapshot ConvertSnapshotFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
