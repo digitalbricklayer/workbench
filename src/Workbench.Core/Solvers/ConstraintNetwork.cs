@@ -100,9 +100,8 @@ namespace Workbench.Core.Solvers
                 }
             }
 
-#if true
             allVariablesIncEncapsulated.AddRange(_singletonVariables);
-#endif
+            allVariablesIncEncapsulated.AddRange(_aggregateVariables);
 
             return allVariablesIncEncapsulated;
         }
