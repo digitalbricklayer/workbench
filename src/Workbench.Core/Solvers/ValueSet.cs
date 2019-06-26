@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -19,7 +20,6 @@ namespace Workbench.Core.Solvers
             Contract.Requires<ArgumentNullException>(variableValues != null);
 
             _values = new List<Value>(variableValues);
-            Debug.Assert(IsAllUnique(_values));
         }
 
         internal ValueSet(Value value)
@@ -27,7 +27,7 @@ namespace Workbench.Core.Solvers
             _values = new List<Value> { value};
         }
 
-        internal IEnumerable<Value> Values => _values;
+        internal IEnumerable<Value> Values => new ReadOnlyCollection<Value>(_values);
 
         internal int GetAt(int index)
         {

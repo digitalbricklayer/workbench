@@ -5,7 +5,6 @@ using Workbench.Core.Solvers;
 namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
-    [Ignore("Hangs the test runner")]
     public class OrangeSolverWithMultiLevelRepeaterShould
     {
         [Test]
@@ -28,6 +27,18 @@ namespace Workbench.Core.Tests.Unit.Solvers
                 var x = actualSnapshot.GetCompoundLabelByVariableName("x");
                 Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(2)));
                 Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(3)));
+            }
+        }
+
+        [Test]
+        public void SolveReturningLabelInValidRange()
+        {
+            using (var sut = CreateSolver())
+            {
+                var actualResult = sut.Solve(MakeModel());
+                var actualSnapshot = actualResult.Snapshot;
+                var xLabel = actualSnapshot.GetCompoundLabelByVariableName("x");
+                Assert.That(xLabel.Values, Is.All.InRange(1, 10));
             }
         }
 
