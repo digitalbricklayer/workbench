@@ -14,7 +14,7 @@ namespace Workbench.Core.Solvers
         private readonly OrToolsCache cache;
         private readonly Google.OrTools.ConstraintSolver.Solver solver;
         private readonly ModelModel model;
-        private readonly ValueMapper valueMapper;
+        private readonly OrValueMapper valueMapper;
 
         /// <summary>
         /// Initialize the expression constraint converter with a solver and or-tools cache.
@@ -22,7 +22,7 @@ namespace Workbench.Core.Solvers
         /// <param name="theSolver">Google or-tools solver instance.</param>
         /// <param name="theCache">Cache mapping between the model and Google or-tools solver.</param>
         /// <param name="theModel">Model</param>
-        internal OrExpressionConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel, ValueMapper theValueMapper)
+        internal OrExpressionConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel, OrValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);

@@ -16,7 +16,7 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Initialize the model converter with a Google or-tools solver.
         /// </summary>
-        internal ModelConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ValueMapper valueMapper)
+        internal ModelConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, OrValueMapper valueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);

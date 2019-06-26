@@ -8,12 +8,12 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Map to / from domain and solver values.
     /// </summary>
-    internal class ValueMapper
+    internal sealed class OrangeValueMapper
     {
         private readonly Dictionary<string, DomainValue> valueVariableDictionary;
         private readonly Dictionary<string, DomainValue> valueBucketMap;
 
-        internal ValueMapper()
+        internal OrangeValueMapper()
         {
             valueVariableDictionary = new Dictionary<string, DomainValue>();
             valueBucketMap = new Dictionary<string, DomainValue>();

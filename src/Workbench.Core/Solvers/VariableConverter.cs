@@ -12,12 +12,12 @@ namespace Workbench.Core.Solvers
     {
         private readonly Solver solver;
         private readonly OrToolsCache cache;
-        private readonly ValueMapper valueMapper;
+        private readonly OrValueMapper valueMapper;
 
         /// <summary>
         /// Initialize the variable converter with a Google or-tools solver, a or-tools cache and a solver / domain mapper.
         /// </summary>
-        internal VariableConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ValueMapper theValueMapper)
+        internal VariableConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, OrValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);

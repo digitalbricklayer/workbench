@@ -12,7 +12,7 @@ namespace Workbench.Core.Solvers
     internal sealed class OrangeSnapshotExtractor
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
-        private readonly ValueMapper _valueMapper;
+        private readonly OrangeValueMapper _valueMapper;
         private List<VariableBase> _variables;
         private ConstraintNetwork _constraintNetwork;
 
@@ -21,7 +21,7 @@ namespace Workbench.Core.Solvers
         /// </summary>
         /// <param name="modelSolverMap">Map between the model and solver representations.</param>
         /// <param name="valueMapper">Map between the model and solver values.</param>
-        internal OrangeSnapshotExtractor(OrangeModelSolverMap modelSolverMap, ValueMapper valueMapper)
+        internal OrangeSnapshotExtractor(OrangeModelSolverMap modelSolverMap, OrangeValueMapper valueMapper)
         {
             _modelSolverMap = modelSolverMap;
             _valueMapper = valueMapper;

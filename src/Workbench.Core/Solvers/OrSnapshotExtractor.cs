@@ -12,7 +12,7 @@ namespace Workbench.Core.Solvers
     internal class OrSnapshotExtractor
     {
         private readonly OrToolsCache orToolsCache;
-        private readonly ValueMapper valueMapper;
+        private readonly OrValueMapper valueMapper;
         private readonly SolutionSnapshot snapshot;
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Workbench.Core.Solvers
         /// </summary>
         /// <param name="theOrToolsCache">or-tools cache.</param>
         /// <param name="theValueMapper">Value mapper between domain and solver values.</param>
-        internal OrSnapshotExtractor(OrToolsCache theOrToolsCache, ValueMapper theValueMapper)
+        internal OrSnapshotExtractor(OrToolsCache theOrToolsCache, OrValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theOrToolsCache != null);
             Contract.Requires<ArgumentNullException>(theValueMapper != null);

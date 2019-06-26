@@ -12,7 +12,7 @@ namespace Workbench.Core.Solvers
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
         private ConstraintNetwork _constraintNetwork;
-        private readonly ValueMapper _valueMapper;
+        private readonly OrangeValueMapper _valueMapper;
         private readonly ArcBuilder _arcBuilder;
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Workbench.Core.Solvers
         /// </summary>
         /// <param name="modelSolverMap">Cache to track model elements to solver equivalents.</param>
         /// <param name="valueMapper">Solver to domain value mapper.</param>
-        internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap, ValueMapper valueMapper)
+        internal ConstraintNetworkBuilder(OrangeModelSolverMap modelSolverMap, OrangeValueMapper valueMapper)
         {
             _modelSolverMap = modelSolverMap;
             _valueMapper = valueMapper;

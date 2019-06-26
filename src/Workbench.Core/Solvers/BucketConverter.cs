@@ -11,12 +11,12 @@ namespace Workbench.Core.Solvers
     {
         private readonly Google.OrTools.ConstraintSolver.Solver _solver;
         private readonly OrToolsCache _cache;
-        private readonly ValueMapper _valueMapper;
+        private readonly OrValueMapper _valueMapper;
 
         /// <summary>
         /// Initialize the bucket converter with a Google or-tools solver, a or-tools cache and a solver / domain mapper.
         /// </summary>
-        internal BucketConverter(Google.OrTools.ConstraintSolver.Solver solver, OrToolsCache cache, ValueMapper valueMapper)
+        internal BucketConverter(Google.OrTools.ConstraintSolver.Solver solver, OrToolsCache cache, OrValueMapper valueMapper)
         {
             Contract.Requires<ArgumentNullException>(solver != null);
             Contract.Requires<ArgumentNullException>(cache != null);

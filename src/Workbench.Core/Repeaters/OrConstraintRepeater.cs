@@ -19,9 +19,9 @@ namespace Workbench.Core.Repeaters
         private readonly OrToolsCache cache;
         private readonly Solver solver;
         private readonly ModelModel model;
-        private readonly ValueMapper valueMapper;
+        private readonly OrValueMapper valueMapper;
 
-        internal OrConstraintRepeater(Solver theSolver, OrToolsCache theCache, ModelModel theModel, ValueMapper theValueMapper)
+        internal OrConstraintRepeater(Solver theSolver, OrToolsCache theCache, ModelModel theModel, OrValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(theSolver != null);
             Contract.Requires<ArgumentNullException>(theCache != null);

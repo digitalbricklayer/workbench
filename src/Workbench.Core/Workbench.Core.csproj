@@ -348,6 +348,7 @@
     <Compile Include="Solvers\Arc.cs" />
     <Compile Include="Solvers\ArcBuilder.cs" />
     <Compile Include="Solvers\BucketConverter.cs" />
+    <Compile Include="Solvers\OrValueMapper.cs" />
     <Compile Include="Solvers\OrBucketVariableMap.cs" />
     <Compile Include="Solvers\OrBundleMap.cs" />
     <Compile Include="Solvers\OrConstraintConverter.cs" />
@@ -380,7 +381,7 @@
     <Compile Include="Solvers\TernaryConstraintExpressionSolution.cs" />
     <Compile Include="Solvers\Value.cs" />
     <Compile Include="Solvers\ValueEvaluator.cs" />
-    <Compile Include="Solvers\ValueMapper.cs" />
+    <Compile Include="Solvers\OrangeValueMapper.cs" />
     <Compile Include="Solvers\ValueSet.cs" />
     <Compile Include="Solvers\VariableBandEvaluator.cs" />
     <Compile Include="Solvers\VariableBase.cs" />

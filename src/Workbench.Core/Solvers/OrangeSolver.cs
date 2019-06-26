@@ -16,7 +16,7 @@ namespace Workbench.Core.Solvers
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly OrangeSnapshotExtractor _snapshotExtractor;
         private readonly OrangeModelSolverMap _modelSolverMap;
-        private readonly ValueMapper _valueMapper = new ValueMapper();
+        private readonly OrangeValueMapper _valueMapper = new OrangeValueMapper();
 
         /// <summary>
         /// Initialize an orange solver with default values.

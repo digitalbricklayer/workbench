@@ -16,11 +16,11 @@ namespace Workbench.Core.Repeaters
         private OrangeConstraintRepeaterContext _context;
         private readonly OrangeModelSolverMap _modelSolverMap;
         private readonly ModelModel _model;
-        private readonly ValueMapper _valueMapper;
+        private readonly OrangeValueMapper _valueMapper;
         private readonly ConstraintNetwork _constraintNetwork;
         private readonly ArcBuilder _arcBuilder;
 
-        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, ValueMapper theValueMapper)
+        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, OrangeValueMapper theValueMapper)
         {
             Contract.Requires<ArgumentNullException>(constraintNetwork != null);
             Contract.Requires<ArgumentNullException>(modelSolverMap != null);

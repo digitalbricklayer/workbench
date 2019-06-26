@@ -12,7 +12,7 @@ namespace Workbench.Core.Solvers
     {
         private Solver solver;
         private readonly OrToolsCache orToolsCache = new OrToolsCache();
-        private readonly ValueMapper valueMapper = new ValueMapper();
+        private readonly OrValueMapper valueMapper = new OrValueMapper();
 
         /// <summary>
         /// Solve the model using the Google or-tools solver.
