@@ -23,7 +23,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var cLabel = actualResult.Snapshot.GetLabelByVariableName("c");
+            var cLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("c");
             var cValue = cLabel.Value;
             Assert.That(cValue, Is.InstanceOf<string>());
             Assert.That(cValue, Is.EqualTo("moon"));
@@ -34,7 +34,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var aValue = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
+            var aValue = actualResult.Snapshot.GetAggregateLabelByVariableName("a");
             Assert.That(aValue.Values, Is.Unique);
             Assert.That(aValue.Values, Is.All.TypeOf<string>());
         }

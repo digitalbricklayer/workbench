@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Models;
+using Workbench.Core.Parsers;
 using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Solvers
@@ -52,6 +54,10 @@ namespace Workbench.Core.Solvers
                     case ExpressionConstraintModel expressionConstraint:
                         CreateArcFrom(expressionConstraint);
                         break;
+						
+					case AllDifferentConstraintModel allDifferentConstraint:
+						CreateArcFrom(allDifferentConstraint);
+						break;
 
                     default:
                         throw new NotImplementedException();
@@ -70,6 +76,30 @@ namespace Workbench.Core.Solvers
             else
             {
                 _constraintNetwork.AddArc(_arcBuilder.Build(constraint.Expression.Node));
+            }
+        }
+
+        private void CreateArcFrom(AllDifferentConstraintModel constraint)
+        {
+            var solverAggregateVariable = _modelSolverMap.GetSolverAggregateVariableByName(constraint.Expression.Text);
+
+            var aggregateVariableName = solverAggregateVariable.Name;
+
+            /*
+             * Iterate through all variables inside the aggregate and ensure
+             * that each variable is not equal to all variables to their
+             * right. The not equal operator is commutative so there is no need to 
+             */
+            for (var i = 0; i < solverAggregateVariable.Variables.Count; i++)
+            {
+                for (var z = i + 1; z < solverAggregateVariable.Variables.Count; z++)
+                {
+                    var expressionText = $"${aggregateVariableName}[{i}] <> ${aggregateVariableName}[{z}]";
+                    var interpreter = new ConstraintExpressionParser();
+                    var parseResult = interpreter.Parse(expressionText);
+                    Debug.Assert(parseResult.IsSuccess);
+                    _constraintNetwork.AddArc(_arcBuilder.Build(parseResult.Root));
+                }
             }
         }
 

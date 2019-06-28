@@ -100,22 +100,22 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Get the compound label matching the variable name.
+        /// Get the aggregate label matching the variable name.
         /// </summary>
         /// <param name="theAggregateVariableName">Aggregate variable name.</param>
-        /// <returns>Compound label for the aggregate variable.</returns>
-        public AggregateVariableLabelModel GetCompoundLabelByVariableName(string theAggregateVariableName)
+        /// <returns>Aggregate label for the aggregate variable.</returns>
+        public AggregateVariableLabelModel GetAggregateLabelByVariableName(string theAggregateVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
             return _aggregateVariableLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));
         }
 
         /// <summary>
-        /// Get the label matching the variable name.
+        /// Get the singleton label matching the variable name.
         /// </summary>
         /// <param name="theSingletonVariableName">Singleton variable name.</param>
-        /// <returns>Label for the singleton variable.</returns>
-        public SingletonVariableLabelModel GetLabelByVariableName(string theSingletonVariableName)
+        /// <returns>Singleton label for the singleton variable.</returns>
+        public SingletonVariableLabelModel GetSingletonLabelByVariableName(string theSingletonVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
             return _singletonVariableLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);

@@ -21,8 +21,8 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var xLabel = actualResult.Snapshot.GetLabelByVariableName("x");
-            var yLabel = actualResult.Snapshot.GetLabelByVariableName("y");
+            var xLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("x");
+            var yLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("y");
             Assert.That(xLabel.Value, Is.AnyOf(1, 2));
             Assert.That(yLabel.Value, Is.AnyOf(1, 2));
         }
@@ -33,8 +33,8 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var xLabel = actualResult.Snapshot.GetLabelByVariableName("x");
-            var yLabel = actualResult.Snapshot.GetLabelByVariableName("y");
+            var xLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("x");
+            var yLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("y");
             Assert.That(xLabel.Value, Is.Not.EqualTo(yLabel.Value));
         }
 

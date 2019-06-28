@@ -31,7 +31,7 @@ namespace Workbench.Core.Tests.Unit
         public void SolveWithTableReturnsSnapshotWithValidResult()
         {
             var actualResult = Subject.Solve();
-            var aLabel = actualResult.Snapshot.GetLabelByVariableName("a");
+            var aLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("a");
             Assert.That(aLabel.Value, Is.EqualTo("Bodie"));
         }
 

@@ -22,7 +22,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
+            var aLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("A");
             Assert.That(aLabel.GetValueAsInt(), Is.InRange(1, 4));
         }
 
@@ -32,7 +32,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
+            var bLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("B");
             Assert.That(bLabel.GetValueAsInt(), Is.InRange(1, 4));
         }
 
@@ -42,7 +42,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var cLabel = actualResult.Snapshot.GetLabelByVariableName("C");
+            var cLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("C");
             Assert.That(cLabel.GetValueAsInt(), Is.InRange(1, 4));
         }
 
@@ -52,8 +52,8 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var aLabel = actualResult.Snapshot.GetLabelByVariableName("A");
-            var bLabel = actualResult.Snapshot.GetLabelByVariableName("B");
+            var aLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("A");
+            var bLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("B");
             Assert.That(aLabel.GetValueAsInt(), Is.GreaterThan(bLabel.GetValueAsInt()));
         }
 

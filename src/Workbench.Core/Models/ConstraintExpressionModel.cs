@@ -76,7 +76,7 @@ namespace Workbench.Core.Models
         /// Parse the raw constraint expression.
         /// </summary>
         /// <param name="rawExpression">Raw constraint expression.</param>
-        private void ParseUnit(string rawExpression)
+        internal void ParseUnit(string rawExpression)
         {
             if (!string.IsNullOrWhiteSpace(rawExpression))
             {

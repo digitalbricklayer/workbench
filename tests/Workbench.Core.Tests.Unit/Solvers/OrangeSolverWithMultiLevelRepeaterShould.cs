@@ -24,9 +24,9 @@ namespace Workbench.Core.Tests.Unit.Solvers
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetCompoundLabelByVariableName("x");
-                Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(2)));
-                Assert.That(x.GetValueAt(1), Is.EqualTo(x.GetValueAt(3)));
+                var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
+                Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(2)));
+                Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(3)));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             {
                 var actualResult = sut.Solve(MakeModel());
                 var actualSnapshot = actualResult.Snapshot;
-                var xLabel = actualSnapshot.GetCompoundLabelByVariableName("x");
+                var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
                 Assert.That(xLabel.Values, Is.All.InRange(1, 10));
             }
         }
@@ -50,8 +50,8 @@ namespace Workbench.Core.Tests.Unit.Solvers
         private static ModelModel MakeModel()
         {
             var workspace = new WorkspaceBuilder("A multi-level repeater test")
-                                          .AddAggregate("x", 10, "1..10")
-                                          .WithConstraintExpression("$x[i] <> $x[j] + 1 | i,j in 0..9,0..i")
+                                          .AddAggregate("x", 8, "1..size(x)")
+                                          .WithConstraintExpression("$x[i] <> $x[j] | i,j in size(x),i")
                                           .Build();
 
             return workspace.Model;

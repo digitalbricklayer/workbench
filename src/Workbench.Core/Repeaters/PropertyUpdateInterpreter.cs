@@ -114,7 +114,7 @@ namespace Workbench.Core.Repeaters
             if (theValueReferenceExpression.IsSingletonValue)
             {
                 var singletonVariableName = theValueReferenceExpression.VariableName;
-                var singletonValue = _snapshot.GetLabelByVariableName(singletonVariableName.Name);
+                var singletonValue = _snapshot.GetSingletonLabelByVariableName(singletonVariableName.Name);
                 return singletonValue.Value;
             }
             else if (theValueReferenceExpression.IsAggregateValue)
@@ -123,7 +123,7 @@ namespace Workbench.Core.Repeaters
                 var aggregateVariableOffset = theValueReferenceExpression.ValueOffset;
                 Contract.Assert(aggregateVariableOffset.IsLiteral);
                 var offsetValue = aggregateVariableOffset.Literal.Value;
-                var aggregateValue = _snapshot.GetCompoundLabelByVariableName(aggregateVariableName.Name);
+                var aggregateValue = _snapshot.GetAggregateLabelByVariableName(aggregateVariableName.Name);
                 return aggregateValue.GetValueAt(offsetValue - 1);
             }
             else

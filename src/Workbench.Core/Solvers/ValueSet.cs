@@ -41,6 +41,11 @@ namespace Workbench.Core.Solvers
             return _values.First(value => value.VariableName == variableName).Content;
         }
 
+        internal bool IsAssigned(string variableName)
+        {
+            return _values.Any(value => value.VariableName == variableName);
+        }
+
         public override string ToString()
         {
             var output = new StringBuilder();

@@ -43,5 +43,10 @@ namespace Workbench.Core.Parsers
         /// Gets the Irony parse tree.
         /// </summary>
         public ParseTree Tree { get; private set; }
+
+        /// <summary>
+        /// Gets whether the parse was successful.
+        /// </summary>
+        public bool IsSuccess => Status == ParseStatus.Success;
     }
 }

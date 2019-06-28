@@ -25,7 +25,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var actualColumnValues = actualResult.Snapshot.GetCompoundLabelByVariableName("cols").Values;
+            var actualColumnValues = actualResult.Snapshot.GetAggregateLabelByVariableName("cols").Values;
             Assert.That(actualColumnValues, Is.Unique);
             Assert.That(actualColumnValues, Is.All.GreaterThanOrEqualTo(1)
                                                   .And

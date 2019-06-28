@@ -23,7 +23,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
+            var colsLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("cols");
             Assert.That(colsLabel.Values, Is.All.InRange(1, 4));
         }
 
@@ -33,7 +33,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var colsLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("cols");
+            var colsLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("cols");
             Assert.That(Convert.ToInt32(colsLabel.GetValueAt(1)) + 1, Is.GreaterThan(2));
         }
 

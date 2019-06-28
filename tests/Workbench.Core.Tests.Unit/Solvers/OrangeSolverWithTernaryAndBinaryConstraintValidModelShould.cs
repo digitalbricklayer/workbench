@@ -22,7 +22,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var xLabel = actualResult.Snapshot.GetLabelByVariableName("x");
+            var xLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("x");
             Assert.That(xLabel.GetValueAsInt(), Is.InRange(1, 2));
         }
 
@@ -32,7 +32,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var yLabel = actualResult.Snapshot.GetLabelByVariableName("y");
+            var yLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("y");
             Assert.That(yLabel.GetValueAsInt(), Is.InRange(1, 2));
         }
 
@@ -42,8 +42,8 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var sut = new OrangeSolver();
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
-            var xLabel = actualResult.Snapshot.GetLabelByVariableName("x");
-            var yLabel = actualResult.Snapshot.GetLabelByVariableName("y");
+            var xLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("x");
+            var yLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("y");
             Assert.That(xLabel.GetValueAsInt(), Is.GreaterThan(yLabel.GetValueAsInt()));
         }
 

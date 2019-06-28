@@ -73,7 +73,7 @@ namespace Workbench.Core.Models
         public SingletonVariableLabelModel GetLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return Snapshot.GetLabelByVariableName(theVariableName);
+            return Snapshot.GetSingletonLabelByVariableName(theVariableName);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Workbench.Core.Models
         public AggregateVariableLabelModel GetCompoundLabelByVariableName(string theVariableName)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
-            return Snapshot.GetCompoundLabelByVariableName(theVariableName);
+            return Snapshot.GetAggregateLabelByVariableName(theVariableName);
         }
 
         /// <summary>

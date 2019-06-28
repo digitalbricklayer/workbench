@@ -76,7 +76,7 @@ namespace Workbench.Core.Solvers
                     }
                 }
 
-                snapshotAssignment.Remove(inconsistentValues);
+                snapshotAssignment.Remove(value);
             }
 
             return false;

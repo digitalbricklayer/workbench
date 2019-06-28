@@ -129,6 +129,7 @@
     <Compile Include="Solvers\OrangeSolverExpressionTests.cs" />
     <Compile Include="Solvers\OrangeSolverSimpleTests.cs" />
     <Compile Include="Solvers\OrangeSolverTests.cs" />
+    <Compile Include="Solvers\OrangeSolverBugReproduction.cs" />
     <Compile Include="TableSharedDomainSolverWithCellListShould.cs" />
     <Compile Include="TableVariableDomainSolverWithCellListShould.cs" />
     <Compile Include="TableSharedDomainSolverWithPartialColumnRangeShould.cs" />

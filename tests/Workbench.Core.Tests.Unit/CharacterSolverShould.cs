@@ -24,7 +24,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var aLabel = actualResult.Snapshot.GetCompoundLabelByVariableName("a");
+            var aLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("a");
             var actualModelValues = aLabel.Bindings.Select(_ => _.Model)
 												   .ToList();
             Assert.That(aLabel.Values, Is.Unique);
@@ -38,7 +38,7 @@ namespace Workbench.Core.Tests.Unit
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var bLabel = actualResult.Snapshot.GetLabelByVariableName("b");
+            var bLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("b");
             var bBinding = bLabel.Value;
             Assert.That(bBinding, Is.InRange('a', 'z')
                                     .Using(new CharacterRangeComparer()));
