@@ -63,7 +63,7 @@ namespace Workbench.Core.Solvers
 
             foreach (var value in OrderDomainValues(currentVariable, snapshotAssignment, constraintNetwork))
             {
-                if (IsConsistent(value, snapshotAssignment, out var inconsistentValues))
+                if (IsConsistent(value, snapshotAssignment))
                 {
                     snapshotAssignment.AssignTo(value);
 
@@ -97,7 +97,7 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment, out List<Value> inconsistentValues)
+        private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment)
         {
             /*
              * All variables in the set must be consistent, either not having been assigned
@@ -105,8 +105,6 @@ namespace Workbench.Core.Solvers
              */
             var inconsistentValueAccumulator = valueSet.Values.Where(value => !IsConsistent(value, assignment))
                                                               .ToList();
-            inconsistentValues = inconsistentValueAccumulator;
-
             return !inconsistentValueAccumulator.Any();
         }
 
