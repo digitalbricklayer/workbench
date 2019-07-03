@@ -1,4 +1,3 @@
-using System.Linq;
 using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
@@ -29,10 +28,12 @@ namespace Workbench.Core.Tests.Unit.Solvers
             {
                 var actualResult = sut.Solve(CreateWorkspace().Model);
                 var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
-                var firstMatchLabel = weekBucketLabel.BundleLabels.First();
-                var homeTeamLabel = firstMatchLabel.GetSingletonLabelByName("home");
-                var awayTeamLabel = firstMatchLabel.GetSingletonLabelByName("away");
-                Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
+                foreach (var matchLabel in weekBucketLabel.BundleLabels)
+                {
+                    var homeTeamLabel = matchLabel.GetSingletonLabelByName("home");
+                    var awayTeamLabel = matchLabel.GetSingletonLabelByName("away");
+                    Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
+                }
             }
         }
 
