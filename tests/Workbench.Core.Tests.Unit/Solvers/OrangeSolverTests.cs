@@ -29,7 +29,7 @@ namespace Workbench.Core.Tests.Unit.Solvers
                 var x = actualSnapshot.GetSingletonLabelByVariableName("x");
                 var y = actualSnapshot.GetSingletonLabelByVariableName("y");
                 var z = actualSnapshot.GetAggregateLabelByVariableName("z");
-                Assert.That(x.Value, Is.Not.EqualTo(y.Value));
+                Assert.That(x.Value, Is.LessThan(y.Value));
                 Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(0)));
             }
         }

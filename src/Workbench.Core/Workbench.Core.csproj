@@ -339,6 +339,8 @@
     <Compile Include="Solvers\Node.cs" />
     <Compile Include="Solvers\NodeConnector.cs" />
     <Compile Include="Solvers\OrangeAggregateVariableMap.cs" />
+    <Compile Include="Solvers\OrangeBucketVariableMap.cs" />
+    <Compile Include="Solvers\OrangeBundleMap.cs" />
     <Compile Include="Solvers\OrangeModelSolverMap.cs" />
     <Compile Include="Solvers\OrangeSingletonVariableMap.cs" />
     <Compile Include="Solvers\OrangeSnapshotExtractor.cs" />

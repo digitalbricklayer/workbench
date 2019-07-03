@@ -50,9 +50,6 @@ namespace Workbench.Core.Solvers
             {
                 this.valueVariableDictionary.Add(variableModel.Name.Text, theVariableBand);
             }
-#if false
-            this.valueVariableDictionary.Add(theAggregate.Name.Text, theVariableBand);
-#endif
         }
 
         internal void AddBucketDomainValue(BucketVariableModel bucket, DomainValue variableBand)

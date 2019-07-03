@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
-using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
 {
@@ -17,6 +17,7 @@ namespace Workbench.Core.Solvers
         private readonly Dictionary<string, VariableModel> _modelVariableMap;
         private readonly Dictionary<string, Node> _nodeMap;
         private readonly List<TernaryConstraintExpressionSolution> _ternarySolutions;
+        private readonly Dictionary<string, OrangeBucketVariableMap> _bucketMap;
 
         /// <summary>
         /// Initialize a cache with default values.
@@ -25,6 +26,7 @@ namespace Workbench.Core.Solvers
         {
             _singletonVariableMap = new Dictionary<string, OrangeSingletonVariableMap>();
             _aggregateVariableMap = new Dictionary<string, OrangeAggregateVariableMap>();
+            _bucketMap = new Dictionary<string, OrangeBucketVariableMap>();
             _solverVariableMap = new Dictionary<string, SolverVariable>();
             _modelVariableMap = new Dictionary<string, VariableModel>();
             _nodeMap = new Dictionary<string, Node>();
@@ -53,15 +55,16 @@ namespace Workbench.Core.Solvers
             }
         }
 
-        /// <summary>
-        /// Add a node to the map.
-        /// </summary>
-        /// <param name="name">Name of the variable inside the node.</param>
-        /// <param name="node">Node.</param>
-        internal void AddNode(string name, Node node)
+        internal void AddBucket(string name, OrangeBucketVariableMap bucketVariableMap)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
-            _nodeMap.Add(name, node);
+            _bucketMap.Add(name, bucketVariableMap);
+            foreach (var bundleMap in bucketVariableMap.GetBundleMaps())
+            {
+                foreach (var x in bundleMap.GetVariableMaps())
+                {
+                    _solverVariableMap.Add(x.SolverVariable.Name, x.SolverVariable);
+                }
+            }
         }
 
         internal SolverVariable GetSolverSingletonVariableByName(string variableName)
@@ -87,6 +90,25 @@ namespace Workbench.Core.Solvers
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
             return _aggregateVariableMap[variableName].SolverVariable;
+        }
+
+        internal SolverVariable GetSolverBucketVariableByName(string bucketName, int index, string variableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketName));
+            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+
+            var bucketVariableMap = _bucketMap[bucketName];
+            var bundleMap = bucketVariableMap.GetBundleVariableAt(index);
+            var variableMap = bundleMap.GetVariableByName(variableName);
+            return variableMap.SolverVariable;
+        }
+
+        internal OrangeBucketVariableMap GetBucketVariableMapByName(string bucketName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketName));
+
+            return _bucketMap[bucketName];
         }
 
         internal AggregateVariableModel GetModelAggregateVariableByName(string variableName)
@@ -120,57 +142,6 @@ namespace Workbench.Core.Solvers
             _ternarySolutions.Add(solution);
         }
 
-        internal IEnumerable<TernaryConstraintExpressionSolution> FindTernaryConstraintSolutionsInvolving(SolverVariable singletonVariable)
-        {
-            var solutionAccumulator = new List<TernaryConstraintExpressionSolution>();
-            foreach (var ternaryConstraintSolution in _ternarySolutions)
-            {
-                var leftVariable = ExtractVariableFrom(ternaryConstraintSolution.Expression.ExpressionNode.InnerExpression.LeftExpression);
-
-                if (leftVariable.Name == singletonVariable.Name)
-                {
-                    solutionAccumulator.Add(ternaryConstraintSolution);
-                }
-                else
-                {
-                    if (!ternaryConstraintSolution.Expression.ExpressionNode.InnerExpression.RightExpression.IsLiteral)
-                    {
-                        var rightVariable = ExtractVariableFrom(ternaryConstraintSolution.Expression.ExpressionNode.InnerExpression.RightExpression);
-                        if (rightVariable.Name == singletonVariable.Name)
-                        {
-                            solutionAccumulator.Add(ternaryConstraintSolution);
-                        }
-                    }
-                }
-            }
-
-            return solutionAccumulator;
-        }
-
-        // Copied from ArcBuilder.
-        private SolverVariable ExtractVariableFrom(ExpressionNode expressionConstraintNode)
-        {
-            switch (expressionConstraintNode.InnerExpression)
-            {
-                case SingletonVariableReferenceNode singletonVariableReference:
-                    return GetSolverSingletonVariableByName(singletonVariableReference.VariableName);
-
-                case AggregateVariableReferenceNode aggregateVariableReference:
-                    return GetSolverAggregateVariableByName(aggregateVariableReference.VariableName,
-                                                            aggregateVariableReference.SubscriptStatement.Subscript);
-
-                case SingletonVariableReferenceExpressionNode singletonVariableExpression:
-                    return GetSolverSingletonVariableByName(singletonVariableExpression.VariableReference.VariableName);
-
-                case AggregateVariableReferenceExpressionNode aggregateVariableExpression:
-                    return GetSolverAggregateVariableByName(aggregateVariableExpression.VariableReference.VariableName,
-                                                            aggregateVariableExpression.VariableReference.SubscriptStatement.Subscript);
-
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
         /// <summary>
         /// Get all ternary constraint expression solutions.
         /// </summary>
@@ -183,6 +154,11 @@ namespace Workbench.Core.Solvers
         internal SolverVariable GetSolverVariableByName(string variableName)
         {
             return _solverVariableMap[variableName];
+        }
+
+        internal IEnumerable<OrangeBucketVariableMap> GetBucketVariables()
+        {
+            return _bucketMap.Values;
         }
     }
 }

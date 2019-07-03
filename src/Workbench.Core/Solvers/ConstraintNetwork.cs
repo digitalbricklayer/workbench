@@ -12,6 +12,7 @@ namespace Workbench.Core.Solvers
         private readonly List<Arc> _arcs;
         private readonly List<SolverVariable> _singletonVariables;
         private readonly List<AggregateSolverVariable> _aggregateVariables;
+        private readonly List<OrangeBucketVariableMap> _bucketMaps;
 
         /// <summary>
         /// Initialize a constraint network with default values.
@@ -21,6 +22,7 @@ namespace Workbench.Core.Solvers
             _arcs = new List<Arc>();
             _singletonVariables = new List<SolverVariable>();
             _aggregateVariables = new List<AggregateSolverVariable>();
+            _bucketMaps = new List<OrangeBucketVariableMap>();
         }
 
         /// <summary>
@@ -48,6 +50,11 @@ namespace Workbench.Core.Solvers
         internal void AddVariable(AggregateSolverVariable variable)
         {
             _aggregateVariables.Add(variable);
+        }
+
+        internal void AddVariable(OrangeBucketVariableMap variable)
+        {
+            _bucketMaps.Add(variable);
         }
 
         /// <summary>
@@ -108,7 +115,17 @@ namespace Workbench.Core.Solvers
                     allVariablesIncEncapsulated.Add(solverVariable);
                 }
             }
-//            allVariablesIncEncapsulated.AddRange(_aggregateVariables);
+
+            foreach (var bucketMap in _bucketMaps)
+            {
+                foreach (var bundleMap in bucketMap.GetBundleMaps())
+                {
+                    foreach (var variableMap in bundleMap.GetVariableMaps())
+                    {
+                        allVariablesIncEncapsulated.Add(variableMap.SolverVariable);
+                    }
+                }
+            }
 
             return allVariablesIncEncapsulated;
         }
@@ -141,6 +158,17 @@ namespace Workbench.Core.Solvers
                 foreach (var solverVariable in aggregateSolverVariable.Variables)
                 {
                     allVariablesIncEncapsulated.Add(solverVariable);
+                }
+            }
+
+            foreach (var bucketMap in _bucketMaps)
+            {
+                foreach (var bundleMap in bucketMap.GetBundleMaps())
+                {
+                    foreach (var variableMap in bundleMap.GetVariableMaps())
+                    {
+                        allVariablesIncEncapsulated.Add(variableMap.SolverVariable);
+                    }
                 }
             }
 

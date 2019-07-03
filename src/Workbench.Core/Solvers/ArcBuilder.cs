@@ -108,6 +108,11 @@ namespace Workbench.Core.Solvers
                     return _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariableExpression.VariableReference.VariableName,
                                                                             aggregateVariableExpression.VariableReference.SubscriptStatement.Subscript);
 
+                case BucketVariableReferenceNode bucketVariableReference:
+                    return _modelSolverMap.GetSolverBucketVariableByName(bucketVariableReference.BucketName,
+                                                                         bucketVariableReference.SubscriptStatement.Subscript,
+                                                                         bucketVariableReference.VariableName);
+
                 default:
                     throw new NotImplementedException();
             }

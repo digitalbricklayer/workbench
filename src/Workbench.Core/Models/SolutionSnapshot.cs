@@ -16,13 +16,15 @@ namespace Workbench.Core.Models
         private readonly List<BucketLabelModel> _bucketLabels;
 
         /// <summary>
-        /// Initialize a solution snapshot with singleton labels and aggregate labels.
+        /// Initialize a solution snapshot with singleton labels, aggregate labels and bucket labels.
         /// </summary>
-        public SolutionSnapshot(IEnumerable<SingletonVariableLabelModel> singletonVariableLabels, IEnumerable<AggregateVariableLabelModel> aggregateVariableLabel)
+        public SolutionSnapshot(IEnumerable<SingletonVariableLabelModel> singletonVariableLabels,
+                                IEnumerable<AggregateVariableLabelModel> aggregateVariableLabel,
+                                IEnumerable<BucketLabelModel> bucketVariableLabels)
         {
             _singletonVariableLabels = new List<SingletonVariableLabelModel>(singletonVariableLabels);
             _aggregateVariableLabels = new List<AggregateVariableLabelModel>(aggregateVariableLabel);
-            _bucketLabels = new List<BucketLabelModel>();
+            _bucketLabels = new List<BucketLabelModel>(bucketVariableLabels);
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace Workbench.Core.Models
         public static SolutionSnapshot Empty => new SolutionSnapshot();
 
         /// <summary>
-        /// Add a label to the snapshot.
+        /// Add a singleton label to the snapshot.
         /// </summary>
         /// <param name="newSingletonVariableLabel">Singleton label.</param>
         internal void AddSingletonLabel(SingletonVariableLabelModel newSingletonVariableLabel)
@@ -80,7 +82,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add a compound label to the snapshot.
+        /// Add an aggregate label to the snapshot.
         /// </summary>
         /// <param name="newAggregateVariableLabel">Aggregate label.</param>
         internal void AddAggregateLabel(AggregateVariableLabelModel newAggregateVariableLabel)
@@ -90,7 +92,7 @@ namespace Workbench.Core.Models
         }
 
         /// <summary>
-        /// Add bucket label.
+        /// Add a bucket label to the snapshot.
         /// </summary>
         /// <param name="bucketLabel">Bucket label.</param>
         internal void AddBucketLabel(BucketLabelModel bucketLabel)

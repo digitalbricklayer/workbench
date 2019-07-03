@@ -59,8 +59,6 @@ namespace Workbench.Core.Solvers
             // The unassigned variable may be a regular variable or an encapsulated variable
             var currentVariable = SelectUnassignedVariable(currentVariableIndex, constraintNetwork, snapshotAssignment);
 
-            Debug.Assert(currentVariable != null, "Snapshot is not complete so there must be more variables.");
-
             foreach (var value in OrderDomainValues(currentVariable, snapshotAssignment, constraintNetwork))
             {
                 if (IsConsistent(value, snapshotAssignment))
@@ -103,9 +101,7 @@ namespace Workbench.Core.Solvers
              * All variables in the set must be consistent, either not having been assigned
              * a value or having a value that is consistent with the currently assigned value.
              */
-            var inconsistentValueAccumulator = valueSet.Values.Where(value => !IsConsistent(value, assignment))
-                                                              .ToList();
-            return !inconsistentValueAccumulator.Any();
+			return valueSet.Values.All(value => IsConsistent(value, assignment));
         }
 
         private bool IsConsistent(Value value, SnapshotLabelAssignment assignment)
@@ -139,15 +135,15 @@ namespace Workbench.Core.Solvers
         private SolutionSnapshot ConvertSnapshotFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
         {
             return new SolutionSnapshot(ExtractSingletonLabelsFrom(assignment, constraintNetwork),
-                                        ExtractAggregateLabelsFrom(assignment, constraintNetwork));
+                                        ExtractAggregateLabelsFrom(assignment, constraintNetwork),
+                                        ExtractBucketLabelsFrom(assignment, constraintNetwork));
         }
 
         private IEnumerable<SingletonVariableLabelModel> ExtractSingletonLabelsFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
         {
             var labelAccumulator = new List<SingletonVariableLabelModel>();
-            var allSingletonVariables = constraintNetwork.GetSingletonVariables();
 
-            foreach (var variable in allSingletonVariables)
+            foreach (var variable in constraintNetwork.GetSingletonVariables())
             {
                 var solverVariable = _modelSolverMap.GetSolverSingletonVariableByName(variable.Name);
                 var labelAssignment = assignment.GetAssignmentFor(solverVariable);
@@ -164,9 +160,8 @@ namespace Workbench.Core.Solvers
         private IEnumerable<AggregateVariableLabelModel> ExtractAggregateLabelsFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
         {
             var aggregatorLabelAccumulator = new List<AggregateVariableLabelModel>();
-            var allAggregateVariables = constraintNetwork.GetAggregateVariables();
 
-            foreach (var aggregateSolverVariable in allAggregateVariables)
+            foreach (var aggregateSolverVariable in constraintNetwork.GetAggregateVariables())
             {
                 var internalAccumulator = new List<ValueModel>();
                 var aggregateVariableModel = _modelSolverMap.GetModelAggregateVariableByName(aggregateSolverVariable.Name);
@@ -176,7 +171,7 @@ namespace Workbench.Core.Solvers
                     var labelAssignment = assignment.GetAssignmentFor(solverVariable);
                     var variableSolverValue = labelAssignment.Value;
                     var variableModel = _modelSolverMap.GetInternalModelAggregateVariableByName(variable.Name);
-                    var variableModelValue = ConvertSolverValueToModel(variableModel, variableSolverValue);
+                    var variableModelValue = ConvertSolverValueToModel((SingletonVariableModel) variableModel, variableSolverValue);
                     internalAccumulator.Add(new ValueModel(variableModelValue));
                 }
 
@@ -187,7 +182,70 @@ namespace Workbench.Core.Solvers
             return aggregatorLabelAccumulator;
         }
 
+        private IEnumerable<BucketLabelModel> ExtractBucketLabelsFrom(SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
+        {
+            var bucketLabelAccumulator = new List<BucketLabelModel>();
+
+            foreach (var bucketVariableMap in _modelSolverMap.GetBucketVariables())
+            {
+                bucketLabelAccumulator.Add(ExtractBucketLabelFrom(assignment, bucketVariableMap));
+            }
+
+            return bucketLabelAccumulator;
+        }
+
+        private BucketLabelModel ExtractBucketLabelFrom(SnapshotLabelAssignment assignment, OrangeBucketVariableMap bucketVariableMap)
+        {
+            var bundleLabels = new List<BundleLabelModel>();
+            foreach (var bundleMap in bucketVariableMap.GetBundleMaps())
+            {
+                var variableLabels = new List<SingletonVariableLabelModel>();
+                foreach (var variableMap in bundleMap.GetVariableMaps())
+                {
+                    var solverVariable = variableMap.SolverVariable;
+                    var labelAssignment = assignment.GetAssignmentFor(solverVariable);
+                    var variableSolverValue = labelAssignment.Value;
+                    var variableModel = variableMap.ModelVariable;
+                    var variableModelValue = ConvertSolverValueToModel(bucketVariableMap.Bucket, variableSolverValue);
+                    var label = new SingletonVariableLabelModel(variableModel, new ValueModel(variableModelValue));
+                    variableLabels.Add(label);
+                }
+                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Bundle, variableLabels));
+            }
+
+            return new BucketLabelModel(bucketVariableMap.Bucket, bundleLabels);
+        }
+
+#if false
         private object ConvertSolverValueToModel(VariableModel theVariable, long solverValue)
+        {
+            switch (theVariable)
+            {
+                case SingletonVariableModel singletonVariable:
+                    return ConvertSolverValueToModel(singletonVariable, solverValue);
+
+                case AggregateVariableModel aggregateVariable:
+                    return ConvertSolverValueToModel(aggregateVariable, solverValue);
+
+                case BucketVariableModel bucketVariable:
+                    return ConvertSolverValueToModel(bucketVariable, solverValue);
+            }
+        }
+#endif
+
+        private object ConvertSolverValueToModel(BucketVariableModel bucket, long solverValue)
+        {
+            var variableDomainValue = _valueMapper.GetDomainValueFor(bucket);
+            return variableDomainValue.MapFrom(solverValue);
+        }
+
+        private object ConvertSolverValueToModel(SingletonVariableModel theVariable, long solverValue)
+        {
+            var variableDomainValue = _valueMapper.GetDomainValueFor(theVariable);
+            return variableDomainValue.MapFrom(solverValue);
+        }
+
+        private object ConvertSolverValueToModel(AggregateVariableModel theVariable, long solverValue)
         {
             var variableDomainValue = _valueMapper.GetDomainValueFor(theVariable);
             return variableDomainValue.MapFrom(solverValue);

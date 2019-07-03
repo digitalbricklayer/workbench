@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Parsers;
@@ -38,6 +39,7 @@ namespace Workbench.Core.Solvers
         {
             MapVariables(model);
             MapValues(model);
+            ConvertBuckets(model);
             _constraintNetwork = new ConstraintNetwork();
             PopulateConstraintNetwork(model);
             CreateVariables(model);
@@ -156,19 +158,65 @@ namespace Workbench.Core.Solvers
                 switch (variable)
                 {
                     case SingletonVariableModel singletonVariable:
-                        var integerVariable = _modelSolverMap.GetSolverSingletonVariableByName(singletonVariable.Name);
-                        _constraintNetwork.AddVariable(integerVariable);
+                        var singletonSolverVariable = _modelSolverMap.GetSolverSingletonVariableByName(singletonVariable.Name);
+                        _constraintNetwork.AddVariable(singletonSolverVariable);
                         break;
 
                     case AggregateVariableModel aggregateVariable:
-                        var aggregateIntegerVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariable.Name);
-                        _constraintNetwork.AddVariable(aggregateIntegerVariable);
+                        var aggregateSolverVariable = _modelSolverMap.GetSolverAggregateVariableByName(aggregateVariable.Name);
+                        _constraintNetwork.AddVariable(aggregateSolverVariable);
                         break;
 
                     default:
                         throw new NotImplementedException();
                 }
             }
+
+            foreach (var bucketVariable in model.Buckets)
+            {
+                var bucketVariableMap = _modelSolverMap.GetBucketVariableMapByName(bucketVariable.Name);
+                _constraintNetwork.AddVariable(bucketVariableMap);
+            }
+        }
+
+        /// <summary>
+        /// Convert all buckets into a representation understood by the solver.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        internal void ConvertBuckets(ModelModel model)
+        {
+            Contract.Requires<ArgumentNullException>(model != null);
+
+            foreach (var bucket in model.Buckets)
+            {
+                ConvertBucket(bucket);
+            }
+        }
+
+        private void ConvertBucket(BucketVariableModel bucket)
+        {
+            var bucketMap = new OrangeBucketVariableMap(bucket);
+            for (var i = 0; i < bucket.Size; i++)
+            {
+                var bundleMap = new OrangeBundleMap(bucket.Bundle);
+                foreach (var singleton in bucket.Bundle.Singletons)
+                {
+                    var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
+                    _valueMapper.AddBucketDomainValue(bucket, variableBand);
+                    var solverVariableName = CreateVariableNameFrom(bucket, i, singleton);
+                    var variableRange = variableBand.GetRange();
+                    var solverVariable = new SolverVariable(solverVariableName, CreateRangeFrom(variableRange));
+                    bundleMap.Add(singleton, solverVariable);
+                }
+
+                bucketMap.Add(bundleMap);
+            }
+            _modelSolverMap.AddBucket(bucket.Name, bucketMap);
+        }
+
+        private static string CreateVariableNameFrom(BucketVariableModel bucket, int index, SingletonVariableModel singletonVariable)
+        {
+            return bucket.Name + "_" + Convert.ToString(index) + "_" + singletonVariable.Name;
         }
 
         private AggregateSolverVariable CreateIntegerVariableFrom(AggregateVariableModel aggregateVariable)
@@ -185,6 +233,11 @@ namespace Workbench.Core.Solvers
         {
             var variableBand = VariableBandEvaluator.GetVariableBand(variable);
             var variableRange = variableBand.GetRange();
+            return CreateRangeFrom(variableRange);
+        }
+
+        private DomainRange CreateRangeFrom(Range variableRange)
+        {
             var range = Enumerable.Range(Convert.ToInt32(variableRange.Lower),
                                          Convert.ToInt32(variableRange.Count)).ToArray();
             return new DomainRange(range);
