@@ -216,23 +216,6 @@ namespace Workbench.Core.Solvers
             return new BucketLabelModel(bucketVariableMap.Bucket, bundleLabels);
         }
 
-#if false
-        private object ConvertSolverValueToModel(VariableModel theVariable, long solverValue)
-        {
-            switch (theVariable)
-            {
-                case SingletonVariableModel singletonVariable:
-                    return ConvertSolverValueToModel(singletonVariable, solverValue);
-
-                case AggregateVariableModel aggregateVariable:
-                    return ConvertSolverValueToModel(aggregateVariable, solverValue);
-
-                case BucketVariableModel bucketVariable:
-                    return ConvertSolverValueToModel(bucketVariable, solverValue);
-            }
-        }
-#endif
-
         private object ConvertSolverValueToModel(BucketVariableModel bucket, long solverValue)
         {
             var variableDomainValue = _valueMapper.GetDomainValueFor(bucket);

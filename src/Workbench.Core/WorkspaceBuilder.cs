@@ -49,6 +49,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
             var newVariable = new SingletonVariableModel(_workspace.Model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
             _workspace.Model.AddVariable(newVariable);
 
@@ -68,6 +69,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentOutOfRangeException>(aggregateSize > 0);
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
             var newVariable = new AggregateVariableModel(_workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
             _workspace.Model.AddVariable(newVariable);
 
@@ -99,6 +101,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainName));
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(newDomainExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
             var newDomain = new SharedDomainModel(_workspace.Model, new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
             _workspace.Model.AddSharedDomain(newDomain);
 
@@ -109,6 +112,7 @@ namespace Workbench.Core
         {
             Contract.Requires<ArgumentNullException>(theDomain != null);
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
             _workspace.Model.AddSharedDomain(theDomain);
             return this;
         }
@@ -118,6 +122,7 @@ namespace Workbench.Core
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theConstraintExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
             var constraintModel = new ExpressionConstraintModel(_workspace.Model, new ConstraintExpressionModel(theConstraintExpression));
+
             _workspace.Model.AddConstraint(constraintModel);
             return this;
         }
@@ -126,6 +131,7 @@ namespace Workbench.Core
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theExpression));
             Contract.Ensures(Contract.Result<WorkspaceBuilder>() != null);
+
             var newConstraint = new AllDifferentConstraintModel(_workspace.Model, new AllDifferentConstraintExpressionModel(theExpression));
             _workspace.Model.AddConstraint(newConstraint);
             return this;
@@ -247,18 +253,30 @@ namespace Workbench.Core
     {
         private string _name;
         private readonly List<SingletonVariableModel> _singletons;
+        private readonly List<ConstraintModel> _constraints;
         private readonly WorkspaceModel _workspace;
 
         public BundleConfiguration(WorkspaceModel workspace)
         {
             Contract.Requires<ArgumentNullException>(workspace != null);
+
+            _name = string.Empty;
             _workspace = workspace;
             _singletons = new List<SingletonVariableModel>();
+            _constraints = new List<ConstraintModel>();
         }
 
-        public BundleConfiguration WithName(string name)
+        public BundleConfiguration WithName(string bundleName)
         {
-            _name = name;
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bundleName));
+            _name = bundleName;
+            return this;
+        }
+
+        public BundleConfiguration WithAllDifferentConstraint(string expression)
+        {
+            Contract.Requires<ArgumentException>(expression != null);
+            _constraints.Add(new AllDifferentConstraintModel(_workspace.Model, new AllDifferentConstraintExpressionModel(expression)));
             return this;
         }
 
@@ -271,12 +289,31 @@ namespace Workbench.Core
         public BundleModel Build()
         {
             var newBundle = new BundleModel(new ModelName(_name));
-            foreach (var aSingleton in _singletons)
-            {
-                newBundle.AddSingleton(aSingleton);
-            }
+            AddSingletons(newBundle);
+            AddConstraints(newBundle);
 
             return newBundle;
+        }
+
+        private void AddConstraints(BundleModel bundle)
+        {
+            foreach (var constraint in _constraints)
+            {
+                switch (constraint)
+                {
+                    case AllDifferentConstraintModel allDifferentConstraint:
+                        bundle.AddAllDifferentConstraint(allDifferentConstraint);
+                        break;
+                }
+            }
+        }
+
+        private void AddSingletons(BundleModel bundle)
+        {
+            foreach (var singleton in _singletons)
+            {
+                bundle.AddSingleton(singleton);
+            }
         }
     }
 

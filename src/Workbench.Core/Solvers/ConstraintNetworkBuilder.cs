@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -65,6 +66,25 @@ namespace Workbench.Core.Solvers
                         throw new NotImplementedException();
                 }
             }
+
+            // Constraints inside bundles must be processed after the bucket maps have been created
+            foreach (var bucket in model.Buckets)
+            {
+                foreach (var allDifferentConstraint in bucket.Bundle.AllDifferentConstraints)
+                {
+                    var variableNames = new List<string>(ExtractVariablesFrom(allDifferentConstraint.Expression.Text));
+
+                    for (var bundleCounter = 0; bundleCounter < bucket.Size; bundleCounter++)
+                    {
+                        var bucketName = bucket.Name.Text;
+                        var expressionText = $"%{bucketName}[{bundleCounter}].{variableNames[0]} <> %{bucketName}[{bundleCounter}].{variableNames[1]}";
+                        var interpreter = new ConstraintExpressionParser();
+                        var parseResult = interpreter.Parse(expressionText);
+                        Debug.Assert(parseResult.IsSuccess);
+                        _constraintNetwork.AddArc(_arcBuilder.Build(parseResult.Root));
+                    }
+                }
+            }
         }
 
         private void CreateArcFrom(ExpressionConstraintModel constraint)
@@ -85,18 +105,17 @@ namespace Workbench.Core.Solvers
         {
             var solverAggregateVariable = _modelSolverMap.GetSolverAggregateVariableByName(constraint.Expression.Text);
 
-            var aggregateVariableName = solverAggregateVariable.Name;
-
             /*
              * Iterate through all variables inside the aggregate and ensure
              * that each variable is not equal to all variables to their
-             * right. The not equal operator is commutative so there is no need to 
+             * right. The not equal operator is commutative so there is no need
+             * to express the constraint the other way around.
              */
             for (var i = 0; i < solverAggregateVariable.Variables.Count; i++)
             {
                 for (var z = i + 1; z < solverAggregateVariable.Variables.Count; z++)
                 {
-                    var expressionText = $"${aggregateVariableName}[{i}] <> ${aggregateVariableName}[{z}]";
+                    var expressionText = $"${solverAggregateVariable.Name}[{i}] <> ${solverAggregateVariable.Name}[{z}]";
                     var interpreter = new ConstraintExpressionParser();
                     var parseResult = interpreter.Parse(expressionText);
                     Debug.Assert(parseResult.IsSuccess);
@@ -189,29 +208,48 @@ namespace Workbench.Core.Solvers
 
             foreach (var bucket in model.Buckets)
             {
-                ConvertBucket(bucket);
+                var bucketMap = ConvertBucket(bucket);
+                _modelSolverMap.AddBucket(bucket.Name, bucketMap);
             }
         }
 
-        private void ConvertBucket(BucketVariableModel bucket)
+        private OrangeBucketVariableMap ConvertBucket(BucketVariableModel bucket)
         {
+            Contract.Requires<ArgumentNullException>(bucket != null);
+
             var bucketMap = new OrangeBucketVariableMap(bucket);
             for (var i = 0; i < bucket.Size; i++)
             {
-                var bundleMap = new OrangeBundleMap(bucket.Bundle);
-                foreach (var singleton in bucket.Bundle.Singletons)
-                {
-                    var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
-                    _valueMapper.AddBucketDomainValue(bucket, variableBand);
-                    var solverVariableName = CreateVariableNameFrom(bucket, i, singleton);
-                    var variableRange = variableBand.GetRange();
-                    var solverVariable = new SolverVariable(solverVariableName, CreateRangeFrom(variableRange));
-                    bundleMap.Add(singleton, solverVariable);
-                }
+                var bundleMap = ConvertBundle(bucket, i);
 
                 bucketMap.Add(bundleMap);
             }
-            _modelSolverMap.AddBucket(bucket.Name, bucketMap);
+
+            return bucketMap;
+        }
+
+        private OrangeBundleMap ConvertBundle(BucketVariableModel bucket, int bucketCount)
+        {
+            var bundleMap = new OrangeBundleMap(bucket.Bundle);
+            foreach (var singleton in bucket.Bundle.Singletons)
+            {
+                var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
+                _valueMapper.AddBucketDomainValue(bucket, variableBand);
+                var solverVariableName = CreateVariableNameFrom(bucket, bucketCount, singleton);
+                var variableRange = variableBand.GetRange();
+                var solverVariable = new SolverVariable(solverVariableName, CreateRangeFrom(variableRange));
+                bundleMap.Add(singleton, solverVariable);
+            }
+
+            return bundleMap;
+        }
+
+        private IEnumerable<string> ExtractVariablesFrom(string expressionText)
+        {
+            var x = Array.ConvertAll(expressionText.Split(','), variableName => variableName.Trim());
+            Debug.Assert(x.Length > 0);
+
+            return x;
         }
 
         private static string CreateVariableNameFrom(BucketVariableModel bucket, int index, SingletonVariableModel singletonVariable)

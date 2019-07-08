@@ -10,6 +10,7 @@ namespace Workbench.Core.Models
     public sealed class BundleModel : Model
     {
         private ObservableCollection<SingletonVariableModel> _singletons;
+        private ObservableCollection<AllDifferentConstraintModel> _allDifferentConstraints;
 
         /// <summary>
         /// Initialize a bundle with a name.
@@ -19,6 +20,7 @@ namespace Workbench.Core.Models
             : base(bundleName)
         {
             Singletons = new ObservableCollection<SingletonVariableModel>();
+            AllDifferentConstraints = new ObservableCollection<AllDifferentConstraintModel>();
         }
 
         /// <summary>
@@ -27,9 +29,22 @@ namespace Workbench.Core.Models
         public ObservableCollection<SingletonVariableModel> Singletons
         {
             get => _singletons;
-            set
+            private set
             {
                 _singletons = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the all different constraints contained inside the bundle.
+        /// </summary>
+        public ObservableCollection<AllDifferentConstraintModel> AllDifferentConstraints
+        {
+            get => _allDifferentConstraints;
+            private set
+            {
+                _allDifferentConstraints = value; 
                 OnPropertyChanged();
             }
         }
@@ -42,6 +57,16 @@ namespace Workbench.Core.Models
         {
             Contract.Requires<ArgumentNullException>(singletonVariable != null);
             Singletons.Add(singletonVariable);
+        }
+
+        /// <summary>
+        /// Add an all different constraint to the bundle.
+        /// </summary>
+        /// <param name="allDifferentConstraint"></param>
+        public void AddAllDifferentConstraint(AllDifferentConstraintModel allDifferentConstraint)
+        {
+            Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
+            AllDifferentConstraints.Add(allDifferentConstraint);
         }
     }
 }
