@@ -10,63 +10,53 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithModelReturnsStatusSuccess()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithModelSatisfiesConstraints()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateLabelByVariableName("c");
-                Assert.That(c.GetValueAt(0), Is.LessThan(c.GetValueAt(9)));
-                Assert.That(c.GetValueAt(1), Is.GreaterThan(c.GetValueAt(8)));
-            }
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var c = actualSnapshot.GetAggregateLabelByVariableName("c");
+            Assert.That(c.GetValueAt(0), Is.LessThan(c.GetValueAt(9)));
+            Assert.That(c.GetValueAt(1), Is.GreaterThan(c.GetValueAt(8)));
         }
 
         [Test]
         public void SolveWithModelSatisfiesValueCount()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateLabelByVariableName("c");
-                Assert.That(c.Values.Count, Is.EqualTo(10));
-            }
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var c = actualSnapshot.GetAggregateLabelByVariableName("c");
+            Assert.That(c.Values.Count, Is.EqualTo(10));
         }
 
         [Test]
         public void SolveWithModelCreatesValidSolution()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var c = actualSnapshot.GetAggregateLabelByVariableName("c");
-                Assert.That(c.GetValueAt(0), Is.InRange(1, 9));
-            }
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var c = actualSnapshot.GetAggregateLabelByVariableName("c");
+            Assert.That(c.GetValueAt(0), Is.InRange(1, 9));
         }
 
         [Test]
         public void SolveWithSimpleAggregateModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
-                var aggregateVariableCount = actualSnapshot.AggregateLabels.Count;
-                Assert.That(singletonVariableCount, Is.EqualTo(0));
-                Assert.That(aggregateVariableCount, Is.EqualTo(1));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
+            var aggregateVariableCount = actualSnapshot.AggregateLabels.Count;
+            Assert.That(singletonVariableCount, Is.EqualTo(0));
+            Assert.That(aggregateVariableCount, Is.EqualTo(1));
         }
 
         private static ModelModel MakeModel()

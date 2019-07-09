@@ -10,24 +10,20 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithRepeaterConstraintReturnsStatusSuccess()
         {
-            using (var sut = CreateSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            var sut = CreateSolver();
+            var actualResult = sut.Solve(MakeModel());
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithRepeaterSatisfiesConstraints()
         {
-            using (var sut = CreateSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetAggregateLabelByVariableName("x");
-                Assert.That(x.GetValueAt(0), Is.Not.EqualTo(x.GetValueAt(1)));
-                Assert.That(x.GetValueAt(0), Is.Not.EqualTo(x.GetValueAt(2)));
-            }
+            var sut = CreateSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetAggregateLabelByVariableName("x");
+            Assert.That(x.GetValueAt(0), Is.Not.EqualTo(x.GetValueAt(1)));
+            Assert.That(x.GetValueAt(0), Is.Not.EqualTo(x.GetValueAt(2)));
         }
 
         private static OrangeSolver CreateSolver()

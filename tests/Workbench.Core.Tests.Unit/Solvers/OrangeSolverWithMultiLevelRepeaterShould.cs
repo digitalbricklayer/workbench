@@ -10,36 +10,30 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithRepeaterConstraintReturnsStatusSuccess()
         {
-            using (var sut = CreateSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            var sut = CreateSolver();
+            var actualResult = sut.Solve(MakeModel());
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithRepeaterSatisfiesConstraints()
         {
-            using (var sut = CreateSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
-                Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(2)));
-                Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(3)));
-            }
+            var sut = CreateSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
+            Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(2)));
+            Assert.That(xLabel.GetValueAt(1), Is.Not.EqualTo(xLabel.GetValueAt(3)));
         }
 
         [Test]
         public void SolveReturningLabelInValidRange()
         {
-            using (var sut = CreateSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
-                var actualSnapshot = actualResult.Snapshot;
-                var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
-                Assert.That(xLabel.Values, Is.All.InRange(1, 10));
-            }
+            var sut = CreateSolver();
+            var actualResult = sut.Solve(MakeModel());
+            var actualSnapshot = actualResult.Snapshot;
+            var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
+            Assert.That(xLabel.Values, Is.All.InRange(1, 10));
         }
 
         private static OrangeSolver CreateSolver()

@@ -10,55 +10,47 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithExpressionModelReturnsStatusSuccess()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithExpressionModelSatisfiesConstraints()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetSingletonLabelByVariableName("x");
-                var y = actualSnapshot.GetSingletonLabelByVariableName("y");
-                Assert.That(x.GetValueAsInt() + 1, Is.Not.EqualTo(y.GetValueAsInt() - 1));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonLabelByVariableName("x");
+            var y = actualSnapshot.GetSingletonLabelByVariableName("y");
+            Assert.That(x.GetValueAsInt() + 1, Is.Not.EqualTo(y.GetValueAsInt() - 1));
         }
 
         [Test]
         public void SolveWithExpressionModelSolutionWithinDomain()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetSingletonLabelByVariableName("x");
-                var y = actualSnapshot.GetSingletonLabelByVariableName("y");
-                Assert.That(x.Value, Is.InRange(1, 9));
-                Assert.That(y.Value, Is.InRange(1, 9));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonLabelByVariableName("x");
+            var y = actualSnapshot.GetSingletonLabelByVariableName("y");
+            Assert.That(x.Value, Is.InRange(1, 9));
+            Assert.That(y.Value, Is.InRange(1, 9));
         }
 
         [Test]
         public void SolveWithSimpleModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
-                Assert.That(singletonVariableCount, Is.EqualTo(3));
-                Assert.That(actualSnapshot.AggregateLabels, Is.Empty);
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var singletonVariableCount = actualSnapshot.SingletonLabels.Count;
+            Assert.That(singletonVariableCount, Is.EqualTo(3));
+            Assert.That(actualSnapshot.AggregateLabels, Is.Empty);
         }
 
         private static ModelModel MakeModel()

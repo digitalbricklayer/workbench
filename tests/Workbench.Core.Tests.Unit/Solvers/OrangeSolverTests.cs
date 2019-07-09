@@ -10,43 +10,37 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void Solve_With_Model_Returns_Status_Success()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void Solve_With_Model_Satisfies_Constraint()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetSingletonLabelByVariableName("x");
-                var y = actualSnapshot.GetSingletonLabelByVariableName("y");
-                var z = actualSnapshot.GetAggregateLabelByVariableName("z");
-                Assert.That(x.Value, Is.LessThan(y.Value));
-                Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(0)));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonLabelByVariableName("x");
+            var y = actualSnapshot.GetSingletonLabelByVariableName("y");
+            var z = actualSnapshot.GetAggregateLabelByVariableName("z");
+            Assert.That(x.Value, Is.LessThan(y.Value));
+            Assert.That(y.Value, Is.GreaterThan(z.GetValueAt(0)));
         }
 
         [Test]
         public void Solve_With_Model_Solution_Within_Domain()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var x = actualSnapshot.GetSingletonLabelByVariableName("x");
-                var y = actualSnapshot.GetSingletonLabelByVariableName("y");
-                Assert.That(x.Value, Is.InRange(1, 9));
-                Assert.That(y.Value, Is.InRange(1, 9));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var x = actualSnapshot.GetSingletonLabelByVariableName("x");
+            var y = actualSnapshot.GetSingletonLabelByVariableName("y");
+            Assert.That(x.Value, Is.InRange(1, 9));
+            Assert.That(y.Value, Is.InRange(1, 9));
         }
 
         private static ModelModel MakeModel()

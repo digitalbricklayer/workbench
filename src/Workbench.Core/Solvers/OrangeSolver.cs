@@ -11,7 +11,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Implementation of the orange solver.
     /// </summary>
-    public sealed class OrangeSolver : ISolvable, IDisposable
+    public sealed class OrangeSolver : ISolvable
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly OrangeSnapshotExtractor _snapshotExtractor;
@@ -69,11 +69,6 @@ namespace Workbench.Core.Solvers
             var snapshotStatus = _snapshotExtractor.ExtractFrom(constraintNetwork, out var solutionSnapshot);
 
             return snapshotStatus ? new SolveResult(SolveStatus.Success, solutionSnapshot, _stopwatch.Elapsed) : SolveResult.Failed;
-        }
-
-        public void Dispose()
-        {
-            // Temporary whilst porting OrToolsSolver tests over to orange...
         }
 
         private bool ReviseArcs(ConstraintNetwork constraintNetwork)

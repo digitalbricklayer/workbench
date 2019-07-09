@@ -10,38 +10,32 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithAllDifferentModelReturnsStatusSuccess()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithAllDifferentModelSatisfiesAllDifferentConstraint()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
-                Assert.That(xLabel.Values, Is.Unique);
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            var xLabel = actualSnapshot.GetAggregateLabelByVariableName("x");
+            Assert.That(xLabel.Values, Is.Unique);
         }
 
         [Test]
         public void SolveWithAllDifferentModelSolutionHasValidVariableCount()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(MakeModel());
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(MakeModel());
 
-                var actualSnapshot = actualResult.Snapshot;
-                Assert.That(actualSnapshot.SingletonLabels, Is.Empty);
-                Assert.That(actualSnapshot.AggregateLabels.Count, Is.EqualTo(1));
-            }
+            var actualSnapshot = actualResult.Snapshot;
+            Assert.That(actualSnapshot.SingletonLabels, Is.Empty);
+            Assert.That(actualSnapshot.AggregateLabels.Count, Is.EqualTo(1));
         }
 
         private static ModelModel MakeModel()

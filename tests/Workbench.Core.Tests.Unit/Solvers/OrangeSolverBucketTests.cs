@@ -14,26 +14,22 @@ namespace Workbench.Core.Tests.Unit.Solvers
         [Test]
         public void SolveWithTournamentModelReturnsStatusSuccess()
         {
-            using (var sut = new OrangeSolver())
-            {
-                var actualResult = sut.Solve(CreateWorkspace().Model);
-                Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
-            }
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(CreateWorkspace().Model);
+            Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithTournamentModelAssignsDifferentTeamToMatches()
         {
-            using (var sut = new OrangeSolver())
+            var sut = new OrangeSolver();
+            var actualResult = sut.Solve(CreateWorkspace().Model);
+            var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
+            foreach (var matchLabel in weekBucketLabel.BundleLabels)
             {
-                var actualResult = sut.Solve(CreateWorkspace().Model);
-                var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
-                foreach (var matchLabel in weekBucketLabel.BundleLabels)
-                {
-                    var homeTeamLabel = matchLabel.GetSingletonLabelByName("home");
-                    var awayTeamLabel = matchLabel.GetSingletonLabelByName("away");
-                    Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
-                }
+                var homeTeamLabel = matchLabel.GetSingletonLabelByName("home");
+                var awayTeamLabel = matchLabel.GetSingletonLabelByName("away");
+                Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
             }
         }
 
