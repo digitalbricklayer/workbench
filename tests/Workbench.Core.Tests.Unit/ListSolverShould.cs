@@ -24,19 +24,17 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var cLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("c");
-            var cValue = cLabel.Value;
-            Assert.That(cValue, Is.InstanceOf<string>());
-            Assert.That(cValue, Is.EqualTo("moon"));
+            Assert.That(cLabel.Value, Is.InstanceOf<string>().And.EqualTo("moon"));
         }
 
         [Test]
-        public void SolveWithListModelReturnsValidAggregateValueBinding()
+        public void SolveWithListModelReturnsValidAggregateLabelValues()
         {
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
-            var aValue = actualResult.Snapshot.GetAggregateLabelByVariableName("a");
-            Assert.That(aValue.Values, Is.Unique);
-            Assert.That(aValue.Values, Is.All.TypeOf<string>());
+            var aLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("a");
+            Assert.That(aLabel.Values, Is.Unique);
+            Assert.That(aLabel.Values, Is.All.TypeOf<string>());
         }
 
         private static WorkspaceModel CreateWorkspace()

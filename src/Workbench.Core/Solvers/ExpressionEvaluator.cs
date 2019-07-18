@@ -9,18 +9,6 @@ namespace Workbench.Core.Solvers
     /// </summary>
     internal sealed class ExpressionEvaluator
     {
-        private readonly OrangeModelSolverMap _modelSolverMap;
-
-        /// <summary>
-        /// Initialize an expression with a model to solver map.
-        /// </summary>
-        /// <param name="modelSolverMap">Model to solver map.</param>
-        internal ExpressionEvaluator(OrangeModelSolverMap modelSolverMap)
-        {
-            Contract.Requires<ArgumentNullException>(modelSolverMap != null);
-            _modelSolverMap = modelSolverMap;
-        }
-
         /// <summary>
         /// Evaluate the expression.
         /// </summary>

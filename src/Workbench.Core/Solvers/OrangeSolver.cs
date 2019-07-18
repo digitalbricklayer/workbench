@@ -58,7 +58,9 @@ namespace Workbench.Core.Solvers
 
             _stopwatch.Stop();
 
+#if false
             RemoveTernaryValuesInconsistentWithBinaryConstraints(constraintNetwork);
+#endif
 
 			if (!constraintNetwork.IsArcConsistent())
 			{
@@ -77,8 +79,10 @@ namespace Workbench.Core.Solvers
 
             foreach (var arc in constraintNetwork.GetArcs())
             {
-                // Arcs with ternary or unary expressions are pre-computed with one
-                // or more solution sets produced for the variables involved in the expression.
+                /*
+                 * Arcs with ternary or unary expressions are pre-computed with one
+                 * or more solution sets produced for the variables involved in the expression.
+                 */
                 if (arc.IsPreComputed) continue;
 
                 var connector = arc.Connector as ConstraintExpressionConnector;
@@ -109,16 +113,19 @@ namespace Workbench.Core.Solvers
             }
             else
             {
-                var rightLiteral = expression.Node.InnerExpression.RightExpression.GetLiteral();
-                rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { rightLiteral });
+                var lhsVariable = _modelSolverMap.GetModelVariableByName(leftNode.Variable.Name);
+                var range = _valueMapper.GetDomainValueFor(lhsVariable);
+                var modelValue = expression.Node.InnerExpression.RightExpression.GetLiteral();
+                var solverValue = range.MapTo(modelValue);
+                rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { solverValue });
             }
 
             var valueEvaluator = new LeftValueEvaluator(rightPossibleValues, expression);
             var valuesToRemove = new List<int>();
+            var expressionEvaluator = new ExpressionEvaluator();
             foreach (var possibleValue in leftDomainRange.PossibleValues)
             {
-                var valueAdjuster = new ExpressionEvaluator(_modelSolverMap);
-                var evaluatedPossibleValue = valueAdjuster.Evaluate(expression.Node.InnerExpression.LeftExpression, possibleValue);
+                var evaluatedPossibleValue = expressionEvaluator.Evaluate(expression.Node.InnerExpression.LeftExpression, possibleValue);
                 if (!valueEvaluator.EvaluateLeft(evaluatedPossibleValue))
                 {
                     valuesToRemove.Add(possibleValue);
@@ -136,10 +143,10 @@ namespace Workbench.Core.Solvers
             var rightDomainRange = rightNode.Variable.Domain;
             var valueEvaluator = new RightValueEvaluator(leftDomainRange.PossibleValues, expression);
             var valuesToRemove = new List<int>();
+            var expressionEvaluator = new ExpressionEvaluator();
             foreach (var possibleValue in rightDomainRange.PossibleValues)
             {
-                var valueAdjuster = new ExpressionEvaluator(_modelSolverMap);
-                var evaluatedPossibleValue = valueAdjuster.Evaluate(expression.Node.InnerExpression.RightExpression, possibleValue);
+                var evaluatedPossibleValue = expressionEvaluator.Evaluate(expression.Node.InnerExpression.RightExpression, possibleValue);
                 if (!valueEvaluator.EvaluateRight(evaluatedPossibleValue))
                 {
                     valuesToRemove.Add(possibleValue);

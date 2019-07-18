@@ -33,14 +33,14 @@ namespace Workbench.Core.Tests.Unit.Solvers
             var simpleModel = CreateWorkspace().Model;
             var actualResult = sut.Solve(simpleModel);
             var colsLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("cols");
-            Assert.That(colsLabel.GetValueAt(1), Is.GreaterThan(2));
+            Assert.That(colsLabel.GetValueAt(1), Is.Not.EqualTo(2));
         }
 
         private WorkspaceModel CreateWorkspace()
         {
-            return new WorkspaceBuilder("Very simple aggregate variable model utilizing a binary constraint")
+            return new WorkspaceBuilder("Very simple aggregate variable model utilizing a ternary constraint")
                             .AddAggregate("cols", 4, "1..size(cols)")
-                            .WithConstraintExpression("$cols[1] > 2")
+                            .WithConstraintExpression("$cols[1] <> 2")
                             .Build();
         }
     }

@@ -28,7 +28,7 @@ namespace Workbench.Core.Solvers
         {
             _modelSolverMap = modelSolverMap;
             _valueMapper = valueMapper;
-            _arcBuilder = new ArcBuilder(_modelSolverMap);
+            _arcBuilder = new ArcBuilder(_modelSolverMap, valueMapper);
         }
 
         /// <summary>

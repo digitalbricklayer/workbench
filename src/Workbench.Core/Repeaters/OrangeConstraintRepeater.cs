@@ -31,7 +31,7 @@ namespace Workbench.Core.Repeaters
             _modelSolverMap = modelSolverMap;
             _model = theModel;
             _valueMapper = theValueMapper;
-            _arcBuilder = new ArcBuilder(_modelSolverMap);
+            _arcBuilder = new ArcBuilder(_modelSolverMap, _valueMapper);
         }
 
         internal void Process(OrangeConstraintRepeaterContext context)

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
@@ -25,12 +24,10 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var aLabel = actualResult.Snapshot.GetAggregateLabelByVariableName("a");
-            var actualModelValues = aLabel.Bindings.Select(_ => _.Model)
-												   .ToList();
             Assert.That(aLabel.Values, Is.Unique);
-            Assert.That(aLabel.Values, Is.All.TypeOf<char>());
-            Assert.That(actualModelValues, Is.All.InRange('a', 'z')
-                                                 .Using(new CharacterRangeComparer()));
+            Assert.That(aLabel.Values, Is.All.TypeOf<char>()
+                                                       .And
+                                                       .InRange('a', 'z').Using(new CharacterRangeComparer()));
         }
 
         [Test]
@@ -39,9 +36,17 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var bLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("b");
-            var bBinding = bLabel.Value;
-            Assert.That(bBinding, Is.InRange('a', 'z')
-                                    .Using(new CharacterRangeComparer()));
+            Assert.That(bLabel.Value, Is.InRange('a', 'z')
+                                                  .Using(new CharacterRangeComparer()));
+        }
+
+        [Test]
+        public void SolveWithCharacterModelReturnsValidbLabel()
+        {
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
+            var bLabel = actualResult.Snapshot.GetSingletonLabelByVariableName("b");
+            Assert.That(bLabel.Value, Is.Not.EqualTo('a'));
         }
 
         private static WorkspaceModel CreateWorkspace()

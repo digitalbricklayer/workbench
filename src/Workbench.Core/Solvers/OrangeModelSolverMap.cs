@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
@@ -38,6 +37,7 @@ namespace Workbench.Core.Solvers
             Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
             _singletonVariableMap.Add(name, singletonVariableMap);
             _solverVariableMap.Add(name, singletonVariableMap.SolverVariable);
+            _modelVariableMap.Add(singletonVariableMap.ModelVariable.Name.Text, singletonVariableMap.ModelVariable);
         }
 
         internal void AddAggregate(string name, OrangeAggregateVariableMap aggregateVariableMap)
@@ -124,6 +124,11 @@ namespace Workbench.Core.Solvers
                 throw new ArgumentException($"Unknown variable {variableName}");
             return _modelVariableMap[variableName];
         }
+        
+        internal void AddNode(VariableNode newNode)
+        {
+            _nodeMap[newNode.Variable.Name] = newNode;
+        }
 
         internal Node GetNodeByName(string variableName)
         {
@@ -153,12 +158,21 @@ namespace Workbench.Core.Solvers
 
         internal SolverVariable GetSolverVariableByName(string variableName)
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+
             return _solverVariableMap[variableName];
         }
 
         internal IEnumerable<OrangeBucketVariableMap> GetBucketVariables()
         {
             return _bucketMap.Values;
+        }
+
+        public VariableModel GetModelVariableByName(string variableName)
+        {
+            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+
+            return _modelVariableMap[variableName];
         }
     }
 }

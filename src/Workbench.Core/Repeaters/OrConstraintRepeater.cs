@@ -89,7 +89,7 @@ namespace Workbench.Core.Repeaters
             {
                 newConstraint = CreateConstraintBy(constraintExpressionNode.InnerExpression.Operator,
                                                    lhsExpr,
-                                                   constraintExpressionNode.InnerExpression.RightExpression.GetLiteral());
+                                                   Convert.ToInt32(constraintExpressionNode.InnerExpression.RightExpression.GetLiteral()));
             }
             else if (constraintExpressionNode.InnerExpression.RightExpression.InnerExpression is ItemNameNode node)
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -63,13 +62,6 @@ namespace Workbench.Core.Solvers
             output.Append(')');
 
             return output.ToString();
-        }
-
-        private bool IsAllUnique(IEnumerable<Value> variableValues)
-        {
-            var allVariableNames = new HashSet<string>();
-
-            return variableValues.All(value => allVariableNames.Add(value.VariableName));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -8,12 +10,15 @@ namespace Workbench.Core.Solvers
     internal sealed class EncapsulatedVariablePermutationCalculator
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
+        private readonly OrangeValueMapper _valueMapper;
 
-        internal EncapsulatedVariablePermutationCalculator(OrangeModelSolverMap modelSolverMap)
+        internal EncapsulatedVariablePermutationCalculator(OrangeModelSolverMap modelSolverMap, OrangeValueMapper valueMapper)
         {
             Contract.Requires<ArgumentNullException>(modelSolverMap != null);
+            Contract.Requires<ArgumentNullException>(valueMapper != null);
 
             _modelSolverMap = modelSolverMap;
+            _valueMapper = valueMapper;
         }
 
         internal EncapsulatedVariableDomainValue Compute(TernaryConstraintExpression ternaryConstraint)
@@ -23,8 +28,21 @@ namespace Workbench.Core.Solvers
             var valueSetAccumulator = new List<ValueSet>();
             var leftSource = ternaryConstraint.GetLeftSource();
             var leftPossibleValues = leftSource.PossibleValues;
-            var rightSource = ternaryConstraint.GetRightSource();
-            var rightPossibleValues = new List<int>(rightSource.PossibleValues);
+            var expression = ternaryConstraint.ExpressionNode;
+            IReadOnlyCollection<int> rightPossibleValues;
+            if (!expression.InnerExpression.RightExpression.IsLiteral)
+            {
+                var rightSource = ternaryConstraint.GetRightSource();
+                rightPossibleValues = new ReadOnlyCollection<int>(rightSource.PossibleValues.ToList());
+            }
+            else
+            {
+                var lhsVariable = _modelSolverMap.GetModelVariableByName(leftSource.VariableName);
+                var range = _valueMapper.GetDomainValueFor(lhsVariable);
+                var modelValue = expression.InnerExpression.RightExpression.GetLiteral();
+                var solverValue = range.MapTo(modelValue);
+                rightPossibleValues = new ReadOnlyCollection<int>(new List<int> { solverValue });
+            }
 
             foreach (var leftPossibleValue in leftPossibleValues)
             {
@@ -35,18 +53,36 @@ namespace Workbench.Core.Solvers
                         case OperatorType.Equals:
                             if (leftPossibleValue == rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
-                                                                                 new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
-                                valueSetAccumulator.Add(valueSet);
+                                if (!expression.InnerExpression.RightExpression.IsLiteral)
+                                {
+                                    var rightSource = ternaryConstraint.GetRightSource();
+                                    var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
+                                                                new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
+                                    valueSetAccumulator.Add(valueSet);
+                                }
+                                else
+                                {
+                                    var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue) });
+                                    valueSetAccumulator.Add(valueSet);
+                                }
                             }
                             break;
 
                         case OperatorType.NotEqual:
                             if (leftPossibleValue != rightPossibleValue)
                             {
-                                var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
-                                                                                 new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
-                                valueSetAccumulator.Add(valueSet);
+                                if (!expression.InnerExpression.RightExpression.IsLiteral)
+                                {
+                                    var rightSource = ternaryConstraint.GetRightSource();
+                                    var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue),
+                                                                new Value(_modelSolverMap.GetSolverVariableByName(rightSource.VariableName), rightPossibleValue) });
+                                    valueSetAccumulator.Add(valueSet);
+                                }
+                                else
+                                {
+                                    var valueSet = new ValueSet(new[] { new Value(_modelSolverMap.GetSolverVariableByName(leftSource.VariableName), leftPossibleValue) });
+                                    valueSetAccumulator.Add(valueSet);
+                                }
                             }
                             break;
 

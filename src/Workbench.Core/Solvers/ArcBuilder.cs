@@ -11,14 +11,17 @@ namespace Workbench.Core.Solvers
     internal sealed class ArcBuilder
     {
         private readonly OrangeModelSolverMap _modelSolverMap;
+        private readonly OrangeValueMapper _valueMapper;
 
         /// <summary>
         /// Initialize an arc builder with a model solver map.
         /// </summary>
         /// <param name="modelSolverMap">Map between solver and model entities.</param>
-        internal ArcBuilder(OrangeModelSolverMap modelSolverMap)
+        /// <param name="valueMapper">Map between model and solver values.</param>
+        internal ArcBuilder(OrangeModelSolverMap modelSolverMap, OrangeValueMapper valueMapper)
         {
             _modelSolverMap = modelSolverMap;
+            _valueMapper = valueMapper;
         }
 
         /// <summary>
@@ -53,19 +56,35 @@ namespace Workbench.Core.Solvers
         private IReadOnlyCollection<Arc> BuildTernaryExpression(ConstraintExpressionNode expressionConstraintNode)
         {
             var arcAccumulator = new List<Arc>();
-            var left = CreateNodeFrom(expressionConstraintNode.InnerExpression.LeftExpression);
-            var right = CreateNodeFrom(expressionConstraintNode.InnerExpression.RightExpression);
-            var encapsulatedVariable = new EncapsulatedVariable("U");
-            var encapsulatedVariableNode = new EncapsulatedVariableNode(encapsulatedVariable);
-            var arc1 = new Arc(left, encapsulatedVariableNode, new EncapsulatedVariableConnector(left, encapsulatedVariableNode, new EncapsulatedSelector(1)));
-            arcAccumulator.Add(arc1);
-            var arc2 = new Arc(right, encapsulatedVariableNode, new EncapsulatedVariableConnector(encapsulatedVariableNode, right, new EncapsulatedSelector(2)));
-            arcAccumulator.Add(arc2);
-            var ternaryConstraintExpression = new TernaryConstraintExpression(expressionConstraintNode, encapsulatedVariableNode, arc1, arc2);
-            var encapsulatedVariableDomainValue = ComputeEncapsulatedDomain(ternaryConstraintExpression);
-            encapsulatedVariable.DomainValue = encapsulatedVariableDomainValue;
-            var expressionSolution = new TernaryConstraintExpressionSolution(ternaryConstraintExpression, encapsulatedVariableDomainValue);
-            _modelSolverMap.AddTernaryExpressionSolution(expressionSolution);
+            if (!expressionConstraintNode.InnerExpression.RightExpression.IsLiteral)
+            {
+                var left = CreateNodeFrom(expressionConstraintNode.InnerExpression.LeftExpression);
+                var right = CreateNodeFrom(expressionConstraintNode.InnerExpression.RightExpression);
+                var encapsulatedVariable = new EncapsulatedVariable("U");
+                var encapsulatedVariableNode = new EncapsulatedVariableNode(encapsulatedVariable);
+                var arc1 = new Arc(left, encapsulatedVariableNode, new EncapsulatedVariableConnector(left, encapsulatedVariableNode, new EncapsulatedSelector(1)));
+                arcAccumulator.Add(arc1);
+                var arc2 = new Arc(right, encapsulatedVariableNode, new EncapsulatedVariableConnector(encapsulatedVariableNode, right, new EncapsulatedSelector(2)));
+                arcAccumulator.Add(arc2);
+                var ternaryConstraintExpression = new TernaryConstraintExpression(expressionConstraintNode, encapsulatedVariableNode, arc1, arc2);
+                var encapsulatedVariableDomainValue = ComputeEncapsulatedDomain(ternaryConstraintExpression);
+                encapsulatedVariable.DomainValue = encapsulatedVariableDomainValue;
+                var expressionSolution = new TernaryConstraintExpressionSolution(ternaryConstraintExpression, encapsulatedVariableDomainValue);
+                _modelSolverMap.AddTernaryExpressionSolution(expressionSolution);
+            }
+            else
+            {
+                var left = CreateNodeFrom(expressionConstraintNode.InnerExpression.LeftExpression);
+                var encapsulatedVariable = new EncapsulatedVariable("U");
+                var encapsulatedVariableNode = new EncapsulatedVariableNode(encapsulatedVariable);
+                var arc1 = new Arc(left, encapsulatedVariableNode, new EncapsulatedVariableConnector(left, encapsulatedVariableNode, new EncapsulatedSelector(1)));
+                arcAccumulator.Add(arc1);
+                var ternaryConstraintExpression = new TernaryConstraintExpression(expressionConstraintNode, encapsulatedVariableNode, arc1, arc1);
+                var encapsulatedVariableDomainValue = ComputeEncapsulatedDomain(ternaryConstraintExpression);
+                encapsulatedVariable.DomainValue = encapsulatedVariableDomainValue;
+                var expressionSolution = new TernaryConstraintExpressionSolution(ternaryConstraintExpression, encapsulatedVariableDomainValue);
+                _modelSolverMap.AddTernaryExpressionSolution(expressionSolution);
+            }
 
             return new ReadOnlyCollection<Arc>(arcAccumulator);
         }
@@ -87,7 +106,15 @@ namespace Workbench.Core.Solvers
             var variable = ExtractVariableFrom(expressionConstraintNode);
             var existingNode = _modelSolverMap.GetNodeByName(variable.Name);
 
-            return existingNode ?? new VariableNode(variable);
+            if (existingNode == null)
+            {
+                var newNode = new VariableNode(variable);
+                _modelSolverMap.AddNode(newNode);
+
+                return newNode;
+            }
+
+            return existingNode;
         }
 
         private SolverVariable ExtractVariableFrom(ExpressionNode expressionConstraintNode)
@@ -130,7 +157,7 @@ namespace Workbench.Core.Solvers
 
         private EncapsulatedVariableDomainValue ComputeEncapsulatedDomain(TernaryConstraintExpression ternaryConstraintExpression)
         {
-            var encapsulatedVariableCalculator = new EncapsulatedVariablePermutationCalculator(_modelSolverMap);
+            var encapsulatedVariableCalculator = new EncapsulatedVariablePermutationCalculator(_modelSolverMap, _valueMapper);
             return encapsulatedVariableCalculator.Compute(ternaryConstraintExpression);
         }
     }
