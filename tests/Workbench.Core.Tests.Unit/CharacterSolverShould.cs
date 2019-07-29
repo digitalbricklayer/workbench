@@ -7,7 +7,7 @@ namespace Workbench.Core.Tests.Unit
     /// <summary>
     /// Placeholder for a well known test that will use the character range successfully.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Timeout(1000)]
     public class CharacterSolverShould
     {
         [Test]

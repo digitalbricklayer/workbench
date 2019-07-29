@@ -86,6 +86,7 @@ namespace Workbench.Core.Solvers
                 if (arc.IsPreComputed) continue;
 
                 var connector = arc.Connector as ConstraintExpressionConnector;
+                Debug.Assert(connector != null);
                 var constraint = connector.Constraint;
                 if (!constraint.Node.InnerExpression.LeftExpression.IsLiteral)
                 {
@@ -158,6 +159,7 @@ namespace Workbench.Core.Solvers
             return valuesToRemove.Any();
         }
 
+#if false
         /// <summary>
         /// Remove values found during the ternary pre-calculation phase that are now
         /// inconsistent with values discovered during the regular revising of
@@ -208,5 +210,6 @@ namespace Workbench.Core.Solvers
                 constraintExpressionSolution.DomainValue.RemoveSets(valueSetsToRemove);
             }
         }
+#endif
     }
 }

@@ -36,11 +36,6 @@ namespace Workbench.Core.Solvers
         internal bool ExtractFrom(ConstraintNetwork constraintNetwork, out SolutionSnapshot solutionSnapshot)
         {
             _constraintNetwork = constraintNetwork;
-            return BacktrackingSearch(constraintNetwork, out solutionSnapshot);
-        }
-
-        private bool BacktrackingSearch(ConstraintNetwork constraintNetwork, out SolutionSnapshot solutionSnapshot)
-        {
             var solverVariables = constraintNetwork.GetSolverVariables();
             var assignment = new SnapshotLabelAssignment(solverVariables);
             _variables = new List<VariableBase>(constraintNetwork.GetVariables());
@@ -51,6 +46,13 @@ namespace Workbench.Core.Solvers
             return status;
         }
 
+        /// <summary>
+        /// Backtrack through a variable's value sets until one is found that is arc consistent.
+        /// </summary>
+        /// <param name="currentVariableIndex">Current variable index.</param>
+        /// <param name="snapshotAssignment">Current snapshot of value sets.</param>
+        /// <param name="constraintNetwork">Constraint network.</param>
+        /// <returns>True if a value is found to be consistent, False if a value is not found.</returns>
         private bool Backtrack(int currentVariableIndex, SnapshotLabelAssignment snapshotAssignment, ConstraintNetwork constraintNetwork)
         {
             // Label assignment has been successful...
@@ -80,6 +82,13 @@ namespace Workbench.Core.Solvers
             return false;
         }
 
+        /// <summary>
+        /// Get all value sets for the variable.
+        /// </summary>
+        /// <param name="variable">Variable</param>
+        /// <param name="assignment">All value assignments.</param>
+        /// <param name="constraintNetwork">Constraint network.</param>
+        /// <returns>All value sets for the variable.</returns>
         private IEnumerable<ValueSet> OrderDomainValues(VariableBase variable, SnapshotLabelAssignment assignment, ConstraintNetwork constraintNetwork)
         {
             switch (variable)
@@ -95,6 +104,12 @@ namespace Workbench.Core.Solvers
             }
         }
 
+        /// <summary>
+        /// Is the value set arc consistent.
+        /// </summary>
+        /// <param name="valueSet">Value set.</param>
+        /// <param name="assignment">Current variable label assignments.</param>
+        /// <returns>True if arc consistent, False if not arc consistent.</returns>
         private bool IsConsistent(ValueSet valueSet, SnapshotLabelAssignment assignment)
         {
             /*
@@ -104,6 +119,12 @@ namespace Workbench.Core.Solvers
 			return valueSet.Values.All(value => IsConsistent(value, assignment));
         }
 
+        /// <summary>
+        /// Is the value arc consistent.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        /// <param name="assignment">Current variable label assignments.</param>
+        /// <returns>True if arc consistent, False if not arc consistent.</returns>
         private bool IsConsistent(Value value, SnapshotLabelAssignment assignment)
         {
             var variable = value.Variable;
