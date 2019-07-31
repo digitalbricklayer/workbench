@@ -366,7 +366,7 @@ namespace Workbench.Core.Models
 		
 		private ISolvable CreateSolver()
 		{
-			return new OrangeSolver();
+			return new OrToolsSolver();
 		}
     }
 }

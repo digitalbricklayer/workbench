@@ -112,7 +112,6 @@
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Solvers\OrangeSolverBucketTests.cs" />
     <Compile Include="Solvers\OrangeSolverWithTernaryExpressionLiteralValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintsUsingNotEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithConstraintUsingNotEqualsModelShould.cs" />
@@ -132,6 +131,13 @@
     <Compile Include="Solvers\OrangeSolverSimpleTests.cs" />
     <Compile Include="Solvers\OrangeSolverTests.cs" />
     <Compile Include="Solvers\OrangeSolverBugReproduction.cs" />
+    <Compile Include="Solvers\OrToolsSolverAggregateTests.cs" />
+    <Compile Include="Solvers\OrToolsSolverAllDifferentTests.cs" />
+    <Compile Include="Solvers\OrToolsSolverExpressionTests.cs" />
+    <Compile Include="Solvers\OrToolsSolverSimpleTests.cs" />
+    <Compile Include="Solvers\OrToolsSolverTests.cs" />
+    <Compile Include="Solvers\OrToolsSolverWithMultiLevelRepeaterShould.cs" />
+    <Compile Include="Solvers\OrToolsSolverWithSingleLevelRepeaterShould.cs" />
     <Compile Include="TableSharedDomainSolverWithCellListShould.cs" />
     <Compile Include="TableVariableDomainSolverWithCellListShould.cs" />
     <Compile Include="TableSharedDomainSolverWithPartialColumnRangeShould.cs" />
