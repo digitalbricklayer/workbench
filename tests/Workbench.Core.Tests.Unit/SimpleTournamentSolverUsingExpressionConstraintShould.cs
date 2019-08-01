@@ -1,15 +1,14 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Tests.Unit
 {
     /// <summary>
-    /// Simple tournament schedule test.
+    /// Simple tournament schedule test using the expression constraints.
     /// </summary>
     [TestFixture]
-    public class SimpleTournamentSolverShould
+    public class SimpleTournamentSolverUsingExpressionConstraintShould
     {
         [Test]
         public void SolveWithTournamentModelReturnsStatusSuccess()
@@ -25,10 +24,12 @@ namespace Workbench.Core.Tests.Unit
             var sut = CreateWorkspace();
             var actualResult = sut.Solve();
             var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
-            var firstMatchLabel = weekBucketLabel.BundleLabels.First();
-            var homeTeamLabel = firstMatchLabel.GetSingletonLabelByName("home");
-            var awayTeamLabel = firstMatchLabel.GetSingletonLabelByName("away");
-            Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
+            foreach (var matchLabel in weekBucketLabel.BundleLabels)
+            {
+                var homeTeamLabel = matchLabel.GetSingletonLabelByName("home");
+                var awayTeamLabel = matchLabel.GetSingletonLabelByName("away");
+                Assert.That(homeTeamLabel.Value, Is.Not.EqualTo(awayTeamLabel.Value));
+            }
         }
 
         /// <summary>

@@ -1,29 +1,28 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
-namespace Workbench.Core.Tests.Unit.Solvers
+namespace Workbench.Core.Tests.Unit
 {
     /// <summary>
-    /// Simple tournament schedule test. Coping from the SimpleTournamentSolverShould
-    /// fixture. Remove when the Orange solver is integrated into the model properly.
+    /// Simple tournament schedule test using the all different constraint.
     /// </summary>
     [TestFixture]
-    public class SimpleTournamentSolverShould
+    public class SimpleTournamentSolverUsingAllDifferentConstraintShould
     {
         [Test]
         public void SolveWithTournamentModelReturnsStatusSuccess()
         {
-            var sut = new OrangeSolver();
-            var actualResult = sut.Solve(CreateWorkspace().Model);
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
             Assert.That(actualResult.Status, Is.EqualTo(SolveStatus.Success));
         }
 
         [Test]
         public void SolveWithTournamentModelAssignsDifferentTeamToMatches()
         {
-            var sut = new OrangeSolver();
-            var actualResult = sut.Solve(CreateWorkspace().Model);
+            var sut = CreateWorkspace();
+            var actualResult = sut.Solve();
             var weekBucketLabel = actualResult.Snapshot.GetBucketLabelByName("week");
             foreach (var matchLabel in weekBucketLabel.BundleLabels)
             {

@@ -349,7 +349,7 @@
     <Compile Include="Solvers\OrAllDifferentConstraintConverter.cs" />
     <Compile Include="Solvers\Arc.cs" />
     <Compile Include="Solvers\ArcBuilder.cs" />
-    <Compile Include="Solvers\BucketConverter.cs" />
+    <Compile Include="Solvers\OrBucketConverter.cs" />
     <Compile Include="Solvers\OrValueMapper.cs" />
     <Compile Include="Solvers\OrBucketVariableMap.cs" />
     <Compile Include="Solvers\OrBundleMap.cs" />

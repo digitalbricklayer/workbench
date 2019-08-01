@@ -112,6 +112,7 @@
     <Compile Include="Parsers\VisualizerBindingWithSimpleStatementParserShould.cs" />
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleTournamentSolverUsingExpressionConstraintShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithTernaryExpressionLiteralValidModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintsUsingNotEqualsModelShould.cs" />
     <Compile Include="Solvers\OrangeSolverWithConstraintUsingNotEqualsModelShould.cs" />
@@ -144,7 +145,7 @@
     <Compile Include="TableVariableDomainSolverWithPartialColumnRangeShould.cs" />
     <Compile Include="TableSharedDomainSolverWithWholeColumnRangeShould.cs" />
     <Compile Include="TableVariableDomainSolverWithWholeColumnRangeShould.cs" />
-    <Compile Include="SimpleTournamentSolverShould.cs" />
+    <Compile Include="SimpleTournamentSolverUsingAllDifferentConstraintShould.cs" />
     <Compile Include="WorkspaceModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

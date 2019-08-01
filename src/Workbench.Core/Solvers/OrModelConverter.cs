@@ -11,7 +11,7 @@ namespace Workbench.Core.Solvers
     {
         private readonly OrConstraintConverter constraintConverter;
         private readonly VariableConverter variableConverter;
-        private readonly BucketConverter bucketConverter;
+        private readonly OrBucketConverter bucketConverter;
 
         /// <summary>
         /// Initialize the model converter with a Google or-tools solver.
@@ -23,7 +23,7 @@ namespace Workbench.Core.Solvers
 
             this.constraintConverter = new OrConstraintConverter(theSolver, theCache, valueMapper);
             this.variableConverter = new VariableConverter(theSolver, theCache, valueMapper);
-            this.bucketConverter = new BucketConverter(theSolver, theCache, valueMapper);
+            this.bucketConverter = new OrBucketConverter(theSolver, theCache, valueMapper);
         }
 
         /// <summary>

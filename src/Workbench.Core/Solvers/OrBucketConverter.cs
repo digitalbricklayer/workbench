@@ -7,7 +7,7 @@ namespace Workbench.Core.Solvers
     /// <summary>
     /// Convert the buckets into a representation understood by or-tools.
     /// </summary>
-    internal class BucketConverter
+    internal class OrBucketConverter
     {
         private readonly Google.OrTools.ConstraintSolver.Solver _solver;
         private readonly OrToolsCache _cache;
@@ -16,7 +16,7 @@ namespace Workbench.Core.Solvers
         /// <summary>
         /// Initialize the bucket converter with a Google or-tools solver, a or-tools cache and a solver / domain mapper.
         /// </summary>
-        internal BucketConverter(Google.OrTools.ConstraintSolver.Solver solver, OrToolsCache cache, OrValueMapper valueMapper)
+        internal OrBucketConverter(Google.OrTools.ConstraintSolver.Solver solver, OrToolsCache cache, OrValueMapper valueMapper)
         {
             Contract.Requires<ArgumentNullException>(solver != null);
             Contract.Requires<ArgumentNullException>(cache != null);
