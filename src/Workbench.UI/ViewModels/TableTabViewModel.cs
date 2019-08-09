@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -20,10 +20,6 @@ namespace Workbench.ViewModels
 
         public TableTabViewModel(TableTabModel theTableModel, IEventAggregator theEventAggregator, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theTableModel != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             _windowManager = theWindowManager;
             TabText = Name = DisplayName = theTableModel.Name;
             Title = theTableModel.Title.Text;
@@ -115,27 +111,23 @@ namespace Workbench.ViewModels
 
         public void AddColumnBefore(int selectedColumnIndex, TableColumnModel newColumn)
         {
-            Contract.Requires<ArgumentNullException>(newColumn != null);
             Table.AddColumnBefore(selectedColumnIndex, newColumn);
         }
 
         public void AddColumnAfter(int selectedColumnIndex, TableColumnModel newColumn)
         {
-            Contract.Requires<ArgumentNullException>(newColumn != null);
             Table.AddColumnAfter(selectedColumnIndex, newColumn);
         }
 
         public void AddRowBefore(int selectedRowIndex, TableRowModel newRow)
         {
-            Contract.Requires<ArgumentNullException>(newRow != null);
-            Contract.Assume(Table != null);
+            Debug.Assert(Table != null);
             Table.AddRowBefore(selectedRowIndex, newRow);
         }
 
         public void AddRowAfter(int selectedRowIndex, TableRowModel newRow)
         {
-            Contract.Requires<ArgumentNullException>(newRow != null);
-            Contract.Assume(Table != null);
+            Debug.Assert(Table != null);
             Table.AddRowAfter(selectedRowIndex, newRow);
         }
 
@@ -157,7 +149,7 @@ namespace Workbench.ViewModels
 
         public void Resize(int columns, int rows)
         {
-            Contract.Assume(Table != null);
+            Debug.Assert(Table != null);
             Table.Resize(columns, rows);
         }
 

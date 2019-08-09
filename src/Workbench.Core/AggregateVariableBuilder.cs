@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 using Workbench.Core.Models;
 
 namespace Workbench.Core
@@ -36,8 +36,8 @@ namespace Workbench.Core
 
         public AggregateVariableModel Build()
         {
-            Contract.Assume(this.model != null);
-            Contract.Assume(this.variableName != null);
+            Debug.Assert(this.model != null);
+            Debug.Assert(this.variableName != null);
 
             return new AggregateVariableModel(this.model.Workspace, this.variableName, GetSizeOrDefault(), GetDomainOrDefault());
         }

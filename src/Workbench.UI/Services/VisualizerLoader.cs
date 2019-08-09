@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
@@ -16,8 +15,6 @@ namespace Workbench.Services
 
         internal VisualizerLoader(WorkspaceViewModel theWorkspaceViewModel, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
             _workspaceViewModel = theWorkspaceViewModel;
             _windowManager = theWindowManager;
         }

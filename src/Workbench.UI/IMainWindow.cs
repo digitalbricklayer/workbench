@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace Workbench
+﻿namespace Workbench
 {
-    [ContractClass(typeof(IMainWindowContract))]
     public interface IMainWindow
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -13,9 +12,6 @@ namespace Workbench.ViewModels
 
         public TableMenuViewModel(IWindowManager theWindowManager, WorkspaceViewModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-
             _workspace = theWorkspace;
             _windowManager = theWindowManager;
             AddRowAfterCommand = new CommandHandler(AddRowAfter, _ => CanEditTableExecute);
@@ -64,7 +60,7 @@ namespace Workbench.ViewModels
         private void AddColumnAfter()
         {
             var selectedTableTab = GetSelectedTableTab();
-            Contract.Assert(selectedTableTab.SelectedColumn != null);
+            Debug.Assert(selectedTableTab.SelectedColumn != null);
             var columnNameEditor = new ColumnNameEditorViewModel();
             var result = this._windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
@@ -76,7 +72,7 @@ namespace Workbench.ViewModels
         private void AddColumnBefore()
         {
             var selectedTableTab = GetSelectedTableTab();
-            Contract.Assert(selectedTableTab.SelectedColumn != null);
+            Debug.Assert(selectedTableTab.SelectedColumn != null);
             var columnNameEditor = new ColumnNameEditorViewModel();
             var result = this._windowManager.ShowDialog(columnNameEditor);
             if (result.GetValueOrDefault())
@@ -88,14 +84,14 @@ namespace Workbench.ViewModels
         private void AddRowAfter()
         {
             var selectedTableTab = GetSelectedTableTab();
-            Contract.Assert(selectedTableTab.SelectedRow != null);
+            Debug.Assert(selectedTableTab.SelectedRow != null);
             selectedTableTab.AddRowAfter(selectedTableTab.SelectedRow.Value, new TableRowModel());
         }
 
         private void AddRowBefore()
         {
             var selectedTableTab = GetSelectedTableTab();
-            Contract.Assert(selectedTableTab.SelectedRow != null);
+            Debug.Assert(selectedTableTab.SelectedRow != null);
             selectedTableTab.AddRowBefore(selectedTableTab.SelectedRow.Value, new TableRowModel());
         }
 

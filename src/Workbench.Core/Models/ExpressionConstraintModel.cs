@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -16,9 +15,6 @@ namespace Workbench.Core.Models
         public ExpressionConstraintModel(ModelModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theName != null);
-            Contract.Requires<ArgumentNullException>(theExpression != null);
             Parent = theModel;
             this.expression = theExpression;
         }
@@ -26,8 +22,6 @@ namespace Workbench.Core.Models
         public ExpressionConstraintModel(ModelModel theModel, ModelName theName)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theName != null);
             Parent = theModel;
             this.expression = new ConstraintExpressionModel();
         }
@@ -35,8 +29,6 @@ namespace Workbench.Core.Models
         public ExpressionConstraintModel(ModelModel theModel, ConstraintExpressionModel theExpression)
             : base(new ModelName())
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theExpression != null);
             Parent = theModel;
             this.expression = theExpression;
         }

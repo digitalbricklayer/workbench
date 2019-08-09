@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -7,11 +6,6 @@ namespace Workbench.Core.Models
     {
         public VisualizerUpdateContext(SolutionSnapshot theSnapshot, DisplayModel theDisplay, VisualizerBindingExpressionModel theBinding, ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
-            Contract.Requires<ArgumentNullException>(theBinding != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             Snapshot = theSnapshot;
             Display = theDisplay;
             Binding = theBinding;

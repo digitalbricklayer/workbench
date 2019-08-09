@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics.Contracts;
 
 namespace Workbench
 {
-    [ContractClass(typeof(IShellContract))]
     public interface IShell
     {
         /// <summary>

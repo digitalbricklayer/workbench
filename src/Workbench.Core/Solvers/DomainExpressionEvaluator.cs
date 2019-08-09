@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Workbench.Core.Models;
@@ -21,9 +21,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Domain value.</returns>
         internal static DomainValue Evaluate(RangeDomainExpressionNode theExpressionNode, ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             var evaluator = new DomainExpressionEvaluator();
             return evaluator.EvaluateNode(theExpressionNode, theModel);
         }
@@ -35,8 +32,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Domain value.</returns>
         internal static DomainValue Evaluate(ListDomainExpressionNode theExpressionNode)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-
             var evaluator = new DomainExpressionEvaluator();
             return evaluator.EvaluateNode(theExpressionNode);
         }
@@ -49,9 +44,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Domain value.</returns>
         internal static DomainValue Evaluate(SharedDomainReferenceNode theExpressionNode, WorkspaceModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-
             var evaluator = new DomainExpressionEvaluator();
             return evaluator.EvaluateReference(theExpressionNode, theWorkspace);
         }
@@ -64,10 +56,7 @@ namespace Workbench.Core.Solvers
         /// <returns>A domain value.</returns>
         internal DomainValue Evaluate(TableExpressionNode theExpressionNode, WorkspaceModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionNode != null);
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-
-            Contract.Assume(!string.IsNullOrWhiteSpace(theExpressionNode.TableReferenceNode.Name));
+            Debug.Assert(!string.IsNullOrWhiteSpace(theExpressionNode.TableReferenceNode.Name));
 
 			// The table reference is compulsory
             var theTableTab = (TableTabModel)theWorkspace.GetVisualizerBy(theExpressionNode.TableReferenceNode.Name);
@@ -132,7 +121,7 @@ namespace Workbench.Core.Solvers
 
         private long EvaluateFunction(FunctionInvocationNode functionCall, ModelModel theModel)
         {
-            Contract.Assert(functionCall.FunctionName == "size", "Only the size function is supporteed at the moment.");
+            Debug.Assert(functionCall.FunctionName == "size", "Only the size function is supporteed at the moment.");
 
             var variableName = functionCall.ArgumentList.Arguments.First().Value.Value;
             var theVariable = theModel.GetVariableByName(variableName);

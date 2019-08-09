@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -11,14 +10,11 @@ namespace Workbench.Services
 
         internal XmlVisualizerBindingReader(DisplayModel theDisplay)
         {
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
             _display = theDisplay;
         }
 
         internal void Read(XmlNodeList bindingNodeList)
         {
-            Contract.Requires<ArgumentNullException>(bindingNodeList != null);
-
             for (var i = 0; i < bindingNodeList.Count; i++)
             {
                 var bindingNode = bindingNodeList[i];
@@ -36,8 +32,6 @@ namespace Workbench.Services
 
         private void ReadBindingExpression(XmlNode bindingNode)
         {
-            Contract.Requires<ArgumentNullException>(bindingNode != null);
-
             var constraintIdAttribute = bindingNode.Attributes["id"];
             var constraintId = constraintIdAttribute.Value;
             var expression = string.Empty;

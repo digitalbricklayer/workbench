@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -33,11 +32,6 @@ namespace Workbench.ViewModels
                                           IEventAggregator theEventAggregator,
                                           IWorkspaceLoader theWorkspaceLoader)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theWorkspaceLoader != null);
-
             Workspace = theWorkspaceViewModel;
             Path = new DocumentPathViewModel();
             _dataService = theDataService;
@@ -53,7 +47,6 @@ namespace Workbench.ViewModels
             get => _workspace;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _workspace = value;
                 NotifyOfPropertyChange();
             }

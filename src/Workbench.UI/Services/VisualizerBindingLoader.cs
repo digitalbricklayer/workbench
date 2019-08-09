@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 using Workbench.ViewModels;
 
 namespace Workbench.Services
@@ -11,7 +9,6 @@ namespace Workbench.Services
 
         internal VisualizerBindingLoader(WorkspaceViewModel theWorkspaceViewModel)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspaceViewModel != null);
             _workspaceViewModel = theWorkspaceViewModel;
         }
 

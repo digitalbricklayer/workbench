@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Caliburn.Micro;
 using Workbench.Core;
 using Workbench.Core.Models;
@@ -18,9 +16,6 @@ namespace Workbench.ViewModels
                                    IDataService theDataService,
                                    IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-
             this.windowManager = theWindowManager;
             this.eventAggregator = theEventAggregator;
 

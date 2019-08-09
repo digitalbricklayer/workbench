@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Google.OrTools.ConstraintSolver;
+﻿using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
@@ -9,7 +7,6 @@ namespace Workbench.Core.Solvers
     {
         internal OrSingletonVariableMap(SingletonVariableModel modelVariable, IntVar solverVariable)
         {
-            Contract.Requires<ArgumentNullException>(modelVariable != null);
             SolverVariable = solverVariable;
             ModelVariable = modelVariable;
         }

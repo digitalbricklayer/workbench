@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Validators;
 
@@ -17,9 +15,6 @@ namespace Workbench.ViewModels
         public SharedDomainModelItemViewModel(SharedDomainModel theDomain, IWindowManager theWindowManager)
             : base(theDomain)
         {
-            Contract.Requires<ArgumentNullException>(theDomain != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             Validator = new SharedDomainModelItemViewModelValidator();
             Domain = theDomain;
             DisplayName = theDomain.Name;

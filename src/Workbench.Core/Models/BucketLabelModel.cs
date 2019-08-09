@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -8,8 +7,6 @@ namespace Workbench.Core.Models
     {
         public BucketLabelModel(BucketVariableModel bucket, IReadOnlyCollection<BundleLabelModel> bundleLabels)
         {
-            Contract.Requires<ArgumentNullException>(bucket != null);
-            Contract.Requires<ArgumentNullException>(bundleLabels != null);
             Bucket = bucket;
             BundleLabels = bundleLabels;
         }

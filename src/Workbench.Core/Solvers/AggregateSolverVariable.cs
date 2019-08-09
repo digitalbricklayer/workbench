@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Workbench.Core.Solvers
@@ -27,8 +27,11 @@ namespace Workbench.Core.Solvers
         internal AggregateSolverVariable(string variableName, int size, DomainRange domain)
             : base(variableName, domain)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
-            Contract.Requires<ArgumentOutOfRangeException>(size > 0);
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Aggregate variable name cannot be empty", nameof(variableName));
+
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             _variables = CreateVariables(size);
         }
@@ -65,8 +68,10 @@ namespace Workbench.Core.Solvers
         /// <returns>Variable name.</returns>
         private string GetVariableNameFor(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
-            Contract.Assume(!string.IsNullOrWhiteSpace(Name));
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            Debug.Assert(!string.IsNullOrWhiteSpace(Name));
 
             return Name + (index + 1);
         }

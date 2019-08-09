@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 using Workbench.Core.Repeaters;
 
 namespace Workbench.Core.Solvers
@@ -24,11 +22,6 @@ namespace Workbench.Core.Solvers
         /// <param name="theModel">Model</param>
         internal OrExpressionConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel, OrValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             this.solver = theSolver;
             this.cache = theCache;
             this.model = theModel;
@@ -41,7 +34,6 @@ namespace Workbench.Core.Solvers
         /// <param name="constraint">Expression constraint model.</param>
         internal void ProcessConstraint(ExpressionConstraintModel constraint)
         {
-            Contract.Requires<ArgumentNullException>(constraint != null);
             var repeater = new OrConstraintRepeater(this.solver, this.cache, this.model, this.valueMapper);
             repeater.Process(repeater.CreateContextFrom(constraint));
         }

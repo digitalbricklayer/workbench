@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
@@ -18,10 +17,6 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal OrBucketConverter(Google.OrTools.ConstraintSolver.Solver solver, OrToolsCache cache, OrValueMapper valueMapper)
         {
-            Contract.Requires<ArgumentNullException>(solver != null);
-            Contract.Requires<ArgumentNullException>(cache != null);
-            Contract.Requires<ArgumentNullException>(valueMapper != null);
-
             _solver = solver;
             _cache = cache;
             _valueMapper = valueMapper;
@@ -33,8 +28,6 @@ namespace Workbench.Core.Solvers
         /// <param name="model">The model.</param>
         internal void ConvertBuckets(ModelModel model)
         {
-            Contract.Requires<ArgumentNullException>(model != null);
-
             foreach (var aBucket in model.Buckets)
             {
                 ConvertBucket(aBucket);

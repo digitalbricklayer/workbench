@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Models
@@ -20,9 +19,6 @@ namespace Workbench.Core.Models
         /// <param name="duration">Time taken to find the solution.</param>
         public SolutionModel(ModelModel theModel, SolutionSnapshot theSnapshot, TimeSpan duration)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-
             Model = theModel;
             Snapshot = theSnapshot;
             Snapshot = new SolutionSnapshot();
@@ -35,8 +31,6 @@ namespace Workbench.Core.Models
         /// <param name="theModel">Model that the solution is supposed to solve.</param>
         public SolutionModel(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             Model = theModel;
             Snapshot = new SolutionSnapshot();
             Snapshot = new SolutionSnapshot();
@@ -72,7 +66,9 @@ namespace Workbench.Core.Models
         /// <returns>Value matching the name. Null if no value matches the name.</returns>
         public SingletonVariableLabelModel GetLabelByVariableName(string theVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
+            if (string.IsNullOrWhiteSpace(theVariableName))
+                throw new ArgumentException(nameof(theVariableName));
+
             return Snapshot.GetSingletonLabelByVariableName(theVariableName);
         }
 
@@ -83,7 +79,9 @@ namespace Workbench.Core.Models
         /// <returns>Aggregate value matching the name. Null if no aggregates matche the name.</returns>
         public AggregateVariableLabelModel GetCompoundLabelByVariableName(string theVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
+            if (string.IsNullOrWhiteSpace(theVariableName))
+                throw new ArgumentException(nameof(theVariableName));
+
             return Snapshot.GetAggregateLabelByVariableName(theVariableName);
         }
 
@@ -93,7 +91,6 @@ namespace Workbench.Core.Models
         /// <param name="theSolveResult">Solution snapshot.</param>
         public void UpdateFrom(SolveResult theSolveResult)
         {
-            Contract.Requires<ArgumentNullException>(theSolveResult != null);
             Snapshot = theSolveResult.Snapshot;
         }
     }

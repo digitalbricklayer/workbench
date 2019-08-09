@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -16,7 +16,6 @@ namespace Workbench.Core.Repeaters
 
         public VisualizerRepeaterContext(VisualizerUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             this.counters = new List<CounterContext>();
             this.context = theContext;
             Model = theContext.Model;
@@ -138,8 +137,7 @@ namespace Workbench.Core.Repeaters
 
         private ILimitValueSource CreateValueSourceFrom(ScopeLimitSatementNode limitNode)
         {
-            Contract.Requires<ArgumentNullException>(limitNode != null);
-            Contract.Requires<ArgumentException>(limitNode.IsLiteral || limitNode.IsCounterReference || limitNode.IsFunctionInvocation);
+            Debug.Assert(limitNode.IsLiteral || limitNode.IsCounterReference || limitNode.IsFunctionInvocation);
 
             if (limitNode.IsLiteral) return new LiteralLimitValueSource(limitNode.Literal);
             if (limitNode.IsFunctionInvocation)
@@ -153,8 +151,7 @@ namespace Workbench.Core.Repeaters
 
         private ILimitValueSource CreateValueSourceFrom(ExpanderCountNode countNode)
         {
-            Contract.Requires<ArgumentNullException>(countNode != null);
-            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
+            Debug.Assert(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
 
             if (countNode.IsLiteral) return new LiteralLimitValueSource(countNode.Literal);
             if (countNode.IsFunctionInvocation)

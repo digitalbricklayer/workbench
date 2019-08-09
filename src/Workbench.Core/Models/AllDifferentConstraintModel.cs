@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -20,24 +19,18 @@ namespace Workbench.Core.Models
         public AllDifferentConstraintModel(ModelModel theModel, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theName != null);
-            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
             Parent = theModel;
             Expression = theExpressionModel;
         }
 
         public AllDifferentConstraintModel(ModelModel theModel, AllDifferentConstraintExpressionModel theExpressionModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theExpressionModel != null);
             Parent = theModel;
             Expression = theExpressionModel;
         }
 
         public AllDifferentConstraintModel(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             Parent = theModel;
             Expression = new AllDifferentConstraintExpressionModel();
         }
@@ -50,7 +43,6 @@ namespace Workbench.Core.Models
             get => _expression;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _expression = value;
             }
         }

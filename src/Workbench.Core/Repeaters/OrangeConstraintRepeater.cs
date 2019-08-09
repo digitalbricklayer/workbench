@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
@@ -22,11 +22,6 @@ namespace Workbench.Core.Repeaters
 
         internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, OrangeValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(constraintNetwork != null);
-            Contract.Requires<ArgumentNullException>(modelSolverMap != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             _constraintNetwork = constraintNetwork;
             _modelSolverMap = modelSolverMap;
             _model = theModel;
@@ -36,8 +31,7 @@ namespace Workbench.Core.Repeaters
 
         internal void Process(OrangeConstraintRepeaterContext context)
         {
-            Contract.Requires<ArgumentNullException>(context != null);
-            Contract.Assert(context.HasRepeaters);
+            Debug.Assert(context.HasRepeaters);
 
             _context = context;
             var constraintExpressionParser = new ConstraintExpressionParser();
@@ -57,8 +51,6 @@ namespace Workbench.Core.Repeaters
 
         private void ProcessConstraint(ConstraintExpressionNode constraintExpressionNode)
         {
-            Contract.Requires<ArgumentNullException>(constraintExpressionNode != null);
-
             var newArcs = _arcBuilder.Build(constraintExpressionNode);
             _constraintNetwork.AddArc(newArcs);
         }
@@ -72,8 +64,6 @@ namespace Workbench.Core.Repeaters
 
         private string InsertCounterValuesInto(string expressionTemplateText)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionTemplateText));
-
             var accumulatingTemplateText = expressionTemplateText;
             foreach (var aCounter in _context.Counters)
             {

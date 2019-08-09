@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
@@ -32,8 +31,6 @@ namespace Workbench.Core.Solvers
         /// <param name="duration">Time taken to solve.</param>
         public SolveResult(SolveStatus theStatus, SolutionSnapshot theSnapshot, TimeSpan duration)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
-
             this.Status = theStatus;
             this.Snapshot = theSnapshot;
             this.Duration = duration;

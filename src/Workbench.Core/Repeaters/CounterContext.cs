@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Repeaters
 {
@@ -10,8 +9,9 @@ namespace Workbench.Core.Repeaters
     {
         public CounterContext(string theCounterName, ICounterIterator theCounter)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theCounterName));
-            Contract.Requires<ArgumentNullException>(theCounter != null);
+            if (string.IsNullOrWhiteSpace(theCounterName))
+                throw new ArgumentException("Counter name cannot be blank", nameof(theCounter));
+
             CounterName = theCounterName;
             Counter = theCounter;
         }

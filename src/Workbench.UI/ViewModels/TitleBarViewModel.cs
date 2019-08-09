@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics.Contracts;
 using System.IO;
 using Caliburn.Micro;
 using Workbench.Messages;
@@ -21,8 +19,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public TitleBarViewModel(IShell theShell, IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theShell != null);
             _eventAggregator = theEventAggregator;
             _shell = theShell;
             Title = Resources.MainWindowDefaultTitle;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +13,7 @@ namespace Workbench.Selectors
         {
             var element = container as FrameworkElement;
 
-            Contract.Assert(element != null);
+            Debug.Assert(element != null);
 
             switch (item)
             {

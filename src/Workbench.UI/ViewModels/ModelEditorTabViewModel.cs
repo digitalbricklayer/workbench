@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -34,11 +34,6 @@ namespace Workbench.ViewModels
                                        IWindowManager theWindowManager,
                                        IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theShell != null);
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-
             _shell = theShell;
             _windowManager = theWindowManager;
             _eventAggregator = theEventAggregator;
@@ -187,8 +182,6 @@ namespace Workbench.ViewModels
         /// <param name="newVariableModel">New variable.</param>
         public void AddSingletonVariable(SingletonVariableModel newVariableModel)
         {
-            Contract.Requires<ArgumentNullException>(newVariableModel != null);
-
             var newSingletonVariableItem = new SingletonVariableModelItemViewModel(newVariableModel, _windowManager, _eventAggregator);
             FixupSingletonVariable(newSingletonVariableItem);
             ModelModel.AddVariable(newVariableModel);
@@ -200,8 +193,6 @@ namespace Workbench.ViewModels
         /// <param name="newVariableModel">New variable.</param>
         public void AddAggregateVariable(AggregateVariableModel newVariableModel)
         {
-            Contract.Requires<ArgumentNullException>(newVariableModel != null);
-
             var newAggregateVariableItem = new AggregateVariableModelItemViewModel(newVariableModel, _windowManager, _eventAggregator);
             FixupAggregateVariable(newAggregateVariableItem);
             ModelModel.AddVariable(newVariableModel);
@@ -213,8 +204,6 @@ namespace Workbench.ViewModels
         /// <param name="newDomainModel">New domain.</param>
         public void AddDomain(SharedDomainModel newDomainModel)
         {
-            Contract.Requires<ArgumentNullException>(newDomainModel != null);
-
             var newDomainItem = new SharedDomainModelItemViewModel(newDomainModel, _windowManager);
             FixupDomain(newDomainItem);
             AddDomainToModel(newDomainModel);
@@ -226,8 +215,6 @@ namespace Workbench.ViewModels
         /// <param name="newAllDifferentConstraint">New constraint.</param>
         public void AddConstraint(AllDifferentConstraintModel newAllDifferentConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newAllDifferentConstraint != null);
-
             var newConstraint = new AllDifferentConstraintModelItemViewModel(newAllDifferentConstraint, _windowManager);
             FixupConstraint(newConstraint);
             AddConstraintToModel(newConstraint);
@@ -239,8 +226,6 @@ namespace Workbench.ViewModels
         /// <param name="newExpressionConstraint">New constraint.</param>
         public void AddConstraint(ExpressionConstraintModel newExpressionConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newExpressionConstraint != null);
-
             var newExpressionConstraintEditor = new ExpressionConstraintModelItemViewModel(newExpressionConstraint, _windowManager);
             FixupConstraint(newExpressionConstraintEditor);
             AddConstraintToModel(newExpressionConstraintEditor);
@@ -252,8 +237,6 @@ namespace Workbench.ViewModels
         /// <param name="variableToDelete">Variable to delete.</param>
         public void DeleteVariable(VariableModelItemViewModel variableToDelete)
         {
-            Contract.Requires<ArgumentNullException>(variableToDelete != null);
-
             Items.Remove(variableToDelete);
             Variables.Remove(variableToDelete);
             DeactivateItem(variableToDelete, close: true);
@@ -267,8 +250,6 @@ namespace Workbench.ViewModels
         /// <param name="domainToDelete">Domain to delete.</param>
         public void DeleteDomain(SharedDomainModelItemViewModel domainToDelete)
         {
-            Contract.Requires<ArgumentNullException>(domainToDelete != null);
-
             Domains.Remove(domainToDelete);
             DeactivateItem(domainToDelete, close: true);
             DeleteDomainFromModel(domainToDelete);
@@ -280,8 +261,6 @@ namespace Workbench.ViewModels
         /// <param name="constraintToDelete">Constraint to delete.</param>
         public void DeleteConstraint(ConstraintModelItemViewModel constraintToDelete)
         {
-            Contract.Requires<ArgumentNullException>(constraintToDelete != null);
-
             Constraints.Remove(constraintToDelete);
             DeactivateItem(constraintToDelete, close: true);
             DeleteConstraintFromModel(constraintToDelete);
@@ -306,7 +285,6 @@ namespace Workbench.ViewModels
         /// <param name="variableViewModel">Singleton variable view model.</param>
         internal void FixupSingletonVariable(SingletonVariableModelItemViewModel variableViewModel)
         {
-            Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
             ActivateItem(variableViewModel);
         }
@@ -320,7 +298,6 @@ namespace Workbench.ViewModels
         /// <param name="variableViewModel">Aggregate variable view model.</param>
         internal void FixupAggregateVariable(AggregateVariableModelItemViewModel variableViewModel)
         {
-            Contract.Requires<ArgumentNullException>(variableViewModel != null);
             Variables.Add(variableViewModel);
             ActivateItem(variableViewModel);
         }
@@ -334,7 +311,6 @@ namespace Workbench.ViewModels
         /// <param name="domainViewModel">Domain view model.</param>
         internal void FixupDomain(SharedDomainModelItemViewModel domainViewModel)
         {
-            Contract.Requires<ArgumentNullException>(domainViewModel != null);
             Domains.Add(domainViewModel);
             ActivateItem(domainViewModel);
         }
@@ -348,7 +324,6 @@ namespace Workbench.ViewModels
         /// <param name="constraintViewModel">Constraint view model.</param>
         internal void FixupConstraint(ConstraintModelItemViewModel constraintViewModel)
         {
-            Contract.Requires<ArgumentNullException>(constraintViewModel != null);
             Constraints.Add(constraintViewModel);
             ActivateItem(constraintViewModel);
         }
@@ -359,7 +334,7 @@ namespace Workbench.ViewModels
         /// <param name="newDomainModel">New domain view model.</param>
         private void AddDomainToModel(SharedDomainModel newDomainModel)
         {
-            Contract.Assert(newDomainModel != null);
+            Debug.Assert(newDomainModel != null);
 
             newDomainModel.AssignIdentity();
             ModelModel.AddSharedDomain(newDomainModel);
@@ -371,7 +346,7 @@ namespace Workbench.ViewModels
         /// <param name="newConstraintViewModel">New constraint view model.</param>
         private void AddConstraintToModel(AllDifferentConstraintModelItemViewModel newConstraintViewModel)
         {
-            Contract.Assert(newConstraintViewModel.Constraint != null);
+            Debug.Assert(newConstraintViewModel.Constraint != null);
             ModelModel.AddConstraint(newConstraintViewModel.Constraint);
         }
 
@@ -381,26 +356,26 @@ namespace Workbench.ViewModels
         /// <param name="newConstraintViewModel">New constraint view model.</param>
         private void AddConstraintToModel(ExpressionConstraintModelItemViewModel newConstraintViewModel)
         {
-            Contract.Assert(newConstraintViewModel.Model != null);
+            Debug.Assert(newConstraintViewModel.Model != null);
             newConstraintViewModel.Model.AssignIdentity();
             ModelModel.AddConstraint(newConstraintViewModel.ExpressionConstraint);
         }
 
         private void DeleteConstraintFromModel(ConstraintModelItemViewModel constraintToDelete)
         {
-            Contract.Assert(constraintToDelete.Model != null);
+            Debug.Assert(constraintToDelete.Model != null);
             ModelModel.DeleteConstraint(constraintToDelete.Constraint);
         }
 
         private void DeleteVariableFromModel(VariableModelItemViewModel variableToDelete)
         {
-            Contract.Assert(variableToDelete.Model != null);
+            Debug.Assert(variableToDelete.Model != null);
             ModelModel.DeleteVariable(variableToDelete.Variable);
         }
 
         private void DeleteDomainFromModel(SharedDomainModelItemViewModel domainToDelete)
         {
-            Contract.Assert(domainToDelete.Model != null);
+            Debug.Assert(domainToDelete.Model != null);
             ModelModel.DeleteDomain(domainToDelete.Domain);
         }
 
@@ -462,13 +437,13 @@ namespace Workbench.ViewModels
 
         private void EditAction()
         {
-            Contract.Assume(ActiveItem != null);
+            Debug.Assert(ActiveItem != null);
             ActiveItem.Edit();
         }
 
         private void DeleteAction()
         {
-            Contract.Assume(ActiveItem != null);
+            Debug.Assert(ActiveItem != null);
 
             switch (ActiveItem)
             {
@@ -492,15 +467,6 @@ namespace Workbench.ViewModels
         private bool IsItemSelected(object parameter)
         {
             return ActiveItem != null;
-        }
-
-        [ContractInvariantMethod]
-        private void Invariants()
-        {
-            Contract.Invariant(ModelModel != null);
-            Contract.Invariant(Constraints != null);
-            Contract.Invariant(Variables != null);
-            Contract.Invariant(Domains != null);
         }
     }
 }

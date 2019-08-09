@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -18,9 +16,6 @@ namespace Workbench.ViewModels
 
         public ChessboardTabViewModel(ChessboardTabModel theChessboardTabModel, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theChessboardTabModel != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             _windowManager = theWindowManager;
             Title = TabText = Name = DisplayName = theChessboardTabModel.Name;
             Model = theChessboardTabModel;

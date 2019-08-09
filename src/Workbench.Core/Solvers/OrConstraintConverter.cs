@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
-using Workbench.Core.Parsers;
 
 namespace Workbench.Core.Solvers
 {
@@ -21,10 +19,6 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal OrConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, OrValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             this.solver = theSolver;
             this.cache = theCache;
             this.valueMapper = theValueMapper;
@@ -36,8 +30,6 @@ namespace Workbench.Core.Solvers
         /// <param name="model">The model.</param>
         internal void ProcessConstraints(ModelModel model)
         {
-            Contract.Requires<ArgumentNullException>(model != null);
-
             foreach (var constraint in model.Constraints)
             {
                 switch (constraint)

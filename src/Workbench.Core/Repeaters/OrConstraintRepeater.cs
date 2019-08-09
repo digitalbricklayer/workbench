@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -23,11 +22,6 @@ namespace Workbench.Core.Repeaters
 
         internal OrConstraintRepeater(Solver theSolver, OrToolsCache theCache, ModelModel theModel, OrValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             this.solver = theSolver;
             this.cache = theCache;
             this.model = theModel;
@@ -36,7 +30,6 @@ namespace Workbench.Core.Repeaters
 
         internal void Process(OrConstraintRepeaterContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
             if (!theContext.HasRepeaters)
             {
@@ -61,8 +54,6 @@ namespace Workbench.Core.Repeaters
 
         private void ProcessSimpleConstraint(ConstraintExpressionNode constraintExpressionNode)
         {
-            Contract.Requires<ArgumentNullException>(constraintExpressionNode != null);
-
             Constraint newConstraint;
             var lhsExpr = GetExpressionFrom(constraintExpressionNode.InnerExpression.LeftExpression);
             if (constraintExpressionNode.InnerExpression.RightExpression.IsExpression)
@@ -249,7 +240,8 @@ namespace Workbench.Core.Repeaters
 
         private string InsertCounterValuesInto(string expressionTemplateText)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(expressionTemplateText));
+            if (string.IsNullOrWhiteSpace(expressionTemplateText))
+                throw new ArgumentException("Expression template must not be empty", nameof(expressionTemplateText));
 
             var accumulatingTemplateText = expressionTemplateText;
             foreach (var aCounter in this.context.Counters)
@@ -269,9 +261,7 @@ namespace Workbench.Core.Repeaters
 
         private int GetValueFrom(InfixStatementNode infixStatement)
         {
-            Contract.Requires<ArgumentNullException>(infixStatement != null);
-            Contract.Requires<ArgumentException>(infixStatement.IsCounterReference ||
-                                                 infixStatement.IsLiteral);
+            Debug.Assert(infixStatement.IsCounterReference || infixStatement.IsLiteral);
             if (infixStatement.IsLiteral) return infixStatement.Literal.Value;
             var counter = context.GetCounterContextByName(infixStatement.CounterReference.CounterName);
             return counter.CurrentValue;

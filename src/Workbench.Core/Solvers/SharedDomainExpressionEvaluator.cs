@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -8,8 +7,6 @@ namespace Workbench.Core.Solvers
     {
         private SharedDomainExpressionEvaluator(SharedDomainExpressionEvaluatorContext context)
         {
-            Contract.Requires<ArgumentNullException>(context != null);
-
             Context = context;
         }
 
@@ -17,8 +14,6 @@ namespace Workbench.Core.Solvers
 
         internal static DomainValue Evaluate(SharedDomainExpressionEvaluatorContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
-
             var evaluator = new SharedDomainExpressionEvaluator(theContext);
             return evaluator.Evaluate();
         }

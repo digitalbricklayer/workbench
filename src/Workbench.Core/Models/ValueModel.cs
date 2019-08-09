@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -15,8 +14,6 @@ namespace Workbench.Core.Models
         /// <param name="theModelValue">Model value.</param>
         public ValueModel(object theModelValue)
         {
-            Contract.Requires<ArgumentNullException>(theModelValue != null);
-
             Model = theModelValue;
         }
 

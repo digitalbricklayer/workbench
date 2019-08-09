@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Services;
@@ -20,9 +18,6 @@ namespace Workbench.Commands
 
         public EditSolutionCommand(IWindowManager theWindowManager, IDocumentManager theDocumentManager)
         {
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
-
             _windowManager = theWindowManager;
             _documentManager = theDocumentManager;
         }

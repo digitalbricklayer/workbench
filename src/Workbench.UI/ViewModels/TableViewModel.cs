@@ -1,6 +1,6 @@
 using System;
 using System.Data;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -15,8 +15,6 @@ namespace Workbench.ViewModels
 
         public TableViewModel(TableModel theTable)
         {
-            Contract.Requires<ArgumentNullException>(theTable != null);
-
             _table = theTable;
             _dataTable = CreateDataTable();
         }
@@ -67,45 +65,47 @@ namespace Workbench.ViewModels
 
         public void AddColumnAfter(int selectedColumnIndex, TableColumnModel newColumn)
         {
-            Contract.Requires<ArgumentNullException>(newColumn != null);
-            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Table.Columns.Count);
+            if (selectedColumnIndex <= 0 || selectedColumnIndex > Table.Columns.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedColumnIndex));
+
             Table.AddColumnAfter(selectedColumnIndex, newColumn);
             Data = CreateDataTable();
         }
 
         public void AddColumnBefore(int selectedColumnIndex, TableColumnModel newColumn)
         {
-            Contract.Requires<ArgumentNullException>(newColumn != null);
-            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Table.Columns.Count);
+            if (selectedColumnIndex <= 0 || selectedColumnIndex > Table.Columns.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedColumnIndex));
+
             Table.AddColumnBefore(selectedColumnIndex, newColumn);
             Data = CreateDataTable();
         }
 
         public void AddColumn(TableColumnModel newColumn)
         {
-            Contract.Requires<ArgumentNullException>(newColumn != null);
             AppendColumn(newColumn);
         }
 
         public void AddRowBefore(int selectedRowIndex, TableRowModel theNewRow)
         {
-            Contract.Requires<ArgumentNullException>(theNewRow != null);
-            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Table.Rows.Count);
+            if (selectedRowIndex <= 0 || selectedRowIndex > Table.Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedRowIndex));
+
             Table.AddRowBefore(selectedRowIndex, theNewRow);
             AddRowToTable(theNewRow, selectedRowIndex);
         }
 
         public void AddRowAfter(int selectedRowIndex, TableRowModel theNewRow)
         {
-            Contract.Requires<ArgumentNullException>(theNewRow != null);
-            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Table.Rows.Count);
+            if (selectedRowIndex <= 0 || selectedRowIndex > Table.Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedRowIndex));
+
             Table.AddRowAfter(selectedRowIndex, theNewRow);
             AddRowToTable(theNewRow, selectedRowIndex);
         }
 
         public void AddRow(TableRowModel theNewRow)
         {
-            Contract.Requires<ArgumentNullException>(theNewRow != null);
             Table.AddRow(theNewRow);
             AppendRowToTable(theNewRow, _dataTable);
         }
@@ -129,14 +129,14 @@ namespace Workbench.ViewModels
 
         public void DeleteColumnSelected()
         {
-            Contract.Assume(SelectedColumn.HasValue);
+            Debug.Assert(SelectedColumn.HasValue);
             Table.DeleteColumnSelected(SelectedColumn.Value);
             DeleteColumnFromTable(SelectedColumn.Value);
         }
 
         public void DeleteRowSelected()
         {
-            Contract.Assume(SelectedRow.HasValue);
+            Debug.Assert(SelectedRow.HasValue);
             Table.DeleteRowSelected(SelectedRow.Value);
             DeleteRowFromTable(SelectedRow.Value);
         }
@@ -173,7 +173,7 @@ namespace Workbench.ViewModels
             newTableColumn.DefaultValue = string.Empty;
             newTable.Columns.Add(newTableColumn);
             newTable.AcceptChanges();
-            Contract.Assert(!newTable.HasErrors);
+            Debug.Assert(!newTable.HasErrors);
         }
 
         private void AppendColumn(TableColumnModel newColumn)
@@ -200,7 +200,7 @@ namespace Workbench.ViewModels
 
         private void DeleteColumnFromTable(int columnToDeleteIndex)
         {
-            Contract.Assume(_dataTable.Columns.CanRemove(_dataTable.Columns[columnToDeleteIndex]));
+            Debug.Assert(_dataTable.Columns.CanRemove(_dataTable.Columns[columnToDeleteIndex]));
 
             // Remove the current selection
             _dataTable.Columns.Remove(_dataTable.Columns[columnToDeleteIndex]);
@@ -233,7 +233,7 @@ namespace Workbench.ViewModels
             PopulateTableColumns(newTable);
             PopulateTableRows(newTable);
             newTable.AcceptChanges();
-            Contract.Assert(!newTable.HasErrors);
+            Debug.Assert(!newTable.HasErrors);
             return newTable;
         }
 

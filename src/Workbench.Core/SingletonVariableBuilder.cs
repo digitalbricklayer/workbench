@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Core
@@ -29,8 +30,8 @@ namespace Workbench.Core
 
         public SingletonVariableModel Build()
         {
-            Contract.Assume(this.model != null);
-            Contract.Assume(this.variableName != null);
+            Debug.Assert(this.model != null);
+            Debug.Assert(this.variableName != null);
 
             return new SingletonVariableModel(this.model, this.variableName, GetDomainOrDefault());
         }

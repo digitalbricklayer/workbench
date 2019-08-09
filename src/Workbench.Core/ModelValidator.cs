@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 
@@ -16,7 +15,6 @@ namespace Workbench.Core
         /// <param name="theModel">The model to validate.</param>
         public ModelValidator(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             _model = theModel;
         }
 
@@ -36,8 +34,6 @@ namespace Workbench.Core
         /// <returns>True if the model is valid, false if it is not valid.</returns>
         public bool Validate(ModelValidationContext validateContext)
         {
-            Contract.Requires<ArgumentNullException>(validateContext != null);
-
             var returnCodes = new List<bool>();
             var constraintsValid = ValidateConstraints(validateContext);
             returnCodes.Add(constraintsValid);

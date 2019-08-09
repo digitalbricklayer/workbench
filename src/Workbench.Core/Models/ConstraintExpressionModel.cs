@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
 
@@ -21,7 +20,6 @@ namespace Workbench.Core.Models
 
         public ConstraintExpressionModel(string rawExpression)
         {
-            Contract.Requires<ArgumentNullException>(rawExpression != null);
             Text = rawExpression;
         }
 

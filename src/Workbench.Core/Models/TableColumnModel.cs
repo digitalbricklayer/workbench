@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -18,7 +17,9 @@ namespace Workbench.Core.Models
         /// <param name="theColumnName">Column name.</param>
         public TableColumnModel(string theColumnName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theColumnName));
+            if (string.IsNullOrWhiteSpace(theColumnName))
+                throw new ArgumentException(nameof(theColumnName));
+
             Name = theColumnName;
         }
 

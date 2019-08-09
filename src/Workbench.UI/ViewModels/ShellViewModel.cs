@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
+﻿using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
 using Workbench.Messages;
@@ -29,10 +27,6 @@ namespace Workbench.ViewModels
         /// <param name="theEventAggregator">Event aggregator.</param>
         public ShellViewModel(IDocumentManager theDocumentManager, IApplicationMenu theApplicationMenuViewModel, IEventAggregator theEventAggregator)
         {
-            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
-            Contract.Requires<ArgumentNullException>(theApplicationMenuViewModel != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-
             _documentManager = theDocumentManager;
             ApplicationMenu = theApplicationMenuViewModel;
             _eventAggregator = theEventAggregator;

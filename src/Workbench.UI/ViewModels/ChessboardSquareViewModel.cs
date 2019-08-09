@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Windows;
+﻿using System.Windows;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -19,7 +17,6 @@ namespace Workbench.ViewModels
         /// <param name="theModel"></param>
         public ChessboardSquareViewModel(ChessboardSquareModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             Model = theModel;
         }
 

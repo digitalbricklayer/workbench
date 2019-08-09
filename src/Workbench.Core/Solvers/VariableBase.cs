@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Solvers
 {
@@ -11,7 +10,9 @@ namespace Workbench.Core.Solvers
         /// <param name="variableName">Variable name.</param>
         protected VariableBase(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name must not be blank", nameof(variableName));
+
             Name = variableName;
         }
 

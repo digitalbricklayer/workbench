@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Messages
@@ -16,8 +14,6 @@ namespace Workbench.Messages
         /// <param name="theResult">Solve attempt result.</param>
         public ModelSolvedMessage(SolveResult theResult)
         {
-            Contract.Requires<ArgumentNullException>(theResult != null);
-
             Result = theResult;
             Snapshot = theResult.Snapshot;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -11,7 +10,6 @@ namespace Workbench.Services
 
         internal XmlVariableReader(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
             _model = theModel;
         }
 

@@ -1,6 +1,3 @@
-using System;
-using System.Diagnostics.Contracts;
-
 namespace Workbench.Core.Repeaters
 {
     /// <summary>
@@ -14,7 +11,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="countValueSource">High value source.</param>
         public CountIterator(ILimitValueSource countValueSource)
         {
-            Contract.Requires<ArgumentNullException>(countValueSource != null);
             Count = countValueSource;
             Reset();
         }

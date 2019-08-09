@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Irony.Ast;
 using Irony.Parsing;
@@ -13,7 +14,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                Contract.Assume(IsLiteral);
+                Debug.Assert(IsLiteral);
                 return (IntegerLiteralNode) InnerExpression;
             }
         }
@@ -22,7 +23,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                Contract.Assume(IsCounterReference);
+                Debug.Assert(IsCounterReference);
                 return (CounterReferenceNode) InnerExpression;
             }
         }
@@ -58,7 +59,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                Contract.Assume(IsFunctionInvocation);
+                Debug.Assert(IsFunctionInvocation);
                 return (FunctionInvocationNode)InnerExpression;
             }
         }

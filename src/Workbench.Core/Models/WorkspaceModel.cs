@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Models
@@ -19,8 +19,6 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             Model = theModel;
             Model.Workspace = this;
             Solution = new SolutionModel(Model);
@@ -32,8 +30,6 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel(ModelName theModelName)
         {
-            Contract.Requires<ArgumentNullException>(theModelName != null);
-
             Model = new ModelModel(theModelName);
             Model.Workspace = this;
             Solution = new SolutionModel(Model);
@@ -96,8 +92,7 @@ namespace Workbench.Core.Models
         /// <returns>Solve result.</returns>
         public SolveResult Solve()
         {
-            Contract.Ensures(Contract.Result<SolveResult>() != null);
-            Contract.Assume(Model != null);
+            Debug.Assert(Model != null);
             var solveResult = Model.Solve();
             if (solveResult.IsFailure) return solveResult;
             UpdateSolutionFrom(solveResult);
@@ -111,7 +106,6 @@ namespace Workbench.Core.Models
         /// <param name="theVisualizer">The visualizer to add.</param>
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
             Display.AddVisualizer(theVisualizer);
         }
 
@@ -121,7 +115,6 @@ namespace Workbench.Core.Models
         /// <param name="theSolveResult">Solve result.</param>
         public void UpdateSolutionFrom(SolveResult theSolveResult)
         {
-            Contract.Requires<ArgumentNullException>(theSolveResult != null);
             Display.UpdateFrom(theSolveResult);
             Solution.UpdateFrom(theSolveResult);
         }
@@ -132,7 +125,6 @@ namespace Workbench.Core.Models
         /// <param name="newBindingExpression">New visualizer binding expression.</param>
         public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
         {
-            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             Display.AddBindingExpression(newBindingExpression);
         }
 
@@ -142,7 +134,6 @@ namespace Workbench.Core.Models
         /// <param name="aVisualizerBinding">Visualizer binding to delete.</param>
         public void DeleteBindingExpression(VisualizerBindingExpressionModel aVisualizerBinding)
         {
-            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
             Display.DeleteBindingExpression(aVisualizerBinding);
         }
 
@@ -153,7 +144,9 @@ namespace Workbench.Core.Models
         /// <returns>Visualizer matching the name.</returns>
         public VisualizerModel GetVisualizerBy(string theName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            if (string.IsNullOrWhiteSpace(theName))
+                throw new ArgumentException("Visualizer name must not be empty", nameof(theName));
+
             return Display.GetVisualizerBy(theName);
         }
     }

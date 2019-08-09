@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using System.Drawing;
 
 namespace Workbench.Core.Models
@@ -22,9 +21,6 @@ namespace Workbench.Core.Models
         /// <param name="theTextExpression">Visualizer expression bound to the text property.</param>
         public TableCellModel(string theText, string theTextExpression)
         {
-            Contract.Requires<ArgumentNullException>(theText != null);
-            Contract.Requires<ArgumentNullException>(theTextExpression != null);
-
             Text = theText;
             TextExpression = new PropertyUpdateExpressionModel(theTextExpression);
             BackgroundColor = Color.White;
@@ -37,8 +33,6 @@ namespace Workbench.Core.Models
         /// <param name="theText">Row text.</param>
         public TableCellModel(string theText)
         {
-            Contract.Requires<ArgumentNullException>(theText != null);
-
             Text = theText;
             TextExpression = new PropertyUpdateExpressionModel();
             BackgroundColor = Color.White;
@@ -64,7 +58,6 @@ namespace Workbench.Core.Models
             get { return _text; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _text = value;
                 OnPropertyChanged();
             }
@@ -78,7 +71,6 @@ namespace Workbench.Core.Models
             get => _textExpression;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _textExpression = value;
                 OnPropertyChanged();
             }
@@ -105,7 +97,6 @@ namespace Workbench.Core.Models
             get => _backgroundColorExpression;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _backgroundColorExpression = value;
                 OnPropertyChanged();
             }

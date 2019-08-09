@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -14,7 +13,8 @@ namespace Workbench.Core.Models
 
         public AllDifferentConstraintExpressionModel(string rawExpression)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException(nameof(rawExpression));
             Text = rawExpression;
         }
 

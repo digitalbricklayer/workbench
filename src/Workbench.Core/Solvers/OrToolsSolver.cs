@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -21,8 +20,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Solve result.</returns>
         public SolveResult Solve(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             if (!new ModelValidator(theModel).Validate()) return SolveResult.InvalidModel;
 
             // A model with zero variables crashes the or-tools solver...

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Nodes;
 
@@ -14,17 +13,12 @@ namespace Workbench.Core.Solvers
 
         internal EncapsulatedVariablePermutationCalculator(OrangeModelSolverMap modelSolverMap, OrangeValueMapper valueMapper)
         {
-            Contract.Requires<ArgumentNullException>(modelSolverMap != null);
-            Contract.Requires<ArgumentNullException>(valueMapper != null);
-
             _modelSolverMap = modelSolverMap;
             _valueMapper = valueMapper;
         }
 
         internal EncapsulatedVariableDomainValue Compute(TernaryConstraintExpression ternaryConstraint)
         {
-            Contract.Requires<ArgumentNullException>(ternaryConstraint != null);
-
             var valueSetAccumulator = new List<ValueSet>();
             var leftSource = ternaryConstraint.GetLeftSource();
             var leftPossibleValues = leftSource.PossibleValues;

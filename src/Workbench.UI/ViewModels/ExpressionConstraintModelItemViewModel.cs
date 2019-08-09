@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Validators;
 
@@ -13,9 +11,6 @@ namespace Workbench.ViewModels
         public ExpressionConstraintModelItemViewModel(ExpressionConstraintModel theExpressionConstraint, IWindowManager theWindowManager)
             : base(theExpressionConstraint)
         {
-            Contract.Requires<ArgumentNullException>(theExpressionConstraint != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             Validator = new ExpressionConstraintModelItemViewModelValidator();
             ExpressionText = theExpressionConstraint.Expression.Text;
             ExpressionConstraint = theExpressionConstraint;

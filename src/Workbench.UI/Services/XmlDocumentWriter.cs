@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Xml;
+﻿using System.Xml;
 
 namespace Workbench.Services
 {
@@ -27,8 +25,6 @@ namespace Workbench.Services
         /// <param name="theObject">Subject to write to the document.</param>
         protected XmlDocumentWriter(XmlDocument theDocument, T theObject)
         {
-            Contract.Requires<ArgumentNullException>(theDocument != null);
-            Contract.Requires<ArgumentNullException>(theObject != null);
             Document = theDocument;
             Subject = theObject;
         }

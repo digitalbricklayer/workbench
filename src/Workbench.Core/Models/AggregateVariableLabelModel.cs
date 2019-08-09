@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -23,9 +23,8 @@ namespace Workbench.Core.Models
         public AggregateVariableLabelModel(AggregateVariableModel theAggregateVariable, IReadOnlyCollection<ValueModel> theValues)
             : base(theAggregateVariable)
         {
-            Contract.Requires<ArgumentNullException>(theAggregateVariable != null);
-            Contract.Requires<ArgumentNullException>(theValues != null);
-            Contract.Requires<ArgumentException>(theValues.Any());
+            if (!theValues.Any())
+                throw new ArgumentException(nameof(theValues));
 
             AggregateVariable = theAggregateVariable;
             this.values = new List<ValueModel>(theValues);
@@ -43,7 +42,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(this.values != null);
+                Debug.Assert(this.values != null);
                 return new ReadOnlyCollection<ValueModel>(this.values);
             }
         }
@@ -55,7 +54,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(this.values != null);
+                Debug.Assert(this.values != null);
                 var theValues = this.values.Select(binding => binding.Model)
                                            .ToList();
                 return new ReadOnlyCollection<object>(theValues);
@@ -86,7 +85,8 @@ namespace Workbench.Core.Models
         /// <returns>Value at index.</returns>
         public object GetValueAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
+            if (index <= 0 && index >= Values.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             var theValue = this.values[index];
             return theValue.Model;
@@ -99,7 +99,8 @@ namespace Workbench.Core.Models
         /// <returns>Value at index.</returns>
         public ValueModel GetBindingAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Values.Count);
+            if (index <= 0 && index >= Values.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return this.values[index];
         }

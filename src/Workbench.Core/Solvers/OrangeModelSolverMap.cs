@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
@@ -34,7 +33,9 @@ namespace Workbench.Core.Solvers
 
         internal void AddSingleton(string name, OrangeSingletonVariableMap singletonVariableMap)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
             _singletonVariableMap.Add(name, singletonVariableMap);
             _solverVariableMap.Add(name, singletonVariableMap.SolverVariable);
             _modelVariableMap.Add(singletonVariableMap.ModelVariable.Name.Text, singletonVariableMap.ModelVariable);
@@ -42,7 +43,9 @@ namespace Workbench.Core.Solvers
 
         internal void AddAggregate(string name, OrangeAggregateVariableMap aggregateVariableMap)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(name));
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
             _aggregateVariableMap.Add(name, aggregateVariableMap);
             foreach (var solverVariable in aggregateVariableMap.SolverVariable.Variables)
             {
@@ -69,7 +72,9 @@ namespace Workbench.Core.Solvers
 
         internal SolverVariable GetSolverSingletonVariableByName(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
+
             return _singletonVariableMap[variableName].SolverVariable;
         }
 
@@ -82,21 +87,30 @@ namespace Workbench.Core.Solvers
 
         internal SolverVariable GetSolverAggregateVariableByName(string variableName, int index)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
+
             return _aggregateVariableMap[variableName].GetAt(index);
         }
 
         internal AggregateSolverVariable GetSolverAggregateVariableByName(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
+
             return _aggregateVariableMap[variableName].SolverVariable;
         }
 
         internal SolverVariable GetSolverBucketVariableByName(string bucketName, int index, string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketName));
-            Contract.Requires<ArgumentOutOfRangeException>(index >= 0);
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(bucketName))
+                throw new ArgumentException("Bucket name cannot be empty", nameof(bucketName));
+
+            if (index <= 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
 
             var bucketVariableMap = _bucketMap[bucketName];
             var bundleMap = bucketVariableMap.GetBundleVariableAt(index);
@@ -106,7 +120,8 @@ namespace Workbench.Core.Solvers
 
         internal OrangeBucketVariableMap GetBucketVariableMapByName(string bucketName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketName));
+            if (string.IsNullOrWhiteSpace(bucketName))
+                throw new ArgumentException("Bucket name cannot be empty", nameof(bucketName));
 
             return _bucketMap[bucketName];
         }
@@ -132,7 +147,8 @@ namespace Workbench.Core.Solvers
 
         internal Node GetNodeByName(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
 
             if (_nodeMap.ContainsKey(variableName))
             {
@@ -158,7 +174,8 @@ namespace Workbench.Core.Solvers
 
         internal SolverVariable GetSolverVariableByName(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
 
             return _solverVariableMap[variableName];
         }
@@ -170,7 +187,8 @@ namespace Workbench.Core.Solvers
 
         public VariableModel GetModelVariableByName(string variableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(variableName));
+            if (string.IsNullOrWhiteSpace(variableName))
+                throw new ArgumentException("Variable name cannot be empty", nameof(variableName));
 
             return _modelVariableMap[variableName];
         }

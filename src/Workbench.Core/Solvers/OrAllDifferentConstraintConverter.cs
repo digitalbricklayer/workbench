@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
@@ -22,8 +20,6 @@ namespace Workbench.Core.Solvers
         /// <param name="theModel">Model.</param>
         internal OrAllDifferentConstraintConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
             this.solver = theSolver;
             this.cache = theCache;
             this.model = theModel;
@@ -35,7 +31,6 @@ namespace Workbench.Core.Solvers
         /// <param name="allDifferentConstraint">All different constraint model.</param>
         internal void ProcessConstraint(AllDifferentConstraintModel allDifferentConstraint)
         {
-            Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
             var theVector = this.cache.GetVectorByName(allDifferentConstraint.Expression.Text);
             var orAllDifferentConstraint = this.solver.MakeAllDifferent(theVector);
             this.solver.Add(orAllDifferentConstraint);

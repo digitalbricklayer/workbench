@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -81,7 +80,6 @@ namespace Workbench.Core.Models
             get { return this.rows; }
             private set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.rows = value;
             }
         }
@@ -94,7 +92,6 @@ namespace Workbench.Core.Models
             get { return this.columns; }
             private set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.columns = value;
             }
         }
@@ -117,8 +114,8 @@ namespace Workbench.Core.Models
         /// <param name="theRow">The new row.</param>
         public void AddRowBefore(int selectedRowIndex, TableRowModel theRow)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
-            Contract.Requires<ArgumentNullException>(theRow != null);
+            if (selectedRowIndex < 0 || selectedRowIndex >= Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedRowIndex));
 
             Rows.Insert(selectedRowIndex == 0 ? selectedRowIndex: selectedRowIndex - 1, theRow);
             this.rowCount++;
@@ -136,8 +133,8 @@ namespace Workbench.Core.Models
         /// <param name="theRow">The new row.</param>
         public void AddRowAfter(int selectedRowIndex, TableRowModel theRow)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
-            Contract.Requires<ArgumentNullException>(theRow != null);
+            if (selectedRowIndex < 0 || selectedRowIndex >= Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedRowIndex));
 
             Rows.Insert(selectedRowIndex, theRow);
             this.rowCount++;
@@ -170,8 +167,8 @@ namespace Workbench.Core.Models
         /// <param name="theColumn">The new column.</param>
         public void AddColumnBefore(int selectedColumnIndex, TableColumnModel theColumn)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Columns.Count);
-            Contract.Requires<ArgumentNullException>(theColumn != null);
+            if (selectedColumnIndex < 0 || selectedColumnIndex >= Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedColumnIndex));
 
             // Column indexes start at 1
             theColumn.Index = selectedColumnIndex == 0? 1: selectedColumnIndex + 1;
@@ -195,8 +192,8 @@ namespace Workbench.Core.Models
         /// <param name="theColumn">The new column.</param>
         public void AddColumnAfter(int selectedColumnIndex, TableColumnModel theColumn)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(selectedColumnIndex >= 0 && selectedColumnIndex < Columns.Count);
-            Contract.Requires<ArgumentNullException>(theColumn != null);
+            if (selectedColumnIndex < 0 || selectedColumnIndex >= Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedColumnIndex));
 
             // Column indexes start at 1
             theColumn.Index = selectedColumnIndex == 0 ? 2 : selectedColumnIndex + 1;
@@ -221,7 +218,6 @@ namespace Workbench.Core.Models
         /// <param name="theColumn">The new column.</param>
         public void AddColumn(TableColumnModel theColumn)
         {
-            Contract.Requires<ArgumentNullException>(theColumn != null);
             // Column indexes start at 1
             theColumn.Index = Columns.Count + 1;
 
@@ -240,7 +236,8 @@ namespace Workbench.Core.Models
         /// <param name="selectedRowIndex">Selected row index.</param>
         public void DeleteRowSelected(int selectedRowIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(selectedRowIndex >= 0 && selectedRowIndex < Rows.Count);
+            if (selectedRowIndex < 0 || selectedRowIndex >= Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(selectedRowIndex));
 
             Rows.RemoveAt(selectedRowIndex);
             this.rowCount--;
@@ -266,7 +263,6 @@ namespace Workbench.Core.Models
         /// <returns>All rows in the table.</returns>
         public IReadOnlyCollection<TableRowModel> GetRows()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<TableRowModel>>() != null);
             return new ReadOnlyCollection<TableRowModel>(Rows);
         }
 
@@ -277,7 +273,9 @@ namespace Workbench.Core.Models
         /// <returns>Returns the column with a name matching columnName.</returns>
         public TableColumnModel GetColumnByName(string columnName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentException(nameof(columnName));
+
             return this.columns.FirstOrDefault(_ => _.Name == columnName);
         }
 
@@ -288,7 +286,9 @@ namespace Workbench.Core.Models
         /// <returns>Returns the column with a name matching columnName.</returns>
         public TableColumnData GetColumnDataByName(string columnName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentException(nameof(columnName));
+
             var theColumn = GetColumnByName(columnName);
             return new TableColumnData(theColumn, GetCellsByColumn(theColumn));
         }
@@ -301,8 +301,12 @@ namespace Workbench.Core.Models
         /// <returns>Cell matching the column and row indexes.</returns>
         public TableCellModel GetCellBy(int rowIndex, int columnIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(rowIndex > 0 && rowIndex <= Rows.Count);
-            Contract.Requires<ArgumentOutOfRangeException>(columnIndex > 0 && columnIndex <= Columns.Count);
+            if (rowIndex <= 0 || rowIndex > Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
+
+            if (columnIndex <= 0 || columnIndex > Columns.Count)
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
+
             var row = this.rows[rowIndex - 1];
             return row.Cells[columnIndex - 1];
         }
@@ -314,7 +318,9 @@ namespace Workbench.Core.Models
         /// <returns>Row at the row index.</returns>
         public TableRowModel GetRowAt(int rowIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(rowIndex > 0 && rowIndex <= Rows.Count);
+            if (rowIndex <= 0 || rowIndex > Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
+
             return Rows[rowIndex - 1];
         }
 
@@ -325,7 +331,9 @@ namespace Workbench.Core.Models
         /// <returns>Column at the column index.</returns>
         public TableColumnModel GetColumnAt(int columnIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(columnIndex > 0 && columnIndex <= Columns.Count);
+            if (columnIndex <= 0 || columnIndex > Rows.Count)
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
+
             return Columns[columnIndex - 1];
         }
 

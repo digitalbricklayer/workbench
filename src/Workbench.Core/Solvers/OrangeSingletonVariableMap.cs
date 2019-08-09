@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
 {
@@ -11,8 +9,6 @@ namespace Workbench.Core.Solvers
     {
         internal OrangeSingletonVariableMap(SingletonVariableModel modelVariable, SolverVariable solverVariable)
         {
-            Contract.Requires<ArgumentNullException>(modelVariable != null);
-            Contract.Requires<ArgumentNullException>(solverVariable != null);
             SolverVariable = solverVariable;
             ModelVariable = modelVariable;
         }

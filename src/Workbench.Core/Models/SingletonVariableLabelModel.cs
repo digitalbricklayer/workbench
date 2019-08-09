@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 
 namespace Workbench.Core.Models
 {
@@ -19,9 +19,6 @@ namespace Workbench.Core.Models
         public SingletonVariableLabelModel(SingletonVariableModel theVariable, ValueModel theValue)
             : base(theVariable)
         {
-            Contract.Requires<ArgumentNullException>(theVariable != null);
-            Contract.Requires<ArgumentNullException>(theValue != null);
-
             SingletonVariable = theVariable;
             this.value = theValue;
         }
@@ -35,7 +32,7 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(this.value != null);
+                Debug.Assert(this.value != null);
                 return this.value.Model;
             }
         }

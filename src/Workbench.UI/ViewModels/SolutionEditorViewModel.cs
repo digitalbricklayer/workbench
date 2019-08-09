@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Windows.Input;
 using Caliburn.Micro;
 
@@ -27,9 +26,6 @@ namespace Workbench.ViewModels
         /// <param name="theWindowManager">The window manager.</param>
         public SolutionEditorViewModel(IEnumerable<VisualizerExpressionItemViewModel> visualizerExpressionItems, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(visualizerExpressionItems != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             _windowManager = theWindowManager;
             Add = new CommandHandler(AddExpression);
             Edit = new CommandHandler(EditExpression, CanEditExpression);
@@ -111,7 +107,7 @@ namespace Workbench.ViewModels
         /// </summary>
         private void DeleteExpression()
         {
-            Contract.Assume(ActiveItem != null);
+            Debug.Assert(ActiveItem != null);
             if (ActiveItem.Id != default(int))
             {
                 /*

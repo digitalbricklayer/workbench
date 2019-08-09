@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -15,10 +14,6 @@ namespace Workbench.Core.Solvers
 
         internal LeftValueEvaluator(IReadOnlyCollection<int> rightPossibleValues, BinaryConstraintExpression constraint)
         {
-            Contract.Requires<ArgumentNullException>(rightPossibleValues != null);
-            Contract.Requires<ArgumentNullException>(constraint != null);
-            Contract.Requires<ArgumentException>(!constraint.Node.HasExpander, "Expander should have been fully expanded into simple constraint(s)");
-
             _rightPossibleValues = rightPossibleValues;
             _expression = constraint;
         }
@@ -73,10 +68,6 @@ namespace Workbench.Core.Solvers
 
         internal RightValueEvaluator(IReadOnlyCollection<int> leftPossibleValues, BinaryConstraintExpression constraint)
         {
-            Contract.Requires<ArgumentNullException>(leftPossibleValues != null);
-            Contract.Requires<ArgumentNullException>(constraint != null);
-            Contract.Requires<ArgumentException>(!constraint.Node.HasExpander, "Expander should have been fully expanded into simple constraint(s)");
-
             _leftPossibleValues = leftPossibleValues;
             _expression = constraint;
         }

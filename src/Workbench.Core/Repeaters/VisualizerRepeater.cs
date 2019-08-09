@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
 
@@ -13,13 +13,11 @@ namespace Workbench.Core.Repeaters
 
         internal VisualizerRepeater(SolutionSnapshot theSnapshot)
         {
-            Contract.Requires<ArgumentNullException>(theSnapshot != null);
             this.snapshot = theSnapshot;
         }
 
         internal void Process(VisualizerRepeaterContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
             if (theContext.Binding.Node.InnerExpression is MultiRepeaterStatementNode repeaterStatement)
             {
@@ -53,7 +51,6 @@ namespace Workbench.Core.Repeaters
 
         private void ProcessStatement(StatementNode statementNode)
         {
-            Contract.Requires<ArgumentNullException>(statementNode != null);
             if (statementNode.IsIfStatement)
             {
                 ProcessIfStatement((IfStatementNode) statementNode.InnerStatement);
@@ -70,7 +67,6 @@ namespace Workbench.Core.Repeaters
 
         private void ProcessCallStatement(CallStatementNode theCallStatementNode)
         {
-            Contract.Requires<ArgumentNullException>(theCallStatementNode != null);
             var visualizer = this.context.GetVisualizerByName(theCallStatementNode.VizualizerName.Name);
             var visualizerCall = CreateVisualizerCallFrom(theCallStatementNode);
             visualizer.UpdateWith(visualizerCall);
@@ -78,7 +74,6 @@ namespace Workbench.Core.Repeaters
 
         private void ProcessIfStatement(IfStatementNode ifStatementNode)
         {
-            Contract.Requires<ArgumentNullException>(ifStatementNode != null);
             if (EvaluateIfStatementCondition(ifStatementNode.Expression))
             {
                 ProcessCallStatement(ifStatementNode.Statement as CallStatementNode);
@@ -87,8 +82,6 @@ namespace Workbench.Core.Repeaters
 
         private bool EvaluateIfStatementCondition(VisualizerBinaryExpressionNode binaryExpressionNode)
         {
-            Contract.Requires<ArgumentNullException>(binaryExpressionNode != null);
-
             var leftValue = EvaluateExpression(binaryExpressionNode.LeftExpression);
             var rightValue = EvaluateExpression(binaryExpressionNode.RightExpression);
 
@@ -97,8 +90,6 @@ namespace Workbench.Core.Repeaters
 
         private object EvaluateExpression(VisualizerExpressionNode theExpression)
         {
-            Contract.Requires<ArgumentNullException>(theExpression != null);
-
             switch (theExpression.InnerExpression)
             {
                 case NumberLiteralNode numberLiteralNode:
@@ -139,7 +130,7 @@ namespace Workbench.Core.Repeaters
                     offsetValue = aggregateVariableOffset.Literal.Value;
                 else
                 {
-                    Contract.Assert(aggregateVariableOffset.IsCounterReference);
+                    Debug.Assert(aggregateVariableOffset.IsCounterReference);
                     var counterReference = aggregateVariableOffset.Counter;
                     var counterContext = this.context.GetCounterContextByName(counterReference.CounterName);
                     offsetValue = counterContext.CurrentValue;

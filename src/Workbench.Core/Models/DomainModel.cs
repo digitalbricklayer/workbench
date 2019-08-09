@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -13,7 +12,6 @@ namespace Workbench.Core.Models
         protected DomainModel(ModelName theName)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theName != null);
         }
 
         /// <summary>

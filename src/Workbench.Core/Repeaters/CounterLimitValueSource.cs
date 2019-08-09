@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 
 namespace Workbench.Core.Repeaters
 {
@@ -17,7 +17,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="theContext">Counter context.</param>
         public CounterLimitValueSource(CounterContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
         }
 
@@ -27,7 +26,7 @@ namespace Workbench.Core.Repeaters
         /// <returns>Current scope limit value.</returns>
         public int GetValue()
         {
-            Contract.Assume(this.context != null);
+            Debug.Assert(this.context != null);
             return this.context.CurrentValue;
         }
     }

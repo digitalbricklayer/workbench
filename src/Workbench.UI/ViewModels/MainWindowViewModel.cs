@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.Contracts;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Workbench.Services;
@@ -26,10 +24,6 @@ namespace Workbench.ViewModels
         /// <param name="theResourceManager">Resource manager.</param>
         public MainWindowViewModel(IShell theShell, ITitleBar theTitleBar, IResourceManager theResourceManager)
         {
-            Contract.Requires<ArgumentNullException>(theShell != null);
-            Contract.Requires<ArgumentNullException>(theTitleBar != null);
-            Contract.Requires<ArgumentNullException>(theResourceManager != null);
-
             Shell = theShell;
             TitleBar = theTitleBar;
             _resourceManager = theResourceManager;

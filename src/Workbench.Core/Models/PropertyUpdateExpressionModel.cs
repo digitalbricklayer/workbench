@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
 using Workbench.Core.Repeaters;
@@ -22,7 +21,9 @@ namespace Workbench.Core.Models
 
         public PropertyUpdateExpressionModel(string rawExpression)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException(nameof(rawExpression));
+
             Text = rawExpression;
         }
 
@@ -65,7 +66,6 @@ namespace Workbench.Core.Models
         /// <param name="theContext">Context for updating the visualizer property.</param>
         public object ExecuteWith(PropertyUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             if (Node == null) return string.Empty;
             var interpreter = new PropertyUpdateInterpreter(theContext);
             return interpreter.Process(this);

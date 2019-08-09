@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Parsers;
@@ -204,8 +203,6 @@ namespace Workbench.Core.Solvers
         /// <param name="model">The model.</param>
         internal void ConvertBuckets(ModelModel model)
         {
-            Contract.Requires<ArgumentNullException>(model != null);
-
             foreach (var bucket in model.Buckets)
             {
                 var bucketMap = ConvertBucket(bucket);
@@ -215,8 +212,6 @@ namespace Workbench.Core.Solvers
 
         private OrangeBucketVariableMap ConvertBucket(BucketVariableModel bucket)
         {
-            Contract.Requires<ArgumentNullException>(bucket != null);
-
             var bucketMap = new OrangeBucketVariableMap(bucket);
             for (var i = 0; i < bucket.Size; i++)
             {

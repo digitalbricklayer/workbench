@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.ObjectModel;
 using Workbench.Core.Models;
 using Workbench.Validators;
 
@@ -21,8 +19,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public AllDifferentConstraintEditorViewModel(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             _model = theModel;
             Validator = new AllDifferentConstraintEditorViewModelValidator();
             ConstraintName = string.Empty;

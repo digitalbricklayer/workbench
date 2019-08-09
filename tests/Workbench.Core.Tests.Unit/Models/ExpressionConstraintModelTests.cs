@@ -40,12 +40,6 @@ namespace Workbench.Core.Tests.Unit.Models
         }
 
         [Test]
-        public void Initialize_With_Null_Expression_Throws_ArgumentException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new ExpressionConstraintModel(new ModelModel(), (ModelName) null));
-        }
-
-        [Test]
         public void InitializeWithRawExpressionParsesExpectedAggregateVariableNameOnLeft()
         {
             var sut = new ExpressionConstraintModel(new ModelModel(), new ConstraintExpressionModel("$xx[1] > 1"));

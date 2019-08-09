@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Repeaters
@@ -17,7 +16,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="theNode">Literal literalValue.</param>
         public LiteralLimitValueSource(IntegerLiteralNode theNode)
         {
-            Contract.Requires<ArgumentNullException>(theNode != null);
             this.literalValue = theNode.Value;
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.Messages
 {
@@ -15,7 +13,6 @@ namespace Workbench.Messages
         /// <param name="newVariable"></param>
         public AggregateVariableAddedMessage(AggregateVariableModel newVariable)
         {
-            Contract.Requires<ArgumentNullException>(newVariable != null);
             Added = newVariable;
         }
 
@@ -31,7 +28,6 @@ namespace Workbench.Messages
         {
             get
             {
-                Contract.Ensures(Contract.Result<string>() != null);
                 return Added.Name;
             }
         }

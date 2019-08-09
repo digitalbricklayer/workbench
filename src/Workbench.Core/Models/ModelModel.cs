@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Solvers;
 
@@ -55,7 +55,6 @@ namespace Workbench.Core.Models
             get { return this.workspace; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.workspace = value;
                 OnPropertyChanged();
             }
@@ -69,7 +68,6 @@ namespace Workbench.Core.Models
             get { return this.variables; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.variables = value;
                 OnPropertyChanged();
             }
@@ -83,7 +81,6 @@ namespace Workbench.Core.Models
             get { return this.singletons; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.singletons = value;
                 OnPropertyChanged();
             }
@@ -97,7 +94,6 @@ namespace Workbench.Core.Models
             get { return this.aggregates; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.aggregates = value;
                 OnPropertyChanged();
             }
@@ -111,7 +107,6 @@ namespace Workbench.Core.Models
             get { return this._sharedDomains; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this._sharedDomains = value;
                 OnPropertyChanged();
             }
@@ -125,7 +120,6 @@ namespace Workbench.Core.Models
             get { return this.constraints; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.constraints = value;
                 OnPropertyChanged();
             }
@@ -139,7 +133,6 @@ namespace Workbench.Core.Models
             get { return this.bundles; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 this.bundles = value;
                 OnPropertyChanged();
             }
@@ -169,8 +162,6 @@ namespace Workbench.Core.Models
         /// <param name="newConstraint">New constraint.</param>
         public void AddConstraint(ConstraintModel newConstraint)
         {
-            Contract.Requires<ArgumentNullException>(newConstraint != null);
-
             if (!newConstraint.HasIdentity)
             {
                 newConstraint.AssignIdentity();
@@ -185,8 +176,6 @@ namespace Workbench.Core.Models
         /// <param name="constraintToDelete">Constraint to delete.</param>
         public void DeleteConstraint(ConstraintModel constraintToDelete)
         {
-            Contract.Requires<ArgumentNullException>(constraintToDelete != null);
-
             Constraints.Remove(constraintToDelete);
         }
 
@@ -196,8 +185,6 @@ namespace Workbench.Core.Models
         /// <param name="newVariable">New variable.</param>
         public void AddVariable(SingletonVariableModel newVariable)
         {
-            Contract.Requires<ArgumentNullException>(newVariable != null);
-
             if (!newVariable.HasIdentity)
             {
                 newVariable.AssignIdentity();
@@ -214,8 +201,6 @@ namespace Workbench.Core.Models
         /// <param name="newVariable">New aggregate variable.</param>
         public void AddVariable(AggregateVariableModel newVariable)
         {
-            Contract.Requires<ArgumentNullException>(newVariable != null);
-
             if (!newVariable.HasIdentity)
             {
                 newVariable.AssignIdentity();
@@ -232,8 +217,6 @@ namespace Workbench.Core.Models
         /// <param name="variableToDelete">Variable to delete.</param>
         public void DeleteVariable(VariableModel variableToDelete)
         {
-            Contract.Requires<ArgumentNullException>(variableToDelete != null);
-
             Variables.Remove(variableToDelete);
         }
 
@@ -243,8 +226,7 @@ namespace Workbench.Core.Models
         /// <param name="newDomain">New shared domain.</param>
         public void AddSharedDomain(SharedDomainModel newDomain)
         {
-            Contract.Requires<ArgumentNullException>(newDomain != null);
-            Contract.Assume(newDomain.Name != null);
+            Debug.Assert(newDomain.Name != null);
 
             if (!newDomain.HasIdentity)
             {
@@ -259,8 +241,8 @@ namespace Workbench.Core.Models
         /// <param name="newBundle">New bundle.</param>
         public void AddBundle(BundleModel newBundle)
         {
-            Contract.Requires<ArgumentNullException>(newBundle != null);
-            Contract.Assume(newBundle.Name != null);
+            Debug.Assert(newBundle.Name != null);
+
             if (!newBundle.HasIdentity)
             {
                 newBundle.AssignIdentity();
@@ -275,8 +257,8 @@ namespace Workbench.Core.Models
         /// <param name="bucket">New bucket.</param>
         public void AddBucket(BucketVariableModel bucket)
         {
-            Contract.Requires<ArgumentNullException>(bucket != null);
-            Contract.Assume(bucket.Name != null);
+            Debug.Assert(bucket.Name != null);
+
             if (!bucket.HasIdentity)
             {
                 bucket.AssignIdentity();
@@ -291,8 +273,6 @@ namespace Workbench.Core.Models
         /// <param name="domainToDelete">Domain to delete.</param>
         public void DeleteDomain(SharedDomainModel domainToDelete)
         {
-            Contract.Requires<ArgumentNullException>(domainToDelete != null);
-
             SharedDomains.Remove(domainToDelete);
         }
 
@@ -303,7 +283,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable model.</returns>
         public VariableModel GetVariableByName(string theVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theVariableName));
+            if (string.IsNullOrWhiteSpace(theVariableName))
+                throw new ArgumentException(nameof(theVariableName));
 
             return Variables.FirstOrDefault(variable => variable.Name.IsEqualTo(theVariableName));
         }
@@ -315,7 +296,9 @@ namespace Workbench.Core.Models
         /// <returns>Shared domain matching the name.</returns>
         public SharedDomainModel GetSharedDomainByName(string theSharedDomainName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSharedDomainName));
+            if (string.IsNullOrWhiteSpace(theSharedDomainName))
+                throw new ArgumentException(nameof(theSharedDomainName));
+
             return SharedDomains.FirstOrDefault(sharedDomain => sharedDomain.Name.IsEqualTo(theSharedDomainName));
         }
 
@@ -326,7 +309,9 @@ namespace Workbench.Core.Models
         /// <returns>Bundle matching the name.</returns>
         public BundleModel GetBundleByName(string bundleName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bundleName));
+            if (string.IsNullOrWhiteSpace(bundleName))
+                throw new ArgumentException(nameof(bundleName));
+
             return Bundles.FirstOrDefault(bundle => bundle.Name.IsEqualTo(bundleName));
         }
 
@@ -337,7 +322,9 @@ namespace Workbench.Core.Models
         /// <returns>Bucket matching the name.</returns>
         public BucketVariableModel GetBucketByName(string bucketVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(bucketVariableName));
+            if (string.IsNullOrWhiteSpace(bucketVariableName))
+                throw new ArgumentException(nameof(bucketVariableName));
+
             return Buckets.FirstOrDefault(bucket => bucket.Name.IsEqualTo(bucketVariableName));
         }
 
@@ -347,8 +334,6 @@ namespace Workbench.Core.Models
         /// <returns>Solve result.</returns>
         public SolveResult Solve()
         {
-            Contract.Ensures(Contract.Result<SolveResult>() != null);
-			
 			var solver = CreateSolver();
 
             try

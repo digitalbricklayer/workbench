@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -22,9 +20,6 @@ namespace Workbench.ViewModels
         /// </summary>
         public TableDetailsViewModel(TableCellModel theSelectedCell, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theSelectedCell != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             _selectedCell = theSelectedCell;
             _windowManager = theWindowManager;
             DisplayName = "Details";
@@ -40,7 +35,6 @@ namespace Workbench.ViewModels
         /// <param name="theWindowManager">The window manager.</param>
         public TableDetailsViewModel(IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
             _windowManager = theWindowManager;
             DisplayName = string.Empty;
             Column = string.Empty;

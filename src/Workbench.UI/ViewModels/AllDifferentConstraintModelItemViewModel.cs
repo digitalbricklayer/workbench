@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Validators;
 
@@ -16,9 +14,6 @@ namespace Workbench.ViewModels
         public AllDifferentConstraintModelItemViewModel(AllDifferentConstraintModel theAllDifferentModel, IWindowManager theWindowManager)
             : base(theAllDifferentModel)
         {
-            Contract.Requires<ArgumentNullException>(theAllDifferentModel != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             Validator = new AllDifferentConstraintModelItemViewModelValidator();
             AllDifferentConstraint = theAllDifferentModel;
             DisplayName = AllDifferentConstraint.Name;

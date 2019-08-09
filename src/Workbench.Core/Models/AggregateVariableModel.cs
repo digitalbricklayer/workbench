@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Solvers;
 
@@ -24,10 +24,8 @@ namespace Workbench.Core.Models
         public AggregateVariableModel(WorkspaceModel theModel, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
             : base(theModel, newVariableName, theDomain)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(newVariableName != null);
-            Contract.Requires<ArgumentOutOfRangeException>(aggregateSize >= DefaultSize);
-            Contract.Requires<ArgumentNullException>(theDomain != null);
+            if (aggregateSize < DefaultSize)
+                throw new ArgumentOutOfRangeException(nameof(aggregateSize));
 
             Domain = theDomain;
             this.variables = new VariableModel[aggregateSize];
@@ -97,8 +95,6 @@ namespace Workbench.Core.Models
             get { return this.domain; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
-
                 this.domain = value;
                 base.Domain = value;
                 if (Variables == null) return;
@@ -122,7 +118,8 @@ namespace Workbench.Core.Models
         /// <param name="newAggregateSize">New aggregate size.</param>
         public void Resize(int newAggregateSize)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(newAggregateSize > 0);
+            if (newAggregateSize <= 0)
+                throw new ArgumentOutOfRangeException(nameof(newAggregateSize));
 
             if (this.variables.Length == newAggregateSize) return;
             var originalAggregateSize = this.variables.Length;
@@ -140,7 +137,8 @@ namespace Workbench.Core.Models
         /// <returns>Variable at the index.</returns>
         public VariableModel GetVariableByIndex(int variableIndex)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < Variables.Count() && variableIndex >= 0);
+            if (variableIndex >= Variables.Count() && variableIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(variableIndex));
             return this.variables[variableIndex];
         }
 
@@ -151,8 +149,8 @@ namespace Workbench.Core.Models
         /// <param name="newDomainExpression">New domain expression.</param>
         public void OverrideDomainTo(int variableIndex, VariableDomainExpressionModel newDomainExpression)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(variableIndex < Variables.Count() && variableIndex >= 0);
-            Contract.Requires<ArgumentNullException>(newDomainExpression != null);
+            if (variableIndex >= Variables.Count() || variableIndex < 0)
+                throw new ArgumentOutOfRangeException(nameof(variableIndex));
 
             var variableToOverride = (SingletonVariableModel) GetVariableByIndex(variableIndex);
             var range = variableToOverride.GetVariableBand();
@@ -180,7 +178,8 @@ namespace Workbench.Core.Models
         /// <returns>A new variable.</returns>
         private VariableModel CreateNewVariableAt(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index <= this.variables.Length);
+            if (index > Variables.Count || index <= 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return new SingletonVariableModel(Parent, GetVariableNameFor(index), Domain);
         }
@@ -192,8 +191,9 @@ namespace Workbench.Core.Models
         /// <returns>Variable name.</returns>
         private ModelName GetVariableNameFor(int index)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(index > 0);
-            Contract.Assume(Name != null);
+            if (index > Variables.Count || index <= 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            Debug.Assert(Name != null);
 
             return new ModelName(Name.Text + index);
         }

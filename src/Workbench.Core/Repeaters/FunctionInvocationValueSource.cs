@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Workbench.Core.Repeaters
@@ -18,7 +18,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="theContext">Counter context.</param>
         public FunctionInvocationValueSource(FunctionInvocationContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             this.context = theContext;
         }
 
@@ -28,8 +27,8 @@ namespace Workbench.Core.Repeaters
         /// <returns>Current scope limit value.</returns>
         public int GetValue()
         {
-            Contract.Assume(this.context != null);
-            Contract.Assert(this.context.FunctionInvocation.FunctionName == "size");
+            Debug.Assert(this.context != null);
+            Debug.Assert(this.context.FunctionInvocation.FunctionName == "size");
             var variableName = this.context.FunctionInvocation.ArgumentList.Arguments.First();
             var variable = this.context.Model.GetVariableByName(variableName.Value.Value);
             if (variable != null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Nodes;
 
@@ -23,9 +23,6 @@ namespace Workbench.Core.Solvers
         internal ListDomainValue(IEnumerable<string> theList, ListDomainExpressionNode theNode)
             : base()
         {
-            Contract.Requires<ArgumentNullException>(theList != null);
-            Contract.Requires<ArgumentNullException>(theNode != null);
-
             this.values = new List<string>(theList);
             this.expressionNode = theNode;
         }
@@ -66,7 +63,7 @@ namespace Workbench.Core.Solvers
         /// <returns>Model value.</returns>
         internal override object MapFrom(long solverValue)
         {
-            Contract.Assume(solverValue <= this.values.Count);
+            Debug.Assert(solverValue <= this.values.Count);
             return this.values[Convert.ToInt32(solverValue) - 1];
         }
 

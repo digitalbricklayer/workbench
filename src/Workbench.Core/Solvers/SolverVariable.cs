@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 
 namespace Workbench.Core.Solvers
 {
@@ -17,7 +15,6 @@ namespace Workbench.Core.Solvers
         internal SolverVariable(string name, DomainRange range)
             : base(name)
         {
-            Contract.Requires<ArgumentException>(range != null);
             Domain = range;
         }
 

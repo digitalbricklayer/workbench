@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Irony.Parsing;
 
@@ -10,7 +9,6 @@ namespace Workbench.Core.Parsers
     {
         public ParseResult(ParseStatus theParseStatus, ParseTree theParseTree)
         {
-            Contract.Requires<ArgumentNullException>(theParseTree != null);
             Errors = new List<string>();
             Status = theParseStatus;
             Tree = theParseTree;
@@ -19,7 +17,6 @@ namespace Workbench.Core.Parsers
 
         public ParseResult(ParseStatus theParseStatus, IEnumerable<string> theErrors)
         {
-            Contract.Requires<ArgumentNullException>(theErrors != null);
             Errors = theErrors.ToList();
             Status = theParseStatus;
         }

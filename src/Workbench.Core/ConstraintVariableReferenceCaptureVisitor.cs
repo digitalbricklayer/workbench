@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Irony.Interpreter.Ast;
 using Workbench.Core.Nodes;
-using System.Diagnostics.Contracts;
 using System;
 
 namespace Workbench.Core
@@ -51,9 +50,6 @@ namespace Workbench.Core
 
             public VariableReferences(IEnumerable<SingletonVariableReferenceNode> theSingletonReferences, IEnumerable<AggregateVariableReferenceNode> theAggregateReferences)
             {
-                Contract.Requires<ArgumentNullException>(theSingletonReferences != null);
-                Contract.Requires<ArgumentNullException>(theAggregateReferences != null);
-
                 this.singletonVariableReferences = new List<SingletonVariableReferenceNode>(theSingletonReferences);
                 this.aggregateVariableReferences = new List<AggregateVariableReferenceNode>(theAggregateReferences);
             }

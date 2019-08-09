@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Irony.Interpreter.Ast;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -15,7 +15,6 @@ namespace Workbench.Core.Repeaters
 
         internal PropertyUpdateInterpreter(PropertyUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             _snapshot = theContext.Snapshot;
         }
 
@@ -33,7 +32,6 @@ namespace Workbench.Core.Repeaters
 
         private object ProcessStatement(StatementNode statementNode)
         {
-            Contract.Requires<ArgumentNullException>(statementNode != null);
             switch (statementNode.InnerStatement)
             {
                 case IfStatementNode ifStatement:
@@ -49,7 +47,6 @@ namespace Workbench.Core.Repeaters
 
         private object ProcessIfStatement(IfStatementNode ifStatementNode)
         {
-            Contract.Requires<ArgumentNullException>(ifStatementNode != null);
             if (EvaluateIfStatementCondition(ifStatementNode.Expression))
             {
                 return ProcessExpression(ifStatementNode.Statement);
@@ -78,8 +75,6 @@ namespace Workbench.Core.Repeaters
 
         private bool EvaluateIfStatementCondition(VisualizerBinaryExpressionNode binaryExpressionNode)
         {
-            Contract.Requires<ArgumentNullException>(binaryExpressionNode != null);
-
             var leftValue = EvaluateExpression(binaryExpressionNode.LeftExpression);
             var rightValue = EvaluateExpression(binaryExpressionNode.RightExpression);
 
@@ -88,8 +83,6 @@ namespace Workbench.Core.Repeaters
 
         private object EvaluateExpression(VisualizerExpressionNode theExpression)
         {
-            Contract.Requires<ArgumentNullException>(theExpression != null);
-
             switch (theExpression.InnerExpression)
             {
                 case NumberLiteralNode numberLiteralNode:
@@ -121,7 +114,7 @@ namespace Workbench.Core.Repeaters
             {
                 var aggregateVariableName = theValueReferenceExpression.VariableName;
                 var aggregateVariableOffset = theValueReferenceExpression.ValueOffset;
-                Contract.Assert(aggregateVariableOffset.IsLiteral);
+                Debug.Assert(aggregateVariableOffset.IsLiteral);
                 var offsetValue = aggregateVariableOffset.Literal.Value;
                 var aggregateValue = _snapshot.GetAggregateLabelByVariableName(aggregateVariableName.Name);
                 return aggregateValue.GetValueAt(offsetValue - 1);

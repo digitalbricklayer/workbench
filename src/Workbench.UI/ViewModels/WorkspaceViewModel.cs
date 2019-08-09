@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
 using Workbench.Core.Models;
@@ -30,12 +30,6 @@ namespace Workbench.ViewModels
                                   IViewModelFactory theViewModelFactory,
                                   ModelValidatorViewModel theModelValidatorViewModel)
         {
-            Contract.Requires<ArgumentNullException>(theDataService != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
-            Contract.Requires<ArgumentNullException>(theModelValidatorViewModel != null);
-
             _eventAggregator = theEventAggregator;
             _windowManager = theWindowManager;
             _viewModelFactory = theViewModelFactory;
@@ -200,7 +194,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void CloseTab(IWorkspaceTabViewModel tabToClose)
         {
-            Contract.Assert(tabToClose.CloseTabIsVisible, "Should not be asked to close tabs that are not closable");
+            Debug.Assert(tabToClose.CloseTabIsVisible, "Should not be asked to close tabs that are not closable");
 
             switch (tabToClose)
             {
@@ -236,7 +230,7 @@ namespace Workbench.ViewModels
         {
             WorkspaceModel.DeleteBindingExpression(aVisualizerBinding.VisualizerExpression);
             var editorToDelete = GetBindingExpressionById(aVisualizerBinding.Id);
-            Contract.Assert(editorToDelete != null);
+            Debug.Assert(editorToDelete != null);
             Bindings.Remove(editorToDelete);
         }
 
@@ -246,7 +240,6 @@ namespace Workbench.ViewModels
         /// <param name="anExpression">A binding expression to add to the workspace may be a new binding or one loaded from the model.</param>
         internal void LoadBindingExpression(VisualizerBindingExpressionViewModel anExpression)
         {
-            Contract.Requires<ArgumentNullException>(anExpression != null);
             Bindings.Add(anExpression);
         }
 
@@ -256,7 +249,6 @@ namespace Workbench.ViewModels
         /// <param name="aChessboardTab">A chessboard tab to add to the workspace may be a new chessboard or one loaded from the model.</param>
         internal void LoadChessboardTab(ChessboardTabViewModel aChessboardTab)
         {
-            Contract.Requires<ArgumentNullException>(aChessboardTab != null);
             ChessboardTabs.Add(aChessboardTab);
             if (IsActive)
             {
@@ -325,15 +317,6 @@ namespace Workbench.ViewModels
             {
                 aTableTab.UpdateFromModel();
             }
-        }
-
-        [ContractInvariantMethod]
-        private void WorkspaceInvariants()
-        {
-            Contract.Invariant(WorkspaceModel != null);
-            Contract.Invariant(TableTabs != null);
-            Contract.Invariant(ChessboardTabs != null);
-            Contract.Invariant(Bindings != null);
         }
     }
 }

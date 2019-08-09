@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Drawing;
 
 namespace Workbench.Core.Models
@@ -92,7 +91,6 @@ namespace Workbench.Core.Models
         /// <returns>All rows in the grid.</returns>
         public IReadOnlyCollection<TableRowModel> GetRows()
         {
-            Contract.Ensures(Contract.Result<IReadOnlyCollection<TableRowModel>>() != null);
             return Table.GetRows();
         }
 
@@ -103,13 +101,17 @@ namespace Workbench.Core.Models
         /// <returns>Returns the column with a name matching columnName.</returns>
         public TableColumnModel GetColumnByName(string columnName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentException(nameof(columnName));
+
             return Table.GetColumnByName(columnName);
         }
 
         public TableColumnData GetColumnDataByName(string columnName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(columnName));
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentException(nameof(columnName));
+
             return Table.GetColumnDataByName(columnName);
         }
 

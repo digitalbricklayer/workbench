@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.Messages
 {
@@ -17,9 +15,6 @@ namespace Workbench.Messages
         /// <param name="theVariable">The renamed variable.</param>
         public VariableRenamedMessage(ModelName thePreviousName, VariableModel theVariable)
         {
-            Contract.Requires<ArgumentNullException>(thePreviousName != null);
-            Contract.Requires<ArgumentNullException>(theVariable != null);
-
             PreviousName = thePreviousName.Text;
             Renamed = theVariable;
         }

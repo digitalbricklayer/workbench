@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Workbench.Core.Solvers
@@ -20,8 +20,6 @@ namespace Workbench.Core.Solvers
         /// <param name="">High band.</param>
         internal TableDomainValue(IEnumerable<string> theList)
         {
-            Contract.Requires<ArgumentNullException>(theList != null);
-
             this.values = new List<string>(theList);
         }
 
@@ -64,7 +62,7 @@ namespace Workbench.Core.Solvers
         /// <returns>Model value.</returns>
         internal override object MapFrom(long solverValue)
         {
-            Contract.Assume(solverValue <= this.values.Count);
+            Debug.Assert(solverValue <= this.values.Count);
             return this.values[Convert.ToInt32(solverValue) - 1];
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Repeaters
 {
@@ -15,8 +14,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="endValueSource">End value.</param>
         public RangeIterator(ILimitValueSource startValueSource, ILimitValueSource endValueSource)
         {
-            Contract.Requires<ArgumentNullException>(startValueSource != null);
-            Contract.Requires<ArgumentNullException>(endValueSource != null);
             Start = startValueSource;
             End = endValueSource;
             Reset();

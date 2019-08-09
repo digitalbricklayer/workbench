@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -13,7 +13,6 @@ namespace Workbench.Core.Models
 
         public VisualizerCall(IEnumerable<CallArgument> theArguments)
         {
-            Contract.Requires<ArgumentNullException>(theArguments != null);
             this.arguments = new List<CallArgument>(theArguments);
         }
 
@@ -24,9 +23,11 @@ namespace Workbench.Core.Models
 
         public string GetArgumentByName(string theName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            if (string.IsNullOrWhiteSpace(theName))
+                throw new ArgumentException("The name must not be empty", nameof(theName));
+
             var x = this.arguments.FirstOrDefault(argument => argument.Name == theName);
-            Contract.Assert(x != null);
+            Debug.Assert(x != null);
             return x.Value;
         }
     }

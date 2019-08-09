@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 
@@ -58,7 +57,6 @@ namespace Workbench.Core.Models
             get => _squares;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _squares = value;
                 OnPropertyChanged();
             }
@@ -70,8 +68,9 @@ namespace Workbench.Core.Models
         /// <param name="newSquare">New chess piece.</param>
         public void Add(ChessboardSquareModel newSquare)
         {
-            Contract.Requires<ArgumentNullException>(newSquare != null);
-            Contract.Requires<ArgumentException>(newSquare.Piece.Type != PieceType.Empty);
+            if (newSquare.Piece.Type == PieceType.Empty)
+                throw new ArgumentException(nameof(newSquare));
+
             // Convert a x, y coordinate into a one dimensional array index
             var index = Convert.ToInt32((newSquare.Pos.X - 1) * Size + (newSquare.Pos.Y - 1));
             Squares[index] = newSquare;

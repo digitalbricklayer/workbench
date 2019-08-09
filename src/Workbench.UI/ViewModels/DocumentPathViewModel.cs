@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
@@ -15,7 +16,9 @@ namespace Workbench.ViewModels
         /// </summary>
         public DocumentPathViewModel(string thePath)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(thePath));
+            if (string.IsNullOrWhiteSpace(thePath))
+                throw new ArgumentException("Path must not be blank", nameof(thePath));
+
             FullPath = thePath;
         }
 

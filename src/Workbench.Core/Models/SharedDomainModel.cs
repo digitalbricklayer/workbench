@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -14,9 +13,6 @@ namespace Workbench.Core.Models
         public SharedDomainModel(ModelModel theModel, ModelName theName, SharedDomainExpressionModel theExpression)
             : base(theName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theName != null);
-            Contract.Requires<ArgumentNullException>(theExpression != null);
             Parent = theModel;
             _expression = theExpression;
         }
@@ -43,9 +39,6 @@ namespace Workbench.Core.Models
         /// </returns>
         public bool Validate(ModelModel theModel, ModelValidationContext validateContext)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(validateContext != null);
-
             // The Node will not be null when the parser has created the AST root node
             if (Expression.Node == null) return false;
 

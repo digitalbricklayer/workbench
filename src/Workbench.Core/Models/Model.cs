@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -18,7 +17,6 @@ namespace Workbench.Core.Models
         /// <param name="theName">Model entity name.</param>
         protected Model(ModelName theName)
         {
-            Contract.Requires<ArgumentNullException>(theName != null);
             _name = theName;
         }
 
@@ -38,7 +36,6 @@ namespace Workbench.Core.Models
             get => _name;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _name = value;
                 OnPropertyChanged();
             }
@@ -52,7 +49,6 @@ namespace Workbench.Core.Models
             get => _parent;
             protected set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _parent = value;
             }
         }

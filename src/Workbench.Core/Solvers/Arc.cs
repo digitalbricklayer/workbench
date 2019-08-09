@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-namespace Workbench.Core.Solvers
+﻿namespace Workbench.Core.Solvers
 {
     /// <summary>
     /// Arc connecting two nodes.
@@ -16,10 +13,6 @@ namespace Workbench.Core.Solvers
         /// <param name="connector">Connector connecting the two nodes.</param>
         internal Arc(Node left, Node right, NodeConnector connector)
         {
-            Contract.Requires<ArgumentNullException>(left != null);
-            Contract.Requires<ArgumentNullException>(right != null);
-            Contract.Requires<ArgumentNullException>(connector != null);
-
             Left = left;
             Right = right;
             Connector = connector;

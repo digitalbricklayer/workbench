@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -28,7 +26,6 @@ namespace Workbench.ViewModels
             get { return _singletonLabels; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _singletonLabels = value;
                 NotifyOfPropertyChange();
             }
@@ -42,7 +39,6 @@ namespace Workbench.ViewModels
             get { return _compoundLabels; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _compoundLabels = value;
                 NotifyOfPropertyChange();
             }
@@ -56,7 +52,6 @@ namespace Workbench.ViewModels
             get { return _labels; }
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _labels = value;
                 NotifyOfPropertyChange();
             }

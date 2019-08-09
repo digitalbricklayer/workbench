@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Irony.Parsing;
+﻿using Irony.Parsing;
 using Workbench.Core.Grammars;
 using Workbench.Core.Nodes;
 
@@ -18,8 +16,6 @@ namespace Workbench.Core.Parsers
         /// <returns>Parse result.</returns>
         public ParseResult<PropertyUpdateExpressionNode> Parse(string rawExpression)
         {
-            Contract.Requires<ArgumentNullException>(rawExpression != null);
-            Contract.Ensures(Contract.Result<ParseResult<PropertyUpdateExpressionNode>>() != null);
             var language = new LanguageData(new PropertyBindingGrammar());
             var parser = new Parser(language);
             var parseTree = parser.Parse(rawExpression);

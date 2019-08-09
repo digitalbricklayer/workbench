@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -11,14 +10,11 @@ namespace Workbench.Services
 
         internal XmlDisplayReader(WorkspaceModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
             _workspace = theWorkspace;
         }
 
         internal DisplayModel Read(XmlNode displayNode)
         {
-            Contract.Requires<ArgumentNullException>(displayNode != null);
-
             var theDisplay = new DisplayModel(_workspace.Model);
 
             for (var i = 0; i < displayNode.ChildNodes.Count; i++)

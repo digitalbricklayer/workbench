@@ -1,9 +1,7 @@
-﻿using System.Diagnostics.Contracts;
-using Workbench.ViewModels;
+﻿using Workbench.ViewModels;
 
 namespace Workbench.Services
 {
-    [ContractClass(typeof(IViewModelFactoryContract))]
     public interface IViewModelFactory
     {
         /// <summary>
@@ -23,30 +21,5 @@ namespace Workbench.Services
         /// </summary>
         /// <returns>New model editor view model.</returns>
         ModelEditorTabViewModel CreateModelEditor();
-    }
-
-    /// <summary>
-    /// Code contract for the IViewModelFactory interface.
-    /// </summary>
-    [ContractClassFor(typeof(IViewModelFactory))]
-    internal abstract class IViewModelFactoryContract : IViewModelFactory
-    {
-        public WorkspaceViewModel CreateWorkspace()
-        {
-            Contract.Ensures(Contract.Result<WorkspaceViewModel>() != null);
-            return default(WorkspaceViewModel);
-        }
-
-        public WorkspaceDocumentViewModel CreateDocument()
-        {
-            Contract.Ensures(Contract.Result<WorkspaceDocumentViewModel>() != null);
-            return default(WorkspaceDocumentViewModel);
-        }
-
-        public ModelEditorTabViewModel CreateModelEditor()
-        {
-            Contract.Ensures(Contract.Result<ModelEditorTabViewModel>() != null);
-            return default(ModelEditorTabViewModel);
-        }
     }
 }

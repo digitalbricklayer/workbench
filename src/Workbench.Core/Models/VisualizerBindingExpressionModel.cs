@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 using Workbench.Core.Parsers;
 using Workbench.Core.Repeaters;
@@ -22,7 +21,9 @@ namespace Workbench.Core.Models
 
         public VisualizerBindingExpressionModel(string rawExpression)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(rawExpression));
+            if (string.IsNullOrWhiteSpace(rawExpression))
+                throw new ArgumentException(nameof(rawExpression));
+
             Text = rawExpression;
         }
 
@@ -60,7 +61,6 @@ namespace Workbench.Core.Models
         /// <param name="theContext">Context for updating the visualizer.</param>
         public void ExecuteWith(VisualizerUpdateContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
             if (Node == null) return;
             var repeater = new VisualizerRepeater(theContext.Snapshot);
             repeater.Process(repeater.CreateContextFrom(theContext));

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -13,14 +12,10 @@ namespace Workbench.Services
         internal XmlChessboardVisualizerWriter(XmlDocument theDocument, ChessboardTabModel theChessboardTab)
             : base(theDocument, theChessboardTab)
         {
-            Contract.Requires<ArgumentNullException>(theDocument != null);
-            Contract.Requires<ArgumentNullException>(theChessboardTab != null);
         }
 
         internal void Write(XmlElement visualizersRoot)
         {
-            Contract.Requires<ArgumentNullException>(visualizersRoot != null);
-
             var visualizerElement = Document.CreateElement("chessboard");
             var idAttribute = Document.CreateAttribute("id");
             idAttribute.Value = Convert.ToString(Subject.Id);

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers
@@ -18,9 +18,6 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal ModelConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, OrValueMapper valueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
-
             this.constraintConverter = new OrConstraintConverter(theSolver, theCache, valueMapper);
             this.variableConverter = new VariableConverter(theSolver, theCache, valueMapper);
             this.bucketConverter = new OrBucketConverter(theSolver, theCache, valueMapper);
@@ -32,9 +29,8 @@ namespace Workbench.Core.Solvers
         /// <param name="theModel">The model model.</param>
         internal void ConvertFrom(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Assume(this.constraintConverter != null);
-            Contract.Assume(this.variableConverter != null);
+            Debug.Assert(this.constraintConverter != null);
+            Debug.Assert(this.variableConverter != null);
 
             this.variableConverter.ConvertVariables(theModel);
             this.bucketConverter.ConvertBuckets(theModel);

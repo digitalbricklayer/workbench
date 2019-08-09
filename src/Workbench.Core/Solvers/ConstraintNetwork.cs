@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 
 namespace Workbench.Core.Solvers
 {
@@ -63,7 +61,6 @@ namespace Workbench.Core.Solvers
         /// <param name="arc">Arc to add.</param>
         internal void AddArc(Arc arc)
         {
-            Contract.Requires<ArgumentNullException>(arc != null);
             _arcs.Add(arc);
         }
 
@@ -73,7 +70,6 @@ namespace Workbench.Core.Solvers
         /// <param name="arcs">Arcs to add.</param>
         internal void AddArc(IEnumerable<Arc> arcs)
         {
-            Contract.Requires<ArgumentNullException>(arcs != null);
             _arcs.AddRange(arcs);
         }
 

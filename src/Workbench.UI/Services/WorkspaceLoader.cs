@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -20,10 +18,6 @@ namespace Workbench.Services
         /// </summary>
         public WorkspaceLoader(ModelEditorLoader theModelEditorLoader, IViewModelFactory theViewModelFactory, IWindowManager theWindowManager)
         {
-            Contract.Requires<ArgumentNullException>(theModelEditorLoader != null);
-            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-
             _modelEditorLoader = theModelEditorLoader;
             _viewModelFactory = theViewModelFactory;
             _windowManager = theWindowManager;

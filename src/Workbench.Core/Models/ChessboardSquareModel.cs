@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Windows;
 
 namespace Workbench.Core.Models
@@ -107,7 +106,6 @@ namespace Workbench.Core.Models
         /// <returns>Board square with a piece occupying it.</returns>
         public static ChessboardSquareModel CreateWith(ChessPieceModel thePiece)
         {
-            Contract.Requires<ArgumentNullException>(thePiece != null);
             return new ChessboardSquareModel(thePiece);
         }
     }

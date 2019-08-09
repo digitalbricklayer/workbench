@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using System.Xml;
 using Workbench.Core.Models;
 
@@ -14,14 +13,11 @@ namespace Workbench.Services
 
         internal XmlChessboardVisualizerReader(DisplayModel theDisplay)
         {
-            Contract.Requires<ArgumentNullException>(theDisplay != null);
             _display = theDisplay;
         }
 
         internal void Read(XmlNode chessboardNode)
         {
-            Contract.Requires<ArgumentNullException>(chessboardNode != null);
-
             var chessboardIdAttribute = chessboardNode.Attributes["id"];
             var chessboardId = chessboardIdAttribute.Value;
             var name = string.Empty;

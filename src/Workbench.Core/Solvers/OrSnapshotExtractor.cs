@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -22,9 +20,6 @@ namespace Workbench.Core.Solvers
         /// <param name="theValueMapper">Value mapper between domain and solver values.</param>
         internal OrSnapshotExtractor(OrToolsCache theOrToolsCache, OrValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theOrToolsCache != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             this.orToolsCache = theOrToolsCache;
             this.valueMapper = theValueMapper;
             this.snapshot = new SolutionSnapshot();
@@ -37,8 +32,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Solution snapshot model.</returns>
         internal SolutionSnapshot ExtractValuesFrom(SolutionCollector theSolutionCollector)
         {
-            Contract.Requires<ArgumentNullException>(theSolutionCollector != null);
-
             ExtractSingletonLabelsFrom(theSolutionCollector);
             ExtractAggregateLabelsFrom(theSolutionCollector);
             ExtractBucketLabelsFrom(theSolutionCollector);

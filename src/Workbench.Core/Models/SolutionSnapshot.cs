@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -44,7 +43,6 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<SingletonVariableLabelModel>>() != null);
                 return _singletonVariableLabels.ToList();
             }
         }
@@ -56,7 +54,6 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<AggregateVariableLabelModel>>() != null);
                 return _aggregateVariableLabels.ToList();
             }
         }
@@ -77,7 +74,6 @@ namespace Workbench.Core.Models
         /// <param name="newSingletonVariableLabel">Singleton label.</param>
         internal void AddSingletonLabel(SingletonVariableLabelModel newSingletonVariableLabel)
         {
-            Contract.Requires<ArgumentNullException>(newSingletonVariableLabel != null);
             _singletonVariableLabels.Add(newSingletonVariableLabel);
         }
 
@@ -87,7 +83,6 @@ namespace Workbench.Core.Models
         /// <param name="newAggregateVariableLabel">Aggregate label.</param>
         internal void AddAggregateLabel(AggregateVariableLabelModel newAggregateVariableLabel)
         {
-            Contract.Requires<ArgumentNullException>(newAggregateVariableLabel != null);
             _aggregateVariableLabels.Add(newAggregateVariableLabel);
         }
 
@@ -97,7 +92,6 @@ namespace Workbench.Core.Models
         /// <param name="bucketLabel">Bucket label.</param>
         internal void AddBucketLabel(BucketLabelModel bucketLabel)
         {
-            Contract.Requires<ArgumentNullException>(bucketLabel != null);
             _bucketLabels.Add(bucketLabel);
         }
 
@@ -108,7 +102,9 @@ namespace Workbench.Core.Models
         /// <returns>Aggregate label for the aggregate variable.</returns>
         public AggregateVariableLabelModel GetAggregateLabelByVariableName(string theAggregateVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theAggregateVariableName));
+            if (string.IsNullOrWhiteSpace(theAggregateVariableName))
+                throw new ArgumentException(nameof(theAggregateVariableName));
+
             return _aggregateVariableLabels.FirstOrDefault(_ => _.Variable.Name.IsEqualTo(theAggregateVariableName));
         }
 
@@ -119,7 +115,9 @@ namespace Workbench.Core.Models
         /// <returns>Singleton label for the singleton variable.</returns>
         public SingletonVariableLabelModel GetSingletonLabelByVariableName(string theSingletonVariableName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theSingletonVariableName));
+            if (string.IsNullOrWhiteSpace(theSingletonVariableName))
+                throw new ArgumentException(nameof(theSingletonVariableName));
+
             return _singletonVariableLabels.FirstOrDefault(_ => _.VariableName == theSingletonVariableName);
         }
 

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 
@@ -13,7 +11,6 @@ namespace Workbench.Core.Solvers
 
         internal OrangeBucketVariableMap(BucketVariableModel bucket)
         {
-            Contract.Requires<ArgumentNullException>(bucket != null);
             Bucket = bucket;
             _bundleMaps = new List<OrangeBundleMap>();
         }

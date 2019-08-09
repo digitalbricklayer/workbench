@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Irony.Ast;
 using Irony.Parsing;
 using Irony.Interpreter.Ast;
@@ -17,7 +18,7 @@ namespace Workbench.Core.Nodes
         {
             get
             {
-                Contract.Assume(IsSubscript);
+                Debug.Assert(IsSubscript);
                 var subscriptNode = (SubscriptNode) InnerExpression;
                 return subscriptNode.Subscript;
             }

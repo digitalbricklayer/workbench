@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -18,8 +17,9 @@ namespace Workbench.Core.Models
         public BucketVariableModel(WorkspaceModel workspace, ModelName name, int size, BundleModel bundle)
             : base(name)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(size > 0);
-            Contract.Requires<ArgumentNullException>(bundle != null);
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException(nameof(size));
+
             Size = size;
             Bundle = bundle;
         }

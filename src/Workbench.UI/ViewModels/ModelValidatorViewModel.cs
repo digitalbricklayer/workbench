@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Caliburn.Micro;
 using Workbench.Core;
 using Workbench.Core.Models;
@@ -20,8 +20,6 @@ namespace Workbench.ViewModels
         /// <param name="theDataService"></param>
         public ModelValidatorViewModel(IWindowManager theWindowManager, IDataService theDataService)
         {
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theDataService != null);
             _windowManager = theWindowManager;
             WorkspaceModel = theDataService.GetWorkspace();
         }
@@ -34,7 +32,7 @@ namespace Workbench.ViewModels
             var validationContext = new ModelValidationContext();
             var isModelValid = new ModelValidator(WorkspaceModel.Model).Validate(validationContext);
             if (isModelValid) return true;
-            Contract.Assume(validationContext.HasErrors);
+            Debug.Assert(validationContext.HasErrors);
             DisplayErrorDialog(validationContext);
 
             return false;
@@ -57,8 +55,7 @@ namespace Workbench.ViewModels
         /// <returns>View model with all errors in the model.</returns>
         private static ModelErrorsViewModel CreateModelErrorsFrom(ModelValidationContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
-            Contract.Requires<InvalidOperationException>(theContext.HasErrors);
+            Debug.Assert(theContext.HasErrors);
 
             var errorsViewModel = new ModelErrorsViewModel();
             foreach (var error in theContext.Errors)

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Solvers;
 
@@ -23,8 +22,6 @@ namespace Workbench.Core.Models
         /// <param name="theModel"></param>
         public DisplayModel(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             Visualizers = new List<VisualizerModel>();
             this.bindings = new List<VisualizerBindingExpressionModel>();
             this.model = theModel;
@@ -38,8 +35,6 @@ namespace Workbench.Core.Models
             get => this.visualizers;
             private set
             {
-				Contract.Requires<ArgumentNullException>(value != null);
-
                 this.visualizers = value;
                 OnPropertyChanged();
             }
@@ -62,8 +57,6 @@ namespace Workbench.Core.Models
         /// <param name="theVisualizer">New visualizer.</param>
         public void AddVisualizer(VisualizerModel theVisualizer)
         {
-            Contract.Requires<ArgumentNullException>(theVisualizer != null);
-
             theVisualizer.AssignIdentity();
             Visualizers.Add(theVisualizer);
         }
@@ -75,7 +68,8 @@ namespace Workbench.Core.Models
         /// <returns>Visualizer matching the unique name.</returns>
         public VisualizerModel GetVisualizerBy(string theName)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theName));
+            if (string.IsNullOrWhiteSpace(theName))
+                throw new ArgumentException(nameof(theName));
 
             return (from aVisualizer in Visualizers
                     where aVisualizer.Name == theName
@@ -88,7 +82,6 @@ namespace Workbench.Core.Models
         /// <param name="theResult">Solve result.</param>
         public void UpdateFrom(SolveResult theResult)
         {
-            Contract.Requires<ArgumentNullException>(theResult != null);
             this.bindings.ForEach(binding => binding.ExecuteWith(new VisualizerUpdateContext(theResult.Snapshot, this, binding, this.model)));
             Visualizers.ForEach(visualizer => visualizer.UpdateWith(new PropertyUpdateContext(theResult.Snapshot, this, this.model)));
         }
@@ -99,7 +92,6 @@ namespace Workbench.Core.Models
         /// <param name="newBindingExpression">New visualizer binding expression.</param>
         public void AddBindingExpression(VisualizerBindingExpressionModel newBindingExpression)
         {
-            Contract.Requires<ArgumentNullException>(newBindingExpression != null);
             newBindingExpression.AssignIdentity();
             this.bindings.Add(newBindingExpression);
         }
@@ -120,7 +112,6 @@ namespace Workbench.Core.Models
         /// <param name="aVisualizerBinding"></param>
         public void DeleteBindingExpression(VisualizerBindingExpressionModel aVisualizerBinding)
         {
-            Contract.Requires<ArgumentNullException>(aVisualizerBinding != null);
             this.bindings.Remove(aVisualizerBinding);
         }
     }

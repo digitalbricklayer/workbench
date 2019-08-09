@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -16,8 +15,6 @@ namespace Workbench.Core.Models
         protected VisualizerModel(Model theModel, WorkspaceTabTitle theTitle)
             : base(theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theTitle != null);
             Title = theTitle;
         }
 

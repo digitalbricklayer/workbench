@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Workbench.Core.Models
@@ -13,9 +12,6 @@ namespace Workbench.Core.Models
 
         public TableColumnData(TableColumnModel theColumn, IEnumerable<TableCellModel> theColumnCells)
         {
-            Contract.Requires<ArgumentException>(theColumn != null);
-            Contract.Requires<ArgumentException>(theColumnCells != null);
-
             _column = theColumn;
             _cells = new List<TableCellModel>(theColumnCells);
         }
@@ -46,10 +42,9 @@ namespace Workbench.Core.Models
         /// <returns>Cell at the index location.</returns>
         public TableCellModel GetCellAt(int cellIndex)
         {
-#if WEIRD_COMPILER_ERROR_FIXED
-            // Fails with "Member 'Workbench.Core.Models.TableColumnData.cells' has less visibility than the enclosing method 'Workbench.Core.Models.TableColumnData.GetCellAt(System.Int32)'."
-            Contract.Requires<ArgumentOutOfRangeException>(cellIndex > 0 && cellIndex <= _cells.Count);
-#endif
+            if (cellIndex <= 0 || cellIndex > _cells.Count)
+                throw new ArgumentOutOfRangeException(nameof(cellIndex));
+
             return _cells[cellIndex - 1];
         }
     }

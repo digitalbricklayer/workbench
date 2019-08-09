@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-namespace Workbench.Services
+﻿namespace Workbench.Services
 {
     /// <summary>
     /// Manage the single instance of the workspace document.
@@ -17,7 +14,6 @@ namespace Workbench.Services
         /// <param name="theViewModelFactory">View model factory.</param>
         public DocumentManager(IViewModelFactory theViewModelFactory)
         {
-            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
             _viewModelFactory = theViewModelFactory;
         }
 
@@ -29,7 +25,6 @@ namespace Workbench.Services
             get => _currentDocument;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _currentDocument = value;
             }
         }

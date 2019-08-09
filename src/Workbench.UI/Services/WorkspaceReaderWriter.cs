@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Workbench.Core.Models;
+﻿using Workbench.Core.Models;
 
 namespace Workbench.Services
 {
@@ -14,8 +12,6 @@ namespace Workbench.Services
 
         public WorkspaceReaderWriter(IWorkspaceReader theReader, IWorkspaceWriter theWriter)
         {
-            Contract.Requires<ArgumentNullException>(theReader != null);
-            Contract.Requires<ArgumentNullException>(theWriter != null);
             _reader = theReader;
             _writer = theWriter;
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 
@@ -20,8 +19,6 @@ namespace Workbench.ViewModels
         /// <param name="theModel">Chessboard model.</param>
         public ChessboardViewModel(ChessboardModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             Model = theModel;
             Squares = new ObservableCollection<ChessboardSquareViewModel>();
         }
@@ -34,7 +31,6 @@ namespace Workbench.ViewModels
             get => _model;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _model = value;
                 NotifyOfPropertyChange();
             }
@@ -48,7 +44,6 @@ namespace Workbench.ViewModels
             get => _squares;
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _squares = value;
                 NotifyOfPropertyChange();
             }

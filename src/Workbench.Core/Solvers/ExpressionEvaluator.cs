@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -49,8 +49,7 @@ namespace Workbench.Core.Solvers
 
         private int GetValueFrom(InfixStatementNode infixStatement)
         {
-            Contract.Requires<ArgumentNullException>(infixStatement != null);
-            Contract.Assume(infixStatement.IsLiteral);
+            Debug.Assert(infixStatement.IsLiteral);
 
             return infixStatement.Literal.Value;
         }

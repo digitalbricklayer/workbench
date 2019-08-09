@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Nodes;
 
 namespace Workbench.Core.Solvers
@@ -8,8 +7,6 @@ namespace Workbench.Core.Solvers
     {
         internal static DomainValue Evaluate(VariableDomainExpressionEvaluatorContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theContext != null);
-
             var theDomainExpression = theContext.DomainExpression;
 
             switch (theDomainExpression.Inner)

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Messages;
 using Workbench.Validators;
@@ -18,10 +16,6 @@ namespace Workbench.ViewModels
         public SingletonVariableModelItemViewModel(SingletonVariableModel theSingletonVariableModel, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
             : base(theSingletonVariableModel)
         {
-            Contract.Requires<ArgumentNullException>(theSingletonVariableModel != null);
-            Contract.Requires<ArgumentNullException>(theWindowManager != null);
-            Contract.Requires<ArgumentNullException>(theEventAggregator != null);
-
             Validator = new SingletonVariableModelItemViewModelValidator();
             SingletonVariable = theSingletonVariableModel;
             _windowManager = theWindowManager;

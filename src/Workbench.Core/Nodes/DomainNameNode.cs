@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
@@ -14,7 +15,7 @@ namespace Workbench.Core.Nodes
         {
             base.Init(context, treeNode);
             var nameWithPrefix = Convert.ToString(treeNode.Token.Value);
-            Contract.Assert(nameWithPrefix[0] == '$');
+            Debug.Assert(nameWithPrefix[0] == '$');
             Name = nameWithPrefix.Substring(1);
         }
     }

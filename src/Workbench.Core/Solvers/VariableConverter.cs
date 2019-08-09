@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Google.OrTools.ConstraintSolver;
 using Workbench.Core.Models;
 
@@ -19,10 +18,6 @@ namespace Workbench.Core.Solvers
         /// </summary>
         internal VariableConverter(Google.OrTools.ConstraintSolver.Solver theSolver, OrToolsCache theCache, OrValueMapper theValueMapper)
         {
-            Contract.Requires<ArgumentNullException>(theSolver != null);
-            Contract.Requires<ArgumentNullException>(theCache != null);
-            Contract.Requires<ArgumentNullException>(theValueMapper != null);
-
             this.solver = theSolver;
             this.cache = theCache;
             this.valueMapper = theValueMapper;
@@ -34,8 +29,6 @@ namespace Workbench.Core.Solvers
         /// <param name="theModel">The model.</param>
         internal void ConvertVariables(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             ConvertSingletonVariables(theModel);
             ConvertAggregateVariables(theModel);
         }

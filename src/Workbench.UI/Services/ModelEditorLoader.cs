@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
 
@@ -20,11 +19,6 @@ namespace Workbench.Services
                                  SharedDomainLoader theSharedDomainLoader,
                                  IViewModelFactory theViewModelFactory)
         {
-            Contract.Requires<ArgumentNullException>(theVariableLoader != null);
-            Contract.Requires<ArgumentNullException>(theConstraintLoader != null);
-            Contract.Requires<ArgumentNullException>(theSharedDomainLoader != null);
-            Contract.Requires<ArgumentNullException>(theViewModelFactory != null);
-
             _variableLoader = theVariableLoader;
             _sharedDomainLoader = theSharedDomainLoader;
             _constraintLoader = theConstraintLoader;
@@ -38,8 +32,6 @@ namespace Workbench.Services
         /// <returns>Model editor tab view model.</returns>
         public ModelEditorTabViewModel LoadFrom(WorkspaceModel theWorkspace)
         {
-            Contract.Requires<ArgumentNullException>(theWorkspace != null);
-
             var newModelEditor = _viewModelFactory.CreateModelEditor();
 
             LoadSharedDomains(theWorkspace, newModelEditor);

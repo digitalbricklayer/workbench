@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -23,7 +22,6 @@ namespace Workbench.Core.Models
         {
             get
             {
-                Contract.Assume(Variable != null);
                 return Variable.Name.Text;
             }
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Solvers;
 
 namespace Workbench.Core.Models
@@ -19,10 +18,6 @@ namespace Workbench.Core.Models
         protected VariableModel(WorkspaceModel theModel, ModelName variableName, InlineDomainModel theDomain)
             : base(variableName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(variableName != null);
-            Contract.Requires<ArgumentNullException>(theDomain != null);
-
             Workspace = theModel;
             Parent = theModel.Model;
             Domain = theDomain;
@@ -34,9 +29,6 @@ namespace Workbench.Core.Models
         protected VariableModel(ModelModel theModel, ModelName variableName)
             : base(variableName)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(variableName != null);
-
             Parent = theModel;
             DomainExpression = new VariableDomainExpressionModel();
         }
@@ -75,7 +67,6 @@ namespace Workbench.Core.Models
             get => _workspace;
             internal set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
                 _workspace = value;
                 OnPropertyChanged();
             }
@@ -134,9 +125,6 @@ namespace Workbench.Core.Models
         /// </returns>
         public bool Validate(ModelModel theModel, ModelValidationContext theContext)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-            Contract.Requires<ArgumentNullException>(theContext != null);
-
             // The Node will be null if the parser failed
             if (DomainExpression.Node == null) return false;
 

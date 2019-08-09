@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Workbench.Core
@@ -34,8 +34,9 @@ namespace Workbench.Core
         /// <param name="theErrorMessage">Error message.</param>
         public void AddError(string theErrorMessage)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(theErrorMessage));
-            Contract.Assume(this.errors != null);
+            if (string.IsNullOrWhiteSpace(theErrorMessage))
+                throw new ArgumentException(nameof(theErrorMessage));
+            Debug.Assert(this.errors != null);
             this.errors.Add(theErrorMessage);
         }
     }

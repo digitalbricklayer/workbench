@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Models
 {
@@ -55,7 +54,6 @@ namespace Workbench.Core.Models
         /// <param name="singletonVariable">Singleton variable to add.</param>
         public void AddSingleton(SingletonVariableModel singletonVariable)
         {
-            Contract.Requires<ArgumentNullException>(singletonVariable != null);
             Singletons.Add(singletonVariable);
         }
 
@@ -65,7 +63,6 @@ namespace Workbench.Core.Models
         /// <param name="allDifferentConstraint"></param>
         public void AddAllDifferentConstraint(AllDifferentConstraintModel allDifferentConstraint)
         {
-            Contract.Requires<ArgumentNullException>(allDifferentConstraint != null);
             AllDifferentConstraints.Add(allDifferentConstraint);
         }
     }

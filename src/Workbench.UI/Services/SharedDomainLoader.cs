@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.ViewModels;
@@ -20,8 +19,7 @@ namespace Workbench.Services
 
         public SharedDomainModelItemViewModel MapFrom(SharedDomainModel theDomainModel)
         {
-            Contract.Requires<ArgumentNullException>(theDomainModel != null);
-            Contract.Assert(theDomainModel.HasIdentity);
+            Debug.Assert(theDomainModel.HasIdentity);
 
             var domainViewModel = new SharedDomainModelItemViewModel(theDomainModel, _windowManager);
 

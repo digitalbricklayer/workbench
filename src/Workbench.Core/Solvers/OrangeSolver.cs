@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Workbench.Core.Models;
 
@@ -34,8 +32,6 @@ namespace Workbench.Core.Solvers
         /// <returns>Solve result.</returns>
         public SolveResult Solve(ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theModel != null);
-
             var modelValidator = new ModelValidator(theModel);
 
             if (!modelValidator.Validate()) return SolveResult.InvalidModel;

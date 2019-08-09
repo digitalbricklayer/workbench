@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 
@@ -16,8 +15,6 @@ namespace Workbench.Core.Solvers
 
         internal ValueSet(IEnumerable<Value> variableValues)
         {
-            Contract.Requires<ArgumentNullException>(variableValues != null);
-
             _values = new List<Value>(variableValues);
         }
 

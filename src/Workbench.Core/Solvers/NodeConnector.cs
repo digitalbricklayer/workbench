@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-
-namespace Workbench.Core.Solvers
+﻿namespace Workbench.Core.Solvers
 {
     /// <summary>
     /// A connection between two nodes in the case of a binary expression or a single node in the case of a unary constraint.
@@ -16,9 +13,6 @@ namespace Workbench.Core.Solvers
         /// <param name="content">Content of the connector.</param>
         internal NodeConnector(Node left, Node right, object content)
         {
-            Contract.Requires<ArgumentNullException>(left != null);
-            Contract.Requires<ArgumentNullException>(right != null);
-            Contract.Requires<ArgumentNullException>(content != null);
             Left = left;
             Right = right;
             Content = content;

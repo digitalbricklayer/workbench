@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.Linq;
 using Workbench.Core.Models;
 using Workbench.Core.Nodes;
@@ -20,7 +20,6 @@ namespace Workbench.Core.Repeaters
         /// <param name="theModel">Model</param>
         public OrConstraintRepeaterContext(ExpressionConstraintModel theConstraint, ModelModel theModel)
         {
-            Contract.Requires<ArgumentNullException>(theConstraint != null);
             Constraint = theConstraint;
             Model = theModel;
             this.counters = new List<CounterContext>();
@@ -146,8 +145,7 @@ namespace Workbench.Core.Repeaters
 
         private ILimitValueSource CreateValueSourceFrom(ScopeLimitSatementNode limitNode)
         {
-            Contract.Requires<ArgumentNullException>(limitNode != null);
-            Contract.Requires<ArgumentException>(limitNode.IsLiteral || limitNode.IsCounterReference);
+            Debug.Assert(limitNode.IsLiteral || limitNode.IsCounterReference);
 
             if (limitNode.IsLiteral) return new LiteralLimitValueSource(limitNode.Literal);
             var theCounter = Counters.First(counter => counter.CounterName == limitNode.CounterReference.CounterName);
@@ -156,8 +154,7 @@ namespace Workbench.Core.Repeaters
 
         private ILimitValueSource CreateValueSourceFrom(ExpanderCountNode countNode)
         {
-            Contract.Requires<ArgumentNullException>(countNode != null);
-            Contract.Requires<ArgumentException>(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
+            Debug.Assert(countNode.IsLiteral || countNode.IsCounterReference || countNode.IsFunctionInvocation);
 
             switch (countNode.InnerExpression)
             {

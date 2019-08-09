@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics.Contracts;
 using System.Windows.Input;
 using Workbench.Services;
 
@@ -11,8 +9,6 @@ namespace Workbench.ViewModels
 
         public FileMenuViewModel(IDocumentManager theDocumentManager)
         {
-            Contract.Requires<ArgumentNullException>(theDocumentManager != null);
-
             _documentManager = theDocumentManager;
             NewCommand = new CommandHandler(FileNewAction);
             OpenCommand = new CommandHandler(FileOpenAction);

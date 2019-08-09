@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 using Caliburn.Micro;
 
 namespace Workbench.ViewModels
@@ -19,8 +18,9 @@ namespace Workbench.ViewModels
         /// <param name="text">Raw visualizer expression text.</param>
         public VisualizerExpressionItemViewModel(int id, string text)
         {
-            Contract.Requires<ArgumentException>(id > 0);
-            Contract.Requires<ArgumentException>(text != null);
+            if (id <= 0)
+                throw new ArgumentException("Identifier must be nonzero", nameof(id));
+
             Id = id;
             Text = text;
         }
