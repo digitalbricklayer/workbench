@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Windows.Controls;
 using Workbench.ViewModels;
 

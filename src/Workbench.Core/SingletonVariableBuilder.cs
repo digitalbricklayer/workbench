@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using Workbench.Core.Models;
 
 namespace Workbench.Core

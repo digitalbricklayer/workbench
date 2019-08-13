@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Controls;
 using Workbench.Core.Models;

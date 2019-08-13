@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics;
 using Workbench.Core.Models;
 
 namespace Workbench.Core.Solvers

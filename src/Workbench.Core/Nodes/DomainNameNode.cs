@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Irony.Ast;
 using Irony.Interpreter.Ast;
 using Irony.Parsing;
-using System.Diagnostics.Contracts;
 
 namespace Workbench.Core.Nodes
 {
