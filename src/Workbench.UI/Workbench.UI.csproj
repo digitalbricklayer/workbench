@@ -192,9 +192,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -232,6 +229,9 @@
     <Compile Include="IShell.cs" />
     <Compile Include="IWorkspace.cs" />
     <Compile Include="IWorkspaceDocument.cs" />
+    <Compile Include="Messages\BundleAddedMessage.cs" />
+    <Compile Include="Messages\BundleDeletedMessage.cs" />
+    <Compile Include="Messages\BundleRenamedMessage.cs" />
     <Compile Include="Messages\DocumentClosedMessage.cs" />
     <Compile Include="Messages\DocumentChangedMessage.cs" />
     <Compile Include="Messages\DocumentOpenedMessage.cs" />
@@ -266,6 +266,8 @@
     <Compile Include="Services\XmlVisualizerBindingReader.cs" />
     <Compile Include="Services\XmlVisualizerBindingWriter.cs" />
     <Compile Include="Services\XmlVisualizerWriter.cs" />
+    <Compile Include="Validators\BundleModelItemValidator.cs" />
+    <Compile Include="Validators\BundleNameEditorViewModelValidator.cs" />
     <Compile Include="Validators\ExpressionConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\AllDifferentConstraintModelItemViewModelValidator.cs" />
     <Compile Include="Validators\NewTabDetailsViewModelValidator.cs" />
@@ -278,6 +280,10 @@
     <Compile Include="Validators\TabNameValidator.cs" />
     <Compile Include="Validators\TabTitleEditorValidator.cs" />
     <Compile Include="Validators\VisualizerExpressionValidator.cs" />
+    <Compile Include="ViewModels\BucketModelItemViewModel.cs" />
+    <Compile Include="ViewModels\BundleEditorViewModel.cs" />
+    <Compile Include="ViewModels\BundleModelItemViewModel.cs" />
+    <Compile Include="ViewModels\BundleNameEditorViewModel.cs" />
     <Compile Include="ViewModels\ChessboardSquareViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\DocumentPathViewModel.cs" />
@@ -309,6 +315,15 @@
     <Compile Include="ViewModels\VisualizerExpressionItemViewModel.cs" />
     <Compile Include="ViewModels\VisualizerBindingExpressionViewModel.cs" />
     <Compile Include="ViewModels\WorkspaceDocumentViewModel.cs" />
+    <Compile Include="Views\BundleEditorView.xaml.cs">
+      <DependentUpon>BundleEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BundleModelItemView.xaml.cs">
+      <DependentUpon>BundleModelItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BundleNameEditorView.xaml.cs">
+      <DependentUpon>BundleNameEditorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChessboardTabView.xaml.cs">
       <DependentUpon>ChessboardTabView.xaml</DependentUpon>
     </Compile>
@@ -449,6 +464,18 @@
     <Compile Include="Views\WorkspaceView.xaml.cs">
       <DependentUpon>WorkspaceView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\BundleEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BundleModelItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BundleNameEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ChessboardTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

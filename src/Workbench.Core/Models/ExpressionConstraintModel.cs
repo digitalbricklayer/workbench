@@ -12,24 +12,24 @@ namespace Workbench.Core.Models
     {
         private ConstraintExpressionModel expression;
 
-        public ExpressionConstraintModel(ModelModel theModel, ModelName theName, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(BundleModel bundle, ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
-            Parent = theModel;
+            Parent = bundle;
             this.expression = theExpression;
         }
 
-        public ExpressionConstraintModel(ModelModel theModel, ModelName theName)
+        public ExpressionConstraintModel(BundleModel bundle, ModelName theName)
             : base(theName)
         {
-            Parent = theModel;
+            Parent = bundle;
             this.expression = new ConstraintExpressionModel();
         }
 
-        public ExpressionConstraintModel(ModelModel theModel, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(BundleModel bundle, ConstraintExpressionModel theExpression)
             : base(new ModelName())
         {
-            Parent = theModel;
+            Parent = bundle;
             this.expression = theExpression;
         }
 
@@ -55,13 +55,13 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Validate the constraint expression.
         /// </summary>
-        /// <param name="theModel">Model to validate.</param>
+        /// <param name="bundle">Model to validate.</param>
         /// <param name="theContext">Validation context to capture the errors.</param>
         /// <returns>
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
+        public override bool Validate(BundleModel bundle, ModelValidationContext theContext)
         {
             if (Expression.Node == null) return false;
 
@@ -71,7 +71,7 @@ namespace Workbench.Core.Models
 
             foreach (var singletonVariableReference in variableReferences.SingletonVariableReferences)
             {
-                if (theModel.Variables.FirstOrDefault(_ => _.Name.IsEqualTo(singletonVariableReference.VariableName)) == null)
+                if (bundle.Variables.FirstOrDefault(_ => _.Name.IsEqualTo(singletonVariableReference.VariableName)) == null)
                 {
                     theContext.AddError($"Missing singleton variable {singletonVariableReference.VariableName}");
                     return false;
@@ -80,7 +80,7 @@ namespace Workbench.Core.Models
 
             foreach (var aggregateVariableReference in variableReferences.AggregateVariableReferences)
             {
-                if (theModel.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(aggregateVariableReference.VariableName)) == null)
+                if (bundle.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(aggregateVariableReference.VariableName)) == null)
                 {
                     theContext.AddError($"Missing aggregate variable {aggregateVariableReference.VariableName}");
                     return false;

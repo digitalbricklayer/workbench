@@ -2,7 +2,7 @@
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 
-namespace Workbench.Core.Tests.Unit.Solver
+namespace Workbench.Core.Tests.Unit.Solvers
 {
     [TestFixture]
     public class OrToolsSolverExpressionTests

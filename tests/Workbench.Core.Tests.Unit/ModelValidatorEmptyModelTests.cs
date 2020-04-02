@@ -9,13 +9,13 @@ namespace Workbench.Core.Tests.Unit
         [Test]
         public void AnEmptyModelIsAValidModel()
         {
-            var actualValidationResult = new ModelValidator(MakeEmptyModel()).Validate();
+            var actualValidationResult = new ModelValidator(MakeEmptyWorkspace().Model).Validate();
             Assert.That(actualValidationResult, Is.True);
         }
 
-        private static ModelModel MakeEmptyModel()
+        private static WorkspaceModel MakeEmptyWorkspace()
         {
-            return new ModelModel(new ModelName("An Empty Model"));
+            return new WorkspaceModel(new ModelName("An Empty Model"));
         }
     }
 }

@@ -15,21 +15,22 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a workspace, variable name and domain expression.
         /// </summary>
-        protected VariableModel(WorkspaceModel theModel, ModelName variableName, InlineDomainModel theDomain)
+        protected VariableModel(BundleModel bundle, ModelName variableName, InlineDomainModel theDomain)
             : base(variableName)
         {
-            Workspace = theModel;
-            Parent = theModel.Model;
+            Workspace = bundle.Workspace;
+            Parent = bundle;
             Domain = theDomain;
         }
 
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        protected VariableModel(ModelModel theModel, ModelName variableName)
+        protected VariableModel(BundleModel bundle, ModelName variableName)
             : base(variableName)
         {
-            Parent = theModel;
+            Workspace = bundle.Workspace;
+            Parent = bundle;
             DomainExpression = new VariableDomainExpressionModel();
         }
 
@@ -111,9 +112,9 @@ namespace Workbench.Core.Models
         /// Return true if the variable is valid, return false if 
         /// the variable is not valid.
         /// </returns>
-        public bool Validate(ModelModel theModel)
+        public bool Validate(BundleModel bundle)
         {
-            return Validate(theModel, new ModelValidationContext());
+            return Validate(bundle, new ModelValidationContext());
         }
 
         /// <summary>
@@ -123,17 +124,17 @@ namespace Workbench.Core.Models
         /// Return true if the variable is valid, return false if 
         /// the variable is not valid.
         /// </returns>
-        public bool Validate(ModelModel theModel, ModelValidationContext theContext)
+        public bool Validate(BundleModel bundle, ModelValidationContext theContext)
         {
             // The Node will be null if the parser failed
             if (DomainExpression.Node == null) return false;
 
-            var tableReferenceValid = ValidateTableReferences(theModel, theContext);
+            var tableReferenceValid = ValidateTableReferences(bundle, theContext);
             if (!tableReferenceValid) return false;
-            return ValidateDomainReferences(theModel, theContext);
+            return ValidateDomainReferences(bundle, theContext);
         }
 
-        private bool ValidateDomainReferences(ModelModel theModel, ModelValidationContext validateContext)
+        private bool ValidateDomainReferences(BundleModel bundle, ModelValidationContext validateContext)
         {
             if (DomainExpression == null)
             {
@@ -145,7 +146,7 @@ namespace Workbench.Core.Models
             if (DomainExpression.DomainReference == null)
                 return true;
 
-            var sharedDomain = theModel.GetSharedDomainByName(DomainExpression.DomainReference.DomainName.Name);
+            var sharedDomain = bundle.GetSharedDomainByName(DomainExpression.DomainReference.DomainName.Name);
             if (sharedDomain == null)
             {
                 validateContext.AddError($"Missing shared domain {DomainExpression.DomainReference.DomainName.Name}");
@@ -155,13 +156,13 @@ namespace Workbench.Core.Models
             return true;
         }
 
-        private bool ValidateTableReferences(ModelModel theModel, ModelValidationContext theContext)
+        private bool ValidateTableReferences(BundleModel bundle, ModelValidationContext theContext)
         {
             var variableCaptureVisitor = new TableCellReferenceCaptureVisitor();
             DomainExpression.Node.AcceptVisitor(variableCaptureVisitor);
 
             // Make sure all of the table references are valid
-            var theWorkspace = theModel.Workspace;
+            var theWorkspace = bundle.Workspace;
             foreach (var aTableReference in variableCaptureVisitor.GetReferences())
             {
                 var tableName = aTableReference.Name;

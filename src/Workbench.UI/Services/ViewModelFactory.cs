@@ -31,5 +31,13 @@ namespace Workbench.Services
 
             return newModelEditor;
         }
+
+        /// <inheritdoc />
+        public BundleEditorViewModel CreateBundleEditor()
+        {
+            var newBundleEditor = IoC.Get<BundleEditorViewModel>();
+
+            return newBundleEditor;
+        }
     }
 }

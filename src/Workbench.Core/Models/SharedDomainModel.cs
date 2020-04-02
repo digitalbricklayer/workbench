@@ -10,10 +10,10 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a shared domain with a name and domain expression.
         /// </summary>
-        public SharedDomainModel(ModelModel theModel, ModelName theName, SharedDomainExpressionModel theExpression)
+        public SharedDomainModel(BundleModel bundle, ModelName theName, SharedDomainExpressionModel theExpression)
             : base(theName)
         {
-            Parent = theModel;
+            Parent = bundle;
             _expression = theExpression;
         }
 
@@ -37,21 +37,21 @@ namespace Workbench.Core.Models
         /// Return true if the domain is valid, return false if 
         /// the domain is not valid.
         /// </returns>
-        public bool Validate(ModelModel theModel, ModelValidationContext validateContext)
+        public bool Validate(BundleModel bundle, ModelValidationContext validateContext)
         {
             // The Node will not be null when the parser has created the AST root node
             if (Expression.Node == null) return false;
 
-            return ValidateTableReferences(theModel, validateContext);
+            return ValidateTableReferences(bundle, validateContext);
         }
 
-        private bool ValidateTableReferences(ModelModel theModel, ModelValidationContext theContext)
+        private bool ValidateTableReferences(BundleModel bundle, ModelValidationContext theContext)
         {
             var variableCaptureVisitor = new TableCellReferenceCaptureVisitor();
             Expression.Node.AcceptVisitor(variableCaptureVisitor);
 
             // Make sure all of the table references are valid
-            var theWorkspace = theModel.Workspace;
+            var theWorkspace = bundle.Workspace;
             foreach (var aTableReference in variableCaptureVisitor.GetReferences())
             {
                 var tableName = aTableReference.Name;

@@ -20,7 +20,7 @@ namespace Workbench.Core.Repeaters
         internal OrangeConstraintRepeaterContext(ExpressionConstraintModel theConstraint)
         {
             Constraint = theConstraint;
-            Model = theConstraint.Parent;
+            Bundle = theConstraint.Parent;
             this.counters = new List<CounterContext>();
             if (!theConstraint.Expression.Node.HasExpander) return;
             CreateCounterContextsFrom(theConstraint.Expression.Node.Expander);
@@ -45,9 +45,9 @@ namespace Workbench.Core.Repeaters
         internal ExpressionConstraintModel Constraint { get; private set; }
 
         /// <summary>
-        /// Gets the model.
+        /// Gets the bundle.
         /// </summary>
-        internal ModelModel Model { get; private set; }
+        internal BundleModel Bundle { get; private set; }
 
         /// <summary>
         /// Move to the next counter value set.
@@ -161,7 +161,7 @@ namespace Workbench.Core.Repeaters
                     return new LiteralLimitValueSource(literalNode);
 
                 case FunctionInvocationNode functionInvocationNode:
-                    var functionInvocationContext = new FunctionInvocationContext(functionInvocationNode, Model);
+                    var functionInvocationContext = new FunctionInvocationContext(functionInvocationNode, Bundle);
                     return new FunctionInvocationValueSource(functionInvocationContext);
 
                 case CounterReferenceNode counterReferenceNode:

@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Workbench.Core;
+using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 using Workbench.Services;
 using Workbench.ViewModels;
@@ -57,8 +58,11 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         private Mock<IViewModelFactory> CreateViewModelFactoryMock()
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
+            viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
+                                .Returns(new BundleEditorViewModel(new BundleModel(), this.dataService, this.windowManagerMock.Object, this.eventAggregator));
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
-                                .Returns(new ModelEditorTabViewModel(Mock.Of<IShell>(), this.dataService, this.windowManagerMock.Object, this.eventAggregator));
+                                .Returns(new ModelEditorTabViewModel(this.dataService, this.eventAggregator, this.windowManagerMock.Object));
+
             return viewModelFactoryMock;
         }
 

@@ -47,11 +47,21 @@ namespace Workbench.Core.Tests.Unit
                             bundle.AddSingleton("away", "$teams");
                             bundle.WithAllDifferentConstraint("home, away");
                         })
+                        .AddBundle(bundle =>
+                        {
+                            bundle.WithName("week");
+                            bundle.AddBucket(bucket =>
+                            {
+                                bucket.WithName("matches");
+                                bucket.WithSize(2);
+                                bucket.WithContents("match");
+                            });
+                        })
                         .AddBucket(bucket =>
                         {
-                            bucket.WithName("week");
-                            bucket.WithSize(4);
-                            bucket.WithContents("match");
+                            bucket.WithName("tournament");
+                            bucket.WithSize(2);
+                            bucket.WithContents("week");
                         })
                         .Build();
         }

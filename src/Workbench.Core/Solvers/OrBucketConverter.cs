@@ -28,15 +28,20 @@ namespace Workbench.Core.Solvers
         /// <param name="model">The model.</param>
         internal void ConvertBuckets(ModelModel model)
         {
-            foreach (var aBucket in model.Buckets)
+            foreach (var bucket in model.Buckets)
             {
-                ConvertBucket(aBucket);
+                bucket.PopulateInstances(null);
+                var bucketMap = new OrBucketVariableMap(bucket, null);
+                var bucketTracker = new OrBucketTracker(bucket, bucketMap);
+                ConvertBucket(bucketTracker);
             }
         }
 
-        private void ConvertBucket(BucketVariableModel bucket)
+        private void ConvertBucket(OrBucketTracker bucketTracker)
         {
-            var bucketMap = new OrBucketVariableMap(bucket);
+            var bucket = bucketTracker.Bucket;
+            var bucketMap = bucketTracker.BucketMap;
+
             for (var i = 0; i < bucket.Size; i++)
             {
                 var bundleMap = new OrBundleMap(bucket.Bundle);
@@ -50,6 +55,15 @@ namespace Workbench.Core.Solvers
                     bundleMap.Add(singleton, orVariable);
                     _cache.AddVariable(orVariable);
                 }
+
+#if false
+                foreach (var innerBucket in bucket.Bundle.Buckets)
+                {
+                    var innerBucketMap = new OrBucketVariableMap(innerBucket, bucketMap);
+                    var innerBucketTracker = new OrBucketTracker(bucket, innerBucketMap);
+//                    ConvertBucket(innerBucketTracker);
+                }
+#endif
 
                 bucketMap.Add(bundleMap);
             }

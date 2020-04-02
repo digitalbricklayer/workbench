@@ -67,9 +67,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -110,25 +107,25 @@
     <Compile Include="Parsers\VisualizerBindingParserWithEmptyStatementShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleTournamentSolverUsingExpressionConstraintShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithTernaryExpressionLiteralValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintsUsingNotEqualsModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithConstraintUsingNotEqualsModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithComplexExpressionValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithBinaryExpressionLiteralValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithExpressionConstraintRepeaterShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithConstraintUsingEqualsModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithSimpleUnsolvableModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithAggregateVariableValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithSimpleValidModelShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithMultiLevelRepeaterShould.cs" />
-    <Compile Include="Solvers\OrangeSolverWithSingleLevelRepeaterShould.cs" />
     <Compile Include="Solvers\OrangeSolverAggregateTests.cs" />
     <Compile Include="Solvers\OrangeSolverAllDifferentTests.cs" />
+    <Compile Include="Solvers\OrangeSolverBugReproduction.cs" />
     <Compile Include="Solvers\OrangeSolverExpressionTests.cs" />
     <Compile Include="Solvers\OrangeSolverSimpleTests.cs" />
     <Compile Include="Solvers\OrangeSolverTests.cs" />
-    <Compile Include="Solvers\OrangeSolverBugReproduction.cs" />
+    <Compile Include="Solvers\OrangeSolverWithAggregateVariableValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithBinaryExpressionLiteralValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithComplexExpressionValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithConstraintUsingEqualsModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithConstraintUsingNotEqualsModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithExpressionConstraintRepeaterShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithMultiLevelRepeaterShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithSimpleUnsolvableModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithSimpleValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithSingleLevelRepeaterShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintsUsingNotEqualsModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithTernaryAndBinaryConstraintValidModelShould.cs" />
+    <Compile Include="Solvers\OrangeSolverWithTernaryExpressionLiteralValidModelShould.cs" />
     <Compile Include="Solvers\OrToolsSolverAggregateTests.cs" />
     <Compile Include="Solvers\OrToolsSolverAllDifferentTests.cs" />
     <Compile Include="Solvers\OrToolsSolverExpressionTests.cs" />

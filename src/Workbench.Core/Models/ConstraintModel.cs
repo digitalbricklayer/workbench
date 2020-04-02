@@ -29,9 +29,9 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public virtual bool Validate(ModelModel theModel)
+        public virtual bool Validate(BundleModel bundle)
         {
-            return Validate(theModel, new ModelValidationContext());
+            return Validate(bundle, new ModelValidationContext());
         }
 
         /// <summary>
@@ -41,6 +41,6 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public abstract bool Validate(ModelModel theModel, ModelValidationContext theContext);
+        public abstract bool Validate(BundleModel bundle, ModelValidationContext theContext);
     }
 }

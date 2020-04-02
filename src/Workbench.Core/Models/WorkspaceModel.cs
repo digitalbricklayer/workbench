@@ -30,7 +30,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel(ModelName theModelName)
         {
-            Model = new ModelModel(theModelName);
+            Model = new ModelModel(theModelName, this);
             Model.Workspace = this;
             Solution = new SolutionModel(Model);
             Display = new DisplayModel(Model);
@@ -41,7 +41,7 @@ namespace Workbench.Core.Models
         /// </summary>
         public WorkspaceModel()
         {
-            Model = new ModelModel();
+            Model = new ModelModel(this);
             Model.Workspace = this;
             Solution = new SolutionModel(Model);
             Display = new DisplayModel(Model);

@@ -21,8 +21,8 @@ namespace Workbench.Core.Models
         private VariableModel[] variables;
         private InlineDomainModel domain;
 
-        public AggregateVariableModel(WorkspaceModel theModel, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
-            : base(theModel, newVariableName, theDomain)
+        public AggregateVariableModel(BundleModel bundle, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
+            : base(bundle, newVariableName, theDomain)
         {
             if (aggregateSize < DefaultSize)
                 throw new ArgumentOutOfRangeException(nameof(aggregateSize));
@@ -36,10 +36,10 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize an aggregate variable with workspace and a name.
         /// </summary>
-        /// <param name="theModel">Workspace the variable belongs.</param>
+        /// <param name="bundle">Bundle the variable belongs.</param>
         /// <param name="newName">New variable name.</param>
-        public AggregateVariableModel(WorkspaceModel theModel, ModelName newName)
-            : this(theModel, newName, DefaultSize, new InlineDomainModel())
+        public AggregateVariableModel(BundleModel bundle, ModelName newName)
+            : this(bundle, newName, DefaultSize, new InlineDomainModel())
         {
         }
 

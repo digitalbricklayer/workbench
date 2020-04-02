@@ -83,7 +83,7 @@ namespace Workbench.Services
                 }
             }
 
-            var variableModel = new AggregateVariableModel(_model.Workspace, new ModelName(variableName), Convert.ToInt32(variableSize), new InlineDomainModel(domainExpression));
+            var variableModel = new AggregateVariableModel(_model, new ModelName(variableName), Convert.ToInt32(variableSize), new InlineDomainModel(domainExpression));
             variableModel.Id = Convert.ToInt32(variableId);
             _model.AddVariable(variableModel);
         }

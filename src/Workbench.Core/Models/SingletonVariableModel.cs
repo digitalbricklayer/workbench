@@ -11,16 +11,16 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initialize a variable with a variable name and domain expression.
         /// </summary>
-        public SingletonVariableModel(ModelModel theModel, ModelName variableName, InlineDomainModel theDomain)
-            : base(theModel.Workspace, variableName, theDomain)
+        public SingletonVariableModel(BundleModel bundle, ModelName variableName, InlineDomainModel theDomain)
+            : base(bundle, variableName, theDomain)
         {
         }
 
         /// <summary>
         /// Initialize a variable with a variable name.
         /// </summary>
-        public SingletonVariableModel(ModelModel theModel, ModelName variableName)
-            : base(theModel.Workspace, variableName, new InlineDomainModel())
+        public SingletonVariableModel(BundleModel bundle, ModelName variableName)
+            : base(bundle, variableName, new InlineDomainModel())
         {
         }
 

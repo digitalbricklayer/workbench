@@ -17,7 +17,7 @@ namespace Workbench.Validators
         private bool ValidateExpression(SingletonVariableModelItemViewModel singletonVariableModelItem, string rawDomainExpression)
         {
             var aggregateVariable = singletonVariableModelItem.SingletonVariable;
-            return aggregateVariable.Validate(aggregateVariable.Parent);
+            return aggregateVariable.Validate(aggregateVariable.GetModel());
         }
     }
 }

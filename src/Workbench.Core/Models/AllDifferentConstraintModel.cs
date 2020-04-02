@@ -16,22 +16,22 @@ namespace Workbench.Core.Models
     {
         private AllDifferentConstraintExpressionModel _expression;
 
-        public AllDifferentConstraintModel(ModelModel theModel, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleModel bundle, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(theName)
         {
-            Parent = theModel;
+            Parent = bundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(ModelModel theModel, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleModel bundle, AllDifferentConstraintExpressionModel theExpressionModel)
         {
-            Parent = theModel;
+            Parent = bundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(ModelModel theModel)
+        public AllDifferentConstraintModel(BundleModel bundle)
         {
-            Parent = theModel;
+            Parent = bundle;
             Expression = new AllDifferentConstraintExpressionModel();
         }
 
@@ -54,7 +54,7 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public override bool Validate(ModelModel theModel, ModelValidationContext theContext)
+        public override bool Validate(BundleModel bundle, ModelValidationContext theContext)
         {
             if (string.IsNullOrWhiteSpace(Expression.Text))
             {
@@ -62,7 +62,7 @@ namespace Workbench.Core.Models
                 return false;
             }
 
-            if (theModel.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(Expression.Text)) == null)
+            if (bundle.Aggregates.FirstOrDefault(_ => _.Name.IsEqualTo(Expression.Text)) == null)
             {
                 theContext.AddError($"Missing aggregate variable {Expression.Text}");
                 return false;

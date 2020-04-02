@@ -9,13 +9,16 @@ namespace Workbench.Core.Solvers
     {
         private readonly List<OrBundleMap> _bundleMaps;
 
-        internal OrBucketVariableMap(BucketVariableModel bucket)
+        internal OrBucketVariableMap(BucketVariableModel bucket, OrBucketVariableMap parent)
         {
-            Bucket = bucket;
             _bundleMaps = new List<OrBundleMap>();
+            Bucket = bucket;
+            Parent = parent;
         }
 
         internal BucketVariableModel Bucket { get; }
+
+        internal OrBucketVariableMap Parent { get; }
 
         internal IReadOnlyCollection<OrBundleMap> GetBundleMaps()
         {

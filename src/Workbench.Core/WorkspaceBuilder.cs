@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Workbench.Core.Models;
 
 namespace Workbench.Core
@@ -7,9 +6,10 @@ namespace Workbench.Core
     /// <summary>
     /// Builder for creating a workspace.
     /// </summary>
-    public class WorkspaceBuilder
+    public sealed class WorkspaceBuilder
     {
         private readonly WorkspaceModel _workspace;
+        private readonly BundleModel _model;
 
         /// <summary>
         /// Initialize a workspace builder with a model name.
@@ -18,7 +18,9 @@ namespace Workbench.Core
         {
             if (string.IsNullOrWhiteSpace(theModelName))
                 throw new ArgumentException(nameof(theModelName));
+
             _workspace = new WorkspaceModel(new ModelName(theModelName));
+            _model = _workspace.Model;
         }
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace Workbench.Core
         public WorkspaceBuilder(ModelName theModelName)
         {
             _workspace = new WorkspaceModel(theModelName);
+            _model = _workspace.Model;
         }
 
         /// <summary>
@@ -35,6 +38,7 @@ namespace Workbench.Core
         public WorkspaceBuilder()
         {
             _workspace = new WorkspaceModel();
+            _model = _workspace.Model;
         }
 
         /// <summary>
@@ -51,8 +55,8 @@ namespace Workbench.Core
             if (string.IsNullOrWhiteSpace(theDomainExpression))
                 throw new ArgumentException(nameof(theDomainExpression));
 
-            var newVariable = new SingletonVariableModel(_workspace.Model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
-            _workspace.Model.AddVariable(newVariable);
+            var newVariable = new SingletonVariableModel(_model, new ModelName(theVariableName), new InlineDomainModel(theDomainExpression));
+            _model.AddVariable(newVariable);
 
             return this;
         }
@@ -75,8 +79,8 @@ namespace Workbench.Core
             if (string.IsNullOrWhiteSpace(newDomainExpression))
                 throw new ArgumentException(nameof(newDomainExpression));
 
-            var newVariable = new AggregateVariableModel(_workspace.Model.Workspace, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
-            _workspace.Model.AddVariable(newVariable);
+            var newVariable = new AggregateVariableModel(_model, new ModelName(newAggregateName), aggregateSize, new InlineDomainModel(newDomainExpression));
+            _model.AddVariable(newVariable);
 
             return this;
         }
@@ -93,7 +97,7 @@ namespace Workbench.Core
             action(variableConfig);
 
             var newVariable = variableConfig.Build();
-            _workspace.Model.AddVariable(newVariable);
+            _model.AddVariable(newVariable);
 
             return this;
         }
@@ -106,8 +110,8 @@ namespace Workbench.Core
             if (string.IsNullOrWhiteSpace(newDomainExpression))
                 throw new ArgumentException(nameof(newDomainExpression));
 
-            var newDomain = new SharedDomainModel(_workspace.Model, new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
-            _workspace.Model.AddSharedDomain(newDomain);
+            var newDomain = new SharedDomainModel(_model, new ModelName(newDomainName), new SharedDomainExpressionModel(newDomainExpression));
+            _model.AddSharedDomain(newDomain);
 
             return this;
         }
@@ -117,9 +121,9 @@ namespace Workbench.Core
             if (string.IsNullOrWhiteSpace(theConstraintExpression))
                 throw new ArgumentException(nameof(theConstraintExpression));
 
-            var constraintModel = new ExpressionConstraintModel(_workspace.Model, new ConstraintExpressionModel(theConstraintExpression));
+            var constraintModel = new ExpressionConstraintModel(_model, new ConstraintExpressionModel(theConstraintExpression));
 
-            _workspace.Model.AddConstraint(constraintModel);
+            _model.AddConstraint(constraintModel);
             return this;
         }
 
@@ -128,8 +132,8 @@ namespace Workbench.Core
             if (string.IsNullOrWhiteSpace(theExpression))
                 throw new ArgumentException(nameof(theExpression));
 
-            var newConstraint = new AllDifferentConstraintModel(_workspace.Model, new AllDifferentConstraintExpressionModel(theExpression));
-            _workspace.Model.AddConstraint(newConstraint);
+            var newConstraint = new AllDifferentConstraintModel(_model, new AllDifferentConstraintExpressionModel(theExpression));
+            _model.AddConstraint(newConstraint);
 
             return this;
         }
@@ -167,7 +171,7 @@ namespace Workbench.Core
             action(bundleConfiguration);
 
             var newBundle = bundleConfiguration.Build();
-            _workspace.Model.AddBundle(newBundle);
+            _model.AddBundle(newBundle);
 
             return this;
         }
@@ -179,12 +183,12 @@ namespace Workbench.Core
 
         public WorkspaceBuilder AddBucket(Action<BucketConfiguration> action)
         {
-            var bundleConfiguration = new BucketConfiguration(_workspace);
+            var bucketConfiguration = new BucketConfiguration(_workspace);
 
-            action(bundleConfiguration);
+            action(bucketConfiguration);
 
-            var newBundle = bundleConfiguration.Build();
-            _workspace.Model.AddBucket(newBundle);
+            var newBucket = bucketConfiguration.Build();
+            _model.AddBucket(newBucket);
 
             return this;
         }
@@ -192,151 +196,6 @@ namespace Workbench.Core
         public WorkspaceModel Build()
         {
             return _workspace;
-        }
-    }
-
-    public sealed class BucketConfiguration
-    {
-        private string _name;
-        private string _bundleName;
-        private int _size;
-        private readonly WorkspaceModel _workspace;
-
-        public BucketConfiguration(WorkspaceModel workspace)
-        {
-            _workspace = workspace;
-            _name = string.Empty;
-            _bundleName = string.Empty;
-            _size = 1;
-        }
-
-        public BucketConfiguration WithName(string name)
-        {
-            _name = name;
-            return this;
-        }
-
-        public BucketConfiguration WithSize(int size)
-        {
-            _size = size;
-            return this;
-        }
-
-        public BucketConfiguration WithContents(string bundleName)
-        {
-            _bundleName = bundleName;
-            return this;
-        }
-
-        public BucketVariableModel Build()
-        {
-            var bundle = _workspace.Model.GetBundleByName(_bundleName);
-            return new BucketVariableModel(_workspace, new ModelName(_name), _size, bundle);
-        }
-    }
-
-    public sealed class BundleConfiguration
-    {
-        private string _name;
-        private readonly List<SingletonVariableModel> _singletons;
-        private readonly List<ConstraintModel> _constraints;
-        private readonly WorkspaceModel _workspace;
-
-        public BundleConfiguration(WorkspaceModel workspace)
-        {
-            _name = string.Empty;
-            _workspace = workspace;
-            _singletons = new List<SingletonVariableModel>();
-            _constraints = new List<ConstraintModel>();
-        }
-
-        public BundleConfiguration WithName(string bundleName)
-        {
-            if (string.IsNullOrWhiteSpace(bundleName))
-                throw new ArgumentException(nameof(bundleName));
-            _name = bundleName;
-            return this;
-        }
-
-        public BundleConfiguration WithAllDifferentConstraint(string expression)
-        {
-            _constraints.Add(new AllDifferentConstraintModel(_workspace.Model, new AllDifferentConstraintExpressionModel(expression)));
-            return this;
-        }
-
-        public BundleConfiguration AddSingleton(string variableName, string domainExpression)
-        {
-            _singletons.Add(new SingletonVariableModel(_workspace.Model, new ModelName(variableName), new InlineDomainModel(domainExpression)));
-            return this;
-        }
-
-        public BundleModel Build()
-        {
-            var newBundle = new BundleModel(new ModelName(_name));
-            AddSingletons(newBundle);
-            AddConstraints(newBundle);
-
-            return newBundle;
-        }
-
-        private void AddConstraints(BundleModel bundle)
-        {
-            foreach (var constraint in _constraints)
-            {
-                switch (constraint)
-                {
-                    case AllDifferentConstraintModel allDifferentConstraint:
-                        bundle.AddAllDifferentConstraint(allDifferentConstraint);
-                        break;
-                }
-            }
-        }
-
-        private void AddSingletons(BundleModel bundle)
-        {
-            foreach (var singleton in _singletons)
-            {
-                bundle.AddSingleton(singleton);
-            }
-        }
-    }
-
-    public sealed class AggregateVariableConfiguration
-    {
-        private string _name;
-        private int _size;
-        private string _domainExpression;
-        private readonly WorkspaceModel _workspace;
-
-        public AggregateVariableConfiguration(WorkspaceModel workspace)
-        {
-            _workspace = workspace;
-        }
-
-        public void WithName(string variableName)
-        {
-            if (string.IsNullOrWhiteSpace(variableName))
-                throw new ArgumentException(nameof(variableName));
-            _name = variableName;
-        }
-
-        public void WithSize(int variableSize)
-        {
-            if (variableSize <= 0)
-                throw new ArgumentOutOfRangeException(nameof(variableSize));
-            _size = variableSize;
-        }
-
-        public void WithDomain(string domainExpression)
-        {
-            if (string.IsNullOrWhiteSpace(domainExpression))
-                throw new ArgumentException(nameof(domainExpression));
-            _domainExpression = domainExpression;
-        }
-
-        public AggregateVariableModel Build()
-        {
-            return new AggregateVariableModel(_workspace, new ModelName(_name), _size, new InlineDomainModel(_domainExpression));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Workbench.Core
     public sealed class AggregateVariableBuilder
     {
         private ModelName variableName;
-        private ModelModel model;
+        private BundleModel bundle;
         private int? size;
         private InlineDomainModel domain;
 
@@ -22,9 +22,9 @@ namespace Workbench.Core
             return this;
         }
 
-        public AggregateVariableBuilder Inside(ModelModel theModel)
+        public AggregateVariableBuilder Inside(BundleModel theBundle)
         {
-            this.model = theModel;
+            this.bundle = theBundle;
             return this;
         }
 
@@ -36,10 +36,10 @@ namespace Workbench.Core
 
         public AggregateVariableModel Build()
         {
-            Debug.Assert(this.model != null);
+            Debug.Assert(this.bundle != null);
             Debug.Assert(this.variableName != null);
 
-            return new AggregateVariableModel(this.model.Workspace, this.variableName, GetSizeOrDefault(), GetDomainOrDefault());
+            return new AggregateVariableModel(this.bundle, this.variableName, GetSizeOrDefault(), GetDomainOrDefault());
         }
 
         private InlineDomainModel GetDomainOrDefault()

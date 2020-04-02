@@ -30,10 +30,10 @@ namespace Workbench.Core.Repeaters
             Debug.Assert(this.context != null);
             Debug.Assert(this.context.FunctionInvocation.FunctionName == "size");
             var variableName = this.context.FunctionInvocation.ArgumentList.Arguments.First();
-            var variable = this.context.Model.GetVariableByName(variableName.Value.Value);
+            var variable = this.context.Bundle.GetVariableByName(variableName.Value.Value);
             if (variable != null)
                 return Convert.ToInt32(variable.GetSize());
-            var bucket = this.context.Model.GetBucketByName(variableName.Value.Value);
+            var bucket = this.context.Bundle.GetBucketByName(variableName.Value.Value);
             return Convert.ToInt32(bucket.GetSize());
         }
     }

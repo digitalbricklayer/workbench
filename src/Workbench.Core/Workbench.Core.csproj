@@ -167,10 +167,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateVariableBuilder.cs" />
+    <Compile Include="AggregateVariableConfiguration.cs" />
     <Compile Include="AllDifferentConstraintBuilder.cs" />
+    <Compile Include="BucketConfiguration.cs" />
+    <Compile Include="BundleConfiguration.cs" />
     <Compile Include="ConstraintVariableReferenceCaptureVisitor.cs" />
     <Compile Include="Models\BucketLabelModel.cs" />
     <Compile Include="Models\BucketVariableModel.cs" />
+    <Compile Include="Models\BundleInstanceModel.cs" />
     <Compile Include="Models\BundleLabelModel.cs" />
     <Compile Include="Models\BundleModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
@@ -347,6 +351,7 @@
     <Compile Include="Solvers\Arc.cs" />
     <Compile Include="Solvers\ArcBuilder.cs" />
     <Compile Include="Solvers\OrBucketConverter.cs" />
+    <Compile Include="Solvers\OrBucketTracker.cs" />
     <Compile Include="Solvers\OrValueMapper.cs" />
     <Compile Include="Solvers\OrBucketVariableMap.cs" />
     <Compile Include="Solvers\OrBundleMap.cs" />

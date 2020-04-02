@@ -6,24 +6,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <DockPanel Margin="10">
-        <StackPanel DockPanel.Dock="Right" Margin="10,0">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,0,0,5" />
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock FontWeight="Bold" Margin="0,0,0,10">Actions</TextBlock>
-            <Button x:Name="AddSingleton" Command="{Binding AddSingletonVariableCommand}">Add Singleton Variable...</Button>
-            <Button x:Name="AddAggregate" Command="{Binding AddAggregateVariableCommand}">Add Aggregate Variable...</Button>
-            <Button x:Name="AddExpressionConstraintButton" Command="{Binding AddExpressionConstraintCommand}">Add Expression Constraint...</Button>
-            <Button x:Name="AddAllDifferentConstraintButton" Command="{Binding AddAllDifferentConstraintCommand}">Add 'All Different' Constraint...</Button>
-            <Button x:Name="AddDomainButton" Command="{Binding AddDomainCommand}">Add Domain...</Button>
-            <Button x:Name="EditButton" Command="{Binding EditCommand}">Edit...</Button>
-            <Separator/>
-            <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}">Delete</Button>
-        </StackPanel>
-        <ListBox x:Name="Items" SelectionMode="Single"/>
-    </DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="BundleSelectorRow" Height="25"/>
+            <RowDefinition x:Name="BundleEditorRow" Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Bundle selector -->
+        <ComboBox x:Name="BundleNames"/>
+
+        <!-- Bundle editor -->
+        <ContentControl x:Name="ActiveItem" Grid.Row="1"/>
+
+    </Grid>
 
 </UserControl>

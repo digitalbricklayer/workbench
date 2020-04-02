@@ -15,16 +15,16 @@ namespace Workbench.Core.Repeaters
     {
         private OrangeConstraintRepeaterContext _context;
         private readonly OrangeModelSolverMap _modelSolverMap;
-        private readonly ModelModel _model;
+        private readonly BundleModel _bundle;
         private readonly OrangeValueMapper _valueMapper;
         private readonly ConstraintNetwork _constraintNetwork;
         private readonly ArcBuilder _arcBuilder;
 
-        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, ModelModel theModel, OrangeValueMapper theValueMapper)
+        internal OrangeConstraintRepeater(ConstraintNetwork constraintNetwork, OrangeModelSolverMap modelSolverMap, BundleModel bundle, OrangeValueMapper theValueMapper)
         {
             _constraintNetwork = constraintNetwork;
             _modelSolverMap = modelSolverMap;
-            _model = theModel;
+            _bundle = bundle;
             _valueMapper = theValueMapper;
             _arcBuilder = new ArcBuilder(_modelSolverMap, _valueMapper);
         }

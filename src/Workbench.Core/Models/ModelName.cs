@@ -24,9 +24,9 @@ namespace Workbench.Core.Models
             Text = string.Empty;
         }
 
-        public static implicit operator string(ModelName aName) =>
-            // Convert the model name into the name as a string
-            aName.Text;
+        public static implicit operator string(ModelName name) =>
+            // Convert the model name into a string
+            name.Text;
 
         public string Text
         {
