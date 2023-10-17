@@ -16,11 +16,11 @@ Plainly a big barrier to any kind of constraint satisfaction project is going to
 
 The image below is a picture of the model used to solve the n-queens problem produced by version 0.4. As you can see the application supports aggregate variables, expression and all different constraints and domains.
 
-![Workbench Displaying a Model](https://techteapot.com/wp-content/uploads/2016/10/workbench-model-nqueens-1024x611.png)
+![Workbench Displaying a Model](https://digitalbricklayer.github.io/assets/workbench-model-nqueens.png)
 
 You can also create a solution. When I say a solution I don't mean just a set of values that represent one state that satisfies all of the constraints. I mean you can design how your solution is displayed in very rudimentary ways. Currently there are two ways of displaying a solution, a chess board and a table.
 
-![n-queens solution](https://techteapot.com/wp-content/uploads/2016/10/workbench-solution-nqueens-768x761.png)
+![n-queens solution](https://digitalbricklayer.github.io/assets/workbench-solution-nqueens.png)
 
 The most egregious failing of the project manifesto to date is the breach of the *no programming* rule. There plainly is quite a lot of what looks suspiciously like programming in the various languages included in the project. The most obvious being the visualizer binding language. I have a few ideas how I can reduce the level of programming in the visualizer bindings but I doubt I can remove it altogether.
 
