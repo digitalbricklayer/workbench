@@ -196,4 +196,4 @@ FakesAssemblies/
 *.opt
 
 # Claude local settings
-.claude/setting.local
+.claude/setting.local.json
