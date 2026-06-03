@@ -44,8 +44,8 @@ namespace Workbench.ViewModels
             var domainEditorViewModel = new SharedDomainEditorViewModel();
             domainEditorViewModel.DomainName = Domain.Name;
             domainEditorViewModel.DomainExpression = Domain.Expression.Text;
-            var result = _windowManager.ShowDialog(domainEditorViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = _windowManager.ShowDialogAsync(domainEditorViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
             DisplayName = Domain.Name.Text = domainEditorViewModel.DomainName;
             ExpressionText = Domain.Expression.Text = domainEditorViewModel.DomainExpression;
         }

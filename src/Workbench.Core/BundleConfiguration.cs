@@ -53,9 +53,9 @@ namespace Workbench.Core
             return this;
         }
 
-        public BundleModel Build()
+        public BundleTemplateModel Build()
         {
-            var newBundle = new BundleModel(new ModelName(_name));
+            var newBundle = new BundleTemplateModel(new ModelName(_name));
             AddSingletons(newBundle);
             AddBuckets(newBundle);
             AddConstraints(newBundle);
@@ -63,7 +63,7 @@ namespace Workbench.Core
             return newBundle;
         }
 
-        private void AddBuckets(BundleModel bundle)
+        private void AddBuckets(BundleTemplateModel bundle)
         {
             foreach (var bucket in _buckets)
             {
@@ -71,7 +71,7 @@ namespace Workbench.Core
             }
         }
 
-        private void AddConstraints(BundleModel bundle)
+        private void AddConstraints(BundleTemplateModel bundle)
         {
             foreach (var constraint in _constraints)
             {
@@ -84,7 +84,7 @@ namespace Workbench.Core
             }
         }
 
-        private void AddSingletons(BundleModel bundle)
+        private void AddSingletons(BundleTemplateModel bundle)
         {
             foreach (var singleton in _singletons)
             {

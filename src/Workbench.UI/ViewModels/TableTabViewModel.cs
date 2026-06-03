@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Caliburn.Micro;
+using System.Threading;
+using System.Threading.Tasks;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -157,23 +159,23 @@ namespace Workbench.ViewModels
         {
             var titleEditor = new TabTitleEditorViewModel();
             titleEditor.TabTitle = Title;
-            var status = _windowManager.ShowDialog(titleEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(titleEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             Title = titleEditor.TabTitle;
         }
 
-        public void EditName()
+        public void EditName()  
         {
             var nameEditor = new TabNameEditorViewModel();
             nameEditor.TabName = Name;
-            var status = _windowManager.ShowDialog(nameEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(nameEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             Name = nameEditor.TabName;
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
             Table = new TableViewModel(Model.Table);
             Details = new TableDetailsViewModel(_windowManager);
             Items.AddRange(new IScreen[] { Table, Details });

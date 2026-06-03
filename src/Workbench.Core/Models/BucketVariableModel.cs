@@ -14,27 +14,27 @@ namespace Workbench.Core.Models
         /// <param name="workspace">Workspace the variable resides.</param>
         /// <param name="name">Name of the bucket.</param>
         /// <param name="size">Size of the bucket.</param>
-        /// <param name="bundle">Bundle contained within the bucket.</param>
-        public BucketVariableModel(WorkspaceModel workspace, ModelName name, int size, BundleModel bundle)
+        /// <param name="bundleTemplate">Bundle template.</param>
+        public BucketVariableModel(WorkspaceModel workspace, ModelName name, int size, BundleTemplateModel bundleTemplate)
             : base(name)
         {
             if (size <= 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
 
             Size = size;
-            Bundle = bundle;
-            Instances = new List<BundleInstanceModel>();
+            Template = bundleTemplate;
+            Bundles = new List<BundleModel>();
         }
 
         /// <summary>
         /// Gets the bundle contained inside the bucket.
         /// </summary>
-        public BundleModel Bundle { get; }
+        public BundleTemplateModel Template { get; }
 
         /// <summary>
         /// Gets the bundle instances.
         /// </summary>
-        public IList<BundleInstanceModel> Instances { get; private set; }
+        public IList<BundleModel> Bundles { get; private set; }
 
         /// <summary>
         /// Gets or sets the size of the bucket.
@@ -50,34 +50,32 @@ namespace Workbench.Core.Models
             return Size;
         }
 
-        internal void PopulateInstances(BundleInstanceModel parent)
+        internal void PopulateInstances(BundleModel parent)
         {
-            var instances = new List<BundleInstanceModel>();
+            var bundles = new List<BundleModel>();
             for (var i = 0; i < Size; i++)
             {
-                var instance = CreateInstanceFrom(Bundle, i);
-                Bundle.Instance = instance;
-                var instanceName = CreateNameFrom(Bundle, i);
-                Bundle.Instance.Name = instanceName;
-                instances.Add(instance);
+                var instance = CreateBundleFrom(Template, i);
+                Template.Instance = instance;
+                bundles.Add(instance);
             }
 
-            Instances = instances;
+            Bundles = bundles;
 
-            foreach (var bucket in Bundle.Buckets)
+            foreach (var bucket in Template.Buckets)
             {
-                bucket.PopulateInstances(Bundle.Instance);
+                bucket.PopulateInstances(Template.Instance);
             }
         }
 
-        private string CreateNameFrom(BundleModel bundle, int i)
+        private string CreateNameFrom(BundleTemplateModel bundle, int i)
         {
             return bundle.Instance.Name + bundle.Name + "_" + i;
         }
 
-        private BundleInstanceModel CreateInstanceFrom(BundleModel bundle, int count)
+        private BundleModel CreateBundleFrom(BundleTemplateModel bundleTemplate, int count)
         {
-            return new BundleInstanceModel(Bundle.Instance, count, bundle);
+            return new BundleModel(Template.Instance, count, bundleTemplate, CreateNameFrom(Template, count));
         }
     }
 }

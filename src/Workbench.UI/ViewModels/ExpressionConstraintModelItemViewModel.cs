@@ -27,8 +27,8 @@ namespace Workbench.ViewModels
             var expressionConstraintEditor = new ExpressionConstraintEditorViewModel();
             expressionConstraintEditor.ConstraintName = ExpressionConstraint.Name;
             expressionConstraintEditor.ConstraintExpression = ExpressionConstraint.Expression.Text;
-            var result = _windowManager.ShowDialog(expressionConstraintEditor);
-            if (!result.HasValue) return;
+            var result = _windowManager.ShowDialogAsync(expressionConstraintEditor);
+            if (!result.Result.HasValue) return;
             DisplayName = ExpressionConstraint.Name.Text = expressionConstraintEditor.ConstraintName;
             ExpressionText = ExpressionConstraint.Expression.Text = expressionConstraintEditor.ConstraintExpression;
         }

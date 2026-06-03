@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Caliburn.Micro;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media;
-using Caliburn.Micro;
 using Workbench.Services;
 
 namespace Workbench.ViewModels
@@ -79,10 +81,10 @@ namespace Workbench.ViewModels
             Shell.OnClose(cancelEventArgs);
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
             Icon = _resourceManager.GetBitmap("Images/AppIcon.ico");
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
         }
     }
 }

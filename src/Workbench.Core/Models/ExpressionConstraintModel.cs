@@ -12,21 +12,21 @@ namespace Workbench.Core.Models
     {
         private ConstraintExpressionModel expression;
 
-        public ExpressionConstraintModel(BundleModel bundle, ModelName theName, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(BundleTemplateModel bundle, ModelName theName, ConstraintExpressionModel theExpression)
             : base(theName)
         {
             Parent = bundle;
             this.expression = theExpression;
         }
 
-        public ExpressionConstraintModel(BundleModel bundle, ModelName theName)
+        public ExpressionConstraintModel(BundleTemplateModel bundle, ModelName theName)
             : base(theName)
         {
             Parent = bundle;
             this.expression = new ConstraintExpressionModel();
         }
 
-        public ExpressionConstraintModel(BundleModel bundle, ConstraintExpressionModel theExpression)
+        public ExpressionConstraintModel(BundleTemplateModel bundle, ConstraintExpressionModel theExpression)
             : base(new ModelName())
         {
             Parent = bundle;
@@ -61,7 +61,7 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public override bool Validate(BundleModel bundle, ModelValidationContext theContext)
+        public override bool Validate(BundleTemplateModel bundle, ModelValidationContext theContext)
         {
             if (Expression.Node == null) return false;
 

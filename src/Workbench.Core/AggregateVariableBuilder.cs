@@ -6,7 +6,7 @@ namespace Workbench.Core
     public sealed class AggregateVariableBuilder
     {
         private ModelName variableName;
-        private BundleModel bundle;
+        private BundleTemplateModel bundle;
         private int? size;
         private InlineDomainModel domain;
 
@@ -22,7 +22,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public AggregateVariableBuilder Inside(BundleModel theBundle)
+        public AggregateVariableBuilder Inside(BundleTemplateModel theBundle)
         {
             this.bundle = theBundle;
             return this;

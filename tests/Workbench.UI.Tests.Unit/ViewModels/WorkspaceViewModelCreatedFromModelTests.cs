@@ -31,7 +31,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
             _eventAggregatorMock = CreateEventAggregatorMock();
             _viewModelFactoryMock = CreateViewModelFactoryMock();
             Subject = CreateSut();
-            ScreenExtensions.TryActivate(Subject);
+            ScreenExtensions.TryActivateAsync(Subject);
         }
 
         [Test]

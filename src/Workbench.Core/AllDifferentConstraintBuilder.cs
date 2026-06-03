@@ -6,7 +6,7 @@ namespace Workbench.Core
     {
         private AllDifferentConstraintExpressionModel expression = new AllDifferentConstraintExpressionModel();
         private ModelName name = new ModelName("New Constraint");
-        private BundleModel _bundle;
+        private BundleTemplateModel _bundle;
 
         public AllDifferentConstraintBuilder WithName(string theName)
         {
@@ -20,7 +20,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public AllDifferentConstraintBuilder Inside(BundleModel theBundle)
+        public AllDifferentConstraintBuilder Inside(BundleTemplateModel theBundle)
         {
             _bundle = theBundle;
             return this;

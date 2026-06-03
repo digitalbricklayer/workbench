@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(git -C \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\" log --oneline -15)",
+      "Bash(wc -l:*)",
+      "Bash(find:*)",
+      "Bash(Get-ChildItem *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Format-Table -HideTableHeaders)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\" | Where-Object { $_.PSIsContainer } | Select-Object Name)",
+      "Bash(Select-Object -First 50)",
+      "Bash(Format-List)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "WebSearch",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\\\\src\\\\Workbench.UI\" -Recurse -File | Where-Object { $_.Extension -in '.xaml', '.cs', '.csproj' } | Sort-Object FullName | Select-Object -First 100 | ForEach-Object { $_.FullName })",
+      "Bash(msbuild \"Constraint Workbench.sln\" /p:Configuration=Release /p:Platform=x86 /v:minimal)",
+      "PowerShell($msbuild = \"C:\\\\Program Files\\\\Microsoft Visual Studio\\\\18\\\\Community\\\\MSBuild\\\\Current\\\\Bin\\\\MSBuild.exe\"; cd \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\"; & $msbuild \"Constraint Workbench.sln\" /p:Configuration=Release /p:Platform=x86 /v:minimal)",
+      "PowerShell(nunit3-console *)",
+      "PowerShell($nunit = \"C:\\\\Users\\\\User\\\\.nuget\\\\packages\\\\nunit.consolerunner\\\\3.16.3\\\\tools\\\\nunit3-console.exe\"; & $nunit \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\\\\tests\\\\Workbench.Core.Tests.Unit\\\\bin\\\\x86\\\\Release\\\\Workbench.Core.Tests.Unit.dll\" \"C:\\\\Users\\\\User\\\\source\\\\repos\\\\workbench\\\\tests\\\\Workbench.UI.Tests.Unit\\\\bin\\\\x86\\\\Release\\\\Workbench.UI.Tests.Unit.dll\")"
+    ]
+  }
+}

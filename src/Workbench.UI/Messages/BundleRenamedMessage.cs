@@ -12,7 +12,7 @@ namespace Workbench.Messages
         /// </summary>
         /// <param name="oldName"></param>
         /// <param name="bundleRenamed"></param>
-        public BundleRenamedMessage(string oldName, BundleModel bundleRenamed)
+        public BundleRenamedMessage(string oldName, BundleTemplateModel bundleRenamed)
         {
             OldName = oldName;
             BundleRenamed = bundleRenamed;
@@ -26,6 +26,6 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the bundle that was renamed.
         /// </summary>
-        public BundleModel BundleRenamed { get; }
+        public BundleTemplateModel BundleRenamed { get; }
     }
 }

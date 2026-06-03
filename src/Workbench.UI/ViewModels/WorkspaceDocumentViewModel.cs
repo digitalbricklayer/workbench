@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -185,10 +187,10 @@ namespace Workbench.ViewModels
             DoDocumentChange();
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
-            _eventAggregator.Subscribe(this);
+            await base.OnInitializedAsync(cancellationToken);
+            _eventAggregator.SubscribeOnPublishedThread(this);
         }
 
         /// <summary>
@@ -246,7 +248,7 @@ namespace Workbench.ViewModels
             }
 
             IsDirty = false;
-            _eventAggregator.PublishOnUIThread(new DocumentSavedMessage(this));
+            _eventAggregator.PublishOnUIThreadAsync(new DocumentSavedMessage(this));
 
             return true;
         }
@@ -283,6 +285,11 @@ namespace Workbench.ViewModels
         {
             IsNew = false;
             IsDirty = true;
+        }
+
+        public Task HandleAsync(WorkspaceChangedMessage message, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

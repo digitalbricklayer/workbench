@@ -6,7 +6,7 @@ namespace Workbench.Core
     {
         private ConstraintExpressionModel expression = new ConstraintExpressionModel();
         private ModelName name = new ModelName("New Constraint");
-        private BundleModel _model;
+        private BundleTemplateModel _model;
 
         public ExpressionConstraintBuilder WithName(string theName)
         {
@@ -20,7 +20,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public ExpressionConstraintBuilder Inside(BundleModel theBundle)
+        public ExpressionConstraintBuilder Inside(BundleTemplateModel theBundle)
         {
             _model = theBundle;
             return this;

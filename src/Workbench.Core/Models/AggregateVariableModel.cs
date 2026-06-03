@@ -21,7 +21,7 @@ namespace Workbench.Core.Models
         private VariableModel[] variables;
         private InlineDomainModel domain;
 
-        public AggregateVariableModel(BundleModel bundle, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
+        public AggregateVariableModel(BundleTemplateModel bundle, ModelName newVariableName, int aggregateSize, InlineDomainModel theDomain)
             : base(bundle, newVariableName, theDomain)
         {
             if (aggregateSize < DefaultSize)
@@ -38,7 +38,7 @@ namespace Workbench.Core.Models
         /// </summary>
         /// <param name="bundle">Bundle the variable belongs.</param>
         /// <param name="newName">New variable name.</param>
-        public AggregateVariableModel(BundleModel bundle, ModelName newName)
+        public AggregateVariableModel(BundleTemplateModel bundle, ModelName newName)
             : this(bundle, newName, DefaultSize, new InlineDomainModel())
         {
         }

@@ -31,8 +31,8 @@ namespace Workbench.Commands
             _workspace = _documentManager.CurrentDocument.Workspace;
             var visualizerExpressionItems = CreateVisualizerCollectionFrom(_workspace.Bindings);
             var solutionEditorViewModel = new SolutionEditorViewModel(visualizerExpressionItems, _windowManager);
-            var showDialogResult = _windowManager.ShowDialog(solutionEditorViewModel);
-            if (!showDialogResult.GetValueOrDefault()) return;
+            var showDialogResult = _windowManager.ShowDialogAsync(solutionEditorViewModel);
+            if (!showDialogResult.Result.GetValueOrDefault()) return;
 			UpdateBindingsFrom(solutionEditorViewModel);
         }
 

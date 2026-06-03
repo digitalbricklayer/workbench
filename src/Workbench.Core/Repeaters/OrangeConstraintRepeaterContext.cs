@@ -47,7 +47,7 @@ namespace Workbench.Core.Repeaters
         /// <summary>
         /// Gets the bundle.
         /// </summary>
-        internal BundleModel Bundle { get; private set; }
+        internal BundleTemplateModel Bundle { get; private set; }
 
         /// <summary>
         /// Move to the next counter value set.

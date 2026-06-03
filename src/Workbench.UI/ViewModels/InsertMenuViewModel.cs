@@ -69,14 +69,14 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableAction()
         {
             var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
-            var dialogResult = this.windowManager.ShowDialog(singletonVariableEditorViewModel);
-            if (!dialogResult.GetValueOrDefault()) return;
+            var dialogResult = this.windowManager.ShowDialogAsync(singletonVariableEditorViewModel);
+            if (!dialogResult.Result.GetValueOrDefault()) return;
             var singletonVariableModel = new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                        .WithDomain(singletonVariableEditorViewModel.DomainExpression)
                                                                        .Inside(Workspace.WorkspaceModel.Model)
                                                                        .Build();
             this.Workspace.AddSingletonVariable(singletonVariableModel);
-            this.eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(singletonVariableModel));
+            this.eventAggregator.PublishOnUIThreadAsync(new SingletonVariableAddedMessage(singletonVariableModel));
         }
 
         /// <summary>
@@ -85,15 +85,15 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableAction()
         {
             var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
-            var dialogResult = this.windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!dialogResult.GetValueOrDefault()) return;
+            var dialogResult = this.windowManager.ShowDialogAsync(aggregateVariableEditorViewModel);
+            if (!dialogResult.Result.GetValueOrDefault()) return;
             var newAggregate = new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
                                                              .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
                                                              .WithSize(aggregateVariableEditorViewModel.Size)
                                                              .Inside(Workspace.WorkspaceModel.Model)
                                                              .Build();
             this.Workspace.AddAggregateVariable(newAggregate);
-            this.eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newAggregate));
+            this.eventAggregator.PublishOnUIThreadAsync(new AggregateVariableAddedMessage(newAggregate));
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace Workbench.ViewModels
         private void AddExpressionConstraintAction()
         {
             var expressionConstraintEditorViewModel = new ExpressionConstraintEditorViewModel();
-            var x = this.windowManager.ShowDialog(expressionConstraintEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = this.windowManager.ShowDialogAsync(expressionConstraintEditorViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             Workspace.AddExpressionConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditorViewModel.ConstraintName)
                                                                                .Inside(Workspace.WorkspaceModel.Model)
                                                                                .WithExpression(expressionConstraintEditorViewModel.ConstraintExpression)
@@ -116,8 +116,8 @@ namespace Workbench.ViewModels
         private void AddAllDifferentConstraintAction()
         {
             var allDifferentConstraintEditorViewModel = new AllDifferentConstraintEditorViewModel(Workspace.WorkspaceModel.Model);
-            var result = this.windowManager.ShowDialog(allDifferentConstraintEditorViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = this.windowManager.ShowDialogAsync(allDifferentConstraintEditorViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
             Workspace.AddAllDifferentConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditorViewModel.ConstraintName)
                                                                                    .WithExpression(allDifferentConstraintEditorViewModel.SelectedVariable)
                                                                                    .Inside(Workspace.WorkspaceModel.Model)
@@ -130,8 +130,8 @@ namespace Workbench.ViewModels
         private void AddDomainAction()
         {
             var domainEditorViewModel = new SharedDomainEditorViewModel();
-            var x = this.windowManager.ShowDialog(domainEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = this.windowManager.ShowDialogAsync(domainEditorViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             this.Workspace.AddDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
                                                               .Inside(Workspace.WorkspaceModel.Model)
                                                               .WithDomain(domainEditorViewModel.DomainExpression)

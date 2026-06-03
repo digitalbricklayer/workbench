@@ -31,8 +31,8 @@ namespace Workbench.ViewModels
             var allDifferentConstraintEditor = new AllDifferentConstraintEditorViewModel(AllDifferentConstraint.Parent);
             allDifferentConstraintEditor.ConstraintName = AllDifferentConstraint.Name;
             allDifferentConstraintEditor.SelectedVariable = AllDifferentConstraint.Expression.Text;
-            var result = _windowManager.ShowDialog(allDifferentConstraintEditor);
-            if (!result.HasValue) return;
+            var result = _windowManager.ShowDialogAsync(allDifferentConstraintEditor);
+            if (!result.Result.HasValue) return;
             DisplayName = AllDifferentConstraint.Name.Text = allDifferentConstraintEditor.ConstraintName;
             ExpressionText = AllDifferentConstraint.Expression.Text = allDifferentConstraintEditor.SelectedVariable;
         }

@@ -45,7 +45,7 @@ namespace Workbench.ViewModels
         private void DisplayErrorDialog(ModelValidationContext theContext)
         {
             var errorsViewModel = CreateModelErrorsFrom(theContext);
-            _windowManager.ShowDialog(errorsViewModel);
+            _windowManager.ShowDialogAsync(errorsViewModel);
         }
 
         /// <summary>

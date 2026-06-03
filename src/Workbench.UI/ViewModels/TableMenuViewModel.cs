@@ -62,8 +62,8 @@ namespace Workbench.ViewModels
             var selectedTableTab = GetSelectedTableTab();
             Debug.Assert(selectedTableTab.SelectedColumn != null);
             var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this._windowManager.ShowDialog(columnNameEditor);
-            if (result.GetValueOrDefault())
+            var result = this._windowManager.ShowDialogAsync(columnNameEditor);
+            if (result.Result.GetValueOrDefault())
             {
                 selectedTableTab.AddColumnAfter(selectedTableTab.SelectedColumn.Value, new TableColumnModel(columnNameEditor.ColumnName));
             }
@@ -74,8 +74,8 @@ namespace Workbench.ViewModels
             var selectedTableTab = GetSelectedTableTab();
             Debug.Assert(selectedTableTab.SelectedColumn != null);
             var columnNameEditor = new ColumnNameEditorViewModel();
-            var result = this._windowManager.ShowDialog(columnNameEditor);
-            if (result.GetValueOrDefault())
+            var result = this._windowManager.ShowDialogAsync(columnNameEditor);
+            if (result.Result.GetValueOrDefault())
             {
                 selectedTableTab.AddColumnBefore(selectedTableTab.SelectedColumn.Value, new TableColumnModel(columnNameEditor.ColumnName));
             }

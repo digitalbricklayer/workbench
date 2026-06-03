@@ -15,7 +15,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a workspace, variable name and domain expression.
         /// </summary>
-        protected VariableModel(BundleModel bundle, ModelName variableName, InlineDomainModel theDomain)
+        protected VariableModel(BundleTemplateModel bundle, ModelName variableName, InlineDomainModel theDomain)
             : base(variableName)
         {
             Workspace = bundle.Workspace;
@@ -26,7 +26,7 @@ namespace Workbench.Core.Models
         /// <summary>
         /// Initializes a variable with a variable name.
         /// </summary>
-        protected VariableModel(BundleModel bundle, ModelName variableName)
+        protected VariableModel(BundleTemplateModel bundle, ModelName variableName)
             : base(variableName)
         {
             Workspace = bundle.Workspace;
@@ -112,7 +112,7 @@ namespace Workbench.Core.Models
         /// Return true if the variable is valid, return false if 
         /// the variable is not valid.
         /// </returns>
-        public bool Validate(BundleModel bundle)
+        public bool Validate(BundleTemplateModel bundle)
         {
             return Validate(bundle, new ModelValidationContext());
         }
@@ -124,7 +124,7 @@ namespace Workbench.Core.Models
         /// Return true if the variable is valid, return false if 
         /// the variable is not valid.
         /// </returns>
-        public bool Validate(BundleModel bundle, ModelValidationContext theContext)
+        public bool Validate(BundleTemplateModel bundle, ModelValidationContext theContext)
         {
             // The Node will be null if the parser failed
             if (DomainExpression.Node == null) return false;
@@ -134,7 +134,7 @@ namespace Workbench.Core.Models
             return ValidateDomainReferences(bundle, theContext);
         }
 
-        private bool ValidateDomainReferences(BundleModel bundle, ModelValidationContext validateContext)
+        private bool ValidateDomainReferences(BundleTemplateModel bundle, ModelValidationContext validateContext)
         {
             if (DomainExpression == null)
             {
@@ -156,7 +156,7 @@ namespace Workbench.Core.Models
             return true;
         }
 
-        private bool ValidateTableReferences(BundleModel bundle, ModelValidationContext theContext)
+        private bool ValidateTableReferences(BundleTemplateModel bundle, ModelValidationContext theContext)
         {
             var variableCaptureVisitor = new TableCellReferenceCaptureVisitor();
             DomainExpression.Node.AcceptVisitor(variableCaptureVisitor);

@@ -52,7 +52,7 @@ namespace Workbench.Core.Solvers
             // Constraints inside bundles must be processed after the bucket maps have been created
             foreach (var bucket in model.Buckets)
             {
-                foreach (var allDifferentConstraint in bucket.Bundle.AllDifferentConstraints)
+                foreach (var allDifferentConstraint in bucket.Template.AllDifferentConstraints)
                 {
                     var variableNames = new List<string>(ExtractVariablesFrom(allDifferentConstraint.Expression.Text));
 

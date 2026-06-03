@@ -231,7 +231,7 @@ namespace Workbench.Core.Solvers
                     var label = new SingletonVariableLabelModel(variableModel, new ValueModel(variableModelValue));
                     variableLabels.Add(label);
                 }
-                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Bundle, variableLabels));
+                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Template, variableLabels));
             }
 
             return new BucketLabelModel(bucketVariableMap.Bucket, bundleLabels);

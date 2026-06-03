@@ -1,4 +1,6 @@
 using Caliburn.Micro;
+using System.Threading;
+using System.Threading.Tasks;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -69,9 +71,9 @@ namespace Workbench.ViewModels
             Stats.BindTo(theSolution);
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
             Viewer = new SolutionViewerPanelViewModel();
             Items.Add(Viewer);
             Stats = new SolutionStatsPanelViewModel();

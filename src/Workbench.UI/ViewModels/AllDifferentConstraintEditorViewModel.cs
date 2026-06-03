@@ -12,12 +12,12 @@ namespace Workbench.ViewModels
         private string _constraintName;
         private string _selectedVariable;
         private ObservableCollection<string> _variables;
-        private readonly BundleModel _bundle;
+        private readonly BundleTemplateModel _bundle;
 
         /// <summary>
         /// Initialize an all different constraint editor view model with the bundle.
         /// </summary>
-        public AllDifferentConstraintEditorViewModel(BundleModel theBundle)
+        public AllDifferentConstraintEditorViewModel(BundleTemplateModel theBundle)
         {
             _bundle = theBundle;
             Validator = new AllDifferentConstraintEditorViewModelValidator();
@@ -65,9 +65,9 @@ namespace Workbench.ViewModels
             }
         }
 
-        protected override void OnInitialize()
+        protected override void OnViewLoaded(object view)
         {
-            base.OnInitialize();
+            base.OnViewLoaded(view);
             // Give the user the option not to select anything
             Variables.Add(string.Empty);
             foreach (var anAggregateVariable in _bundle.Aggregates)

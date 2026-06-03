@@ -1,4 +1,6 @@
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Workbench.Messages;
 using Workbench.Properties;
@@ -41,18 +43,20 @@ namespace Workbench.ViewModels
         /// Handle workspace change messages.
         /// </summary>
         /// <param name="message">Change message.</param>
-        public void Handle(WorkspaceChangedMessage message)
+        public Task HandleAsync(WorkspaceChangedMessage message, CancellationToken cancellationToken)
         {
             UpdateTitle();
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Handle document change messages
         /// </summary>
         /// <param name="message"></param>
-        public void Handle(DocumentChangedMessage message)
+        public Task HandleAsync(DocumentChangedMessage message, CancellationToken cancellationToken)
         {
             UpdateTitle();
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -82,10 +86,10 @@ namespace Workbench.ViewModels
             Title = newTitle;
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
-            _eventAggregator.Subscribe(this);
+            await base.OnInitializedAsync(cancellationToken);
+            _eventAggregator.SubscribeOnPublishedThread(this);
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Accept()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
 
         /// <summary>
@@ -95,10 +95,10 @@ namespace Workbench.ViewModels
         private void AddExpression()
         {
             var expressionEditor = new VisualizerExpressionEditorViewModel();
-            var status = _windowManager.ShowDialog(expressionEditor);
-            if (!status.GetValueOrDefault()) return;
+            var status = _windowManager.ShowDialogAsync(expressionEditor);
+            if (!status.Result.GetValueOrDefault()) return;
             var newExpressionItem = new VisualizerExpressionItemViewModel(expressionEditor.Expression);
-            ActivateItem(newExpressionItem);
+            ActivateItemAsync(newExpressionItem);
             _added.Add(newExpressionItem);
         }
 
@@ -117,7 +117,7 @@ namespace Workbench.ViewModels
                  */
                 _deleted.Add(ActiveItem.Id);
             }
-            DeactivateItem(ActiveItem, close: true);
+            DeactivateItemAsync(ActiveItem, close: true);
         }
 
         /// <summary>
@@ -134,8 +134,8 @@ namespace Workbench.ViewModels
             var originalText = ActiveItem.Text;
             var expressionEditor = new VisualizerExpressionEditorViewModel();
             expressionEditor.Expression = ActiveItem.Text;
-            var status = _windowManager.ShowDialog(expressionEditor);
-            if (!status.GetValueOrDefault()) return;
+            var status = _windowManager.ShowDialogAsync(expressionEditor);
+            if (!status.Result.GetValueOrDefault()) return;
             ActiveItem.Text = expressionEditor.Expression;
             if (originalText != ActiveItem.Text && ActiveItem.Id != default(int))
                 _updated.Add(ActiveItem);

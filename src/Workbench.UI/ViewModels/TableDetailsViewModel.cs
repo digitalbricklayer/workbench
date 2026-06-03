@@ -89,8 +89,8 @@ namespace Workbench.ViewModels
         {
             var expressionEditor = new PropertyExpressionEditorViewModel();
             expressionEditor.Expression = TextExpression;
-            var status = _windowManager.ShowDialog(expressionEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(expressionEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             TextExpression = expressionEditor.Expression;
         }
 
@@ -98,8 +98,8 @@ namespace Workbench.ViewModels
         {
             var expressionEditor = new PropertyExpressionEditorViewModel();
             expressionEditor.Expression = BackgroundColorExpression;
-            var status = _windowManager.ShowDialog(expressionEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(expressionEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             BackgroundColorExpression = expressionEditor.Expression;
         }
     }

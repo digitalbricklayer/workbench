@@ -10,13 +10,13 @@ namespace Workbench.Core.Solvers
     {
         private readonly List<OrSingletonVariableMap> _variableMap;
 
-        internal OrBundleMap(BundleModel bundle)
+        internal OrBundleMap(BundleTemplateModel bundle)
         {
             Bundle = bundle;
             _variableMap = new List<OrSingletonVariableMap>();
         }
 
-        internal BundleModel Bundle { get; }
+        internal BundleTemplateModel Bundle { get; }
 
         internal IReadOnlyCollection<OrSingletonVariableMap> GetVariableMaps()
         {

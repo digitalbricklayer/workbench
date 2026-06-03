@@ -87,7 +87,7 @@ namespace Workbench.Core.Solvers
                     var modelValue = ConvertSolverValueToModel(bucketVariableMap.Bucket, solverValue);
                     variableLabels.Add(new SingletonVariableLabelModel(variableMap.ModelVariable, new ValueModel(modelValue)));
                 }
-                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Bundle, variableLabels));
+                bundleLabels.Add(new BundleLabelModel(bucketVariableMap.Bucket.Template, variableLabels));
             }
 
             var bucketLabel = new BucketLabelModel(bucketVariableMap.Bucket, bundleLabels);

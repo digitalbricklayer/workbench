@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Workbench.Core.Models;
 using Workbench.Messages;
@@ -34,10 +36,10 @@ namespace Workbench.ViewModels
             _windowManager = theWindowManager;
             ModelModel = _dataService.GetWorkspace().Model;
             _rootBundleEditor = new BundleEditorViewModel(ModelModel, theDataService, theWindowManager, theEventAggregator);
-            ActivateItem(_rootBundleEditor);
+            ActivateItemAsync(_rootBundleEditor);
             SelectedBundleName = Resources.ModelRootName;
             BundleNames.Add(Resources.ModelRootName);
-            _eventAggregator.Subscribe(this);
+            _eventAggregator.SubscribeOnPublishedThread(this);
         }
 
         /// <summary>
@@ -96,20 +98,20 @@ namespace Workbench.ViewModels
                 _selectedBundleName = value;
                 if (_selectedBundleName == Resources.ModelRootName)
                 {
-                    ChangeActiveItem(_rootBundleEditor, closePrevious:false);
+                    ChangeActiveItemAsync(_rootBundleEditor, closePrevious:false);
                 }
                 else
                 {
                     var existingBundleEditor = FindBundleEditor(_selectedBundleName);
                     if (existingBundleEditor != null)
                     {
-                        ChangeActiveItem(existingBundleEditor, closePrevious: false);
+                        ChangeActiveItemAsync(existingBundleEditor, closePrevious: false);
                     }
                     else
                     {
                         var bundleModel = ModelModel.GetBundleByName(_selectedBundleName);
                         var newBundleEditor = new BundleEditorViewModel(bundleModel, _dataService, _windowManager, _eventAggregator);
-                        ChangeActiveItem(newBundleEditor, closePrevious: false);
+                        ChangeActiveItemAsync(newBundleEditor, closePrevious: false);
                     }
                 }
                 NotifyOfPropertyChange();
@@ -164,26 +166,29 @@ namespace Workbench.ViewModels
             ActiveItem.DeleteVariable(variableToDelete);
         }
 
-        public void EditBundle(BundleModel bundleToEdit)
+        public void EditBundle(BundleTemplateModel bundleToEdit)
         {
             var newBundleEditor = new BundleEditorViewModel(bundleToEdit, _dataService, _windowManager, _eventAggregator);
-            ActivateItem(newBundleEditor);
+            ActivateItemAsync(newBundleEditor);
         }
 
-        public void Handle(BundleAddedMessage message)
+        public Task HandleAsync(BundleDeletedMessage message, CancellationToken cancellationToken)
         {
-            BundleNames.Add(message.BundleAdded.Name);
+            BundleNames.Remove(message.BundleDeleted.Name);
+            return Task.CompletedTask;
         }
 
-        public void Handle(BundleRenamedMessage message)
+        public Task HandleAsync(BundleRenamedMessage message, CancellationToken cancellationToken)
         {
             var nameIndex = BundleNames.IndexOf(message.OldName);
             BundleNames[nameIndex] = message.BundleRenamed.Name.Text;
+            return Task.CompletedTask;
         }
 
-        public void Handle(BundleDeletedMessage message)
+        public Task HandleAsync(BundleAddedMessage message, CancellationToken cancellationToken)
         {
-            BundleNames.Remove(message.BundleDeleted.Name);
+            BundleNames.Add(message.BundleAdded.Name);
+            return Task.CompletedTask;
         }
 
         internal void FixupAggregateVariable(AggregateVariableModelItemViewModel variableViewModel)
@@ -206,10 +211,10 @@ namespace Workbench.ViewModels
             ActiveItem.FixupDomain(domainViewModel);
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
             DisplayName = Resources.ModelEditorTabName;
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
         }
 
         /// <summary>

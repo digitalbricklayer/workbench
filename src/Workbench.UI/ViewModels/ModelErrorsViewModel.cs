@@ -26,7 +26,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void CloseButton()
         {
-            this.TryClose(true);
+            this.TryCloseAsync(true);
         }
     }
 }

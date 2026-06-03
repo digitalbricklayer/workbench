@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
         Title="Model Errors"
         Height="300" Width="300"
         ResizeMode="NoResize"
@@ -17,11 +18,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Content="Close">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
+            <i1:Interaction.Triggers>
+                <i1:EventTrigger EventName="Click">
                     <cal:ActionMessage MethodName="CloseButton" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                </i1:EventTrigger>
+            </i1:Interaction.Triggers>
         </Button>
     </StackPanel>
 </Window>

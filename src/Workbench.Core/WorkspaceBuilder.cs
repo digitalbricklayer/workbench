@@ -9,7 +9,7 @@ namespace Workbench.Core
     public sealed class WorkspaceBuilder
     {
         private readonly WorkspaceModel _workspace;
-        private readonly BundleModel _model;
+        private readonly BundleTemplateModel _model;
 
         /// <summary>
         /// Initialize a workspace builder with a model name.

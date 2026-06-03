@@ -16,20 +16,20 @@ namespace Workbench.Core.Models
     {
         private AllDifferentConstraintExpressionModel _expression;
 
-        public AllDifferentConstraintModel(BundleModel bundle, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleTemplateModel bundle, ModelName theName, AllDifferentConstraintExpressionModel theExpressionModel)
             : base(theName)
         {
             Parent = bundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(BundleModel bundle, AllDifferentConstraintExpressionModel theExpressionModel)
+        public AllDifferentConstraintModel(BundleTemplateModel bundle, AllDifferentConstraintExpressionModel theExpressionModel)
         {
             Parent = bundle;
             Expression = theExpressionModel;
         }
 
-        public AllDifferentConstraintModel(BundleModel bundle)
+        public AllDifferentConstraintModel(BundleTemplateModel bundle)
         {
             Parent = bundle;
             Expression = new AllDifferentConstraintExpressionModel();
@@ -54,7 +54,7 @@ namespace Workbench.Core.Models
         /// Return true if the constraint is valid, return false if 
         /// the constraint is not valid.
         /// </returns>
-        public override bool Validate(BundleModel bundle, ModelValidationContext theContext)
+        public override bool Validate(BundleTemplateModel bundle, ModelValidationContext theContext)
         {
             if (string.IsNullOrWhiteSpace(Expression.Text))
             {

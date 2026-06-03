@@ -53,15 +53,15 @@ namespace Workbench.ViewModels
             aggregateVariableEditorViewModel.DomainExpression = AggregateVariable.DomainExpression.Text;
             aggregateVariableEditorViewModel.Size = AggregateVariable.AggregateCount;
             var oldName = AggregateVariable.Name.Text;
-            var result = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = _windowManager.ShowDialogAsync(aggregateVariableEditorViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
             DisplayName = AggregateVariable.Name.Text = aggregateVariableEditorViewModel.VariableName;
             DomainExpressionText = AggregateVariable.DomainExpression.Text = aggregateVariableEditorViewModel.DomainExpression;
             VariableCount = aggregateVariableEditorViewModel.Size;
             AggregateVariable.Resize(aggregateVariableEditorViewModel.Size);
             if (oldName != aggregateVariableEditorViewModel.VariableName)
             {
-                _eventAggregator.PublishOnUIThread(new VariableRenamedMessage(new ModelName(oldName), AggregateVariable));
+                _eventAggregator.PublishOnUIThreadAsync(new VariableRenamedMessage(new ModelName(oldName), AggregateVariable));
             }
         }
     }

@@ -9,13 +9,13 @@ namespace Workbench.Core.Solvers
     {
         private readonly List<OrangeSingletonVariableMap> _variableMap;
 
-        internal OrangeBundleMap(BundleModel bundle)
+        internal OrangeBundleMap(BundleTemplateModel bundle)
         {
             Bundle = bundle;
             _variableMap = new List<OrangeSingletonVariableMap>();
         }
 
-        internal BundleModel Bundle { get; }
+        internal BundleTemplateModel Bundle { get; }
 
         internal IReadOnlyCollection<OrangeSingletonVariableMap> GetVariableMaps()
         {

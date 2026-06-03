@@ -11,7 +11,7 @@ namespace Workbench.Messages
         /// Initialize a new bundle added message with the new bundle.
         /// </summary>
         /// <param name="newBundle">New bundle.</param>
-        public BundleAddedMessage(BundleModel newBundle)
+        public BundleAddedMessage(BundleTemplateModel newBundle)
         {
             BundleAdded = newBundle;
         }
@@ -19,6 +19,6 @@ namespace Workbench.Messages
         /// <summary>
         /// Gets the bundle that has been added.
         /// </summary>
-        public BundleModel BundleAdded { get; }
+        public BundleTemplateModel BundleAdded { get; }
     }
 }

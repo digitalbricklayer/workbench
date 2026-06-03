@@ -10,7 +10,7 @@ namespace Workbench.ViewModels
     {
         private readonly ModelEditorTabViewModel _modelEditorTab;
 
-        public BundleModelItemViewModel(BundleModel bundle, ModelEditorTabViewModel modelEditorTab)
+        public BundleModelItemViewModel(BundleTemplateModel bundle, ModelEditorTabViewModel modelEditorTab)
             : base(bundle)
         {
             _modelEditorTab = modelEditorTab;
@@ -22,7 +22,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the bundle model associated with the model item.
         /// </summary>
-        public BundleModel Bundle { get; }
+        public BundleTemplateModel Bundle { get; }
 
         /// <summary>
         /// Edit the contents of the bundle.

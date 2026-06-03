@@ -6,7 +6,7 @@ namespace Workbench.Core
     public sealed class SingletonVariableBuilder
     {
         private ModelName variableName;
-        private BundleModel bundle;
+        private BundleTemplateModel bundle;
         private InlineDomainModel domain;
 
         public SingletonVariableBuilder WithName(string theVariableName)
@@ -21,7 +21,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public SingletonVariableBuilder Inside(BundleModel theBundle)
+        public SingletonVariableBuilder Inside(BundleTemplateModel theBundle)
         {
             this.bundle = theBundle;
             return this;

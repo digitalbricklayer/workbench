@@ -5,13 +5,13 @@ namespace Workbench.Core.Repeaters
 {
     internal sealed class FunctionInvocationContext
     {
-        public FunctionInvocationContext(FunctionInvocationNode theFunctionInvocationNode, BundleModel bundle)
+        public FunctionInvocationContext(FunctionInvocationNode theFunctionInvocationNode, BundleTemplateModel bundle)
         {
             FunctionInvocation = theFunctionInvocationNode;
             Bundle = bundle;
         }
 
         public FunctionInvocationNode FunctionInvocation { get; private set; }
-        public BundleModel Bundle { get; private set; }
+        public BundleTemplateModel Bundle { get; private set; }
     }
 }

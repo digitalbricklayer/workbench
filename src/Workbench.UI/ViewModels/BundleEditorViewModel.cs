@@ -33,7 +33,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Initialize a bundle editor view model with the bundle model, data service, window manager and event aggregator.
         /// </summary>
-        public BundleEditorViewModel(BundleModel theBundle, IDataService theDataService, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
+        public BundleEditorViewModel(BundleTemplateModel theBundle, IDataService theDataService, IWindowManager theWindowManager, IEventAggregator theEventAggregator)
         {
             _windowManager = theWindowManager;
             _eventAggregator = theEventAggregator;
@@ -63,7 +63,7 @@ namespace Workbench.ViewModels
         /// <summary>
         /// Gets the bundle model currently being edited.
         /// </summary>
-        public BundleModel Bundle { get; }
+        public BundleTemplateModel Bundle { get; }
 
         /// <summary>
         /// Gets the collection of variables.
@@ -265,12 +265,12 @@ namespace Workbench.ViewModels
         /// Add a new bundle to the current bundle.
         /// </summary>
         /// <param name="newBundleModel">New bundle.</param>
-        public void AddBundle(BundleModel newBundleModel)
+        public void AddBundle(BundleTemplateModel newBundleModel)
         {
             var newBundleItem = new BundleModelItemViewModel(newBundleModel, Parent as ModelEditorTabViewModel);
             FixupBundle(newBundleItem);
             AddBundleToModel(newBundleItem);
-            _eventAggregator.PublishOnUIThread(new BundleAddedMessage(newBundleModel));
+            _eventAggregator.PublishOnUIThreadAsync(new BundleAddedMessage(newBundleModel));
         }
 
         /// <summary>
@@ -281,9 +281,9 @@ namespace Workbench.ViewModels
         {
             Items.Remove(variableToDelete);
             Variables.Remove(variableToDelete);
-            DeactivateItem(variableToDelete, close: true);
+            DeactivateItemAsync(variableToDelete, close: true);
             DeleteVariableFromModel(variableToDelete);
-            _eventAggregator.PublishOnUIThread(new VariableDeletedMessage(variableToDelete.Variable));
+            _eventAggregator.PublishOnUIThreadAsync(new VariableDeletedMessage(variableToDelete.Variable));
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Workbench.ViewModels
         public void DeleteDomain(SharedDomainModelItemViewModel domainToDelete)
         {
             Domains.Remove(domainToDelete);
-            DeactivateItem(domainToDelete, close: true);
+            DeactivateItemAsync(domainToDelete, close: true);
             DeleteDomainFromModel(domainToDelete);
         }
 
@@ -304,7 +304,7 @@ namespace Workbench.ViewModels
         public void DeleteConstraint(ConstraintModelItemViewModel constraintToDelete)
         {
             Constraints.Remove(constraintToDelete);
-            DeactivateItem(constraintToDelete, close: true);
+            DeactivateItemAsync(constraintToDelete, close: true);
             DeleteConstraintFromModel(constraintToDelete);
         }
 
@@ -315,9 +315,9 @@ namespace Workbench.ViewModels
         public void DeleteBundle(BundleModelItemViewModel bundleToDelete)
         {
             Bundles.Remove(bundleToDelete);
-            DeactivateItem(bundleToDelete, close: true);
+            DeactivateItemAsync(bundleToDelete, close: true);
             DeleteBundleFromModel(bundleToDelete);
-            _eventAggregator.PublishOnUIThread(new BundleDeletedMessage(bundleToDelete.Bundle));
+            _eventAggregator.PublishOnUIThreadAsync(new BundleDeletedMessage(bundleToDelete.Bundle));
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Workbench.ViewModels
         internal void FixupSingletonVariable(SingletonVariableModelItemViewModel variableViewModel)
         {
             Variables.Add(variableViewModel);
-            ActivateItem(variableViewModel);
+            ActivateItemAsync(variableViewModel);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Workbench.ViewModels
         internal void FixupAggregateVariable(AggregateVariableModelItemViewModel variableViewModel)
         {
             Variables.Add(variableViewModel);
-            ActivateItem(variableViewModel);
+            ActivateItemAsync(variableViewModel);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace Workbench.ViewModels
         internal void FixupDomain(SharedDomainModelItemViewModel domainViewModel)
         {
             Domains.Add(domainViewModel);
-            ActivateItem(domainViewModel);
+            ActivateItemAsync(domainViewModel);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace Workbench.ViewModels
         internal void FixupConstraint(ConstraintModelItemViewModel constraintViewModel)
         {
             Constraints.Add(constraintViewModel);
-            ActivateItem(constraintViewModel);
+            ActivateItemAsync(constraintViewModel);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Workbench.ViewModels
         internal void FixupBundle(BundleModelItemViewModel bundleItem)
         {
             Bundles.Add(bundleItem);
-            ActivateItem(bundleItem);
+            ActivateItemAsync(bundleItem);
         }
 
         /// <summary>
@@ -450,8 +450,8 @@ namespace Workbench.ViewModels
         private void AddSingletonVariableAction()
         {
             var singletonVariableEditorViewModel = new SingletonVariableEditorViewModel();
-            var x = _windowManager.ShowDialog(singletonVariableEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = _windowManager.ShowDialogAsync(singletonVariableEditorViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             AddSingletonVariable(new SingletonVariableBuilder().WithName(singletonVariableEditorViewModel.VariableName)
                                                                .WithDomain(singletonVariableEditorViewModel.DomainExpression)
                                                                .Inside(Bundle)
@@ -461,8 +461,8 @@ namespace Workbench.ViewModels
         private void AddAggregateVariableAction()
         {
             var aggregateVariableEditorViewModel = new AggregateVariableEditorViewModel();
-            var x = _windowManager.ShowDialog(aggregateVariableEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = _windowManager.ShowDialogAsync(aggregateVariableEditorViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             AddAggregateVariable(new AggregateVariableBuilder().WithName(aggregateVariableEditorViewModel.VariableName)
                                                                .WithDomain(aggregateVariableEditorViewModel.DomainExpression)
                                                                .WithSize(aggregateVariableEditorViewModel.Size)
@@ -473,8 +473,8 @@ namespace Workbench.ViewModels
         private void AddDomainAction()
         {
             var domainEditorViewModel = new SharedDomainEditorViewModel();
-            var x = _windowManager.ShowDialog(domainEditorViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = _windowManager.ShowDialogAsync(domainEditorViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             Bundle.AddSharedDomain(new SharedDomainBuilder().WithName(domainEditorViewModel.DomainName)
                                                          .Inside(Bundle)
                                                          .WithDomain(domainEditorViewModel.DomainExpression)
@@ -484,8 +484,8 @@ namespace Workbench.ViewModels
         private void AddExpressionConstraintAction()
         {
             var expressionConstraintEditViewModel = new ExpressionConstraintEditorViewModel();
-            var x = _windowManager.ShowDialog(expressionConstraintEditViewModel);
-            if (!x.GetValueOrDefault()) return;
+            var x = _windowManager.ShowDialogAsync(expressionConstraintEditViewModel);
+            if (!x.Result.GetValueOrDefault()) return;
             AddConstraint(new ExpressionConstraintBuilder().WithName(expressionConstraintEditViewModel.ConstraintName)
                                                            .Inside(Bundle)
                                                            .WithExpression(expressionConstraintEditViewModel.ConstraintExpression)
@@ -495,8 +495,8 @@ namespace Workbench.ViewModels
         private void AddAllDifferentConstraintAction()
         {
             var allDifferentConstraintEditViewModel = new AllDifferentConstraintEditorViewModel(Bundle);
-            var result = _windowManager.ShowDialog(allDifferentConstraintEditViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = _windowManager.ShowDialogAsync(allDifferentConstraintEditViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
             AddConstraint(new AllDifferentConstraintBuilder().WithName(allDifferentConstraintEditViewModel.ConstraintName)
                                                              .WithExpression(allDifferentConstraintEditViewModel.SelectedVariable)
                                                              .Inside(Bundle)
@@ -506,9 +506,9 @@ namespace Workbench.ViewModels
         private void AddBundleAction()
         {
             var bundleNameEditorViewModel = new BundleNameEditorViewModel();
-            var result = _windowManager.ShowDialog(bundleNameEditorViewModel);
-            if (!result.GetValueOrDefault()) return;
-            AddBundle(new BundleModel(new ModelName(bundleNameEditorViewModel.BundleName)));
+            var result = _windowManager.ShowDialogAsync(bundleNameEditorViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
+            AddBundle(new BundleTemplateModel(new ModelName(bundleNameEditorViewModel.BundleName)));
         }
 
         private void AddBucketAction()
@@ -554,11 +554,11 @@ namespace Workbench.ViewModels
             var oldName = Bundle.Name.Text;
             var bundleNameEditorViewModel = new BundleNameEditorViewModel();
             bundleNameEditorViewModel.BundleName = Bundle.Name.Text;
-            var result = _windowManager.ShowDialog(bundleNameEditorViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = _windowManager.ShowDialogAsync(bundleNameEditorViewModel);
+            if (!result.Result.GetValueOrDefault()) return;
             if (oldName == bundleNameEditorViewModel.BundleName) return;
             Bundle.Name.Text = DisplayName = bundleNameEditorViewModel.BundleName;
-            _eventAggregator.PublishOnUIThread(new BundleRenamedMessage(oldName, Bundle));
+            _eventAggregator.PublishOnUIThreadAsync(new BundleRenamedMessage(oldName, Bundle));
         }
 
         private void AddBundleToModel(BundleModelItemViewModel newBundleItem)

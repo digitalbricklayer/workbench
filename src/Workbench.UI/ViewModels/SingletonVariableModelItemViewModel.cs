@@ -33,13 +33,13 @@ namespace Workbench.ViewModels
             singletonVariableEditorViewModel.VariableName = SingletonVariable.Name;
             singletonVariableEditorViewModel.DomainExpression = SingletonVariable.DomainExpression.Text;
             var oldName = SingletonVariable.Name.Text;
-            var result = _windowManager.ShowDialog(singletonVariableEditorViewModel);
-            if (!result.HasValue) return;
+            var result = _windowManager.ShowDialogAsync(singletonVariableEditorViewModel);
+            if (!result.Result.HasValue) return;
             DisplayName = SingletonVariable.Name.Text = singletonVariableEditorViewModel.VariableName;
             DomainExpressionText = SingletonVariable.DomainExpression.Text = singletonVariableEditorViewModel.DomainExpression;
             if (oldName != singletonVariableEditorViewModel.VariableName)
             {
-                _eventAggregator.PublishOnUIThread(new VariableRenamedMessage(new ModelName(oldName), SingletonVariable));
+                _eventAggregator.PublishOnUIThreadAsync(new VariableRenamedMessage(new ModelName(oldName), SingletonVariable));
             }
         }
     }

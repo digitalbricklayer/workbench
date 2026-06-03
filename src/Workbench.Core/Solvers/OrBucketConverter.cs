@@ -44,8 +44,8 @@ namespace Workbench.Core.Solvers
 
             for (var i = 0; i < bucket.Size; i++)
             {
-                var bundleMap = new OrBundleMap(bucket.Bundle);
-                foreach (var singleton in bucket.Bundle.Singletons)
+                var bundleMap = new OrBundleMap(bucket.Template);
+                foreach (var singleton in bucket.Template.Singletons)
                 {
                     var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
                     _valueMapper.AddBucketDomainValue(bucket, variableBand);

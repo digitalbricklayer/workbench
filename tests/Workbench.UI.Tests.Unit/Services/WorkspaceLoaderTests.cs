@@ -65,7 +65,7 @@ namespace Workbench.UI.Tests.Unit.Services
                                                                 new ModelValidatorViewModel(CreateWindowManager(),
                                                                                             CreateDataService())));
             viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
-                                .Returns(new BundleEditorViewModel(new BundleModel(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
+                                .Returns(new BundleEditorViewModel(new BundleTemplateModel(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
             viewModelFactoryMock.Setup(factory => factory.CreateModelEditor())
                                 .Returns(new ModelEditorTabViewModel(CreateDataService(), CreateEventAggregator(), CreateWindowManager()));
 

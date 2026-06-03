@@ -5,13 +5,13 @@ namespace Workbench.Core.Models
 {
     public sealed class BundleLabelModel
     {
-        public BundleLabelModel(BundleModel bundle, IReadOnlyCollection<SingletonVariableLabelModel> labels)
+        public BundleLabelModel(BundleTemplateModel bundle, IReadOnlyCollection<SingletonVariableLabelModel> labels)
         {
             Bundle = bundle;
             Labels = labels;
         }
 
-        public BundleModel Bundle { get; }
+        public BundleTemplateModel Bundle { get; }
 
         public IReadOnlyCollection<SingletonVariableLabelModel> Labels { get; }
 

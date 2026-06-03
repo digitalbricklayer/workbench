@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Diagnostics;
 using System.Linq;
-using Caliburn.Micro;
+using System.Threading;
+using System.Threading.Tasks;
 using Workbench.Core.Models;
 using Workbench.Core.Solvers;
 using Workbench.Messages;
@@ -104,7 +106,7 @@ namespace Workbench.ViewModels
             if (!solveResult.IsSuccess) return SolveResult.Failed;
             UpdateVisualizers();
             DisplaySolution(WorkspaceModel.Solution);
-            _eventAggregator.PublishOnUIThread(new ModelSolvedMessage(solveResult));
+            _eventAggregator.PublishOnUIThreadAsync(new ModelSolvedMessage(solveResult));
 
             return solveResult;
         }
@@ -117,7 +119,7 @@ namespace Workbench.ViewModels
         public void AddSingletonVariable(SingletonVariableModel newVariable)
         {
             ModelEditor.AddSingletonVariable(newVariable);
-            _eventAggregator.PublishOnUIThread(new SingletonVariableAddedMessage(newVariable));
+            _eventAggregator.PublishOnUIThreadAsync(new SingletonVariableAddedMessage(newVariable));
         }
 
         /// <summary>
@@ -128,7 +130,7 @@ namespace Workbench.ViewModels
         public void AddAggregateVariable(AggregateVariableModel newVariable)
         {
             ModelEditor.AddAggregateVariable(newVariable);
-            _eventAggregator.PublishOnUIThread(new AggregateVariableAddedMessage(newVariable));
+            _eventAggregator.PublishOnUIThreadAsync(new AggregateVariableAddedMessage(newVariable));
         }
 
         /// <summary>
@@ -176,8 +178,8 @@ namespace Workbench.ViewModels
         public void AddTableTab(TableModel newTable)
         {
             var newTabDetailsViewModel = new NewTabDetailsViewModel();
-            var result = _windowManager.ShowDialog(newTabDetailsViewModel);
-            if (!result.GetValueOrDefault()) return;
+            var result = _windowManager.ShowDialogAsync(newTabDetailsViewModel);
+            if (result.Result.GetValueOrDefault() != true) return;
             var tableModel = TableModel.Default;
             tableModel.Name = new ModelName(newTabDetailsViewModel.TabName);
             var newTableTab = new TableTabViewModel(new TableTabModel(tableModel,
@@ -186,7 +188,7 @@ namespace Workbench.ViewModels
                                                     _windowManager);
             WorkspaceModel.Display.AddVisualizer(newTableTab.Model);
             TableTabs.Add(newTableTab);
-            ActivateItem(newTableTab);
+            ActivateItemAsync(newTableTab);
         }
 
         /// <summary>
@@ -209,7 +211,7 @@ namespace Workbench.ViewModels
                 default:
                     throw new NotImplementedException();
             }
-            DeactivateItem(tabToClose, true);
+            DeactivateItemAsync(tabToClose, true);
         }
 
         /// <summary>
@@ -252,7 +254,7 @@ namespace Workbench.ViewModels
             ChessboardTabs.Add(aChessboardTab);
             if (IsActive)
             {
-                ActivateItem(aChessboardTab);
+                ActivateItemAsync(aChessboardTab);
             }
         }
 
@@ -266,9 +268,9 @@ namespace Workbench.ViewModels
             return Bindings.FirstOrDefault(binding => binding.Id == bindingExpressionId);
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
             // The model editor is always present in the workspace
             ModelEditor = _viewModelFactory.CreateModelEditor();
             Items.Add(ModelEditor);
@@ -293,7 +295,7 @@ namespace Workbench.ViewModels
                 SolutionViewer = new SolutionViewerTabViewModel();
             }
 
-            ActivateItem(SolutionViewer);
+            ActivateItemAsync(SolutionViewer);
             SolutionViewer.BindTo(theSolution);
         }
 

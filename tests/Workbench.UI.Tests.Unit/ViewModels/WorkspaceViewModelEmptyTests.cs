@@ -14,10 +14,10 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         public void SolveWithValidModelReturnsSuccessStatus()
         {
             var sut = CreateValidWorkspace();
-            ScreenExtensions.TryActivate(sut);
+            ScreenExtensions.TryActivateAsync(sut);
             var actualStatus = sut.SolveModel();
             Assert.That(actualStatus.IsSuccess, Is.True);
-            ScreenExtensions.TryDeactivate(sut, true);
+            ScreenExtensions.TryDeactivateAsync(sut, true);
         }
 
         private WorkspaceViewModel CreateValidWorkspace()
@@ -39,7 +39,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
             viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
-                                .Returns(new BundleEditorViewModel(new BundleModel(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
+                                .Returns(new BundleEditorViewModel(new BundleTemplateModel(), CreateDataService(), CreateWindowManager(), CreateEventAggregator()));
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
                 .Returns(new ModelEditorTabViewModel(CreateDataService(), CreateEventAggregator(), CreateWindowManager()));
 

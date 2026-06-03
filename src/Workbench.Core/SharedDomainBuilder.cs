@@ -7,7 +7,7 @@ namespace Workbench.Core
     {
         private ModelName domainName;
         private SharedDomainExpressionModel expression;
-        private BundleModel _bundle;
+        private BundleTemplateModel _bundle;
 
         public SharedDomainBuilder WithName(string theVariableName)
         {
@@ -21,7 +21,7 @@ namespace Workbench.Core
             return this;
         }
 
-        public SharedDomainBuilder Inside(BundleModel theModel)
+        public SharedDomainBuilder Inside(BundleTemplateModel theModel)
         {
             _bundle = theModel;
             return this;

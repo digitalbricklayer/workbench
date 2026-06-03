@@ -10,7 +10,7 @@ namespace Workbench.Core.Models
     public abstract class Model : AbstractModel
     {
         private ModelName _name;
-        private BundleModel _parent;
+        private BundleTemplateModel _parent;
 
         /// <summary>
         /// Initialize a model entity with a name.
@@ -46,7 +46,7 @@ namespace Workbench.Core.Models
         /// Gets the parent bundle.
         /// </summary>
         /// <remarks>A bundle with a null parent is the model.</remarks>
-        public BundleModel Parent
+        public BundleTemplateModel Parent
         {
             get => _parent;
             protected set

@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Caliburn.Micro;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using Caliburn.Micro;
 using Workbench.Messages;
 using Workbench.Services;
 
@@ -88,10 +90,10 @@ namespace Workbench.ViewModels
         public void OpenDocument(IWorkspaceDocument theDocument)
         {
             CurrentDocument = theDocument;
-            ActivateItem(CurrentDocument);
+            ActivateItemAsync(CurrentDocument);
             Workspace = theDocument.Workspace;
-            ActivateItem(Workspace);
-            _eventAggregator.PublishOnUIThread(new DocumentOpenedMessage(CurrentDocument));
+            ActivateItemAsync(Workspace);
+            _eventAggregator.PublishOnUIThreadAsync(new DocumentOpenedMessage(CurrentDocument));
         }
 
         /// <summary>
@@ -103,9 +105,9 @@ namespace Workbench.ViewModels
             var closeStatus = CurrentDocument.Close();
             // Did the user cancel the close?
             if (!closeStatus) return false;
-            DeactivateItem(CurrentDocument, close: true);
-            DeactivateItem(Workspace, close: true);
-            _eventAggregator.PublishOnUIThread(new DocumentClosedMessage(CurrentDocument));
+            DeactivateItemAsync(CurrentDocument, close: true);
+            DeactivateItemAsync(Workspace, close: true);
+            _eventAggregator.PublishOnUIThreadAsync(new DocumentClosedMessage(CurrentDocument));
             CurrentDocument = null;
             return true;
         }
@@ -161,13 +163,13 @@ namespace Workbench.ViewModels
             cancelEventArgs.Cancel = false;
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
             Items.Add(ApplicationMenu);
             var newDocument = _documentManager.CreateDocument();
             OpenDocument(newDocument);
-            _eventAggregator.Subscribe(this);
+            _eventAggregator.SubscribeOnPublishedThread(this);
         }
     }
 }

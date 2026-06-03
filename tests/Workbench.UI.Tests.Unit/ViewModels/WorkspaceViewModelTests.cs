@@ -42,7 +42,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
                                                       this.eventAggregator,
                                                       CreateViewModelFactoryMock().Object,
                                                       CreateModelValidator());
-            ScreenExtensions.TryActivate(newWorkspace);
+            ScreenExtensions.TryActivateAsync(newWorkspace);
             newWorkspace.AddSingletonVariable(new SingletonVariableBuilder().WithName("x")
                                                                             .WithDomain("1..2")
                                                                             .Inside(newWorkspace.WorkspaceModel.Model)
@@ -59,7 +59,7 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var viewModelFactoryMock = new Mock<IViewModelFactory>();
             viewModelFactoryMock.Setup(factory => factory.CreateBundleEditor())
-                                .Returns(new BundleEditorViewModel(new BundleModel(), this.dataService, this.windowManagerMock.Object, this.eventAggregator));
+                                .Returns(new BundleEditorViewModel(new BundleTemplateModel(), this.dataService, this.windowManagerMock.Object, this.eventAggregator));
             viewModelFactoryMock.Setup(_ => _.CreateModelEditor())
                                 .Returns(new ModelEditorTabViewModel(this.dataService, this.eventAggregator, this.windowManagerMock.Object));
 

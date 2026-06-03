@@ -72,7 +72,7 @@ namespace Workbench.ViewModels
         /// </summary>
         public void Accept()
         {
-            TryClose(true);
+            TryCloseAsync(true);
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.ObjectModel;
-using Caliburn.Micro;
+using System.Threading;
+using System.Threading.Tasks;
 using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
@@ -57,9 +59,9 @@ namespace Workbench.ViewModels
             SynchronizeWithModel();
         }
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
             SynchronizeWithModel();
         }
 

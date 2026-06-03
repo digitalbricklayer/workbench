@@ -8,7 +8,7 @@ namespace Workbench.Core.Models
     /// <remarks>Just a very simple finite integer domain at the moment.</remarks>
     /// </summary>
     [Serializable]
-    public sealed class ModelModel : BundleModel
+    public sealed class ModelModel : BundleTemplateModel
     {
         /// <summary>
         /// Initialize a model with a name.
@@ -52,7 +52,7 @@ namespace Workbench.Core.Models
 
         private ISolvable CreateSolver()
         {
-            return new OrToolsSolver();
+            return new OrangeSolver();
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Workbench.Core.Solvers
             // Constraints inside bundles must be processed after the bucket maps have been created
             foreach (var bucket in model.Buckets)
             {
-                foreach (var allDifferentConstraint in bucket.Bundle.AllDifferentConstraints)
+                foreach (var allDifferentConstraint in bucket.Template.AllDifferentConstraints)
                 {
                     var variableNames = new List<string>(ExtractVariablesFrom(allDifferentConstraint.Expression.Text));
 
@@ -225,8 +225,8 @@ namespace Workbench.Core.Solvers
 
         private OrangeBundleMap ConvertBundle(BucketVariableModel bucket, int bucketCount)
         {
-            var bundleMap = new OrangeBundleMap(bucket.Bundle);
-            foreach (var singleton in bucket.Bundle.Singletons)
+            var bundleMap = new OrangeBundleMap(bucket.Template);
+            foreach (var singleton in bucket.Template.Singletons)
             {
                 var variableBand = VariableBandEvaluator.GetVariableBand(singleton);
                 _valueMapper.AddBucketDomainValue(bucket, variableBand);

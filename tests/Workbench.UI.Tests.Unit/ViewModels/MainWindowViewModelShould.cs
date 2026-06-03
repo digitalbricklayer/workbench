@@ -35,9 +35,9 @@ namespace Workbench.UI.Tests.Unit.ViewModels
         {
             var titleBar = new TitleBarViewModel(_shell, _eventAggregatorMock.Object);
             var sut = new MainWindowViewModel(_shell, titleBar, CreateResourceManager().Object);
-            ScreenExtensions.TryActivate(sut);
+            ScreenExtensions.TryActivateAsync(sut);
             Assert.That(sut.Icon, Is.Not.Null);
-            ScreenExtensions.TryDeactivate(sut, close: true);
+            ScreenExtensions.TryDeactivateAsync(sut, close: true);
         }
 
         private ShellViewModel CreateShell()

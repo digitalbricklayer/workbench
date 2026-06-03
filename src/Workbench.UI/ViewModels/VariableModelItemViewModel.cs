@@ -1,4 +1,6 @@
-﻿using Workbench.Core.Models;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Workbench.Core.Models;
 
 namespace Workbench.ViewModels
 {
@@ -34,10 +36,10 @@ namespace Workbench.ViewModels
         /// </summary>
         public VariableModel Variable { get;}
 
-        protected override void OnInitialize()
+        protected override async Task OnInitializedAsync(CancellationToken cancellationToken)
         {
             DisplayName = Variable.Name;
-            base.OnInitialize();
+            await base.OnInitializedAsync(cancellationToken);
         }
     }
 }

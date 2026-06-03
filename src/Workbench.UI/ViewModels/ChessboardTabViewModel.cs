@@ -89,8 +89,8 @@ namespace Workbench.ViewModels
         {
             var titleEditor = new TabTitleEditorViewModel();
             titleEditor.TabTitle = Title;
-            var status = _windowManager.ShowDialog(titleEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(titleEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             Title = titleEditor.TabTitle;
             Model.Title.Text = Title;
         }
@@ -99,8 +99,8 @@ namespace Workbench.ViewModels
         {
             var nameEditor = new TabNameEditorViewModel();
             nameEditor.TabName = Name;
-            var status = _windowManager.ShowDialog(nameEditor);
-            if (status.HasValue && !status.Value) return;
+            var status = _windowManager.ShowDialogAsync(nameEditor);
+            if (status.Result.HasValue && !status.Result.Value) return;
             Name = nameEditor.TabName;
             Model.Name = Name;
         }
